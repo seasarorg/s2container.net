@@ -2,11 +2,11 @@
 <!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
 "http://www.seasar.org/dtd/components21.dtd">
 <components namespace="LocalTx">
-	<include path="Ado.dicon" />
+	<include path="Seasar.Examples/Ado.dicon" />
 
-	<component name="sqlDataSource" class="Seasar.Extension.Tx.Impl.TxDataSource">
-		<property name="DataProvider">sqlClient</property>
-		<property name="ConnectionString">"Server=127.0.0.1;database=s2dotnetdemo;User ID=demouser"</property>
+	<component name="SqlDataSource" class="Seasar.Extension.Tx.Impl.TxDataSource">
+		<property name="DataProvider">SqlClient</property>
+		<property name="ConnectionString">"Server=127.0.0.1;database=s2dotnetdemo;Integrated Security=SSPI"</property>
 	</component>
 
 	<component class="Seasar.Extension.Tx.Impl.TransactionContext" />
