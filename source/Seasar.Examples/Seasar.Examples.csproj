@@ -1,0 +1,403 @@
+<VisualStudioProject>
+    <CSHARP
+        ProjectType = "Local"
+        ProductVersion = "7.10.3077"
+        SchemaVersion = "2.0"
+        ProjectGuid = "{AF6F7B3F-FFE2-4C83-9275-7978F5039987}"
+    >
+        <Build>
+            <Settings
+                ApplicationIcon = "App.ico"
+                AssemblyKeyContainerName = ""
+                AssemblyName = "Seasar.Examples"
+                AssemblyOriginatorKeyFile = ""
+                DefaultClientScript = "JScript"
+                DefaultHTMLPageLayout = "Grid"
+                DefaultTargetSchema = "IE50"
+                DelaySign = "false"
+                OutputType = "WinExe"
+                PreBuildEvent = ""
+                PostBuildEvent = 'xcopy "$(ProjectDir)Seasar.Examples" "$(TargetDir)\Seasar.Examples" /S /I /Y /D'
+                RootNamespace = ""
+                RunPostBuildEvent = "OnBuildSuccess"
+                StartupObject = ""
+            >
+                <Config
+                    Name = "Debug"
+                    AllowUnsafeBlocks = "true"
+                    BaseAddress = "285212672"
+                    CheckForOverflowUnderflow = "false"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = "DEBUG;TRACE"
+                    DocumentationFile = ""
+                    DebugSymbols = "true"
+                    FileAlignment = "4096"
+                    IncrementalBuild = "false"
+                    NoStdLib = "false"
+                    NoWarn = ""
+                    Optimize = "false"
+                    OutputPath = "bin\Debug\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "4"
+                />
+                <Config
+                    Name = "Release"
+                    AllowUnsafeBlocks = "true"
+                    BaseAddress = "285212672"
+                    CheckForOverflowUnderflow = "false"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = "TRACE"
+                    DocumentationFile = ""
+                    DebugSymbols = "false"
+                    FileAlignment = "4096"
+                    IncrementalBuild = "false"
+                    NoStdLib = "false"
+                    NoWarn = ""
+                    Optimize = "true"
+                    OutputPath = "bin\Release\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "4"
+                />
+            </Settings>
+            <References>
+                <Reference
+                    Name = "System"
+                    AssemblyName = "System"
+                    HintPath = "C:\WINNT\Microsoft.NET\Framework\v1.1.4322\System.dll"
+                />
+                <Reference
+                    Name = "System.Data"
+                    AssemblyName = "System.Data"
+                    HintPath = "C:\WINNT\Microsoft.NET\Framework\v1.1.4322\System.Data.dll"
+                />
+                <Reference
+                    Name = "System.Drawing"
+                    AssemblyName = "System.Drawing"
+                    HintPath = "C:\WINNT\Microsoft.NET\Framework\v1.1.4322\System.Drawing.dll"
+                />
+                <Reference
+                    Name = "System.Windows.Forms"
+                    AssemblyName = "System.Windows.Forms"
+                    HintPath = "C:\WINNT\Microsoft.NET\Framework\v1.1.4322\System.Windows.Forms.dll"
+                />
+                <Reference
+                    Name = "System.XML"
+                    AssemblyName = "System.Xml"
+                    HintPath = "C:\WINNT\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
+                />
+                <Reference
+                    Name = "Seasar"
+                    Project = "{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "log4net"
+                    AssemblyName = "log4net"
+                    HintPath = "..\..\lib\log4net.dll"
+                />
+            </References>
+        </Build>
+        <Files>
+            <Include>
+                <File
+                    RelPath = "App.config"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "App.ico"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "AssemblyInfo.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Examples.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Examples.dicon"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Seasar.Examples\ExamplesContext.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\ExamplesExplorer.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\ExamplesExplorer.resx"
+                    DependentUpon = "ExamplesExplorer.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Seasar.Examples\ExecutableTreeNode.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\IExamplesHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Impl\BasicExamplesHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Intro\Hello.dicon"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Intro\Hoge.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\Aop\aop.dicon"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\Aop\AopClient.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\Aop\AopMeasurementClient.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\Aop\AopTraceClient.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\Aop\HeavyProcess.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\Aop\Measurement.dicon"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\Aop\MeasurementInterceptor.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\Aop\Trace.dicon"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\AutoBinding\AutoHelloConstructorInjection.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\AutoBinding\AutoHelloConstructorInjection.dicon"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\AutoBinding\AutoHelloPropertyInjection.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\AutoBinding\AutoHelloPropertyInjection.dicon"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\AutoBinding\IHello.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\Container\container.dicon"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\Container\ContainerClient.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\Includes\aaa.dicon"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\Includes\bbb.dicon"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\Includes\HelloClientInvoker.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\Includes\IHello.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\Includes\IHelloClient.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\Includes\root.dicon"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\Includes.Impl\HelloClientImpl.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\Includes.Impl\HelloImpl.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\Injection\HelloConstructorInjection.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\Injection\HelloConstructorInjection.dicon"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\Injection\HelloMethodInjection.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\Injection\HelloMethodInjection.dicon"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\Injection\HelloPropertyInjection.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\Injection\HelloPropertyInjection.dicon"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\Injection\IHello.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\Lifecycle\Lifecycle.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\Lifecycle\lifecycle.dicon"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\Lifecycle\LifecycleClient.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\Lifecycle\lifecycleclient.dicon"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\Metadata\meta.dicon"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\Metadata\MetaClient.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\Namespaces\app.dicon"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\Namespaces\bar.dicon"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\Namespaces\foo.dicon"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\Namespaces\IHello.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\Namespaces\IHelloClient.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\Namespaces\Namespaces.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\Namespaces.Impl\HelloClientImpl.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\Namespaces.Impl\HelloImpl.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.UI\TextAppender.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.UI\Win32.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.UI\Forms\HighlightDescriptor.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.UI\Forms\HighlightDescriptorCollection.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.UI\Forms\SyntaxHighlightingTextBox.cs"
+                    SubType = "Component"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.UI\Forms\SyntaxHighlightingTextBox.resx"
+                    DependentUpon = "SyntaxHighlightingTextBox.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+            </Include>
+        </Files>
+    </CSHARP>
+</VisualStudioProject>
+
