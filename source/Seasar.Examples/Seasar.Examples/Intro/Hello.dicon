@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
+"http://www.seasar.org/dtd/components21.dtd">
+
+<components>
+	<component class="Seasar.Examples.Intro.HogeImpl" />
+	<component name="helloWorld" class="Seasar.Examples.Intro.HelloClient" />
+</components>

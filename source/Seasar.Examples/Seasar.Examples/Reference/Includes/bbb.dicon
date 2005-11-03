@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
+"http://www.seasar.org/dtd/components21.dtd">
+<components>
+	<component class="Seasar.Examples.Reference.Includes.Impl.HelloImpl">
+		<property name="Message">"Hello Bbb!"</property>
+	</component>
+	
+    <component name="bbb" class="Seasar.Examples.Reference.Includes.Impl.HelloClientImpl"/>
+</components>
