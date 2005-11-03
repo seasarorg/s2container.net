@@ -24,7 +24,7 @@ namespace Seasar.Examples.Reference.Aop
 {
 	public class AopMeasurementClient
 	{
-		private const string PATH = "Seasar/Examples/Reference/Aop/Measurement.dicon";
+		private const string PATH = "Seasar.Examples/Reference/Aop/Measurement.dicon";
 
 		public void Main()
 		{

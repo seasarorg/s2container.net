@@ -17,25 +17,31 @@
 #endregion
 
 using System;
-using System.Collections;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Factory;
 
-namespace Seasar.Examples.Reference.Aop
+namespace Seasar.Examples.Reference.LocalTx
 {
-	public class AopTraceClient
+	/// <summary>
+	/// ローカルトランザクション
+	/// </summary>
+	public class LocalTxClient
 	{
-		private const string PATH = "Seasar.Examples/Reference/Aop/Trace.dicon";
+        private static readonly String PATH = "Seasar.Examples/Reference/LocalTx/LocalTxClient.dicon";
 
-		public void Main()
-		{
-			IS2Container container = S2ContainerFactory.Create(PATH);
-			IList list = (IList) container.GetComponent(typeof(IList));
-			int count = list.Count;
+        public LocalTxClient() {}
 
-			IDictionary dictionary = (IDictionary) container.GetComponent(typeof(IDictionary));
-			dictionary.Add("aaa", "bbb");
-			dictionary.GetHashCode();
-		}
+        public void Main()
+        {
+            IS2Container container = S2ContainerFactory.Create(PATH);
+            container.Init();
+            
+            IEmployeeDao dao = (IEmployeeDao) container.GetComponent(typeof(IEmployeeDao));
+            try
+            {
+                dao.Insert();
+            }
+            catch(ApplicationException){}
+        }
 	}
 }
