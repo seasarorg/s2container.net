@@ -1,0 +1,37 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seasar", "Seasar\Seasar.csproj", "{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seasar.Examples", "Seasar.Examples\Seasar.Examples.csproj", "{AF6F7B3F-FFE2-4C83-9275-7978F5039987}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seasar.Tests", "Seasar.Tests\Seasar.Tests.csproj", "{6D6327B1-4252-470A-A76B-8E923F34AB7C}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}.Debug.ActiveCfg = Debug|.NET
+		{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}.Debug.Build.0 = Debug|.NET
+		{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}.Release.ActiveCfg = Release|.NET
+		{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}.Release.Build.0 = Release|.NET
+		{AF6F7B3F-FFE2-4C83-9275-7978F5039987}.Debug.ActiveCfg = Debug|.NET
+		{AF6F7B3F-FFE2-4C83-9275-7978F5039987}.Debug.Build.0 = Debug|.NET
+		{AF6F7B3F-FFE2-4C83-9275-7978F5039987}.Release.ActiveCfg = Release|.NET
+		{AF6F7B3F-FFE2-4C83-9275-7978F5039987}.Release.Build.0 = Release|.NET
+		{6D6327B1-4252-470A-A76B-8E923F34AB7C}.Debug.ActiveCfg = Debug|.NET
+		{6D6327B1-4252-470A-A76B-8E923F34AB7C}.Debug.Build.0 = Debug|.NET
+		{6D6327B1-4252-470A-A76B-8E923F34AB7C}.Release.ActiveCfg = Release|.NET
+		{6D6327B1-4252-470A-A76B-8E923F34AB7C}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal
