@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<root>
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" />
+							<xsd:attribute name="type" type="xsd:string" />
+							<xsd:attribute name="mimetype" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="ResMimeType">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="Version">
+		<value>1.0.0.0</value>
+	</resheader>
+	<resheader name="Reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="Writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<data name="ESSR0001">
+		<value>{0}が見つかりません</value>
+	</data>
+	<data name="ESSR0002">
+		<value>&lt;{0}&gt; 予想:&lt;{1}&gt; 実際:&lt;{2}&gt;</value>
+	</data>
+	<data name="ESSR0003">
+		<value>&lt;{0}&gt; 予想外:&lt;{1}&gt;</value>
+	</data>
+	<data name="ESSR0007">
+		<value>{0}はnullあるいは空であってはいけません</value>
+	</data>
+	<data name="ESSR0017">
+		<value>例外が発生しました。理由は{0}</value>
+	</data>
+	<data name="ESSR0026">
+		<value>ステータス({0})が不正です</value>
+	</data>
+	<data name="ESSR0032">
+		<value>{0}は予想外です</value>
+	</data>
+	<data name="ESSR0040">
+		<value>IO例外が発生しました。理由は{0}</value>
+	</data>
+	<data name="ESSR0041">
+		<value>{0}の作成に失敗しました。理由は{1}</value>
+	</data>
+	<data name="ESSR0042">
+		<value>{0}で不正なアクセスがありました。理由は{1}</value>
+	</data>
+	<data name="ESSR0043">
+		<value>{0}が呼び出した対象が不正です。理由は{1}</value>
+	</data>
+	<data name="ESSR0044">
+		<value>クラスが見つかりませんでした。詳細は{0}</value>
+	</data>
+	<data name="ESSR0045">
+		<value>{0}に複数のコンポーネント({1})が登録されています</value>
+	</data>
+	<data name="ESSR0046">
+		<value>コンポーネント({0})が見つかりません</value>
+	</data>
+	<data name="ESSR0047">
+		<value>{0}で循環参照が発生しました</value>
+	</data>
+	<data name="ESSR0048">
+		<value>{0}に引数({1})で適用可能なコンストラクタが見つかりません</value>
+	</data>
+	<data name="ESSR0049">
+		<value>{0}に適用可能なメソッド({1})が見つかりません</value>
+	</data>
+	<data name="ESSR0050">
+		<value>解析に失敗しました。理由は{0}</value>
+	</data>
+	<data name="ESSR0051">
+		<value>変数({0})が見つかりません</value>
+	</data>
+	<data name="ESSR0052">
+		<value>プロパティ({0})の対象が見つかりません</value>
+	</data>
+	<data name="ESSR0053">
+		<value>パーサの設定に問題があります。理由は{0}</value>
+	</data>
+	<data name="ESSR0054">
+		<value>SAXで例外が発生しました。理由は{0}</value>
+	</data>
+	<data name="ESSR0055">
+		<value>リソース({0})が見つかりません</value>
+	</data>
+	<data name="ESSR0056">
+		<value>タグ({0})の属性({1})が定義されていません</value>
+	</data>
+	<data name="ESSR0057">
+		<value>クラス({0})のメソッド({1})が見つかりません</value>
+	</data>
+	<data name="ESSR0058">
+		<value>クラス({0})のコンストラクタの設定に失敗しました。理由は{1}</value>
+	</data>
+	<data name="ESSR0059">
+		<value>クラス({0})のプロパティ({1})の設定に失敗しました。理由は{2}</value>
+	</data>
+	<data name="ESSR0060">
+		<value>クラス({0})のメソッド({1})の設定に失敗しました。理由は{2}</value>
+	</data>
+	<data name="ESSR0061">
+		<value>トランザクションでシステム例外が発生しました。理由は{0}</value>
+	</data>
+	<data name="ESSR0062">
+		<value>コネクションは既に閉じています</value>
+	</data>
+	<data name="ESSR0063">
+		<value>ロールバックで例外が発生しました。理由は{0}</value>
+	</data>
+	<data name="ESSR0064">
+		<value>クラス({0})のコンストラクタ({1})が見つかりません</value>
+	</data>
+	<data name="ESSR0065">
+		<value>クラス({0})のプロパティ({1})が見つかりません</value>
+	</data>
+	<data name="ESSR0066">
+		<value>JNDIで例外が発生しました。理由は{0}</value>
+	</data>
+	<data name="ESSR0067">
+		<value>テーブル({0})が見つかりません</value>
+	</data>
+	<data name="ESSR0068">
+		<value>テーブル({0})のカラム({1})が見つかりません</value>
+	</data>
+	<data name="ESSR0069">
+		<value>定義されたクラス({0})に実際のクラス({1})を適用できません</value>
+	</data>
+	<data name="ESSR0070">
+		<value>クラス({0})のフィールド({1})が見つかりません</value>
+	</data>
+	<data name="ESSR0071">
+		<value>SQLで例外が発生しました。理由は{0}</value>
+	</data>
+	<data name="ESSR0073">
+		<value>JScriptで例外が発生しました。理由は{0}</value>
+	</data>
+	<data name="ESSR0074">
+		<value>{0}に拡張子が見つかりません</value>
+	</data>
+	<data name="ESSR0075">
+		<value>({0})のコンテナはまだ登録されていません</value>
+	</data>
+	<data name="ESSR0303">
+		<value>2PC({0})がロールバックに投票されました</value>
+	</data>
+	<data name="ESSR0304">
+		<value>既に準備を開始しています</value>
+	</data>
+	<data name="ESSR0305">
+		<value>既に準備されてます</value>
+	</data>
+	<data name="ESSR0306">
+		<value>既にコミットを開始しています</value>
+	</data>
+	<data name="ESSR0307">
+		<value>既にコミットされてます</value>
+	</data>
+	<data name="ESSR0308">
+		<value>既にロールバックとしてマークされています</value>
+	</data>
+	<data name="ESSR0309">
+		<value>既にロールバックを開始しています</value>
+	</data>
+	<data name="ESSR0310">
+		<value>既にロールバックされています</value>
+	</data>
+	<data name="ESSR0311">
+		<value>トランザクションが開始されていません</value>
+	</data>
+	<data name="ESSR0312">
+		<value>状態が不明です</value>
+	</data>
+	<data name="ESSR0313">
+		<value>登録されていないXAResourceです</value>
+	</data>
+	<data name="ESSR0314">
+		<value>既にサスペンドしています</value>
+	</data>
+	<data name="ESSR0315">
+		<value>サスペンドされていません</value>
+	</data>
+	<data name="ESSR0316">
+		<value>ネストしたトランザクションはサポートしていません</value>
+	</data>
+	<data name="ESSR0317">
+		<value>既に別のトランザクションが割り当てられています</value>
+	</data>
+	<data name="ESSR0318">
+		<value>TMJOIN is not supported</value>
+	</data>
+	<data name="ESSR0319">
+		<value>{0}は現在のXid({1})と一致しません</value>
+	</data>
+	<data name="ESSR0320">
+		<value>ステータスはSUCCESSでなければなりません</value>
+	</data>
+	<data name="ESSR0321">
+		<value>ステータスはPREPAREDでなければなりません</value>
+	</data>
+	<data name="ESSR0322">
+		<value>ステータスはFAILあるいはPREPAREDでなければなりません</value>
+	</data>
+	<data name="ESSR0323">
+		<value>ステータスはSUSPENDEDでなければなりません</value>
+	</data>
+	<data name="ESSR0324">
+		<value>ステータスはACTIVEでなければなりません</value>
+	</data>
+	<data name="ESSR0362">
+		<value>Too many rows</value>
+	</data>
+	<data name="ESSR0363">
+		<value>サスペンドに失敗しました。理由は{0}</value>
+	</data>
+	<data name="ESSR0364">
+		<value>レジュームに失敗しました。理由は{0}</value>
+	</data>
+	<data name="ISSR0001">
+		<value>seasar started</value>
+	</data>
+	<data name="ISSR0002">
+		<value>seasar stopped</value>
+	</data>
+	<data name="ISSR0003">
+		<value>seasar shutdown</value>
+	</data>
+	<data name="ISSR0005">
+		<value>{0} restarted</value>
+	</data>
+	<data name="WSSR0003">
+		<value>&lt;&lt; server side stack trace &gt;&gt;</value>
+	</data>
+	<data name="WSSR0004">
+		<value>&lt;&lt; RemoteException stack trace &gt;&gt;</value>
+	</data>
+	<data name="WSSR0005">
+		<value>Illegal transaction rolledback</value>
+	</data>
+	<data name="WSSR0006">
+		<value>Execution at {0} failovered</value>
+	</data>
+	<data name="WSSR0007">
+		<value>{0}の引数({1})が見つからないのでnullを設定します</value>
+	</data>
+	<data name="WSSR0008">
+		<value>{0}のプロパティ({1})が見つからないので設定をスキップします</value>
+	</data>
+	<data name="WSSR0009">
+		<value>{0}のメソッド({1})にはアスペクトを適用できない修飾子が指定されています</value>
+	</data>
+	<data name="DSSR0001">
+		<value>物理的なコネクションを閉じました</value>
+	</data>
+	<data name="DSSR0002">
+		<value>論理的なコネクションを閉じました</value>
+	</data>
+	<data name="DSSR0003">
+		<value>トランザクションを開始しました</value>
+	</data>
+	<data name="DSSR0004">
+		<value>トランザクションをコミットしました</value>
+	</data>
+	<data name="DSSR0005">
+		<value>トランザクションをロールバックしました</value>
+	</data>
+	<data name="DSSR0006">
+		<value>物理的なコネクションを取得しました</value>
+	</data>
+	<data name="DSSR0007">
+		<value>論理的なコネクションを取得しました</value>
+	</data>
+</root>
