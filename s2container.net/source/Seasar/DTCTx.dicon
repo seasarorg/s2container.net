@@ -5,7 +5,7 @@
 
 	<include path="Seasar.Examples/Ado.dicon" />
 
-	<component name="SqlDataSource" class="Seasar.Extension.Tx.Impl.TxDataSource">
+	<component name="SqlDataSource" class="Seasar.Extension.ADO.Impl.DataSourceImpl">
 		<property name="DataProvider">SqlClient</property>
 		<property name="ConnectionString">"Server=127.0.0.1;database=s2dotnetdemo;Integrated Security=SSPI"</property>
 	</component>
