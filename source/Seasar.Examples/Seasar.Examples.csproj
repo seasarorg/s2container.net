@@ -246,6 +246,20 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Seasar.Examples\Reference\DTCTx\DTCTxClient.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\DTCTx\DTCTxClient.dicon"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\DTCTx\EmployeeDao.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Seasar.Examples\Reference\Includes\aaa.dicon"
                     BuildAction = "EmbeddedResource"
                 />
