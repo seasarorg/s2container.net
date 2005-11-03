@@ -3,6 +3,16 @@
 "http://www.seasar.org/dtd/components21.dtd">
 <components namespace="DTCTx">
 
+	<include path="Seasar.Examples/Ado.dicon" />
+
+	<component name="SqlDataSource" class="Seasar.Extension.Tx.Impl.TxDataSource">
+		<property name="DataProvider">SqlClient</property>
+		<property name="ConnectionString">"Server=127.0.0.1;database=s2dotnetdemo;Integrated Security=SSPI"</property>
+	</component>
+
+	<component name="DTCTransactionStateHandler" 
+			class="Seasar.Extension.Tx.Impl.DTCTransactionStateHandler" />
+			
 	<component name="RequiredTx" class="Seasar.Extension.Tx.TransactionInterceptor">
 		<arg>
 			<component class="Seasar.Extension.Tx.Impl.DTCRequiredTxHandler" />
