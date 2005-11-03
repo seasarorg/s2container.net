@@ -90,14 +90,14 @@
                     HintPath = "C:\WINNT\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
                 />
                 <Reference
-                    Name = "Seasar"
-                    Project = "{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
                     Name = "log4net"
                     AssemblyName = "log4net"
                     HintPath = "..\..\lib\log4net.dll"
+                />
+                <Reference
+                    Name = "Seasar"
+                    Project = "{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
             </References>
         </Build>
@@ -115,6 +115,14 @@
                     RelPath = "AssemblyInfo.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Ado.dicon"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Seasar.Examples\DTCTx.dicon"
+                    BuildAction = "None"
                 />
                 <File
                     RelPath = "Seasar.Examples\Examples.cs"
@@ -149,6 +157,10 @@
                     RelPath = "Seasar.Examples\IExamplesHandler.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Tx.dicon"
+                    BuildAction = "None"
                 />
                 <File
                     RelPath = "Seasar.Examples\Impl\BasicExamplesHandler.cs"
@@ -318,6 +330,20 @@
                 />
                 <File
                     RelPath = "Seasar.Examples\Reference\Lifecycle\lifecycleclient.dicon"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\LocalTx\EmployeeDao.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\LocalTx\LocalTxClient.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\LocalTx\LocalTxClient.dicon"
                     BuildAction = "None"
                 />
                 <File

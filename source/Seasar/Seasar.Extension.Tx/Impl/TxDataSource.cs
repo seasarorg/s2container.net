@@ -65,5 +65,10 @@ namespace Seasar.Extension.Tx.Impl
 				this.context = value;
 			}
 		}
+
+        public override IDbTransaction GetTransaction()
+        {
+            return this.context.Current.Transaction;
+        }
 	}
 }
