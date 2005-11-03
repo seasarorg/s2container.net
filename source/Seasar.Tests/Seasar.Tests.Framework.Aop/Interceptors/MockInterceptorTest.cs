@@ -1,0 +1,115 @@
+#region Copyright
+/*
+ * Copyright 2005 the Seasar Foundation and the Others.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ */
+#endregion
+
+using System;
+
+using Seasar.Framework.Aop;
+using Seasar.Framework.Aop.Impl;
+using Seasar.Framework.Aop.Interceptors;
+using Seasar.Framework.Aop.Proxy;
+
+using NUnit.Framework;
+
+
+namespace TestSeasar.Framework.Aop.Interceptors
+{
+	/// <summary>
+	/// MockInterceptorTest ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
+	/// </summary>
+	[TestFixture]
+	public class MockInterceptorTest
+	{	
+		private const string MSG = "hello";
+		private const string ECHO = "echo";
+		private MockInterceptor target = null;
+
+		public static object CreateProxy(IMethodInterceptor interceptor,Type proxyType)
+		{
+			IAspect aspect = new AspectImpl(interceptor, null);
+			return new AopProxy(proxyType, new IAspect[] { aspect }).GetTransparentProxy();
+		}
+
+		[SetUp]
+		public void SetUp()
+		{
+			target = new MockInterceptor(MSG);
+		}
+
+		[Test]
+		public void TestInvoke()
+		{
+			Hello hello = CreateProxy(target, typeof(Hello)) as Hello;
+			Assert.AreEqual(MSG, hello.Greeting());
+		}
+		
+		[Test]
+		public void TestInvoke2()
+		{
+			target.SetReturnValue("Greeting", MSG);
+			target.SetReturnValue("Echo", ECHO);
+			SayHello hello = CreateProxy(target, typeof(SayHello)) as SayHello;
+
+			string message = "hoge";
+
+			Assert.AreEqual(ECHO, hello.Echo(message));
+			Assert.IsTrue(target.IsInvoked("Echo"));
+			Assert.IsFalse(target.IsInvoked("Greeting"));
+			Assert.AreEqual(message, target.GetArgs("Echo")[0]);
+		}
+
+		[Test]
+		public void TestInvoke3()
+		{
+			target.SetReturnValue("Greeting", MSG);
+			target.SetReturnValue("Echo", ECHO);
+			SayHello hello = CreateProxy(target, typeof(SayHello)) as SayHello;
+
+			string message = "hoge";
+			Assert.AreEqual(MSG, hello.Greeting());
+			Assert.AreEqual(ECHO, hello.Echo(message));
+			Assert.IsTrue(target.IsInvoked("Greeting"));
+			Assert.IsTrue(target.IsInvoked("Echo"));
+		}
+		
+		[Test]
+		public void TestInvokeThrowException()
+		{
+			Exception ex = new ApplicationException();
+			target.SetThrowable("Greeting", ex);
+			Hello hello = CreateProxy(target, typeof(Hello)) as Hello;
+			try
+			{
+				hello.Greeting();
+				Assert.Fail();
+			} catch(ApplicationException exception)
+			{
+				Assert.AreEqual(ex, exception);
+			}
+		}
+	}
+
+	public interface Hello
+	{
+		string Greeting();
+	}
+
+	public interface SayHello : Hello
+	{
+		string Echo(string msg);
+	}
+}

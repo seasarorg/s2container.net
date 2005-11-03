@@ -1,0 +1,57 @@
+#region Copyright
+/*
+ * Copyright 2005 the Seasar Foundation and the Others.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ */
+#endregion
+
+using System;
+using System.Reflection;
+using NUnit.Framework;
+using Seasar.Framework.Util;
+
+namespace TestSeasar.Framework.Util
+{
+	/// <summary>
+	/// ConstructorUtilTest ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
+	/// </summary>
+	[TestFixture]
+	public class ConstructorUtilTest
+	{
+		[Test]
+		public void TestNewInstance()
+		{
+			ConstructorInfo constructor = ClassUtil.GetConstructorInfo(
+				typeof(A), new Type[] { typeof(string) });
+			A a = (A) ConstructorUtil.NewInstance(constructor,
+				new object[] { "aaa" });
+			Assert.AreEqual("aaa", a.Hoge);
+		}
+
+		public class A
+		{
+			private string hoge_;
+
+			public A(string hoge)
+			{
+				hoge_ = hoge;
+			}
+
+			public string Hoge
+			{
+				get { return hoge_; }
+			}
+		}
+	}
+}
