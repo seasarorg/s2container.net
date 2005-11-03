@@ -68,7 +68,7 @@ namespace Seasar.Extension.UI.Forms
 			if (Parsing) return;
 			Parsing = true;
 			base.OnTextChanged(e);
-			ProcessHighlighting();
+			//ProcessHighlighting();
 			Parsing = false;
 
 			//Restore cursor and scrollbars location.

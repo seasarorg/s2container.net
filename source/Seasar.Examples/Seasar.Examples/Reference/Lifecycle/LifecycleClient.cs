@@ -25,7 +25,7 @@ namespace Seasar.Examples.Reference.Lifecycle
 {
 	public class LifecycleClient
 	{
-		private static readonly String PATH = "Seasar/Examples/Reference/Lifecycle/lifecycle.dicon";
+		private static readonly String PATH = "Seasar.Examples/Reference/Lifecycle/lifecycle.dicon";
 
 		public LifecycleClient() {}
 

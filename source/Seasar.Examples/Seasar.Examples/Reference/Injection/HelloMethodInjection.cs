@@ -44,7 +44,7 @@ namespace Seasar.Examples.Reference.Injection
 
 	public class HelloMethodInjectionClient
 	{
-		private static readonly String PATH = "Seasar/Examples/Reference/Injection/HelloMethodInjection.dicon";
+		private static readonly String PATH = "Seasar.Examples/Reference/Injection/HelloMethodInjection.dicon";
 
 		public void Main() 
 		{

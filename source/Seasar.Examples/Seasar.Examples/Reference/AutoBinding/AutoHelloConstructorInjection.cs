@@ -40,7 +40,7 @@ namespace Seasar.Examples.Reference.AutoBinding
 	public class AutoHelloConstructorInjectionClient
 	{
 		private static readonly String PATH =
-			"Seasar/Examples/Reference/AutoBinding/AutoHelloConstructorInjection.dicon";
+			"Seasar.Examples/Reference/AutoBinding/AutoHelloConstructorInjection.dicon";
 
 		public void Main() 
 		{

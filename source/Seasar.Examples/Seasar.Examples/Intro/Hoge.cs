@@ -38,7 +38,7 @@ namespace Seasar.Examples.Intro
 
 	public class HelloClient
 	{
-		private static readonly String PATH = "Seasar/Examples/Intro/Hello.dicon";
+		private static readonly String PATH = "Seasar.Examples/Intro/Hello.dicon";
 
 		public void Main()
 		{

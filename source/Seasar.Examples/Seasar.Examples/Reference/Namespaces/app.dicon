@@ -2,7 +2,7 @@
 <!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
 "http://www.seasar.org/dtd/components21.dtd">
 <components>
-	<include path="Seasar/Examples/Reference/Namespaces/bar.dicon"/>
+	<include path="Seasar.Examples/Reference/Namespaces/bar.dicon"/>
 
 	<component name="Namespace" class="Seasar.Examples.Reference.Namespaces.Namespaces">
 		<property name="Bbb">bbb</property>
