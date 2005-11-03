@@ -41,7 +41,6 @@ namespace Seasar.Examples.Reference.LocalTx
         public void Insert()
         {
             string sql = "insert into emp2 values(@empno, @ename, @deptnum)";
-            IDbConnection cn = dataSource.GetConnection();
             using(IDbCommand cmd = dataSource.GetCommand(sql,
                       dataSource.GetConnection(), dataSource.GetTransaction()))
             {
