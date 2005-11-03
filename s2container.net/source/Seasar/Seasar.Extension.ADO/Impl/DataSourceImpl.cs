@@ -160,6 +160,11 @@ namespace Seasar.Extension.ADO.Impl
 				new object[] { selectCommandText, selectConnection });
 		}
 
+        public virtual IDbTransaction GetTransaction()
+        {
+            throw new NotSupportedException("GetTransaction");
+        }
+
 		#endregion
 
 		private static Type ForName(string name)

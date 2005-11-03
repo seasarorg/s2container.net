@@ -43,5 +43,7 @@ namespace Seasar.Extension.ADO
 		IDataAdapter GetDataAdapter(IDbCommand selectCommand);
 		IDataAdapter GetDataAdapter(string selectCommandText, string selectConnectionString);
 		IDataAdapter GetDataAdapter(string selectCommandText, IDbConnection selectConnection);
+
+        IDbTransaction GetTransaction();
 	}
 }
