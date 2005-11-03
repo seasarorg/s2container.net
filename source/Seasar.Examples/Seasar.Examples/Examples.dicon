@@ -17,6 +17,7 @@
 	<include path="Seasar.Examples/Reference/Aop/Measurement.dicon" />
 	<include path="Seasar.Examples/Reference/Metadata/meta.dicon" />
 	<include path="Seasar.Examples/Reference/LocalTx/LocalTxClient.dicon" />
+	<include path="Seasar.Examples/Reference/DTCTx/DTCTxClient.dicon" />
 	
 	<component class="Seasar.Examples.ExamplesExplorer">
 		<initMethod name="AddExampless"><arg>"S2Container概要"</arg><arg>intro</arg></initMethod>
@@ -88,9 +89,9 @@
 				<initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/Includes/aaa.dicon"</arg></initMethod>
 				<initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/Includes/bbb.dicon"</arg></initMethod>
 				<initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Includes/IHello.cs"</arg></initMethod>
-				<initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Includes/Impl/HelloImpl.cs"</arg></initMethod>
+				<initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Includes.Impl/HelloImpl.cs"</arg></initMethod>
 				<initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Includes/IHelloClient.cs"</arg></initMethod>
-				<initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Includes/Impl/HelloClientImpl.cs"</arg></initMethod>
+				<initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Includes.Impl/HelloClientImpl.cs"</arg></initMethod>
 			</component>
 		</arg></initMethod>
 		<initMethod name="Add"><arg>
@@ -159,8 +160,21 @@
 				<property name="Title">"ローカルトランザクション"</property>
 				<property name="Examples">LocalTxClient</property>
 				<initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/LocalTx/LocalTxClient.dicon"</arg></initMethod>
+				<initMethod name="AddDicon"><arg>"Seasar.Examples/Tx.dicon"</arg></initMethod>
+				<initMethod name="AddDicon"><arg>"Seasar.Examples/Ado.dicon"</arg></initMethod>
 				<initMethod name="AddCode"><arg>"Seasar.Examples/Reference/LocalTx/LocalTxClient.cs"</arg></initMethod>
 				<initMethod name="AddCode"><arg>"Seasar.Examples/Reference/LocalTx/EmployeeDao.cs"</arg></initMethod>
+			</component>
+		</arg></initMethod>
+		<initMethod name="Add"><arg>
+			<component class="Seasar.Examples.Impl.BasicExamplesHandler">
+				<property name="Title">"MS DTCトランザクション"</property>
+				<property name="Examples">DTCTxClient</property>
+				<initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/DTCTx/DTCTxClient.dicon"</arg></initMethod>
+				<initMethod name="AddDicon"><arg>"Seasar.Examples/Tx.dicon"</arg></initMethod>
+				<initMethod name="AddDicon"><arg>"Seasar.Examples/Ado.dicon"</arg></initMethod>
+				<initMethod name="AddCode"><arg>"Seasar.Examples/Reference/DTCTx/DTCTxClient.cs"</arg></initMethod>
+				<initMethod name="AddCode"><arg>"Seasar.Examples/Reference/DTCTx/EmployeeDao.cs"</arg></initMethod>
 			</component>
 		</arg></initMethod>
 	</component>
