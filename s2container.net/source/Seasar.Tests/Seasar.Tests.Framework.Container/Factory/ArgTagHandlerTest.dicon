@@ -9,6 +9,8 @@
 	</component>
 	<component class="TestSeasar.Framework.Container.Factory.ArgTagHandlerTest+A">
 		<arg>"A"</arg>
+		<arg>DayOfWeek.Friday</arg>
+		<arg>System.DayOfWeek.Sunday</arg>
 	</component>
 
 </components>
