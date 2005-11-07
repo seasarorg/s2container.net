@@ -22,6 +22,7 @@ using System.Collections;
 using System.IO;
 using System.Xml;
 using System.Xml.Schema;
+using System.Web;
 using Seasar.Framework.Util;
 using Seasar.Framework.Xml.Impl;
 using Seasar.Framework.Container;
@@ -54,14 +55,20 @@ namespace Seasar.Framework.Xml
 
 			try
 			{
-				if(File.Exists(path))
-				{
-					reader = new StreamReader(path);
-				}
-				else
-				{
-					reader = ResourceUtil.GetResourceAsStreamReader(pathWithoutExt, extension);
-				}
+                if(File.Exists(path))
+                {
+                    reader = new StreamReader(path);
+                } 
+                else if(HttpContext.Current != null)
+                {
+                    string path4http = Path.Combine(
+                        AppDomain.CurrentDomain.SetupInformation.ApplicationBase, path);
+                    if(File.Exists(path4http)) reader = new StreamReader(path4http);
+                }
+                if(reader == null)
+                {
+                    reader = ResourceUtil.GetResourceAsStreamReader(pathWithoutExt, extension);
+                }
 			}
 			catch(ResourceNotFoundRuntimeException)
 			{
