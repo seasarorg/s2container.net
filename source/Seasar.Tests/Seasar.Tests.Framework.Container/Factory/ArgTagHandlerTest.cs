@@ -48,21 +48,37 @@ namespace TestSeasar.Framework.Container.Factory
 			IS2Container container = S2ContainerFactory.Create(PATH);
 			A a = (A) container.GetComponent(typeof(A));
 			Assert.AreEqual("A", a.Name);
+            Assert.AreEqual(DayOfWeek.Friday, a.DayOfWeek1);
+            Assert.AreEqual(DayOfWeek.Sunday, a.DayOfWeek2);
 		}
 
 		public class A
 		{
-			private string name_;
+			private string name;
+            private DayOfWeek dayOfWeek1;
+            private DayOfWeek dayOfWeek2;
 
-			public A(string name)
+			public A(string name, DayOfWeek dayOfWeek1, DayOfWeek dayOfWeek2)
 			{
-				name_ = name;
+				this.name = name;
+                this.dayOfWeek1 = dayOfWeek1;
+                this.dayOfWeek2 = dayOfWeek2;
 			}
 
 			public string Name
 			{
-				get { return name_; }
+				get { return name; }
 			}
+
+            public DayOfWeek DayOfWeek1
+            {
+                get { return dayOfWeek1; }
+            }
+
+            public DayOfWeek DayOfWeek2
+            {
+                get { return dayOfWeek2; }
+            }
 		}
 	}
 }
