@@ -56,7 +56,7 @@ namespace Seasar.Framework.Container
 
 		public const string COMPONENT_DEF_NAME = "componentDef";
 
-		public const string S2DOTNET_CONFIG = "s2.net";
+		public const string SEASAR_CONFIG = "seasar";
 
 		public const string CONFIG_PATH_KEY = "configPath";
 
