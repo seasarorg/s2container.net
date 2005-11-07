@@ -27,7 +27,7 @@ namespace Seasar.Framework.Xml
 	/// S2.NETの構成セクション
 	/// </summary>
 	[Serializable]
-	[XmlRoot(ContainerConstants.S2DOTNET_CONFIG)]
+	[XmlRoot(ContainerConstants.SEASAR_CONFIG)]
 	public class S2Section
 	{
 		private string configPath_ = null;
