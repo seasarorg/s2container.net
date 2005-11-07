@@ -64,10 +64,26 @@ namespace Seasar.Framework.Container.Impl
 					{
 						return container_.GetComponent(expression_);
 					}
-					else
+					else if(expression_.IndexOf(".") > 0)
 					{
-						return JScriptUtil.Evaluate(expression_,container_);
-					}
+                        int lastIndex = expression_.LastIndexOf(".");
+                        string enumTypeName = 
+                            expression_.Substring(0, lastIndex);
+                        Type enumType = ClassUtil.ForName(enumTypeName, 
+                            AppDomain.CurrentDomain.GetAssemblies());
+                        if(enumType != null && enumType.IsEnum)
+                        {
+                            return Enum.Parse(enumType, expression_.Substring(lastIndex + 1));
+                        }
+                        else
+                        {
+                            return JScriptUtil.Evaluate(expression_,container_);
+                        }
+                    }
+                    else
+                    {
+                        return JScriptUtil.Evaluate(expression_,container_);
+                    }
 				}
 				if(childComponentDef_ != null) 
 				{
