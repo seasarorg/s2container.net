@@ -25,21 +25,34 @@
 <!-- document start -->
 
 <p>
-	S2Container.NET(略称：s2dotnet)はMicrosoft .NET Framework 1.1が必要です。稼動確認は、Microsoft Visual Studio .NET 2003で行っています。
-	ソースのバージョン管理には、Eclipse3をCVSクライアントとして使用しています。
+	S2Container.NETはMicrosoft .NET Framework 1.1上で動作します。
+	稼動確認は、Microsoft Visual Studio .NET 2003で行っています。
 </p>
 <p>
-	s2-dotnet-<span style="font-style:italic;">version</span>.zipを解凍してできたディレクトリにあるS2.NET.slnファイルを、
-	Microsoft Visual Studio .NET 2003で開くとS2.NETのソースを見ることができます。サンプルやテストコードも含まれています。
+	s2container.net-<span style="font-style:italic;">version</span>.zip
+	を解凍してできたディレクトリにあるsource/Seasar.slnファイルを、
+	Microsoft Visual Studio .NET 2003で開くとS2Container.NETのソースを見ることができます。
+	Examplesやテストコードも含まれています。
 	テストには<a href="http://sourceforge.net/projects/nunit">NUnit</a>を使用しています。
 </p>
 <p>
-	s2dotnetを利用する場合には以下のファイルの参照を追加する必要があります。
-	なお、Releaseディレクトリにあるs2dotnet.dllとja-JPディレクトリは同じディレクトリに配置してください。
+	S2Container.NETを利用する場合には以下のファイルの参照を追加する必要があります。
+	なお、libディレクトリにあるSeasar.dllとja-JPディレクトリは同じディレクトリに配置してください。
 	<ul>
-		<li>Release/s2dotnet.dll</li>
-		<li>Release/log4net.dll</li>
+		<li>lib/Seasar.dll</li>
+		<li>lib/log4net.dll</li>
 	</ul>
+</p>
+<p>
+Examplesを実行するには、Visual Studio .NET 2003でsource/Seasar.slnを開き、
+Seasar.Examplesプロジェクトをスタートアッププロジェクトに設定して下さい。
+実行すると、ExamplesExplorerが起動しS2Container.NETの機能を体験することができます。
+</p>
+<p>
+Examplesでは一部、SQL Server 2000（もしくは MSDE 2000）を必要とする機能があります。
+その機能を試す場合には、data/setUpDemo.batを実行し、Examples用のデータベースを作成します。
+そして、Seasar.ExamplesのTx.diconとDTCTx.diconのデータベースへの接続文字列を
+お使いの環境に合わせて変更して下さい。
 </p>
 
 <!-- document end -->
