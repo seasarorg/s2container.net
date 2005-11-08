@@ -1,0 +1,475 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><!-- don't edit start --><title>Seasar - DI Container with AOP -</title><meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link href="seasar_b.css" type="text/css" rel="stylesheet" media="screen"><link href="seasar_p.css" type="text/css" rel="stylesheet" media="print"><script src="seasar_b.js" type="text/JavaScript" language="JavaScript"></script></head>
+
+
+<body onload="preload('ja')"><table align="left" border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr>
+<td align="left" valign="top" width="780"><table class="white" border="0" cellpadding="0" cellspacing="0" width="780">
+<tbody><tr><td colspan="7"><img src="images/top01_b.gif" alt="" height="5" width="780"></td></tr>
+<tr><td width="235"><img src="images/top02_b.gif" alt="Seasar" height="117" width="235"></td>
+<td colspan="3"><img src="images/top03.gif" alt="DI Container with AOP" height="117" width="289"></td>
+<td colspan="3"><img src="images/spacer.gif" alt="" height="117" width="256"></td>
+</tr><tr><td rowspan="2"><img src="images/top04.gif" alt="" height="49" width="235"></td>
+<td><a href="http://www.seasar.org/index.html"><img src="images/menu01_b_ja.gif" alt="" id="menu01" onmouseover="swap(1)" onmouseout="restore(1)" border="0" height="30" width="78"></a></td>
+<td><a href="http://www.seasar.org/projects.html"><img src="images/menu02_b_ja.gif" alt="" id="menu02" onmouseover="swap(2)" onmouseout="restore(2)" border="0" height="30" width="101"></a></td>
+
+<td><a href="http://www.seasar.org/products.html"><img src="images/menu03_b_ja.gif" alt="" id="menu03" onmouseover="swap(3)" onmouseout="restore(3)" border="0" height="30" width="110"></a></td>
+<td><a href="http://www.seasar.org/resources.html"><img src="images/menu04_b_ja.gif" alt="" id="menu04" onmouseover="swap(4)" onmouseout="restore(4)" border="0" height="30" width="113"></a></td>
+<td><img src="images/menu05_b_ja.gif" alt="" id="menu05" onmouseover="swap(5)" onmouseout="restore(5)" border="0" height="30" width="109"></td>
+<td width="34"><img src="images/menu06.gif" alt="" height="30" width="34"></td></tr><tr>
+<td colspan="6"><img src="images/spacer.gif" alt="" height="19" width="545"></td></tr></tbody></table>
+<table class="white" border="0" cellpadding="0" cellspacing="0" width="780">
+<tbody><tr align="left" valign="top"><td width="18"><img src="images/spacer.gif" alt="" height="14" width="18"></td><td class="main" width="744">
+<!-- don't edit end -->
+<!-- document start -->
+<ul>
+<li><a href="#Tx">トランザクションの自動制御</a>
+<ul>
+<li><a href="#TransAttribute">トランザクション属性</a>
+<li><a href="#LocalTx">ローカルトランザクション</a>
+<li><a href="#DTCTx">Microsoft 分散トランザクション コーディネータ (MS DTC)による分散トランザクション</a>
+
+</ul>
+<li><a href="#Exception">例外発生時の動作</a>
+<!--
+<ul>
+<li><a href="#ExExample">Example</a>
+<li><a href="#EJBTx">EJB互換のAdvice</a>
+</ul>
+-->
+</ul>
+<h2><a name="Tx">トランザクションの自動制御</a></h2>
+<p>S2Tx.NETの機能を使って、.NETオブジェクトに対して、
+<a href="aop.html">Aspect</a>でトランザクションの自動管理機能を組み込むことができます。
+Aspectを適用については、こちらの<a href="aop.html#Warning">注意点</a>を確認して下さい。
+トランザクションの自動管理には、ローカルトランザクションとMicrosoft 分散トランザクション コーディネータ (MS DTC)
+の2つをサポートしています。
+組む込むことのできるトランザクション属性は次のとおりです。</p>
+<h3><a name="TransAttribute">トランザクション属性</a></h3>
+
+<p>S2Container.NETが標準で用意しているTx.dicon（ローカルトランザクション用）とDTCTx.dicon（MS DTC用）には、
+次のトランザクション属性に対応した<a href="aop.html#Advice">Advice</a>が定義されています。
+コンポーネント名が<a href="aop.html#Advice">Advice</a>の名前です。</p>
+<p>
+Tx.diconとDTCTx.diconは、source/Seasarフォルダに用意されています。
+</p>
+<table border="1">
+<tr bgcolor="#d1f3f4" align="center">
+<th width="92">属性</th>
+<th width="170">コンポーネント名</th>
+<th width="467">説明</th></tr>
+
+<tr>
+	<td rowspan="2">Required</td>
+	<td>
+		<code>LocalTx.RequiredTx</code>
+		<br />（ローカルトランザクション用）
+	</td>
+	<td rowspan="2" style="vertical-align:top;">
+		トランザクションが存在する場合はこれを共有し、
+		必要に応じて新しいトランザクションを作成します。
+	</td>
+</tr>
+<tr>
+	<td>
+		<code>DTCTx.RequiredTx</code>
+		<br />（MS DTC用）
+	</td>
+</tr>
+
+<tr>
+	<td rowspan="2">RequiresNew</td>
+	<td>
+		<code>LocalTx.RequiresNewTx</code>
+		<br />（ローカルトランザクション用）
+	</td>
+	<td rowspan="2" style="vertical-align:top;">
+		現在のコンテキストの状態とは関係なく、
+		新しいトランザクションでコンポーネントを作成します。
+	</td>
+</tr>
+<tr>
+	<td>
+		<code>DTCTx.RequiresNewTx</code>
+		<br />（MS DTC用）
+	</td>
+</tr>
+
+<tr>
+	<td rowspan="2">Supported</td>
+	<td>
+		<code>LocalTx.SupportedTx</code>
+		<br />（ローカルトランザクション用）
+	</td>
+	<td rowspan="2" style="vertical-align:top;">
+		トランザクションが存在する場合はこれを共有します。
+	</td>
+</tr>
+<tr>
+	<td>
+		<code>DTCTx.SupportedTx</code>
+		<br />（MS DTC用）
+	</td>
+</tr>
+
+<tr>
+	<td rowspan="2">NotSupported</td>
+	<td>
+		<code>Tx.NotSupportedTx</code>
+		<br />（ローカルトランザクション用）
+	</td>
+	<td rowspan="2" style="vertical-align:top;">
+		制御するトランザクションがないコンテキストでコンポーネントを作成します。
+	</td>
+</tr>
+<tr>
+	<td>
+		<code>DTCTx.NotSupportedTx</code>
+		<br />（MS DTC用）
+	</td>
+</tr>
+</table>
+
+<h3><a name="LocalTx">ローカルトランザクション</a></h3>
+<p>
+ローカルトランザクションを利用するためには、Seasar.Extension.Tx.Impl.TxDataSourceから
+コネクションを取得します。コネクションのオープン、クローズは
+<a href="aop.html#Advice">Advice(MethodInterceptor)</a>が管理するため、
+DAO (Data Access Object)では行いません。DAOにTxDataSourceをインジェクションしてもらうために
+Seasar.Extension.ADO.IDataSource型のプロパティを用意します。
+</p>
+<p>コネクション、トランザクション、コマンド、パラメータのオブジェクトはdataSourceから作成します。
+従業員を扱うためのDAOインターフェースとDAO実装クラスは次のようになります。
+</p>
+<h4>EmployeeDao.cs</h4>
+<pre>
+using System;
+using System.Data;
+using Seasar.Extension.ADO;
+
+namespace Seasar.Examples.Reference.LocalTx
+{
+    // 従業員を扱うためのDAOインターフェース
+    public interface IEmployeeDao
+    {
+        void Insert();
+    }
+
+    // 従業員を扱うためのDAO実装クラス
+    public class EmployeeDaoImpl : IEmployeeDao
+    {
+        private IDataSource dataSource;
+
+        // TxDataSourceをインジェクションしてもらうためのプロパティ
+        public IDataSource DataSource
+        {
+            set { dataSource = value; }
+        }
+
+        #region IEmployeeDao メンバ
+
+        public void Insert()
+        {
+            string sql = "insert into emp2 values(@empno, @ename, @deptnum)";
+            
+            using(IDbCommand cmd = dataSource.GetCommand(sql,
+                      dataSource.GetConnection(), dataSource.GetTransaction()))
+            {
+                cmd.Parameters.Add(dataSource.GetParameter("@empno", 99));
+                cmd.Parameters.Add(dataSource.GetParameter("@ename", "Sugimoto"));
+                cmd.Parameters.Add(dataSource.GetParameter("@deptnum", 31));
+                cmd.ExecuteNonQuery();
+                Console.WriteLine("EMPを追加しました。");
+            }
+        }
+
+        #endregion
+    }
+}
+</pre>
+
+<p>IEmployeeDaoを実行するクラスは次のようになります。</p>
+
+<h4>LocalTxClient.cs</h4>
+<pre>
+using System;
+using Seasar.Framework.Container;
+using Seasar.Framework.Container.Factory;
+
+namespace Seasar.Examples.Reference.LocalTx
+{
+    public class LocalTxClient
+    {
+        private static readonly String PATH 
+                = "Seasar.Examples/Reference/LocalTx/LocalTxClient.dicon";
+
+        public LocalTxClient() {}
+
+        public void Main()
+        {
+            // S2コンテナを作成します
+            IS2Container container = S2ContainerFactory.Create(PATH);
+            // S2コンテナを初期化します
+            container.Init();
+            
+            // S2コンテナからIEmployeeDaoを実装するコンポーネントを取り出します
+            IEmployeeDao dao = (IEmployeeDao) container.GetComponent(typeof(IEmployeeDao));
+
+            // 従業員を追加します
+            dao.Insert();
+        }
+    }
+}
+</pre>
+
+<p>diconファイルは次のようになります。Required属性のトランザクションを適用するために、
+EmployeeDaoImplのaspectにLocalTx.RequiredTxを指定してします。</p>
+<h4>LocalTxClient.dicon</h4>
+<pre>
+&lt;?xml version="1.0" encoding="utf-8" ?&gt;
+&lt;!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
+"http://www.seasar.org/dtd/components21.dtd"&gt;
+&lt;components&gt;
+    
+    &lt;include path="Seasar.Examples/Tx.dicon" /&gt;
+    
+    &lt;component name="LocalTxClient" class="Seasar.Examples.Reference.LocalTx.LocalTxClient" /&gt;
+    
+    &lt;component class="Seasar.Examples.Reference.LocalTx.EmployeeDaoImpl"&gt;
+        <span style="color:red;font-weight:bold;">&lt;aspect&gt;LocalTx.RequiredTx&lt;/aspect&gt;</span>
+    &lt;/component&gt;
+    
+&lt;/components&gt;
+</pre>
+
+<h4>Tx.dicon</h4>
+<pre>
+&lt;?xml version="1.0" encoding="utf-8" ?&gt;
+&lt;!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
+"http://www.seasar.org/dtd/components21.dtd"&gt;
+&lt;components namespace="LocalTx"&gt;
+	
+    &lt;include path="Seasar.Examples/Ado.dicon" /&gt;
+
+    &lt;component name="SqlDataSource" class="Seasar.Extension.Tx.Impl.TxDataSource"&gt;
+        &lt;property name="DataProvider"&gt;Ado.SqlClient&lt;/property&gt;
+        &lt;property name="ConnectionString"&gt;
+            "Server=SQL Serverの名称;database=s2dotnetdemo;Integrated Security=SSPI"
+        &lt;/property&gt;
+    &lt;/component&gt;
+
+    &lt;component class="Seasar.Extension.Tx.Impl.TransactionContext" /&gt;
+
+    &lt;component name="RequiredTx" class="Seasar.Extension.Tx.TransactionInterceptor"&gt;
+        &lt;arg&gt;
+            &lt;component class="Seasar.Extension.Tx.Impl.LocalRequiredTxHandler" /&gt;
+        &lt;/arg&gt;
+    &lt;/component&gt;
+	
+	・・・
+
+&lt;/components&gt;
+</pre>
+
+<h4>Ado.dicon</h4>
+<pre>
+&lt;?xml version="1.0" encoding="utf-8" ?&gt;
+&lt;!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
+"http://www.seasar.org/dtd/components21.dtd"&gt;
+&lt;components namespace="Ado"&gt;
+
+	&lt;component name="SqlClient" class="Seasar.Extension.ADO.DataProvider"&gt;
+		&lt;property name="ConnectionType"&gt;"System.Data.SqlClient.SqlConnection"&lt;/property&gt;
+		&lt;property name="CommandType"&gt;"System.Data.SqlClient.SqlCommand"&lt;/property&gt;
+		&lt;property name="ParameterType"&gt;"System.Data.SqlClient.SqlParameter"&lt;/property&gt;
+		&lt;property name="DataAdapterType"&gt;"System.Data.SqlClient.SqlDataAdapter"&lt;/property&gt;
+	&lt;/component&gt;
+	
+&lt;/components&gt;
+</pre>
+
+<h4>実行結果</h4>
+<pre>
+DEBUG トランザクションを開始しました
+EMPを追加しました。
+DEBUG トランザクションをコミットしました
+</pre>
+
+<h3><a name="DTCTx">Microsoft 分散トランザクション コーディネータ (MS DTC)による分散トランザクション</a></h3>
+
+<p>
+MS DTCによる分散トランザクションを利用するためには、MS DTCが利用できる環境でなければいけません。
+ローカルトランザクションのようにTxDataSourceからコネクションをとらないといけないといった制限はありませんが、
+データプロバイダに依存しないコーディングをするために、Seasar.Extension.ADO.Impl.DataSourceImpl
+からコネクション、コマンド、パラメータのオブジェクトを作成します。
+</p>
+<p>
+MS DTCを利用する場合は、1回のクエリ発行毎にコネクションをクローズしても、トランザクションは維持されます。
+</p>
+<p>
+従業員を扱うためのDAOインターフェースとDAO実装クラスは次のようになります。
+</p>
+
+<h4>EmployeeDao.cs</h4>
+<pre>
+using System;
+using System.Data;
+using Seasar.Extension.ADO;
+
+namespace Seasar.Examples.Reference.DTCTx
+{
+    // 従業員を扱うためのDAOインターフェース
+    public interface IEmployeeDao
+    {
+        void Insert();
+    }
+
+    // 従業員を扱うためのDAO実装クラス
+    public class EmployeeDaoImpl : IEmployeeDao
+    {
+        private IDataSource dataSource;
+
+        // DataSourceImplをインジェクションしてもらうためのプロパティ
+        public IDataSource DataSource
+        {
+            set { dataSource = value; }
+        }
+
+        #region IEmployeeDao メンバ
+
+        public void Insert()
+        {
+            using(IDbConnection cn = dataSource.GetConnection())
+            {
+                cn.Open();
+                string sql = "insert into emp2 values(@empno, @ename, @deptnum)";
+                using(IDbCommand cmd = dataSource.GetCommand(sql,cn))
+                {
+                    cmd.Parameters.Add(dataSource.GetParameter("@empno", 99));
+                    cmd.Parameters.Add(dataSource.GetParameter("@ename", "Sugimoto"));
+                    cmd.Parameters.Add(dataSource.GetParameter("@deptnum", 31));
+                    cmd.ExecuteNonQuery();
+                    Console.WriteLine("EMPを追加しました。");
+                }
+            }
+        }
+
+        #endregion
+    }
+}
+</pre>
+
+<p>IEmployeeDaoを実行するクラスは次のようになります。</p>
+<h4>DTCTxClient.cs</h4>
+<pre>
+using System;
+using Seasar.Framework.Container;
+using Seasar.Framework.Container.Factory;
+
+namespace Seasar.Examples.Reference.DTCTx
+{
+    public class DTCTxClient
+    {
+        private static readonly String PATH 
+                = "Seasar.Examples/Reference/DTCTx/DTCTxClient.dicon";
+
+        public DTCTxClient() {}
+
+        public void Main()
+        {
+            // S2コンテナを作成します
+            IS2Container container = S2ContainerFactory.Create(PATH);
+            // S2コンテナを初期化します
+            container.Init();
+            
+            // S2コンテナからIEmployeeDaoを実装するコンポーネントを取り出します
+            IEmployeeDao dao = (IEmployeeDao) container.GetComponent(typeof(IEmployeeDao));
+
+            // 従業員を追加します
+            dao.Insert();
+        }
+    }
+}
+</pre>
+
+<p>
+diconファイルは次のようになります。Required属性のトランザクションを適用するために、
+EmployeeDaoImplのaspectにDTCTx.RequiredTxを指定します。
+</p>
+<h4>DTCTxClient.dicon</h4>
+<pre>
+&lt;?xml version="1.0" encoding="utf-8" ?&gt; 
+&lt;!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
+"http://www.seasar.org/dtd/components21.dtd"&gt;
+&lt;components&gt;
+    
+    &lt;include path="Seasar.Examples/DTCTx.dicon" /&gt;
+    
+    &lt;component name="DTCTxClient" class="Seasar.Examples.Reference.DTCTx.DTCTxClient" /&gt;
+    
+    &lt;component class="Seasar.Examples.Reference.DTCTx.EmployeeDaoImpl"&gt;
+        <span style="color:red;font-weight:bold;">&lt;aspect&gt;DTCTx.RequiredTx&lt;/aspect&gt;</span>
+    &lt;/component&gt;
+    
+&lt;/components&gt;
+</pre>
+
+<h4>DTCTx.dicon</h4>
+<pre>
+&lt;?xml version="1.0" encoding="utf-8" ?&gt; 
+&lt;!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
+"http://www.seasar.org/dtd/components21.dtd"&gt;
+&lt;components namespace="DTCTx"&gt;
+
+    &lt;include path="Seasar.Examples/Ado.dicon" /&gt;
+
+    &lt;component name="SqlDataSource" class="Seasar.Extension.ADO.Impl.DataSourceImpl"&gt;
+        &lt;property name="DataProvider"&gt;Ado.SqlClient&lt;/property&gt;
+        &lt;property name="ConnectionString"&gt;
+            "Server=SQL Serverの名称;database=s2dotnetdemo;Integrated Security=SSPI"
+        &lt;/property&gt;
+    &lt;/component&gt;
+
+    &lt;component name="DTCTransactionStateHandler" 
+            class="Seasar.Extension.Tx.Impl.DTCTransactionStateHandler" /&gt;
+            
+    &lt;component name="RequiredTx" class="Seasar.Extension.Tx.TransactionInterceptor"&gt;
+        &lt;arg&gt;
+            &lt;component class="Seasar.Extension.Tx.Impl.DTCRequiredTxHandler" /&gt;
+        &lt;/arg&gt;
+    &lt;/component&gt;
+
+    ・・・
+    
+&lt;/components&gt;
+</pre>
+<p>
+Ado.diconと実行結果は、ローカルトランザクションの場合と同じです。
+</p>
+
+<p>
+S2Container.NETには、Tx.diconおよびDTCTx.diconがあらかじめ用意(source/Seasar)されています。
+Adviceのコンポーネント名をaspectタグのボディに指定するだけなので簡単です。 
+簡単にトランザクション管理機能が組み込めることがわかってもらえたと思います。
+</p>
+<h2><a name="Exception">例外発生時の動作</a></h2>
+<p>Tx.diconおよびDTCTx.dionに定義されているAdviceは、コンポーネントが例外をスローした場合はトランザクションをロールバックします．<br>
+
+<!-- document end -->
+<!-- don't edit start -->
+</td>
+<td width="14"><img src="images/spacer.gif" alt="" height="14" width="14"></td>
+</tr><tr>
+<td width="14"><img src="images/spacer.gif" alt="" height="30" width="14"></td>
+<td width="766"><img src="images/spacer.gif" alt="" height="30" width="592"></td>
+</tr><tr>
+<td width="14"><img src="images/spacer.gif" alt="" height="14" width="14"></td>
+<td class="copyright" width="766">&#169; Copyright The Seasar Project and the others 2004-2005, all rights reserved.</td>
+
+</tr></tbody></table>
+</td><td class="backright" align="left" valign="top">&nbsp;</td></tr><tr>
+<td class="backunder" align="left" height="16" valign="top" width="780">&nbsp;</td>
+<td class="backcorner" align="left" height="16" valign="top">&nbsp;</td>
+</tr></tbody></table><!-- don't edit end -->
+</body></html>
