@@ -179,8 +179,8 @@ Hoge hoge = (Hoge) container.GetComponent("hoge");
 
 <a name="AppConfig"><h3>アプリケーション構成ファイル</h3></a>
 <p>
-アプリケーション構成ファイル（※diconファイルではありません）に&lt;s2.net&gt;構成セクションを追加することができます。
-&lt;s2.net&gt;構成セクションでは、ルートとなる定義ファイル(diconファイル）、
+アプリケーション構成ファイル（※diconファイルではありません）に&lt;seasar&gt;構成セクションを追加することができます。
+&lt;seasar&gt;構成セクションでは、ルートとなる定義ファイル(diconファイル）、
 S2Container作成時にロードするアセンブリを指定することができます。
 </p>
 <p>
@@ -194,11 +194,11 @@ S2Container作成時にロードするアセンブリを指定することができます。
 <pre>
 &lt;configuration&gt;
    &lt;configSections&gt;
-      &lt;section name="s2.net"
+      &lt;section name="seasar"
          type="Seasar.Framework.Xml.S2SectionHandler, Seasar" /&gt;
    &lt;/configSections&gt;
 
-   &lt;s2.net&gt;
+   &lt;seasar&gt;
       &lt;!-- SingletonS2ContainerFactory#Initで下記で指定されたdiconファイルを
            ルートのdiconファイルの初期値としてセットします。 --&gt;
       &lt;configPath&gt;App.dicon&lt;/configPath&gt;
@@ -209,7 +209,7 @@ S2Container作成時にロードするアセンブリを指定することができます。
          &lt;assembly&gt;アセンブリ名1&lt;/assembly&gt;
          &lt;assembly&gt;アセンブリ名2&lt;/assembly&gt;
       &lt;/assemblys&gt;
-   &lt;/s2.net&gt;
+   &lt;/seasar&gt;
 
 &lt;/configuration&gt;
 </pre>
@@ -641,7 +641,7 @@ source/Seasar/Seasar.Framework.Container/Web/Web.configに記述例もあります。
     &lt;/httpModules&gt;
 </pre>
 
-<p><a href="#AppConfig">アプリケーション構成ファイル</a>に定義するs2.netセクションのconfigPath要素で
+<p><a href="#AppConfig">アプリケーション構成ファイル</a>に定義するseasarセクションのconfigPath要素で
 メインとなるS2Container定義のパスを指定します。S2HttpModuleが起動した後は、
 次のメソッドでS2Containerのインスタンスを取得することができます。</p>
 <p>- Seasar.Framework.Container.Factory.SingletonS2ContainerFactory#GetContainer()</p>
