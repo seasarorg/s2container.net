@@ -48,12 +48,9 @@
 
                   <li><a href="#AutoBindingMode">自動バインディング</a></li>
                   <li><a href="#UseS2Container">コンポーネントでS2Containerを利用する</a></li>
-                  <li><a href="#S2HttpModule">S2HttpModule</a></li>
                   <li><a href="#app.dicon">app.diconの役割</a></li>
                   <li><a href="#Aop">AOPの適用</a></li>
 				  <li><a href="#Meta">メタデータ</a></li>
-
-				  <li><a href="#Request">Requestの自動バインディング</a></li>
                 </ul>
               </li>
               <li><a href="#DefReference">S2Container定義タグリファレンス</a>
@@ -523,12 +520,12 @@ Hello Bbb!
   <tr>
 <td>request</td>
 <td>リクエスト毎に1つのインスタンスが作成されます。name属性に指定した名前で、コンポーネントがリクエストに格納されます。
-requestを使う場合は、<a href="#request">S2HttpModule</a>を設定する必要があります。</td>
+requestを使う場合は、<a href="asp.html#S2HttpModule">S2HttpModule</a>を設定する必要があります。</td>
 
 </tr>
 <tr>
 <td>session</td>
-<td>セッション毎に1つのインスタンスが作成されます。name属性に指定した名前で、コンポーネントがセッションに格納されます。sessionを使う場合は、<a href="#request">S2HttpModule</a>を設定する必要があります。</td>
+<td>セッション毎に1つのインスタンスが作成されます。name属性に指定した名前で、コンポーネントがセッションに格納されます。sessionを使う場合は、<a href="asp.html#S2HttpModule">S2HttpModule</a>を設定する必要があります。</td>
 </tr>
 <tr>
   <td>outer</td>
@@ -625,29 +622,6 @@ System.Collections.Hashtable#Add()メソッドに初期化(aaaに111を設定)・終了処理(aaa
     &lt;/component&gt;
 &lt;/components&gt;
 </pre>
-
-
-            <a name="S2HttpModule"><h3>S2HttpModule</h3></a>
-<p>これまでは、.NET Frameworkアプリケーションで、明示的にS2Containerを作成していましたが、
-Webアプリケーションの場合、誰がS2Containerを作成するのでしょうか。その目的のために次のクラスが用意されています。</p>
-<p>- Seasar.Framework.Container.Web.S2HttpModule</p>
-S2HttpModuleを使うためには、Web.configに次の項目を記述します。<br/>
-source/Seasar/Seasar.Framework.Container/Web/Web.configに記述例もあります。
-
-<pre>
-    &lt;httpModules&gt;
-	 &lt;add name="S2HttpModule"
-	     type="Seasar.Framework.Container.Web.S2HttpModule, Seasar" /&gt;
-    &lt;/httpModules&gt;
-</pre>
-
-<p><a href="#AppConfig">アプリケーション構成ファイル</a>に定義するseasarセクションのconfigPath要素で
-メインとなるS2Container定義のパスを指定します。S2HttpModuleが起動した後は、
-次のメソッドでS2Containerのインスタンスを取得することができます。</p>
-<p>- Seasar.Framework.Container.Factory.SingletonS2ContainerFactory#GetContainer()</p>
-
-<p>S2HttpModuleを使っている場合、HttpApplicationをhttpApplicationという名前のコンポーネントとして
-アクセスできるようになります。</p>
 
 <a name="app.dicon"><h3>app.diconの役割</h3></a>
 <p>すべてのS2Container定義のルートになる定義ファイルは、慣例でapp.diconという名前にします。app.diconにはコンポーネントの定義はしないようにしてください。
@@ -776,18 +750,6 @@ IPropertyDefで定義されている次のメソッドで取得することが出来ます。</p>
 <li>public IMetaDef[] GetMetaDefs(string name)</li>
 </ul>
 
-<a name="request">
-
-<h3>リクエストの自動バインディング</h3>
-</a>
-<p>コンポーネントに対して、HttpRequestを自動的にバインディングすることが出来ます。
-そのためには、コンポーネントに、HttpRequest Request { set; }のプロパティを定義します。
-そうすると、S2Containerが自動的にリクエストを設定します。
-また、<a href="#S2HttpModule">S2HttpModule</a>をWeb.configに定義する必要があります。</p>
-
-<p>同様にHttpServletResponse、HttpSessionもプロパティ（setアクセサ）を定義するだけで、自動バインディングすることが出来ます。
-また、S2HttpModuleを使うと、HttpRequest、HttpResponse、HttpSessionState、HttpApplicationをそれぞれrequest、
-response、session、httpApplicationという名前のコンポーネントとしてアクセスできるようになります。</p>
 <a name="DefReference">
 <h2>S2Container定義タグリファレンス</h2></a>
 
