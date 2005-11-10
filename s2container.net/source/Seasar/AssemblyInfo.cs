@@ -25,11 +25,11 @@ using System.Runtime.CompilerServices;
 // 情報を変更するには、これらの属性値を変更してください。
 //
 [assembly: AssemblyTitle("S2Container.NET")]
-[assembly: AssemblyDescription("S2Container.NET 1.0.0-beta11")]
+[assembly: AssemblyDescription("S2Container.NET 1.0.0-RC1")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("S2Container.NET")]
-[assembly: AssemblyCopyright("Copyright (c) 2003-2004 The Seasar Project. All rights reserved.")]
+[assembly: AssemblyCopyright("c Copyright The Seasar Foundation and the others 2005, all rights reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]		
 
