@@ -65,8 +65,7 @@
 }
 
 .main ul {
-	list-style: url("images/item_large_b.gif") disc outside;
-	margin-left:30px;
+	list-style: url("images/item_little.gif") disc outside;
 }
 
 .main span.strike {
