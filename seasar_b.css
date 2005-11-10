@@ -65,7 +65,8 @@
 }
 
 .main ul {
-	list-style: url("images/item_little.gif") disc outside;
+	list-style: url("images/item_large_b.gif") disc outside;
+	margin-left:30px;
 }
 
 .main span.strike {
@@ -134,5 +135,15 @@ a:hover {
 	text-decoration: none;
 	color: #FF3300;
 }
+h2 {
+	padding-left		: 24px;
+	background-repeat	: no-repeat;
+	background-image	: url(images/item_large_g.gif);
+}
 
-
+h3 {
+	padding-left		: 24px;
+	margin-left			: 0.5em;
+	background-repeat	: no-repeat;
+	background-image	: url(images/item_large_b.gif);
+}
