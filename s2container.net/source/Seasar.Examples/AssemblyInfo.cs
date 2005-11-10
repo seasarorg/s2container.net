@@ -29,7 +29,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("S2Container.NET.Examples")]
-[assembly: AssemblyCopyright("Copyright (c) 2003-2004 The Seasar Project. All rights reserved.")]
+[assembly: AssemblyCopyright("c Copyright The Seasar Foundation and the others 2005, all rights reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]		
 
