@@ -1,5 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html><head><!-- don't edit start --><title>Seasar - DI Container with AOP -</title><meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><!-- don't edit start --><title>Seasar - DI Container with AOP -</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="Content-Style-Type" content="text/css">
 <link href="seasar_b.css" type="text/css" rel="stylesheet" media="screen"><link href="seasar_p.css" type="text/css" rel="stylesheet" media="print"><script src="seasar_b.js" type="text/JavaScript" language="JavaScript"></script></head>
 
@@ -24,51 +24,51 @@
 <!-- don't edit end -->
 <!-- document start -->
 	<ul>
-		<li><a href="#S2�T�v">S2AOP.NET�̊T�v</a>
+		<li><a href="#S2概要">S2AOP.NETの概要</a>
         <ul>
-            <li><a href="#Objectorientation">�I�u�W�F�N�g�w��</a></li>
-            <li><a href="#objectoriented_problem">�I�u�W�F�N�g�w���̖��_</a></li>
-            <li><a href="#AOPKey">AOP���l�����ŃL�[�ƂȂ�T�O</a></li>
-			<li><a href="#AOPMerit">AOP�̃����b�g</a></li>
-			<li><a href="#S2AOPMerit">S2AOP.NET�̃����b�g</a></li>
-            <li><a href="#Warning">���ӓ_</a></li>
+            <li><a href="#Objectorientation">オブジェクト指向</a></li>
+            <li><a href="#objectoriented_problem">オブジェクト指向の問題点</a></li>
+            <li><a href="#AOPKey">AOPを考える上でキーとなる概念</a></li>
+			<li><a href="#AOPMerit">AOPのメリット</a></li>
+			<li><a href="#S2AOPMerit">S2AOP.NETのメリット</a></li>
+            <li><a href="#Warning">注意点</a></li>
         </ul></li>
-		<li><a href="#S2AOPReference">S2AOP.NET���t�@�����X</a>
+		<li><a href="#S2AOPReference">S2AOP.NETリファレンス</a>
             <ul>
-            <li><a href="#AOPMakeFile">�쐬���ׂ��t�@�C��</a></li>
-            <li><a href="#AOPExplanationFile">�ݒ�t�@�C���̐���</a></li>
-			<li><a href="#AOPInterceptor">S2AOP.NET�ŗp�ӂ���Ă���Interceptor</a>
+            <li><a href="#AOPMakeFile">作成すべきファイル</a></li>
+            <li><a href="#AOPExplanationFile">設定ファイルの説明</a></li>
+			<li><a href="#AOPInterceptor">S2AOP.NETで用意されているInterceptor</a>
 				<ul>
 				<li><a href="#TraceInterceptor">TraceInterceptor</a></li>
 				<li><a href="#MockInterceptor">MockInterceptor</a></li>
-				<li><a href="#OriginalInterceptor">�Ǝ������ɂ��Interceptor</a></li>
+				<li><a href="#OriginalInterceptor">独自実装によるInterceptor</a></li>
 				</ul>
                         </li>
-	        <li><a href="#nodicon">dicon�t�@�C�����g�p���Ȃ��ŃA�X�y�N�g��g�ݍ��ޕ��@</a></li>
+	        <li><a href="#nodicon">diconファイルを使用しないでアスペクトを組み込む方法</a></li>
 		</ul></li>
 		<li><a href="#Example">Example</a>
 		<ul>
            	<li><a href="#TraceInterceptorSample">TraceInterceptor</a></li>
-			<li><a href="#OriginalInterceptorSample">�Ǝ������ɂ��Interceptor</a></li>
+			<li><a href="#OriginalInterceptorSample">独自実装によるInterceptor</a></li>
         </ul></li>
 	</ul>
 
-	<h2><a name="S2�T�v">S2AOP.NET�̊T�v</a></h2>
-	<p>S2AOP.NET�ł́AAOP�̋@�\��񋟂��Ă��܂��BAOP�Ƃ́AAspect Oriented Programming (�A�X�y�N�g�w���v���O���~���O)
-�̗��ł��B�v���O�����{���̖ړI�Ƃ͈قȂ鏈��������ɖ��ߍ��܂��A�O����D�荞�ނ悤�ɍ�邱�Ƃł��B
-���݂̃I�u�W�F�N�g�w���ɂȂ�AOP���K�v�Ȃ̂��������܂��B</p>
-	<h3><a name="Objectorientation">�I�u�W�F�N�g�w��</a></h3>
-	<p>���݂̃I�u�W�F�N�g�w���Ńv���O�������s���ꍇ�A���̐}�̂悤�ɕ����邱�Ƃ��o���܂��B</p>
+	<h2><a name="S2概要">S2AOP.NETの概要</a></h2>
+	<p>S2AOP.NETでは、AOPの機能を提供しています。AOPとは、Aspect Oriented Programming (アスペクト指向プログラミング)
+の略です。プログラム本来の目的とは異なる処理を内部に埋め込まず、外から織り込むように作ることです。
+現在のオブジェクト指向になぜAOPが必要なのか説明します。</p>
+	<h3><a name="Objectorientation">オブジェクト指向</a></h3>
+	<p>現在のオブジェクト指向でプログラムを行う場合、下の図のように分けることが出来ます。</p>
 	<img src="images/aop01.gif" border="0" height="375" width="639">
-�@�@<br>
-    <p>�I�u�W�F�N�g�w���ł͌ڋq����̗v���ł���@�\(Core
-Concern)�ƃ��M���O�@�\�A�錾�I�g�����U�N�V�����ADB�R�l�N�V�����̎擾�E����A��O�����A�Z�L�����e�B�@�\�╪�U�����Ȃǂ̔�@�\�v��
-(Crosscutting Concern)�������N���X�̓������\�b�h�̒��Ɏ�������邱�Ƃ�����܂��B</p>
-    <h3><a name="objectoriented_problem">�I�u�W�F�N�g�w���̖��_</a></h3>
-    <p>��ŋ����Ă���悤�ɔ�@�\�v�����U�݂��܂��B���̖��_���ɋ����Đ������܂��B<br>
-��j�v���O�������쐬�����Ƃ���A���炩�̌��ׂ�������v���O�����̓��삪���������A�ǂ��ł��������Ȃ��Ă���̂��͕�����Ȃ��̂ŁA
-�v���O�������s���̐ߖڂ��Ƃɂ��̓r���o�߂��L�^�i���M���O�j�������ꍇ�A���O�������o���T���v���̃R�[�h���ȉ��Ɏ����܂��B
-�����ŏ������ꏊ�����O�������o���ꏊ�ł��B
+　　<br>
+    <p>オブジェクト指向では顧客からの要求である機能(Core
+Concern)とロギング機能、宣言的トランザクション、DBコネクションの取得・解放、例外処理、セキュリティ機能や分散処理などの非機能要求
+(Crosscutting Concern)が同じクラスの同じメソッドの中に実装されることがあります。</p>
+    <h3><a name="objectoriented_problem">オブジェクト指向の問題点</a></h3>
+    <p>上で挙げているように非機能要求が散在します。この問題点を例に挙げて説明します。<br>
+例）プログラムを作成したところ、何らかの欠陥が見つかりプログラムの動作がおかしく、どこでおかしくなっているのかは分からないので、
+プログラム実行中の節目ごとにその途中経過を記録（ロギング）したい場合、ログを書き出すサンプルのコードを以下に示します。
+太字で書いた場所がログを書き出す場所です。
 </p>
 <pre>
 class Foo {
@@ -90,19 +90,19 @@ class Bar {
     }
 }
 </pre>
-    <p>���̃T���v���̂悤�Ƀ��M���O����Ƃ������Ƃ́A�v���O�����̕����ӏ��ɂ��̖��߂�ǉ�����K�v������܂��B�܂��A�ҏW�c�[���̌����@�\�Ȃǂ��g���ĊY���ӏ���T���Ƃ��Ă��A�v���O�����̏��������͍ŏI�I�Ɏ��ƂƂȂ�܂��B����́A���̂悤�Ȗ��������N�����܂��B</p>
+    <p>このサンプルのようにロギングするということは、プログラムの複数箇所にその命令を追加する必要があります。また、編集ツールの検索機能などを使って該当箇所を探すとしても、プログラムの書き換えは最終的に手作業となります。これは、次のような問題を引き起こします。</p>
     <ul>
-      	<li>�����������ӏ��ɕ��U���܂��B��ɂȂ��ďW�߂�����񂪑�������A�������̂��̂��s�v�ɂȂ����肷��ƁA����ɍ��킹�Ă��ׂĂ̏ꏊ��ύX����K�v���o�Ă��܂��B</li>
-      	<li>�v���O���}���A������ǉ�����ׂ��łȂ��ꏊ�ɒǉ����Ă��܂��\��������܂��B</li>
-		<li>�v���O���}���A������ǉ�����ׂ��ꏊ�ɒǉ����Y���\��������܂��B</li>
-		<li>�v���O���}���A�����Ƃ��Č�����R�[�h��ǉ����Ă��܂��\��������܂��B</li>
-		<li>�v���O���}���A��ƒ��Ɍ���Ė{���̃v���O�������󂵂Ă��܂��\��������܂��B</li>
+      	<li>処理が複数箇所に分散します。後になって集めたい情報が増えたり、処理そのものが不要になったりすると、それに合わせてすべての場所を変更する必要が出てきます。</li>
+      	<li>プログラマが、処理を追加するべきでない場所に追加してしまう可能性があります。</li>
+		<li>プログラマが、処理を追加するべき場所に追加し忘れる可能性があります。</li>
+		<li>プログラマが、処理として誤ったコードを追加してしまう可能性があります。</li>
+		<li>プログラマが、作業中に誤って本来のプログラムを壊してしまう可能性があります。</li>
     </ul>
 	<p>
-���̃��M���O�̗�̂悤�ɁA�����̃N���X�ɂ܂���������@�\�v���̏������uCrosscutting
-Concern�v�ƌĂт܂��B�uCrosscuting
-Concern�v�𕪎U�����Ȃ����߂ɁA���W���[�������Ď�菜���A���s���܂��̓R���p�C�����Ƀo�C�g�R�[�h�őg�ݍ��ގd�g�݂��K�v�ɂȂ�܂��B����̃�
-�M���O�̗��S2AOP.NET���g���ƈȉ��̂悤��XML�̐ݒ�����邾���ł��B���M���O���s���������v���O�����̕����ӏ��ɒǉ�����K�v���Ȃ��Ȃ�܂��B </p>
+このロギングの例のように、複数のクラスにまたがった非機能要求の処理を「Crosscutting
+Concern」と呼びます。「Crosscuting
+Concern」を分散させないために、モジュール化して取り除き、実行時またはコンパイル時にバイトコードで組み込む仕組みが必要になります。先程のロ
+ギングの例をS2AOP.NETを使うと以下のようにXMLの設定をするだけです。ロギングを行う処理をプログラムの複数箇所に追加する必要がなくなります。 </p>
 <pre>&lt;?xml version="1.0" encoding="utf-8"?&gt;
 &lt;!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
 "http://www.seasar.org/dtd/components.dtd"&gt;
@@ -118,7 +118,7 @@ Concern�v�𕪎U�����Ȃ����߂ɁA���W���[�������Ď�菜���A���s���܂��̓R���p�C���
 &lt;/components&gt;
 </pre>
 
-	<p>�ݒ�t�@�C���̏ڍׂ́AS2AOP.NET���t�@�����X��<a href="#AOPExplanationFile">�ݒ�t�@�C���̐���</a>���Q�Ƃ��Ă��������B</p>
+	<p>設定ファイルの詳細は、S2AOP.NETリファレンスの<a href="#AOPExplanationFile">設定ファイルの説明</a>を参照してください。</p>
 
 <pre>
 class Foo
@@ -141,61 +141,61 @@ class Bar
 }
 </pre>
 
-	<h3><a name="AOPKey">AOP���l�����ŃL�[�ƂȂ�T�O</a></h3>
+	<h3><a name="AOPKey">AOPを考える上でキーとなる概念</a></h3>
     <br>
     <h4><a name="Advice">Advice(MethodInterceptor)</a></h4>
-	<p>�v���O�������ɑ}�������R�[�h��\���܂��BInterceptor�ƌĂ΂�邱�Ƃ�����܂��B</p>
+	<p>プログラム中に挿入されるコードを表します。Interceptorと呼ばれることもあります。</p>
     <h4>Joinpoint(MethodInvocation)</h4>
-    <p>�ΏۂƂȂ�N���X��Advice����������|�C���g��\���܂��BAdvice��Joinpoint��������⃁�\�b�h�̏����擾���邱�Ƃ��ł��܂��B</p>
+    <p>対象となるクラスとAdviceを結合するポイントを表します。AdviceはJoinpointから引数やメソッドの情報を取得することができます。</p>
     <h4>Pointcut</h4>
-    <p>�ǂ���Joinpoint��ݒ肷��̂����`���܂��B</p>
+    <p>どこにJoinpointを設定するのかを定義します。</p>
     <h4>Aspect</h4>
-    <p>Advice��Pointcut���֘A�t���܂��B</p>
-    <h3><a name="AOPMerit">AOP�̃����b�g</a></h3>
+    <p>AdviceとPointcutを関連付けます。</p>
+    <h3><a name="AOPMerit">AOPのメリット</a></h3>
     <ul>
-        <li>�uCore Concern�v�ƁuCrosscutting Concern�v�𕪗����邱�ƂŃ����e�i���X�������サ�܂��B</li>
-        <li>�Ɩ����W�b�N����V�X�e���I�@�\���uCrosscutting Concern�v�ɔr�o�����uCore Concern�v�́A�V���v���ȃ\�[�X�ɂȂ�܂��B�{���̂�肽���������Ƃ������L�q����܂��B</li>
-        <li>�g�����U�N�V�����̎������ȂǁA�]���G���^�[�v���C�Y�A�v���P�[�V�����̒m�����K�v�ł������������A
-        ���ʂ�.NET�̃I�u�W�F�N�g�ŉ\�ɂȂ�܂��B</li>
+        <li>「Core Concern」と「Crosscutting Concern」を分離することでメンテナンス性が向上します。</li>
+        <li>業務ロジックからシステム的機能を「Crosscutting Concern」に排出した「Core Concern」は、シンプルなソースになります。本来のやりたかったことだけが記述されます。</li>
+        <li>トランザクションの自動化など、従来エンタープライズアプリケーションの知識が必要であった処理が、
+        普通の.NETのオブジェクトで可能になります。</li>
     </ul>
-    <h3><a name="S2AOPMerit">S2AOP.NET�̃����b�g</a></h3>
+    <h3><a name="S2AOPMerit">S2AOP.NETのメリット</a></h3>
     <ul>
-      	<li>�ݒ���V���v���ɍs���܂��B</li>
-      	<li>�������Ȃ���΂Ȃ�Ȃ�.NET�C���^�[�t�F�[�X��1�ł��B</li>
-      	<li>�R���|�[�l���g�ɂǂ�ȃA�X�y�N�g���K�p�����̂������m�ł��B</li>
-      	<li>��{�I��Aspect�����I�u�W�F�N�g�p�^�[�����p�ӂ���Ă��邽�߁A�����Ɏg�p���邱�Ƃ��\�ł��B(�Ǝ��ɃC���^�[�t�F�[�X�⒊�ۃN���X���������邱�Ƃ��\)</li>
+      	<li>設定をシンプルに行えます。</li>
+      	<li>実装しなければならない.NETインターフェースが1つです。</li>
+      	<li>コンポーネントにどんなアスペクトが適用されるのかが明確です。</li>
+      	<li>基本的なAspect実装オブジェクトパターンが用意されているため、すぐに使用することが可能です。(独自にインターフェースや抽象クラスを実装することも可能)</li>
     </ul>
-	<h3><a name="Warning">���ӓ_</a></h3>
+	<h3><a name="Warning">注意点</a></h3>
     <ul>
-      	<li>�A�X�y�N�g��K�p���邽�߂ɂ̓R���|�[�l���g���C���^�[�t�F�[�X�^�Ŏ󂯎��܂��B</li>
-		<li>S2Container���璼�ڎ󂯎��R���|�[�l���g�ɃA�X�y�N�g��K�p����ɂ́A
-		�R���|�[�l���g��System.MarshalByRefObject�̔h���N���X�ł���K�v������܂��B</li>
-		<li>pointcut�������w�肵�Ȃ��ꍇ�Apointcut������".*"�Ǝw�肵���ꍇ�́A
-		�������Ă���C���^�[�t�F�[�X�̂��ׂẴ��\�b�h���ΏۂɂȂ�܂��B</li>
-		<li>this�|�C���^�o�R�̏ꍇ�i�C���^�[�t�F�[�X�o�R�ŌĂ΂�Ȃ��ꍇ�j�̓A�X�y�N�g�͓K�p����܂���B</li>
+      	<li>アスペクトを適用するためにはコンポーネントをインターフェース型で受け取ります。</li>
+		<li>S2Containerから直接受け取るコンポーネントにアスペクトを適用するには、
+		コンポーネントがSystem.MarshalByRefObjectの派生クラスである必要があります。</li>
+		<li>pointcut属性を指定しない場合、pointcut属性に".*"と指定した場合は、
+		実装しているインターフェースのすべてのメソッドが対象になります。</li>
+		<li>thisポインタ経由の場合（インターフェース経由で呼ばれない場合）はアスペクトは適用されません。</li>
     </ul>
 
-	<h2><a name="S2AOPReference">S2AOP.NET���t�@�����X</a></h2>
-    <h3><a name="AOPMakeFile">�쐬���ׂ��t�@�C��</a></h3>
+	<h2><a name="S2AOPReference">S2AOP.NETリファレンス</a></h2>
+    <h3><a name="AOPMakeFile">作成すべきファイル</a></h3>
     <p>S2AOP.NET
-���g�p����ɂ�S2Container
-�̐ݒ�t�@�C��(dicon�t�@�C��)�ōs���܂��B�ݒ�t�@�C���̔z�u�ꏊ�́A�Ƃ��Ɏw�肪����܂��񂪁A�ʏ�uCrosscutting
-Concern�v�Ɠ����ꏊ�ɔz�u���邩�A�ݒ���s���R���|�[�l���g�Ɠ����ꏊ�ɔz�u���܂��B</p>
-    <h3><a name="AOPExplanationFile">�ݒ�t�@�C���̐���</a></h3>
-    <h4><a name="aspecTtag">aspect�^�O�iAOP���g�p����ꍇ�͕K�{�j</a></h4>
-    <p>�A�X�y�N�g���R���|�[�l���g�ɑg�ݍ��݂܂��BInterceptor�̎w��́A�{�f�B��JScript.NET�����g�����A�q�^�O��component�^�O���g���܂��B<br>
-<h5>���ӓ_</h5>
-<p>aspect�^�O�Ŏw�肳�ꂽ�R���|�[�l���g�́A�R���e�i�̏��������ɃR���e�i����擾����܂��B���̂��߁Aaspect�^�O�Ŏw�肳�ꂽ�R���|�[�l���g��instance������prototype�������Ƃ��Ă��AInterceptor
-�̃��\�b�h���Ăяo�����x�ɐV�����C���X�^���X���쐬�����킯�ł͂���܂���B</p>
-<h5>pointcut����(�C��)</h5>
-    <p>�J���}��؂�őΏۂƂȂ郁�\�b�h�����w�肷�邱�Ƃ��ł��܂��Bpointcut���w�肵�Ȃ��ꍇ�́A
-    �R���|�[�l���g���������Ă���C���^�[�t�F�[�X�̂��ׂẴ��\�b�h���ΏۂɂȂ�܂��B
-    ���\�b�h���ɂ͐��K�\��(System.Text.RegularExpressions.Regex)���g���܂��B</p>
-    <h5>�ݒ��</h5>
+を使用するにはS2Container
+の設定ファイル(diconファイル)で行います。設定ファイルの配置場所は、とくに指定がありませんが、通常「Crosscutting
+Concern」と同じ場所に配置するか、設定を行うコンポーネントと同じ場所に配置します。</p>
+    <h3><a name="AOPExplanationFile">設定ファイルの説明</a></h3>
+    <h4><a name="aspecTtag">aspectタグ（AOPを使用する場合は必須）</a></h4>
+    <p>アスペクトをコンポーネントに組み込みます。Interceptorの指定は、ボディでJScript.NET式を使うか、子タグでcomponentタグを使います。<br>
+<h5>注意点</h5>
+<p>aspectタグで指定されたコンポーネントは、コンテナの初期化時にコンテナから取得されます。そのため、aspectタグで指定されたコンポーネントのinstance属性がprototypeだったとしても、Interceptor
+のメソッドが呼び出される度に新しいインスタンスが作成されるわけではありません。</p>
+<h5>pointcut属性(任意)</h5>
+    <p>カンマ区切りで対象となるメソッド名を指定することができます。pointcutを指定しない場合は、
+    コンポーネントが実装しているインターフェースのすべてのメソッドが対象になります。
+    メソッド名には正規表現(System.Text.RegularExpressions.Regex)も使えます。</p>
+    <h5>設定例</h5>
     <p>pointcut
-�������w�肵��System.Collections.Hashtable��Add���\�b�h��Clear���\�b�h��ΏۂƂ���ꍇ�ȉ��̂悤�ɂȂ�܂��B
-pointcut�������w�肵�Ȃ��ꍇ��System.Collections.Hashtable���������Ă���C���^�[�t�F�[�X
-(�����ł�System.Collections.IDictionary)�̃��\�b�h���ΏۂɂȂ�܂��B</p>
+属性を指定してSystem.Collections.HashtableのAddメソッドとClearメソッドを対象とする場合以下のようになります。
+pointcut属性を指定しない場合はSystem.Collections.Hashtableが実装しているインターフェース
+(ここではSystem.Collections.IDictionary)のメソッドが対象になります。</p>
 
 <pre>&lt;component class="System.Collections.Hashtable"&gt;
     &lt;aspect pointcut="Add,Clear"&gt;
@@ -203,8 +203,8 @@ pointcut�������w�肵�Ȃ��ꍇ��System.Collections.Hashtable���������Ă���C���^�[
     &lt;/aspect&gt;
 &lt;/component&gt;
 </pre>
-     ���K�\�����g����System.Collections.Hashtable���������Ă���C���^�[�t�F�[�X
-     �i�����ł�System.Collections.IDictionary�j�̃��\�b�h���ׂĂ�ΏۂƂ������ꍇ�́A�ȉ��̂悤�ɐݒ肵�܂��B
+     正規表現を使ってSystem.Collections.Hashtableが実装しているインターフェース
+     （ここではSystem.Collections.IDictionary）のメソッドすべてを対象としたい場合は、以下のように設定します。
 <pre>&lt;component class="System.Collections.Hashtable"&gt;
     &lt;aspect pointcut=".*"&gt;
         &lt;component class="Seasar.Framework.Aop.Interceptors.TraceInterceptor"/&gt;
@@ -212,99 +212,99 @@ pointcut�������w�肵�Ȃ��ꍇ��System.Collections.Hashtable���������Ă���C���^�[
 &lt;/component&gt;
 </pre>
 
-    <h3><a name="AOPInterceptor">S2AOP.NET�ŗp�ӂ���Ă���Interceptor</a></h3>
-    <p>S2AOP.NET�ł́A�ȉ���Interceptor��p�ӂ��Ă��܂��B�܂��Ǝ���Interceptor���ȒP�ɍ쐬�ł���悤�ɂȂ��Ă��܂��B</p>
+    <h3><a name="AOPInterceptor">S2AOP.NETで用意されているInterceptor</a></h3>
+    <p>S2AOP.NETでは、以下のInterceptorを用意しています。また独自のInterceptorを簡単に作成できるようになっています。</p>
     <h4><a name="TraceInterceptor">(1) TraceInterceptor</a></h4>
-    <h5>�N���X��</h5>
+    <h5>クラス名</h5>
     <p>Seasar.Framework.Aop.Interceptors.TraceInterceptor</p>
-    <h5>����</h5>
-    <p>�g���[�X�������uCrosscutting Concern�v�Ƃ��Ĉ������߂�Interceptor�ł��B
-    Hashtable�N���X��TraceInterceptor��K�p����dicon�t�@�C���́A�ȉ��̂悤�ɂȂ�܂��B�ΏۂƂ��郁�\�b�h��Add�Ƃ��܂��B</p>
+    <h5>説明</h5>
+    <p>トレース処理を「Crosscutting Concern」として扱うためのInterceptorです。
+    HashtableクラスにTraceInterceptorを適用したdiconファイルは、以下のようになります。対象とするメソッドはAddとします。</p>
 <pre>&lt;component class="System.Collections.Hashtable"&gt;
     &lt;aspect pointcut="Add"&gt;
         &lt;component class="Seasar.Framework.Aop.Interceptors.TraceInterceptor"/&gt;
     &lt;/aspect&gt;
 &lt;/component&gt;
 </pre>
-    <p>�ڂ����g�p���@��<a href="#TraceInterceptorSample">TraceInterceptor</a>���Q�Ƃ��Ă��������B</p>
+    <p>詳しい使用方法は<a href="#TraceInterceptorSample">TraceInterceptor</a>を参照してください。</p>
     
     <h4><a name="MockInterceptor">(2) MockInterceptor</a></h4>
-    <h5>�N���X��</h5>
+    <h5>クラス名</h5>
     <p>Seasar.Framework.Aop.Interceptors.MockInterceptor</p>
-    <h5>����</h5>
-    <p>Mock���g�����e�X�g���ȒP�ɍs�����߂�Interceptor�ł��B
-    <!--�ڂ��������̓e�X�g�Z�@��<a href="http://homepage3.nifty.com/seasar/testtech.html#MockMake">���b�N���쐬���邽�߂̐ݒ�</a>���Q�Ƃ��Ă��������B</p>-->
+    <h5>説明</h5>
+    <p>Mockを使ったテストを簡単に行うためのInterceptorです。
+    <!--詳しい説明はテスト技法の<a href="http://homepage3.nifty.com/seasar/testtech.html#MockMake">モックを作成するための設定</a>を参照してください。</p>-->
 
-<h4><a name="OriginalInterceptor">(3) �Ǝ������ɂ��Interceptor</a></h4>
-    <h5>����</h5>
-    <p>�Ǝ���Interceptor���쐬����ꍇ�́A���̃C���^�[�t�F�[�X�܂��́A���ۃN���X���������܂��B</p>
+<h4><a name="OriginalInterceptor">(3) 独自実装によるInterceptor</a></h4>
+    <h5>説明</h5>
+    <p>独自にInterceptorを作成する場合は、次のインターフェースまたは、抽象クラスを実装します。</p>
     <dl>
     	<dt style="text-indent: 1em;">Seasar.Framework.Aop.IMethodInterceptor</dt>
     	<dt style="text-indent: 1em;">Seasar.Framework.Aop.Interceptors.AbstractInterceptor</dt>
     </dl>
-    <p>�C���^�[�t�F�[�X����������ꍇ�́A�ȉ���Invoke���\�b�h���������܂��B</p>
+    <p>インターフェースを実装する場合は、以下のInvokeメソッドを実装します。</p>
     <dl>
     	<dt style="text-indent: 1em;">public object Invoke(IMethodInvocation invocation)</dt>
     </dl>
-    <p>���ۃN���X���p������ꍇ�́A�ȉ���Invoke���\�b�h���I�[�o�[���C�h���܂��B</p>
+    <p>抽象クラスを継承する場合は、以下のInvokeメソッドをオーバーライドします。</p>
     <dl>
     	<dt style="text-indent: 1em;">public override object Invoke(IMethodInvocation invocation)</dt>
     </dl>
     <p>AbstractInterceptor
-�́AIMethodInterceptor�������������ۃN���X�ł��BAbstractInterceptor�ɂ́A
-Proxy�I�u�W�F�N�g���擾����CreateProxy���\�b�h�ƃA�X�y�N�g��K�p����R���|�[�l���g��`���擾����GetComponentDef���\�b�h������܂��B
-�A�X�y�N�g��K�p�����N���X����K�v�Ƃ���Interceptor(�Ⴆ�΁A���O�o�͂��s��Interceptor)���쐬����ꍇ�́A
-AbstractInterceptor���g�p���邱�ƂŊȒP�ɃN���X�����擾���邱�Ƃ��ł��܂��B</p>
+は、IMethodInterceptorを実装した抽象クラスです。AbstractInterceptorには、
+Proxyオブジェクトを取得するCreateProxyメソッドとアスペクトを適用するコンポーネント定義を取得するGetComponentDefメソッドがあります。
+アスペクトを適用したクラス名を必要とするInterceptor(例えば、ログ出力を行うInterceptor)を作成する場合は、
+AbstractInterceptorを使用することで簡単にクラス名を取得することができます。</p>
     <dl>
     	<dt style="text-indent: 1em;">public object CreateProxy(Type proxyType)</dt>
     	<dt style="text-indent: 1em;">protected IComponentDef GetComponentDef(IMethodInvocation invocation)</dt>
     </dl>
    	<p>IMethodInvocation
-�̃v���p�e�BTarget�AMethod�AArguments�őΏۂƂȂ�I�u�W�F�N�g�A���\�b�h�A�������擾�ł��܂��B
-proceed()���Ăяo���Ǝ��ۂ̃��\�b�h���Ăяo������s���ʂ��擾���邱�Ƃ��ł��܂��B�ȉ��̂悤�ȓƎ���Interceptor���쐬�����Ƃ��܂��B</p>
-    <h5>�쐬��</h5>
+のプロパティTarget、Method、Argumentsで対象となるオブジェクト、メソッド、引数を取得できます。
+proceed()を呼び出すと実際のメソッドが呼び出され実行結果を取得することができます。以下のような独自のInterceptorを作成したとします。</p>
+    <h5>作成例</h5>
     
 <pre>
 public class TestInterceptor : IMethodInterceptor
 {
     public object Invoke(IMethodInvocation invocation)
     {
-        Console.WriteLine("Before");    <span style="color:green;font-weight:bold;">// �ĂԑO��Before</span>
+        Console.WriteLine("Before");    <span style="color:green;font-weight:bold;">// 呼ぶ前はBefore</span>
         
         <b>object ret = invocation.Proceed();</b>
         
-        Console.WriteLine("After");     <span style="color:green;font-weight:bold;">// �Ă񂾌��After</span>
+        Console.WriteLine("After");     <span style="color:green;font-weight:bold;">// 呼んだ後はAfter</span>
         
         return ret;
     }
 }
 </pre>
     
-    <p>IMethodInvocation#Proceed()���ĂԑO�ƌ��2������A�ĂԑO�� Before�̌������s���A�Ă񂾌��After�̌������s���܂��B
-    1�̃R���|�[�l���g�ɕ����̃A�X�y�N�g����`����Ă���ꍇ�́A�ȉ��̂悤���s����܂��B</p>
+    <p>IMethodInvocation#Proceed()を呼ぶ前と後で2分され、呼ぶ前は Beforeの個所を実行し、呼んだ後はAfterの個所を実行します。
+    1つのコンポーネントに複数のアスペクトが定義されている場合は、以下のよう実行されます。</p>
    	<ol>
-    	<li>Aspect�̓o�^����IMethodInterceptor��Before���������s����܂��B</li>
-    	<li>�Ō��IMethodInterceptor��Before���������s������ɃR���|�[�l���g���g�̃��\�b�h���Ăяo����܂��B</li>
-    	<li>Aspect�̓o�^�̋t����IMethodInterceptor��After���������s����܂��B</li>
+    	<li>Aspectの登録順にIMethodInterceptorのBefore部分が実行されます。</li>
+    	<li>最後のIMethodInterceptorのBefore部分を実行した後にコンポーネント自身のメソッドが呼び出されます。</li>
+    	<li>Aspectの登録の逆順にIMethodInterceptorのAfter部分が実行されます。</li>
    	</ol>
-    <p>�ڂ����g�p���@��<a href="#OriginalInterceptorSample">�Ǝ������ɂ��Interceptor</a>���Q�Ƃ��Ă��������B</p>
-    <h3><a name="nodicon">dicon�t�@�C�����g�p���Ȃ��ŃA�X�y�N�g��g�ݍ��ޕ��@</a></h3>
-    <p>dicon�t�@�C���̐ݒ���s�킸�v���O������ŃA�X�y�N�g��g�ݍ��ނ��Ƃ��ł��܂��B�쐬���@�͎��̂悤�ɂȂ�܂��B</p>
+    <p>詳しい使用方法は<a href="#OriginalInterceptorSample">独自実装によるInterceptor</a>を参照してください。</p>
+    <h3><a name="nodicon">diconファイルを使用しないでアスペクトを組み込む方法</a></h3>
+    <p>diconファイルの設定を行わずプログラム上でアスペクトを組み込むこともできます。作成方法は次のようになります。</p>
     <ul>
 	    <li>Seasar.Framework.Aop.Impl.PointcutImpl
-�̃R���X�g���N�^�̈����őΏۂƂȂ郁�\�b�h�����w��(������)���܂��B
-System.Collections.Hashtable�̂悤�ɃC���^�[�t�F�[�X���������Ă���Ȃ�Anew
-PointcutImpl(typeof(Hashtable))�̂悤��Type�N���X���w�肷�邱�ƂŁA
-���̃N���X���������Ă���C���^�[�t�F�[�X�̃��\�b�h�����ׂĎ����I�ɓK�p�����邱�Ƃ��ł��܂��B</li>
-        <li>Seasar.Framework.Aop.Impl.AspectImpl�̃R���X�g���N�^�̑�1������Interceptor���w�肵�āA
-        ��2������PointcutImpl�ō쐬����Pointcut���w�肵�܂��B</li>
-        <li>Seasar.Framework.Aop.Proxy.AopProxy�̃R���X�g���N�^�ŁA
-        �ΏۂƂȂ�N���X�i���̏ꍇ��System.MarshalByRefObject�̔h���N���X�ł���K�v������܂��j�A
-        �������͑ΏۂƂȂ�N���X���������Ă���C���^�[�t�F�[�X��AspectImpl�ō쐬����Aspect�̔z����w�肵�܂��B</li>
-        <li>Seasar.Framework.Aop.Proxy.AopProxy#Create()��Aspect���K�p���ꂽ�I�u�W�F�N�g���擾�ł��܂��B</li>
+のコンストラクタの引数で対象となるメソッド名を指定(複数可)します。
+System.Collections.Hashtableのようにインターフェースを実装しているなら、new
+PointcutImpl(typeof(Hashtable))のようにTypeクラスを指定することで、
+そのクラスが実装しているインターフェースのメソッドをすべて自動的に適用させることもできます。</li>
+        <li>Seasar.Framework.Aop.Impl.AspectImplのコンストラクタの第1引数にInterceptorを指定して、
+        第2引数にPointcutImplで作成したPointcutを指定します。</li>
+        <li>Seasar.Framework.Aop.Proxy.AopProxyのコンストラクタで、
+        対象となるクラス（この場合はSystem.MarshalByRefObjectの派生クラスである必要があります）、
+        もしくは対象となるクラスが実装しているインターフェースとAspectImplで作成したAspectの配列を指定します。</li>
+        <li>Seasar.Framework.Aop.Proxy.AopProxy#Create()でAspectが適用されたオブジェクトを取得できます。</li>
 	</ul>
-    <p>System.Collections.Hashtable�N���X��TraceInterceptor���v���O������œK�p����ꍇ�́A���̂悤�ɂȂ�܂��B
-    �ΏۂƂȂ郁�\�b�h��getTime()�Ƃ��܂��B</p>
+    <p>System.Collections.HashtableクラスにTraceInterceptorをプログラム上で適用する場合は、次のようになります。
+    対象となるメソッドはgetTime()とします。</p>
 <pre>IPointcut pointcut = new PointcutImpl(new string[]{"Add"});
 IAspect aspect = new AspectImpl(new TraceInterceptor(), pointcut);
 AopProxy aopProxy = new AopProxy(typeof(IDictionary),
@@ -313,23 +313,23 @@ IDictionary proxy = (IDictionary) aopProxy.Create();
 proxy.Add("aaa", "bbb");
 </pre>
 	<h2><a name="Example">Example</a></h2>
-	<p>�ȉ��̃T���v�������s����ꍇ�́A<a href="setup.html">�Z�b�g�A�b�v</a>���s���K�v������܂��B</p>
+	<p>以下のサンプルを実行する場合は、<a href="setup.html">セットアップ</a>を行う必要があります。</p>
     <h3><a name="TraceInterceptorSample">TraceInterceptor</a></h3>
     <p>TraceInterceptor
-���g�p����System.Collections.ArrayList�N���X��
-System.Collections.Hashtable�N���X��Add���\�b�h��Clear���\�b�h���Ă΂ꂽ�ꍇ�Ƀg���[�X���o�͂����܂��傤�B
-�쐬����t�@�C���͈ȉ��̂Ƃ���ł��B</p>
+を使用してSystem.Collections.ArrayListクラスと
+System.Collections.HashtableクラスのAddメソッドとClearメソッドが呼ばれた場合にトレースを出力させましょう。
+作成するファイルは以下のとおりです。</p>
     <ul>
-    	<li type="circle">�R���|�[�l���g���`����dicon�t�@�C��(Trace.dicon)</li>
-		<li type="circle">�ݒ肪�������s���Ă��邩�m�F������s�t�@�C��(AopTraceClient.cs)</li>
+    	<li type="circle">コンポーネントを定義するdiconファイル(Trace.dicon)</li>
+		<li type="circle">設定が正しく行われているか確認する実行ファイル(AopTraceClient.cs)</li>
 	</ul>
-    <p><b>dicon�t�@�C���̍쐬</b></p>
+    <p><b>diconファイルの作成</b></p>
     <ul>
-        <li type="circle">TraceInterceptor���R���|�[�l���g��`���܂��Bname������traceInterceptor�Ƃ��܂��B</li>
-	    <li type="circle">System.Collections.ArrayList�N���X�̃R���|�[�l���g�̒�`���܂��B
-	    aspect�^�O��Interceptor���w�肵�܂��B</li>
-        <li type="circle">System.Collections.Hashtable�N���X�̃R���|�[�l���g�̒�`���܂��B
-        pointcut������Add���\�b�h��Clear���\�b�h���w�肵�܂��Baspect�^�O��Interceptor���w�肵�܂��B</li>
+        <li type="circle">TraceInterceptorをコンポーネント定義します。name属性をtraceInterceptorとします。</li>
+	    <li type="circle">System.Collections.ArrayListクラスのコンポーネントの定義します。
+	    aspectタグにInterceptorを指定します。</li>
+        <li type="circle">System.Collections.Hashtableクラスのコンポーネントの定義します。
+        pointcut属性にAddメソッドとClearメソッドを指定します。aspectタグにInterceptorを指定します。</li>
     </ul>
 	<p>Trace.dicon</p>
 <pre>&lt;?xml version="1.0" encoding="utf-8"?&gt;
@@ -353,15 +353,15 @@ System.Collections.Hashtable�N���X��Add���\�b�h��Clear���\�b�h���Ă΂ꂽ�ꍇ�Ƀg
         class="Seasar.Examples.Reference.Aop.AopTraceClient" />
 &lt;/components&gt;
 </pre>
-	<p><b>���s�t�@�C���̍쐬</b></p>
+	<p><b>実行ファイルの作成</b></p>
     <ul>
-		<li type="circle">Seasar.Framework.Container.S2Container#Create()���\�b�h�̍ŏ��̈����ɁA
-		�쐬����dicon�t�@�C��(Trace.dicon)�̃p�X���w�肵�ăR���e�i���쐬���܂��B</li>
-        <li type="circle">Seasar.Framework.Container.S2Container#GetComponent()���\�b�h�̑�P������
-        �R���|�[�l���g�ɓo�^�����N���X���������Ă���C���^�[�t�F�[�X��Type�N���X
-        �itypeof(IList)�Atypeof(IDictionary)���w�肵�ăR���|�[�l���g���擾���܂��B</li>
-        <li type="circle">�g���[�X��Aspect����邩�m�F���邽�߂Ɏ擾�����R���|�[�l���g(IList)��Count�v���p�e�B�����s���܂��B</li>
-        <li type="circle">���l�Ɏ擾�����R���|�[�l���g(IDictionary)��Add���\�b�h�AClear���\�b�h�����s���܂��B</li>
+		<li type="circle">Seasar.Framework.Container.S2Container#Create()メソッドの最初の引数に、
+		作成したdiconファイル(Trace.dicon)のパスを指定してコンテナを作成します。</li>
+        <li type="circle">Seasar.Framework.Container.S2Container#GetComponent()メソッドの第１引数に
+        コンポーネントに登録したクラスが実装しているインターフェースのTypeクラス
+        （typeof(IList)、typeof(IDictionary)を指定してコンポーネントを取得します。</li>
+        <li type="circle">トレースがAspectされるか確認するために取得したコンポーネント(IList)のCountプロパティを実行します。</li>
+        <li type="circle">同様に取得したコンポーネント(IDictionary)のAddメソッド、Clearメソッドを実行します。</li>
 	</ul>
     <p>AopTraceClient.cs</p>
 <pre>
@@ -390,8 +390,8 @@ namespace Seasar.Examples.Reference.Aop
     }
 }
 </pre>
-	<p><b>���s����</b></p>
-    <p>���\�b�h���Ă΂��O�ƌ�Ńg���[�X���o�͂���Ă���̂��m�F�ł��܂��B</p>
+	<p><b>実行結果</b></p>
+    <p>メソッドが呼ばれる前と後でトレースが出力されているのが確認できます。</p>
 <pre>
 DEBUG 2005-09-26 23:12:16,138 [2564] BEGIN System.Collections.ICollection#get_Count()
 DEBUG 2005-09-26 23:12:16,138 [2564] END System.Collections.ICollection#get_Count() : 0
@@ -400,27 +400,27 @@ DEBUG 2005-09-26 23:12:16,138 [2564] END System.Collections.IDictionary#Add(aaa,
 DEBUG 2005-09-26 23:12:16,138 [2564] BEGIN System.Object#GetHashCode()
 DEBUG 2005-09-26 23:12:16,138 [2564] END System.Object#GetHashCode() : 23
 </pre>
-	<p>���̃T���v���́ASeasar.Examples�v���W�F�N�g��Seasar.Examples/Reference/Aop�ȉ��ɗp�ӂ���Ă��܂��B</p>
+	<p>このサンプルは、Seasar.ExamplesプロジェクトのSeasar.Examples/Reference/Aop以下に用意されています。</p>
 
     <br>
-    <h3><a name="OriginalInterceptorSample">�Ǝ������ɂ��Interceptor</a></h3>
-    <p>�N���X���A���\�b�h���A�����ƃ��\�b�h�̏������Ԃ��v�����ăg���[�X����Interceptor���쐬���܂��傤�B
-    �܂��A����Interceptor���g�p���ďd���������s�������Ԃ��g���[�X�����܂��傤�B�쐬����t�@�C���͈ȉ��̂Ƃ���ł��B</p>
+    <h3><a name="OriginalInterceptorSample">独自実装によるInterceptor</a></h3>
+    <p>クラス名、メソッド名、引数とメソッドの処理時間を計測してトレースするInterceptorを作成しましょう。
+    また、そのInterceptorを使用して重い処理を行った時間をトレースさせましょう。作成するファイルは以下のとおりです。</p>
     <ul>
-		<li type="circle">�N���X���A���\�b�h���A�����ƃ��\�b�h�̏������Ԃ��v�����ďo�͂���Interceptor(MeasurementInterceptor.cs)</li>
-    	<li type="circle">�d���������s���N���X(HeavyProcess.cs)</li>
-    	<li type="circle">�R���|�[�l���g�̒�`���s��dicon�t�@�C��(Measurement.dicon)</li>
-    	<li type="circle">�ݒ肪�������s���Ă��邩�m�F������s�t�@�C��(AopMeasurementClient.cs)</li>
+		<li type="circle">クラス名、メソッド名、引数とメソッドの処理時間を計測して出力するInterceptor(MeasurementInterceptor.cs)</li>
+    	<li type="circle">重い処理を行うクラス(HeavyProcess.cs)</li>
+    	<li type="circle">コンポーネントの定義を行うdiconファイル(Measurement.dicon)</li>
+    	<li type="circle">設定が正しく行われているか確認する実行ファイル(AopMeasurementClient.cs)</li>
     </ul>
-	<p><b>�Ǝ�������Intercepter�̍쐬</b></p>
+	<p><b>独自実装のIntercepterの作成</b></p>
 	<ul>
-    	<li type="circle">Seasar.Framework.Aop.Interceptors.AbstractInterceptor�N���X���������܂��B</li>
-	    <li type="circle">Invoke(IMethodInvocation invocation)���\�b�h���������܂��B</li>
-        <li type="circle">GetComponentDef(invocation).ComponentType.FullName�ŃN���X�̊��S���薼���擾���܂��B</li>
-        <li type="circle">invocation.Method.Name�Ń��\�b�h�����擾���܂��B</li>
-        <li type="circle">invocation.Arguments�ň������擾���܂��B</li>
-        <li type="circle">invocation.Proceed()�Ŏ��ۂ̃��\�b�h���Ă΂��̂ŁA���̑O�̎��Ԃ��擾���܂��B</li>
-        <li type="circle">invocation.Proceed()�Ŏ��ۂ̃��\�b�h���Ă΂ꂽ��̎��Ԃ��擾����finally�ŏo�͂��܂��B</li>
+    	<li type="circle">Seasar.Framework.Aop.Interceptors.AbstractInterceptorクラスを実装します。</li>
+	    <li type="circle">Invoke(IMethodInvocation invocation)メソッドを実装します。</li>
+        <li type="circle">GetComponentDef(invocation).ComponentType.FullNameでクラスの完全限定名を取得します。</li>
+        <li type="circle">invocation.Method.Nameでメソッド名を取得します。</li>
+        <li type="circle">invocation.Argumentsで引数を取得します。</li>
+        <li type="circle">invocation.Proceed()で実際のメソッドが呼ばれるので、その前の時間を取得します。</li>
+        <li type="circle">invocation.Proceed()で実際のメソッドが呼ばれた後の時間を取得してfinallyで出力します。</li>
 	</ul>
     <p>MeasurementInterceptor.cs</p>
 <pre>
@@ -477,9 +477,9 @@ namespace Seasar.Examples.Reference.Aop
 
 </pre>
 
-    <p><b>�d���������s���N���X�̍쐬</b></p>
+    <p><b>重い処理を行うクラスの作成</b></p>
     <ul>
-        <li type="circle">�d���������s�����Ƃ������Ƃɂ��邽�߂�5�b��Sleep���܂��B</li>
+        <li type="circle">重い処理を行ったということにするために5秒間Sleepします。</li>
     </ul>
     <p>HeavyProcess.cs</p>
 <pre>
@@ -504,10 +504,10 @@ namespace Seasar.Examples.Reference.Aop
 }
 </pre>
 
-    <b>dicon�t�@�C���̍쐬</b>
+    <b>diconファイルの作成</b>
     <ul>
-        <li type="circle">�쐬����MeasurementInterceptor���R���|�[�l���g��`���܂��Bname������measurement�Ƃ��܂��B</li>
-        <li type="circle">HeavyProcess�N���X��Heavy()���\�b�h��MeasurementInterceptor��aspect���܂��B</li>
+        <li type="circle">作成したMeasurementInterceptorをコンポーネント定義します。name属性をmeasurementとします。</li>
+        <li type="circle">HeavyProcessクラスのHeavy()メソッドにMeasurementInterceptorをaspectします。</li>
     </ul>
     <p>Measurement.dicon</p>
 
@@ -527,13 +527,13 @@ namespace Seasar.Examples.Reference.Aop
 &lt;/components&gt;
 </pre>
 
-    <p><b>���s�t�@�C���̍쐬</b></p>
+    <p><b>実行ファイルの作成</b></p>
     <ul>
-        <li type="circle">Seasar.Framework.Container.S2Container#Create()���\�b�h�̑�P�����ɍ쐬����dicon�t�@�C��
-        (Measurement.dicon)�̃p�X���w�肵�ăR���e�i���쐬���܂��B</li>
-        <li type="circle">Seasar.Framework.Container.S2Container#GetComponent()���\�b�h��
-        ��P�����ɃR���|�[�l���g�ɓo�^�����N���X���itypeof(HeavyProcess))���w�肵�Ď擾���܂��B</li>
-        <li type="circle">�R���e�i����擾����HeavyProcess#Heavy()���\�b�h�����s���܂��B</li>
+        <li type="circle">Seasar.Framework.Container.S2Container#Create()メソッドの第１引数に作成したdiconファイル
+        (Measurement.dicon)のパスを指定してコンテナを作成します。</li>
+        <li type="circle">Seasar.Framework.Container.S2Container#GetComponent()メソッドの
+        第１引数にコンポーネントに登録したクラス名（typeof(HeavyProcess))を指定して取得します。</li>
+        <li type="circle">コンテナから取得したHeavyProcess#Heavy()メソッドを実行します。</li>
     </ul>
     <p>AopMeasurementClient.cs</p>
 <pre>
@@ -558,11 +558,11 @@ namespace Seasar.Examples.Reference.Aop
 }
 </pre>
 
-    <p><b>���s����</b></p>
-    <p>�N���X���A���\�b�h���A�����ƃ��\�b�h�̏������Ԃ��g���[�X����Ă���̂��m�F�ł��܂��B</p>
+    <p><b>実行結果</b></p>
+    <p>クラス名、メソッド名、引数とメソッドの処理時間がトレースされているのが確認できます。</p>
 <pre>Seasar.Examples.Reference.Aop.HeavyProcess#Heavy() : 5007
 </pre>
-    <p>���̃T���v���́ASeasar.Examples�v���W�F�N�g��Seasar.Examples/Reference/Aop�ȉ��ɗp�ӂ���Ă��܂��B</p>
+    <p>このサンプルは、Seasar.ExamplesプロジェクトのSeasar.Examples/Reference/Aop以下に用意されています。</p>
 
 
 <!-- document end -->

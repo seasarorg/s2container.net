@@ -1,5 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html><head><!-- don't edit start --><title>Seasar - DI Container with AOP -</title><meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+ï»¿<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><!-- don't edit start --><title>Seasar - DI Container with AOP -</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="Content-Style-Type" content="text/css">
 <link href="seasar_b.css" type="text/css" rel="stylesheet" media="screen"><link href="seasar_p.css" type="text/css" rel="stylesheet" media="print"><script src="seasar_b.js" type="text/JavaScript" language="JavaScript"></script></head>
 
@@ -24,57 +24,57 @@
 <!-- don't edit end -->
 <!-- document start -->
 <ul>
-<li><a href="#Tx">ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ÌŽ©“®§Œä</a>
+<li><a href="#Tx">ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã®è‡ªå‹•åˆ¶å¾¡</a>
 <ul>
-<li><a href="#TransAttribute">ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‘®«</a>
-<li><a href="#LocalTx">ƒ[ƒJƒ‹ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“</a>
-<li><a href="#DTCTx">Microsoft •ªŽUƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ ƒR[ƒfƒBƒl[ƒ^ (MS DTC)‚É‚æ‚é•ªŽUƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“</a>
+<li><a href="#TransAttribute">ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³å±žæ€§</a>
+<li><a href="#LocalTx">ãƒ­ãƒ¼ã‚«ãƒ«ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³</a>
+<li><a href="#DTCTx">Microsoft åˆ†æ•£ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ ã‚³ãƒ¼ãƒ‡ã‚£ãƒãƒ¼ã‚¿ (MS DTC)ã«ã‚ˆã‚‹åˆ†æ•£ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³</a>
 
 </ul>
-<li><a href="#Exception">—áŠO”­¶Žž‚Ì“®ì</a>
+<li><a href="#Exception">ä¾‹å¤–ç™ºç”Ÿæ™‚ã®å‹•ä½œ</a>
 <!--
 <ul>
 <li><a href="#ExExample">Example</a>
-<li><a href="#EJBTx">EJBŒÝŠ·‚ÌAdvice</a>
+<li><a href="#EJBTx">EJBäº’æ›ã®Advice</a>
 </ul>
 -->
 </ul>
-<h2><a name="Tx">ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ÌŽ©“®§Œä</a></h2>
-<p>S2Tx.NET‚Ì‹@”\‚ðŽg‚Á‚ÄA.NETƒIƒuƒWƒFƒNƒg‚É‘Î‚µ‚ÄA
-<a href="aop.html">Aspect</a>‚Åƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ÌŽ©“®ŠÇ—‹@”\‚ð‘g‚Ýž‚Þ‚±‚Æ‚ª‚Å‚«‚Ü‚·B
-Aspect‚ð“K—p‚É‚Â‚¢‚Ä‚ÍA‚±‚¿‚ç‚Ì<a href="aop.html#Warning">’ˆÓ“_</a>‚ðŠm”F‚µ‚Ä‰º‚³‚¢B
-ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ÌŽ©“®ŠÇ—‚É‚ÍAƒ[ƒJƒ‹ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ÆMicrosoft •ªŽUƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ ƒR[ƒfƒBƒl[ƒ^ (MS DTC)
-‚Ì2‚Â‚ðƒTƒ|[ƒg‚µ‚Ä‚¢‚Ü‚·B
-‘g‚Þž‚Þ‚±‚Æ‚Ì‚Å‚«‚éƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‘®«‚ÍŽŸ‚Ì‚Æ‚¨‚è‚Å‚·B</p>
-<h3><a name="TransAttribute">ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‘®«</a></h3>
+<h2><a name="Tx">ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã®è‡ªå‹•åˆ¶å¾¡</a></h2>
+<p>S2Tx.NETã®æ©Ÿèƒ½ã‚’ä½¿ã£ã¦ã€.NETã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«å¯¾ã—ã¦ã€
+<a href="aop.html">Aspect</a>ã§ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã®è‡ªå‹•ç®¡ç†æ©Ÿèƒ½ã‚’çµ„ã¿è¾¼ã‚€ã“ã¨ãŒã§ãã¾ã™ã€‚
+Aspectã‚’é©ç”¨ã«ã¤ã„ã¦ã¯ã€ã“ã¡ã‚‰ã®<a href="aop.html#Warning">æ³¨æ„ç‚¹</a>ã‚’ç¢ºèªã—ã¦ä¸‹ã•ã„ã€‚
+ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã®è‡ªå‹•ç®¡ç†ã«ã¯ã€ãƒ­ãƒ¼ã‚«ãƒ«ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã¨Microsoft åˆ†æ•£ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ ã‚³ãƒ¼ãƒ‡ã‚£ãƒãƒ¼ã‚¿ (MS DTC)
+ã®2ã¤ã‚’ã‚µãƒãƒ¼ãƒˆã—ã¦ã„ã¾ã™ã€‚
+çµ„ã‚€è¾¼ã‚€ã“ã¨ã®ã§ãã‚‹ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³å±žæ€§ã¯æ¬¡ã®ã¨ãŠã‚Šã§ã™ã€‚</p>
+<h3><a name="TransAttribute">ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³å±žæ€§</a></h3>
 
-<p>S2Container.NET‚ª•W€‚Å—pˆÓ‚µ‚Ä‚¢‚éTx.diconiƒ[ƒJƒ‹ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“—pj‚ÆDTCTx.diconiMS DTC—pj‚É‚ÍA
-ŽŸ‚Ìƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‘®«‚É‘Î‰ž‚µ‚½<a href="aop.html#Advice">Advice</a>‚ª’è‹`‚³‚ê‚Ä‚¢‚Ü‚·B
-ƒRƒ“ƒ|[ƒlƒ“ƒg–¼‚ª<a href="aop.html#Advice">Advice</a>‚Ì–¼‘O‚Å‚·B</p>
+<p>S2Container.NETãŒæ¨™æº–ã§ç”¨æ„ã—ã¦ã„ã‚‹Tx.diconï¼ˆãƒ­ãƒ¼ã‚«ãƒ«ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ç”¨ï¼‰ã¨DTCTx.diconï¼ˆMS DTCç”¨ï¼‰ã«ã¯ã€
+æ¬¡ã®ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³å±žæ€§ã«å¯¾å¿œã—ãŸ<a href="aop.html#Advice">Advice</a>ãŒå®šç¾©ã•ã‚Œã¦ã„ã¾ã™ã€‚
+ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆåãŒ<a href="aop.html#Advice">Advice</a>ã®åå‰ã§ã™ã€‚</p>
 <p>
-Tx.dicon‚ÆDTCTx.dicon‚ÍAsource/SeasarƒtƒHƒ‹ƒ_‚É—pˆÓ‚³‚ê‚Ä‚¢‚Ü‚·B
+Tx.diconã¨DTCTx.diconã¯ã€source/Seasarãƒ•ã‚©ãƒ«ãƒ€ã«ç”¨æ„ã•ã‚Œã¦ã„ã¾ã™ã€‚
 </p>
 <table border="1">
 <tr bgcolor="#d1f3f4" align="center">
-<th width="92">‘®«</th>
-<th width="170">ƒRƒ“ƒ|[ƒlƒ“ƒg–¼</th>
-<th width="467">à–¾</th></tr>
+<th width="92">å±žæ€§</th>
+<th width="170">ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆå</th>
+<th width="467">èª¬æ˜Ž</th></tr>
 
 <tr>
 	<td rowspan="2">Required</td>
 	<td>
 		<code>LocalTx.RequiredTx</code>
-		<br />iƒ[ƒJƒ‹ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“—pj
+		<br />ï¼ˆãƒ­ãƒ¼ã‚«ãƒ«ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ç”¨ï¼‰
 	</td>
 	<td rowspan="2" style="vertical-align:top;">
-		ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ª‘¶Ý‚·‚éê‡‚Í‚±‚ê‚ð‹¤—L‚µA
-		•K—v‚É‰ž‚¶‚ÄV‚µ‚¢ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ðì¬‚µ‚Ü‚·B
+		ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ãŒå­˜åœ¨ã™ã‚‹å ´åˆã¯ã“ã‚Œã‚’å…±æœ‰ã—ã€
+		å¿…è¦ã«å¿œã˜ã¦æ–°ã—ã„ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’ä½œæˆã—ã¾ã™ã€‚
 	</td>
 </tr>
 <tr>
 	<td>
 		<code>DTCTx.RequiredTx</code>
-		<br />iMS DTC—pj
+		<br />ï¼ˆMS DTCç”¨ï¼‰
 	</td>
 </tr>
 
@@ -82,17 +82,17 @@ Tx.dicon‚ÆDTCTx.dicon‚ÍAsource/SeasarƒtƒHƒ‹ƒ_‚É—pˆÓ‚³‚ê‚Ä‚¢‚Ü‚·B
 	<td rowspan="2">RequiresNew</td>
 	<td>
 		<code>LocalTx.RequiresNewTx</code>
-		<br />iƒ[ƒJƒ‹ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“—pj
+		<br />ï¼ˆãƒ­ãƒ¼ã‚«ãƒ«ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ç”¨ï¼‰
 	</td>
 	<td rowspan="2" style="vertical-align:top;">
-		Œ»Ý‚ÌƒRƒ“ƒeƒLƒXƒg‚Ìó‘Ô‚Æ‚ÍŠÖŒW‚È‚­A
-		V‚µ‚¢ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ÅƒRƒ“ƒ|[ƒlƒ“ƒg‚ðì¬‚µ‚Ü‚·B
+		ç¾åœ¨ã®ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆã®çŠ¶æ…‹ã¨ã¯é–¢ä¿‚ãªãã€
+		æ–°ã—ã„ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã§ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ä½œæˆã—ã¾ã™ã€‚
 	</td>
 </tr>
 <tr>
 	<td>
 		<code>DTCTx.RequiresNewTx</code>
-		<br />iMS DTC—pj
+		<br />ï¼ˆMS DTCç”¨ï¼‰
 	</td>
 </tr>
 
@@ -100,16 +100,16 @@ Tx.dicon‚ÆDTCTx.dicon‚ÍAsource/SeasarƒtƒHƒ‹ƒ_‚É—pˆÓ‚³‚ê‚Ä‚¢‚Ü‚·B
 	<td rowspan="2">Supported</td>
 	<td>
 		<code>LocalTx.SupportedTx</code>
-		<br />iƒ[ƒJƒ‹ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“—pj
+		<br />ï¼ˆãƒ­ãƒ¼ã‚«ãƒ«ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ç”¨ï¼‰
 	</td>
 	<td rowspan="2" style="vertical-align:top;">
-		ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ª‘¶Ý‚·‚éê‡‚Í‚±‚ê‚ð‹¤—L‚µ‚Ü‚·B
+		ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ãŒå­˜åœ¨ã™ã‚‹å ´åˆã¯ã“ã‚Œã‚’å…±æœ‰ã—ã¾ã™ã€‚
 	</td>
 </tr>
 <tr>
 	<td>
 		<code>DTCTx.SupportedTx</code>
-		<br />iMS DTC—pj
+		<br />ï¼ˆMS DTCç”¨ï¼‰
 	</td>
 </tr>
 
@@ -117,30 +117,30 @@ Tx.dicon‚ÆDTCTx.dicon‚ÍAsource/SeasarƒtƒHƒ‹ƒ_‚É—pˆÓ‚³‚ê‚Ä‚¢‚Ü‚·B
 	<td rowspan="2">NotSupported</td>
 	<td>
 		<code>Tx.NotSupportedTx</code>
-		<br />iƒ[ƒJƒ‹ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“—pj
+		<br />ï¼ˆãƒ­ãƒ¼ã‚«ãƒ«ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ç”¨ï¼‰
 	</td>
 	<td rowspan="2" style="vertical-align:top;">
-		§Œä‚·‚éƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ª‚È‚¢ƒRƒ“ƒeƒLƒXƒg‚ÅƒRƒ“ƒ|[ƒlƒ“ƒg‚ðì¬‚µ‚Ü‚·B
+		åˆ¶å¾¡ã™ã‚‹ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ãŒãªã„ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆã§ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ä½œæˆã—ã¾ã™ã€‚
 	</td>
 </tr>
 <tr>
 	<td>
 		<code>DTCTx.NotSupportedTx</code>
-		<br />iMS DTC—pj
+		<br />ï¼ˆMS DTCç”¨ï¼‰
 	</td>
 </tr>
 </table>
 
-<h3><a name="LocalTx">ƒ[ƒJƒ‹ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“</a></h3>
+<h3><a name="LocalTx">ãƒ­ãƒ¼ã‚«ãƒ«ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³</a></h3>
 <p>
-ƒ[ƒJƒ‹ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ð—˜—p‚·‚é‚½‚ß‚É‚ÍASeasar.Extension.Tx.Impl.TxDataSource‚©‚ç
-ƒRƒlƒNƒVƒ‡ƒ“‚ðŽæ“¾‚µ‚Ü‚·BƒRƒlƒNƒVƒ‡ƒ“‚ÌƒI[ƒvƒ“AƒNƒ[ƒY‚Í
-<a href="aop.html#Advice">Advice(MethodInterceptor)</a>‚ªŠÇ—‚·‚é‚½‚ßA
-DAO (Data Access Object)‚Å‚Ís‚¢‚Ü‚¹‚ñBDAO‚ÉTxDataSource‚ðƒCƒ“ƒWƒFƒNƒVƒ‡ƒ“‚µ‚Ä‚à‚ç‚¤‚½‚ß‚É
-Seasar.Extension.ADO.IDataSourceŒ^‚ÌƒvƒƒpƒeƒB‚ð—pˆÓ‚µ‚Ü‚·B
+ãƒ­ãƒ¼ã‚«ãƒ«ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’åˆ©ç”¨ã™ã‚‹ãŸã‚ã«ã¯ã€Seasar.Extension.Tx.Impl.TxDataSourceã‹ã‚‰
+ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ã‚’å–å¾—ã—ã¾ã™ã€‚ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ã®ã‚ªãƒ¼ãƒ—ãƒ³ã€ã‚¯ãƒ­ãƒ¼ã‚ºã¯
+<a href="aop.html#Advice">Advice(MethodInterceptor)</a>ãŒç®¡ç†ã™ã‚‹ãŸã‚ã€
+DAO (Data Access Object)ã§ã¯è¡Œã„ã¾ã›ã‚“ã€‚DAOã«TxDataSourceã‚’ã‚¤ãƒ³ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³ã—ã¦ã‚‚ã‚‰ã†ãŸã‚ã«
+Seasar.Extension.ADO.IDataSourceåž‹ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’ç”¨æ„ã—ã¾ã™ã€‚
 </p>
-<p>ƒRƒlƒNƒVƒ‡ƒ“Aƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“AƒRƒ}ƒ“ƒhAƒpƒ‰ƒ[ƒ^‚ÌƒIƒuƒWƒFƒNƒg‚ÍdataSource‚©‚çì¬‚µ‚Ü‚·B
-]‹Æˆõ‚ðˆµ‚¤‚½‚ß‚ÌDAOƒCƒ“ƒ^[ƒtƒF[ƒX‚ÆDAOŽÀ‘•ƒNƒ‰ƒX‚ÍŽŸ‚Ì‚æ‚¤‚É‚È‚è‚Ü‚·B
+<p>ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ã€ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã€ã‚³ãƒžãƒ³ãƒ‰ã€ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¯dataSourceã‹ã‚‰ä½œæˆã—ã¾ã™ã€‚
+å¾“æ¥­å“¡ã‚’æ‰±ã†ãŸã‚ã®DAOã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã¨DAOå®Ÿè£…ã‚¯ãƒ©ã‚¹ã¯æ¬¡ã®ã‚ˆã†ã«ãªã‚Šã¾ã™ã€‚
 </p>
 <h4>EmployeeDao.cs</h4>
 <pre>
@@ -150,24 +150,24 @@ using Seasar.Extension.ADO;
 
 namespace Seasar.Examples.Reference.LocalTx
 {
-    // ]‹Æˆõ‚ðˆµ‚¤‚½‚ß‚ÌDAOƒCƒ“ƒ^[ƒtƒF[ƒX
+    // å¾“æ¥­å“¡ã‚’æ‰±ã†ãŸã‚ã®DAOã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹
     public interface IEmployeeDao
     {
         void Insert();
     }
 
-    // ]‹Æˆõ‚ðˆµ‚¤‚½‚ß‚ÌDAOŽÀ‘•ƒNƒ‰ƒX
+    // å¾“æ¥­å“¡ã‚’æ‰±ã†ãŸã‚ã®DAOå®Ÿè£…ã‚¯ãƒ©ã‚¹
     public class EmployeeDaoImpl : IEmployeeDao
     {
         private IDataSource dataSource;
 
-        // TxDataSource‚ðƒCƒ“ƒWƒFƒNƒVƒ‡ƒ“‚µ‚Ä‚à‚ç‚¤‚½‚ß‚ÌƒvƒƒpƒeƒB
+        // TxDataSourceã‚’ã‚¤ãƒ³ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³ã—ã¦ã‚‚ã‚‰ã†ãŸã‚ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£
         public IDataSource DataSource
         {
             set { dataSource = value; }
         }
 
-        #region IEmployeeDao ƒƒ“ƒo
+        #region IEmployeeDao ãƒ¡ãƒ³ãƒ
 
         public void Insert()
         {
@@ -180,7 +180,7 @@ namespace Seasar.Examples.Reference.LocalTx
                 cmd.Parameters.Add(dataSource.GetParameter("@ename", "Sugimoto"));
                 cmd.Parameters.Add(dataSource.GetParameter("@deptnum", 31));
                 cmd.ExecuteNonQuery();
-                Console.WriteLine("EMP‚ð’Ç‰Á‚µ‚Ü‚µ‚½B");
+                Console.WriteLine("EMPã‚’è¿½åŠ ã—ã¾ã—ãŸã€‚");
             }
         }
 
@@ -189,7 +189,7 @@ namespace Seasar.Examples.Reference.LocalTx
 }
 </pre>
 
-<p>IEmployeeDao‚ðŽÀs‚·‚éƒNƒ‰ƒX‚ÍŽŸ‚Ì‚æ‚¤‚É‚È‚è‚Ü‚·B</p>
+<p>IEmployeeDaoã‚’å®Ÿè¡Œã™ã‚‹ã‚¯ãƒ©ã‚¹ã¯æ¬¡ã®ã‚ˆã†ã«ãªã‚Šã¾ã™ã€‚</p>
 
 <h4>LocalTxClient.cs</h4>
 <pre>
@@ -208,23 +208,23 @@ namespace Seasar.Examples.Reference.LocalTx
 
         public void Main()
         {
-            // S2ƒRƒ“ƒeƒi‚ðì¬‚µ‚Ü‚·
+            // S2ã‚³ãƒ³ãƒ†ãƒŠã‚’ä½œæˆã—ã¾ã™
             IS2Container container = S2ContainerFactory.Create(PATH);
-            // S2ƒRƒ“ƒeƒi‚ð‰Šú‰»‚µ‚Ü‚·
+            // S2ã‚³ãƒ³ãƒ†ãƒŠã‚’åˆæœŸåŒ–ã—ã¾ã™
             container.Init();
             
-            // S2ƒRƒ“ƒeƒi‚©‚çIEmployeeDao‚ðŽÀ‘•‚·‚éƒRƒ“ƒ|[ƒlƒ“ƒg‚ðŽæ‚èo‚µ‚Ü‚·
+            // S2ã‚³ãƒ³ãƒ†ãƒŠã‹ã‚‰IEmployeeDaoã‚’å®Ÿè£…ã™ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å–ã‚Šå‡ºã—ã¾ã™
             IEmployeeDao dao = (IEmployeeDao) container.GetComponent(typeof(IEmployeeDao));
 
-            // ]‹Æˆõ‚ð’Ç‰Á‚µ‚Ü‚·
+            // å¾“æ¥­å“¡ã‚’è¿½åŠ ã—ã¾ã™
             dao.Insert();
         }
     }
 }
 </pre>
 
-<p>diconƒtƒ@ƒCƒ‹‚ÍŽŸ‚Ì‚æ‚¤‚É‚È‚è‚Ü‚·BRequired‘®«‚Ìƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ð“K—p‚·‚é‚½‚ß‚ÉA
-EmployeeDaoImpl‚Ìaspect‚ÉLocalTx.RequiredTx‚ðŽw’è‚µ‚Ä‚µ‚Ü‚·B</p>
+<p>diconãƒ•ã‚¡ã‚¤ãƒ«ã¯æ¬¡ã®ã‚ˆã†ã«ãªã‚Šã¾ã™ã€‚Requiredå±žæ€§ã®ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’é©ç”¨ã™ã‚‹ãŸã‚ã«ã€
+EmployeeDaoImplã®aspectã«LocalTx.RequiredTxã‚’æŒ‡å®šã—ã¦ã—ã¾ã™ã€‚</p>
 <h4>LocalTxClient.dicon</h4>
 <pre>
 &lt;?xml version="1.0" encoding="utf-8" ?&gt;
@@ -255,7 +255,7 @@ EmployeeDaoImpl‚Ìaspect‚ÉLocalTx.RequiredTx‚ðŽw’è‚µ‚Ä‚µ‚Ü‚·B</p>
     &lt;component name="SqlDataSource" class="Seasar.Extension.Tx.Impl.TxDataSource"&gt;
         &lt;property name="DataProvider"&gt;Ado.SqlClient&lt;/property&gt;
         &lt;property name="ConnectionString"&gt;
-            "Server=SQL Server‚Ì–¼Ì;database=s2dotnetdemo;Integrated Security=SSPI"
+            "Server=SQL Serverã®åç§°;database=s2dotnetdemo;Integrated Security=SSPI"
         &lt;/property&gt;
     &lt;/component&gt;
 
@@ -267,7 +267,7 @@ EmployeeDaoImpl‚Ìaspect‚ÉLocalTx.RequiredTx‚ðŽw’è‚µ‚Ä‚µ‚Ü‚·B</p>
         &lt;/arg&gt;
     &lt;/component&gt;
 	
-	EEE
+	ãƒ»ãƒ»ãƒ»
 
 &lt;/components&gt;
 </pre>
@@ -289,26 +289,26 @@ EmployeeDaoImpl‚Ìaspect‚ÉLocalTx.RequiredTx‚ðŽw’è‚µ‚Ä‚µ‚Ü‚·B</p>
 &lt;/components&gt;
 </pre>
 
-<h4>ŽÀsŒ‹‰Ê</h4>
+<h4>å®Ÿè¡Œçµæžœ</h4>
 <pre>
-DEBUG ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ðŠJŽn‚µ‚Ü‚µ‚½
-EMP‚ð’Ç‰Á‚µ‚Ü‚µ‚½B
-DEBUG ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ðƒRƒ~ƒbƒg‚µ‚Ü‚µ‚½
+DEBUG ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’é–‹å§‹ã—ã¾ã—ãŸ
+EMPã‚’è¿½åŠ ã—ã¾ã—ãŸã€‚
+DEBUG ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’ã‚³ãƒŸãƒƒãƒˆã—ã¾ã—ãŸ
 </pre>
 
-<h3><a name="DTCTx">Microsoft •ªŽUƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ ƒR[ƒfƒBƒl[ƒ^ (MS DTC)‚É‚æ‚é•ªŽUƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“</a></h3>
+<h3><a name="DTCTx">Microsoft åˆ†æ•£ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ ã‚³ãƒ¼ãƒ‡ã‚£ãƒãƒ¼ã‚¿ (MS DTC)ã«ã‚ˆã‚‹åˆ†æ•£ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³</a></h3>
 
 <p>
-MS DTC‚É‚æ‚é•ªŽUƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ð—˜—p‚·‚é‚½‚ß‚É‚ÍAMS DTC‚ª—˜—p‚Å‚«‚éŠÂ‹«‚Å‚È‚¯‚ê‚Î‚¢‚¯‚Ü‚¹‚ñB
-ƒ[ƒJƒ‹ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚Ì‚æ‚¤‚ÉTxDataSource‚©‚çƒRƒlƒNƒVƒ‡ƒ“‚ð‚Æ‚ç‚È‚¢‚Æ‚¢‚¯‚È‚¢‚Æ‚¢‚Á‚½§ŒÀ‚Í‚ ‚è‚Ü‚¹‚ñ‚ªA
-ƒf[ƒ^ƒvƒƒoƒCƒ_‚ÉˆË‘¶‚µ‚È‚¢ƒR[ƒfƒBƒ“ƒO‚ð‚·‚é‚½‚ß‚ÉASeasar.Extension.ADO.Impl.DataSourceImpl
-‚©‚çƒRƒlƒNƒVƒ‡ƒ“AƒRƒ}ƒ“ƒhAƒpƒ‰ƒ[ƒ^‚ÌƒIƒuƒWƒFƒNƒg‚ðì¬‚µ‚Ü‚·B
+MS DTCã«ã‚ˆã‚‹åˆ†æ•£ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’åˆ©ç”¨ã™ã‚‹ãŸã‚ã«ã¯ã€MS DTCãŒåˆ©ç”¨ã§ãã‚‹ç’°å¢ƒã§ãªã‘ã‚Œã°ã„ã‘ã¾ã›ã‚“ã€‚
+ãƒ­ãƒ¼ã‚«ãƒ«ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã®ã‚ˆã†ã«TxDataSourceã‹ã‚‰ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ã‚’ã¨ã‚‰ãªã„ã¨ã„ã‘ãªã„ã¨ã„ã£ãŸåˆ¶é™ã¯ã‚ã‚Šã¾ã›ã‚“ãŒã€
+ãƒ‡ãƒ¼ã‚¿ãƒ—ãƒ­ãƒã‚¤ãƒ€ã«ä¾å­˜ã—ãªã„ã‚³ãƒ¼ãƒ‡ã‚£ãƒ³ã‚°ã‚’ã™ã‚‹ãŸã‚ã«ã€Seasar.Extension.ADO.Impl.DataSourceImpl
+ã‹ã‚‰ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ã€ã‚³ãƒžãƒ³ãƒ‰ã€ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã—ã¾ã™ã€‚
 </p>
 <p>
-MS DTC‚ð—˜—p‚·‚éê‡‚ÍA1‰ñ‚ÌƒNƒGƒŠ”­s–ˆ‚ÉƒRƒlƒNƒVƒ‡ƒ“‚ðƒNƒ[ƒY‚µ‚Ä‚àAƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ÍˆÛŽ‚³‚ê‚Ü‚·B
+MS DTCã‚’åˆ©ç”¨ã™ã‚‹å ´åˆã¯ã€1å›žã®ã‚¯ã‚¨ãƒªç™ºè¡Œæ¯Žã«ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ã‚’ã‚¯ãƒ­ãƒ¼ã‚ºã—ã¦ã‚‚ã€ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã¯ç¶­æŒã•ã‚Œã¾ã™ã€‚
 </p>
 <p>
-]‹Æˆõ‚ðˆµ‚¤‚½‚ß‚ÌDAOƒCƒ“ƒ^[ƒtƒF[ƒX‚ÆDAOŽÀ‘•ƒNƒ‰ƒX‚ÍŽŸ‚Ì‚æ‚¤‚É‚È‚è‚Ü‚·B
+å¾“æ¥­å“¡ã‚’æ‰±ã†ãŸã‚ã®DAOã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã¨DAOå®Ÿè£…ã‚¯ãƒ©ã‚¹ã¯æ¬¡ã®ã‚ˆã†ã«ãªã‚Šã¾ã™ã€‚
 </p>
 
 <h4>EmployeeDao.cs</h4>
@@ -319,24 +319,24 @@ using Seasar.Extension.ADO;
 
 namespace Seasar.Examples.Reference.DTCTx
 {
-    // ]‹Æˆõ‚ðˆµ‚¤‚½‚ß‚ÌDAOƒCƒ“ƒ^[ƒtƒF[ƒX
+    // å¾“æ¥­å“¡ã‚’æ‰±ã†ãŸã‚ã®DAOã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹
     public interface IEmployeeDao
     {
         void Insert();
     }
 
-    // ]‹Æˆõ‚ðˆµ‚¤‚½‚ß‚ÌDAOŽÀ‘•ƒNƒ‰ƒX
+    // å¾“æ¥­å“¡ã‚’æ‰±ã†ãŸã‚ã®DAOå®Ÿè£…ã‚¯ãƒ©ã‚¹
     public class EmployeeDaoImpl : IEmployeeDao
     {
         private IDataSource dataSource;
 
-        // DataSourceImpl‚ðƒCƒ“ƒWƒFƒNƒVƒ‡ƒ“‚µ‚Ä‚à‚ç‚¤‚½‚ß‚ÌƒvƒƒpƒeƒB
+        // DataSourceImplã‚’ã‚¤ãƒ³ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³ã—ã¦ã‚‚ã‚‰ã†ãŸã‚ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£
         public IDataSource DataSource
         {
             set { dataSource = value; }
         }
 
-        #region IEmployeeDao ƒƒ“ƒo
+        #region IEmployeeDao ãƒ¡ãƒ³ãƒ
 
         public void Insert()
         {
@@ -350,7 +350,7 @@ namespace Seasar.Examples.Reference.DTCTx
                     cmd.Parameters.Add(dataSource.GetParameter("@ename", "Sugimoto"));
                     cmd.Parameters.Add(dataSource.GetParameter("@deptnum", 31));
                     cmd.ExecuteNonQuery();
-                    Console.WriteLine("EMP‚ð’Ç‰Á‚µ‚Ü‚µ‚½B");
+                    Console.WriteLine("EMPã‚’è¿½åŠ ã—ã¾ã—ãŸã€‚");
                 }
             }
         }
@@ -360,7 +360,7 @@ namespace Seasar.Examples.Reference.DTCTx
 }
 </pre>
 
-<p>IEmployeeDao‚ðŽÀs‚·‚éƒNƒ‰ƒX‚ÍŽŸ‚Ì‚æ‚¤‚É‚È‚è‚Ü‚·B</p>
+<p>IEmployeeDaoã‚’å®Ÿè¡Œã™ã‚‹ã‚¯ãƒ©ã‚¹ã¯æ¬¡ã®ã‚ˆã†ã«ãªã‚Šã¾ã™ã€‚</p>
 <h4>DTCTxClient.cs</h4>
 <pre>
 using System;
@@ -378,15 +378,15 @@ namespace Seasar.Examples.Reference.DTCTx
 
         public void Main()
         {
-            // S2ƒRƒ“ƒeƒi‚ðì¬‚µ‚Ü‚·
+            // S2ã‚³ãƒ³ãƒ†ãƒŠã‚’ä½œæˆã—ã¾ã™
             IS2Container container = S2ContainerFactory.Create(PATH);
-            // S2ƒRƒ“ƒeƒi‚ð‰Šú‰»‚µ‚Ü‚·
+            // S2ã‚³ãƒ³ãƒ†ãƒŠã‚’åˆæœŸåŒ–ã—ã¾ã™
             container.Init();
             
-            // S2ƒRƒ“ƒeƒi‚©‚çIEmployeeDao‚ðŽÀ‘•‚·‚éƒRƒ“ƒ|[ƒlƒ“ƒg‚ðŽæ‚èo‚µ‚Ü‚·
+            // S2ã‚³ãƒ³ãƒ†ãƒŠã‹ã‚‰IEmployeeDaoã‚’å®Ÿè£…ã™ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å–ã‚Šå‡ºã—ã¾ã™
             IEmployeeDao dao = (IEmployeeDao) container.GetComponent(typeof(IEmployeeDao));
 
-            // ]‹Æˆõ‚ð’Ç‰Á‚µ‚Ü‚·
+            // å¾“æ¥­å“¡ã‚’è¿½åŠ ã—ã¾ã™
             dao.Insert();
         }
     }
@@ -394,8 +394,8 @@ namespace Seasar.Examples.Reference.DTCTx
 </pre>
 
 <p>
-diconƒtƒ@ƒCƒ‹‚ÍŽŸ‚Ì‚æ‚¤‚É‚È‚è‚Ü‚·BRequired‘®«‚Ìƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ð“K—p‚·‚é‚½‚ß‚ÉA
-EmployeeDaoImpl‚Ìaspect‚ÉDTCTx.RequiredTx‚ðŽw’è‚µ‚Ü‚·B
+diconãƒ•ã‚¡ã‚¤ãƒ«ã¯æ¬¡ã®ã‚ˆã†ã«ãªã‚Šã¾ã™ã€‚Requiredå±žæ€§ã®ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’é©ç”¨ã™ã‚‹ãŸã‚ã«ã€
+EmployeeDaoImplã®aspectã«DTCTx.RequiredTxã‚’æŒ‡å®šã—ã¾ã™ã€‚
 </p>
 <h4>DTCTxClient.dicon</h4>
 <pre>
@@ -427,7 +427,7 @@ EmployeeDaoImpl‚Ìaspect‚ÉDTCTx.RequiredTx‚ðŽw’è‚µ‚Ü‚·B
     &lt;component name="SqlDataSource" class="Seasar.Extension.ADO.Impl.DataSourceImpl"&gt;
         &lt;property name="DataProvider"&gt;Ado.SqlClient&lt;/property&gt;
         &lt;property name="ConnectionString"&gt;
-            "Server=SQL Server‚Ì–¼Ì;database=s2dotnetdemo;Integrated Security=SSPI"
+            "Server=SQL Serverã®åç§°;database=s2dotnetdemo;Integrated Security=SSPI"
         &lt;/property&gt;
     &lt;/component&gt;
 
@@ -440,21 +440,21 @@ EmployeeDaoImpl‚Ìaspect‚ÉDTCTx.RequiredTx‚ðŽw’è‚µ‚Ü‚·B
         &lt;/arg&gt;
     &lt;/component&gt;
 
-    EEE
+    ãƒ»ãƒ»ãƒ»
     
 &lt;/components&gt;
 </pre>
 <p>
-Ado.dicon‚ÆŽÀsŒ‹‰Ê‚ÍAƒ[ƒJƒ‹ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚Ìê‡‚Æ“¯‚¶‚Å‚·B
+Ado.diconã¨å®Ÿè¡Œçµæžœã¯ã€ãƒ­ãƒ¼ã‚«ãƒ«ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã®å ´åˆã¨åŒã˜ã§ã™ã€‚
 </p>
 
 <p>
-S2Container.NET‚É‚ÍATx.dicon‚¨‚æ‚ÑDTCTx.dicon‚ª‚ ‚ç‚©‚¶‚ß—pˆÓ(source/Seasar)‚³‚ê‚Ä‚¢‚Ü‚·B
-Advice‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg–¼‚ðaspectƒ^ƒO‚Ìƒ{ƒfƒB‚ÉŽw’è‚·‚é‚¾‚¯‚È‚Ì‚ÅŠÈ’P‚Å‚·B 
-ŠÈ’P‚Éƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“ŠÇ—‹@”\‚ª‘g‚Ýž‚ß‚é‚±‚Æ‚ª‚í‚©‚Á‚Ä‚à‚ç‚¦‚½‚ÆŽv‚¢‚Ü‚·B
+S2Container.NETã«ã¯ã€Tx.diconãŠã‚ˆã³DTCTx.diconãŒã‚ã‚‰ã‹ã˜ã‚ç”¨æ„(source/Seasar)ã•ã‚Œã¦ã„ã¾ã™ã€‚
+Adviceã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆåã‚’aspectã‚¿ã‚°ã®ãƒœãƒ‡ã‚£ã«æŒ‡å®šã™ã‚‹ã ã‘ãªã®ã§ç°¡å˜ã§ã™ã€‚ 
+ç°¡å˜ã«ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ç®¡ç†æ©Ÿèƒ½ãŒçµ„ã¿è¾¼ã‚ã‚‹ã“ã¨ãŒã‚ã‹ã£ã¦ã‚‚ã‚‰ãˆãŸã¨æ€ã„ã¾ã™ã€‚
 </p>
-<h2><a name="Exception">—áŠO”­¶Žž‚Ì“®ì</a></h2>
-<p>Tx.dicon‚¨‚æ‚ÑDTCTx.dion‚É’è‹`‚³‚ê‚Ä‚¢‚éAdvice‚ÍAƒRƒ“ƒ|[ƒlƒ“ƒg‚ª—áŠO‚ðƒXƒ[‚µ‚½ê‡‚Íƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ðƒ[ƒ‹ƒoƒbƒN‚µ‚Ü‚·D<br>
+<h2><a name="Exception">ä¾‹å¤–ç™ºç”Ÿæ™‚ã®å‹•ä½œ</a></h2>
+<p>Tx.diconãŠã‚ˆã³DTCTx.dionã«å®šç¾©ã•ã‚Œã¦ã„ã‚‹Adviceã¯ã€ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒä¾‹å¤–ã‚’ã‚¹ãƒ­ãƒ¼ã—ãŸå ´åˆã¯ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³ã‚’ãƒ­ãƒ¼ãƒ«ãƒãƒƒã‚¯ã—ã¾ã™ï¼Ž<br>
 
 <!-- document end -->
 <!-- don't edit start -->
