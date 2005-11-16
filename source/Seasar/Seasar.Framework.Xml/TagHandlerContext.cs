@@ -27,7 +27,6 @@ namespace Seasar.Framework.Xml
 	/// </summary>
 	public sealed class TagHandlerContext
 	{
-		private const int ONE = 1;
 		private StringBuilder body_ = null;
 		private StringBuilder characters_ = new StringBuilder();
 		private Stack bodyStack_ = new Stack();
@@ -176,16 +175,14 @@ namespace Seasar.Framework.Xml
 		private int IncrementPathCount()
 		{
 			string path = this.Path;
-			int pathCount;
-			try
-			{
-				pathCount = (int) pathCounts_[path];
-				pathCount++;
-			}
-			catch(NullReferenceException)
-			{
-				pathCount = ONE;
-			}
+			int pathCount = 0;
+			
+            if(pathCounts_[path] != null)
+            {
+                pathCount = (int) pathCounts_[path];
+            }
+
+			pathCount++;
 			pathCounts_[path] = pathCount;
 			return pathCount;
 		}
