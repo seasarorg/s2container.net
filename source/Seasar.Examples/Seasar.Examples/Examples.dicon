@@ -20,8 +20,8 @@
 	<include path="Seasar.Examples/Reference/DTCTx/DTCTxClient.dicon" />
 	
 	<component class="Seasar.Examples.ExamplesExplorer">
-		<initMethod name="AddExampless"><arg>"S2Container概要"</arg><arg>intro</arg></initMethod>
-		<initMethod name="AddExampless"><arg>"S2Containerリファレンス"</arg><arg>reference</arg></initMethod>
+		<initMethod name="AddExamples"><arg>"S2Container概要"</arg><arg>intro</arg></initMethod>
+		<initMethod name="AddExamples"><arg>"S2Containerリファレンス"</arg><arg>reference</arg></initMethod>
 	</component>
 	
 	<component name="intro" class="System.Collections.ArrayList">

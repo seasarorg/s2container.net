@@ -48,6 +48,10 @@ namespace Seasar.Examples
 		private System.Windows.Forms.TextBox ResultView;
 		private SyntaxHighlightingTextBox DiconView;
 		private SyntaxHighlightingTextBox CodeView;
+		private System.Windows.Forms.ContextMenu FontContextMenu;
+		private System.Windows.Forms.MenuItem ScalingUp;
+		private System.Windows.Forms.MenuItem ScalingDown;
+		private System.Windows.Forms.MenuItem SelectFont;
 		/// <summary>
 		/// 必要なデザイナ変数です。
 		/// </summary>
@@ -67,25 +71,28 @@ namespace Seasar.Examples
 			Console.SetError(ResultAppender);
 
 			DiconAppender = new TextAppender(DiconView);
-			
+			CodeAppender = new TextAppender(CodeView);
+
+			SetUpHighlighting(new Font("MS UI Gothic", 10,FontStyle.Bold));
+		}
+
+		private void SetUpHighlighting(Font font)
+		{
 			// TODO 色付けの定義がズラズラとココにあるのはチトイマイチ…。
-			Font font = new Font("MS UI Gothic", 10,FontStyle.Bold);
 			string[] keywords_tags = {"components", "include", "component", "description",
-										"arg", "property", "meta", "initMethod", "destroyMethod", "aspect" };
+										 "arg", "property", "meta", "initMethod", "destroyMethod", "aspect" };
 			addHighlightDescriptors(keywords_tags, Color.Blue, font);
 
 			string[] keywords_attributs = {"path", "instance", "class", "name",
-										 "autoBinding", "getter", "pointcut"};
+											  "autoBinding", "getter", "pointcut"};
 			addHighlightDescriptors(keywords_attributs, Color.Magenta, font);
 
 			string[] keywords_literals = {"singleton", "prototype", "outer", "request", "session",
-										  "auto", "constructor", "property", "none",
-										  "true", "false"};
+											 "auto", "constructor", "property", "none",
+											 "true", "false"};
 			addHighlightDescriptors(keywords_literals, Color.Maroon, font);
 			
 			DiconView.HighlightDescriptors.Add(new HighlightDescriptor("<!--", "-->", Color.Green, font, DescriptorType.ToCloseToken, DescriptorRecognition.StartsWith));
-
-			CodeAppender = new TextAppender(CodeView);
 		}
 
 		private void addHighlightDescriptors(string[] keywords, Color color, Font font)
@@ -129,6 +136,10 @@ namespace Seasar.Examples
 			this.DiconView = new Seasar.Extension.UI.Forms.SyntaxHighlightingTextBox();
 			this.CodeConsole = new System.Windows.Forms.TabPage();
 			this.CodeView = new Seasar.Extension.UI.Forms.SyntaxHighlightingTextBox();
+			this.FontContextMenu = new System.Windows.Forms.ContextMenu();
+			this.ScalingUp = new System.Windows.Forms.MenuItem();
+			this.ScalingDown = new System.Windows.Forms.MenuItem();
+			this.SelectFont = new System.Windows.Forms.MenuItem();
 			this.MainTabControl.SuspendLayout();
 			this.ResultConsole.SuspendLayout();
 			this.DiconConsole.SuspendLayout();
@@ -177,6 +188,7 @@ namespace Seasar.Examples
 			this.ResultView.Size = new System.Drawing.Size(556, 340);
 			this.ResultView.TabIndex = 2;
 			this.ResultView.Text = "";
+			this.ResultView.MouseDown += new MouseEventHandler(this.View_MouseDown);
 			// 
 			// DiconConsole
 			// 
@@ -194,8 +206,9 @@ namespace Seasar.Examples
 			this.DiconView.Name = "DiconView";
 			this.DiconView.Size = new System.Drawing.Size(556, 340);
 			this.DiconView.TabIndex = 1;
-			this.DiconView.Text = "ここに.diconファイルが出力される感じで。\n色分け出来ると見やすくて凄く良いんだけど…。";
+			this.DiconView.Text = "";
 			this.DiconView.WordWrap = false;
+			this.DiconView.MouseDown += new MouseEventHandler(this.View_MouseDown);
 			// 
 			// CodeConsole
 			// 
@@ -213,9 +226,34 @@ namespace Seasar.Examples
 			this.CodeView.Name = "CodeView";
 			this.CodeView.Size = new System.Drawing.Size(556, 340);
 			this.CodeView.TabIndex = 0;
-			this.CodeView.Text = "ここにソースコードが出力される感じで。\n１つのnamespaceに全クラス、全インターフェース入れてしまう感じ。\nよって、テキストファイル１つをそのまま表示すれば" +
-				"良いかな。";
+			this.CodeView.Text = "";
 			this.CodeView.WordWrap = false;
+			this.CodeView.MouseDown += new MouseEventHandler(this.View_MouseDown);
+			// 
+			// FontContextMenu
+			// 
+			this.FontContextMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+																							this.ScalingUp,
+																							this.ScalingDown,
+																							this.SelectFont});
+			// 
+			// ScalingUp
+			// 
+			this.ScalingUp.Index = 0;
+			this.ScalingUp.Text = "拡大";
+			this.ScalingUp.Click += new System.EventHandler(this.ScalingUp_Click);
+			// 
+			// ScalingDown
+			// 
+			this.ScalingDown.Index = 1;
+			this.ScalingDown.Text = "縮小";
+			this.ScalingDown.Click += new System.EventHandler(this.ScalingDown_Click);
+			// 
+			// SelectFont
+			// 
+			this.SelectFont.Index = 2;
+			this.SelectFont.Text = "フォント選択";
+			this.SelectFont.Click += new System.EventHandler(this.SelectFont_Click);
 			// 
 			// ExamplesExplorer
 			// 
@@ -234,7 +272,7 @@ namespace Seasar.Examples
 		}
 		#endregion
 
-		public void AddExampless(string title, IList exampless) 
+		public void AddExamples(string title, IList exampless) 
 		{
 			TreeNode rootNode = new TreeNode(title);
 			foreach(IExamplesHandler handler in exampless) 
@@ -246,8 +284,8 @@ namespace Seasar.Examples
 
 		private void ResultViewChanged(Control ctrl) 
 		{
-			this.ResultConsole.SuspendLayout();
 			this.SuspendLayout();
+			this.ResultConsole.SuspendLayout();
 
 			this.ResultConsole.Controls.Clear();
 			this.ResultConsole.Controls.Add(ctrl);
@@ -267,6 +305,7 @@ namespace Seasar.Examples
 				if(e.Node is ExecutableTreeNode) 
 				{
 					ExecutableTreeNode etn = e.Node as ExecutableTreeNode;
+					this.ResultViewChanged(this.ResultView); // 何はともあれデフォルトの表示は出来る様にする。
 					etn.ExamplesHandler.Main(examplesContext);
 					etn.ExamplesHandler.AppendDicon(this.DiconAppender);
 					this.DiconView.ProcessHighlighting();
@@ -280,5 +319,89 @@ namespace Seasar.Examples
 				Cursor = Cursors.Arrow;
 			}
 		}
+
+		#region font settings
+
+		private void View_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+		{
+			if(MouseButtons.Right == e.Button)
+			{
+				this.FontContextMenu.Show(sender as Control,new Point(e.X,e.Y));
+			}
+		}
+
+		private void ScalingUp_Click(object sender, System.EventArgs e)
+		{
+			Control c = GetSourceControl(sender);
+			if(c != null)
+			{
+				this.Scale(new Font(c.Font.FontFamily, c.Font.Size + 1));
+			}
+		}
+
+		private void ScalingDown_Click(object sender, System.EventArgs e)
+		{
+			Control c = GetSourceControl(sender);
+			if(c != null)
+			{
+				float size = c.Font.Size - 1;
+				if(5 < size)
+				{
+					this.Scale(new Font(c.Font.FontFamily, size));
+				}
+			}
+		}
+
+		private Control GetSourceControl(object sender)
+		{
+			Control result = null;
+			MenuItem mi = sender as MenuItem;
+			if(mi != null)
+			{
+				result = mi.GetContextMenu().SourceControl;
+			}
+
+			return result;
+		}
+
+		private void SelectFont_Click(object sender, System.EventArgs e)
+		{
+			FontDialog dialog = new FontDialog();
+			dialog.AllowVerticalFonts = true;
+			dialog.ScriptsOnly = true;
+			dialog.ShowEffects = false;
+
+			if(dialog.ShowDialog(this) == DialogResult.OK)
+			{
+				this.Scale(dialog.Font);
+			}
+		}
+
+		private void Scale(Font font)
+		{
+			this.SuspendLayout();
+			foreach(TabPage tp in this.MainTabControl.Controls)
+			{
+				tp.Controls[0].SuspendLayout();
+			}
+
+			foreach(TabPage tp in this.MainTabControl.Controls)
+			{
+				tp.Controls[0].Font = font;
+			}
+
+			this.Refresh();
+			this.SetUpHighlighting(new Font(font.FontFamily,font.Size,FontStyle.Bold));
+			this.DiconView.ProcessHighlighting();
+			this.CodeView.ProcessHighlighting();
+
+			foreach(TabPage tp in this.MainTabControl.Controls)
+			{
+				tp.Controls[0].ResumeLayout();
+			}
+			this.ResumeLayout();
+		}
+
+		#endregion
 	}
 }
