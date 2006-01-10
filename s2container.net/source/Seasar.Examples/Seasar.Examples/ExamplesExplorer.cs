@@ -288,6 +288,8 @@ namespace Seasar.Examples
 			this.ResultConsole.SuspendLayout();
 
 			this.ResultConsole.Controls.Clear();
+			ctrl.Dock = System.Windows.Forms.DockStyle.Fill;
+			ctrl.Size = this.ResultView.Size;
 			this.ResultConsole.Controls.Add(ctrl);
 
 			this.ResultConsole.ResumeLayout(false);
