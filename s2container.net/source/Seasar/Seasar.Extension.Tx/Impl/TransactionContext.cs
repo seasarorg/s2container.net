@@ -42,7 +42,7 @@ namespace Seasar.Extension.Tx.Impl
 
 		public TransactionContext()
 		{
-			slot = Thread.GetNamedDataSlot(typeof(TransactionContext).Name);
+			slot = Thread.AllocateDataSlot();
 		}
 
 		private TransactionContext(LocalDataStoreSlot slot)
