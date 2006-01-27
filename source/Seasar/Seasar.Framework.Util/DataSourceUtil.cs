@@ -58,7 +58,7 @@ namespace Seasar.Framework.Util
                 if(dataSource is TxDataSource)
                 {
                     TxDataSource txDataSoure = dataSource as TxDataSource;
-                    if(txDataSoure.Context.Current.IsInTransaction) return;
+                    if(txDataSoure.Context.IsInTransaction) return;
                 }
                 ConnectionUtil.Close(cn);
             }
@@ -74,7 +74,7 @@ namespace Seasar.Framework.Util
             {
                 TxDataSource txDataSource = dataSource as TxDataSource;
                 if(txDataSource.Context.Current.IsInTransaction)
-                    cmd.Transaction = txDataSource.Context.Current.Transaction;
+                    cmd.Transaction = txDataSource.Context.Transaction;
             }
         }
     }

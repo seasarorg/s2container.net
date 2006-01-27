@@ -30,10 +30,12 @@ namespace Seasar.Framework.Log
 	{
 		private static Hashtable  loggerTable_ = Hashtable.Synchronized(new Hashtable());
 		private ILog log_;
+        private Type type_;
 
 		private Logger(Type type)
 		{
 			log_ = LogManager.GetLogger(type);
+            type_ = type;
 		}
 
 		public static Logger GetLogger(Type type)
@@ -147,7 +149,8 @@ namespace Seasar.Framework.Log
 			char messageType = messageCode.ToCharArray()[0];
 			if(this.IsEnabledFor(messageType))
 			{
-				string message = MessageFormatter.GetSimpleMessage(messageCode,args);
+                
+				string message = MessageFormatter.GetSimpleMessage(messageCode,args, type_.Assembly);
 				switch(messageType)
 				{
 					case 'D':
