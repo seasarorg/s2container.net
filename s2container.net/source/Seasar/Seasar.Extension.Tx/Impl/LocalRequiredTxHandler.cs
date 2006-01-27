@@ -62,7 +62,7 @@ namespace Seasar.Extension.Tx.Impl
 				finally
 				{
 					this.Context.Current = parent;
-					this.Context.Current.Parent = null;
+					if(parent != null) this.Context.Current.Parent = null;
 				}
 			}
 		}
