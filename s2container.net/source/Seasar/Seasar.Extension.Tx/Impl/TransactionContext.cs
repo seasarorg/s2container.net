@@ -80,7 +80,7 @@ namespace Seasar.Extension.Tx.Impl
 
 		public ITransactionContext Create()
 		{
-			TransactionContext ctx = new TransactionContext();
+			TransactionContext ctx = new TransactionContext(slot);
 			ctx.dataSource = this.dataSource;
 			return ctx;
 		}
