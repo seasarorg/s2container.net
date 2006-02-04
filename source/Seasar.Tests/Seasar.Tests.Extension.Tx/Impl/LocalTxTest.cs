@@ -40,12 +40,12 @@ namespace TestSeasar.Extension.Tx.Impl
 
 		public bool IsInTransaction()
 		{
-			return context.IsInTransaction;
+			return context.Current.IsInTransaction;
 		}
 
 		public IDbConnection GetConnection()
 		{
-			return context.Connection;
+			return context.Current.Connection;
 		}
 
 		public void throwException()

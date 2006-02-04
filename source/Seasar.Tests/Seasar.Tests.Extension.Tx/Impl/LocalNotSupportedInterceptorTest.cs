@@ -41,7 +41,7 @@ namespace TestSeasar.Extension.Tx.Impl
 	[TestFixture]
 	public class LocalNotSupportedInterceptorTest
 	{
-		private const string path = "Extension/Tx/Impl/LocalNotSupportedInterceptorTest.dicon";
+		private const string path = "Seasar/Tests/Extension/Tx/Impl/LocalNotSupportedInterceptorTest.dicon";
 
 		public LocalNotSupportedInterceptorTest()
 		{

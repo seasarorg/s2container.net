@@ -168,12 +168,30 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Seasar.Tests.Extension.Tx\Impl\LocalNotSupportedInterceptorTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Tests.Extension.Tx\Impl\LocalNotSupportedInterceptorTest.dicon"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "Seasar.Tests.Extension.Tx\Impl\LocalRequiredInterceptorTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "Seasar.Tests.Extension.Tx\Impl\LocalRequiredInterceptorTest.dicon"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Seasar.Tests.Extension.Tx\Impl\LocalRequiresNewInterceptorTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Tests.Extension.Tx\Impl\LocalRequiresNewInterceptorTest.dicon"
                     BuildAction = "EmbeddedResource"
                 />
                 <File

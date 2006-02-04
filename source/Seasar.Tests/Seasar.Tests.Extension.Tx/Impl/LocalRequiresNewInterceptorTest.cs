@@ -41,7 +41,7 @@ namespace TestSeasar.Extension.Tx.Impl
 	[TestFixture]
 	public class LocalRequiresNewInterceptorTest
 	{
-		private const string path = "Extension/Tx/Impl/LocalRequiresNewInterceptorTest.dicon";
+		private const string path = "Seasar/Tests/Extension/Tx/Impl/LocalRequiresNewInterceptorTest.dicon";
 
 		public LocalRequiresNewInterceptorTest()
 		{
