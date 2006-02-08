@@ -35,24 +35,24 @@ namespace Seasar.Framework.Aop.Proxy
 	[Serializable]
 	public sealed class AopProxy : RealProxy
 	{
-        /// <summary>
-        /// 透過的プロクシを作成するインスタンス
-        /// </summary>
+		/// <summary>
+		/// 透過的プロクシを作成するインスタンス
+		/// </summary>
 		private object target_;
 
-        /// <summary>
-        /// 適用するAspect
-        /// </summary>
+		/// <summary>
+		/// 適用するAspect
+		/// </summary>
 		private IAspect[] aspects_;
 
-        /// <summary>
-        /// 透過的プロクシを作成する型
-        /// </summary>
+		/// <summary>
+		/// 透過的プロクシを作成する型
+		/// </summary>
 		private Type type_;
 
-        /// <summary>
-        /// メソッドとそのクラスのインスタンスが属するS2コンテナに関する情報
-        /// </summary>
+		/// <summary>
+		/// メソッドとそのクラスのインスタンスが属するS2コンテナに関する情報
+		/// </summary>
 		private Hashtable parameters_;
 
 		/// <summary>
@@ -100,21 +100,21 @@ namespace Seasar.Framework.Aop.Proxy
 		{
 		}
 
-        /// <summary>
-        /// 透過的プロクシを返す
-        /// </summary>
-        /// <returns>透過的プロクシのインスタンス</returns>
+		/// <summary>
+		/// 透過的プロクシを返す
+		/// </summary>
+		/// <returns>透過的プロクシのインスタンス</returns>
 		public object Create()
 		{
 			return this.GetTransparentProxy();
 		}
 
-        /// <summary>
-        /// 透過的プロクシを返す
-        /// </summary>
-        /// <param name="argTypes">透過的プロクシの対象となるクラスのコンストラクタの引数の型のリスト</param>
-        /// <param name="args">透過的プロクシの対象となるクラスのコンストラクタの引数のリスト</param>
-        /// <returns>透過的プロクシのインスタンス</returns>
+		/// <summary>
+		/// 透過的プロクシを返す
+		/// </summary>
+		/// <param name="argTypes">透過的プロクシの対象となるクラスのコンストラクタの引数の型のリスト</param>
+		/// <param name="args">透過的プロクシの対象となるクラスのコンストラクタの引数のリスト</param>
+		/// <returns>透過的プロクシのインスタンス</returns>
 		public object Create(Type[] argTypes,object[] args)
 		{
 			ConstructorInfo constructor = ClassUtil.GetConstructorInfo(type_,argTypes);
@@ -122,21 +122,21 @@ namespace Seasar.Framework.Aop.Proxy
 			return this.GetTransparentProxy();
 		}
 
-        /// <summary>
-        /// 透過的プロクシを返す
-        /// </summary>
-        /// <param name="argTypes">透過的プロクシの対象となるクラスのコンストラクタの引数の型のリスト</param>
-        /// <param name="args">透過的プロクシの対象となるクラスのコンストラクタの引数のリスト</param>
-        /// <param name="targetType">透過的プロクシの対象となるクラスの型</param>
-        /// <returns>透過的プロクシのインスタンス</returns>
-        public object Create(Type[] argTypes,object[] args,Type targetType)
+		/// <summary>
+		/// 透過的プロクシを返す
+		/// </summary>
+		/// <param name="argTypes">透過的プロクシの対象となるクラスのコンストラクタの引数の型のリスト</param>
+		/// <param name="args">透過的プロクシの対象となるクラスのコンストラクタの引数のリスト</param>
+		/// <param name="targetType">透過的プロクシの対象となるクラスの型</param>
+		/// <returns>透過的プロクシのインスタンス</returns>
+		public object Create(Type[] argTypes,object[] args,Type targetType)
 		{
 			ConstructorInfo constructor = ClassUtil.GetConstructorInfo(targetType,argTypes);
 			target_ = ConstructorUtil.NewInstance(constructor,args);
 			return this.GetTransparentProxy();
 		}
 
-        #region RealProxy メンバ
+		#region RealProxy メンバ
 
 		/// <summary>
 		/// AopProxyを通したオブジェクトのメソッドが実行されるとこのメソッドが呼ばれます
@@ -151,6 +151,7 @@ namespace Seasar.Framework.Aop.Proxy
 				if(!type_.IsInterface) target_ = Activator.CreateInstance(type_);
 				if(target_==null) target_ = new object();
 			}
+
 			IMethodMessage methodMessage = msg as IMethodMessage;
 			MethodBase method = methodMessage.MethodBase;
 
@@ -172,11 +173,21 @@ namespace Seasar.Framework.Aop.Proxy
 			}
 
 			Object ret = null;
+			ArrayList outParameters = new ArrayList();
+			ParameterInfo[] pis = method.GetParameters();
 
 			if(interceptorList.Count == 0)
 			{
+				object[] args = methodMessage.Args;
 				// Interceptorを挿入しない場合
-				ret = method.Invoke(target_,methodMessage.Args);
+				ret = method.Invoke(target_, args);
+				for(int i = 0; i < pis.Length; i++)
+				{
+					if (pis[i].ParameterType.IsByRef)
+					{	
+						outParameters.Add(args[i]);
+					}
+				}
 			}
 			else
 			{
@@ -186,14 +197,29 @@ namespace Seasar.Framework.Aop.Proxy
 				IMethodInvocation invocation = new MethodInvocationImpl(target_,
 					method,methodMessage.Args,interceptors,parameters_);
 				ret = interceptors[0].Invoke(invocation);
+				
+				for(int i = 0; i < pis.Length; i++)
+				{
+					if (pis[i].ParameterType.IsByRef)
+					{	
+						outParameters.Add(invocation.Arguments[i]);
+					}
+				}
 			}
-
-			return new ReturnMessage(ret, null, 0, 
-				methodMessage.LogicalCallContext, (IMethodCallMessage)msg);
-
+			
+			if (outParameters.Count == 0)
+			{
+				return new ReturnMessage(ret, null, 0, 
+					methodMessage.LogicalCallContext, (IMethodCallMessage)msg);
+			}
+			else
+			{
+				return new ReturnMessage(ret, outParameters.ToArray(), outParameters.Count, 
+					methodMessage.LogicalCallContext, (IMethodCallMessage)msg);
+			}
 		}
 
-        #endregion
+		#endregion
 
 	}   // AopProxy
 }
