@@ -18,6 +18,8 @@
 
 using System;
 using System.Reflection;
+using System.Runtime.Remoting;
+using Seasar.Framework.Aop.Proxy;
 using Seasar.Framework.Log;
 using Seasar.Framework.Util;
 using Seasar.Framework.Container.Util;
@@ -38,7 +40,20 @@ namespace Seasar.Framework.Container.Assembler
 
 		public override void Assemble(object component)
 		{
-			Type type = component.GetType();
+			Type type = null;
+			if ( RemotingServices.IsTransparentProxy(component) )
+			{
+				AopProxy aopProxy = RemotingServices.GetRealProxy(component) as AopProxy;
+				if (aopProxy != null)
+				{
+					type = 	aopProxy.TargetType;
+				}
+			}
+			else
+			{
+				type = component.GetType();	
+			}
+
 			IS2Container container = this.ComponentDef.Container;
 			foreach(PropertyInfo property in type.GetProperties())
 			{

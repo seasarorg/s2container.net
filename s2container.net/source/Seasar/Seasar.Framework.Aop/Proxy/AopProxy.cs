@@ -55,6 +55,10 @@ namespace Seasar.Framework.Aop.Proxy
 		/// </summary>
 		private Hashtable parameters_;
 
+		public Type TargetType
+		{
+			get { return type_; }
+		}
 		/// <summary>
 		/// コンストラクタ
 		/// </summary>
