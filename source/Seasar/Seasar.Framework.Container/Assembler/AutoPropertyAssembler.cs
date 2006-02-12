@@ -40,18 +40,14 @@ namespace Seasar.Framework.Container.Assembler
 
 		public override void Assemble(object component)
 		{
-			Type type = null;
+			Type type = component.GetType();
 			if ( RemotingServices.IsTransparentProxy(component) )
 			{
 				AopProxy aopProxy = RemotingServices.GetRealProxy(component) as AopProxy;
-				if (aopProxy != null)
-				{
-					type = 	aopProxy.TargetType;
-				}
-			}
-			else
-			{
-				type = component.GetType();	
+                if (aopProxy != null)
+                {
+                    type = 	aopProxy.TargetType;
+                }
 			}
 
 			IS2Container container = this.ComponentDef.Container;
