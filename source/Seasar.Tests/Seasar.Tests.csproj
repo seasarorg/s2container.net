@@ -114,6 +114,16 @@
                     AssemblyName = "nunit.framework"
                     HintPath = "..\..\lib\nunit.framework.dll"
                 />
+                <Reference
+                    Name = "MbUnit.Framework"
+                    AssemblyName = "MbUnit.Framework"
+                    HintPath = "..\..\lib\MbUnit.Framework.dll"
+                />
+                <Reference
+                    Name = "Seasar.Unit"
+                    Project = "{FC3A021B-6288-4C34-8303-544640D22FDA}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
             </References>
         </Build>
         <Files>
@@ -198,6 +208,15 @@
                     RelPath = "Seasar.Tests.Extension.Tx\Impl\LocalTxTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Tests.Extension.Unit\S2TestCaseTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Tests.Extension.Unit\S2TestCaseTest_ado.dicon"
+                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "Seasar.Tests.Framework.Aop\Impl\MethodInvocationImplTest.cs"
@@ -466,6 +485,31 @@
                 />
                 <File
                     RelPath = "Seasar.Tests.Framework.Message\MessageFormatterTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Tests.Framework.Unit\aaa.dicon"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Seasar.Tests.Framework.Unit\bbb.dicon"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Seasar.Tests.Framework.Unit\ccc.dicon"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Seasar.Tests.Framework.Unit\empty.dicon"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Seasar.Tests.Framework.Unit\S2FrameworkTestCaseTest_ado.dicon"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Seasar.Tests.Framework.Unit\S2TestCaseBaseTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
