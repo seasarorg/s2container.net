@@ -129,7 +129,7 @@
         <Files>
             <Include>
                 <File
-                    RelPath = "ado.dicon"
+                    RelPath = "Ado.dicon"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
@@ -213,10 +213,6 @@
                     RelPath = "Seasar.Tests.Extension.Unit\S2TestCaseTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Seasar.Tests.Extension.Unit\S2TestCaseTest_ado.dicon"
-                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "Seasar.Tests.Framework.Aop\Impl\MethodInvocationImplTest.cs"
