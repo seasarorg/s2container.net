@@ -14,7 +14,7 @@ namespace Seasar.Tests.Extension.Unit
 	public class S2TestCaseTest : S2TestCase
 	{
 		private static Logger logger = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-		private const String PATH = "ado.dicon";
+		private const String PATH = "Ado.dicon";
 
 		static S2TestCaseTest()
 		{
