@@ -15,8 +15,8 @@ namespace Seasar.Extension.Unit
 	/// </summary>
 	public class S2TestCaseRunner : S2FrameworkTestCaseRunner
 	{
-		private static readonly String DATASOURCE_NAME = "ado"
-			+ ContainerConstants.NS_SEP + "dataSource";
+		private static readonly String DATASOURCE_NAME = "Ado"
+			+ ContainerConstants.NS_SEP + "DataSource";
     
 		private S2TestCase fixture;
 		private Tx tx;
@@ -86,7 +86,7 @@ namespace Seasar.Extension.Unit
 				} 
 				else if (this.Container.HasComponentDef(typeof(DataSourceImpl))) 
 				{
-					dataSource = this.Container.GetComponent(typeof(DataSourceImpl)) as IDataSource;
+					dataSource = this.Container.GetComponent(typeof(IDataSource)) as IDataSource;
 				}
 				if (fixture != null && dataSource != null)
 				{
