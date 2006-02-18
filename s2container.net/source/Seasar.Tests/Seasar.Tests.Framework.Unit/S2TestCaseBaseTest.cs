@@ -22,7 +22,7 @@ namespace Seasar.Tests.Framework.Unit
 		private const String PATH = "S2FrameworkTestCaseTest_ado.dicon";
 		private bool testAaaSetUpInvoked = false;
 		private DateTime date_ = new DateTime();
-		private string ccc_ = null;
+		private string _ccc = null;
 		private Hashtable bbb_ = null;
 		private DateTime ddd_ = new DateTime();
 		private IList list1_ = null;
@@ -96,7 +96,6 @@ namespace Seasar.Tests.Framework.Unit
 		[Test, S2]
 		public void TestBindField() 
 		{
-			Assert.IsNotNull(date_, "1");
 			Assert.IsNotNull(bbb_, "2");
 			Assert.IsTrue(bbb_.Count == 1, "3");
 		}
@@ -107,11 +106,11 @@ namespace Seasar.Tests.Framework.Unit
 		}
 		
 		[Test, S2]
-		public void testBindField2() 
+		public void TestBindField2() 
 		{
 			Assert.IsNotNull(bbb_, "1");
-			Assert.IsNotNull(ddd_, "2");
-			Assert.IsNotNull(ccc_, "3");
+            Assert.AreEqual(new DateTime(2006, 4, 1), ddd_, "2");
+            Assert.AreEqual("hoge", _ccc, "3");
 		}
    
 		public void SetUpBindField3() 
@@ -141,7 +140,7 @@ namespace Seasar.Tests.Framework.Unit
 		[Test, S2]
 		public void TestIsAssignableFrom() 
 		{
-			Assert.AreEqual(ccc_, "hoge","1");
+			Assert.AreEqual(_ccc, "hoge","1");
 		}
 		
 		[Test, S2]
