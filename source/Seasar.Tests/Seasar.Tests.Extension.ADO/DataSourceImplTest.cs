@@ -40,7 +40,7 @@ namespace TestSeasar.Extension.ADO
 		public void SetUp()
 		{
 			container_ = new S2ContainerImpl();
-			IS2Container daoContainer = S2ContainerFactory.Create("ado.dicon");
+			IS2Container daoContainer = S2ContainerFactory.Create("Ado.dicon");
 			container_.Include(daoContainer);
 			container_.Register(new ComponentDefImpl(typeof(EmployeeDaoImpl)));
 		}
