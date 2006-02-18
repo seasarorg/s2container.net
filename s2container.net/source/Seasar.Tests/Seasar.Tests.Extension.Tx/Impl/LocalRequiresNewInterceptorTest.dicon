@@ -2,7 +2,7 @@
 <!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
 "http://www.seasar.org/dtd/components21.dtd">
 <components>
-	<include path="ado.dicon" />
+	<include path="Ado.dicon" />
 	
 	<component class="TestSeasar.Extension.Tx.Impl.LocalTxTest">
 		<aspect>RequiresNewTx</aspect>
