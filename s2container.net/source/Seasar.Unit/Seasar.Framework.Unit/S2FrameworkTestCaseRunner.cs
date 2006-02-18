@@ -231,7 +231,7 @@ namespace Seasar.Framework.Unit
 
 		protected String NormalizeName(String name)
 		{
-			return name.TrimEnd('_');
+			return name.TrimEnd('_').TrimStart('_');
 		}
 
 		protected bool IsAutoBindable(FieldInfo fieldInfo)
