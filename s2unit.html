@@ -1,0 +1,338 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- don't edit start -->
+<head><title>Seasar - DI Container with AOP - </title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link href="seasar_b.css" type="text/css" rel="stylesheet" media="screen">
+<link rel="stylesheet" type="text/css" href="csharp.css" >
+<link href="seasar_p.css" type="text/css" rel="stylesheet" media="print"><script src="seasar_b.js" type="text/JavaScript" language="JavaScript"></script>
+</head><body onload="preload('ja')"><table width="100%" border="0" cellspacing="0" cellpadding="0" align="left"><tr>
+<td align="left" valign="top" width="780"><table width="780" border="0" cellspacing="0" cellpadding="0" class="white">
+<tr><td colspan="7"><img height="5" width="780" src="images/top01_b.gif" alt=""></td></tr>
+<tr><td><img height="117" width="235" src="images/top02_b.gif" alt="Seasar"></td>
+<td colspan="3"><img height="117" width="289" src="images/top03.gif" alt="DI Container with AOP"></td>
+<td colspan="3"><img height="117" width="256" src="images/spacer.gif" alt=""></td>
+</tr><tr><td rowspan="2"><img src="images/top04.gif" alt="" height="49" width="235"></td>
+<td><a href="http://www.seasar.org/index.html"><img src="images/menu01_b_ja.gif" height="30" width="78" border="0" alt="" id="menu01" onmouseover="swap(1)" onmouseout="restore(1)"></a></td>
+<td><a href="http://www.seasar.org/projects.html"><img src="images/menu02_b_ja.gif" height="30" width="101" border="0" alt="" id="menu02" onmouseover="swap(2)" onmouseout="restore(2)"></a></td>
+<td><a href="http://www.seasar.org/products.html"><img src="images/menu03_b_ja.gif" height="30" width="110" border="0" alt="" id="menu03" onmouseover="swap(3)" onmouseout="restore(3)"></a></td>
+<td><a href="http://www.seasar.org/resources.html"><img src="images/menu04_b_ja.gif" height="30" width="113" border="0" alt="" id="menu04" onmouseover="swap(4)" onmouseout="restore(4)"></a></td>
+<td><img src="images/menu05_b_ja.gif" height="30" width="109" border="0" alt="" id="menu05" onmouseover="swap(5)" onmouseout="restore(5)"></td>
+<td><img height="30" width="34" src="images/menu06.gif" alt=""></td></tr><tr>
+<td colspan="6"><img height="19" width="545" src="images/spacer.gif" alt=""></td></tr></table>
+<table  width="780" border="0" cellspacing="0" cellpadding="0" class="white">
+<tr align="left" valign="top"><td width="14"><img height="14" width="14" src="images/spacer.gif" alt=""></td><td width="740" class="main">
+<!-- don't edit end -->
+<!-- document start -->
+
+<h1>S2Unit.NETでテストを楽しく簡単に</h1>
+
+<p>S2Container.NET(バージョン1.1以降)では、コンテナを使った開発のテストを楽しくおこなえるようにテスティングフレームワークが組み込まれています。
+MbUnitを拡張しています。主な機能は以下のとおりです。</p>
+
+<ul>
+	<li>
+		<a href="#autoS2">S2Containerの自動作成</a>
+		<ul>
+			<li>テストメソッド(testXxx)ごとに自動的にS2Containerを作成します。</li>
+			<li>S2Containerに対するRegister(),GetComponent(),Include()が用意されています。</li>
+			<li>Include()するdiconファイルのPATHがテストクラスと同じ名前空間にある場合は、名前空間部分のパスは省略できます。</li>
+		</ul>
+	</li>
+	<li>
+		<a href="#fieldBinding">フィールドへの自動バインディング</a>
+		<ul>
+			<li>Testクラスにstaticでもないfinalでもないフィールドがあり、
+			その名前からアンダースコア(_)を(先頭もしくは後尾から)除いた名前のコンポーネントがコンテナに存在すれば自動的にセットされます。</li>
+			<li>Testクラスのフィールドに、代入することのできるコンポーネントがコンテナに存在すれば、S2Containerから取り出して自動的にセットされます。</li>
+			<li>テストメソッドが終わると、自動セットされた値は自動的にnull(VBの場合はNothing)がセットされます。</li>
+		</ul>	
+	</li>
+	<li>
+		<a href="#init">テストメソッド毎の初期化・終了処理</a>
+		<ul>
+			<li>テストメソッド(TestXxx)に対応するSetUpXxx(),TearDownXxx()を定義しておくと、
+			SetUp()の後、TearDown()の前に自動的に呼び出されます。
+			個別のテストメソッドごとの初期化・終了処理を簡単に行えるようになります。</li>
+		</ul>
+	</li>
+	<li><a href="#trans">トランザクションの自動制御</a></li>
+</ul>
+
+<h2>事前の準備</h2>
+<p>
+S2Unit.NETではMbUnit 2.3.0.0を使用しています。
+事前に<a href="http://www.mertner.com/confluence/display/MbUnit/Home" target="_blank">MbUnit</a>をインストールしておく必要があります。
+</p>
+<p>
+テストクラスはSeasar.Extension.Unit.S2TestCaseクラスを継承します。
+S2TestCaseクラスはSeasar.Unit.dllに含まれてるので、テストコードを含むプロジェクトではSeasar.Unit.dllを参照に追加して下さい。
+</p>
+
+<h2><a name="autoS2">S2Containerの自動作成</a></h2>
+<p>
+テストクラスはSeasar.Extension.Unit.S2TestCaseを継承して作成します。
+クラスにはもちろんTestFixture属性(MbUnit.Framework.TestFixtureAttribute)も定義します。
+テストメソッドにはTest属性(MbUnit.Framework.TestAttribute)と共に、
+S2属性(Seasar.Extension.Unit.S2Attribute)を定義します。
+このようなテストクラスを準備するとS2Containerが自動的に作成されます。
+</p>
+C#
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+[TestFixture]
+<span class="kwrd">public</span> <span class="kwrd">class</span> HogeTest : S2TestCase
+{
+    [Test, S2]
+    <span class="kwrd">public</span> <span class="kwrd">void</span> TestHogeHoge()
+    {
+        <span class="rem">// テストコードを書きます</span>
+    }
+}</pre>
+VB.NET
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode vb">
+&lt;TestFixture()&gt; _
+<span class="kwrd">Public</span> <span class="kwrd">Class</span> HogeTest
+   <span class="kwrd">Inherits</span> S2TestCase
+   
+    &lt;Test(), S2()&gt; _
+    <span class="kwrd">Public</span> <span class="kwrd">sub</span> TestHogeHoge()
+        <span class="rem">' テストコードを書きます</span>
+    <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+    
+<span class="kwrd">End</span> Class</pre>
+
+<p>
+S2TestClassにはS2Container.NETに対応するRegister(), GetComponent(), Include()
+が用意されています。
+</p>
+C#
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">public</span> <span class="kwrd">void</span> TestHogeHoge()
+{
+    <span class="rem">// diconファイルを取り込みます</span>
+    Include(<span class="str">"Hoge.dicon"</span>);
+    
+    <span class="rem">// S2Containerにコンポーネントを登録します</span>
+    Register(<span class="kwrd">typeof</span>(Hashtable));
+    
+    <span class="rem">// S2Containerからコンポーネントを取得します</span>
+    Hashtable table = (Hashtable) GetComponent(<span class="kwrd">typeof</span>(Hashtable));
+}</pre>
+VB.NET
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode vb">
+&lt;Test(), S2()&gt; _
+<span class="kwrd">Public</span> <span class="kwrd">sub</span> TestHogeHoge()
+
+    <span class="rem">' diconファイルを取り込みます</span>
+    Include(<span class="str">"Hoge.dicon"</span>)
+    
+    <span class="rem">' S2Containerにコンポーネントを登録します</span>
+    Register(<span class="kwrd">typeof</span>(Hashtable))
+    
+    <span class="rem">' S2Containerからコンポーネントを取得します</span>
+    <span class="kwrd">Dim</span> table <span class="kwrd">As</span> Hashtable = <span class="kwrd">CType</span>(GetComponent(<span class="kwrd">GetType</span>(Hashtable)), Hashtable)
+    
+    <span class="rem">' 明示的にキャストしない場合は以下でも可</span>
+    <span class="rem">' Dim table As Hashtable = GetComponent(GetType(Hashtable))</span>
+
+<span class="kwrd">End</span> Sub</pre>
+
+<p>
+Include()するdiconファイルのPATHがテストクラスと同じ名前空間にある場合は、名前空間部分のパスは省略できます。
+Foo.Fuga名前空間にTest.diconを用意している場合、
+Foo.Fuga名前空間にあるクラスでは以下のようにdiconファイルのパスを省略することが出来ます。
+</p>
+C#
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">namespace</span> Foo.Fuga
+{
+    [TestFixture]
+    <span class="kwrd">public</span> <span class="kwrd">class</span> HogeTest : S2TestCase
+    {
+        [Test, S2]
+        <span class="kwrd">public</span> <span class="kwrd">void</span> TestHogeHoge()
+        {
+            Include(<span class="str">"Test.dicon"</span>);
+        }
+    }
+}</pre>
+VB.NET
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode vb">
+<span class="kwrd">Namespace</span> Foo.Fuga
+   &lt;TestFixture()&gt; _
+   <span class="kwrd">Public</span> <span class="kwrd">Class</span> HogeTest
+      <span class="kwrd">Inherits</span> S2TestCase
+      
+      &lt;Test(), S2()&gt; _
+      <span class="kwrd">Public</span> <span class="kwrd">Sub</span> TestHogeHoge()
+         Include(<span class="str">"Test.dicon"</span>)
+      <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+      
+   <span class="kwrd">End</span> <span class="kwrd">Class</span>
+<span class="kwrd">End</span> Namespace</pre>
+
+<h2><a name="fieldBinding">フィールドへの自動バインディング</a></h2>
+<p>
+Testクラスにstaticでもないfinalでもないフィールドがあり、 
+その名前からアンダースコア(_)を(先頭もしくは後尾から)除いた名前のコンポーネントがコンテナに存在すれば自動的にセットされます。
+</p>
+Test.dicon
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="abc"</span><span class="kwrd">&gt;</span>"hoge"<span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span></pre>
+C#
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+[TestFixture]
+<span class="kwrd">public</span> <span class="kwrd">class</span> HogeTest : S2TestCase
+{
+    <span class="kwrd">private</span> <span class="kwrd">string</span> _abc = <span class="kwrd">null</span>;
+
+    [Test, S2]
+    <span class="kwrd">public</span> <span class="kwrd">void</span> TestHogeHoge()
+    {
+        Include(<span class="str">"Test.dicon"</span>);
+        Assert.AreEqual(<span class="str">"hoge"</span>, _abc);
+    }
+}</pre>
+VB.NET
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode vb">
+&lt;TestFixture()&gt; _
+<span class="kwrd">Public</span> <span class="kwrd">Class</span> HogeTest
+   <span class="kwrd">Inherits</span> S2TestCase
+   
+    <span class="kwrd">Private</span> _abc <span class="kwrd">As</span> <span class="kwrd">String</span> = <span class="kwrd">Nothing</span>
+   
+    &lt;Test(), S2()&gt; _
+    <span class="kwrd">Public</span> <span class="kwrd">Sub</span> TestHogeHoge()
+        Include(<span class="str">"Test.dicon"</span>)
+        Assert.AreEqual(<span class="str">"hoge"</span>, _abc)
+    <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+
+<span class="kwrd">End</span> Class</pre>
+
+<p>
+Testクラスのフィールドに、代入することのできるコンポーネントがコンテナに存在すれば、S2Containerから取り出して自動的にセットされます。
+</p>
+Test.dicon
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="System.Collections.ArrayList"</span> <span class="kwrd">/&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span></pre>
+C#
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+[TestFixture]
+<span class="kwrd">public</span> <span class="kwrd">class</span> HogeTest : S2TestCase
+{
+    <span class="kwrd">private</span> IList _list = <span class="kwrd">null</span>;
+
+    [Test, S2]
+    <span class="kwrd">public</span> <span class="kwrd">void</span> TestHogeHoge()
+    {
+        Include(<span class="str">"Test.dicon"</span>);
+        Assert.IsNotNull(_list);
+    }
+}</pre>
+VB.NET
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode vb">
+&lt;TestFixture()&gt;  _
+<span class="kwrd">Public</span> <span class="kwrd">Class</span> HogeTest
+    <span class="kwrd">Inherits</span> S2TestCase
+
+    <span class="kwrd">Private</span> _list <span class="kwrd">As</span> IList = <span class="kwrd">Nothing</span>
+
+    &lt;Test(), S2()&gt; _
+    <span class="kwrd">Public</span> <span class="kwrd">Sub</span> TestHogeHoge()
+        Include(<span class="str">"Test.dicon"</span>)
+        Assert.IsNotNull(_list)
+    <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+
+<span class="kwrd">End</span> Class</pre>
+
+<p>
+テストメソッドが終わると、自動セットされた値は自動的にnull(VBの場合はNothing)がセットされます。
+</p>
+
+<h2><a name="init">テストメソッド毎の初期化・終了処理</a></h2>
+<p>
+テストメソッド(TestXxx)に対応するSetUpXxx(),TearDownXxx()を定義しておくと、
+SetUp()の後、TearDown()の前に自動的に呼び出されます。
+個別のテストメソッドごとの初期化・終了処理を簡単に行えるようになります。
+</p>
+C#
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+[TestFixture]
+<span class="kwrd">public</span> <span class="kwrd">class</span> HogeTest : S2TestCase
+{
+    <span class="kwrd">public</span> <span class="kwrd">void</span> SetUpHogeHoge() 
+    {
+        <span class="rem">// 初期化処理を行います </span>
+    }
+
+    [Test, S2]
+    <span class="kwrd">public</span> <span class="kwrd">void</span> TestHogeHoge()
+    {
+        <span class="rem">// テストコードを書きます</span>
+    }
+
+    <span class="kwrd">public</span> <span class="kwrd">void</span> TearDownHogeHoge()
+    {
+        <span class="rem">// 終了処理を書きます</span>
+    }
+}</pre>
+VB.NET
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode vb">
+&lt;TestFixture()&gt; _
+<span class="kwrd">Public</span> <span class="kwrd">Class</span> HogeTest
+    <span class="kwrd">Inherits</span> S2TestCase
+   
+    <span class="kwrd">Public</span> <span class="kwrd">Sub</span> SetUpHogeHoge()
+        <span class="rem">' 初期化処理を行います</span>
+    <span class="kwrd">End</span> <span class="kwrd">Sub</span> 
+
+    &lt;Test(), S2()&gt; _
+    <span class="kwrd">Public</span> <span class="kwrd">Sub</span> TestHogeHoge()
+        <span class="rem">' テストコードを書きます</span>
+    <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+
+    <span class="kwrd">Public</span> <span class="kwrd">Sub</span> TearDownHogeHoge()
+        <span class="rem">' 終了処理を書きます</span>
+    <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+
+<span class="kwrd">End</span> Class</pre>
+
+<h2><a name="trans">トランザクションの自動制御</a></h2>
+
+
+
+<!-- document end -->
+<!-- don't edit start -->
+</td>
+<td width="14"><img height="14" width="14" src="images/spacer.gif" alt=""></td>
+</tr><tr>
+<td width="14"><img height="30" width="14" src="images/spacer.gif" alt=""></td>
+<td width="766"><img height="30" width="592" src="images/spacer.gif" alt=""></td>
+</tr><tr>
+<td width="14"><img height="14" width="14" src="images/spacer.gif" alt=""></td>
+<td width="766" class="copyright">Copyright&copy; 2004-2005, The Seasar Foundation and the others. All rights reserved.</td>
+</tr></table>
+<td class="backright" align="left" valign="top">&nbsp;</td></tr><tr>
+<td class="backunder" align="left"  valign="top" width="780" height="16">&nbsp;</td>
+<td class="backcorner" align="left" valign="top" height="16">&nbsp;</td>
+</tr></table></body>
+<!-- don't edit end -->
+</html>
