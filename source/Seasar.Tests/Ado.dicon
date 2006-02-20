@@ -1,4 +1,4 @@
-﻿�ｿ<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
 "http://www.seasar.org/dtd/components21.dtd">
 <components namespace="Ado">
@@ -12,7 +12,7 @@
 	
 	<component name="DataSource" class="Seasar.Extension.Tx.Impl.TxDataSource">
 		<property name="DataProvider">sqlClient</property>
-		<property name="ConnectionString">"Server=127.0.0.1;database=s2dotnetdemo;Integrated Security=SSPI"</property>
+		<property name="ConnectionString">"Server=DIMENSION9100;database=s2dotnetdemo;Integrated Security=SSPI"</property>
 	</component>
 
 	<component class="Seasar.Extension.Tx.Impl.TransactionContext">
