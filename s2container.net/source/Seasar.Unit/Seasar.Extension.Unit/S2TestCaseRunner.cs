@@ -84,7 +84,7 @@ namespace Seasar.Extension.Unit
 				{
 					dataSource = this.Container.GetComponent(DATASOURCE_NAME) as IDataSource;
 				} 
-				else if (this.Container.HasComponentDef(typeof(DataSourceImpl))) 
+				else if (this.Container.HasComponentDef(typeof(IDataSource))) 
 				{
 					dataSource = this.Container.GetComponent(typeof(IDataSource)) as IDataSource;
 				}
