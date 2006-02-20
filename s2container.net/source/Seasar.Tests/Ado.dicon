@@ -11,7 +11,7 @@
 	</component>
 	
 	<component name="DataSource" class="Seasar.Extension.Tx.Impl.TxDataSource">
-		<property name="DataProvider">sqlClient</property>
+		<property name="DataProvider">SqlClient</property>
 		<property name="ConnectionString">"Server=DIMENSION9100;database=s2dotnetdemo;Integrated Security=SSPI"</property>
 	</component>
 
