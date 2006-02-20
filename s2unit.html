@@ -34,7 +34,7 @@ MbUnitを拡張しています。主な機能は以下のとおりです。</p>
 	<li>
 		<a href="#autoS2">S2Containerの自動作成</a>
 		<ul>
-			<li>テストメソッド(testXxx)ごとに自動的にS2Containerを作成します。</li>
+			<li>テストメソッド(TestXxx)ごとに自動的にS2Containerを作成します。</li>
 			<li>S2Containerに対するRegister(),GetComponent(),Include()が用意されています。</li>
 			<li>Include()するdiconファイルのPATHがテストクラスと同じ名前空間にある場合は、名前空間部分のパスは省略できます。</li>
 		</ul>
@@ -150,6 +150,10 @@ VB.NET
 
 <p>
 Include()するdiconファイルのPATHがテストクラスと同じ名前空間にある場合は、名前空間部分のパスは省略できます。
+ファイルシステムでdiconファイルのPATHを指定する場合は、アセンブリと同じ位置の置くと相対パスとなり省略することができます。
+（ただしビルドイベント等でアセンブリと同じフォルダにはき出すなどの処理が必要です)
+</p>
+<p>
 Foo.Fuga名前空間にTest.diconを用意している場合、
 Foo.Fuga名前空間にあるクラスでは以下のようにdiconファイルのパスを省略することが出来ます。
 </p>
