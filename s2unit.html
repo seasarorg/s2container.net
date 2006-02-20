@@ -44,7 +44,7 @@ MbUnitを拡張しています。主な機能は以下のとおりです。</p>
 		<ul>
 			<li>Testクラスにstatic,readonly,finalのいずれでもないフィールドがあり、
 			その名前からアンダースコア(_)を(先頭もしくは後尾から)除いた名前のコンポーネントがコンテナに存在すれば自動的にセットされます。</li>
-			<li>Testクラスのフィールドに、代入することのできるコンポーネントがコンテナに存在すれば、S2Containerから取り出して自動的にセットされます。</li>
+			<li>Testクラスのフィールドに、代入することのできるコンポーネント(参照型かDateTime)がコンテナに存在すれば、S2Containerから取り出して自動的にセットされます。</li>
 			<li>テストメソッドが終わると、自動セットされた値は自動的にnull(VBの場合はNothing)がセットされます。</li>
 		</ul>	
 	</li>
@@ -228,7 +228,7 @@ VB.NET
 <span class="kwrd">End</span> Class</pre>
 
 <p>
-Testクラスのフィールドに、代入することのできるコンポーネントがコンテナに存在すれば、S2Containerから取り出して自動的にセットされます。
+Testクラスのフィールドに、代入することのできるコンポーネント(参照型かDateTime)がコンテナに存在すれば、S2Containerから取り出して自動的にセットされます。
 </p>
 Test.dicon
 <!-- code formatted by http://manoli.net/csharpformat/ -->
