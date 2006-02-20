@@ -42,7 +42,7 @@ MbUnitを拡張しています。主な機能は以下のとおりです。</p>
 	<li>
 		<a href="#fieldBinding">フィールドへの自動バインディング</a>
 		<ul>
-			<li>Testクラスにstaticでもないfinalでもないフィールドがあり、
+			<li>Testクラスにstatic,readonly,finalのいずれでもないフィールドがあり、
 			その名前からアンダースコア(_)を(先頭もしくは後尾から)除いた名前のコンポーネントがコンテナに存在すれば自動的にセットされます。</li>
 			<li>Testクラスのフィールドに、代入することのできるコンポーネントがコンテナに存在すれば、S2Containerから取り出して自動的にセットされます。</li>
 			<li>テストメソッドが終わると、自動セットされた値は自動的にnull(VBの場合はNothing)がセットされます。</li>
@@ -56,7 +56,14 @@ MbUnitを拡張しています。主な機能は以下のとおりです。</p>
 			個別のテストメソッドごとの初期化・終了処理を簡単に行えるようになります。</li>
 		</ul>
 	</li>
-	<li><a href="#trans">トランザクションの自動制御</a></li>
+	<li>
+		<a href="#trans">トランザクションの自動制御</a>
+		<ul>
+			<li>テストメソッドのS2属性にTx列挙型(Seasar.Extension.Unit.Tx)のRollback(列挙子)を指定すると、
+			テストメソッドの直前にトランザクションを開始し、テストメソッドの直後にトランザクションをロールバックするので、
+			データベースに関するテストを行った場合のクリーンアップの処理が不要になります。</li>
+		</ul>
+	</li>
 </ul>
 
 <h2>事前の準備</h2>
@@ -179,7 +186,7 @@ VB.NET
 
 <h2><a name="fieldBinding">フィールドへの自動バインディング</a></h2>
 <p>
-Testクラスにstaticでもないfinalでもないフィールドがあり、 
+Testクラスにstatic,readonly,finalのいずれでもないフィールドがあり、 
 その名前からアンダースコア(_)を(先頭もしくは後尾から)除いた名前のコンポーネントがコンテナに存在すれば自動的にセットされます。
 </p>
 Test.dicon
@@ -316,8 +323,78 @@ VB.NET
 <span class="kwrd">End</span> Class</pre>
 
 <h2><a name="trans">トランザクションの自動制御</a></h2>
+<p>
+テストメソッドのS2属性にTx列挙型(Seasar.Extension.Unit.Tx)のRollback(列挙子)を指定すると、
+テストメソッドの直前にトランザクションを開始し、テストメソッドの直後にトランザクションをロールバックするので、
+データベースに関するテストを行った場合のクリーンアップの処理が不要になります。
+</p>
+<p>
+Rollbackの他に、Tx列挙型のCommit(列挙子)を指定すると、自動的にトランザクションをコミットします。
+NotSupported(列挙子)を指定すると、トランザクションは開始しません。
+S2属性にTx列挙型の列挙子を与えない場合は、デフォルトでNotSupported(列挙子)を指定したのと同じ動作をします。
+</p>
+<p>
+またトランザクションを扱うためには、下記のようにTransactionContextとDataSourceを定義したdiconファイルを
+読み込んでおく必要があります。
+</p>
+Ado.dicon
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">components</span> <span class="attr">namespace</span><span class="kwrd">="Ado"</span><span class="kwrd">&gt;</span>
 
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="SqlClient"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.ADO.DataProvider"</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="ConnectionType"</span><span class="kwrd">&gt;</span>"System.Data.SqlClient.SqlConnection"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="CommandType"</span><span class="kwrd">&gt;</span>"System.Data.SqlClient.SqlCommand"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="ParameterType"</span><span class="kwrd">&gt;</span>"System.Data.SqlClient.SqlParameter"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="DataAdapterType"</span><span class="kwrd">&gt;</span>"System.Data.SqlClient.SqlDataAdapter"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+    
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="DataSource"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.Tx.Impl.TxDataSource"</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="DataProvider"</span><span class="kwrd">&gt;</span>SqlClient<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="ConnectionString"</span><span class="kwrd">&gt;</span>
+　　　　　　　　　　　　"Server=サーバ名;database=s2dotnetdemo;Integrated Security=SSPI"
+　　　　　　　<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
 
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.Tx.Impl.TransactionContext"</span> <span class="kwrd">/&gt;</span>
+    
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span></pre>
+
+C#
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+[TestFixture]
+<span class="kwrd">public</span> <span class="kwrd">class</span> HogeTest : S2TestCase
+{
+    <span class="kwrd">public</span> <span class="kwrd">void</span> SetUpHogeHoge() 
+    {
+        Include(<span class="str">"Ado.dicon"</span>);
+    }
+
+    [Test, S2(Tx.Rollback)]
+    <span class="kwrd">public</span> <span class="kwrd">void</span> TestHogeHoge()
+    {
+        <span class="rem">// メソッド終了後に自動的にロールバックされます</span>
+    }
+}</pre>
+
+VB.NET
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+&lt;TestFixture&gt; _ 
+<span class="kwrd">Public</span> <span class="kwrd">Class</span> HogeTest
+     <span class="kwrd">Inherits</span> S2TestCase
+
+    <span class="kwrd">Public</span>  <span class="kwrd">Sub</span> SetUpHogeHoge()
+        Include(<span class="str">"Ado.dicon"</span>)
+    <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+ 
+    &lt;Test, S2(Tx.Rollback)&gt; _ 
+    <span class="kwrd">Public</span>  <span class="kwrd">Sub</span> TestHogeHoge()
+        <span class="rem">' メソッド終了後に自動的にロールバックされます</span>
+    <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+
+<span class="kwrd">End</span> Class</pre>
 
 <!-- document end -->
 <!-- don't edit start -->
