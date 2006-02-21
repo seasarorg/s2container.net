@@ -1,3 +1,21 @@
+#region Copyright
+/*
+ * Copyright 2005 the Seasar Foundation and the Others.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ */
+#endregion
+
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
@@ -6,12 +24,12 @@ using System.Runtime.CompilerServices;
 // 属性セットを通して制御されます。アセンブリに関連付けられている 
 // 情報を変更するには、これらの属性値を変更してください。
 //
-[assembly: AssemblyTitle("")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("S2Unit.NET")]
+[assembly: AssemblyDescription("S2Unit.NET 1.1.0")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("")]
-[assembly: AssemblyCopyright("")]
+[assembly: AssemblyProduct("S2Unit.NET")]
+[assembly: AssemblyCopyright("c Copyright The Seasar Foundation and the others 2005-2006, all rights reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]		
 
@@ -26,7 +44,7 @@ using System.Runtime.CompilerServices;
 // 下にあるように、'*' を使って、すべての値を指定するか、
 // ビルドおよびリビジョン番号を既定値にすることができます。
 
-[assembly: AssemblyVersion("1.0.*")]
+[assembly: AssemblyVersion("1.1.0")]
 
 //
 // アセンブリに署名するには、使用するキーを指定しなければなりません。 
