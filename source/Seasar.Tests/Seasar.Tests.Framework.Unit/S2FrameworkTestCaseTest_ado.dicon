@@ -2,7 +2,7 @@
 <!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
 "http://www.seasar.org/dtd/components21.dtd">
 
-<components namespace="ado">
+<components namespace="Ado">
 <!--
 	<component name="sqlClient" class="Seasar.Extension.ADO.DataProvider">
 		<property name="ConnectionType">"System.Data.SqlClient.SqlConnection"</property>
