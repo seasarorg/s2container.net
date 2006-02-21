@@ -20,7 +20,6 @@ using System;
 using System.Collections;
 using MbUnit.Core.Invokers;
 using Seasar.Extension.ADO;
-using Seasar.Extension.ADO.Impl;
 using Seasar.Extension.Tx;
 using Seasar.Framework.Container;
 using Seasar.Framework.Unit;
@@ -56,15 +55,8 @@ namespace Seasar.Extension.Unit
 		{
 			if (Tx.NotSupported != tx)
 			{
-				try
-				{
-					tc = (ITransactionContext) this.Container.GetComponent(typeof(ITransactionContext));
-					tc.Begin();
-				}
-				catch (Exception e) 
-				{
-					Console.Error.WriteLine(e);
-				}
+				tc = (ITransactionContext) this.Container.GetComponent(typeof(ITransactionContext));
+				tc.Begin();
 			}
 		}
 
@@ -96,24 +88,17 @@ namespace Seasar.Extension.Unit
 			if (Tx.NotSupported == tx)
 				return;
 
-			try 
+			if (this.Container.HasComponentDef(DATASOURCE_NAME)) 
 			{
-				if (this.Container.HasComponentDef(DATASOURCE_NAME)) 
-				{
-					dataSource = this.Container.GetComponent(DATASOURCE_NAME) as IDataSource;
-				} 
-				else if (this.Container.HasComponentDef(typeof(IDataSource))) 
-				{
-					dataSource = this.Container.GetComponent(typeof(IDataSource)) as IDataSource;
-				}
-				if (fixture != null && dataSource != null)
-				{
-					fixture.SetDataSource(dataSource);
-				}
+				dataSource = this.Container.GetComponent(DATASOURCE_NAME) as IDataSource;
 			} 
-			catch (Exception e) 
+			else if (this.Container.HasComponentDef(typeof(IDataSource))) 
 			{
-				Console.Error.WriteLine(e);
+				dataSource = this.Container.GetComponent(typeof(IDataSource)) as IDataSource;
+			}
+			if (fixture != null && dataSource != null)
+			{
+				fixture.SetDataSource(dataSource);
 			}
 		}
 

@@ -20,10 +20,13 @@ using System;
 using System.Collections;
 using System.Reflection;
 using MbUnit.Core.Invokers;
+using MbUnit.Framework;
 using Seasar.Extension.Unit;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Factory;
 using Seasar.Framework.Container.Impl;
+using Seasar.Framework.Log;
+using Seasar.Framework.Message;
 using Seasar.Framework.Util;
 
 namespace Seasar.Framework.Unit
@@ -33,10 +36,12 @@ namespace Seasar.Framework.Unit
 	/// </summary>
 	public class S2FrameworkTestCaseRunner
 	{
+		private static Logger logger = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 		private S2FrameworkTestCaseBase fixture;
 		private MethodInfo method;
 		private IS2Container container;
 		private IList bindedFields;
+		private Hashtable errors;
 
 		protected IS2Container Container
 		{
@@ -67,6 +72,11 @@ namespace Seasar.Framework.Unit
 								BeginTransactionContext();
 								return invoker.Execute(o, args);
 							}
+							catch(Exception e)
+							{
+								ExceptionHandler(e);
+								throw e;
+							}
 							finally
 							{
 								EndTransactionContext();
@@ -74,20 +84,40 @@ namespace Seasar.Framework.Unit
 								UnbindFields();
 							}
 						}
+						catch(Exception e)
+						{
+							ExceptionHandler(e);
+							throw e;
+						}
 						finally
 						{
 							TearDownBeforeContainerDestroy();
 						}
 					}
+					catch(Exception e)
+					{
+						ExceptionHandler(e);
+						throw e;
+					}
 					finally
 					{
 						container.Destroy();
 					}
-				} 
+				}
+				catch(Exception e)
+				{
+					ExceptionHandler(e);
+					throw e;
+				}
 				finally 
 				{
 					TearDownForEachTestMethod();
 				}
+			}
+			catch(Exception e)
+			{
+				ExceptionHandler(e);
+				throw e;
 			}
 			finally
 			{
@@ -275,6 +305,39 @@ namespace Seasar.Framework.Unit
 					Console.Error.WriteLine(e);
 			    }
 			}
+		}
+
+		private void ExceptionHandler(Exception e)
+		{
+			if (errors == null)
+				errors = new Hashtable();
+			
+			if (!errors.ContainsKey(e.GetHashCode()))
+			{
+				object[] attrs = method.GetCustomAttributes(typeof(ExpectedExceptionAttribute), false);
+				foreach(ExpectedExceptionAttribute attribute in attrs)
+				{
+					if (IsMatchExpectedException(attribute.ExceptionType, e))
+						return;
+				}
+
+				if (logger.IsDebugEnabled)
+					logger.Debug(MessageFormatter.GetSimpleMessage("ESSR0017", new object[] { e }), e);
+				else
+					Console.Error.WriteLine(e);
+				
+				errors.Add(e.GetHashCode(), e);
+			}
+		}
+
+		private bool IsMatchExpectedException(Type ExpectedExceptionType, Exception e)
+		{
+			if (ExpectedExceptionType == e.GetType())
+				return true;
+			else if (e.InnerException != null)
+				return IsMatchExpectedException(ExpectedExceptionType, e.InnerException);
+			else
+				return false;
 		}
 	}
 }
