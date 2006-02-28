@@ -132,8 +132,8 @@ namespace Seasar.Framework.Unit
 
 		protected virtual void SetUpContainer()
 		{
-			container = new S2ContainerImpl();
-			SingletonS2ContainerFactory.Container = container;
+			SingletonS2ContainerFactory.Init();
+			container = SingletonS2ContainerFactory.Container;
 		}
 
 		protected virtual void TearDownContainer()

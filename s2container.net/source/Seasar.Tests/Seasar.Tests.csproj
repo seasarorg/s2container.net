@@ -142,6 +142,10 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "test.dicon"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "TSTMessages.resx"
                     BuildAction = "EmbeddedResource"
                 />
