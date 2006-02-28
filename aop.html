@@ -2,7 +2,7 @@
 <html><head><!-- don't edit start --><title>Seasar - DI Container with AOP -</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="Content-Style-Type" content="text/css">
 <link href="seasar_b.css" type="text/css" rel="stylesheet" media="screen"><link href="seasar_p.css" type="text/css" rel="stylesheet" media="print"><script src="seasar_b.js" type="text/JavaScript" language="JavaScript"></script></head>
-
+<link rel="stylesheet" type="text/css" href="csharp.css" >
 
 <body onload="preload('ja')"><table align="left" border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr>
 <td align="left" valign="top" width="780"><table class="white" border="0" cellpadding="0" cellspacing="0" width="780">
@@ -70,26 +70,19 @@ Concern)とロギング機能、宣言的トランザクション、DBコネク�
 プログラム実行中の節目ごとにその途中経過を記録（ロギング）したい場合、ログを書き出すサンプルのコードを以下に示します。
 太字で書いた場所がログを書き出す場所です。
 </p>
-<pre>
-class Foo {
-    private Bar bar = new Bar();
-    public void Foo()
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">public</span> <span class="kwrd">class</span> IHelloImpl : IHello
+{
+    <span class="kwrd">public</span> <span class="kwrd">void</span> ShowMessage() 
     {
-        <b>logger.Log("BEGIN Foo#Foo");</b>
-        bar.DoSomething();
-        <b>logger.Log("END Foo#Foo");</b>
+        <b>logger.Log(<span class="str">"BEGIN IHello#ShowMessage"</span>);</b>
+        Console.WriteLine(<span class="str">"Hello World !!"</span>);
+        <b>logger.Log(<span class="str">"END IHello#ShowMessage"</span>);</b>
     }
 }</pre>
-<pre>
-class Bar {
-    private Baz baz = new Baz();
-    public void DoSomething(){
-        <b>logger.Log("BEGIN Bar#DoSomething");</b>
-        baz.DoSomething();
-        <b>logger.Log("END Bar#DoSomething");</b>
-    }
-}
-</pre>
+
     <p>このサンプルのようにロギングするということは、プログラムの複数箇所にその命令を追加する必要があります。また、編集ツールの検索機能などを使って該当箇所を探すとしても、プログラムの書き換えは最終的に手作業となります。これは、次のような問題を引き起こします。</p>
     <ul>
       	<li>処理が複数箇所に分散します。後になって集めたい情報が増えたり、処理そのものが不要になったりすると、それに合わせてすべての場所を変更する必要が出てきます。</li>
@@ -103,42 +96,79 @@ class Bar {
 Concern」と呼びます。「Crosscuting
 Concern」を分散させないために、モジュール化して取り除き、実行時またはコンパイル時にバイトコードで組み込む仕組みが必要になります。先程のロ
 ギングの例をS2AOP.NETを使うと以下のようにXMLの設定をするだけです。ロギングを行う処理をプログラムの複数箇所に追加する必要がなくなります。 </p>
-<pre>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-&lt;!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
-"http://www.seasar.org/dtd/components.dtd"&gt;
-&lt;components&gt;
-    &lt;component name="traceInterceptor"
-               class="Seasar.Framework.Aop.Interceptors.TraceInterceptor"/&gt;
-    &lt;component class="Foo"&gt;
-        &lt;aspect pointcut="Foo"&gt;traceInterceptor&lt;/aspect&gt;
-    &lt;/component&gt;
-    &lt;component class="Bar"&gt;
-        &lt;aspect pointcut="DoSomething"&gt;traceInterceptor&lt;/aspect&gt;
-    &lt;/component&gt;
-&lt;/components&gt;
-</pre>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;?</span><span class="html">xml</span> <span class="attr">version</span><span class="kwrd">="1.0"</span> <span class="attr">encoding</span><span class="kwrd">="utf-8"</span> ?<span class="kwrd">&gt;</span> 
+<span class="kwrd">&lt;!</span><span class="html">DOCTYPE</span> <span class="attr">components</span> <span class="attr">PUBLIC</span> <span class="kwrd">"-//SEASAR2.1//DTD S2Container//EN"</span>
+<span class="kwrd">"http://www.seasar.org/dtd/components21.dtd"</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="traceInterceptor"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Framework.Aop.Interceptors.TraceInterceptor"</span><span class="kwrd">/&gt;</span>
+    
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="IHelloImpl"</span> <span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">aspect</span><span class="kwrd">&gt;</span>traceInterceptor<span class="kwrd">&lt;/</span><span class="html">aspect</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="AopClient"</span> <span class="attr">class</span><span class="kwrd">="AopClient"</span><span class="kwrd">/&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span></pre>
 
 	<p>設定ファイルの詳細は、S2AOP.NETリファレンスの<a href="#AOPExplanationFile">設定ファイルの説明</a>を参照してください。</p>
 
-<pre>
-class Foo
+IHelloインターフェース
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">public</span> <span class="kwrd">interface</span> IHello
 {
-    privaye Bar bar = new Bar();
-    public void Foo()
-    {
-        bar.DoSomething();
-    }
-}
-</pre>
-<pre>
-class Bar
+    <span class="kwrd">void</span> ShowMessage();
+}</pre>
+
+IHelloを実装したHelloImplクラス
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">public</span> <span class="kwrd">class</span> IHelloImpl : IHello
 {
-    private Baz baz = new Baz();
-    public void DoSomething()
+    <span class="kwrd">public</span> <span class="kwrd">void</span> ShowMessage() 
     {
-        baz.DoSomething();
+        Console.WriteLine(<span class="str">"Hello World !!"</span>);
     }
-}
+}</pre>
+
+HelloImplクラスをコンストラクタ・インジェクションで受け取り、ShowMessageメソッドを呼び出します
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">public</span> <span class="kwrd">class</span> AopClient
+{
+    <span class="kwrd">private</span> IHello hello;
+
+    <span class="kwrd">public</span> AopClient(IHello hello) 
+    {
+        <span class="kwrd">this</span>.hello = hello;
+    }
+
+    <span class="kwrd">public</span> <span class="kwrd">void</span> Main()
+    {
+        hello.ShowMessage();
+    }
+}</pre>
+
+AopClientをS2Containerから受け取り、実行します
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+SingletonS2ContainerFactory.ConfigPath = <span class="str">"Aop.dicon"</span>;
+SingletonS2ContainerFactory.Init();
+
+<span class="rem">// S2Containerを作成します</span>
+IS2Container container = SingletonS2ContainerFactory.Container;
+
+<span class="rem">// AopClientをS2Containerから取得します</span>
+AopClient aopClient = (AopClient) container.GetComponent(<span class="str">"AopClient"</span>);
+
+aopClient.Main();</pre>
+
+実行すると下記のようにログが出力されます
+<pre>
+DEBUG 2006-03-01 00:11:45,406 [1136] BEGIN IHello#ShowMessage()
+Hello World !!
+DEBUG 2006-03-01 00:11:45,406 [1136] END IHello#ShowMessage() :
 </pre>
 
 	<h3><a name="AOPKey">AOPを考える上でキーとなる概念</a></h3>
