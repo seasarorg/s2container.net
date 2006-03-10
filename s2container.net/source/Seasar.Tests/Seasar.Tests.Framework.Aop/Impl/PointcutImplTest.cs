@@ -73,9 +73,20 @@ namespace TestSeasar.Framework.Aop.Impl
 		public void TestRegex()
 		{
 			PointcutImpl pointcut = new PointcutImpl(new string[] { "Greeting.*" });
-			Assert.AreEqual(true,pointcut.IsApplied("Greeting"));
-			Assert.AreEqual(true,pointcut.IsApplied("Greeting2"));
-			Assert.AreEqual(false,pointcut.IsApplied("TestRegex"));
+			Assert.AreEqual(true, pointcut.IsApplied("Greeting"), "1");
+			Assert.AreEqual(true, pointcut.IsApplied("Greeting2"), "2");
+			Assert.AreEqual(false, pointcut.IsApplied("TestGreetingAAA"), "3");
+			Assert.AreEqual(false, pointcut.IsApplied("TestGreeting"), "4");
+			Assert.AreEqual(false, pointcut.IsApplied("TestRegex"), "5");
+		}
+		
+		[Test]
+		public void testRegex2() 
+		{
+			PointcutImpl pointcut = new PointcutImpl(new String[] { "Find" });
+			Assert.AreEqual(false, pointcut.IsApplied("GetFindEx"), "1");
+			Assert.AreEqual(false, pointcut.IsApplied("FindAll"), "2");
+			Assert.AreEqual(true, pointcut.IsApplied("Find"), "3");
 		}
 
 		public interface Hello
