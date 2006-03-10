@@ -501,8 +501,17 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "Seasar.Tests.Framework.Unit\ddd.dicon"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "Seasar.Tests.Framework.Unit\empty.dicon"
                     BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Seasar.Tests.Framework.Unit\Hoge.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
                 />
                 <File
                     RelPath = "Seasar.Tests.Framework.Unit\S2FrameworkTestCaseTest_ado.dicon"

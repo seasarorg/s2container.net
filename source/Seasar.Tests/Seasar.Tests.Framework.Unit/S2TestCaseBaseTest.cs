@@ -20,13 +20,18 @@ using System;
 using System.Collections;
 using System.IO;
 using System.Reflection;
+using System.Runtime.Remoting;
 using log4net;
 using log4net.Config;
 using log4net.Util;
 using MbUnit.Framework;
 using Seasar.Extension.Unit;
+using Seasar.Framework.Aop;
+using Seasar.Framework.Aop.Impl;
+using Seasar.Framework.Aop.Proxy;
 using Seasar.Framework.Container;
 using Seasar.Framework.Log;
+
 
 namespace Seasar.Tests.Framework.Unit
 {
@@ -44,6 +49,7 @@ namespace Seasar.Tests.Framework.Unit
 		private Hashtable bbb_ = null;
 		private DateTime ddd_ = new DateTime();
 		private IList list1_ = null;
+		private Hoge hoge_ = null;
 
 		static S2TestCaseBaseTest()
 		{
@@ -161,28 +167,41 @@ namespace Seasar.Tests.Framework.Unit
 			Assert.AreEqual(_ccc, "hoge","1");
 		}
 		
+		public void SetUpPointcut() 
+		{
+			Include("ddd.dicon");
+		}
+
+		[Test, S2]
+		public void TestPointcut() 
+		{
+			AopProxy aopProxy = RemotingServices.GetRealProxy(hoge_) as AopProxy;
+			
+			FieldInfo fieldInfo = aopProxy.GetType()
+				.GetField("aspects_", BindingFlags.NonPublic | BindingFlags.Instance);
+			
+			IAspect[] aspects = fieldInfo.GetValue(aopProxy) as IAspect[];
+			
+			PointcutImpl pointcut = aspects[0].Pointcut as PointcutImpl;
+			
+			Assert.AreEqual(pointcut.IsApplied("GetAaa"), false, "1");
+			Assert.AreEqual(pointcut.IsApplied("GetGreeting"), false, "2");
+			Assert.AreEqual(pointcut.IsApplied("Greeting"), true, "3");
+			Assert.AreEqual(pointcut.IsApplied("Greeting2"), true, "4");
+			Assert.AreEqual(pointcut.IsApplied("GetGreetingEx"), false, "5");
+
+			hoge_.GetAaa();
+			hoge_.GetGreeting();
+			hoge_.Greeting();
+			hoge_.Greeting2();
+			hoge_.GetGreetingEx();
+		}
+
 		[Test, S2]
 		public void TestEmptyComponent() 
 		{
 			Include("empty.dicon");
 		}
 	}
-	public class Hoge 
-	{
-		private string aaa;
-		/**
-				* @return Returns the aaa.
-				*/
-		public String GetAaa() 
-		{
-			return aaa;
-		}
-		/**
-				* @param aaa The aaa to set.
-				*/
-		public void SetAaa(String aaa) 
-		{
-			this.aaa = aaa;
-		}
-	}
+
 }

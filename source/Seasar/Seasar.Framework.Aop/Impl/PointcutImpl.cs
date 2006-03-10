@@ -103,7 +103,8 @@ namespace Seasar.Framework.Aop.Impl
 			regularExpressions_ = new Regex[methodNames.Length];
 			for(int i = 0; i < methodNames.Length; ++i)
 			{
-				regularExpressions_[i] = new Regex(methodNames[i].Trim());
+				string methodName = @"^" + methodNames[i].Trim() + "$";
+				regularExpressions_[i] = new Regex(methodName, RegexOptions.Compiled);
 			}
 		}
 
