@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "Library"
                 PreBuildEvent = ""
-                PostBuildEvent = 'copy "$(ProjectDir)App.config" "$(TargetPath).config"&#xd;&#xa;mkdir "$(TargetDir)bin"&#xd;&#xa;copy "$(TargetDir)" "$(TargetDir)bin\"&#xd;&#xa;copy "$(ProjectDir)Seasar.Tests.Framework.Container\Deployer\SessionComponentDeployerWebPage.aspx" "$(TargetDir)"&#xd;&#xa;copy "$(ProjectDir)Seasar.Tests.Framework.Container\Deployer\SessionComponentDeployerWebPage.aspx.cs" "$(TargetDir)"&#xd;&#xa;'
+                PostBuildEvent = 'copy "$(ProjectDir)App.config" "$(TargetPath).config"&#xd;&#xa;mkdir "$(TargetDir)bin"&#xd;&#xa;copy "$(TargetDir)" "$(TargetDir)bin\"&#xd;&#xa;copy "$(ProjectDir)Seasar.Tests.Framework.Container\Deployer\SessionComponentDeployerWebPage.aspx" "$(TargetDir)"&#xd;&#xa;copy "$(ProjectDir)Seasar.Tests.Framework.Container\Deployer\SessionComponentDeployerWebPage.aspx.cs" "$(TargetDir)"&#xd;&#xa;mkdir "$(TargetDir)\Seasar\Tests\Extension\Unit"&#xd;&#xa;copy "$(ProjectDir)Seasar.Tests.Extension.Unit\*.xls" "$(TargetDir)Seasar\Tests\Extension\Unit"'
                 RootNamespace = ""
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
@@ -155,6 +155,63 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Seasar.Tests.Extension.DataSets.Impl\SqlDeleteTableWriterTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Tests.Extension.DataSets.Impl\SqlReloadReaderTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Tests.Extension.DataSets.Impl\SqlReloadTableReaderTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Tests.Extension.DataSets.Impl\SqlTableReaderTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Tests.Extension.DataSets.Impl\SqlTableWriterTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Tests.Extension.DataSets.Impl\XlsReaderImplSortTest.xls"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Seasar.Tests.Extension.DataSets.Impl\XlsReaderImplTest.xls"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Seasar.Tests.Extension.DataSets.Impl\XlsReaderSortTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Tests.Extension.DataSets.Impl\XlsReaderTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Tests.Extension.DataSets.Impl\XlsReaderTest1.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Tests.Extension.DataSets.Impl\XlsReaderTest1.xls"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Seasar.Tests.Extension.DataSets.Impl\XlsWriterTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Seasar.Tests.Extension.Tx\DTCRequiredInterceptorTest.dicon"
                     BuildAction = "EmbeddedResource"
                 />
@@ -217,6 +274,10 @@
                     RelPath = "Seasar.Tests.Extension.Unit\S2TestCaseTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Tests.Extension.Unit\testdata.xls"
+                    BuildAction = "None"
                 />
                 <File
                     RelPath = "Seasar.Tests.Framework.Aop\Impl\MethodInvocationImplTest.cs"

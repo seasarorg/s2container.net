@@ -336,6 +336,121 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Seasar.Extension.DataSets\IDataReader.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.DataSets\IDataWriter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.DataSets\ITableReader.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.DataSets\ITableWriter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.DataSets.Impl\DataRowReloadResultSetHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.DataSets.Impl\DataTableResultSetHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.DataSets.Impl\SqlDeleteTableWriter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.DataSets.Impl\SqlReader.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.DataSets.Impl\SqlReloadReader.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.DataSets.Impl\SqlReloadTableReader.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.DataSets.Impl\SqlTableReader.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.DataSets.Impl\SqlTableWriter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.DataSets.Impl\SqlWriter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.DataSets.Impl\XlsReader.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.DataSets.Impl\XlsWriter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.DataSets.States\AbstractRowState.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.DataSets.States\CreatedState.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.DataSets.States\DetachedState.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.DataSets.States\ModifiedState.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.DataSets.States\RemovedState.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.DataSets.States\RowState.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.DataSets.States\RowStateFactory.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.DataSets.States\UnchangedState.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Seasar.Extension.Tx\ITransactionContext.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -1040,12 +1155,32 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Seasar.Framework.Util\DataReaderInspector.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Seasar.Framework.Util\DataReaderUtil.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Seasar.Framework.Util\DataSetInspector.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Seasar.Framework.Util\DataSourceUtil.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Framework.Util\DataTableInspector.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Framework.Util\DataTableUtil.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
