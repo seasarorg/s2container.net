@@ -18,7 +18,6 @@
 
 using System;
 using System.IO;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Seasar.Extension.UI

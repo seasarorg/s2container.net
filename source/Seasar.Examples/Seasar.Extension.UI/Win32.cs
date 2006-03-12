@@ -17,7 +17,6 @@
 #endregion
 
 using System;
-using System.Runtime;
 using System.Runtime.InteropServices;
 
 using HWND = System.IntPtr;
