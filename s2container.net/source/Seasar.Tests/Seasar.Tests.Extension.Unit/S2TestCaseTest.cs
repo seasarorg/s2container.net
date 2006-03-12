@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Data;
 using System.IO;
 using System.Reflection;
 using log4net;
@@ -25,6 +26,7 @@ using log4net.Util;
 using MbUnit.Framework;
 using Seasar.Extension.Unit;
 using Seasar.Framework.Log;
+using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Extension.Unit
 {
@@ -83,6 +85,60 @@ namespace Seasar.Tests.Extension.Unit
 		public void Commit()
 		{
 			logger.Debug( "Commit test" );
+		}
+
+		public void SetUpReadXlsTx() 
+		{
+			Include(PATH);
+		}
+
+		[Test, S2(Tx.Rollback)]
+		public void ReadXlsTx() 
+		{
+			DataSet dataSet = ReadXls("testdata.xls");
+			DataSetInspector.OutWriteLine(dataSet);
+			Assert.AreEqual(2, dataSet.Tables.Count, "1");
+			DataTable table = dataSet.Tables["emp"];
+			Assert.AreEqual(2, table.Rows.Count, "2");
+			Assert.AreEqual(3, table.Columns.Count, "3");
+			DataRow row = table.Rows[0];
+			Assert.AreEqual(9900m, row["empno"], "4");
+			Assert.AreEqual("hoge", row["ename"], "5");
+			Assert.AreEqual("aaa", row["dname"], "6");
+		}
+
+		public void SetUpReadDbByTableTx() 
+		{
+			Include(PATH);
+		}
+
+		[Test, S2(Tx.Rollback)]
+		public void ReadDbByTableTx() 
+		{
+			DataTable table = ReadDbByTable("emp", "empno = 7788");
+			DataTableInspector.OutWriteLine(table);
+			Assert.AreEqual(1, table.Rows.Count, "1");
+		}
+
+		public void SetUpWriteXlsTx() 
+		{
+			Include(PATH);
+			string exportPath = Path.GetFullPath(convertPath("aaa.xls"));
+			if (File.Exists(exportPath))
+			{
+				File.Delete(Path.GetFullPath(convertPath("aaa.xls")));		
+			}
+		}
+
+		[Test, S2(Tx.Rollback)]
+		public void WriteXlsTx() 
+		{
+			DataSet dataSet = ReadXls("testdata.xls");
+			dataSet.WriteXml(@"C:\test.xml", XmlWriteMode.WriteSchema);
+			WriteXls("aaa.xls", dataSet);
+			DataSetInspector.OutWriteLine(dataSet);
+			DataSet dataSet2 = ReadXls("aaa.xls");
+			S2Assert.AreEqual(dataSet, dataSet2);
 		}
 	}
 
