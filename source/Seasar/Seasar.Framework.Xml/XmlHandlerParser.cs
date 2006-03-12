@@ -18,14 +18,12 @@
 
 using System;
 using System.Reflection;
-using System.Collections;
 using System.IO;
 using System.Xml;
 using System.Xml.Schema;
 using System.Web;
 using Seasar.Framework.Util;
 using Seasar.Framework.Xml.Impl;
-using Seasar.Framework.Container;
 
 namespace Seasar.Framework.Xml
 {

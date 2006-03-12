@@ -20,10 +20,6 @@ using System;
 using System.Data;
 
 using Seasar.Extension.Tx;
-using Seasar.Extension.Tx.Impl;
-
-using Seasar.Framework.Aop;
-using Seasar.Framework.Aop.Impl;
 
 namespace TestSeasar.Extension.Tx.Impl
 {

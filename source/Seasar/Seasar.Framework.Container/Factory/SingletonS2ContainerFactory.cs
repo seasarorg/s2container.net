@@ -17,9 +17,6 @@
 #endregion
 
 using System;
-using System.Collections.Specialized;
-using System.Configuration;
-using System.Reflection;
 using Seasar.Framework.Exceptions;
 using Seasar.Framework.Util;
 using Seasar.Framework.Xml;

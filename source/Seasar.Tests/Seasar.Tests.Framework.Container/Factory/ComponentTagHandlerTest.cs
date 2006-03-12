@@ -18,7 +18,6 @@
 
 using System;
 using System.Collections;
-using System.Text;
 using NUnit.Framework;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Factory;

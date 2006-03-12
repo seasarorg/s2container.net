@@ -24,7 +24,6 @@ using MbUnit.Framework;
 using Seasar.Extension.Unit;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Factory;
-using Seasar.Framework.Container.Impl;
 using Seasar.Framework.Log;
 using Seasar.Framework.Message;
 using Seasar.Framework.Util;

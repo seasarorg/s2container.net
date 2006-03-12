@@ -20,7 +20,6 @@ using Microsoft.JScript;
 using System;
 using System.Collections;
 using System.Reflection;
-using System.CodeDom;
 using System.CodeDom.Compiler;
 using Seasar.Framework.Exceptions;
 

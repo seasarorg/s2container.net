@@ -21,7 +21,6 @@ using System.Collections;
 using System.Data;
 using System.Data.SqlTypes;
 using Seasar.Extension.ADO;
-using Seasar.Framework.Container.Factory;
 using Nullables;
 
 namespace Seasar.Extension.ADO.Types

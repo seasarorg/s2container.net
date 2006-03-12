@@ -21,7 +21,6 @@ using System.Reflection;
 using System.Runtime.Remoting;
 using Seasar.Framework.Aop.Proxy;
 using Seasar.Framework.Log;
-using Seasar.Framework.Util;
 using Seasar.Framework.Container.Util;
 
 namespace Seasar.Framework.Container.Assembler
