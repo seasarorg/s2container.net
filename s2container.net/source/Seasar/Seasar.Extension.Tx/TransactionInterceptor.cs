@@ -17,7 +17,6 @@
 #endregion
 
 using System;
-using System.EnterpriseServices;
 
 using Seasar.Framework.Aop;
 using Seasar.Framework.Aop.Interceptors;

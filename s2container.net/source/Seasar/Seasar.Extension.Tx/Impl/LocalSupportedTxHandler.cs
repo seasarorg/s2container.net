@@ -18,7 +18,6 @@
 
 using System;
 
-using Seasar.Framework.Aop;
 
 namespace Seasar.Extension.Tx.Impl
 {

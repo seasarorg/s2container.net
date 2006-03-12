@@ -17,7 +17,6 @@
 #endregion
 
 using System;
-using System.Data;
 
 using Seasar.Framework.Aop;
 

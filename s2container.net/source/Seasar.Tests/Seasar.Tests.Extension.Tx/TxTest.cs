@@ -19,11 +19,6 @@
 using System;
 using System.EnterpriseServices;
 
-using Seasar.Framework.Aop;
-using Seasar.Framework.Aop.Impl;
-using Seasar.Framework.Aop.Proxy;
-
-
 namespace TestSeasar.Extension.Tx
 {
 	public class TxTest : MarshalByRefObject

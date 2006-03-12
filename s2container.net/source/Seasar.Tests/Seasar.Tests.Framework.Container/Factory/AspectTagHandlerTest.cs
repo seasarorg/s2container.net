@@ -23,7 +23,6 @@ using System.IO;
 using NUnit.Framework;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Factory;
-using Seasar.Framework.Xml;
 using log4net;
 using log4net.Config;
 using log4net.Util;

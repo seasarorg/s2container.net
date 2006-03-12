@@ -22,7 +22,6 @@ using System.IO;
 using System.Reflection;
 
 using Seasar.Extension.Tx;
-using Seasar.Extension.Tx.Impl;
 
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Factory;

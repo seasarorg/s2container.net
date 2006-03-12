@@ -21,7 +21,6 @@ using System.Data.OleDb;
 using System.Data;
 using Seasar.Extension.ADO;
 using Seasar.Framework.Util;
-using Nullables;
 
 namespace Seasar.Extension.ADO.Types
 {

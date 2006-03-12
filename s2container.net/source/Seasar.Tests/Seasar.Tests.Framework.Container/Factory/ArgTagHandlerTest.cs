@@ -17,11 +17,9 @@
 #endregion
 
 using System;
-using System.Reflection;
 using NUnit.Framework;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Factory;
-using Seasar.Framework.Xml;
 
 namespace TestSeasar.Framework.Container.Factory
 {

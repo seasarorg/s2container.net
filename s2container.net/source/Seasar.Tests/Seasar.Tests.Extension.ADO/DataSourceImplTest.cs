@@ -20,7 +20,6 @@ using System;
 using System.Data;
 using NUnit.Framework;
 using Seasar.Extension.ADO;
-using Seasar.Extension.ADO.Impl;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Impl;
 using Seasar.Framework.Container.Factory;

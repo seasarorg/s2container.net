@@ -17,10 +17,6 @@
 #endregion
 
 using System;
-using System.IO;
-using System.Xml;
-using System.Xml.Schema;
-using Seasar.Framework.Container;
 using Seasar.Framework.Xml;
 
 namespace Seasar.Framework.Xml
