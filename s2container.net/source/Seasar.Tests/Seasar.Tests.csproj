@@ -124,6 +124,11 @@
                     Project = "{FC3A021B-6288-4C34-8303-544640D22FDA}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
+                <Reference
+                    Name = "Nullables"
+                    AssemblyName = "Nullables"
+                    HintPath = "..\..\lib\Nullables.dll"
+                />
             </References>
         </Build>
         <Files>
@@ -590,6 +595,11 @@
                 />
                 <File
                     RelPath = "Seasar.Tests.Framework.Util\ConstructorUtilTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Tests.Framework.Util\ConversionUtilTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
