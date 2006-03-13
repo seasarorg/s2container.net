@@ -55,8 +55,6 @@ namespace Seasar.Framework.Util
 				{
 					column.ReadOnly = true;
 				}
-
-				/// TODO メタ情報から取得したデータ型をDataColumnに設定すること。
 			}
 
 			DataColumn[] d = (DataColumn[]) primaryKeyList.ToArray(typeof(DataColumn));;

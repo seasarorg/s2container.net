@@ -39,8 +39,6 @@ namespace Seasar.Extension.Unit
 
 		private IDbConnection connection;
 
-		//private DatabaseMetaData dbMetaData;
-
 		public S2TestCase()
 		{
 
@@ -268,10 +266,5 @@ namespace Seasar.Extension.Unit
 				);
 			handler.Execute(null);
 		}
-
-//		protected IDbms Dbms 
-//		{
-//			get { return null; }
-//		}
 	}
 }

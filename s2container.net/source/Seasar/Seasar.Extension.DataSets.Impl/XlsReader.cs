@@ -10,15 +10,21 @@ namespace Seasar.Extension.DataSets.Impl
 	{
 		private const int DEFAULT_BUFFER_SIZE = 1024 * 4;
 
-		private static readonly Regex ILLIGAL_COLUMN_NAME_PATTERN = new Regex("F[0-9]+$");
-
-		private DataSet dataSet_;
+		private Regex illigalColumnNamePattern = new Regex("F[0-9]+$", RegexOptions.Compiled);
 
 		private Regex workSheetPrefixPattern = new Regex(@"^#[0-9]+\s+.+$", RegexOptions.Compiled);
 
+		private DataSet dataSet_;
+
 		public XlsReader(string path)
 		{
-			dataSet_ = CreateDataSet(Path.GetFullPath(path));
+			string fullPath = Path.GetFullPath(path);
+			if (!File.Exists(fullPath)) 
+			{
+				throw new FileNotFoundException("xls file not found.", fullPath);
+			}
+
+			dataSet_ = CreateDataSet(fullPath);
 		}
 
 		public XlsReader(Stream stream)
@@ -66,7 +72,6 @@ namespace Seasar.Extension.DataSets.Impl
 					con.Open();
 				}
 
-				/// TODO 取得結果がソートされている。Excelシートの定義順に取得できないか？
 				DataTable tableList = con.GetOleDbSchemaTable(
 					OleDbSchemaGuid.Tables_Info,
 					new object[] {null, null, null, "TABLE"}
@@ -135,7 +140,7 @@ namespace Seasar.Extension.DataSets.Impl
 					isRemove = true;
 				}
 
-				if (ILLIGAL_COLUMN_NAME_PATTERN.IsMatch(columnName)) 
+				if (illigalColumnNamePattern.IsMatch(columnName)) 
 				{
 					isRemove = true;
 				}

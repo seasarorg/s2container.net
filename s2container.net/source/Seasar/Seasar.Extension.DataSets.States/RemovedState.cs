@@ -91,7 +91,18 @@ namespace Seasar.Extension.DataSets.States
 				DataColumn column = table.Columns[i];
 				if (DataTableUtil.IsPrimaryKey(table, column))
 				{
-					bindVariables.Add(row[i, DataRowVersion.Original]);
+					if (row.RowState == DataRowState.Detached) 
+					{
+						bindVariables.Add(row[i, DataRowVersion.Proposed]);
+					} 
+					else if (row.RowState == DataRowState.Deleted) 
+					{
+						bindVariables.Add(row[i, DataRowVersion.Original]);
+					}
+					else 
+					{
+						bindVariables.Add(row[i, DataRowVersion.Current]);
+					}
 				}
 			}
 			return bindVariables.ToArray();

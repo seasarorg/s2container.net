@@ -30,31 +30,31 @@ namespace Seasar.Tests.Extension.DataSets.Impl
 	[TestFixture]
 	public class XlsReaderTest : S2TestCase
 	{
-		private static readonly string PATH = "Seasar.Tests.Extension.DataSets.Impl.XlsReaderImplTest.xls";
+		private const string PATH = "Seasar.Tests.Extension.DataSets.Impl.XlsReaderImplTest.xls";
 
-		private DataSet dataSet;
+		private DataSet dataSet_;
 
 		[SetUp]
 		public void SetUp() 
 		{
 			using (Stream stream = ResourceUtil.GetResourceAsStream(PATH, Assembly.GetExecutingAssembly()))  
 			{
-				dataSet = new XlsReader(stream).Read();
+				dataSet_ = new XlsReader(stream).Read();
 			}
 		}
 
 		[Test]
 		public void TestCreateTable() 
 		{
-			Assert.AreEqual(4, dataSet.Tables.Count, "1");
-			DataSetInspector.OutWriteLine(dataSet);
+			Assert.AreEqual(4, dataSet_.Tables.Count, "1");
+			DataSetInspector.OutWriteLine(dataSet_);
 		}
 
 		[Test]
 		public void TestSetupColumns() 
 		{
 			// Java版と違い、テーブル順でソートされている？ので、indexではなく、nameで取得。
-			DataTable table = dataSet.Tables["TEST_TABLE"];
+			DataTable table = dataSet_.Tables["TEST_TABLE"];
 			Assert.AreEqual(4, table.Columns.Count, "1");
 			for (int i = 0; i < table.Columns.Count; ++i) 
 			{
@@ -65,7 +65,7 @@ namespace Seasar.Tests.Extension.DataSets.Impl
 		[Test]
 		public void TestSetupRows() 
 		{
-			DataTable table = dataSet.Tables["TEST_TABLE"];
+			DataTable table = dataSet_.Tables["TEST_TABLE"];
 			Assert.AreEqual(12, table.Rows.Count, "1");
 			for (int i = 0; i < table.Rows.Count; ++i) 
 			{
@@ -75,14 +75,14 @@ namespace Seasar.Tests.Extension.DataSets.Impl
 					Assert.AreEqual("row " + i + " col " + j, row[j], "2");
 				}
 			}
-			DataTable table2 = dataSet.Tables["EMPTY_TABLE"];
+			DataTable table2 = dataSet_.Tables["EMPTY_TABLE"];
 			Assert.AreEqual(0, table2.Rows.Count, "3");
 		}
 
 		[Test]
 		public void TestGetValue() 
 		{
-			DataTable table = dataSet.Tables["あ"];
+			DataTable table = dataSet_.Tables["あ"];
 			DataRow row = table.Rows[0];
 			Assert.AreEqual(
 				new DateTime(2004, 3, 22),
@@ -99,11 +99,25 @@ namespace Seasar.Tests.Extension.DataSets.Impl
 				row[2],
 				"3"
 				);
+		}
+
+		[Ignore("BASE64_FORMAT未対応のため")]
+		public void TestGetValueIgnore() 
+		{
+			DataTable table = dataSet_.Tables["あ"];
+			DataRow row = table.Rows[0];
 			Assert.AreEqual(
 				"YWJj",
-				row[3],
+				Convert.ToBase64String((byte[]) row[3]),
 				"4"
 				);
+		}
+		
+		[Test]
+		public void TestDataRowState() 
+		{
+			DataTable ret = dataSet_.Tables["TEST_TABLE"];
+			Assert.AreEqual(DataRowState.Added, ret.Rows[0].RowState);
 		}
 	}
 }
