@@ -19,6 +19,7 @@
 using System;
 using System.IO;
 using System.Xml;
+using System.Web;
 using System.Reflection;
 using Seasar.Framework.Util;
 
@@ -46,13 +47,13 @@ namespace Seasar.Framework.Xml
 		{
 			Stream stream = null;
 
-			if(absoluteUri.AbsoluteUri.EndsWith(PUBLIC_ID) ||
-				COMPONENTS_URI.Equals(absoluteUri.AbsoluteUri))
+            string uri = HttpUtility.UrlDecode(absoluteUri.AbsoluteUri);
+
+			if(uri.EndsWith(PUBLIC_ID) || COMPONENTS_URI.Equals(uri))
 			{
 				stream = ResourceUtil.GetResourceAsStream(COMPONENTS_PATH, Assembly.GetExecutingAssembly());
 			}
-			else if(absoluteUri.AbsoluteUri.EndsWith(PUBLIC_ID21) ||
-				COMPONENTS_URI21.Equals(absoluteUri.AbsoluteUri))
+			else if(uri.EndsWith(PUBLIC_ID21) || COMPONENTS_URI21.Equals(uri))
 			{
 				stream = ResourceUtil.GetResourceAsStream(COMPONENTS_PATH21, Assembly.GetExecutingAssembly());
 			}
