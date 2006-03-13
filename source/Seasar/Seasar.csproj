@@ -1150,6 +1150,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Seasar.Framework.Util\ConversionUtil.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Seasar.Framework.Util\DataProviderUtil.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
