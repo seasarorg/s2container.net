@@ -38,14 +38,10 @@ namespace Seasar.Framework.Container.Web
 		{
 			context.AcquireRequestState += new EventHandler(context_AcquireRequestState);
 			context.ReleaseRequestState += new EventHandler(context_ReleaseRequestState);
-			
-			SingletonS2ContainerFactory.Init();
-			
 		}
 
 		public void Dispose()
 		{
-			SingletonS2ContainerFactory.Destroy();
 		}
 
 		#endregion
