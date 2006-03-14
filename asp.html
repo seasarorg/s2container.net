@@ -1,6 +1,7 @@
 ﻿<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html><head><!-- don't edit start --><title>Seasar - DI Container with AOP -</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" type="text/css" href="csharp.css" >
 <link href="seasar_b.css" type="text/css" rel="stylesheet" media="screen"><link href="seasar_p.css" type="text/css" rel="stylesheet" media="print"><script src="seasar_b.js" type="text/JavaScript" language="JavaScript"></script></head>
 
 
@@ -31,6 +32,7 @@ ASP.NET環境でのS2Container.NETの利用方法を説明します。
 
 <ul>
 <li><a href="#S2HttpModule">S2HttpModuleを追加する</a></li>
+<li><a href="#global">Global.asaxを編集する</a></li>
 <li><a href="#WebForm">ASP.NETのWebフォームを登録する</a></li>
 <li><a href="#request">リクエストの自動バインディング</a></li>
 </ul>
@@ -60,6 +62,35 @@ source/Seasar/Seasar.Framework.Container/Web/Web.configに記述例もありま�
 
 <p>S2HttpModuleを使っている場合、HttpApplicationをhttpApplicationという名前のコンポーネントとして
 アクセスできるようになります。</p>
+
+<h2><a name="global">Global.asaxを編集する(バージョン1.1.1以降)</a></h2>
+<p>
+Global.asaxのApplication_StartメソッドでS2Containerの初期化、
+Application_EndメソッドでS2Containerの破棄を行うように編集します。
+</p>
+
+C#
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">protected</span> <span class="kwrd">void</span> Application_Start(Object sender, EventArgs e)
+{
+    SingletonS2ContainerFactory.Init();
+}
+
+<span class="kwrd">protected</span> <span class="kwrd">void</span> Application_End(Object sender, EventArgs e)
+{
+    SingletonS2ContainerFactory.Destroy();
+}</pre>
+VB.NET
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode vb">
+<span class="kwrd">Sub</span> Application_Start(<span class="kwrd">ByVal</span> sender <span class="kwrd">As</span> <span class="kwrd">Object</span>, <span class="kwrd">ByVal</span> e <span class="kwrd">As</span> EventArgs)
+   SingletonS2ContainerFactory.Init()
+<span class="kwrd">End</span> <span class="kwrd">Sub</span>
+
+<span class="kwrd">Sub</span> Application_End(<span class="kwrd">ByVal</span> sender <span class="kwrd">As</span> <span class="kwrd">Object</span>, <span class="kwrd">ByVal</span> e <span class="kwrd">As</span> EventArgs)
+   SingletonS2ContainerFactory.Destroy();
+<span class="kwrd">End</span> Sub</pre>
 
 <h2><a name="WebForm">ASP.NETのWebフォームを登録する</a></h2>
 
