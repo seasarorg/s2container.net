@@ -160,59 +160,59 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Seasar.Tests.Extension.DataSets.Impl\Impl\SqlDeleteTableWriterTest.cs"
+                    RelPath = "Seasar.Tests.Extension.DataSets\Impl\SqlDeleteTableWriterTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Seasar.Tests.Extension.DataSets.Impl\Impl\SqlReloadReaderTest.cs"
+                    RelPath = "Seasar.Tests.Extension.DataSets\Impl\SqlReloadReaderTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Seasar.Tests.Extension.DataSets.Impl\Impl\SqlReloadTableReaderTest.cs"
+                    RelPath = "Seasar.Tests.Extension.DataSets\Impl\SqlReloadTableReaderTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Seasar.Tests.Extension.DataSets.Impl\Impl\SqlTableReaderTest.cs"
+                    RelPath = "Seasar.Tests.Extension.DataSets\Impl\SqlTableReaderTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Seasar.Tests.Extension.DataSets.Impl\Impl\SqlTableWriterTest.cs"
+                    RelPath = "Seasar.Tests.Extension.DataSets\Impl\SqlTableWriterTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Seasar.Tests.Extension.DataSets.Impl\Impl\XlsReaderImplSortTest.xls"
+                    RelPath = "Seasar.Tests.Extension.DataSets\Impl\XlsReaderImplSortTest.xls"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "Seasar.Tests.Extension.DataSets.Impl\Impl\XlsReaderImplTest.xls"
+                    RelPath = "Seasar.Tests.Extension.DataSets\Impl\XlsReaderImplTest.xls"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "Seasar.Tests.Extension.DataSets.Impl\Impl\XlsReaderSortTest.cs"
+                    RelPath = "Seasar.Tests.Extension.DataSets\Impl\XlsReaderSortTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Seasar.Tests.Extension.DataSets.Impl\Impl\XlsReaderTest.cs"
+                    RelPath = "Seasar.Tests.Extension.DataSets\Impl\XlsReaderTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Seasar.Tests.Extension.DataSets.Impl\Impl\XlsReaderTest1.cs"
+                    RelPath = "Seasar.Tests.Extension.DataSets\Impl\XlsReaderTest1.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Seasar.Tests.Extension.DataSets.Impl\Impl\XlsReaderTest1.xls"
+                    RelPath = "Seasar.Tests.Extension.DataSets\Impl\XlsReaderTest1.xls"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "Seasar.Tests.Extension.DataSets.Impl\Impl\XlsWriterTest.cs"
+                    RelPath = "Seasar.Tests.Extension.DataSets\Impl\XlsWriterTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
