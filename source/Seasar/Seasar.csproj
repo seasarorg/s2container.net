@@ -211,47 +211,47 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Seasar.Extension.ADO\Impl\BasicCommandFactory.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.ADO\Impl\BasicDataReaderFactory.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.ADO\Impl\BasicHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.ADO\Impl\BasicSelectHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.ADO\Impl\BasicUpdateHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.ADO\Impl\DatabaseMetaDataImpl.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Seasar.Extension.ADO\Impl\DataSourceImpl.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Seasar.Extension.ADO.Impl\BasicCommandFactory.cs"
+                    RelPath = "Seasar.Extension.ADO\Impl\ObjectDataReaderHandler.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Seasar.Extension.ADO.Impl\BasicDataReaderFactory.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Seasar.Extension.ADO.Impl\BasicHandler.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Seasar.Extension.ADO.Impl\BasicSelectHandler.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Seasar.Extension.ADO.Impl\BasicUpdateHandler.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Seasar.Extension.ADO.Impl\DatabaseMetaDataImpl.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Seasar.Extension.ADO.Impl\ObjectDataReaderHandler.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Seasar.Extension.ADO.Impl\PropertyTypeImpl.cs"
+                    RelPath = "Seasar.Extension.ADO\Impl\PropertyTypeImpl.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -356,57 +356,57 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Seasar.Extension.DataSets.Impl\DataRowReloadResultSetHandler.cs"
+                    RelPath = "Seasar.Extension.DataSets\Impl\DataRowReloadResultSetHandler.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Seasar.Extension.DataSets.Impl\DataTableResultSetHandler.cs"
+                    RelPath = "Seasar.Extension.DataSets\Impl\DataTableResultSetHandler.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Seasar.Extension.DataSets.Impl\SqlDeleteTableWriter.cs"
+                    RelPath = "Seasar.Extension.DataSets\Impl\SqlDeleteTableWriter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Seasar.Extension.DataSets.Impl\SqlReader.cs"
+                    RelPath = "Seasar.Extension.DataSets\Impl\SqlReader.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Seasar.Extension.DataSets.Impl\SqlReloadReader.cs"
+                    RelPath = "Seasar.Extension.DataSets\Impl\SqlReloadReader.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Seasar.Extension.DataSets.Impl\SqlReloadTableReader.cs"
+                    RelPath = "Seasar.Extension.DataSets\Impl\SqlReloadTableReader.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Seasar.Extension.DataSets.Impl\SqlTableReader.cs"
+                    RelPath = "Seasar.Extension.DataSets\Impl\SqlTableReader.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Seasar.Extension.DataSets.Impl\SqlTableWriter.cs"
+                    RelPath = "Seasar.Extension.DataSets\Impl\SqlTableWriter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Seasar.Extension.DataSets.Impl\SqlWriter.cs"
+                    RelPath = "Seasar.Extension.DataSets\Impl\SqlWriter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Seasar.Extension.DataSets.Impl\XlsReader.cs"
+                    RelPath = "Seasar.Extension.DataSets\Impl\XlsReader.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Seasar.Extension.DataSets.Impl\XlsWriter.cs"
+                    RelPath = "Seasar.Extension.DataSets\Impl\XlsWriter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
