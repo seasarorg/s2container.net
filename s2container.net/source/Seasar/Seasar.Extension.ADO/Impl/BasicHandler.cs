@@ -131,6 +131,24 @@ namespace Seasar.Extension.ADO.Impl
             }
         }
 
+		protected Type[] GetArgTypes(object[] args) 
+		{
+			if (args == null) 
+			{
+				return null;
+			}
+			Type[] argTypes = new Type[args.Length];
+			for (int i = 0; i < args.Length; ++i) 
+			{
+				object arg = args[i];
+				if (arg != null) 
+				{
+					argTypes[i] = arg.GetType();
+				}
+			}
+			return argTypes;
+		}
+
         protected string GetCompleteSql(object[] args)
         {
             if(args == null || args.Length == 0) return this.sql;

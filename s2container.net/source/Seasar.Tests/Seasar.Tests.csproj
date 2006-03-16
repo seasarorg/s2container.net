@@ -160,6 +160,16 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Seasar.Tests.Extension.ADO\Impl\BasicSelectHandlerTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Tests.Extension.ADO\Impl\BasicUpdateHandlerTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Seasar.Tests.Extension.DataSets\Impl\SqlDeleteTableWriterTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

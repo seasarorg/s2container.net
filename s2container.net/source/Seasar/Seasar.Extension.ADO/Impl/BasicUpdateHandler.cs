@@ -47,7 +47,8 @@ namespace Seasar.Extension.ADO.Impl
 
         public int Execute(object[] args)
         {
-            return Execute(args, Type.GetTypeArray(args), new string[args.Length]);
+			Type[] argTypes = GetArgTypes(args);
+            return Execute(args, argTypes, (argTypes == null) ? null : new string[args.Length]);
         }
 
         public int Execute(object[] args, Type[] argTypes, string[] argNames)
