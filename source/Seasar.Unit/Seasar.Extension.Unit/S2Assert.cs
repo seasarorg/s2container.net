@@ -131,48 +131,111 @@ namespace Seasar.Extension.Unit
 		/// <summary>
 		/// オブジェクトをDataSetと比較します。
 		/// 
-		/// オブジェクトは、Bean、Hashtable、BeanのIList、HashtableのIListのいずれか でなければなりません。
+		/// オブジェクトは、object、IDictionary、objectのIList、IDictionaryのIListのいずれか でなければなりません。
 		/// 
-		/// Beanの場合はプロパティ名を、Mapの場合はキーをカラム名として 比較します。
+		/// objectの場合はプロパティ名を、IDictionaryの場合はキーをカラム名として 比較します。
 		/// カラムの並び順は比較に影響しません。 
-		/// 数値は全てBigDecimalとして比較します。
 		/// </summary>
 		/// <param name="expected">予測値</param>
 		/// <param name="actual">実際値</param>
 		/// <param name="message">assert失敗時のメッセージ</param>
 		public static void AreEqual(DataSet expected, object actual, string message) 
 		{
-			throw new NotImplementedException();
+			if (expected == null || actual == null) 
+			{
+				Assert.AreEqual(expected, actual, message);
+				return;
+			}
+
+			if (actual is IList) 
+			{
+				IList actualList = (IList) actual;
+				Assert.IsTrue(actualList.Count != 0);
+				object actualItem = actualList[0];
+				if (actualItem is IDictionary) 
+				{
+					AreDictionaryListEqual(expected, actualList, message);
+				} 
+				else 
+				{
+					AreBeanListEqual(expected, actualList, message);
+				}
+			} 
+			else if (actual is object[]) 
+			{
+				AreEqual(expected, new ArrayList((object[]) actual), message);
+			} 
+			else 
+			{
+				if (actual is IDictionary) 
+				{
+					AreDictionaryEqual(expected, (IDictionary) actual, message);
+				} 
+				else 
+				{
+					AreBeanEqual(expected, actual, message);
+				}
+			}
 		}
 
 		/// <summary>
-		/// HashtableをDataSetと比較します。
+		/// IDictionaryをDataSetと比較します。
 		/// 
-		/// Hashtableのキーをカラム名として比較します。 
-		/// カラムの並び順は比較に影響しません。 
-		/// 数値は全てBigDecimalとして比較します。
+		/// IDictionaryのキーをカラム名として比較します。
+		/// カラムの並び順は比較に影響しません。
 		/// </summary>
 		/// <param name="expected">予測値</param>
-		/// <param name="actual">実際値</param>
+		/// <param name="dictionary">実際値</param>
 		/// <param name="message">assert失敗時のメッセージ</param>
-		public static void AreEqual(DataSet expected, Hashtable actual, string message) 
+		private static void AreDictionaryEqual(DataSet expected, IDictionary dictionary, string message) 
 		{
-			throw new NotImplementedException();
+			DictionaryReader reader = new DictionaryReader(dictionary);
+			AreEqual(expected, reader.Read(), message);
 		}
 
 		/// <summary>
-		/// HashtableのListをDataSetと比較します。
+		/// IDictionaryのIListをDataSetと比較します。
 		/// 
-		/// Hashtableのキーをカラム名として比較します。 
-		/// カラムの並び順は比較に影響しません。 
-		/// 数値は全てBigDecimalとして比較します。
+		/// IDictionaryのキーをカラム名として比較します。
+		/// カラムの並び順は比較に影響しません。
 		/// </summary>
 		/// <param name="expected">予測値</param>
-		/// <param name="actual">実際値</param>
+		/// <param name="list">実際値</param>
 		/// <param name="message">assert失敗時のメッセージ</param>
-		public static void AreEqual(DataSet expected, IList actual, string message) 
+		private static void AreDictionaryListEqual(DataSet expected, IList list, string message) 
 		{
-			throw new NotImplementedException();
+			DictionaryListReader reader = new DictionaryListReader(list);
+			AreEqual(expected, reader.Read(), message);
+		}
+
+		/// <summary>
+		/// objectをDataSetと比較します。
+		/// 
+		/// objectのプロパティ名をカラム名として比較します。
+		/// カラムの並び順は比較に影響しません。
+		/// </summary>
+		/// <param name="expected">予測値</param>
+		/// <param name="bean">実際値</param>
+		/// <param name="message">assert失敗時のメッセージ</param>
+		private static void AreBeanEqual(DataSet expected, object bean, string message) 
+		{
+			BeanReader reader = new BeanReader(bean);
+			AreEqual(expected, reader.Read(), message);
+		}
+
+		/// <summary>
+		/// objectのIListをDataSetと比較します。
+		/// 
+		/// objectのプロパティ名をカラム名として比較します。
+		/// カラムの並び順は比較に影響しません。
+		/// </summary>
+		/// <param name="expected">予測値</param>
+		/// <param name="list">実際値</param>
+		/// <param name="message">assert失敗時のメッセージ</param>
+		private static void AreBeanListEqual(DataSet expected, IList list, string message) 
+		{
+			BeanListReader reader = new BeanListReader(list);
+			AreEqual(expected, reader.Read(), message);
 		}
 
 		#endregion
