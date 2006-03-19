@@ -17,52 +17,52 @@
 #endregion
 
 using System;
+using System.Collections;
 using System.Data;
 using MbUnit.Framework;
 using Seasar.Extension.ADO;
 using Seasar.Extension.ADO.Impl;
 using Seasar.Extension.ADO.Types;
-using Seasar.Extension.DataSets.Impl;
 using Seasar.Extension.Unit;
+using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Extension.ADO.Impl
 {
 	[TestFixture]
-	public class BasicSelectHandlerTest : S2TestCase
+	public class BeanListDataReaderHandlerTest : S2TestCase
 	{
 		private const string PATH = "Ado.dicon";
 
-		public void SetUpExecute() 
+		public void SetUpHandle() 
 		{
 			Include(PATH);
 		}
 
 		[Test, S2(Tx.Rollback)]
-		public void Execute()
+		public void Handle()
 		{
 			ValueTypes.Init(DataSource);
-			string sql = "select * from emp where empno = @empno";
-			BasicSelectHandler handler = new BasicSelectHandler(DataSource, sql, new DataTableResultSetHandler("emp"));
-			object[] args = new object[] { 7788 };
-			Type[] argTypes = new Type[] { typeof(string) };
-			string[] argNames = new string[] { "empno" };
-			DataTable ret = handler.Execute(args, argTypes, argNames) as DataTable;
-			Assert.AreEqual(1, ret.Rows.Count);
-		}
-
-		public void SetUpExecuteNullArgs() 
-		{
-			Include(PATH);
-		}
-
-		[Test, S2(Tx.Rollback)]
-		public void ExecuteNullArgs()
-		{
-			ValueTypes.Init(DataSource);
+			IDataReaderHandler handler = new BeanListDataReaderHandler(typeof(Employee));
 			string sql = "select * from emp";
-			BasicSelectHandler handler = new BasicSelectHandler(DataSource, sql, new DataTableResultSetHandler("emp"));
-			DataTable ret = handler.Execute(null) as DataTable;
-			Assert.AreEqual(14, ret.Rows.Count);
+			IDbConnection con = DataSource.GetConnection();
+			IDbCommand cmd = con.CreateCommand();
+			cmd.CommandText = sql;
+			IList ret = null;
+			DataSourceUtil.SetTransaction(DataSource, cmd);
+			IDataReader reader = cmd.ExecuteReader();
+			try 
+			{
+				ret = (IList) handler.Handle(reader);
+			} 
+			finally 
+			{
+				reader.Close();
+			}
+			Assert.IsNotNull(ret, "1");
+			foreach (Employee emp in ret) 
+			{
+				Console.Out.WriteLine(emp.Empno + "," + emp.Ename);
+			}
 		}
 	}
 }

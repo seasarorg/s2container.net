@@ -211,6 +211,16 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Seasar.Extension.ADO\Impl\AbstractBeanDataReaderHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.ADO\Impl\AbstractDictionaryDataReaderHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Seasar.Extension.ADO\Impl\BasicCommandFactory.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -236,6 +246,16 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Seasar.Extension.ADO\Impl\BeanDataReaderHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.ADO\Impl\BeanListDataReaderHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Seasar.Extension.ADO\Impl\DatabaseMetaDataImpl.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -246,12 +266,27 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Seasar.Extension.ADO\Impl\DictionaryDataReaderHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.ADO\Impl\DictionaryListDataReaderHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Seasar.Extension.ADO\Impl\ObjectDataReaderHandler.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "Seasar.Extension.ADO\Impl\PropertyTypeImpl.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.ADO\Impl\PropertyTypeUtil.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
