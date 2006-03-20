@@ -18,7 +18,6 @@
 
 using System;
 using System.Data;
-using Seasar.Extension.ADO.Types;
 
 namespace Seasar.Extension.ADO.Impl
 {
@@ -32,16 +31,6 @@ namespace Seasar.Extension.ADO.Impl
 
         public object Handle(System.Data.IDataReader dataReader)
         {
-//            if(dataReader.Read())
-//            {
-//                DataTable dataTable = dataReader.GetSchemaTable();
-//                IValueType valueType = ValueTypes.GetValueType(dataTable.Rows[0]["DataType"]);
-//                return valueType.GetValue(dataReader, 1);
-//            }
-//            else
-//            {
-//                return null;
-//            }
             return null;
         }
 
