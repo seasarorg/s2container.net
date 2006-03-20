@@ -32,7 +32,6 @@ namespace Seasar.Extension.DataSets.Impl
 		{
 			dataSource_ = dataSource;
 			dataSet_ = dataSet;
-			ValueTypes.Init(dataSource);
 		}
 
 		public IDataSource DataSource 

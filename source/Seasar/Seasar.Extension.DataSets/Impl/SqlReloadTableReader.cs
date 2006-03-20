@@ -44,8 +44,6 @@ namespace Seasar.Extension.DataSets.Impl
 			dataSource_ = dataSource;
 			table_ = table;
 
-			ValueTypes.Init(dataSource);
-
 			IDbConnection con = DataSourceUtil.GetConnection(dataSource);
 			try 
 			{

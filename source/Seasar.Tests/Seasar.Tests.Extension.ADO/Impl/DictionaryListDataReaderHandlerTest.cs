@@ -22,7 +22,6 @@ using System.Data;
 using MbUnit.Framework;
 using Seasar.Extension.ADO;
 using Seasar.Extension.ADO.Impl;
-using Seasar.Extension.ADO.Types;
 using Seasar.Extension.Unit;
 using Seasar.Framework.Util;
 
@@ -41,7 +40,6 @@ namespace Seasar.Tests.Extension.ADO.Impl
 		[Test, S2(Tx.Rollback)]
 		public void Handle()
 		{
-			ValueTypes.Init(DataSource);
 			IDataReaderHandler handler = new DictionaryListDataReaderHandler();
 			string sql = "select * from emp";
 			IDbConnection con = DataSource.GetConnection();

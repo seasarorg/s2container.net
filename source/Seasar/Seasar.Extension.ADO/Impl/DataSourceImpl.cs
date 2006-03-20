@@ -20,6 +20,7 @@ using System;
 using System.Data;
 using System.Reflection;
 using Seasar.Framework.Util;
+using Seasar.Extension.ADO.Types;
 
 namespace Seasar.Extension.ADO.Impl
 {
@@ -33,10 +34,12 @@ namespace Seasar.Extension.ADO.Impl
 
 		public DataSourceImpl()
 		{
+			ValueTypes.Init(this);
 		}
 
 		public DataSourceImpl(DataProvider provider, string connectionString)
 		{
+			ValueTypes.Init(this);
 			provider_ = provider;
 			connectionString_ = connectionString;
 		}

@@ -21,8 +21,6 @@ using System.Data;
 using MbUnit.Framework;
 using Seasar.Extension.ADO;
 using Seasar.Extension.ADO.Impl;
-using Seasar.Extension.ADO.Types;
-using Seasar.Extension.DataSets.Impl;
 using Seasar.Extension.Unit;
 
 namespace Seasar.Tests.Extension.ADO.Impl
@@ -30,6 +28,9 @@ namespace Seasar.Tests.Extension.ADO.Impl
 	[TestFixture]
 	public class BasicSelectHandlerTest : S2TestCase
 	{
+		public const string WAVE_DASH = "\u301C";
+		public const string FULL_WIDTH_TILDE = "\uFF5E";
+
 		private const string PATH = "Ado.dicon";
 
 		public void SetUpExecute() 
@@ -40,29 +41,24 @@ namespace Seasar.Tests.Extension.ADO.Impl
 		[Test, S2(Tx.Rollback)]
 		public void Execute()
 		{
-			ValueTypes.Init(DataSource);
-			string sql = "select * from emp where empno = @empno";
-			BasicSelectHandler handler = new BasicSelectHandler(DataSource, sql, new DataTableResultSetHandler("emp"));
-			object[] args = new object[] { 7788 };
-			Type[] argTypes = new Type[] { typeof(string) };
-			string[] argNames = new string[] { "empno" };
-			DataTable ret = handler.Execute(args, argTypes, argNames) as DataTable;
-			Assert.AreEqual(1, ret.Rows.Count);
-		}
+			string sql = "insert into emp(empno, ename) values(99, @ename)";
+			BasicUpdateHandler handler = new BasicUpdateHandler(DataSource, sql);
+			object[] args = new object[] { FULL_WIDTH_TILDE };
+			string[] argNames = new string[] { "ename" };
+			handler.Execute(args, Type.GetTypeArray(args), argNames);
+			
+			string sql2 = "select ename from emp where empno = 99";
+			BasicSelectHandler handler2 = new BasicSelectHandler(
+				DataSource,
+				sql2,
+				new ObjectDataReaderHandler(),
+				BasicCommandFactory.INSTANCE,
+				BasicDataReaderFactory.INSTANCE
+				);
 
-		public void SetUpExecuteNullArgs() 
-		{
-			Include(PATH);
-		}
-
-		[Test, S2(Tx.Rollback)]
-		public void ExecuteNullArgs()
-		{
-			ValueTypes.Init(DataSource);
-			string sql = "select * from emp";
-			BasicSelectHandler handler = new BasicSelectHandler(DataSource, sql, new DataTableResultSetHandler("emp"));
-			DataTable ret = handler.Execute(null) as DataTable;
-			Assert.AreEqual(14, ret.Rows.Count);
+			string ret = (string) handler2.Execute(null);
+			Console.Out.WriteLine(ret);
+			Assert.AreEqual(FULL_WIDTH_TILDE, ret, "1");
 		}
 	}
 }

@@ -36,7 +36,6 @@ namespace Seasar.Extension.DataSets.Impl
 		public SqlTableReader(IDataSource dataSource)
 		{
 			dataSource_ = dataSource;
-			ValueTypes.Init(dataSource);
 		}
 
 		public IDataSource DataSource 
