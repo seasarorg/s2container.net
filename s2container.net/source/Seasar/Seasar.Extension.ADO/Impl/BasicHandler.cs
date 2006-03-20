@@ -38,6 +38,7 @@ namespace Seasar.Extension.ADO.Impl
         private string sql;
         private ICommandFactory commandFactory = BasicCommandFactory.INSTANCE;
         private BindVariableType bindVariableType = BindVariableType.None;
+		private int commandTimeout = -1;
         
         public BasicHandler()
         {
@@ -72,6 +73,12 @@ namespace Seasar.Extension.ADO.Impl
             get { return commandFactory; }
             set { commandFactory = value; }
         }
+
+		public int CommandTimeout 
+		{
+			get { return commandTimeout; }
+			set { commandTimeout = value; }
+		}
 
         protected BindVariableType GetBindVariableType(IDbConnection cn)
         {
@@ -110,7 +117,9 @@ namespace Seasar.Extension.ADO.Impl
 					this.sql = this.sql.ToLower();
 					break;
             }
-            return this.dataSource.GetCommand(sql, connection);
+			IDbCommand cmd = this.dataSource.GetCommand(sql, connection);
+			if (this.commandTimeout > -1) cmd.CommandTimeout = this.commandTimeout;
+			return cmd;
         }
 
         protected void BindArgs(IDbCommand command, object[] args, Type[] argTypes,
