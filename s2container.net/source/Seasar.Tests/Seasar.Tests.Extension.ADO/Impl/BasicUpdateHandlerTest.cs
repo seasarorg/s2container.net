@@ -20,7 +20,6 @@ using System;
 using MbUnit.Framework;
 using Seasar.Extension.ADO;
 using Seasar.Extension.ADO.Impl;
-using Seasar.Extension.ADO.Types;
 using Seasar.Extension.Unit;
 
 namespace Seasar.Tests.Extension.ADO.Impl
@@ -38,7 +37,6 @@ namespace Seasar.Tests.Extension.ADO.Impl
 		[Test, S2(Tx.Rollback)]
 		public void Execute()
 		{
-			ValueTypes.Init(DataSource);
 			string sql = "update emp set ename = @ename, comm = @comm where empno = @empno";
 			BasicUpdateHandler handler = new BasicUpdateHandler(DataSource, sql);
 			object[] args = new object[] { "SCOTT", null, 7788 };
@@ -56,7 +54,6 @@ namespace Seasar.Tests.Extension.ADO.Impl
 		[Test, S2(Tx.Rollback)]
 		public void ExecuteNullArgs()
 		{
-			ValueTypes.Init(DataSource);
 			string sql = "delete from emp";
 			BasicUpdateHandler handler = new BasicUpdateHandler(DataSource, sql);
 			int ret = handler.Execute(null);
