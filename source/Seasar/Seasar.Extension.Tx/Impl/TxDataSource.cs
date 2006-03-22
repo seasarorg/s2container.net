@@ -31,7 +31,7 @@ namespace Seasar.Extension.Tx.Impl
 	{
 		private ITransactionContext context;
 
-		public TxDataSource()
+		public TxDataSource() : base()
 		{
 		}
 
