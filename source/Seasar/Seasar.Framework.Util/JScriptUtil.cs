@@ -59,10 +59,9 @@ namespace Seasar.Framework.Util
 
 		static JScriptUtil()
 		{
-			ICodeCompiler compiler = provider_.CreateCompiler();
 			CompilerParameters parameters = new CompilerParameters();
 			parameters.GenerateInMemory = true;
-			CompilerResults results = compiler.CompileAssemblyFromSource(parameters,EVAL_SOURCE);
+            CompilerResults results = provider_.CompileAssemblyFromSource(parameters, EVAL_SOURCE);
 			Assembly assembly = results.CompiledAssembly;
 			evaluateType_ = assembly.GetType("Seasar.Framework.Util.JScript.Evaluator");
 		}
