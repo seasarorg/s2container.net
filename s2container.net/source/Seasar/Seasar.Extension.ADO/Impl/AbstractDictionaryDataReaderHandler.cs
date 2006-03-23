@@ -16,6 +16,7 @@
  */
 #endregion
 
+using System;
 using System.Collections;
 using System.Data;
 
@@ -29,7 +30,7 @@ namespace Seasar.Extension.ADO.Impl
 
 		protected IDictionary CreateRow(IDataReader dataReader, IPropertyType[] propertyTypes) 
 		{
-			IDictionary row = new Hashtable(new CaseInsensitiveHashCodeProvider(), new CaseInsensitiveComparer());
+            IDictionary row = new Hashtable(StringComparer.CurrentCultureIgnoreCase);
 			for (int i = 0; i < propertyTypes.Length; ++i) 
 			{
 				object value = propertyTypes[i].ValueType.GetValue(
