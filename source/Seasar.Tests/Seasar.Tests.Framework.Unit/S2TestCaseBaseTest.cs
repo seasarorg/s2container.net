@@ -44,7 +44,6 @@ namespace Seasar.Tests.Framework.Unit
 		private static Logger logger = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 		private const String PATH = "S2FrameworkTestCaseTest_ado.dicon";
 		private bool testAaaSetUpInvoked = false;
-		private DateTime date_ = new DateTime();
 		private string _ccc = null;
 		private Hashtable bbb_ = null;
 		private DateTime ddd_ = new DateTime();
