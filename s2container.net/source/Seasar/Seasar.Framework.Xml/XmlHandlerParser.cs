@@ -91,12 +91,13 @@ namespace Seasar.Framework.Xml
 
 		public object Parse(StreamReader input)
 		{
-			XmlValidatingReader reader = new XmlValidatingReader(
-				new XmlTextReader(input));
-			reader.ValidationType = ValidationType.DTD;
-			reader.XmlResolver = new S2XmlResolver();
-			reader.ValidationEventHandler += 
-				new ValidationEventHandler(ValidationHandler);
+            XmlReaderSettings settings = new XmlReaderSettings();
+            settings.XmlResolver = new S2XmlResolver();
+            settings.ValidationType = ValidationType.DTD;
+            settings.ValidationEventHandler += new ValidationEventHandler(ValidationHandler);
+            settings.ProhibitDtd = false;
+
+            XmlReader reader = XmlReader.Create(input, settings);
 			
 			try
 			{
