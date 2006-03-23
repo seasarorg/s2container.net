@@ -1,45 +1,37 @@
-Microsoft Visual Studio Solution File, Format Version 8.00
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual C# Express 2005
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seasar", "Seasar\Seasar.csproj", "{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seasar.Examples", "Seasar.Examples\Seasar.Examples.csproj", "{AF6F7B3F-FFE2-4C83-9275-7978F5039987}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seasar.Tests", "Seasar.Tests\Seasar.Tests.csproj", "{6D6327B1-4252-470A-A76B-8E923F34AB7C}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seasar.Unit", "Seasar.Unit\Seasar.Unit.csproj", "{FC3A021B-6288-4C34-8303-544640D22FDA}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
 EndProject
 Global
-	GlobalSection(SolutionConfiguration) = preSolution
-		Debug = Debug
-		Release = Release
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(ProjectConfiguration) = postSolution
-		{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}.Debug.ActiveCfg = Debug|.NET
-		{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}.Debug.Build.0 = Debug|.NET
-		{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}.Release.ActiveCfg = Release|.NET
-		{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}.Release.Build.0 = Release|.NET
-		{AF6F7B3F-FFE2-4C83-9275-7978F5039987}.Debug.ActiveCfg = Debug|.NET
-		{AF6F7B3F-FFE2-4C83-9275-7978F5039987}.Debug.Build.0 = Debug|.NET
-		{AF6F7B3F-FFE2-4C83-9275-7978F5039987}.Release.ActiveCfg = Release|.NET
-		{AF6F7B3F-FFE2-4C83-9275-7978F5039987}.Release.Build.0 = Release|.NET
-		{6D6327B1-4252-470A-A76B-8E923F34AB7C}.Debug.ActiveCfg = Debug|.NET
-		{6D6327B1-4252-470A-A76B-8E923F34AB7C}.Debug.Build.0 = Debug|.NET
-		{6D6327B1-4252-470A-A76B-8E923F34AB7C}.Release.ActiveCfg = Release|.NET
-		{6D6327B1-4252-470A-A76B-8E923F34AB7C}.Release.Build.0 = Release|.NET
-		{FC3A021B-6288-4C34-8303-544640D22FDA}.Debug.ActiveCfg = Debug|.NET
-		{FC3A021B-6288-4C34-8303-544640D22FDA}.Debug.Build.0 = Debug|.NET
-		{FC3A021B-6288-4C34-8303-544640D22FDA}.Release.ActiveCfg = Release|.NET
-		{FC3A021B-6288-4C34-8303-544640D22FDA}.Release.Build.0 = Release|.NET
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF6F7B3F-FFE2-4C83-9275-7978F5039987}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF6F7B3F-FFE2-4C83-9275-7978F5039987}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF6F7B3F-FFE2-4C83-9275-7978F5039987}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF6F7B3F-FFE2-4C83-9275-7978F5039987}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D6327B1-4252-470A-A76B-8E923F34AB7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D6327B1-4252-470A-A76B-8E923F34AB7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D6327B1-4252-470A-A76B-8E923F34AB7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D6327B1-4252-470A-A76B-8E923F34AB7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC3A021B-6288-4C34-8303-544640D22FDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC3A021B-6288-4C34-8303-544640D22FDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC3A021B-6288-4C34-8303-544640D22FDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC3A021B-6288-4C34-8303-544640D22FDA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-	EndGlobalSection
-	GlobalSection(ExtensibilityAddIns) = postSolution
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
