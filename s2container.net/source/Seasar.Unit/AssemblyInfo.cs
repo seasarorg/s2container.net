@@ -71,5 +71,4 @@ using System.Runtime.CompilerServices;
 //   (*) 遅延署名は高度なオプションです。
 //       詳細については Microsoft .NET Framework ドキュメントを参照してください。
 [assembly: AssemblyDelaySign(false)]
-[assembly: AssemblyKeyFile("..\\..\\..\\Seasar.snk")]
 [assembly: AssemblyKeyName("")]
