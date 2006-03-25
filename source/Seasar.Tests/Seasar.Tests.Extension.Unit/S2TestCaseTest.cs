@@ -134,30 +134,10 @@ namespace Seasar.Tests.Extension.Unit
 		public void WriteXlsTx() 
 		{
 			DataSet dataSet = ReadXls("testdata.xls");
-			dataSet.WriteXml(@"C:\test.xml", XmlWriteMode.WriteSchema);
 			WriteXls("aaa.xls", dataSet);
 			DataSetInspector.OutWriteLine(dataSet);
 			DataSet dataSet2 = ReadXls("aaa.xls");
 			S2Assert.AreEqual(dataSet, dataSet2);
-		}
-	}
-
-	public class Hoge 
-	{
-		private string aaa;
-		/**
-				* @return Returns the aaa.
-				*/
-		public String GetAaa() 
-		{
-			return aaa;
-		}
-		/**
-				* @param aaa The aaa to set.
-				*/
-		public void SetAaa(String aaa) 
-		{
-			this.aaa = aaa;
 		}
 	}
 }
