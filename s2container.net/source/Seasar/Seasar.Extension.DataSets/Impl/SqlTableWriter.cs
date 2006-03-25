@@ -19,7 +19,6 @@
 using System.Data;
 using Seasar.Extension.ADO;
 using Seasar.Extension.ADO.Impl;
-using Seasar.Extension.ADO.Types;
 using Seasar.Extension.DataSets.States;
 using Seasar.Framework.Util;
 
@@ -43,8 +42,6 @@ namespace Seasar.Extension.DataSets.Impl
 
 		public void Write(DataTable table)
 		{
-			/// TODO メタデータを取得済みであるか判断するロジックを追加すること。
-			//      DbDataAdapter#TableMappings から判断するしかないかなあ…。
 			SetupMetaData(table);
 
 			DoWrite(table);
@@ -64,16 +61,8 @@ namespace Seasar.Extension.DataSets.Impl
 
 		private void SetupMetaData(DataTable table) 
 		{
-			IDbConnection con = DataSourceUtil.GetConnection(DataSource);
-			try 
-			{
-				IDatabaseMetaData dbMetaData = new DatabaseMetaDataImpl(DataSource);
-				DataTableUtil.SetupMetaData(dbMetaData, table);
-			} 
-			finally 
-			{
-				DataSourceUtil.CloseConnection(DataSource, con);
-			}
+			IDatabaseMetaData dbMetaData = new DatabaseMetaDataImpl(DataSource);
+			DataTableUtil.SetupMetaData(dbMetaData, table);
 		}
 	}
 }
