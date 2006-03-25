@@ -123,10 +123,10 @@ namespace Seasar.Tests.Extension.Unit
 		public void SetUpWriteXlsTx() 
 		{
 			Include(PATH);
-			string exportPath = Path.GetFullPath(convertPath("aaa.xls"));
+			string exportPath = Path.GetFullPath(ConvertPath("aaa.xls"));
 			if (File.Exists(exportPath))
 			{
-				File.Delete(Path.GetFullPath(convertPath("aaa.xls")));		
+				File.Delete(Path.GetFullPath(ConvertPath("aaa.xls")));		
 			}
 		}
 

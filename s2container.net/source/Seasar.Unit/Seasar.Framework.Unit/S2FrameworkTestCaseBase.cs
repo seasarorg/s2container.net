@@ -87,10 +87,10 @@ namespace Seasar.Framework.Unit
 
 		public void Include(string path)
 		{
-			S2ContainerFactory.Include(Container, convertPath(path));
+			S2ContainerFactory.Include(Container, ConvertPath(path));
 		}
 
-		protected String convertPath(String path)
+		protected string ConvertPath(string path)
 		{
 			if (ResourceUtil.GetResourceNoException(path, this.GetType().Assembly) != null)
 			{
