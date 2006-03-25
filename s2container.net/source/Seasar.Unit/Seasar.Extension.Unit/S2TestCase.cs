@@ -34,7 +34,6 @@ namespace Seasar.Extension.Unit
 	/// </summary>
 	public class S2TestCase : S2FrameworkTestCaseBase
 	{
-   
 		private IDataSource dataSource;
 
 		private IDbConnection connection;
@@ -43,6 +42,7 @@ namespace Seasar.Extension.Unit
 		{
 
 		}
+
 		public IDataSource DataSource
 		{
 			get
