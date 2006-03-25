@@ -85,9 +85,6 @@ namespace Seasar.Extension.Unit
 
 		protected void SetupDataSource() 
 		{
-			if (Tx.NotSupported == tx)
-				return;
-
 			if (this.Container.HasComponentDef(DATASOURCE_NAME)) 
 			{
 				dataSource = this.Container.GetComponent(DATASOURCE_NAME) as IDataSource;
