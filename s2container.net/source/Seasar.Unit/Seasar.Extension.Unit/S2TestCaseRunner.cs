@@ -101,10 +101,6 @@ namespace Seasar.Extension.Unit
 
 		protected void TearDownDataSource() 
 		{
-			if (Tx.NotSupported == tx)
-				return;
-
-			//dbMetaData = null;
 			if (fixture.Connection != null) 
 			{
 				ConnectionUtil.Close(fixture.Connection);
