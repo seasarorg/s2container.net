@@ -49,7 +49,7 @@ namespace Seasar.Extension.Unit
 		{
 			foreach (PropertyInfo pi in beanType.GetProperties()) 
 			{
-				Type propertyType = pi.GetType();
+				Type propertyType = pi.PropertyType;
 				table_.Columns.Add(pi.Name, propertyType);
 			}
 		}
