@@ -18,6 +18,7 @@
 
 using System;
 using MbUnit.Framework;
+using Nullables;
 using Seasar.Extension.ADO;
 using Seasar.Extension.ADO.Impl;
 using Seasar.Extension.Unit;
@@ -40,13 +41,28 @@ namespace Seasar.Tests.Extension.ADO.Impl
 			string sql = "update emp set ename = @ename, comm = @comm where empno = @empno";
 			BasicUpdateHandler handler = new BasicUpdateHandler(DataSource, sql);
 			object[] args = new object[] { "SCOTT", null, 7788 };
-			Type[] argTypes = new Type[] { typeof(string), typeof(Nullables.NullableInt32), typeof(int) };
+			Type[] argTypes = new Type[] { typeof(string), typeof(NullableInt32), typeof(int) };
 			string[] argNames = new string[] { "ename", "comm", "empno" };
 			int ret = handler.Execute(args, argTypes, argNames);
 			Assert.AreEqual(1, ret, "1");
 		}
 
-		public void SetUpExecuteNullArgs() 
+        public void SetUpExecuteNoArgNames()
+        {
+            Include(PATH);
+        }
+
+        [Test, S2(Tx.Rollback)]
+        public void ExecuteNoArgNames()
+        {
+            string sql = "update emp set ename = @ename, comm = @comm where empno = @empno";
+            BasicUpdateHandler handler = new BasicUpdateHandler(DataSource, sql);
+            object[] args = new object[] { "SCOTT", (NullableInt32) null, 7788 };
+            int ret = handler.Execute(args);
+            Assert.AreEqual(1, ret, "1");
+        }
+
+        public void SetUpExecuteNullArgs() 
 		{
 			Include(PATH);
 		}

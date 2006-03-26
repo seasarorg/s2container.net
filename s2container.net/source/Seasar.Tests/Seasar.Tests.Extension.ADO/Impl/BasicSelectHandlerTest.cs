@@ -19,9 +19,16 @@
 using System;
 using System.Data;
 using MbUnit.Framework;
+using Nullables;
 using Seasar.Extension.ADO;
 using Seasar.Extension.ADO.Impl;
 using Seasar.Extension.Unit;
+
+using System.Reflection;
+using System.IO;
+using log4net;
+using log4net.Config;
+using log4net.Util;
 
 namespace Seasar.Tests.Extension.ADO.Impl
 {
@@ -32,6 +39,13 @@ namespace Seasar.Tests.Extension.ADO.Impl
 		public const string FULL_WIDTH_TILDE = "\uFF5E";
 
 		private const string PATH = "Ado.dicon";
+
+        static BasicSelectHandlerTest()
+        {
+            FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
+                Assembly.GetExecutingAssembly()) + ".config");
+            XmlConfigurator.Configure(LogManager.GetRepository(), info);
+        }
 
 		public void SetUpExecute() 
 		{
@@ -60,5 +74,62 @@ namespace Seasar.Tests.Extension.ADO.Impl
 			Console.Out.WriteLine(ret);
 			Assert.AreEqual(FULL_WIDTH_TILDE, ret, "1");
 		}
-	}
+
+        public void SetUpExecuteNoArgNames()
+        {
+            Include(PATH);
+        }
+
+        [Test, S2(Tx.Rollback)]
+        public void ExecuteNoArgNames()
+        {
+            string sql = "insert into emp(empno, ename) values(99, @ename)";
+            BasicUpdateHandler handler = new BasicUpdateHandler(DataSource, sql);
+            object[] args = new object[] { FULL_WIDTH_TILDE };
+            handler.Execute(args);
+
+            string sql2 = "select ename from emp where empno = @empno";
+            BasicSelectHandler handler2 = new BasicSelectHandler(
+                DataSource,
+                sql2,
+                new ObjectDataReaderHandler(),
+                BasicCommandFactory.INSTANCE,
+                BasicDataReaderFactory.INSTANCE
+                );
+
+            object[] args2 = new object[] { 99 };
+            string ret = (string) handler2.Execute(args2);
+            Console.Out.WriteLine(ret);
+            Assert.AreEqual(FULL_WIDTH_TILDE, ret, "1");
+        }
+        /*
+        public void SetUpExecuteNoArgNamesOracle()
+        {
+            Include(PATH);
+        }
+
+        [Test, S2(Tx.Rollback)]
+        public void ExecuteNoArgNamesOracle()
+        {
+            string sql = "insert into emp(empno, ename) values(99, :ename)";
+            BasicUpdateHandler handler = new BasicUpdateHandler(DataSource, sql);
+            object[] args = new object[] { FULL_WIDTH_TILDE };
+            handler.Execute(args);
+
+            string sql2 = "select ename from emp where empno = :empno";
+            BasicSelectHandler handler2 = new BasicSelectHandler(
+                DataSource,
+                sql2,
+                new ObjectDataReaderHandler(),
+                BasicCommandFactory.INSTANCE,
+                BasicDataReaderFactory.INSTANCE
+                );
+
+            object[] args2 = new object[] { 99 };
+            string ret = (string)handler2.Execute(args2);
+            Console.Out.WriteLine(ret);
+            Assert.AreEqual(FULL_WIDTH_TILDE, ret, "1");
+        }
+         */
+    }
 }
