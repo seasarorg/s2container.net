@@ -17,7 +17,13 @@
 #endregion
 
 using System;
+using System.IO;
+using System.Reflection;
+using log4net;
+using log4net.Config;
+using log4net.Util;
 using MbUnit.Framework;
+using Nullables;
 using Seasar.Extension.ADO;
 using Seasar.Extension.ADO.Impl;
 using Seasar.Extension.Unit;
@@ -28,6 +34,13 @@ namespace Seasar.Tests.Extension.ADO.Impl
 	public class BasicUpdateHandlerTest : S2TestCase
 	{
 		private const string PATH = "Ado.dicon";
+
+        static BasicUpdateHandlerTest()
+		{
+			FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
+				Assembly.GetExecutingAssembly()) + ".config");
+			XmlConfigurator.Configure(LogManager.GetRepository(), info);
+		}
 
 		public void SetUpExecute() 
 		{
@@ -40,13 +53,13 @@ namespace Seasar.Tests.Extension.ADO.Impl
 			string sql = "update emp set ename = @ename, comm = @comm where empno = @empno";
 			BasicUpdateHandler handler = new BasicUpdateHandler(DataSource, sql);
 			object[] args = new object[] { "SCOTT", null, 7788 };
-			Type[] argTypes = new Type[] { typeof(string), typeof(Nullables.NullableInt32), typeof(int) };
+			Type[] argTypes = new Type[] { typeof(string), typeof(NullableInt32), typeof(int) };
 			string[] argNames = new string[] { "ename", "comm", "empno" };
 			int ret = handler.Execute(args, argTypes, argNames);
 			Assert.AreEqual(1, ret, "1");
 		}
 
-		public void SetUpExecuteNullArgs() 
+        public void SetUpExecuteNullArgs() 
 		{
 			Include(PATH);
 		}
@@ -59,5 +72,50 @@ namespace Seasar.Tests.Extension.ADO.Impl
 			int ret = handler.Execute(null);
 			Assert.AreEqual(14, ret, "1");
 		}
-	}
+
+        public void SetUpExecuteAtmarkWithParam()
+        {
+            Include(PATH);
+        }
+
+        [Test, S2(Tx.Rollback)]
+        public void ExecuteAtmarkWithParam()
+        {
+            string sql = "update emp set ename = @ename, comm = @comm where empno = @empno";
+            BasicUpdateHandler handler = new BasicUpdateHandler(DataSource, sql);
+            object[] args = new object[] { "SCOTT", (NullableInt32) null, 7788 };
+            int ret = handler.Execute(args);
+            Assert.AreEqual(1, ret, "1");
+        }
+
+        public void SetUpExecuteColonWithParam()
+        {
+            Include(PATH);
+        }
+
+        [Test, S2(Tx.Rollback)]
+        public void ExecuteColonWithParam()
+        {
+            string sql = "update emp set ename = :ename, comm = :comm where empno = :empno";
+            BasicUpdateHandler handler = new BasicUpdateHandler(DataSource, sql);
+            object[] args = new object[] { "SCOTT", (NullableInt32) null, 7788 };
+            int ret = handler.Execute(args);
+            Assert.AreEqual(1, ret, "1");
+        }
+
+        public void SetUpExecuteQuestionWithParam()
+        {
+            Include(PATH);
+        }
+
+        [Test, S2(Tx.Rollback)]
+        public void ExecuteQuestionWithParam()
+        {
+            string sql = "update emp set ename = ?, comm = ? where empno = ?";
+            BasicUpdateHandler handler = new BasicUpdateHandler(DataSource, sql);
+            object[] args = new object[] { "SCOTT", (NullableInt32) null, 7788 };
+            int ret = handler.Execute(args);
+            Assert.AreEqual(1, ret, "1");
+        }
+    }
 }

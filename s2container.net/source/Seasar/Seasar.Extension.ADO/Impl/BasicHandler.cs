@@ -36,6 +36,7 @@ namespace Seasar.Extension.ADO.Impl
     {
         private IDataSource dataSource;
         private string sql;
+        private MatchCollection sqlParameters;
         private ICommandFactory commandFactory = BasicCommandFactory.INSTANCE;
         private BindVariableType bindVariableType = BindVariableType.None;
 		private int commandTimeout = -1;
@@ -65,7 +66,12 @@ namespace Seasar.Extension.ADO.Impl
         public string Sql
         {
             get { return this.sql; }
-            set { this.sql = value; }
+            set
+            {
+                this.sql = value;
+                Regex regex = new Regex(@"(@\w+|:\w+|\?)");
+                sqlParameters = regex.Matches(sql);
+            }
         }
 
         public ICommandFactory CommandFactory
@@ -101,23 +107,27 @@ namespace Seasar.Extension.ADO.Impl
         protected virtual IDbCommand Command(IDbConnection connection)
         {
             if(this.sql == null) throw new EmptyRuntimeException("sql");
+            string changeSignSql = this.sql;
             switch(GetBindVariableType(connection))
             {
+                case BindVariableType.AtmarkWithParam:
+                    changeSignSql = GetChangeSignCommandText(this.sql, "@");
+                    break;
                 case BindVariableType.Question:
-                    this.sql = GetCommandText(this.sql);
+                    changeSignSql = GetCommandText(this.sql);
                     break;
                 case BindVariableType.QuestionWithParam:
-                    this.sql = GetChangeSignCommandText(this.sql, "?");
+                    changeSignSql = GetChangeSignCommandText(this.sql, "?");
                     break;
                 case BindVariableType.ColonWithParam:
-                    this.sql = GetChangeSignCommandText(this.sql, ":");
+                    changeSignSql = GetChangeSignCommandText(this.sql, ":");
                     break;
 				case BindVariableType.ColonWithParamToLower:
-					this.sql = GetChangeSignCommandText(this.sql, ":");
-					this.sql = this.sql.ToLower();
+                    changeSignSql = GetChangeSignCommandText(this.sql, ":");
+                    changeSignSql = changeSignSql.ToLower();
 					break;
             }
-			IDbCommand cmd = this.dataSource.GetCommand(sql, connection);
+            IDbCommand cmd = this.dataSource.GetCommand(changeSignSql, connection);
 			if (this.commandTimeout > -1) cmd.CommandTimeout = this.commandTimeout;
 			return cmd;
         }
@@ -158,6 +168,16 @@ namespace Seasar.Extension.ADO.Impl
 			return argTypes;
 		}
 
+        protected string[] GetArgNames()
+        {
+            string[] argNames = new string[sqlParameters.Count];
+            for (int i = 0; i < argNames.Length; ++i)
+            {
+                argNames[i] = (sqlParameters[i].Value.Length == 1) ? Convert.ToString(i) : sqlParameters[i].Value.Substring(1);
+            }
+            return argNames;
+        }
+
         protected string GetCompleteSql(object[] args)
         {
             if(args == null || args.Length == 0) return this.sql;
@@ -166,9 +186,7 @@ namespace Seasar.Extension.ADO.Impl
 
         private string GetCompleteSql(string sql, object[] args)
         {
-            Regex regex = new Regex(@"(@\w+)");
-            MatchCollection matches = regex.Matches(sql);
-            return ReplaceSql(sql, args, matches);
+            return ReplaceSql(sql, args, sqlParameters);
         }
 
         private string ReplaceSql(string sql, object[] args, MatchCollection matches)
@@ -183,20 +201,17 @@ namespace Seasar.Extension.ADO.Impl
 
         private string GetCommandText(string sql)
         {
-            Regex regex = new Regex(@"(@\w+)");
-            MatchCollection matches = regex.Matches(sql);
-            return ReplaceSql(sql, "?", matches);
+            return ReplaceSql(sql, "?", sqlParameters);
         }
 
         private string GetChangeSignCommandText(string sql, string sign)
         {
             string text = sql;
-            Regex regex = new Regex(@"(@\w+)");
-            MatchCollection matches = regex.Matches(sql);
-            for(int i = 0; i < matches.Count; ++i)
+            for (int i = 0; i < sqlParameters.Count; ++i)
             {
-                if(!matches[i].Success) continue;
-				text = ReplaceAtFirstElement(text, matches[i].Value, sign + matches[i].Value.Substring(1));
+                if (!sqlParameters[i].Success) continue;
+                string parameterName = (sqlParameters[i].Value.Length == 1) ? sign + i : sign + sqlParameters[i].Value.Substring(1);
+                text = ReplaceAtFirstElement(text, sqlParameters[i].Value, parameterName);
             }
             return text;
         }
@@ -213,7 +228,8 @@ namespace Seasar.Extension.ADO.Impl
 
 		private string ReplaceAtFirstElement(string source, string original, string replace)
 		{
-			Regex regexp = new Regex(original, RegexOptions.IgnoreCase);
+            string pattern = original.Replace("?", "\\?");
+            Regex regexp = new Regex(pattern, RegexOptions.IgnoreCase);
 			return regexp.Replace(source, replace, 1);
 		}
 

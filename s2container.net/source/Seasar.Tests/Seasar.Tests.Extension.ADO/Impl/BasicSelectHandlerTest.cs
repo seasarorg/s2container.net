@@ -17,7 +17,13 @@
 #endregion
 
 using System;
+using System.Collections;
 using System.Data;
+using System.IO;
+using System.Reflection;
+using log4net;
+using log4net.Config;
+using log4net.Util;
 using MbUnit.Framework;
 using Seasar.Extension.ADO;
 using Seasar.Extension.ADO.Impl;
@@ -28,12 +34,16 @@ namespace Seasar.Tests.Extension.ADO.Impl
 	[TestFixture]
 	public class BasicSelectHandlerTest : S2TestCase
 	{
-		public const string WAVE_DASH = "\u301C";
-		public const string FULL_WIDTH_TILDE = "\uFF5E";
-
 		private const string PATH = "Ado.dicon";
 
-		public void SetUpExecute() 
+        static BasicSelectHandlerTest()
+		{
+			FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
+				Assembly.GetExecutingAssembly()) + ".config");
+			XmlConfigurator.Configure(LogManager.GetRepository(), info);
+		}
+
+        public void SetUpExecute() 
 		{
 			Include(PATH);
 		}
@@ -41,24 +51,76 @@ namespace Seasar.Tests.Extension.ADO.Impl
 		[Test, S2(Tx.Rollback)]
 		public void Execute()
 		{
-			string sql = "insert into emp(empno, ename) values(99, @ename)";
-			BasicUpdateHandler handler = new BasicUpdateHandler(DataSource, sql);
-			object[] args = new object[] { FULL_WIDTH_TILDE };
-			string[] argNames = new string[] { "ename" };
-			handler.Execute(args, Type.GetTypeArray(args), argNames);
-			
-			string sql2 = "select ename from emp where empno = 99";
-			BasicSelectHandler handler2 = new BasicSelectHandler(
+			string sql = "select * from emp where empno = @empno";
+			BasicSelectHandler handler = new BasicSelectHandler(
 				DataSource,
-				sql2,
-				new ObjectDataReaderHandler(),
-				BasicCommandFactory.INSTANCE,
-				BasicDataReaderFactory.INSTANCE
+				sql,
+				new DictionaryDataReaderHandler()
 				);
-
-			string ret = (string) handler2.Execute(null);
+            IDictionary ret = (IDictionary) handler.Execute(new object[] { 7788 });
 			Console.Out.WriteLine(ret);
-			Assert.AreEqual(FULL_WIDTH_TILDE, ret, "1");
+            Assert.IsNotNull(ret, "1");
+            Assert.AreEqual(9, ret.Count, "2");
 		}
-	}
+
+        public void SetUpExecuteNullArgs()
+        {
+            Include(PATH);
+        }
+
+        [Test, S2(Tx.Rollback)]
+        public void ExecuteNullArgs()
+        {
+            string sql = "select * from emp where empno = 7788";
+            BasicSelectHandler handler = new BasicSelectHandler(
+                DataSource,
+                sql,
+                new DictionaryDataReaderHandler()
+                );
+            IDictionary ret = (IDictionary) handler.Execute(null);
+            Console.Out.WriteLine(ret);
+            Assert.IsNotNull(ret, "1");
+            Assert.AreEqual(9, ret.Count, "2");
+        }
+
+        public void SetUpExecuteColonWithParam()
+        {
+            Include(PATH);
+        }
+
+        [Test, S2(Tx.Rollback)]
+        public void ExecuteColonWithParam()
+        {
+            string sql = "select * from emp where empno = :empno";
+            BasicSelectHandler handler = new BasicSelectHandler(
+                DataSource,
+                sql,
+                new DictionaryDataReaderHandler()
+                );
+            IDictionary ret = (IDictionary) handler.Execute(new object[] { 7788 });
+            Console.Out.WriteLine(ret);
+            Assert.IsNotNull(ret, "1");
+            Assert.AreEqual(9, ret.Count, "2");
+        }
+
+        public void SetUpExecuteQuestionWithParam()
+        {
+            Include(PATH);
+        }
+
+        [Test, S2(Tx.Rollback)]
+        public void ExecuteQuestionWithParam()
+        {
+            string sql = "select * from emp where empno = ?";
+            BasicSelectHandler handler = new BasicSelectHandler(
+                DataSource,
+                sql,
+                new DictionaryDataReaderHandler()
+                );
+            IDictionary ret = (IDictionary) handler.Execute(new object[] { 7788 });
+            Console.Out.WriteLine(ret);
+            Assert.IsNotNull(ret, "1");
+            Assert.AreEqual(9, ret.Count, "2");
+        }
+    }
 }

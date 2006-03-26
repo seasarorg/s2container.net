@@ -34,7 +34,6 @@ namespace Seasar.Extension.Unit
 	/// </summary>
 	public class S2TestCase : S2FrameworkTestCaseBase
 	{
-   
 		private IDataSource dataSource;
 
 		private IDbConnection connection;
@@ -43,6 +42,7 @@ namespace Seasar.Extension.Unit
 		{
 
 		}
+
 		public IDataSource DataSource
 		{
 			get
@@ -63,6 +63,11 @@ namespace Seasar.Extension.Unit
 				return connection;
 			}
 		}
+
+        public bool HasConnection
+        {
+            get { return connection != null; }
+        }
 
 		internal void SetConnection(IDbConnection connection)
 		{
@@ -87,7 +92,7 @@ namespace Seasar.Extension.Unit
 		/// <returns>Excelファイルの内容から作成したDataSet</returns>
 		public DataSet ReadXls(string path) 
 		{
-			IDataReader reader = new XlsReader(convertPath(path));
+			IDataReader reader = new XlsReader(ConvertPath(path));
 			return reader.Read();
 		}
 
@@ -104,7 +109,7 @@ namespace Seasar.Extension.Unit
 		/// <param name="dataSet">Excelファイルに書き込む内容のDataSet</param>
 		public void WriteXls(string path, DataSet dataSet) 
 		{
-			IDataWriter writer = new XlsWriter(convertPath(path));
+			IDataWriter writer = new XlsWriter(ConvertPath(path));
 			writer.Write(dataSet);
 		}
 

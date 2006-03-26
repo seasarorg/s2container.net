@@ -30,7 +30,7 @@
     -->
     
     <!-- .NET Framework Data Provider for Oracle を使用する場合に必要です。 -->
-    <!--
+	<!--
     <component name="Oracle" class="Seasar.Extension.ADO.DataProvider">
         <property name="ConnectionType">"System.Data.OracleClient.OracleConnection"</property>
         <property name="CommandType">"System.Data.OracleClient.OracleCommand"</property>
@@ -38,13 +38,13 @@
         <property name="DataAdapterType">"System.Data.OracleClient.OracleDataAdapter"</property>
     </component>
     <component name="DataSource" class="Seasar.Extension.Tx.Impl.TxDataSource">
-        <property name="DataProvider">ODP.NET</property>
+        <property name="DataProvider">Oracle</property>
         <property name="ConnectionString">"Data Source=ORCL;User ID=s2dotnetdemo;Password=s2dotnetdemo"</property>
     </component>
-    -->
-    
-    <!-- Oracle Data Provider for .NET を使用する場合に必要です。 -->
-    <!--
+	-->
+
+	<!-- Oracle Data Provider for .NET を使用する場合に必要です。 -->
+	<!--
     <component name="ODP.NET" class="Seasar.Extension.ADO.DataProvider">
         <property name="ConnectionType">"Oracle.DataAccess.Client.OracleConnection"</property>
         <property name="CommandType">"Oracle.DataAccess.Client.OracleCommand"</property>
@@ -55,9 +55,9 @@
         <property name="DataProvider">ODP.NET</property>
         <property name="ConnectionString">"Data Source=ORCL;User ID=s2dotnetdemo;Password=s2dotnetdemo"</property>
     </component>
-    -->
-    
-    <!-- Npgsql .NET Data Provider を使用する場合に必要です。 -->
+	-->
+
+	<!-- Npgsql .NET Data Provider を使用する場合に必要です。 -->
     <!--
     <component name="Npgsql" class="Seasar.Extension.ADO.DataProvider">
         <property name="ConnectionType">"Npgsql.NpgsqlConnection"</property>
