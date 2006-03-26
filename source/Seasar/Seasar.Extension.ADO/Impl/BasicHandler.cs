@@ -158,6 +158,18 @@ namespace Seasar.Extension.ADO.Impl
 			return argTypes;
 		}
 
+        protected string[] GetArgNames()
+        {
+            Regex regex = new Regex(@"(@\w+)");
+            MatchCollection matches = regex.Matches(sql);
+            string[] argNames = new string[matches.Count];
+            for (int i = 0; i < argNames.Length; ++i)
+            {
+                argNames[i] = matches[i].Captures[0].Value.Replace("@", string.Empty);
+            }
+            return argNames;
+        }
+
         protected string GetCompleteSql(object[] args)
         {
             if(args == null || args.Length == 0) return this.sql;
