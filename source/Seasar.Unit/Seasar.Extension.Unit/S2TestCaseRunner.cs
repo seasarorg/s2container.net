@@ -101,7 +101,7 @@ namespace Seasar.Extension.Unit
 
 		protected void TearDownDataSource() 
 		{
-			if (fixture.Connection != null) 
+            if (fixture.HasConnection) 
 			{
 				ConnectionUtil.Close(fixture.Connection);
 				fixture.SetConnection(null);
