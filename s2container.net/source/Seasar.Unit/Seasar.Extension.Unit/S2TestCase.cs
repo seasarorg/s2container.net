@@ -64,6 +64,11 @@ namespace Seasar.Extension.Unit
 			}
 		}
 
+        public bool HasConnection
+        {
+            get { return connection != null; }
+        }
+
 		internal void SetConnection(IDbConnection connection)
 		{
 			this.connection = connection;
