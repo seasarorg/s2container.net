@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Runtime.Serialization;
 using Seasar.Framework.Exceptions;
 
 namespace Seasar.Framework.Container
@@ -24,6 +25,7 @@ namespace Seasar.Framework.Container
 	/// <summary>
 	/// ägí£éqÇ™å©Ç¬Ç©ÇÁÇ»Ç©Ç¡ÇΩÇ∆Ç´ÇÃé¿çséûó·äO
 	/// </summary>
+	[Serializable]
 	public class ExtensionNotFoundRuntimeException : SRuntimeException
 	{
 		private string path_;
@@ -32,6 +34,20 @@ namespace Seasar.Framework.Container
 			: base("ESSR0074",new object[] {path})
 		{
 			path_ = path;
+		}
+
+		public ExtensionNotFoundRuntimeException(SerializationInfo info, StreamingContext context) 
+			: base( info, context )
+		{
+			this.path_ = info.GetString("path_");
+		}
+
+		public override void GetObjectData( SerializationInfo info,
+			StreamingContext context )
+		{
+			info.AddValue("path_", this.path_, typeof(String));
+
+			base.GetObjectData(info, context);
 		}
 
 		public string Path

@@ -17,10 +17,12 @@
 #endregion
 
 using System;
+using System.Runtime.Serialization;
 using Seasar.Framework.Exceptions;
 
 namespace Seasar.Extension.ADO
 {
+	[Serializable]
     public class ColumnNotFoundRuntimeException : SRuntimeException
     {
         private string tableName;
@@ -32,6 +34,22 @@ namespace Seasar.Extension.ADO
             this.tableName = tableName;
             this.columnName = columnName;
         }
+		
+		public ColumnNotFoundRuntimeException(SerializationInfo info, StreamingContext context) 
+			: base( info, context )
+		{
+			this.tableName = info.GetString("tableName");
+			this.columnName = info.GetString("columnName");
+		}
+
+		public override void GetObjectData( SerializationInfo info,
+			StreamingContext context )
+		{
+			info.AddValue("tableName", this.tableName, typeof(String));
+			info.AddValue("columnName", this.columnName, typeof(String));
+
+			base.GetObjectData(info, context);
+		}
 
         public string TableName
         {

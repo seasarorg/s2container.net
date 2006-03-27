@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Runtime.Serialization;
 using Seasar.Framework.Exceptions;
 
 namespace Seasar.Framework.Container
@@ -24,6 +25,7 @@ namespace Seasar.Framework.Container
 	/// <summary>
 	/// コンポーネントのコンストラクタ引数の設定に失敗したときの実行時例外
 	/// </summary>
+	[Serializable]
 	public class IllegalConstructorRuntimeException : SRuntimeException
 	{
 		private Type componentType_;
@@ -32,6 +34,20 @@ namespace Seasar.Framework.Container
 			: base("ESSR0058",new object[] {componentType.FullName,cause},cause)
 		{
 			componentType_ = componentType;
+		}
+
+		public IllegalConstructorRuntimeException(SerializationInfo info, StreamingContext context) 
+			: base( info, context )
+		{
+			this.componentType_ = info.GetValue("componentType_", typeof(Type)) as Type;
+		}
+
+		public override void GetObjectData( SerializationInfo info,
+			StreamingContext context )
+		{
+			info.AddValue("componentType_", this.componentType_, typeof(Type));
+
+			base.GetObjectData(info, context);
 		}
 
 		public Type ComponentType
