@@ -371,6 +371,16 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Seasar.Extension.Component\IComponentInvoker.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.Component\Impl\ComponentInvoker.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Seasar.Extension.DataSets\IDataReader.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
