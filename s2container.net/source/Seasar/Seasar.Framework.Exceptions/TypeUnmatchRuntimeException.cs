@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Runtime.Serialization;
 using Seasar.Framework.Exceptions;
 
 namespace Seasar.Framework.Container
@@ -24,6 +25,7 @@ namespace Seasar.Framework.Container
 	/// <summary>
 	/// TypeUnmatchRuntimeException ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
 	/// </summary>
+	[Serializable]
 	public class TypeUnmatchRuntimeException : SRuntimeException
 	{
 		private Type componentType_;
@@ -40,6 +42,22 @@ namespace Seasar.Framework.Container
 		{
 			componentType_ = componentType;
 			realComponentType_ = realComponentType;
+		}
+
+		public TypeUnmatchRuntimeException(SerializationInfo info, StreamingContext context) 
+			: base( info, context )
+		{
+			this.componentType_ = info.GetValue("componentType_", typeof(Type)) as Type;
+			this.realComponentType_ = info.GetValue("realComponentType_", typeof(Type)) as Type;
+		}
+
+		public override void GetObjectData( SerializationInfo info,
+			StreamingContext context )
+		{
+			info.AddValue("componentType_", this.componentType_, typeof(Type));
+			info.AddValue("realComponentType_", this.realComponentType_, typeof(Type));
+
+			base.GetObjectData(info, context);
 		}
 
 		public Type ComponentType

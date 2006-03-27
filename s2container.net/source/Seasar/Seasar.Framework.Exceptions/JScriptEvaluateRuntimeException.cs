@@ -17,12 +17,14 @@
 #endregion
 
 using System;
+using System.Runtime.Serialization;
 
 namespace Seasar.Framework.Exceptions
 {
 	/// <summary>
 	/// Microsoft.JScript.Eval.JScriptEvaluateÇ≈î≠ê∂Ç∑ÇÈé¿çséûó·äOÇ≈Ç∑ÅB
 	/// </summary>
+	[Serializable]
 	public sealed class JScriptEvaluateRuntimeException : SRuntimeException
 	{
 		private string expression_;
@@ -31,6 +33,20 @@ namespace Seasar.Framework.Exceptions
 			: base("ESSR0073",new object[] {expression,cause},cause)
 		{
 			expression_ = expression;
+		}
+
+		public JScriptEvaluateRuntimeException(SerializationInfo info, StreamingContext context) 
+			: base( info, context )
+		{
+			this.expression_ = info.GetString("expression_");
+		}
+
+		public override void GetObjectData( SerializationInfo info,
+			StreamingContext context )
+		{
+			info.AddValue("expression_", this.expression_, typeof(String));
+
+			base.GetObjectData(info, context);
 		}
 
 		public string Expression

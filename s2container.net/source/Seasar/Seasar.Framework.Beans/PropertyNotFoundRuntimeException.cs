@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Runtime.Serialization;
 using Seasar.Framework.Exceptions;
 
 namespace Seasar.Framework.Beans
@@ -24,6 +25,7 @@ namespace Seasar.Framework.Beans
 	/// <summary>
 	/// PropertyNotFoundRuntimeException ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
 	/// </summary>
+	[Serializable]
 	public class PropertyNotFoundRuntimeException : SRuntimeException
 	{
 		private Type targetType_;
@@ -34,6 +36,22 @@ namespace Seasar.Framework.Beans
 		{
 			targetType_ = componentType;
 			propertyName_ = propertyName;
+		}
+
+		public PropertyNotFoundRuntimeException(SerializationInfo info, StreamingContext context) 
+			: base( info, context )
+		{
+			this.targetType_ = info.GetValue("targetType_", typeof(Type)) as Type;
+			this.propertyName_ = info.GetString("propertyName_");
+		}
+
+		public override void GetObjectData( SerializationInfo info,
+			StreamingContext context )
+		{
+			info.AddValue("targetType_", this.targetType_, typeof(Type));
+			info.AddValue("propertyName_", this.propertyName_, typeof(string));
+
+			base.GetObjectData(info, context);
 		}
 
 		public Type TargetType

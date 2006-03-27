@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Runtime.Serialization;
 using Seasar.Framework.Exceptions;
 
 namespace Seasar.Framework.Container
@@ -24,6 +25,7 @@ namespace Seasar.Framework.Container
 	/// <summary>
 	/// IllegalMethodRuntimeException ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
 	/// </summary>
+	[Serializable]
 	public class IllegalMethodRuntimeException : SRuntimeException
 	{
 		private Type componentType_;
@@ -35,6 +37,22 @@ namespace Seasar.Framework.Container
 		{
 			componentType_ = componentType;
 			methodName_ = methodName;
+		}
+
+		public IllegalMethodRuntimeException(SerializationInfo info, StreamingContext context) 
+			: base( info, context )
+		{
+			this.componentType_ = info.GetValue("componentType_", typeof(Type)) as Type;
+			this.methodName_ = info.GetString("methodName_");
+		}
+
+		public override void GetObjectData( SerializationInfo info,
+			StreamingContext context )
+		{
+			info.AddValue("componentType_", this.componentType_, typeof(Type));
+			info.AddValue("methodName_", this.methodName_, typeof(String));
+
+			base.GetObjectData(info, context);
 		}
 
 		public Type ComponentType

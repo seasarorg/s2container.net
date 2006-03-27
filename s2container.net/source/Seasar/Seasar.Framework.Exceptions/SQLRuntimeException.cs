@@ -17,17 +17,25 @@
 #endregion
 
 using System;
+using System.Runtime.Serialization;
 
 namespace Seasar.Framework.Exceptions
 {
     /// <summary>
     /// SQLRuntimeException ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
     /// </summary>
-    public class SQLRuntimeException : SRuntimeException
+    [Serializable]
+	public class SQLRuntimeException : SRuntimeException
     {
         public SQLRuntimeException(Exception cause)
             : base("ESSR0071", new object[] { cause }, cause)
         {
         }
+
+		public SQLRuntimeException(SerializationInfo info, StreamingContext context) 
+			: base( info, context )
+		{
+		}
+
     }
 }

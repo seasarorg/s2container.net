@@ -17,10 +17,12 @@
 #endregion
 
 using System;
+using System.Runtime.Serialization;
 using Seasar.Framework.Exceptions;
 
 namespace Seasar.Framework.Container.Factory
 {
+	[Serializable]
 	public class TagAttributeNotDefinedRuntimeException : SRuntimeException
 	{
 		private string tagName_;
@@ -31,6 +33,22 @@ namespace Seasar.Framework.Container.Factory
 		{
 			tagName_ = tagName;
 			attributeName_ = attributeName;
+		}
+
+		public TagAttributeNotDefinedRuntimeException(SerializationInfo info, StreamingContext context) 
+			: base( info, context )
+		{
+			this.tagName_ = info.GetString("tagName_");
+			this.attributeName_ = info.GetString("attributeName_");
+		}
+
+		public override void GetObjectData( SerializationInfo info,
+			StreamingContext context )
+		{
+			info.AddValue("tagName_", this.tagName_, typeof(String));
+			info.AddValue("attributeName_", this.attributeName_, typeof(String));
+
+			base.GetObjectData(info, context);
 		}
 
 		public string TagName

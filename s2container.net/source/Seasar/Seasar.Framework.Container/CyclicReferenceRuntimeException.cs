@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Runtime.Serialization;
 using Seasar.Framework.Exceptions;
 
 namespace Seasar.Framework.Container
@@ -24,6 +25,7 @@ namespace Seasar.Framework.Container
 	/// <summary>
 	/// コンポーネントの循環参照が起きたときの実行時例外
 	/// </summary>
+	[Serializable]
 	public class CyclicReferenceRuntimeException : SRuntimeException
 	{
 		private Type componentType_;
@@ -32,6 +34,20 @@ namespace Seasar.Framework.Container
 			: base("ESSR0047",new object[] { componentType.FullName })
 		{
 			componentType_ = componentType;	
+		}
+
+		public CyclicReferenceRuntimeException(SerializationInfo info, StreamingContext context) 
+			: base( info, context )
+		{
+			this.componentType_ = info.GetValue("componentType_", typeof(Type)) as Type;
+		}
+
+		public override void GetObjectData( SerializationInfo info,
+			StreamingContext context )
+		{
+			info.AddValue("componentType_", this.componentType_, typeof(Type));
+
+			base.GetObjectData(info, context);
 		}
 
 		public Type ComponentType

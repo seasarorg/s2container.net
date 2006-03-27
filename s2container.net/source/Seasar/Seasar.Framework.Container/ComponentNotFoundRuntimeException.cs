@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Runtime.Serialization;
 using Seasar.Framework.Exceptions;
 
 namespace Seasar.Framework.Container
@@ -24,6 +25,7 @@ namespace Seasar.Framework.Container
 	/// <summary>
 	/// ComponentNotFoundRuntimeException ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
 	/// </summary>
+	[Serializable]
 	public class ComponentNotFoundRuntimeException : SRuntimeException
 	{
 		private object componentKey_;
@@ -32,6 +34,20 @@ namespace Seasar.Framework.Container
 			: base("ESSR0046",new object[] { componentKey})
 		{
 			componentKey_ = componentKey;
+		}
+
+		public ComponentNotFoundRuntimeException(SerializationInfo info, StreamingContext context) 
+			: base( info, context )
+		{
+			this.componentKey_ = info.GetValue("componentKey_",typeof(object));
+		}
+
+		public override void GetObjectData( SerializationInfo info,
+			StreamingContext context )
+		{
+			info.AddValue("componentKey_", this.componentKey_, typeof(object));
+
+			base.GetObjectData(info, context);
 		}
 
 		public object ComponentKey

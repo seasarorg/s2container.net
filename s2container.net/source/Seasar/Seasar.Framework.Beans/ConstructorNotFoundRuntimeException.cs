@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Runtime.Serialization;
 using System.Text;
 using Seasar.Framework.Exceptions;
 
@@ -25,6 +26,7 @@ namespace Seasar.Framework.Beans
 	/// <summary>
 	/// 対象のクラスに適用可能なコンストラクタが見つからなかった場合の実行時例外です。
 	/// </summary>
+	[Serializable]
 	public class ConstructorNotFoundRuntimeException : SRuntimeException
 	{
 		private Type targetType_;
@@ -36,6 +38,22 @@ namespace Seasar.Framework.Beans
 		{
 			targetType_ = targetType;
 			methodArgs_ = methodArgs;
+		}
+
+		public ConstructorNotFoundRuntimeException(SerializationInfo info, StreamingContext context) 
+			: base( info, context )
+		{
+			this.targetType_ = info.GetValue("targetType_", typeof(Type)) as Type;
+			this.methodArgs_ = info.GetValue("methodArgs_", typeof(object[])) as object[];
+		}
+
+		public override void GetObjectData( SerializationInfo info,
+			StreamingContext context )
+		{
+			info.AddValue("targetType_", this.targetType_, typeof(Type));
+			info.AddValue("methodArgs_", this.methodArgs_, typeof(object[]));
+
+			base.GetObjectData(info, context);
 		}
 
 		public Type TargetType
