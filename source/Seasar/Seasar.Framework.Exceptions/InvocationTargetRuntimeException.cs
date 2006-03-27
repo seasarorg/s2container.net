@@ -18,12 +18,14 @@
 
 using System;
 using System.Reflection;
+using System.Runtime.Serialization;
 
 namespace Seasar.Framework.Exceptions
 {
 	/// <summary>
 	/// TargetInvocationExceptionをラップする実行時例外です。
 	/// </summary>
+	[Serializable]
 	public class InvocationTargetRuntimeException : SRuntimeException
 	{
 		private Type targetType_;
@@ -34,6 +36,20 @@ namespace Seasar.Framework.Exceptions
 
 		{
 			targetType_ = targetType;
+		}
+
+		public InvocationTargetRuntimeException(SerializationInfo info, StreamingContext context) 
+			: base( info, context )
+		{
+			this.targetType_ = info.GetValue("targetType_", typeof(Type)) as Type;
+		}
+
+		public override void GetObjectData( SerializationInfo info,
+			StreamingContext context )
+		{
+			info.AddValue("targetType_", this.targetType_, typeof(Type));
+
+			base.GetObjectData(info, context);
 		}
 
 		public Type TargetType

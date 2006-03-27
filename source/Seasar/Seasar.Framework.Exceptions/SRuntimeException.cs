@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Runtime.Serialization;
 using Seasar.Framework.Message;
 
 namespace Seasar.Framework.Exceptions
@@ -25,6 +26,7 @@ namespace Seasar.Framework.Exceptions
 	/// Seasarの実行時例外のベースとなるクラスです。
 	/// メッセージコードによって例外を詳細に特定できます。
 	/// </summary>
+	[Serializable]
 	public class SRuntimeException : ApplicationException
 	{
 		private string messageCode_;
@@ -51,6 +53,26 @@ namespace Seasar.Framework.Exceptions
 			args_ = args;
 			simpleMessage_ = MessageFormatter.GetSimpleMessage(messageCode_,args_);
 			message_ = "[" + messageCode + "]" + simpleMessage_;
+		}
+
+		public SRuntimeException(SerializationInfo info, StreamingContext context ) 
+			: base( info, context )
+		{
+			this.messageCode_ = info.GetString("messageCode_");
+			this.args_ = info.GetValue("args_", typeof(object[])) as object[];
+			this.message_ = info.GetString("message_");
+			this.simpleMessage_ = info.GetString("simpleMessage_");
+		}
+
+		public override void GetObjectData( SerializationInfo info,
+			StreamingContext context )
+		{
+			info.AddValue("messageCode_", this.messageCode_, typeof(String));
+			info.AddValue("args_", this.args_, typeof(object[]));
+			info.AddValue("message_", this.message_, typeof(String));
+			info.AddValue("simpleMessage_", this.simpleMessage_, typeof(String));
+
+			base.GetObjectData(info, context);
 		}
 
 

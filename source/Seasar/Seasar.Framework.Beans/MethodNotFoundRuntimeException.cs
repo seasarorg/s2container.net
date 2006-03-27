@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Runtime.Serialization;
 using Seasar.Framework.Exceptions;
 using Seasar.Framework.Util;
 
@@ -25,6 +26,7 @@ namespace Seasar.Framework.Beans
 	/// <summary>
 	/// MethodNotFoundRuntimeException ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
 	/// </summary>
+	[Serializable]
 	public class MethodNotFoundRuntimeException : SRuntimeException
 	{
 		private Type targetType_;
@@ -51,6 +53,25 @@ namespace Seasar.Framework.Beans
 			targetType_ = targetType;
 			methodName_ = methodName;
 			methodArgTypes_ = methodArgTypes;
+		}
+
+		public MethodNotFoundRuntimeException(SerializationInfo info, StreamingContext context) 
+			: base( info, context )
+		{
+			this.targetType_ = info.GetValue("targetType_", typeof(Type)) as Type;
+			this.methodName_ = info.GetString("methodName_");
+			this.methodArgTypes_ = info.GetValue("methodArgTypes_", typeof(Type[])) as Type[];
+
+		}
+
+		public override void GetObjectData( SerializationInfo info,
+			StreamingContext context )
+		{
+			info.AddValue("targetType_", this.targetType_, typeof(Type));
+			info.AddValue("methodName_", this.methodName_, typeof(String));
+			info.AddValue("methodArgTypes_", this.methodArgTypes_, typeof(Type[]));
+
+			base.GetObjectData(info, context);
 		}
 
 		public Type TargetType

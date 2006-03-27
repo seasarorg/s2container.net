@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Runtime.Serialization;
 using Seasar.Framework.Exceptions;
 
 namespace Seasar.Framework.Beans
@@ -24,6 +25,7 @@ namespace Seasar.Framework.Beans
 	/// <summary>
 	/// IllegalPropertyRuntimeException ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
 	/// </summary>
+	[Serializable]
 	public class IllegalPropertyRuntimeException : SRuntimeException
 	{
 		private Type componentType_;
@@ -36,6 +38,23 @@ namespace Seasar.Framework.Beans
 		{
 			componentType_ = componentType;
 			propertyName_ = propertyName;
+		}
+
+		public IllegalPropertyRuntimeException(SerializationInfo info, StreamingContext context) 
+			: base( info, context )
+		{
+			
+			this.componentType_ = info.GetValue("componentType_", typeof(Type)) as Type;
+			this.propertyName_ = info.GetString("propertyName_");
+		}
+
+		public override void GetObjectData( SerializationInfo info,
+			StreamingContext context )
+		{
+			info.AddValue("componentType_", this.componentType_, typeof(Type));
+			info.AddValue("propertyName_", this.propertyName_, typeof(string));
+
+			base.GetObjectData(info, context);
 		}
 
 		public Type ComponentType

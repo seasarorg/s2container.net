@@ -17,10 +17,12 @@
 #endregion
 
 using System;
+using System.Runtime.Serialization;
 using Seasar.Framework.Exceptions;
 
 namespace Seasar.Framework.Container.Factory
 {
+	[Serializable]
 	public class ClassNotFoundRuntimeException : SRuntimeException
 	{
 		private string className;
@@ -29,6 +31,20 @@ namespace Seasar.Framework.Container.Factory
 			: base("ESSR0044",new object[] {" \"" + className + "\""})
 		{
 			this.className = className;
+		}
+
+		public ClassNotFoundRuntimeException(SerializationInfo info, StreamingContext context) 
+			: base( info, context )
+		{
+			this.className = info.GetString("className");
+		}
+
+		public override void GetObjectData( SerializationInfo info,
+			StreamingContext context )
+		{
+			info.AddValue("methodName_", this.className, typeof(String));
+
+			base.GetObjectData(info, context);
 		}
 
 		public string ClassName

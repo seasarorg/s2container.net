@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Runtime.Serialization;
 using System.Text;
 using Seasar.Framework.Exceptions;
 
@@ -25,6 +26,7 @@ namespace Seasar.Framework.Container
 	/// <summary>
 	/// TooManyRegistrationRuntimeException ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
 	/// </summary>
+	[Serializable]
 	public sealed class TooManyRegistrationRuntimeException : SRuntimeException
 	{
 		private object key_;
@@ -42,6 +44,21 @@ namespace Seasar.Framework.Container
 			componentTypes_ = componentTypes;
 		}
 
+		public TooManyRegistrationRuntimeException(SerializationInfo info, StreamingContext context) 
+			: base( info, context )
+		{
+			this.key_ = info.GetValue("key_", typeof(object));
+			this.componentTypes_ = info.GetValue("componentTypes_", typeof(Type[])) as Type[];
+		}
+
+		public override void GetObjectData( SerializationInfo info,
+			StreamingContext context )
+		{
+			info.AddValue("key_", this.key_, typeof(object));
+			info.AddValue("componentTypes_", this.componentTypes_, typeof(Type[]));
+
+			base.GetObjectData(info, context);
+		}
 
 		public object Key
 		{

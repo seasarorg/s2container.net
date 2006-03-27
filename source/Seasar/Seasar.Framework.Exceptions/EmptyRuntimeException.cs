@@ -17,12 +17,14 @@
 #endregion
 
 using System;
+using System.Runtime.Serialization;
 
 namespace Seasar.Framework.Exceptions
 {
 	/// <summary>
 	/// ‘ÎÛ‚ªİ’è‚³‚ê‚Ä‚¢‚È‚¢ê‡‚ÌÀs—áŠO‚Å‚·B
 	/// </summary>
+	[Serializable]
 	public sealed class EmptyRuntimeException : SRuntimeException
 	{
 		private string targetName_;
@@ -31,6 +33,20 @@ namespace Seasar.Framework.Exceptions
 			: base("ESSR0007",new object[] {targetName})
 		{
 			targetName_ = targetName;
+		}
+
+		public EmptyRuntimeException(SerializationInfo info, StreamingContext context) 
+			: base( info, context )
+		{
+			this.targetName_ = info.GetString("targetName_");
+		}
+
+		public override void GetObjectData( SerializationInfo info,
+			StreamingContext context )
+		{
+			info.AddValue("targetName_", this.targetName_, typeof(String));
+
+			base.GetObjectData(info, context);
 		}
 
 		public string TargetName

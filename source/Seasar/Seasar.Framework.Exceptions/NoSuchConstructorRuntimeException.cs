@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Runtime.Serialization;
 using Seasar.Framework.Util;
 
 namespace Seasar.Framework.Exceptions
@@ -24,6 +25,7 @@ namespace Seasar.Framework.Exceptions
 	/// <summary>
 	/// コンストラクタが見つからない場合の実行時例外です。
 	/// </summary>
+	[Serializable]
 	public class NoSuchConstructorRuntimeException : SRuntimeException
 	{
 		private Type targetType_;
@@ -36,6 +38,22 @@ namespace Seasar.Framework.Exceptions
 		{
 			targetType_ = targetType;
 			argTypes_ = argTypes;
+		}
+
+		public NoSuchConstructorRuntimeException(SerializationInfo info, StreamingContext context) 
+			: base( info, context )
+		{
+			this.targetType_ = info.GetValue("targetType_", typeof(Type)) as Type;
+			this.argTypes_ = info.GetValue("argTypes_", typeof(Type[])) as Type[];
+		}
+
+		public override void GetObjectData( SerializationInfo info,
+			StreamingContext context )
+		{
+			info.AddValue("targetType_", this.targetType_, typeof(Type));
+			info.AddValue("argTypes_", this.argTypes_, typeof(Type[]));
+
+			base.GetObjectData(info, context);
 		}
 
 		public Type TargetType
