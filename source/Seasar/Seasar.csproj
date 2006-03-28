@@ -247,6 +247,8 @@
     <Compile Include="Seasar.Extension.ADO\IValueType.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Extension.Component\IComponentInvoker.cs" />
+    <Compile Include="Seasar.Extension.Component\Impl\ComponentInvoker.cs" />
     <Compile Include="Seasar.Extension.DataSets.States\AbstractRowState.cs">
       <SubType>Code</SubType>
     </Compile>
