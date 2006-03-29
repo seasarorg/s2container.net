@@ -83,7 +83,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
         {
             string sql = "update emp set ename = @ename, comm = @comm where empno = @empno";
             BasicUpdateHandler handler = new BasicUpdateHandler(DataSource, sql);
-            object[] args = new object[] { "SCOTT", (NullableInt32) null, 7788 };
+            object[] args = new object[] { "SCOTT", null, 7788 };
             int ret = handler.Execute(args);
             Assert.AreEqual(1, ret, "1");
         }
@@ -98,7 +98,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
         {
             string sql = "update emp set ename = :ename, comm = :comm where empno = :empno";
             BasicUpdateHandler handler = new BasicUpdateHandler(DataSource, sql);
-            object[] args = new object[] { "SCOTT", (NullableInt32) null, 7788 };
+            object[] args = new object[] { "SCOTT", null, 7788 };
             int ret = handler.Execute(args);
             Assert.AreEqual(1, ret, "1");
         }
@@ -113,7 +113,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
         {
             string sql = "update emp set ename = ?, comm = ? where empno = ?";
             BasicUpdateHandler handler = new BasicUpdateHandler(DataSource, sql);
-            object[] args = new object[] { "SCOTT", (NullableInt32) null, 7788 };
+            object[] args = new object[] { "SCOTT", null, 7788 };
             int ret = handler.Execute(args);
             Assert.AreEqual(1, ret, "1");
         }

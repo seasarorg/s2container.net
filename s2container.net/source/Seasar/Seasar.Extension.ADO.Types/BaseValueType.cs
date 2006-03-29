@@ -64,17 +64,14 @@ namespace Seasar.Extension.ADO.Types
                     break;
             }
 
-            IDataParameter parameter = dataSource.GetParameter(columnName, GetBindValue(value));
+			IDataParameter parameter = dataSource.GetParameter(columnName, dbType);
 			if("OleDbCommand".Equals(cmd.GetType().Name) && dbType == DbType.String)
 			{
 				OleDbParameter oleDbParam = parameter as OleDbParameter;
 				oleDbParam.OleDbType = OleDbType.VarChar;
 			}
-			else
-			{
-				parameter.DbType = dbType;
-			}
-            cmd.Parameters.Add(parameter);
+			parameter.Value = GetBindValue(value);
+			cmd.Parameters.Add(parameter);
         }
 
         protected object GetBindValue(object value)

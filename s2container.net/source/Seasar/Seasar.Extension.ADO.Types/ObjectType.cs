@@ -43,7 +43,14 @@ namespace Seasar.Extension.ADO.Types
 
         public void BindValue(IDbCommand cmd, string columnName, object value)
         {
-            BindValue(cmd, columnName, value, DbType.Object);
+			if (value == DBNull.Value || value == null)
+			{
+				BindValue(cmd, columnName, value, DbType.String);
+			}
+			else
+			{
+				BindValue(cmd, columnName, value, DbType.Object);
+			}
         }
 
         #endregion
