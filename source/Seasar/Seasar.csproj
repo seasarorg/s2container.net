@@ -99,6 +99,7 @@
     <Reference Include="System.EnterpriseServices">
       <Name>System.EnterpriseServices</Name>
     </Reference>
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web">
       <Name>system.web</Name>
     </Reference>
@@ -351,9 +352,12 @@
     <Compile Include="Seasar.Extension.Tx\Impl\LocalSupportedTxHandler.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Extension.Tx\Impl\RequiredTxHandler.cs" />
+    <Compile Include="Seasar.Extension.Tx\Impl\RequiresNewTxHandler.cs" />
     <Compile Include="Seasar.Extension.Tx\Impl\TransactionContext.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Extension.Tx\Impl\TransactionStateHandler.cs" />
     <Compile Include="Seasar.Extension.Tx\Impl\TxDataSource.cs">
       <SubType>Code</SubType>
     </Compile>
