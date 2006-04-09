@@ -19,7 +19,7 @@
 using System;
 using System.EnterpriseServices;
 
-namespace TestSeasar.Extension.Tx
+namespace Seasar.Tests.Extension.Tx
 {
 	public class TxTest : MarshalByRefObject
 	{

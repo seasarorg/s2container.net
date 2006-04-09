@@ -21,7 +21,7 @@ using System.Data;
 
 using Seasar.Extension.Tx;
 
-namespace TestSeasar.Extension.Tx.Impl
+namespace Seasar.Tests.Extension.Tx.Impl
 {
 	public interface ILocalTxTest
 	{

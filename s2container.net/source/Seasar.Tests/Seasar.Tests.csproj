@@ -107,6 +107,7 @@
     <Reference Include="System.EnterpriseServices">
       <Name>System.EnterpriseServices</Name>
     </Reference>
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web">
       <Name>System.Web</Name>
     </Reference>
@@ -170,6 +171,9 @@
     <EmbeddedResource Include="TSTMessages.resx" />
     <None Include="App.config" />
     <None Include="Seasar.snk" />
+    <EmbeddedResource Include="Seasar.Tests.Extension.Tx\Impl\RequiredInterceptorTest.dicon" />
+    <EmbeddedResource Include="Seasar.Tests.Extension.Tx\Impl\RequiresNewInterceptorTest.dicon" />
+    <EmbeddedResource Include="Seasar.Tests.Extension.Tx\Impl\NotSupportedInterceptorTest.dicon" />
     <None Include="Seasar.Tests.Extension.Unit\testdata.xls" />
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -240,6 +244,10 @@
     <Compile Include="Seasar.Tests.Extension.Tx\Impl\LocalTxTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Tests.Extension.Tx\Impl\RequiredInterceptorTest.cs" />
+    <Compile Include="Seasar.Tests.Extension.Tx\Impl\TxTest.cs" />
+    <Compile Include="Seasar.Tests.Extension.Tx\Impl\RequiresNewInterceptorTest.cs" />
+    <Compile Include="Seasar.Tests.Extension.Tx\Impl\NotSupportedInterceptorTest.cs" />
     <Compile Include="Seasar.Tests.Extension.Tx\RequiredInterceptorTest.cs">
       <SubType>Code</SubType>
     </Compile>

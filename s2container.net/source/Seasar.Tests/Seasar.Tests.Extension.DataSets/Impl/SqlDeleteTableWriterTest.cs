@@ -36,7 +36,7 @@ namespace Seasar.Tests.Extension.DataSets.Impl
 			Include(PATH);
 		}
 
-		[Test, S2(Tx.Rollback)]
+        [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
 		public void Write() 
 		{
 			Assembly[] a = AppDomain.CurrentDomain.GetAssemblies();

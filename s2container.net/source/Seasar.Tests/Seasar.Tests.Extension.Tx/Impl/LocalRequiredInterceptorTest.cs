@@ -32,7 +32,7 @@ using log4net.Util;
 
 using NUnit.Framework;
 
-namespace TestSeasar.Extension.Tx.Impl
+namespace Seasar.Tests.Extension.Tx.Impl
 {
 	/// <summary>
 	/// テストを実行するためには、s2-dotnet/data/setUpDemo.batを実行し、
