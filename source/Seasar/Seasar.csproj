@@ -827,9 +827,6 @@
     <Compile Include="Seasar.Framework.Xml\XmlHandlerParser.cs">
       <SubType>Code</SubType>
     </Compile>
-    <None Include="Ex.xsx">
-      <DependentUpon>Tx.dicon</DependentUpon>
-    </None>
     <None Include="Seasar.Framework.Container\Web\Web.config" />
     <None Include="Seasar.snk" />
   </ItemGroup>
