@@ -114,7 +114,10 @@
     <EmbeddedResource Include="components21.dtd" />
     <EmbeddedResource Include="DTCTx.dicon" />
     <EmbeddedResource Include="SSRMessages.ja-JP.resx" />
-    <EmbeddedResource Include="SSRMessages.resx" />
+    <EmbeddedResource Include="SSRMessages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SSRMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Tx.dicon" />
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -352,6 +355,7 @@
     <Compile Include="Seasar.Extension.Tx\Impl\LocalSupportedTxHandler.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Extension.Tx\Impl\NotSupportedTxHandler.cs" />
     <Compile Include="Seasar.Extension.Tx\Impl\RequiredTxHandler.cs" />
     <Compile Include="Seasar.Extension.Tx\Impl\RequiresNewTxHandler.cs" />
     <Compile Include="Seasar.Extension.Tx\Impl\TransactionContext.cs">
