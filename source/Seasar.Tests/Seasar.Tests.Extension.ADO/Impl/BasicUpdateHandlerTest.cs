@@ -47,7 +47,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
 			Include(PATH);
 		}
 
-		[Test, S2(Tx.Rollback)]
+        [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
 		public void Execute()
 		{
 			string sql = "update emp set ename = @ename, comm = @comm where empno = @empno";
@@ -64,7 +64,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
 			Include(PATH);
 		}
 
-		[Test, S2(Tx.Rollback)]
+        [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
 		public void ExecuteNullArgs()
 		{
 			string sql = "delete from emp";
@@ -78,7 +78,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
             Include(PATH);
         }
 
-        [Test, S2(Tx.Rollback)]
+        [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
         public void ExecuteAtmarkWithParam()
         {
             string sql = "update emp set ename = @ename, comm = @comm where empno = @empno";
@@ -93,7 +93,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
             Include(PATH);
         }
 
-        [Test, S2(Tx.Rollback)]
+        [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
         public void ExecuteColonWithParam()
         {
             string sql = "update emp set ename = :ename, comm = :comm where empno = :empno";
@@ -108,7 +108,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
             Include(PATH);
         }
 
-        [Test, S2(Tx.Rollback)]
+        [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
         public void ExecuteQuestionWithParam()
         {
             string sql = "update emp set ename = ?, comm = ? where empno = ?";

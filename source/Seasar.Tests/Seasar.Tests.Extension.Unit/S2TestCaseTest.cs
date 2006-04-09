@@ -48,7 +48,7 @@ namespace Seasar.Tests.Extension.Unit
 			Include(PATH);
 		}
 
-		[Test, S2(Tx.NotSupported)]
+        [Test, S2(Seasar.Extension.Unit.Tx.NotSupported)]
 		public void NotSupported()
 		{
 			logger.Debug( "NotSupported test" );
@@ -70,7 +70,7 @@ namespace Seasar.Tests.Extension.Unit
 			Include(PATH);
 		}
 
-		[Test, S2(Tx.Rollback)]
+        [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
 		public void Rollback()
 		{
 			logger.Debug( "Rollback test" );
@@ -81,7 +81,7 @@ namespace Seasar.Tests.Extension.Unit
 			Include(PATH);
 		}
 
-		[Test, S2(Tx.Commit)]
+        [Test, S2(Seasar.Extension.Unit.Tx.Commit)]
 		public void Commit()
 		{
 			logger.Debug( "Commit test" );
@@ -92,7 +92,7 @@ namespace Seasar.Tests.Extension.Unit
 			Include(PATH);
 		}
 
-		[Test, S2(Tx.Rollback)]
+        [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
 		public void ReadXlsTx() 
 		{
 			DataSet dataSet = ReadXls("testdata.xls");
@@ -112,7 +112,7 @@ namespace Seasar.Tests.Extension.Unit
 			Include(PATH);
 		}
 
-		[Test, S2(Tx.Rollback)]
+        [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
 		public void ReadDbByTableTx() 
 		{
 			DataTable table = ReadDbByTable("emp", "empno = 7788");
@@ -130,7 +130,7 @@ namespace Seasar.Tests.Extension.Unit
 			}
 		}
 
-		[Test, S2(Tx.Rollback)]
+        [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
 		public void WriteXlsTx() 
 		{
 			DataSet dataSet = ReadXls("testdata.xls");

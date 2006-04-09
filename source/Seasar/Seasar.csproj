@@ -113,12 +113,15 @@
     <EmbeddedResource Include="components.dtd" />
     <EmbeddedResource Include="components21.dtd" />
     <EmbeddedResource Include="DTCTx.dicon" />
-    <EmbeddedResource Include="SSRMessages.ja-JP.resx" />
+    <EmbeddedResource Include="SSRMessages.ja-JP.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="SSRMessages.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SSRMessages.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Tx.dicon" />
+    <EmbeddedResource Include="ImplicitTx.dicon" />
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -827,6 +830,12 @@
     <Compile Include="Seasar.Framework.Xml\XmlHandlerParser.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SSRMessages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SSRMessages.resx</DependentUpon>
+    </Compile>
+    <None Include="Tx.dicon" />
     <None Include="Seasar.Framework.Container\Web\Web.config" />
     <None Include="Seasar.snk" />
   </ItemGroup>

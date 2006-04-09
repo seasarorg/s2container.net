@@ -48,7 +48,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
 			Include(PATH);
 		}
 
-		[Test, S2(Tx.Rollback)]
+        [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
 		public void Execute()
 		{
 			string sql = "select * from emp where empno = @empno";
@@ -68,7 +68,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
             Include(PATH);
         }
 
-        [Test, S2(Tx.Rollback)]
+        [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
         public void ExecuteNullArgs()
         {
             string sql = "select * from emp where empno = 7788";
@@ -88,7 +88,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
             Include(PATH);
         }
 
-        [Test, S2(Tx.Rollback)]
+        [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
         public void ExecuteColonWithParam()
         {
             string sql = "select * from emp where empno = :empno";
@@ -108,7 +108,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
             Include(PATH);
         }
 
-        [Test, S2(Tx.Rollback)]
+        [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
         public void ExecuteQuestionWithParam()
         {
             string sql = "select * from emp where empno = ?";

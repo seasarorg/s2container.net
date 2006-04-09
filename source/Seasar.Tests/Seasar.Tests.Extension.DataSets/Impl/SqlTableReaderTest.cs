@@ -35,7 +35,7 @@ namespace Seasar.Tests.Extension.DataSets.Impl
 			Include(PATH);
 		}
 
-		[Test, S2(Tx.Rollback)]
+        [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
 		public void Read() 
 		{
 			SqlTableReader reader = new SqlTableReader(DataSource);
@@ -51,7 +51,7 @@ namespace Seasar.Tests.Extension.DataSets.Impl
 			Include(PATH);
 		}
 
-		[Test, S2(Tx.Rollback)]
+        [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
 		public void Read2() 
 		{
 			SqlTableReader reader = new SqlTableReader(DataSource);
@@ -66,7 +66,7 @@ namespace Seasar.Tests.Extension.DataSets.Impl
 			Include(PATH);
 		}
 
-		[Test, S2(Tx.Rollback)]
+        [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
 		public void Read3() 
 		{
 			SqlTableReader reader = new SqlTableReader(DataSource);

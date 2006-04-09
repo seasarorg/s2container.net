@@ -30,7 +30,7 @@ using log4net.Util;
 
 using NUnit.Framework;
 
-namespace TestSeasar.Extension.Tx
+namespace Seasar.Tests.Extension.Tx
 {
 	/// <summary>
 	/// RequiresNewInterceptorTest ‚ÌŠT—v‚Ìà–¾‚Å‚·B
