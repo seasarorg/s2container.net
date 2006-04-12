@@ -18,18 +18,13 @@
 
 using System;
 using System.Data;
-using Seasar.Extension.ADO;
 using Nullables;
 
 namespace Seasar.Extension.ADO.Types
 {
-	/// <summary>
-	/// ByteType
-	/// </summary>
 	public class SByteType : BaseValueType, IValueType
 	{
-		public SByteType(IDataSource dataSource)
-            : base(dataSource)
+		public SByteType()
 		{
         }
 

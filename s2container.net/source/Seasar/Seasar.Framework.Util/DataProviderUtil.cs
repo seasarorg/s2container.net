@@ -32,41 +32,41 @@ namespace Seasar.Framework.Util
         /// </summary>
         private DataProviderUtil()
         {
-            ;
         }
 
-        /// <summary>
-        /// バインド変数タイプを取得する
-        /// </summary>
-        /// <param name="cn">コネクションオブジェクト</param>
-        /// <returns>バインド変数タイプ</returns>
-        public static BindVariableType GetBindVariableType(IDbConnection cn)
-        {
-            if ( "SqlConnection".Equals(cn.GetType().Name) ||
-                "DB2Connection".Equals(cn.GetType().Name) )
-            {
-                return BindVariableType.AtmarkWithParam;
-            }
-            else if ( "OracleConnection".Equals(cn.GetType().Name) )
-            {
-                return BindVariableType.ColonWithParam;
-            }
-            else if ( "MySqlConnection".Equals(cn.GetType().Name) )
-            {
-                return BindVariableType.QuestionWithParam;
-            }
-            else if ( "NpgsqlConnection".Equals(cn.GetType().Name) )
-            {
-                return BindVariableType.ColonWithParamToLower;
-            }
-            else if ( "FbConnection".Equals(cn.GetType().Name) )
-            {
-                return BindVariableType.Question;
-            }
-            else
-            {
-                return BindVariableType.Question;
-            }
-        }
-    }
+		/// <summary>
+		/// バインド変数タイプを取得する
+		/// </summary>
+		/// <param name="cmd">コマンドオブジェクト</param>
+		/// <returns>バインド変数タイプ</returns>
+		public static BindVariableType GetBindVariableType(IDbCommand cmd)
+		{
+			string name = cmd.GetType().Name;
+			if ("SqlCommand".Equals(name) ||
+				"DB2Connection".Equals(name))
+			{
+				return BindVariableType.AtmarkWithParam;
+			}
+			else if ("OracleCommand".Equals(name))
+			{
+				return BindVariableType.ColonWithParam;
+			}
+			else if ("MySqlCommand".Equals(name))
+			{
+				return BindVariableType.QuestionWithParam;
+			}
+			else if ("NpgsqlCommand".Equals(name))
+			{
+				return BindVariableType.ColonWithParamToLower;
+			}
+			else if ("FbCommand".Equals(name))
+			{
+				return BindVariableType.Question;
+			}
+			else
+			{
+				return BindVariableType.Question;
+			}
+		}
+	}
 }

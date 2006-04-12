@@ -19,16 +19,13 @@
 using System;
 using System.Data;
 using System.Data.SqlTypes;
-using Seasar.Extension.ADO;
 using Nullables;
 
 namespace Seasar.Extension.ADO.Types
 {
     public class StringType : BaseValueType, IValueType
     {
-
-        public StringType(IDataSource dataSource)
-            : base(dataSource)
+        public StringType()
         {
         }
 

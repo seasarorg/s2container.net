@@ -19,15 +19,13 @@
 using System;
 using System.Data;
 using System.Data.SqlTypes;
-using Seasar.Extension.ADO;
 using Nullables;
 
 namespace Seasar.Extension.ADO.Types
 {
-    public class Int16Type :BaseValueType, IValueType
+    public class Int16Type : BaseValueType, IValueType
     {
-        public Int16Type(IDataSource dataSource)
-            : base(dataSource)
+        public Int16Type()
         {
         }
 
