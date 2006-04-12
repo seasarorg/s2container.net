@@ -38,7 +38,6 @@ namespace Seasar.Extension.ADO.Impl
         private string sql;
         private MatchCollection sqlParameters;
         private ICommandFactory commandFactory = BasicCommandFactory.INSTANCE;
-        private BindVariableType bindVariableType = BindVariableType.None;
 		private int commandTimeout = -1;
         
         public BasicHandler()
@@ -86,15 +85,6 @@ namespace Seasar.Extension.ADO.Impl
 			set { commandTimeout = value; }
 		}
 
-        protected BindVariableType GetBindVariableType(IDbConnection cn)
-        {
-            if(bindVariableType == BindVariableType.None)
-            {
-                bindVariableType = DataProviderUtil.GetBindVariableType(cn);
-            }
-            return bindVariableType;
-        }
-
         protected IDbConnection Connection
         {
             get
@@ -107,8 +97,9 @@ namespace Seasar.Extension.ADO.Impl
         protected virtual IDbCommand Command(IDbConnection connection)
         {
             if(this.sql == null) throw new EmptyRuntimeException("sql");
-            string changeSignSql = this.sql;
-            switch(GetBindVariableType(connection))
+			IDbCommand cmd = connection.CreateCommand();
+			string changeSignSql = this.sql;
+			switch (DataProviderUtil.GetBindVariableType(cmd))
             {
                 case BindVariableType.AtmarkWithParam:
                     changeSignSql = GetChangeSignCommandText(this.sql, "@");
@@ -127,7 +118,7 @@ namespace Seasar.Extension.ADO.Impl
                     changeSignSql = changeSignSql.ToLower();
 					break;
             }
-            IDbCommand cmd = this.dataSource.GetCommand(changeSignSql, connection);
+			cmd.CommandText = changeSignSql;
 			if (this.commandTimeout > -1) cmd.CommandTimeout = this.commandTimeout;
 			return cmd;
         }

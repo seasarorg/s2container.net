@@ -19,15 +19,13 @@
 using System;
 using System.Data;
 using System.Data.SqlTypes;
-using Seasar.Extension.ADO;
 using Nullables;
 
 namespace Seasar.Extension.ADO.Types
 {
-    public class DoubleType :BaseValueType, IValueType
+    public class DoubleType : BaseValueType, IValueType
     {
-        public DoubleType(IDataSource dataSource)
-            : base(dataSource)
+        public DoubleType()
         {
         }
 

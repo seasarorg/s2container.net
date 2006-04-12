@@ -19,36 +19,20 @@
 using System;
 using System.Data.OleDb;
 using System.Data;
-using Seasar.Extension.ADO;
 using Seasar.Framework.Util;
 
 namespace Seasar.Extension.ADO.Types
 {
     public abstract class BaseValueType
     {
-        private IDataSource dataSource;
-        protected BindVariableType bindVariableType = BindVariableType.None;
-
-        protected BindVariableType BindVariableType
+        public BaseValueType()
         {
-            get
-            {
-                if(bindVariableType == BindVariableType.None)
-                {
-                    bindVariableType = DataProviderUtil.GetBindVariableType(dataSource.GetConnection());
-                }
-                return bindVariableType;
-            }
         }
 
-        public BaseValueType(IDataSource dataSource)
+        public void BindValue(IDbCommand cmd, string columnName, object value, DbType dbType)
         {
-            this.dataSource = dataSource;
-        }
-
-        public void BindValue(System.Data.IDbCommand cmd, string columnName, object value, DbType dbType)
-        {
-            switch(BindVariableType)
+			BindVariableType vt = DataProviderUtil.GetBindVariableType(cmd);
+            switch(vt)
             {
                 case BindVariableType.QuestionWithParam:
                     columnName = "?" + columnName;
@@ -64,7 +48,9 @@ namespace Seasar.Extension.ADO.Types
                     break;
             }
 
-			IDataParameter parameter = dataSource.GetParameter(columnName, dbType);
+			IDbDataParameter parameter = cmd.CreateParameter();
+			parameter.ParameterName = columnName;
+			parameter.DbType = dbType;
 			if("OleDbCommand".Equals(cmd.GetType().Name) && dbType == DbType.String)
 			{
 				OleDbParameter oleDbParam = parameter as OleDbParameter;

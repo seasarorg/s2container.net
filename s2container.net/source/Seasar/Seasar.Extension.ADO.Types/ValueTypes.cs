@@ -20,27 +20,26 @@ using System;
 using System.Collections;
 using System.Data;
 using System.Data.SqlTypes;
-using Seasar.Extension.ADO;
 using Nullables;
 
 namespace Seasar.Extension.ADO.Types
 {
     public sealed class ValueTypes
     {
-        public static IValueType STRING;
-        public static IValueType BYTE;
-        public static IValueType SBYTE;
-        public static IValueType INT16;
-        public static IValueType INT32;
-        public static IValueType INT64;
-        public static IValueType SINGLE;
-        public static IValueType DOUBLE;
-        public static IValueType DECIMAL;
-        public static IValueType DATETIME;
-        public static IValueType BINARY;
-        public static IValueType BOOLEAN;
-        public static IValueType GUID;
-        public static IValueType OBJECT;
+		public readonly static IValueType STRING = new StringType();
+		public readonly static IValueType BYTE = new ByteType();
+		public readonly static IValueType SBYTE = new SByteType();
+		public readonly static IValueType INT16 = new Int16Type();
+		public readonly static IValueType INT32 = new Int32Type();
+		public readonly static IValueType INT64 = new Int64Type();
+		public readonly static IValueType SINGLE = new SingleType();
+		public readonly static IValueType DOUBLE = new DoubleType();
+		public readonly static IValueType DECIMAL = new DecimalType();
+		public readonly static IValueType DATETIME = new DateTimeType();
+		public readonly static IValueType BINARY = new BinaryType();
+		public readonly static IValueType BOOLEAN = new BooleanType();
+		public readonly static IValueType GUID = new GuidType();
+		public readonly static IValueType OBJECT = new ObjectType();
 
         private readonly static byte[] BYTE_ARRAY = new byte[0];
         private readonly static NullableByte[] NULLABLE_BYTE_ARRAY = new NullableByte[0];
@@ -48,28 +47,8 @@ namespace Seasar.Extension.ADO.Types
         public readonly static Type NULLABLE_BYTE_ARRAY_TYPE = NULLABLE_BYTE_ARRAY.GetType();
         private static Hashtable types = new Hashtable();
 
-
-        private ValueTypes()
+		static ValueTypes()
         {
-        }
-
-        public static void Init(IDataSource dataSource)
-        {
-            STRING = new StringType(dataSource);
-            BYTE = new ByteType(dataSource);
-            SBYTE = new SByteType(dataSource);
-            INT16 = new Int16Type(dataSource);
-            INT32 = new Int32Type(dataSource);
-            INT64 = new Int64Type(dataSource);
-            SINGLE = new SingleType(dataSource);
-            DOUBLE = new DoubleType(dataSource);
-            DECIMAL = new DecimalType(dataSource);
-            DATETIME = new DateTimeType(dataSource);
-            BINARY = new BinaryType(dataSource);
-            BOOLEAN = new BooleanType(dataSource);
-            GUID = new GuidType(dataSource);
-            OBJECT = new ObjectType(dataSource);
-
             RegisterValueType(typeof(String), STRING);
             RegisterValueType(typeof(Byte), BYTE);
             RegisterValueType(typeof(SByte), SBYTE);
@@ -113,6 +92,15 @@ namespace Seasar.Extension.ADO.Types
             RegisterValueType(typeof(NullableGuid), GUID);
 
         }
+
+		private ValueTypes()
+		{
+		}
+
+		[Obsolete("メソッドを呼び出す必要がなくなりました。")]
+		public static void Init(IDataSource dataSource)
+		{
+		}
 
         public static void RegisterValueType(Type type, IValueType valueType)
         {

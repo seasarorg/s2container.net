@@ -18,14 +18,12 @@
 
 using System;
 using System.Data;
-using Seasar.Extension.ADO;
 
 namespace Seasar.Extension.ADO.Types
 {
-    public class ObjectType :BaseValueType, IValueType
+    public class ObjectType : BaseValueType, IValueType
     {
-        public ObjectType(IDataSource dataSource)
-            : base(dataSource)
+        public ObjectType()
         {
         }
 

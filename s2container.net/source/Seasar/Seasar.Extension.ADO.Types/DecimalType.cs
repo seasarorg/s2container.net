@@ -19,15 +19,13 @@
 using System;
 using System.Data;
 using System.Data.SqlTypes;
-using Seasar.Extension.ADO;
 using Nullables;
 
 namespace Seasar.Extension.ADO.Types
 {
-    public class DecimalType :BaseValueType, IValueType
+    public class DecimalType : BaseValueType, IValueType
     {
-        public DecimalType(IDataSource dataSource)
-            : base(dataSource)
+        public DecimalType()
         {
         }
 
