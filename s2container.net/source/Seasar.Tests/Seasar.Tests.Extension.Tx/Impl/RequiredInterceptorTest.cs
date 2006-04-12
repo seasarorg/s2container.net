@@ -83,8 +83,7 @@ namespace Seasar.Tests.Extension.Tx.Impl
                     Assert.AreEqual(tx.TransactionInformation.LocalIdentifier, e.TxId);
                 }
 
-                // TODO : é∏îsÇ∑ÇÈå¥àˆÇÕí≤ç∏íÜ
-                Assert.IsTrue(tx.TransactionInformation.Status == TransactionStatus.Active);
+                Assert.IsTrue(tx.TransactionInformation.Status == TransactionStatus.Aborted);
             }
 
         }
