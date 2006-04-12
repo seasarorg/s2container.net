@@ -19,19 +19,13 @@
 using System;
 using System.Data;
 using System.Data.SqlTypes;
-using Seasar.Extension.ADO;
 using Nullables;
 
 namespace Seasar.Extension.ADO.Types
 {
-	/// <summary>
-	/// GuidType
-	/// </summary>
 	public class GuidType : BaseValueType, IValueType
 	{
-
-		public GuidType(IDataSource dataSource)
-            : base(dataSource)
+		public GuidType()
 		{
         }
 

@@ -19,15 +19,13 @@
 using System;
 using System.Data;
 using System.Data.SqlTypes;
-using Seasar.Extension.ADO;
 using Nullables;
 
 namespace Seasar.Extension.ADO.Types
 {
-    public class DateTimeType :BaseValueType, IValueType
+    public class DateTimeType : BaseValueType, IValueType
     {
-        public DateTimeType(IDataSource dataSource)
-            : base(dataSource)
+        public DateTimeType()
         {
         }
 

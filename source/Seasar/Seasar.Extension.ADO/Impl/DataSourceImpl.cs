@@ -34,12 +34,10 @@ namespace Seasar.Extension.ADO.Impl
 
 		public DataSourceImpl()
 		{
-			ValueTypes.Init(this);
 		}
 
 		public DataSourceImpl(DataProvider provider, string connectionString)
 		{
-			ValueTypes.Init(this);
 			provider_ = provider;
 			connectionString_ = connectionString;
 		}

@@ -19,15 +19,13 @@
 using System;
 using System.Data;
 using System.Data.SqlTypes;
-using Seasar.Extension.ADO;
 using Nullables;
 
 namespace Seasar.Extension.ADO.Types
 {
-    public class BooleanType :BaseValueType, IValueType
+    public class BooleanType : BaseValueType, IValueType
     {
-        public BooleanType(IDataSource dataSource)
-            : base(dataSource)
+        public BooleanType()
         {
         }
 
