@@ -37,11 +37,12 @@ namespace Seasar.Framework.Container.Assembler
 		public override object Assemble()
 		{
 			object[] args = new object[this.ComponentDef.ArgDefSize];
+
 			for(int i = 0; i < args.Length; ++i)
 			{
 				try
 				{
-					args[i] = this.ComponentDef.GetArgDef(i).Value;
+                    args[i] = this.ComponentDef.GetArgDef(i).Value;
 				}
 				catch(ComponentNotFoundRuntimeException cause)
 				{
@@ -49,12 +50,24 @@ namespace Seasar.Framework.Container.Assembler
 						this.ComponentDef.ComponentType,cause);
 				}
 			}
-			ConstructorInfo constructor = 
-				this.ComponentDef.ComponentType.GetConstructor(
-				Type.GetTypeArray(args));
+
+            ConstructorInfo constructor =
+                this.ComponentDef.ComponentType.GetConstructor(
+                Type.GetTypeArray(args));
+
 			if(constructor == null)
 				throw new ConstructorNotFoundRuntimeException(
 					this.ComponentDef.ComponentType, args);
+
+            ParameterInfo[] parameters = constructor.GetParameters();
+
+            for (int i = 0; i < args.Length; ++i)
+            {
+                IArgDef argDef = this.ComponentDef.GetArgDef(i);
+                object value = this.GetComponentByReceiveType(parameters[i].ParameterType, argDef.Expression);
+                if (value != null) args[i] = value;
+            }
+
 			object obj = ConstructorUtil.NewInstance(constructor,args);
 			if(this.ComponentDef.ComponentType.IsInterface && this.ComponentDef.AspectDefSize > 0)
 			{

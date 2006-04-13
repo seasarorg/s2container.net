@@ -57,8 +57,12 @@ namespace Seasar.Framework.Container.Assembler
 				if(this.ComponentDef.HasPropertyDef(propName))
 				{
 					IPropertyDef propDef = this.ComponentDef.GetPropertyDef(propName);
-					value = this.GetValue(propDef,component);
-					this.SetValue(property,component,value);
+
+                    value = this.GetComponentByReceiveType(property.PropertyType, propDef.Expression);
+					
+                    if(value == null) value = this.GetValue(propDef,component);
+					
+                    this.SetValue(property,component,value);
 				}
 				else if(property.CanWrite 
 					&& AutoBindingUtil.IsSuitable(property.PropertyType))
