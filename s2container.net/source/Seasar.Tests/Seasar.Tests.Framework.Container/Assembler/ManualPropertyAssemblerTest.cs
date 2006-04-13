@@ -17,7 +17,9 @@
 #endregion
 
 using System;
+using System.Runtime.Remoting;
 using NUnit.Framework;
+using Seasar.Framework.Aop.Interceptors;
 using Seasar.Framework.Beans;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Assembler;
@@ -124,6 +126,28 @@ namespace TestSeasar.Framework.Container.Assembler
 			Assert.AreEqual("BBB", b.Bbb);
 			Assert.AreEqual(123, b.Aaa);
 		}
+
+        [Test]
+        public void TestAssembleWithAspect()
+        {
+            IS2Container container = new S2ContainerImpl();
+            ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+            ComponentDefImpl cdB = new ComponentDefImpl(typeof(B), "B");
+            IPropertyDef pd = new PropertyDefImpl("Hoge");
+            pd.Expression = "B";
+            cd.AddPropertyDef(pd);
+            IAspectDef ad = new AspectDefImpl(new TraceInterceptor());
+            cdB.AddAspeceDef(ad);
+            container.Register(cd);
+            container.Register(cdB);
+            IPropertyAssembler assembler = new ManualPropertyAssembler(cd);
+            A a = new A();
+            assembler.Assemble(a);
+            Assert.AreEqual("B", a.HogeName, "1");
+            Assert.IsTrue(RemotingServices.IsTransparentProxy(a.Hoge), "2");
+        }
+
+
 
 		public interface IFoo
 		{

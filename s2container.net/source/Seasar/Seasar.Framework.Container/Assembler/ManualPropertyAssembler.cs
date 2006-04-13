@@ -35,6 +35,7 @@ namespace Seasar.Framework.Container.Assembler
 		public override void Assemble(object component)
 		{
 			Type type = component.GetType();
+            IS2Container container = this.ComponentDef.Container;
 			int size = this.ComponentDef.PropertyDefSize;
 			for(int i = 0; i < size; ++i)
 			{
@@ -44,7 +45,11 @@ namespace Seasar.Framework.Container.Assembler
 					throw new PropertyNotFoundRuntimeException(component.GetType(),
 						propDef.PropertyName);
 				propDef.ArgType = propInfo.PropertyType;
-				object value = this.GetValue(propDef,component);
+
+                object value = this.GetComponentByReceiveType(propInfo.PropertyType, propDef.Expression);
+                
+                if(value == null) value = this.GetValue(propDef, component);
+                
 				this.SetValue(propInfo,component,value);
 			}
 		}

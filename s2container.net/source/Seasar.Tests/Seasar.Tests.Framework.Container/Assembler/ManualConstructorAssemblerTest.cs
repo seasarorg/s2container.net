@@ -18,6 +18,7 @@
 
 using System;
 using System.IO;
+using System.Runtime.Remoting;
 using System.Reflection;
 using Seasar.Framework.Aop.Interceptors;
 using Seasar.Framework.Container;
@@ -92,6 +93,25 @@ namespace TestSeasar.Framework.Container.Assembler
 				Console.WriteLine(ex);
 			}
 		}
+        
+        [Test]
+        public void TestAssembleWithAspect()
+        {
+            IS2Container container = new S2ContainerImpl();
+            ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+            ComponentDefImpl cdB = new ComponentDefImpl(typeof(B), "B");
+            IArgDef argDef = new ArgDefImpl();
+            argDef.Expression = "B";
+            cd.AddArgDef(argDef);
+            container.Register(cd);
+            AspectDefImpl ad = new AspectDefImpl(new TraceInterceptor());
+            cdB.AddAspeceDef(ad);
+            container.Register(cdB);
+            IConstructorAssembler assembler = new ManualConstructorAssembler(cd);
+            A a = (A)assembler.Assemble();
+            Assert.AreEqual("B", a.HogeName, "1");
+            Assert.IsTrue(RemotingServices.IsTransparentProxy(a.Hoge), "2");
+        }
 
 		public interface IFoo
 		{
