@@ -33,7 +33,7 @@ namespace Seasar.Framework.Container
 
 		public IllegalMethodRuntimeException(
 			Type componentType,string methodName,Exception cause)
-			: base("ESSR0060",new object[] { componentType.FullName,methodName,cause})
+            : base("ESSR0060", new object[] { componentType.FullName, methodName, cause }, cause)
 		{
 			componentType_ = componentType;
 			methodName_ = methodName;
