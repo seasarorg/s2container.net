@@ -17,6 +17,8 @@
 #endregion
 
 using System;
+using Seasar.Framework.Container.Impl;
+using Seasar.Framework.Container.Util;
 using Seasar.Framework.Log;
 
 namespace Seasar.Framework.Container.Assembler
@@ -77,5 +79,26 @@ namespace Seasar.Framework.Container.Assembler
 			}
 			return args;
 		}
+
+        /// <summary>
+        /// 受け側のTypeを指定してコンポーネントを取得する
+        /// </summary>
+        /// <param name="receiveType">受け側のType</param>
+        /// <param name="expression">expression</param>
+        /// <returns>expressionからコンポーネント定義を探す</returns>
+        protected object GetComponentByReceiveType(Type receiveType, string expression)
+        {
+            IS2Container container = this.ComponentDef.Container;
+            object value = null;
+
+            if (AutoBindingUtil.IsSuitable(receiveType) && expression != null
+                && container.HasComponentDef(expression))
+            {
+                IComponentDef cd = container.GetComponentDef(expression);
+                value = cd.GetComponent(receiveType);
+            }
+
+            return value;
+        }
 	}
 }
