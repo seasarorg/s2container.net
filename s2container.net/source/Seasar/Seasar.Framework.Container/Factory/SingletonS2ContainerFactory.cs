@@ -35,6 +35,16 @@ namespace Seasar.Framework.Container.Factory
 		{
 		}
 
+        static SingletonS2ContainerFactory()
+        {
+            S2Section config = S2SectionHandler.GetS2Section();
+            if (config != null)
+            {
+                string configPath = config.ConfigPath;
+                if (!StringUtil.IsEmpty(configPath)) configPath_ = configPath;
+            }
+        }
+
 		public static string ConfigPath
 		{
 			set { configPath_ = value; }
@@ -43,13 +53,6 @@ namespace Seasar.Framework.Container.Factory
 
 		public static void Init()
 		{
-			S2Section config = S2SectionHandler.GetS2Section();
-			if(config != null)
-			{
-				string configPath = config.ConfigPath;
-				if(!StringUtil.IsEmpty(configPath)) configPath_ = configPath;
-			}
-
 			container_ = S2ContainerFactory.Create(configPath_);
 			container_.Init();
 		}
