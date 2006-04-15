@@ -1,4 +1,4 @@
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
     <ProductVersion>8.0.50727</ProductVersion>
@@ -353,6 +353,7 @@
     <Compile Include="Seasar.Tests.Framework.Container\Factory\PropertyTagHandlerTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Tests.Framework.Container\Factory\SingletonS2ContainerFactoryTest.cs" />
     <Compile Include="Seasar.Tests.Framework.Container\Impl\ArgDefImplTest.cs">
       <SubType>Code</SubType>
     </Compile>
