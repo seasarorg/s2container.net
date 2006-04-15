@@ -556,6 +556,11 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "Seasar.Tests.Framework.Container\Factory\SingletonS2ContainerFactoryTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Seasar.Tests.Framework.Container\Impl\ArgDefImplTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
