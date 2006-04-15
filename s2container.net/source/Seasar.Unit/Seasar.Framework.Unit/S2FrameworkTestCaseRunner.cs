@@ -137,7 +137,7 @@ namespace Seasar.Framework.Unit
 
 		protected virtual void TearDownContainer()
 		{
-			SingletonS2ContainerFactory.Container = null;
+			SingletonS2ContainerFactory.Destroy();
 			container = null;
 		}
 		
