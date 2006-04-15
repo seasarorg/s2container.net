@@ -26,14 +26,20 @@ namespace Seasar.Framework.Container.Factory
 	/// <summary>
 	/// SingletonS2ContainerFactory ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
 	/// </summary>
-	public sealed class SingletonS2ContainerFactory
+	public static class SingletonS2ContainerFactory
 	{
 		private static string configPath_ = "app.dicon";
 		private static IS2Container container_;
 
-		private SingletonS2ContainerFactory()
-		{
-		}
+        static SingletonS2ContainerFactory()
+        {
+            S2Section config = S2SectionHandler.GetS2Section();
+            if (config != null)
+            {
+                string configPath = config.ConfigPath;
+                if (!StringUtil.IsEmpty(configPath)) configPath_ = configPath;
+            }
+        }
 
 		public static string ConfigPath
 		{
@@ -43,13 +49,6 @@ namespace Seasar.Framework.Container.Factory
 
 		public static void Init()
 		{
-			S2Section config = S2SectionHandler.GetS2Section();
-			if(config != null)
-			{
-				string configPath = config.ConfigPath;
-				if(!StringUtil.IsEmpty(configPath)) configPath_ = configPath;
-			}
-
 			container_ = S2ContainerFactory.Create(configPath_);
 			container_.Init();
 		}
