@@ -37,8 +37,6 @@ namespace Seasar.Extension.DataSets.Impl
 
 		private string[] primaryKeys_;
 
-		private string[] argNames_;
-
 		public SqlReloadTableReader(IDataSource dataSource, DataTable table)
 		{
 			dataSource_ = dataSource;
@@ -81,7 +79,6 @@ namespace Seasar.Extension.DataSets.Impl
 			buf.Append(whereBuf);
 			sql_ = buf.ToString();
 			primaryKeys_ = (string[]) primaryKeyList.ToArray(typeof(string));
-			argNames_ = primaryKeys_;
 		}
 
 		public IDataSource DataSource 
@@ -117,14 +114,14 @@ namespace Seasar.Extension.DataSets.Impl
 			ISelectHandler selectHandler = new BasicSelectHandler(
 				dataSource_,
 				sql_,
-				new DataRowReloadResultSetHandler(row, newRow)
+				new DataRowDataReaderHandler(row, newRow)
 				);
 			object[] args = new object[primaryKeys_.Length];
 			for (int i = 0; i < primaryKeys_.Length; ++i) 
 			{
 				args[i] = row[primaryKeys_[i]];
 			}
-			selectHandler.Execute(args, Type.GetTypeArray(args), argNames_);
+			selectHandler.Execute(args);
 		}
 	}
 }

@@ -68,12 +68,19 @@ namespace Seasar.Extension.ADO.Types
             }
         }
 
-        private float GetPrimitiveValue(object value)
+		private object GetPrimitiveValue(object value)
         {
-            return Convert.ToSingle(value);
+			if (value == DBNull.Value)
+			{
+				return null;
+			}
+			else
+			{
+				return Convert.ToSingle(value);
+			}
         }
 
-        private SqlSingle GetSqlSingleValue(object value)
+		private object GetSqlSingleValue(object value)
         {
             if(value == DBNull.Value)
             {
@@ -93,7 +100,7 @@ namespace Seasar.Extension.ADO.Types
             }
         }
 
-        private NullableSingle GetNullableSingleValue(object value)
+		private object GetNullableSingleValue(object value)
         {
             if(value == DBNull.Value)
             {

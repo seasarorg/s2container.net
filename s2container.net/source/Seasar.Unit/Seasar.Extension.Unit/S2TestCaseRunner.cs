@@ -27,14 +27,11 @@ using Seasar.Framework.Util;
 
 namespace Seasar.Extension.Unit
 {
-	/// <summary>
-	/// S2TestCaseRunner ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
 	public class S2TestCaseRunner : S2FrameworkTestCaseRunner
 	{
 		private static readonly String DATASOURCE_NAME = "Ado"
 			+ ContainerConstants.NS_SEP + "DataSource";
-    
+
 		private S2TestCase fixture;
 		private Tx tx;
 		private ITransactionContext tc;
@@ -101,7 +98,7 @@ namespace Seasar.Extension.Unit
 
 		protected void TearDownDataSource() 
 		{
-            if (fixture.HasConnection) 
+			if (fixture.HasConnection) 
 			{
 				ConnectionUtil.Close(fixture.Connection);
 				fixture.SetConnection(null);

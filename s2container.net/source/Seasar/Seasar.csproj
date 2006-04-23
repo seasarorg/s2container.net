@@ -381,6 +381,16 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Seasar.Extension.DataSets\DataSetConstants.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.DataSets\IColumnType.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Seasar.Extension.DataSets\IDataReader.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -401,12 +411,12 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Seasar.Extension.DataSets\Impl\DataRowReloadResultSetHandler.cs"
+                    RelPath = "Seasar.Extension.DataSets\Impl\DataRowDataReaderHandler.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Seasar.Extension.DataSets\Impl\DataTableResultSetHandler.cs"
+                    RelPath = "Seasar.Extension.DataSets\Impl\DataTableDataReaderHandler.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -492,6 +502,41 @@
                 />
                 <File
                     RelPath = "Seasar.Extension.DataSets.States\UnchangedState.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.DataSets.Types\BinaryType.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.DataSets.Types\BooleanType.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.DataSets.Types\ColumnTypes.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.DataSets.Types\DateTimeType.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.DataSets.Types\DecimalType.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.DataSets.Types\ObjectType.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.DataSets.Types\StringType.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -1165,7 +1210,17 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Seasar.Framework.Util\BinaryConversionUtil.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Seasar.Framework.Util\BindVariableType.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Framework.Util\BooleanConversionUtil.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -1231,6 +1286,16 @@
                 />
                 <File
                     RelPath = "Seasar.Framework.Util\DataTableUtil.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Framework.Util\DecimalConversionUtil.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Framework.Util\IListInspector.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

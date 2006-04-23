@@ -16,7 +16,6 @@
  */
 #endregion
 
-using System;
 using System.Data;
 using MbUnit.Framework;
 using Seasar.Extension.Unit;
@@ -35,7 +34,7 @@ namespace Seasar.Tests.Extension.DataSets.Impl
 			Include(PATH);
 		}
 
-		[Test, S2(Tx.Rollback)]
+        [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
 		public void Read() 
 		{
 			DataTable table = new DataTable("emp");

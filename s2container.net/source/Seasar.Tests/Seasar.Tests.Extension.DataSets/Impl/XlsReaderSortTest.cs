@@ -16,7 +16,6 @@
  */
 #endregion
 
-using System;
 using System.Data;
 using System.IO;
 using System.Reflection;
@@ -30,7 +29,7 @@ namespace Seasar.Tests.Extension.DataSets.Impl
 	[TestFixture]
 	public class XlsReaderSortTest : S2TestCase
 	{
-		private static readonly string PATH = "Seasar.Tests.Extension.DataSets.Impl.XlsReaderImplSortTest.xls";
+		private const string PATH = "Seasar.Tests.Extension.DataSets.Impl.XlsReaderImplSortTest.xls";
 
 		private DataSet dataSet;
 

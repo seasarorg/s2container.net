@@ -16,9 +16,7 @@
  */
 #endregion
 
-using System;
 using System.Data;
-using System.Reflection;
 using MbUnit.Framework;
 using Seasar.Extension.DataSets;
 using Seasar.Extension.DataSets.Impl;
@@ -36,11 +34,9 @@ namespace Seasar.Tests.Extension.DataSets.Impl
 			Include(PATH);
 		}
 
-		[Test, S2(Tx.Rollback)]
+        [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
 		public void Write() 
 		{
-			Assembly[] a = AppDomain.CurrentDomain.GetAssemblies();
-
 			DataTable table = new DataTable("emp");
 			table.Columns.Add("empno", typeof(int));
 			table.Columns.Add("ename", typeof(string));

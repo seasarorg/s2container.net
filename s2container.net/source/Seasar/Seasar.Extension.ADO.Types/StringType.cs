@@ -68,7 +68,7 @@ namespace Seasar.Extension.ADO.Types
             }
         }
 
-        private string GetStringValue(object value)
+		private object GetStringValue(object value)
         {
             if(value == DBNull.Value)
             {
@@ -84,7 +84,7 @@ namespace Seasar.Extension.ADO.Types
             }
         }
 
-        private SqlString GetSqlStringValue(object value)
+		private object GetSqlStringValue(object value)
         {
             if( value == DBNull.Value)
             {
@@ -100,7 +100,7 @@ namespace Seasar.Extension.ADO.Types
             }
         }
 
-        private NullableChar GetNullableCharValue(object value)
+		private object GetNullableCharValue(object value)
         {
             if(value == DBNull.Value)
             {

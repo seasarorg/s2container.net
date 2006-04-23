@@ -21,6 +21,8 @@ using System.Data;
 using System.Data.OleDb;
 using System.IO;
 using System.Text;
+using Seasar.Extension.ADO.Types;
+using Seasar.Extension.DataSets.Types;
 
 namespace Seasar.Extension.DataSets.Impl
 {
@@ -41,7 +43,7 @@ namespace Seasar.Extension.DataSets.Impl
 				"Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Extended Properties=\"Excel 8.0;HDR=Yes\"",
 				path_
 				);
-
+			CreateDir();
 			using (OleDbConnection con = new OleDbConnection(connectonString)) 
 			{
 				if (con.State != ConnectionState.Open) 
@@ -57,20 +59,24 @@ namespace Seasar.Extension.DataSets.Impl
 						cmd.ExecuteNonQuery();
 					}
 
-					string insertSql = CreateInsertSql(table);
-					using (OleDbCommand cmd = new OleDbCommand(insertSql, con)) 
+					foreach (DataRow row in table.Rows)
 					{
-						foreach (DataRow row in table.Rows) 
+						string insertSql = CreateInsertSql(table, row);
+						using (OleDbCommand cmd = new OleDbCommand(insertSql, con))
 						{
-							cmd.Parameters.Clear();
 							foreach (DataColumn column in row.Table.Columns) 
 							{
-								IDbDataParameter param = cmd.CreateParameter();
-								param.ParameterName = "@" + column.ColumnName;
-								param.Value = row[column.ColumnName];
-								param.DbType = ConvertColumnDbType(column.DataType);
-
-								cmd.Parameters.Add(param);
+								IColumnType columnType = ColumnTypes.GetColumnType(column.DataType);
+								object value = columnType.Convert(row[column.ColumnName], null);
+								if (value != DBNull.Value)
+								{
+									IDbDataParameter param = cmd.CreateParameter();
+									param.ParameterName = "@" + column.ColumnName;
+									DbType dbType = columnType.GetDbType();
+									param.DbType = (dbType == DbType.Binary) ? DbType.String : dbType;
+									param.Value = ConvertValue(value);
+									cmd.Parameters.Add(param);
+								}
 							}
 							cmd.ExecuteNonQuery();
 						}
@@ -84,42 +90,37 @@ namespace Seasar.Extension.DataSets.Impl
 		private string CreateTableSql(DataTable targetTable) 
 		{
 			StringBuilder sql = new StringBuilder();
-
 			sql.AppendFormat("create table [{0}] (", targetTable.TableName);
-
 			foreach (DataColumn column in targetTable.Columns) 
 			{
 				sql.AppendFormat(
 					"{0} {1},",
 					column.ColumnName,
-					ConvertColumnDataType(column.DataType)
+					ColumnTypes.GetColumnType(column.DataType).ToDbTypeString()
 					);
 			}
-
 			if (sql.Length > 0) 
 			{
 				// remove last comma
 				sql.Length = sql.Length - 1;
 			}
-
 			sql.Append(")");
-
 			return sql.ToString();
 		}
 
-		private string CreateInsertSql(DataTable targetTable) 
+		private string CreateInsertSql(DataTable targetTable, DataRow row) 
 		{
 			StringBuilder sql = new StringBuilder();
 			StringBuilder sqlParam = new StringBuilder();
-
 			sql.AppendFormat("insert into [{0}$] (", targetTable.TableName);
-
 			foreach (DataColumn column in targetTable.Columns) 
 			{
-				sql.Append(column.ColumnName);
-				sql.Append(",");
-
-				sqlParam.Append("?,");
+				if (row[column] != DBNull.Value)
+				{
+					sql.Append(column.ColumnName);
+					sql.Append(",");
+					sqlParam.Append("?,");
+				}
 			}
 
 			if (sql.Length > 0) 
@@ -132,134 +133,33 @@ namespace Seasar.Extension.DataSets.Impl
 				// remove last comma
 				sqlParam.Length = sqlParam.Length - 1;
 			}
-
 			sql.Append(") VALUES (");
-
 			sql.Append(sqlParam);
-
 			sql.Append(")");
-
 			return sql.ToString();
 		}
 
-		private string ConvertColumnDataType(Type dataType) 
+		private object ConvertValue(object value)
 		{
-			string result = null;
-
-			if (dataType == typeof(bool)) 
+			object ret = null;
+			if (value.GetType() == ValueTypes.BYTE_ARRAY_TYPE)
 			{
-				result = "BINARY";
+				ret = DataSetConstants.BASE64_FORMAT + Convert.ToBase64String(value as byte[]);
 			}
-			else if (dataType == typeof(byte)) 
+			else
 			{
-				result = "BYTE";
+				ret = value;
 			}
-			else if (dataType == typeof(char)) 
-			{
-				result = "CHAR";
-			}
-			else if (dataType == typeof(string)) 
-			{
-				result = "VARCHAR";
-			}
-			else if (dataType == typeof(DateTime)) 
-			{
-				result = "DATETIME";
-			}
-			else if (dataType == typeof(TimeSpan)) 
-			{
-				result = "DATETIME";
-			}
-			else if (dataType == typeof(float)) 
-			{
-				result = "SINGLE";
-			}
-			else if (dataType == typeof(double)) 
-			{
-				result = "DOUBLE";
-			}
-			else if (dataType == typeof(short)) 
-			{
-				result = "SHORT";
-			}
-			else if (dataType == typeof(int)) 
-			{
-				result = "LONG";
-			}
-			else if (dataType == typeof(long)) 
-			{
-				result = "LONG";
-			}
-			else if (dataType == typeof(decimal)) 
-			{
-				result = "CURRENCY";	/// TODO: オーバフローしないかチェックすること。
-			} 
-			else 
-			{
-				result = "LONGBINARY";
-			}
-
-			return result;
+			return ret;
 		}
 
-		private DbType ConvertColumnDbType(Type dataType) 
+		private void CreateDir()
 		{
-			DbType result;
-
-			if (dataType == typeof(bool)) 
+			string dir = Path.GetDirectoryName(path_);
+			if (!Directory.Exists(dir))
 			{
-				result = DbType.Binary;
+				Directory.CreateDirectory(dir);
 			}
-			else if (dataType == typeof(byte)) 
-			{
-				result = DbType.Byte;
-			}
-			else if (dataType == typeof(char)) 
-			{
-				result = DbType.String;
-			}
-			else if (dataType == typeof(string)) 
-			{
-				result = DbType.String;
-			}
-			else if (dataType == typeof(DateTime)) 
-			{
-				result = DbType.DateTime;
-			}
-			else if (dataType == typeof(TimeSpan)) 
-			{
-				result = DbType.DateTime;
-			}
-			else if (dataType == typeof(float)) 
-			{
-				result = DbType.Single;
-			}
-			else if (dataType == typeof(double)) 
-			{
-				result = DbType.Double;
-			}
-			else if (dataType == typeof(short)) 
-			{
-				result = DbType.Int16;
-			}
-			else if (dataType == typeof(int)) 
-			{
-				result = DbType.Int32;
-			}
-			else if (dataType == typeof(long)) 
-			{
-				result = DbType.Int64;
-			}
-			else if (dataType == typeof(decimal)) 
-			{
-				result = DbType.Decimal;
-			} 
-			else 
-			{
-				result = DbType.Object;
-			}
-
-			return result;
 		}
 	}
 }

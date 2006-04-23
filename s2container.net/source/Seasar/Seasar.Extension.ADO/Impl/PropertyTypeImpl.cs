@@ -30,34 +30,37 @@ namespace Seasar.Extension.ADO.Impl
         private IValueType valueType;
         private bool primaryKey = false;
         private bool persistent = true;
+		private Type propertyType;
 
         public PropertyTypeImpl(PropertyInfo propertyInfo)
-            : this(propertyInfo, ValueTypes.OBJECT, propertyInfo.Name)
+			: this(propertyInfo, ValueTypes.OBJECT, propertyInfo.Name)
         {
         }
 
         public PropertyTypeImpl(PropertyInfo propertyInfo, IValueType valueType)
-            : this(propertyInfo, valueType, propertyInfo.Name)
+			: this(propertyInfo, valueType, propertyInfo.Name)
         {
         }
 
         public PropertyTypeImpl(PropertyInfo propertyInfo, IValueType valueType,
-            string columnName)
+			string columnName)
         {
             this.propertyInfo = propertyInfo;
             this.propertyName = propertyInfo.Name;
             this.valueType  = valueType;
             this.columnName = columnName;
-        }
+			this.propertyType = propertyInfo.PropertyType;
+		}
 
-        public PropertyTypeImpl(string propertyName, IValueType valueType)
-        {
-            this.propertyName = propertyName;
-            this.valueType = valueType;
-            this.columnName = propertyName;
-        }
+		public PropertyTypeImpl(string propertyName, IValueType valueType, Type propertyType)
+		{
+			this.propertyName = propertyName;
+			this.valueType = valueType;
+			this.columnName = propertyName;
+			this.propertyType = propertyType;
+		}
 
-        #region IPropertyType ÉÅÉìÉo
+		#region IPropertyType ÉÅÉìÉo
 
         public System.Reflection.PropertyInfo PropertyInfo
         {
@@ -118,6 +121,14 @@ namespace Seasar.Extension.ADO.Impl
                 persistent = value;
             }
         }
+
+		public Type PropertyType
+		{
+			get
+			{
+				return propertyType;
+			}
+		}
 
         #endregion
     }

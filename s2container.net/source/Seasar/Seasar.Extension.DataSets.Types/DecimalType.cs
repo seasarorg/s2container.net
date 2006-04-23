@@ -16,28 +16,44 @@
  */
 #endregion
 
-using System.Collections;
+using System;
 using System.Data;
+using Seasar.Extension.ADO;
+using Seasar.Framework.Util;
+using Nullables;
 
-namespace Seasar.Extension.ADO.Impl
+namespace Seasar.Extension.DataSets.Types
 {
-	public class DictionaryListDataReaderHandler : AbstractDictionaryDataReaderHandler, IDataReaderHandler
+	public class DecimalType : ObjectType, IColumnType
 	{
-		public DictionaryListDataReaderHandler()
+		public DecimalType()
 		{
 		}
 
-		#region IDataReaderHandler ÉÅÉìÉo
+		#region IColumnType ÉÅÉìÉo
 
-		public override object Handle(IDataReader reader)
+		public override object Convert(object value, string formatPattern)
 		{
-			IPropertyType[] propertyTypes = PropertyTypeUtil.CreatePropertyTypes(reader.GetSchemaTable());
-			IList list = new ArrayList();
-			while (reader.Read()) 
+			if (value == null || value == DBNull.Value || value is INullableType)
 			{
-				list.Add(CreateRow(reader, propertyTypes));
+				return value;
 			}
-			return list;
+			return DecimalConversionUtil.ToDecimal(value);
+		}
+
+		public override string ToDbTypeString()
+		{
+			return "NUMBER";
+		}
+
+		public override DbType GetDbType()
+		{
+			return DbType.Decimal;
+		}
+
+		public override Type GetColumnType()
+		{
+			return typeof(Decimal);
 		}
 
 		#endregion

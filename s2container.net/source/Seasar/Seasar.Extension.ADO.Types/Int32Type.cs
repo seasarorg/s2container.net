@@ -68,12 +68,19 @@ namespace Seasar.Extension.ADO.Types
             }
         }
 
-        private int GetPrimitiveValue(object value)
+        private object GetPrimitiveValue(object value)
         {
-            return Convert.ToInt32(value);
+			if (value == DBNull.Value)
+			{
+				return null;
+			}
+			else
+			{
+				return Convert.ToInt32(value);
+			}
         }
 
-        private SqlInt32 GetSqlInt32Value(object value)
+		private object GetSqlInt32Value(object value)
         {
             if(value == DBNull.Value)
             {
@@ -89,7 +96,7 @@ namespace Seasar.Extension.ADO.Types
             }
         }
 
-        private NullableInt32 GetNullableInt32Value(object value)
+		private object GetNullableInt32Value(object value)
         {
             if(value == DBNull.Value)
             {

@@ -16,28 +16,44 @@
  */
 #endregion
 
-using System.Collections;
+using System;
 using System.Data;
+using Seasar.Extension.ADO;
+using Seasar.Framework.Util;
+using Nullables;
 
-namespace Seasar.Extension.ADO.Impl
+namespace Seasar.Extension.DataSets.Types
 {
-	public class DictionaryListDataReaderHandler : AbstractDictionaryDataReaderHandler, IDataReaderHandler
+	public class BooleanType : ObjectType, IColumnType
 	{
-		public DictionaryListDataReaderHandler()
+		public BooleanType()
 		{
 		}
 
-		#region IDataReaderHandler ÉÅÉìÉo
+		#region IColumnType ÉÅÉìÉo
 
-		public override object Handle(IDataReader reader)
+		public override object Convert(object value, string formatPattern)
 		{
-			IPropertyType[] propertyTypes = PropertyTypeUtil.CreatePropertyTypes(reader.GetSchemaTable());
-			IList list = new ArrayList();
-			while (reader.Read()) 
+			if (value == null || value == DBNull.Value || value is INullableType)
 			{
-				list.Add(CreateRow(reader, propertyTypes));
+				return value;
 			}
-			return list;
+			return BooleanConversionUtil.ToBoolean(value);
+		}
+
+		public override string ToDbTypeString()
+		{
+			return "BIT";
+		}
+
+		public override DbType GetDbType()
+		{
+			return DbType.Boolean;
+		}
+
+		public override Type GetColumnType()
+		{
+			return typeof(bool);
 		}
 
 		#endregion

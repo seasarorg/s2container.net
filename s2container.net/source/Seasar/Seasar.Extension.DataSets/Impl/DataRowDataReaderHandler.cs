@@ -16,18 +16,20 @@
  */
 #endregion
 
+using System;
 using System.Data;
 using Seasar.Extension.ADO;
+using Seasar.Extension.ADO.Impl;
+using Seasar.Extension.DataSets.Types;
 
 namespace Seasar.Extension.DataSets.Impl
 {
-	public class DataRowReloadResultSetHandler : IDataReaderHandler
+	public class DataRowDataReaderHandler : IDataReaderHandler
 	{
 		private DataRow row_;
-
 		private DataRow newRow_;
 
-		public DataRowReloadResultSetHandler(DataRow row, DataRow newRow)
+		public DataRowDataReaderHandler(DataRow row, DataRow newRow)
 		{
 			row_ = row;
 			newRow_ = newRow;
@@ -45,25 +47,31 @@ namespace Seasar.Extension.DataSets.Impl
 
 		#region IDataReaderHandler ÉÅÉìÉo
 
-		public object Handle(System.Data.IDataReader dataReader)
+		public object Handle(System.Data.IDataReader reader)
 		{
-			if (dataReader.Read()) 
+			IPropertyType[] propertyTypes = PropertyTypeUtil.CreatePropertyTypes(reader.GetSchemaTable());
+			if (reader.Read()) 
 			{
-				Reload(dataReader);
+				Reload(reader, propertyTypes);
 			}
 			return newRow_;
 		}
 
 		#endregion
 
-		private void Reload(System.Data.IDataReader dataReader) 
+		private void Reload(System.Data.IDataReader reader, IPropertyType[] propertyTypes) 
 		{
-			int count = newRow_.Table.Columns.Count;
-			for (int i = 0; i < count; ++i) 
+			for (int i = 0; i < propertyTypes.Length; ++i)
 			{
-				string columnName = newRow_.Table.Columns[i].ColumnName;
-				object value = dataReader[columnName];
-				newRow_[i] = value;
+				object value = propertyTypes[i].ValueType.GetValue(reader, i, propertyTypes[i].PropertyType);
+				if (value == null)
+				{
+					newRow_[i] = DBNull.Value;
+				}
+				else
+				{
+					newRow_[i] = ColumnTypes.GetColumnType(propertyTypes[i].PropertyType).Convert(value, null);
+				}
 			}
 		}
 	}

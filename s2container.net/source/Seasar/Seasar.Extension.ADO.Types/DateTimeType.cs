@@ -68,12 +68,19 @@ namespace Seasar.Extension.ADO.Types
             }
         }
 
-        private DateTime GetPrimitiveValue(object value)
+		private object GetPrimitiveValue(object value)
         {
-            return Convert.ToDateTime(value);
+			if (value == DBNull.Value)
+			{
+				return null;
+			}
+			else
+			{
+				return Convert.ToDateTime(value);
+			}
         }
 
-        private SqlDateTime GetSqlDateTimeValue(object value)
+		private object GetSqlDateTimeValue(object value)
         {
             if(value == DBNull.Value)
             {
@@ -89,7 +96,7 @@ namespace Seasar.Extension.ADO.Types
             }
         }
 
-        private NullableDateTime GetNullableDateTimeValue(object value)
+		private object GetNullableDateTimeValue(object value)
         {
             if(value == DBNull.Value)
             {

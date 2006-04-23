@@ -68,12 +68,19 @@ namespace Seasar.Extension.ADO.Types
             }
         }
 
-        private double GetPrimitiveValue(object value)
+		private object GetPrimitiveValue(object value)
         {
-            return Convert.ToDouble(value);
+			if (value == DBNull.Value)
+			{
+				return null;
+			}
+			else
+			{
+				return Convert.ToDouble(value);
+			}
         }
 
-        private SqlDouble GetSqlDoubleValue(object value)
+		private object GetSqlDoubleValue(object value)
         {
             if(value == DBNull.Value)
             {
@@ -89,7 +96,7 @@ namespace Seasar.Extension.ADO.Types
             }
         }
 
-        private NullableDouble GetNullableDouble(object value)
+		private object GetNullableDouble(object value)
         {
             if(value == DBNull.Value)
             {

@@ -16,7 +16,6 @@
  */
 #endregion
 
-using System;
 using System.Data;
 using MbUnit.Framework;
 using Seasar.Extension.DataSets.Impl;
@@ -35,7 +34,7 @@ namespace Seasar.Tests.Extension.DataSets.Impl
 			Include(PATH);
 		}
 
-		[Test, S2(Tx.Rollback)]
+        [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
 		public void Created() 
 		{
 			DataTable table = new DataTable("emp");
@@ -65,7 +64,7 @@ namespace Seasar.Tests.Extension.DataSets.Impl
 			Include(PATH);
 		}
 
-		[Test, S2(Tx.Rollback)]
+        [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
 		public void Modified() 
 		{
 			SqlTableReader reader = new SqlTableReader(DataSource);
@@ -91,7 +90,7 @@ namespace Seasar.Tests.Extension.DataSets.Impl
 			Include(PATH);
 		}
 
-		[Test, S2(Tx.Rollback)]
+        [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
 		public void Removed() 
 		{
 			SqlTableReader reader = new SqlTableReader(DataSource);

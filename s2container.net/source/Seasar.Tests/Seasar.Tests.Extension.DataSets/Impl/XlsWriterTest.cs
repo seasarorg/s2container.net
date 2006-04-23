@@ -30,7 +30,7 @@ namespace Seasar.Tests.Extension.DataSets.Impl
 	[TestFixture]
 	public class XlsWriterTest : S2TestCase
 	{
-		private static readonly string PATH = "Seasar.Tests.Extension.DataSets.Impl.XlsReaderImplTest.xls";
+		private const string PATH = "Seasar.Tests.Extension.DataSets.Impl.XlsReaderImplTest.xls";
 
 		private string path2_;
 

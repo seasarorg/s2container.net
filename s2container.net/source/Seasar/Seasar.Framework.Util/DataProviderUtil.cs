@@ -43,7 +43,7 @@ namespace Seasar.Framework.Util
 		{
 			string name = cmd.GetType().Name;
 			if ("SqlCommand".Equals(name) ||
-				"DB2Connection".Equals(name))
+				"DB2Command".Equals(name))
 			{
 				return BindVariableType.AtmarkWithParam;
 			}

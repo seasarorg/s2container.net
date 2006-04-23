@@ -29,5 +29,6 @@ namespace Seasar.Extension.ADO
         string ColumnName { get; set; }
         bool IsPrimaryKey { get; set; }
         bool IsPersistent { get; set; }
+		Type PropertyType { get; }
     }
 }

@@ -68,12 +68,19 @@ namespace Seasar.Extension.ADO.Types
             }
         }
 
-        private bool GetPrimitiveValue(object value)
+        private object GetPrimitiveValue(object value)
         {
-            return Convert.ToBoolean(value);
+			if (value == DBNull.Value)
+			{
+				return null;
+			}
+			else
+			{
+				return Convert.ToBoolean(value);
+			}
         }
 
-        private SqlBoolean GetSqlBooleanValue(object value)
+        private object GetSqlBooleanValue(object value)
         {
             if(value == DBNull.Value)
             {
@@ -93,7 +100,7 @@ namespace Seasar.Extension.ADO.Types
             }
         }
 
-        private NullableBoolean GetNullableBooleanValue(object value)
+        private object GetNullableBooleanValue(object value)
         {
             if(value == DBNull.Value)
             {
@@ -107,7 +114,6 @@ namespace Seasar.Extension.ADO.Types
             {
                 return NullableBoolean.Parse(value.ToString());
             }
-
         }
     }
 }
