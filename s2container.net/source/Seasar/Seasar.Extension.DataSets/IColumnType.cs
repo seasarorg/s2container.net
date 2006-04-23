@@ -16,30 +16,17 @@
  */
 #endregion
 
-using System.Collections;
+using System;
 using System.Data;
 
-namespace Seasar.Extension.ADO.Impl
+namespace Seasar.Extension.DataSets
 {
-	public class DictionaryListDataReaderHandler : AbstractDictionaryDataReaderHandler, IDataReaderHandler
+	public interface IColumnType
 	{
-		public DictionaryListDataReaderHandler()
-		{
-		}
-
-		#region IDataReaderHandler ÉÅÉìÉo
-
-		public override object Handle(IDataReader reader)
-		{
-			IPropertyType[] propertyTypes = PropertyTypeUtil.CreatePropertyTypes(reader.GetSchemaTable());
-			IList list = new ArrayList();
-			while (reader.Read()) 
-			{
-				list.Add(CreateRow(reader, propertyTypes));
-			}
-			return list;
-		}
-
-		#endregion
+		object Convert(object value, string formatPattern);
+		bool Equals1(object arg1, object arg2);
+		string ToDbTypeString();
+		DbType GetDbType();
+		Type GetColumnType();
 	}
 }

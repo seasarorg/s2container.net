@@ -19,7 +19,6 @@
 using System;
 using System.Collections;
 using System.Data;
-
 using Seasar.Extension.ADO;
 
 namespace Seasar.Framework.Util
@@ -56,8 +55,6 @@ namespace Seasar.Framework.Util
 					column.ReadOnly = true;
 				}
 			}
-
-			DataColumn[] d = (DataColumn[]) primaryKeyList.ToArray(typeof(DataColumn));;
 
 			table.BeginLoadData();
 			table.PrimaryKey = (DataColumn[]) primaryKeyList.ToArray(typeof(DataColumn));

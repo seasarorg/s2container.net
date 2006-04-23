@@ -17,15 +17,13 @@
 #endregion
 
 using System;
+using System.IO;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Factory;
 using Seasar.Framework.Util;
 
 namespace Seasar.Framework.Unit
 {
-	/// <summary>
-	/// S2FrameworkTestCase ‚ÌŠT—v‚Ìà–¾‚Å‚·B
-	/// </summary>
 	public class S2FrameworkTestCaseBase
 	{
 		private IS2Container container;
@@ -99,7 +97,11 @@ namespace Seasar.Framework.Unit
 			if (path.IndexOf('/') > 0)
 			{
 				return path;
-			}				
+			}
+			if (path.IndexOf(Path.DirectorySeparatorChar) > 0)
+			{
+				return path;
+			}
 			string prefix = this.GetType().FullName.Replace('.', '/');
 			int pos = (prefix.LastIndexOf("/") + 1);
 			prefix = prefix.Substring(0, pos);

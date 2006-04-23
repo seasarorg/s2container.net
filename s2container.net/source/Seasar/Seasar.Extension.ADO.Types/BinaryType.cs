@@ -68,7 +68,7 @@ namespace Seasar.Extension.ADO.Types
             }
         }
 
-        private byte[] GetPrimitiveValue(object value)
+		private object GetPrimitiveValue(object value)
         {
             if(value == DBNull.Value)
             {
@@ -80,7 +80,7 @@ namespace Seasar.Extension.ADO.Types
             }
         }
 
-        private SqlBinary GetSqlBinaryValue(object value)
+		private object GetSqlBinaryValue(object value)
         {
             if(value == DBNull.Value)
             {
@@ -92,7 +92,7 @@ namespace Seasar.Extension.ADO.Types
             }
         }
 
-        private NullableByte[] GetNullableByteArrayValue(object value)
+		private object GetNullableByteArrayValue(object value)
         {
             if(value == DBNull.Value)
             {

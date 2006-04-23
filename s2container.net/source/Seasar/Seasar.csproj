@@ -280,16 +280,25 @@
     <Compile Include="Seasar.Extension.DataSets.States\UnchangedState.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Extension.DataSets.Types\ColumnTypes.cs" />
+    <Compile Include="Seasar.Extension.DataSets.Types\DateTimeType.cs" />
+    <Compile Include="Seasar.Extension.DataSets.Types\DecimalType.cs" />
+    <Compile Include="Seasar.Extension.DataSets.Types\ObjectType.cs" />
+    <Compile Include="Seasar.Extension.DataSets.Types\StringType.cs" />
+    <Compile Include="Seasar.Extension.DataSets.Types\BinaryType.cs" />
+    <Compile Include="Seasar.Extension.DataSets.Types\BooleanType.cs" />
+    <Compile Include="Seasar.Extension.DataSets\DataSetConstants.cs" />
+    <Compile Include="Seasar.Extension.DataSets\IColumnType.cs" />
     <Compile Include="Seasar.Extension.DataSets\IDataReader.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Seasar.Extension.DataSets\IDataWriter.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Seasar.Extension.DataSets\Impl\DataRowReloadResultSetHandler.cs">
+    <Compile Include="Seasar.Extension.DataSets\Impl\DataRowDataReaderHandler.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Seasar.Extension.DataSets\Impl\DataTableResultSetHandler.cs">
+    <Compile Include="Seasar.Extension.DataSets\Impl\DataTableDataReaderHandler.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Seasar.Extension.DataSets\Impl\SqlDeleteTableWriter.cs">
@@ -770,6 +779,7 @@
     <Compile Include="Seasar.Framework.Util\DataTableUtil.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Framework.Util\DecimalConversionUtil.cs" />
     <Compile Include="Seasar.Framework.Util\JScriptUtil.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -800,6 +810,9 @@
     <Compile Include="Seasar.Framework.Util\TextUtil.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Framework.Util\IListInspector.cs" />
+    <Compile Include="Seasar.Framework.Util\BinaryConversionUtil.cs" />
+    <Compile Include="Seasar.Framework.Util\BooleanConversionUtil.cs" />
     <Compile Include="Seasar.Framework.Xml\IAttributes.cs">
       <SubType>Code</SubType>
     </Compile>

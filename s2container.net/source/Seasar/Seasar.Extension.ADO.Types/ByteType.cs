@@ -68,12 +68,19 @@ namespace Seasar.Extension.ADO.Types
             }
         }
 
-        private byte GetPrimitiveValue(object value)
+		private object GetPrimitiveValue(object value)
         {
-            return Convert.ToByte(value);
+			if (value == DBNull.Value)
+			{
+				return null;
+			}
+			else
+			{
+				return Convert.ToByte(value);
+			}
         }
 
-        private SqlByte GetSqlByteValue(object value)
+		private object GetSqlByteValue(object value)
         {
             if(value == DBNull.Value)
             {
@@ -89,7 +96,7 @@ namespace Seasar.Extension.ADO.Types
             }
         }
 
-        private NullableByte GetNullableByteValue(object value)
+		private object GetNullableByteValue(object value)
         {
             if(value == DBNull.Value)
             {
