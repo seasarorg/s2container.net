@@ -48,9 +48,9 @@ namespace Seasar.Tests.Extension.DataSets.Impl
 				Assert.AreEqual(4, dataSet.Tables["Type"].Rows.Count);
 
 				Assert.AreEqual(typeof(string), dataSet.Tables["Type"].Columns["stringValue"].DataType);
-				Assert.AreEqual(typeof(decimal), dataSet.Tables["Type"].Columns["intValue"].DataType);
-				Assert.AreEqual(typeof(decimal), dataSet.Tables["Type"].Columns["longValue"].DataType);
-				Assert.AreEqual(typeof(decimal), dataSet.Tables["Type"].Columns["decimalValue"].DataType);
+				Assert.AreEqual(typeof(double), dataSet.Tables["Type"].Columns["intValue"].DataType);
+				Assert.AreEqual(typeof(double), dataSet.Tables["Type"].Columns["longValue"].DataType);
+				Assert.AreEqual(typeof(double), dataSet.Tables["Type"].Columns["decimalValue"].DataType);
 				Assert.AreEqual(typeof(double), dataSet.Tables["Type"].Columns["floatValue"].DataType);
 				Assert.AreEqual(typeof(DateTime), dataSet.Tables["Type"].Columns["dateTimeValue"].DataType);
 
