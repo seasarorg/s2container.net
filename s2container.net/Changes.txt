@@ -1,4 +1,4 @@
-S2Container.NET 1.2.0-rc1
+﻿S2Container.NET 1.2.0-rc1
 
 - .NET 2.0でビルドされたバージョンをリリースする
 - S2ADO.NETの機能を追加する
@@ -9,6 +9,7 @@ S2Container.NET 1.2.0-rc1
 - 手動でバインディング(Property, Constractor)した場合に、Aspectが効かない問題を修正する
 - アプリケーション構成ファイルでSingletonS2ContainerFactoryで使用されるデフォルトのdicon
 ファイルを指定した場合に、コード上からそのdiconファイルを上書きできない問題を修正する
+- S2Unit.NETのExcel周りのデータ型の扱いをJava版と同等に修正する。
 
 S2Container.NET 1.1.1
 2006/3/15
