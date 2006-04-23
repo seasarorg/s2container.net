@@ -68,12 +68,19 @@ namespace Seasar.Extension.ADO.Types
             }
         }
 
-        private short GetPrimitiveValue(object value)
+		private object GetPrimitiveValue(object value)
         {
-            return Convert.ToInt16(value);
+			if (value == DBNull.Value)
+			{
+				return null;
+			}
+			else
+			{
+				return Convert.ToInt16(value);
+			}
         }
 
-        private SqlInt16 GetSqlInt16Value(object value)
+		private object GetSqlInt16Value(object value)
         {
             if(value == DBNull.Value)
             {
@@ -89,7 +96,7 @@ namespace Seasar.Extension.ADO.Types
             }
         }
 
-        private NullableInt16 GetNullableInt16Value(object value)
+		private object GetNullableInt16Value(object value)
         {
             if(value == DBNull.Value)
             {

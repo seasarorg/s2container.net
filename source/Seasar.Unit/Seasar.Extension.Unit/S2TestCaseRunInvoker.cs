@@ -22,9 +22,6 @@ using MbUnit.Core.Invokers;
 
 namespace Seasar.Extension.Unit
 {
-	/// <summary>
-	/// S2TestCaseRunInvoker ‚ÌŠT—v‚Ìà–¾‚Å‚·B
-	/// </summary>
 	public class S2TestCaseRunInvoker : DecoratorRunInvoker
 	{
 		private S2TestCaseRunner runner;

@@ -3,6 +3,9 @@ using System.Collections;
 using System.Data;
 using MbUnit.Core.Exceptions;
 using MbUnit.Framework;
+using Seasar.Extension.DataSets;
+using Seasar.Extension.DataSets.Types;
+using Seasar.Framework.Util;
 
 namespace Seasar.Extension.Unit
 {
@@ -89,9 +92,9 @@ namespace Seasar.Extension.Unit
 					{
 						string columnName = expected.Columns[j].ColumnName;
 						object expectedValue = expectedRow[columnName];
+						IColumnType ct = ColumnTypes.GetColumnType(expectedValue);
 						object actualValue = actualRow[columnName];
-						// TOOD ColumnType ct = ColumnTypes.getColumnType(expectedValue); impl
-						if (!expectedValue.Equals(actualValue)) 
+						if (!ct.Equals1(expectedValue, actualValue))
 						{
 							Assert.AreEqual(
 								expectedValue,
@@ -107,7 +110,7 @@ namespace Seasar.Extension.Unit
 				}
 				if (errorMessages.Count != 0) 
 				{
-					Assert.Fail(message + errorMessages);
+					Assert.Fail(message + IListInspector.ToString(errorMessages));
 				}
 			}
 		}

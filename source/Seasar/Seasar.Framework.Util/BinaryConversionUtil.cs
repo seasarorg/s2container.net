@@ -16,30 +16,32 @@
  */
 #endregion
 
-using System.Collections;
-using System.Data;
+using System;
+using System.Text;
 
-namespace Seasar.Extension.ADO.Impl
+namespace Seasar.Framework.Util
 {
-	public class DictionaryListDataReaderHandler : AbstractDictionaryDataReaderHandler, IDataReaderHandler
+	public sealed class BinaryConversionUtil
 	{
-		public DictionaryListDataReaderHandler()
+		private BinaryConversionUtil()
 		{
 		}
 
-		#region IDataReaderHandler ÉÅÉìÉo
-
-		public override object Handle(IDataReader reader)
+		public static byte[] ToBinary(object o)
 		{
-			IPropertyType[] propertyTypes = PropertyTypeUtil.CreatePropertyTypes(reader.GetSchemaTable());
-			IList list = new ArrayList();
-			while (reader.Read()) 
+			if (o == null || o == DBNull.Value)
 			{
-				list.Add(CreateRow(reader, propertyTypes));
+				throw new ArgumentNullException("o");
 			}
-			return list;
+			else if (o is byte[])
+			{
+				return (byte[]) o;
+			}
+			else if (o is string)
+			{
+				return Encoding.Default.GetBytes((string) o);
+			}
+			throw new ArgumentException(o.GetType().Name);
 		}
-
-		#endregion
 	}
 }

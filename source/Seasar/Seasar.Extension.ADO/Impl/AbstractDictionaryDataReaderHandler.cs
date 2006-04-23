@@ -28,15 +28,15 @@ namespace Seasar.Extension.ADO.Impl
 		{
 		}
 
-		protected IDictionary CreateRow(IDataReader dataReader, IPropertyType[] propertyTypes) 
+		protected IDictionary CreateRow(IDataReader reader, IPropertyType[] propertyTypes) 
 		{
-            IDictionary row = new Hashtable(StringComparer.CurrentCultureIgnoreCase);
+			IDictionary row = new Hashtable(StringComparer.CurrentCultureIgnoreCase);
 			for (int i = 0; i < propertyTypes.Length; ++i) 
 			{
 				object value = propertyTypes[i].ValueType.GetValue(
-					dataReader,
+					reader,
 					i,
-					propertyTypes[i].ValueType.GetType()
+					propertyTypes[i].PropertyType
 					);
 				row.Add(propertyTypes[i].PropertyName, value);
 			}

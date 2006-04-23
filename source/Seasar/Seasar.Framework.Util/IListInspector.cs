@@ -17,29 +17,31 @@
 #endregion
 
 using System.Collections;
-using System.Data;
+using System.Text;
 
-namespace Seasar.Extension.ADO.Impl
+namespace Seasar.Framework.Util
 {
-	public class DictionaryListDataReaderHandler : AbstractDictionaryDataReaderHandler, IDataReaderHandler
+	public class IListInspector
 	{
-		public DictionaryListDataReaderHandler()
+		private IListInspector()
 		{
 		}
 
-		#region IDataReaderHandler ÉÅÉìÉo
-
-		public override object Handle(IDataReader reader)
+		public static string ToString(IList list)
 		{
-			IPropertyType[] propertyTypes = PropertyTypeUtil.CreatePropertyTypes(reader.GetSchemaTable());
-			IList list = new ArrayList();
-			while (reader.Read()) 
+			StringBuilder buf = new StringBuilder();
+			buf.Append("[");
+			foreach (object o in list)
 			{
-				list.Add(CreateRow(reader, propertyTypes));
+				buf.Append(o.ToString());
+				buf.Append(", ");
 			}
-			return list;
+			if (list.Count != 0)
+			{
+				buf.Length -= 2;
+			}
+			buf.Append("]");
+			return buf.ToString();
 		}
-
-		#endregion
 	}
 }

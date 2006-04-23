@@ -30,9 +30,6 @@ using Seasar.Framework.Util;
 
 namespace Seasar.Framework.Unit
 {
-	/// <summary>
-	/// S2TestCaseRunInvoker の概要の説明です。
-	/// </summary>
 	public class S2FrameworkTestCaseRunner
 	{
 		private static Logger logger = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
@@ -142,7 +139,7 @@ namespace Seasar.Framework.Unit
 		}
 		
 		protected virtual void SetUpForEachTestMethod()
-        {
+		{
 			string targetName = GetTargetName();
 			if (targetName.Length > 0) 
 			{
@@ -217,8 +214,8 @@ namespace Seasar.Framework.Unit
 							BindingFlags.Static);
 				
 				for (int i = 0; i < fields.Length; ++i) {
-			        BindField(fields[i]);
-			    }
+					BindField(fields[i]);
+				}
 			}
 		}
 
@@ -263,16 +260,16 @@ namespace Seasar.Framework.Unit
 						component = null;
 					}
 				}
-		        if (component == null
-		                && this.container.HasComponentDef(fieldInfo.FieldType))
+				if (component == null
+					&& this.container.HasComponentDef(fieldInfo.FieldType))
 				{
-		            component = this.container.GetComponent(fieldInfo.FieldType);
-		        }
-		        if (component != null) {
+					component = this.container.GetComponent(fieldInfo.FieldType);
+				}
+				if (component != null) {
 					/// TODO 例外ラップとユーティリティにまとめる？
 					fieldInfo.SetValue(fixture, component);
-		            bindedFields.Add(fieldInfo);
-		        }
+					bindedFields.Add(fieldInfo);
+				}
 			}
 		}
 
@@ -290,19 +287,22 @@ namespace Seasar.Framework.Unit
 		protected void UnbindFields()
 		{
 			for (int i = 0; i < bindedFields.Count; ++i) {
-			    FieldInfo fieldInfo = (FieldInfo) bindedFields[i];
-			    try {
+				FieldInfo fieldInfo = (FieldInfo) bindedFields[i];
+				try
+				{
 					if (!fieldInfo.FieldType.IsValueType)
 					{
 						fieldInfo.SetValue(fixture, null);
 					}
-			    } catch (ArgumentException e) {
-			        Console.Error.WriteLine(e);
-				} 
-				catch (FieldAccessException e) 
+				}
+				catch (ArgumentException e)
 				{
 					Console.Error.WriteLine(e);
-			    }
+				}
+				catch (FieldAccessException e)
+				{
+					Console.Error.WriteLine(e);
+				}
 			}
 		}
 

@@ -38,7 +38,7 @@ namespace Seasar.Extension.ADO.Impl
 				string propertyName = (string) row["ColumnName"];
 				Type type = (Type) row["DataType"];
 				IValueType valueType = ValueTypes.GetValueType(type);
-				propertyTypes[i] = new PropertyTypeImpl(propertyName, valueType);
+				propertyTypes[i] = new PropertyTypeImpl(propertyName, valueType, type);
 			}
 			return propertyTypes;
 		}

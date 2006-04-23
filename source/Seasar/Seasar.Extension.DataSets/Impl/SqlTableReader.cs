@@ -85,7 +85,7 @@ namespace Seasar.Extension.DataSets.Impl
 			ISelectHandler selectHandler = new BasicSelectHandler(
 				dataSource_,
 				sql_,
-				new DataTableResultSetHandler(tableName_)
+				new DataTableDataReaderHandler(tableName_)
 				);
 			DataTable table = (DataTable) selectHandler.Execute(null);
 			table.AcceptChanges();

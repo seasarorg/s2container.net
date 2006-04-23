@@ -18,6 +18,7 @@
 
 using System;
 using System.Globalization;
+using Seasar.Extension.DataSets;
 
 namespace Seasar.Framework.Util
 {
@@ -42,7 +43,11 @@ namespace Seasar.Framework.Util
             {
                 return (string) value;
             }
-            else if(value is IFormattable)
+			else if (value is byte[])
+			{
+				return DataSetConstants.BASE64_FORMAT + Convert.ToBase64String(value as byte[]);
+			}
+			else if (value is IFormattable)
             {
                 return ToString((IFormattable) value, pattern);
             }

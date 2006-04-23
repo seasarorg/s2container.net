@@ -68,7 +68,7 @@ namespace Seasar.Extension.ADO.Types
             }
         }
 
-        private Guid GetGuidValue(object value)
+		private object GetGuidValue(object value)
         {
             if(value == DBNull.Value)
             {
@@ -92,7 +92,7 @@ namespace Seasar.Extension.ADO.Types
             }
         }
 
-        private SqlGuid GetSqlGuidValue(object value)
+		private object GetSqlGuidValue(object value)
         {
             if(value == DBNull.Value)
             {
@@ -116,7 +116,7 @@ namespace Seasar.Extension.ADO.Types
             }
         }
 
-        private NullableGuid GetNullableGuid(object value)
+		private object GetNullableGuid(object value)
         {
             if(value == DBNull.Value)
             {

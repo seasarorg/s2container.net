@@ -63,12 +63,19 @@ namespace Seasar.Extension.ADO.Types
             }
         }
 
-        private sbyte GetPrimitiveValue(object value)
+		private object GetPrimitiveValue(object value)
         {
-            return Convert.ToSByte(value);
+			if (value == DBNull.Value)
+			{
+				return null;
+			}
+			else
+			{
+				return Convert.ToSByte(value);
+			}
         }
 
-        private NullableSByte GetNullableSByteValue(object value)
+		private object GetNullableSByteValue(object value)
         {
             if(value == DBNull.Value)
             {

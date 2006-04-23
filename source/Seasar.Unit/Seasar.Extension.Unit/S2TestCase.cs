@@ -29,9 +29,6 @@ using IDataReader = Seasar.Extension.DataSets.IDataReader;
 
 namespace Seasar.Extension.Unit
 {
-	/// <summary>
-	/// S2TestCase ‚ÌŠT—v‚Ìà–¾‚Å‚·B
-	/// </summary>
 	public class S2TestCase : S2FrameworkTestCaseBase
 	{
 		private IDataSource dataSource;
@@ -64,10 +61,10 @@ namespace Seasar.Extension.Unit
 			}
 		}
 
-        public bool HasConnection
-        {
-            get { return connection != null; }
-        }
+		public bool HasConnection
+		{
+			get { return connection != null; }
+		}
 
 		internal void SetConnection(IDbConnection connection)
 		{

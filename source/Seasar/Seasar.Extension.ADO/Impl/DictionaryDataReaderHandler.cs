@@ -29,12 +29,12 @@ namespace Seasar.Extension.ADO.Impl
 
 		#region IDataReaderHandler ƒƒ“ƒo
 
-		public override object Handle(IDataReader dataReader)
+		public override object Handle(IDataReader reader)
 		{
-			if (dataReader.Read()) 
+			if (reader.Read()) 
 			{
-				IPropertyType[] propertyTypes = PropertyTypeUtil.CreatePropertyTypes(dataReader.GetSchemaTable());
-				return CreateRow(dataReader, propertyTypes);
+				IPropertyType[] propertyTypes = PropertyTypeUtil.CreatePropertyTypes(reader.GetSchemaTable());
+				return CreateRow(reader, propertyTypes);
 			} 
 			else 
 			{

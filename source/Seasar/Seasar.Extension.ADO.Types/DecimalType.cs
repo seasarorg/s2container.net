@@ -68,12 +68,19 @@ namespace Seasar.Extension.ADO.Types
             }
         }
 
-        private decimal GetPrimitiveValue(object value)
+		private object GetPrimitiveValue(object value)
         {
-            return Convert.ToDecimal(value);
+			if (value == DBNull.Value)
+			{
+				return null;
+			}
+			else
+			{
+				return Convert.ToDecimal(value);
+			}
         }
 
-        private SqlDecimal GetSqlDecimalValue(object value)
+		private object GetSqlDecimalValue(object value)
         {
             if(value == DBNull.Value)
             {
@@ -101,7 +108,7 @@ namespace Seasar.Extension.ADO.Types
             }
         }
 
-        private NullableDecimal GetNullableDecimalValue(object value)
+		private object GetNullableDecimalValue(object value)
         {
             if(value == DBNull.Value)
             {
