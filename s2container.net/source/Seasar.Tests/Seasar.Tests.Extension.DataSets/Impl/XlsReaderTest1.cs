@@ -31,7 +31,7 @@ namespace Seasar.Tests.Extension.DataSets.Impl
 	[TestFixture]
 	public class XlsReaderTest1 : S2TestCase
 	{
-		private static readonly string PATH = "Seasar.Tests.Extension.DataSets.Impl.XlsReaderTest1.xls";
+		private const string PATH = "Seasar.Tests.Extension.DataSets.Impl.XlsReaderTest1.xls";
 
 		[Test]
 		public void TestRead() 
@@ -46,6 +46,13 @@ namespace Seasar.Tests.Extension.DataSets.Impl
 				// type valid
 				Assert.AreEqual(6, dataSet.Tables["Type"].Columns.Count);
 				Assert.AreEqual(4, dataSet.Tables["Type"].Rows.Count);
+
+				Assert.AreEqual(typeof(string), dataSet.Tables["Type"].Columns["stringValue"].DataType);
+				Assert.AreEqual(typeof(double), dataSet.Tables["Type"].Columns["intValue"].DataType);
+				Assert.AreEqual(typeof(double), dataSet.Tables["Type"].Columns["longValue"].DataType);
+				Assert.AreEqual(typeof(double), dataSet.Tables["Type"].Columns["decimalValue"].DataType);
+				Assert.AreEqual(typeof(double), dataSet.Tables["Type"].Columns["floatValue"].DataType);
+				Assert.AreEqual(typeof(DateTime), dataSet.Tables["Type"].Columns["dateTimeValue"].DataType);
 
 				Assert.AreEqual("stringValue", dataSet.Tables["Type"].Columns["stringValue"].ColumnName);
 				Assert.AreEqual("intValue", dataSet.Tables["Type"].Columns["intValue"].ColumnName);
