@@ -114,7 +114,7 @@ namespace Seasar.Extension.DataSets.Impl
 			ISelectHandler selectHandler = new BasicSelectHandler(
 				dataSource_,
 				sql_,
-				new DataRowDataReaderHandler(row, newRow)
+				new DataRowReloadDataReaderHandler(row, newRow)
 				);
 			object[] args = new object[primaryKeys_.Length];
 			for (int i = 0; i < primaryKeys_.Length; ++i) 
