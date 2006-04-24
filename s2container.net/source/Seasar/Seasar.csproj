@@ -295,7 +295,7 @@
     <Compile Include="Seasar.Extension.DataSets\IDataWriter.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Seasar.Extension.DataSets\Impl\DataRowDataReaderHandler.cs">
+    <Compile Include="Seasar.Extension.DataSets\Impl\DataRowReloadDataReaderHandler.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Seasar.Extension.DataSets\Impl\DataTableDataReaderHandler.cs">
