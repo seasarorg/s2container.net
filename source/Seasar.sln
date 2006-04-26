@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seasar.Tests", "Seasar.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seasar.Unit", "Seasar.Unit\Seasar.Unit.csproj", "{FC3A021B-6288-4C34-8303-544640D22FDA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seasar.DynamicProxy", "Seasar.DynamicProxy\Seasar.DynamicProxy.csproj", "{063DED73-CA16-4038-904D-5A18A630843D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +32,10 @@ Global
 		{FC3A021B-6288-4C34-8303-544640D22FDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC3A021B-6288-4C34-8303-544640D22FDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC3A021B-6288-4C34-8303-544640D22FDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{063DED73-CA16-4038-904D-5A18A630843D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{063DED73-CA16-4038-904D-5A18A630843D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{063DED73-CA16-4038-904D-5A18A630843D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{063DED73-CA16-4038-904D-5A18A630843D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
