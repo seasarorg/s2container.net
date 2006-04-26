@@ -61,7 +61,7 @@ namespace Seasar.Framework.Container.Deployer
 			this.InitMethodAssembler.Assemble(component_);
 			if(this.ComponentDef.AspectDefSize > 0)
 			{
-				AopProxyUtil.AspectWeaver(ref component_,this.ComponentDef);
+				AopProxyUtil.WeaveAspect(ref component_,this.ComponentDef);
 			}
 		}
 
