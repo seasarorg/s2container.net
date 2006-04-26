@@ -64,7 +64,7 @@ namespace Seasar.Framework.Container.Deployer
 			
 			if(this.ComponentDef.AspectDefSize > 0)
 			{
-				AopProxyUtil.AspectWeaver(ref component,this.ComponentDef);
+				AopProxyUtil.WeaveAspect(ref component,this.ComponentDef);
 			}
 
 			object proxy = GetProxy(receiveType);
