@@ -82,6 +82,7 @@
     <Reference Include="Microsoft.JScript">
       <Name>Microsoft.JScript</Name>
     </Reference>
+    <Reference Include="Microsoft.VisualStudio.DebuggerVisualizers, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Nullables">
       <Name>Nullables</Name>
       <HintPath>..\..\lib\Nullables.dll</HintPath>
@@ -103,6 +104,7 @@
     <Reference Include="System.Web">
       <Name>system.web</Name>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
@@ -389,6 +391,9 @@
     <Compile Include="Seasar.Extension.Tx\TransactionInterceptor.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Framework.Aop\IAspectWeaver.cs" />
+    <Compile Include="Seasar.Framework.Aop\Impl\AbstractAspectWeaver.cs" />
+    <Compile Include="Seasar.Framework.Aop\Impl\AopProxyAspectWeaver.cs" />
     <Compile Include="Seasar.Framework.Aop\IAspect.cs">
       <SubType>Code</SubType>
     </Compile>

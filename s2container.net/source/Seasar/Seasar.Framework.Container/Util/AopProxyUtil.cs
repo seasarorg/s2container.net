@@ -19,6 +19,7 @@
 using System;
 using System.Collections;
 using Seasar.Framework.Aop;
+using Seasar.Framework.Aop.Impl;
 using Seasar.Framework.Aop.Proxy;
 
 namespace Seasar.Framework.Container.Util
@@ -28,46 +29,33 @@ namespace Seasar.Framework.Container.Util
 	/// </summary>
 	public sealed class AopProxyUtil
 	{
+        /// <summary>
+        /// デフォルトのAspectWeaverインスタンス
+        /// </summary>
+        private static IAspectWeaver DEFAULT_ASPECTWEAVER_INSTANCE = new AopProxyAspectWeaver();
+
 		private AopProxyUtil()
 		{
 		}
 
-		public static void AspectWeaver(ref object target,IComponentDef componentDef)
+        /// <summary>
+        /// Aspectを織り込む
+        /// </summary>
+        /// <param name="target">Aspectを織り込む対象のオブジェクト</param>
+        /// <param name="componentDef">Aspectを織り込む対象のコンポーネント定義</param>
+		public static void WeaveAspect(ref object target,IComponentDef componentDef)
 		{
-			if(componentDef.AspectDefSize == 0) return;
-			Hashtable parameters = new Hashtable();
-			parameters[ContainerConstants.COMPONENT_DEF_NAME] = componentDef;
-            
-			Type[] interfaces = componentDef.ComponentType.GetInterfaces();
-			if(componentDef.ComponentType.IsMarshalByRef)
-			{
-				AopProxy aopProxy = new AopProxy(componentDef.ComponentType,
-					GetAspects(componentDef),parameters,target);
-				componentDef.AddProxy(componentDef.ComponentType, aopProxy.Create());
-			}
-			else if(componentDef.ComponentType.IsInterface)
-			{
-				AopProxy aopProxy = new AopProxy(componentDef.ComponentType,
-					GetAspects(componentDef),parameters,target);
-				target = aopProxy.Create();
-			}
-			foreach(Type interfaceType in interfaces)
-			{
-				AopProxy aopProxy = new AopProxy(interfaceType,
-					GetAspects(componentDef), parameters, target);
-				componentDef.AddProxy(interfaceType, aopProxy.Create());
-			}
-		}
+            // S2コンテナを取得する
+            IS2Container container = componentDef.Container;
 
-		private static IAspect[] GetAspects(IComponentDef componentDef)
-		{
-			int size = componentDef.AspectDefSize;
-			IAspect[] aspects = new IAspect[size];
-			for(int i = 0; i < size; ++i)
-			{
-				aspects[i] = componentDef.GetAspectDef(i).Aspect;
-			}
-			return aspects;
+            // S2コンテナにIAspectWeaverが存在する場合は、S2コンテナから取得する
+            // 存在しない場合は、デフォルトのAopProxyAspectWeaverを使用する
+            IAspectWeaver aspectWeaver = container.HasComponentDef(typeof(IAspectWeaver)) ?
+                (IAspectWeaver) container.GetComponent(typeof(IAspectWeaver)) : DEFAULT_ASPECTWEAVER_INSTANCE;
+
+            // Aspectを織り込む
+            aspectWeaver.WeaveAspect(ref target, componentDef);
+
 		}
 	}
 }
