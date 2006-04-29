@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
 "http://www.seasar.org/dtd/components21.dtd">
 <components namespace="Ado">
@@ -12,7 +12,7 @@
     </component>    
     <component name="DataSource" class="Seasar.Extension.Tx.Impl.TxDataSource">
         <property name="DataProvider">SqlClient</property>
-        <property name="ConnectionString">"Server=RMDB;database=s2dotnetdemo;Integrated Security=SSPI"</property>
+        <property name="ConnectionString">"Server=127.0.0.1;database=s2dotnetdemo;Integrated Security=SSPI"</property>
     </component>
 
     <!-- MySQL Connector Net を使用する場合に必要です。 -->

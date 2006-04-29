@@ -24,12 +24,12 @@ using Seasar.Extension.DataSets.Types;
 
 namespace Seasar.Extension.DataSets.Impl
 {
-	public class DataRowDataReaderHandler : IDataReaderHandler
+	public class DataRowReloadDataReaderHandler : IDataReaderHandler
 	{
 		private DataRow row_;
 		private DataRow newRow_;
 
-		public DataRowDataReaderHandler(DataRow row, DataRow newRow)
+		public DataRowReloadDataReaderHandler(DataRow row, DataRow newRow)
 		{
 			row_ = row;
 			newRow_ = newRow;

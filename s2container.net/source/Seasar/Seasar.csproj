@@ -411,7 +411,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Seasar.Extension.DataSets\Impl\DataRowDataReaderHandler.cs"
+                    RelPath = "Seasar.Extension.DataSets\Impl\DataRowReloadDataReaderHandler.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
