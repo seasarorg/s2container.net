@@ -21,7 +21,7 @@ namespace Seasar.Extension.Unit
 		/// DataSet同士を比較します。
 		/// 
 		/// カラムの並び順は比較に影響しません。 
-		/// 数値は全てBigDecimalとして比較します。
+		/// 数値は全てdecimalとして比較します。
 		/// </summary>
 		/// <param name="expected">予測値</param>
 		/// <param name="actual">実際値</param>
@@ -34,7 +34,7 @@ namespace Seasar.Extension.Unit
 		/// DataSet同士を比較します。
 		/// 
 		/// カラムの並び順は比較に影響しません。 
-		/// 数値は全てBigDecimalとして比較します。
+		/// 数値は全てdecimalとして比較します。
 		/// </summary>
 		/// <param name="expected">予測値</param>
 		/// <param name="actual">実際値</param>
@@ -58,7 +58,7 @@ namespace Seasar.Extension.Unit
 		/// DataTable同士を比較します。
 		/// 
 		/// カラムの並び順は比較に影響しません。 
-		/// 数値は全てBigDecimalとして比較します。
+		/// 数値は全てdecimalとして比較します。
 		/// </summary>
 		/// <param name="expected">予測値</param>
 		/// <param name="actual">実際値</param>
@@ -71,7 +71,7 @@ namespace Seasar.Extension.Unit
 		/// DataTable同士を比較します。
 		/// 
 		/// カラムの並び順は比較に影響しません。 
-		/// 数値は全てBigDecimalとして比較します。
+		/// 数値は全てdecimalとして比較します。
 		/// </summary>
 		/// <param name="expected">予測値</param>
 		/// <param name="actual">実際値</param>
@@ -93,7 +93,7 @@ namespace Seasar.Extension.Unit
 						string columnName = expected.Columns[j].ColumnName;
 						object expectedValue = expectedRow[columnName];
 						IColumnType ct = ColumnTypes.GetColumnType(expectedValue);
-						object actualValue = actualRow[columnName];
+						object actualValue = actualRow[DataTableUtil.GetColumn(actual, columnName)];
 						if (!ct.Equals1(expectedValue, actualValue))
 						{
 							Assert.AreEqual(
@@ -122,7 +122,7 @@ namespace Seasar.Extension.Unit
 		/// 
 		/// Beanの場合はプロパティ名を、Mapの場合はキーをカラム名として 比較します。
 		/// カラムの並び順は比較に影響しません。 
-		/// 数値は全てBigDecimalとして比較します。
+		/// 数値は全てdecimalとして比較します。
 		/// </summary>
 		/// <param name="expected">予測値</param>
 		/// <param name="actual">実際値</param>
