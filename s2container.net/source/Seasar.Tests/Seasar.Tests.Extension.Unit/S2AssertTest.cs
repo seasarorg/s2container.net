@@ -87,6 +87,20 @@ namespace Seasar.Tests.Extension.Unit
 		}
 
 		[Test]
+		public void TestAreBeanEqual2()
+		{
+			DataSet expected = new DataSet();
+			DataTable table = expected.Tables.Add("emp");
+			table.Columns.Add("a_aa", typeof(string));
+			DataRow row = table.NewRow();
+			row["a_aa"] = "111";
+			table.Rows.Add(row);
+			Hoge bean = new Hoge();
+			bean.Aaa = "111";
+			S2Assert.AreEqual(expected, bean, "1");	
+		}
+
+		[Test]
 		public void TestAreEqualForNull()
 		{
 			object hoge = null;

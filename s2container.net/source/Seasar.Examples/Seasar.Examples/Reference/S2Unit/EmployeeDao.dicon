@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
+"http://www.seasar.org/dtd/components21.dtd">
+<components>
+  <include path="Seasar.Examples/Ado.dicon" />
+  <component name="EmployeeDaoTest" class="Seasar.Examples.Reference.S2Unit.EmployeeDaoTest"/>
+  <component class="Seasar.Examples.Reference.S2Unit.EmployeeDao">
+    <property name="GetEmployeeHandler">
+      <component class="Seasar.Extension.ADO.Impl.BasicSelectHandler">
+        <property name="Sql">"SELECT e.empno, e.ename, e.deptno, d.dname FROM emp e, dept d WHERE e.empno = @empno AND e.deptno = d.deptno"</property>
+      </component>
+    </property>
+  </component>
+</components>

@@ -2,11 +2,15 @@
 <!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
 "http://www.seasar.org/dtd/components21.dtd">
 <components namespace="DTCTx">
-
-	<include path="Seasar.Examples/Ado.dicon" />
+	<component name="SqlClient" class="Seasar.Extension.ADO.DataProvider">
+		<property name="ConnectionType">"System.Data.SqlClient.SqlConnection"</property>
+		<property name="CommandType">"System.Data.SqlClient.SqlCommand"</property>
+		<property name="ParameterType">"System.Data.SqlClient.SqlParameter"</property>
+		<property name="DataAdapterType">"System.Data.SqlClient.SqlDataAdapter"</property>
+	</component>
 
 	<component name="SqlDataSource" class="Seasar.Extension.ADO.Impl.DataSourceImpl">
-		<property name="DataProvider">Ado.SqlClient</property>
+		<property name="DataProvider">SqlClient</property>
 		<property name="ConnectionString">"Server=127.0.0.1;database=s2dotnetdemo;Integrated Security=SSPI"</property>
 	</component>
 

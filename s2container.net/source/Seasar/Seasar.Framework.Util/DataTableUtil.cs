@@ -60,5 +60,16 @@ namespace Seasar.Framework.Util
 			table.PrimaryKey = (DataColumn[]) primaryKeyList.ToArray(typeof(DataColumn));
 			table.EndLoadData();
 		}
+
+		public static DataColumn GetColumn(DataTable table, string columnName)
+		{
+			DataColumn column = table.Columns[columnName];
+			if (column == null)
+			{
+				string name = columnName.Replace("_", "");
+				column = table.Columns[name];
+			}
+			return column;
+		}
 	}
 }

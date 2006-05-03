@@ -95,8 +95,18 @@
                     HintPath = "..\..\lib\log4net.dll"
                 />
                 <Reference
+                    Name = "MbUnit.Framework"
+                    AssemblyName = "MbUnit.Framework"
+                    HintPath = "..\..\lib\MbUnit.Framework.dll"
+                />
+                <Reference
                     Name = "Seasar"
                     Project = "{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "Seasar.Unit"
+                    Project = "{FC3A021B-6288-4C34-8303-544640D22FDA}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
             </References>
@@ -403,6 +413,52 @@
                 />
                 <File
                     RelPath = "Seasar.Examples\Reference\Namespaces.Impl\HelloImpl.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\S2Unit\Db2ExcelClient.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\S2Unit\Db2ExcelClient.dicon"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\S2Unit\Db2ExcelClient2.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\S2Unit\Db2ExcelClient2.dicon"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\S2Unit\Employee.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\S2Unit\EmployeeDao.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\S2Unit\EmployeeDao.dicon"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\S2Unit\EmployeeDaoTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\S2Unit\GetEmployeeExpected.xls"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\S2Unit\IEmployeeDao.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
