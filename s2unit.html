@@ -64,6 +64,18 @@ MbUnitを拡張しています。主な機能は以下のとおりです。</p>
 			データベースに関するテストを行った場合のクリーンアップの処理が不要になります。</li>
 		</ul>
 	</li>
+	<li>
+		<a href="#DBTest">データベースに対するテスト</a>
+		<ul>
+			<li>Reload(DataSet)を使って、データの中身をプライマリーキーでリロードして新しいDataSetを取得できます。
+			更新後の予想される結果をExcelで定義しておき、
+			DataSet expected = ReadXls("予想される結果.xls");
+			S2Assert.AreEqual(expected, Reload(expected);
+			のようにして簡単に更新のテストができます。</li>
+			<li>S2Assert.AreEqual()で予想されるDataSetの結果に対して、
+			IDictionary、IDictionaryのIList、object、objectのIListと比較することができます。</li>
+		</ul>
+	</li>
 </ul>
 
 <h2>事前の準備</h2>
@@ -151,7 +163,7 @@ VB.NET
 <p>
 Include()するdiconファイルのPATHがテストクラスと同じ名前空間にある場合は、名前空間部分のパスは省略できます。
 ファイルシステムでdiconファイルのPATHを指定する場合は、アセンブリと同じ位置の置くと相対パスとなり省略することができます。
-（ただしビルドイベント等でアセンブリと同じフォルダにはき出すなどの処理が必要です)
+（ただしビルドイベント等でアセンブリと同じフォルダにはき出す等の処理が必要です)
 </p>
 <p>
 Foo.Fuga名前空間にTest.diconを用意している場合、
@@ -400,6 +412,200 @@ VB.NET
 
 <span class="kwrd">End</span> Class</pre>
 
+<h2><a name="trans">データベースに対するテスト</a></h2>
+<p>
+S2では、データベースに対するテストも簡単に行えるような仕組みを用意しております。
+それでは、さっそく例を見てみましょう。
+SQL文を発行するためのフレームワークとしてS2ADOを使います。
+</p>
+
+<h3><a name="SelectTest">Select文に対するテスト</a></h3>
+<p>
+今回は、従業員を従業員番号で検索するDAOをサンプルにします。
+シナリオとして従業員番号で検索をかけると、従業員番号9900の従業員テーブルと部署番号99の部署テーブルをジョインして返す想定とします。
+このケースをテストするためには、検索のための従業員テーブルと部署テーブルのデータを検索した結果を検証するためのデータが必要です。
+データはExcelで用意します。シート名がテーブル名で、シートの第1行にカラム名を2行目以降にデータを書き込みます。
+1から手でデータを作成してもいいのですが、ここでは既存のテーブルのデータを利用してテストデータを作成します。
+<a href="setup.html">セットアップ</a>を参照してデータベースを作成しておきます。
+Seasar.Examplesにデータベースの内容をExcelに書き出すDb2ExcelClientが用意されているのでそれを使います。
+</p>
+Seasar/Examples/Reference/S2Unit/Db2ExcelClient.dicon
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+&lt;components&gt;
+  &lt;include path=<span class="str">"Seasar.Examples/Ado.dicon"</span> /&gt;
+  &lt;component name=<span class="str">"Db2ExcelClient"</span> <span class="kwrd">class</span>=<span class="str">"Seasar.Examples.Reference.S2Unit.Db2ExcelClient"</span>/&gt;
+  &lt;component <span class="kwrd">class</span>=<span class="str">"Seasar.Extension.DataSets.Impl.SqlReader"</span>&gt;
+    &lt;initMethod&gt;self.AddTable(<span class="str">"emp"</span>, <span class="str">"empno = 7788"</span>)&lt;/initMethod&gt;
+    &lt;initMethod&gt;self.AddTable(<span class="str">"dept"</span>, <span class="str">"deptno = 20"</span>)&lt;/initMethod&gt;
+  &lt;/component&gt;
+  &lt;component <span class="kwrd">class</span>=<span class="str">"Seasar.Extension.DataSets.Impl.XlsWriter"</span> instance=<span class="str">"prototype"</span>&gt;
+    &lt;arg&gt;<span class="str">"Seasar.Examples/Reference/S2Unit/GetEmployeePrepare.xls"</span>&lt;/arg&gt;
+  &lt;/component&gt;
+&lt;/components&gt;
+</pre>
+<p>
+データベースの内容をDataSetに読み込んでくれるのがSqlReaderです。AddTableの最初の引数はテーブル名(シート名)です。
+2番目の引数は条件になります。
+</p>
+<p>
+DataSetをExcelに書き出してくれるのがXlsWriterです。コンストラクタでファイルのパスを指定します。
+パスは出力フォルダが基点になります。
+</p>
+Seasar/Examples/Reference/S2Unit/Db2ExcelClient
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">using</span> System;
+<span class="kwrd">using</span> Seasar.Extension.DataSets.Impl;
+<span class="kwrd">using</span> Seasar.Framework.Container;
+<span class="kwrd">using</span> Seasar.Framework.Container.Factory;
+
+<span class="kwrd">namespace</span> Seasar.Examples.Reference.S2Unit
+{
+    <span class="kwrd">public</span> <span class="kwrd">class</span> Db2ExcelClient
+    {
+        <span class="kwrd">private</span> <span class="kwrd">static</span> <span class="kwrd">readonly</span> <span class="kwrd">string</span> PATH = <span class="str">"Seasar.Examples/Reference/S2Unit/Db2ExcelClient.dicon"</span>;
+
+        <span class="kwrd">public</span> Db2ExcelClient() { }
+
+        <span class="kwrd">public</span> <span class="kwrd">void</span> Main()
+        {
+            IS2Container container = S2ContainerFactory.Create(PATH);
+            container.Init();
+            <span class="kwrd">try</span>
+            {
+                SqlReader reader = (SqlReader) container.GetComponent(<span class="kwrd">typeof</span>(SqlReader));
+                XlsWriter writer = (XlsWriter) container.GetComponent(<span class="kwrd">typeof</span>(XlsWriter));
+                writer.Write(reader.Read());
+                Console.Out.WriteLine(<span class="str">"output Excel File : {0}"</span>, writer.FullPath);
+            }
+            <span class="kwrd">catch</span> (ApplicationException e)
+            {
+                Console.Out.WriteLine(e.Message);
+            }
+        }
+    }
+}
+</pre>
+<p>
+IS2ContainerからSqlReaderを取り出しRead()、XlsWriterを取り出しWrite()するだけで、
+データベースの内容をExcelに書き出すことができます。
+Seasar.Examplesを起動し、ツリーアイテムからS2Containerリファレンス-Select文に対するテスト(1)、を選択すると
+Visual Studioの出力パス+指定パス(例：bin\Debug\Seasar.Examples\Reference\S2Unit)に
+GetEmployeePrepare.xlsが作成されていることが確認できると思います。
+GetEmployeePrepare.xlsをダブルクリックするとExcelが起動します。
+empシートのEMPNOを9900、ENAMEをSCOTT2に変更します。
+続いてdeptシートのDEPTNOを99、DNAMEをRESEARCH2に変更します。これで検索用の元データは用意できます。Excelで保存を選び、終了します。
+</p>
+<p>
+次に結果を検証するためのデータを用意します。
+Seasar.Examplesに検証データを書き出すDb2ExcelClient2が用意されているのでそれを使います。
+</p>
+Seasar/Examples/Reference/S2Unit/Db2ExcelClient2.dicon
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+&lt;components&gt;
+  &lt;include path=<span class="str">"Seasar.Examples/Ado.dicon"</span> /&gt;
+  &lt;component name=<span class="str">"EmployeeDaoTest"</span> <span class="kwrd">class</span>=<span class="str">"Seasar.Examples.Reference.S2Unit.EmployeeDaoTest"</span>/&gt;
+  &lt;component <span class="kwrd">class</span>=<span class="str">"Seasar.Examples.Reference.S2Unit.EmployeeDao"</span>&gt;
+    &lt;property name=<span class="str">"GetEmployeeHandler"</span>&gt;
+      &lt;component <span class="kwrd">class</span>=<span class="str">"Seasar.Extension.ADO.Impl.BasicSelectHandler"</span>&gt;
+        &lt;property name=<span class="str">"Sql"</span>&gt;<span class="str">
+"SELECT e.empno, e.ename, e.deptno, d.dname
+FROM emp e, dept d WHERE e.empno = @empno AND e.deptno = d.deptno"</span>&lt;/property&gt;
+      &lt;/component&gt;
+    &lt;/property&gt;
+  &lt;/component&gt;
+&lt;/components&gt;
+</pre>
+<p>
+Seasar.Examplesを起動し、ツリーアイテムからS2Containerリファレンス-Select文に対するテスト(2)、を選択すると
+Visual Studioの出力パス+指定パス(例：bin\Debug\Seasar.Examples\Reference\S2Unit)にGetEmployeeResult.xlsを作成します。
+</p>
+<p>
+先ほどと同様な手順でGetEmployeeResult.xlsのempシートのEMPNOを9900、ENAMEをSCOTT2、DEPTNOを99、DNAMEをRESEARCH2に書き換えて保存します。
+これで、テスト用のデータがそろいました。いよいよテストに取り掛かります。
+</p>
+Seasar/Examples/Reference/S2Unit/EmployeeDao.dicon
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+&lt;components&gt;
+  &lt;include path=<span class="str">"Seasar.Examples/Ado.dicon"</span> /&gt;
+  &lt;component name=<span class="str">"EmployeeDaoTest"</span> <span class="kwrd">class</span>=<span class="str">"Seasar.Examples.Reference.S2Unit.EmployeeDaoTest"</span>/&gt;
+  &lt;component <span class="kwrd">class</span>=<span class="str">"Seasar.Examples.Reference.S2Unit.EmployeeDao"</span>&gt;
+    &lt;property name=<span class="str">"GetEmployeeHandler"</span>&gt;
+      &lt;component <span class="kwrd">class</span>=<span class="str">"Seasar.Extension.ADO.Impl.BasicSelectHandler"</span>&gt;
+        &lt;property name=<span class="str">"Sql"</span>&gt;<span class="str">
+"SELECT e.empno, e.ename, e.deptno, d.dname 
+FROM emp e, dept d WHERE e.empno = @empno AND e.deptno = d.deptno"</span>&lt;/property&gt;
+      &lt;/component&gt;
+    &lt;/property&gt;
+  &lt;/component&gt;
+&lt;/components&gt;
+</pre>
+
+Seasar/Examples/Reference/S2Unit/EmployeeDaoTest.cs
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">using</span> System.Data;
+<span class="kwrd">using</span> MbUnit.Core.Cons;
+<span class="kwrd">using</span> MbUnit.Framework;
+<span class="kwrd">using</span> Seasar.Extension.DataSets.Impl;
+<span class="kwrd">using</span> Seasar.Extension.Unit;
+
+<span class="kwrd">namespace</span> Seasar.Examples.Reference.S2Unit
+{
+    [TestFixture]
+    <span class="kwrd">public</span> <span class="kwrd">class</span> EmployeeDaoTest : S2TestCase
+    {
+        <span class="kwrd">private</span> IEmployeeDao dao_ = <span class="kwrd">null</span>;
+
+        <span class="kwrd">public</span> <span class="kwrd">void</span> SetUpGetEmployee()
+        {
+            Include(<span class="str">"Seasar.Examples/Reference/S2Unit/EmployeeDao.dicon"</span>);
+        }
+
+        [Test, S2(Tx.Rollback)]
+        <span class="kwrd">public</span> <span class="kwrd">void</span> GetEmployee()
+        {
+            ReadXlsWriteDb(<span class="str">"Seasar.Examples/Reference/S2Unit/GetEmployeePrepare.xls"</span>);
+            Employee emp = dao_.GetEmployee(9900);
+            DataSet expected = ReadXls(<span class="str">"Seasar.Examples/Reference/S2Unit/GetEmployeeExpected.xls"</span>);
+            S2Assert.AreEqual(expected, emp, <span class="str">"1"</span>);
+        }
+
+        <span class="kwrd">public</span> <span class="kwrd">void</span> Main()
+        {
+            <span class="kwrd">using</span> (MainClass mc = <span class="kwrd">new</span> MainClass())
+            {
+                mc.Main(<span class="kwrd">new</span> <span class="kwrd">string</span>[] { <span class="str">"Seasar.Examples.exe"</span> });
+            }
+        }
+    }
+}
+</pre>
+<p>
+Seasar.Examplesを起動し、ツリーアイテムからS2Containerリファレンス-Select文に対するテスト(3)、を選択するとテストが実行されます。
+ここでは説明のためにコンソールから<a href="http://www.mertner.com/confluence/display/MbUnit/Home" target="_blank">MbUnit</a>を実行していますが、
+MbUnit.GUI.exeや<a href="http://www.testdriven.net/" target="_blank">TestDriven.NET</a>を使用したほうがテストしやすいでしょう。
+</p>
+<p>
+SetUpGetEmployee()がapp.diconの役割を担います。S2Assert.AreEqual()でDataSetとIDictionary、IDictionaryのIList、object、objectのIList
+と比較できるのですっきりとしたテストコードになります。
+</p>
+<p>
+ReadXlsWriteDb()、ReadXlsAllReplaceDb()で、テストのために用意したデータをデータベースに格納します。
+Excelのファイルがテストクラスと同じ名前空間にある場合は、名前空間部分のパスは省略できます。
+(ただしビルドイベント等でアセンブリと同じフォルダにはき出す等の処理が必要です)
+ReadXlsWriteDb()、ReadXlsAllReplaceDb()はテスト後にロールバックしてデータが元に戻るようにテストメソッドの最初に実行してください。
+これらのメソッドは、シート名の昇順にデータを挿入します。外部キー制約に引っかかるためデータの挿入順序を制御する場合、
+シート名の先頭に"# {順序}"を付けます。例えば、empテーブルを3番目に挿入する場合、シート名は"#3 emp"になります。
+</p>
+<p>
+Daoを呼び出して取得したデータとReadXls()で読み込んだ結果検証用のExcelデータをS2Assert.AreEqual()に渡すと
+Daoを呼び出して取得したデータがDataSetに変換され、結果検証用のExcelデータと比較します。
+</p>
+
 <!-- document end -->
 <!-- don't edit start -->
 </td>
@@ -409,11 +615,12 @@ VB.NET
 <td width="766"><img height="30" width="592" src="images/spacer.gif" alt=""></td>
 </tr><tr>
 <td width="14"><img height="14" width="14" src="images/spacer.gif" alt=""></td>
-<td width="766" class="copyright">Copyright&copy; 2004-2005, The Seasar Foundation and the others. All rights reserved.</td>
+<td width="766" class="copyright">Copyright&copy; 2004-2006, The Seasar Foundation and the others. All rights reserved.</td>
 </tr></table>
 <td class="backright" align="left" valign="top">&nbsp;</td></tr><tr>
 <td class="backunder" align="left"  valign="top" width="780" height="16">&nbsp;</td>
 <td class="backcorner" align="left" valign="top" height="16">&nbsp;</td>
-</tr></table></body>
+</tr></table>
+</body>
 <!-- don't edit end -->
 </html>
