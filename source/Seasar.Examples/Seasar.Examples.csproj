@@ -49,6 +49,7 @@
     <WarningLevel>4</WarningLevel>
     <DebugType>full</DebugType>
     <ErrorReport>prompt</ErrorReport>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -78,6 +79,10 @@
       <Name>log4net</Name>
       <HintPath>..\..\lib\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="MbUnit.Framework, Version=2.3.0.0, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\MbUnit.Framework.dll</HintPath>
+    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -93,11 +98,6 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
-    <ProjectReference Include="..\Seasar\Seasar.csproj">
-      <Name>Seasar</Name>
-      <Project>{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}</Project>
-      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -107,6 +107,7 @@
     <None Include="Seasar.Examples\Intro\Hello.dicon" />
     <None Include="Seasar.Examples\Reference\Aop\Measurement.dicon" />
     <None Include="Seasar.Examples\Reference\Aop\Trace.dicon" />
+    <None Include="Seasar.Examples\Reference\S2Unit\Db2ExcelClient.dicon" />
     <None Include="Seasar.Examples\Reference\DTCTx\DTCTxClient.dicon" />
     <None Include="Seasar.Examples\Reference\Injection\HelloConstructorInjection.dicon" />
     <None Include="Seasar.Examples\Reference\Injection\HelloMethodInjection.dicon" />
@@ -118,6 +119,9 @@
     <None Include="Seasar.Examples\Reference\Namespaces\app.dicon" />
     <None Include="Seasar.Examples\Reference\Namespaces\bar.dicon" />
     <None Include="Seasar.Examples\Reference\Namespaces\foo.dicon" />
+    <None Include="Seasar.Examples\Reference\S2Unit\Db2ExcelClient2.dicon" />
+    <None Include="Seasar.Examples\Reference\S2Unit\EmployeeDao.dicon" />
+    <None Include="Seasar.Examples\Reference\S2Unit\GetEmployeeExpected.xls" />
     <None Include="Seasar.Examples\Tx.dicon" />
     <None Include="Seasar.snk" />
     <Content Include="App.ico" />
@@ -172,6 +176,7 @@
     <Compile Include="Seasar.Examples\Reference\Container\ContainerClient.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Examples\Reference\S2Unit\Db2ExcelClient.cs" />
     <Compile Include="Seasar.Examples\Reference\DTCTx\DTCTxClient.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -235,6 +240,11 @@
     <Compile Include="Seasar.Examples\Reference\Namespaces\Namespaces.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Examples\Reference\S2Unit\Db2ExcelClient2.cs" />
+    <Compile Include="Seasar.Examples\Reference\S2Unit\Employee.cs" />
+    <Compile Include="Seasar.Examples\Reference\S2Unit\IEmployeeDao.cs" />
+    <Compile Include="Seasar.Examples\Reference\S2Unit\EmployeeDao.cs" />
+    <Compile Include="Seasar.Examples\Reference\S2Unit\EmployeeDaoTest.cs" />
     <Compile Include="Seasar.Extension.UI\Forms\HighlightDescriptor.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -263,6 +273,16 @@
     <EmbeddedResource Include="Seasar.Extension.UI\Forms\SyntaxHighlightingTextBox.resx">
       <DependentUpon>SyntaxHighlightingTextBox.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Seasar.Unit\Seasar.Unit.csproj">
+      <Project>{FC3A021B-6288-4C34-8303-544640D22FDA}</Project>
+      <Name>Seasar.Unit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Seasar\Seasar.csproj">
+      <Project>{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}</Project>
+      <Name>Seasar</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

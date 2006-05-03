@@ -17,9 +17,12 @@
 	<include path="Seasar.Examples/Reference/Aop/Measurement.dicon" />
 	<include path="Seasar.Examples/Reference/Metadata/meta.dicon" />
 	<include path="Seasar.Examples/Reference/LocalTx/LocalTxClient.dicon" />
-	<include path="Seasar.Examples/Reference/DTCTx/DTCTxClient.dicon" />
-	
-	<component class="Seasar.Examples.ExamplesExplorer">
+  <include path="Seasar.Examples/Reference/DTCTx/DTCTxClient.dicon" />
+  <include path="Seasar.Examples/Reference/S2Unit/Db2ExcelClient.dicon" />
+  <include path="Seasar.Examples/Reference/S2Unit/Db2ExcelClient2.dicon" />
+  <include path="Seasar.Examples/Reference/S2Unit/EmployeeDao.dicon" />
+
+  <component class="Seasar.Examples.ExamplesExplorer">
 		<initMethod name="AddExamples"><arg>"S2Container概要"</arg><arg>intro</arg></initMethod>
 		<initMethod name="AddExamples"><arg>"S2Containerリファレンス"</arg><arg>reference</arg></initMethod>
 	</component>
@@ -177,5 +180,32 @@
 				<initMethod name="AddCode"><arg>"Seasar.Examples/Reference/DTCTx/EmployeeDao.cs"</arg></initMethod>
 			</component>
 		</arg></initMethod>
-	</component>
+    <initMethod name="Add"><arg>
+        <component class="Seasar.Examples.Impl.BasicExamplesHandler">
+          <property name="Title">"Select文に対するテスト(1)"</property>
+          <property name="Examples">Db2ExcelClient</property>
+          <initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/S2Unit/Db2ExcelClient.dicon"</arg></initMethod>
+          <initMethod name="AddDicon"><arg>"Seasar.Examples/Ado.dicon"</arg></initMethod>
+          <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/S2Unit/Db2ExcelClient.cs"</arg></initMethod>
+        </component>
+    </arg></initMethod>
+    <initMethod name="Add"><arg>
+        <component class="Seasar.Examples.Impl.BasicExamplesHandler">
+          <property name="Title">"Select文に対するテスト(2)"</property>
+          <property name="Examples">Db2ExcelClient2</property>
+          <initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/S2Unit/Db2ExcelClient2.dicon"</arg></initMethod>
+          <initMethod name="AddDicon"><arg>"Seasar.Examples/Ado.dicon"</arg></initMethod>
+          <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/S2Unit/Db2ExcelClient2.cs"</arg></initMethod>
+        </component>
+    </arg></initMethod>
+    <initMethod name="Add"><arg>
+        <component class="Seasar.Examples.Impl.BasicExamplesHandler">
+          <property name="Title">"Select文に対するテスト(3)"</property>
+          <property name="Examples">EmployeeDaoTest</property>
+          <initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/S2Unit/EmployeeDao.dicon"</arg></initMethod>
+          <initMethod name="AddDicon"><arg>"Seasar.Examples/Ado.dicon"</arg></initMethod>
+          <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/S2Unit/EmployeeDaoTest.cs"</arg></initMethod>
+        </component>
+    </arg></initMethod>
+  </component>
 </components>
