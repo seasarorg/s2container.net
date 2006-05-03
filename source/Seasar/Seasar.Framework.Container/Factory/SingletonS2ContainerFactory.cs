@@ -55,8 +55,11 @@ namespace Seasar.Framework.Container.Factory
 
 		public static void Destroy()
 		{
-			container_.Destroy();
-			container_ = null;
+			if (container_ != null)
+			{
+				container_.Destroy();
+				container_ = null;
+			}
 		}
 
 		public static IS2Container Container
