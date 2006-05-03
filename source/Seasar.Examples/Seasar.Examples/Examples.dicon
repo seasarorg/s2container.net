@@ -2,184 +2,183 @@
 <!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
 "http://www.seasar.org/dtd/components21.dtd">
 <components>
-	<include path="Seasar.Examples/Intro/Hello.dicon" />
-	<include path="Seasar.Examples/Reference/Injection/HelloConstructorInjection.dicon" />
-	<include path="Seasar.Examples/Reference/Injection/HelloPropertyInjection.dicon" />
-	<include path="Seasar.Examples/Reference/Injection/HelloMethodInjection.dicon" />
-	<include path="Seasar.Examples/Reference/AutoBinding/AutoHelloConstructorInjection.dicon" />
-	<include path="Seasar.Examples/Reference/AutoBinding/AutoHelloPropertyInjection.dicon" />
-	<include path="Seasar.Examples/Reference/Includes/root.dicon" />
-	<include path="Seasar.Examples/Reference/Namespaces/app.dicon" />
-	<include path="Seasar.Examples/Reference/Lifecycle/lifecycleclient.dicon" />
-	<include path="Seasar.Examples/Reference/Container/container.dicon" />
-	<include path="Seasar.Examples/Reference/Aop/aop.dicon" />
-	<include path="Seasar.Examples/Reference/Aop/Trace.dicon" />
-	<include path="Seasar.Examples/Reference/Aop/Measurement.dicon" />
-	<include path="Seasar.Examples/Reference/Metadata/meta.dicon" />
-	<include path="Seasar.Examples/Reference/LocalTx/LocalTxClient.dicon" />
+  <include path="Seasar.Examples/Intro/Hello.dicon" />
+  <include path="Seasar.Examples/Reference/Injection/HelloConstructorInjection.dicon" />
+  <include path="Seasar.Examples/Reference/Injection/HelloPropertyInjection.dicon" />
+  <include path="Seasar.Examples/Reference/Injection/HelloMethodInjection.dicon" />
+  <include path="Seasar.Examples/Reference/AutoBinding/AutoHelloConstructorInjection.dicon" />
+  <include path="Seasar.Examples/Reference/AutoBinding/AutoHelloPropertyInjection.dicon" />
+  <include path="Seasar.Examples/Reference/Includes/root.dicon" />
+  <include path="Seasar.Examples/Reference/Namespaces/app.dicon" />
+  <include path="Seasar.Examples/Reference/Lifecycle/lifecycleclient.dicon" />
+  <include path="Seasar.Examples/Reference/Container/container.dicon" />
+  <include path="Seasar.Examples/Reference/Aop/aop.dicon" />
+  <include path="Seasar.Examples/Reference/Aop/Trace.dicon" />
+  <include path="Seasar.Examples/Reference/Aop/Measurement.dicon" />
+  <include path="Seasar.Examples/Reference/Metadata/meta.dicon" />
+  <include path="Seasar.Examples/Reference/LocalTx/LocalTxClient.dicon" />
   <include path="Seasar.Examples/Reference/DTCTx/DTCTxClient.dicon" />
   <include path="Seasar.Examples/Reference/S2Unit/Db2ExcelClient.dicon" />
   <include path="Seasar.Examples/Reference/S2Unit/Db2ExcelClient2.dicon" />
   <include path="Seasar.Examples/Reference/S2Unit/EmployeeDao.dicon" />
 
   <component class="Seasar.Examples.ExamplesExplorer">
-		<initMethod name="AddExamples"><arg>"S2Container概要"</arg><arg>intro</arg></initMethod>
-		<initMethod name="AddExamples"><arg>"S2Containerリファレンス"</arg><arg>reference</arg></initMethod>
-	</component>
-	
-	<component name="intro" class="System.Collections.ArrayList">
-		<initMethod name="Add"><arg>
-			<component class="Seasar.Examples.Impl.BasicExamplesHandler">
-				<property name="Title">"Hello World!"</property>
-				<property name="Examples">helloWorld</property>
-				<initMethod name="AddDicon"><arg>"Seasar.Examples/Intro/Hello.dicon"</arg></initMethod>
-				<initMethod name="AddCode"><arg>"Seasar.Examples/Intro/Hoge.cs"</arg></initMethod>
-			</component>
-		</arg></initMethod>
-	</component>
+    <initMethod name="AddExamples"><arg>"S2Container概要"</arg><arg>intro</arg></initMethod>
+    <initMethod name="AddExamples"><arg>"S2Containerリファレンス"</arg><arg>reference</arg></initMethod>
+  </component>
+  
+  <component name="intro" class="System.Collections.ArrayList">
+    <initMethod name="Add"><arg>
+      <component class="Seasar.Examples.Impl.BasicExamplesHandler">
+        <property name="Title">"Hello World!"</property>
+        <property name="Examples">helloWorld</property>
+        <initMethod name="AddDicon"><arg>"Seasar.Examples/Intro/Hello.dicon"</arg></initMethod>
+        <initMethod name="AddCode"><arg>"Seasar.Examples/Intro/Hoge.cs"</arg></initMethod>
+      </component>
+    </arg></initMethod>
+  </component>
 
-	<component name="reference" class="System.Collections.ArrayList">
-		<initMethod name="Add"><arg>
-			<component class="Seasar.Examples.Impl.BasicExamplesHandler">
-				<property name="Title">"コンストラクタ・インジェクション"</property>
-				<property name="Examples">ConstructorInjection</property>
-				<initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/Injection/HelloConstructorInjection.dicon"</arg></initMethod>
-				<initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Injection/IHello.cs"</arg></initMethod>
-				<initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Injection/HelloConstructorInjection.cs"</arg></initMethod>
-			</component>
-		</arg></initMethod>
-		<initMethod name="Add"><arg>
-			<component class="Seasar.Examples.Impl.BasicExamplesHandler">
-				<property name="Title">"プロパティ・インジェクション"</property>
-				<property name="Examples">PropertyInjection</property>
-				<initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/Injection/HelloPropertyInjection.dicon"</arg></initMethod>
-				<initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Injection/IHello.cs"</arg></initMethod>
-				<initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Injection/HelloPropertyInjection.cs"</arg></initMethod>
-			</component>
-		</arg></initMethod>
-		<initMethod name="Add"><arg>
-			<component class="Seasar.Examples.Impl.BasicExamplesHandler">
-				<property name="Title">"メソッド・インジェクション"</property>
-				<property name="Examples">MethodInjection</property>
-				<initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/Injection/HelloMethodInjection.dicon"</arg></initMethod>
-				<initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Injection/IHello.cs"</arg></initMethod>
-				<initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Injection/HelloMethodInjection.cs"</arg></initMethod>
-			</component>
-		</arg></initMethod>
-		<initMethod name="Add"><arg>
-			<component class="Seasar.Examples.Impl.BasicExamplesHandler">
-				<property name="Title">"自動バインディング(コンストラクタ・インジェクション)"</property>
-				<property name="Examples">AutoConstructorInjection</property>
-				<initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/AutoBinding/AutoHelloConstructorInjection.dicon"</arg></initMethod>
-				<initMethod name="AddCode"><arg>"Seasar.Examples/Reference/AutoBinding/IHello.cs"</arg></initMethod>
-				<initMethod name="AddCode"><arg>"Seasar.Examples/Reference/AutoBinding/AutoHelloConstructorInjection.cs"</arg></initMethod>
-			</component>
-		</arg></initMethod>
-		<initMethod name="Add"><arg>
-			<component class="Seasar.Examples.Impl.BasicExamplesHandler">
-				<property name="Title">"自動バインディング(プロパティ・インジェクション)"</property>
-				<property name="Examples">AutoPropertyInjection</property>
-				<initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/AutoBinding/AutoHelloPropertyInjection.dicon"</arg></initMethod>
-				<initMethod name="AddCode"><arg>"Seasar.Examples/Reference/AutoBinding/IHello.cs"</arg></initMethod>
-				<initMethod name="AddCode"><arg>"Seasar.Examples/Reference/AutoBinding/AutoHelloPropertyInjection.cs"</arg></initMethod>
-			</component>
-		</arg></initMethod>
-		<initMethod name="Add"><arg>
-			<component class="Seasar.Examples.Impl.BasicExamplesHandler">
-				<property name="Title">"S2Container定義の分割とインクルード"</property>
-				<property name="Examples">Include</property>
-				<initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/Includes/root.dicon"</arg></initMethod>
-				<initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/Includes/aaa.dicon"</arg></initMethod>
-				<initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/Includes/bbb.dicon"</arg></initMethod>
-				<initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Includes/IHello.cs"</arg></initMethod>
-				<initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Includes.Impl/HelloImpl.cs"</arg></initMethod>
-				<initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Includes/IHelloClient.cs"</arg></initMethod>
-				<initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Includes.Impl/HelloClientImpl.cs"</arg></initMethod>
-			</component>
-		</arg></initMethod>
-		<initMethod name="Add"><arg>
-			<component class="Seasar.Examples.Impl.BasicExamplesHandler">
-				<property name="Title">"名前空間"</property>
-				<property name="Examples">Namespace</property>
-				<initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/Namespaces/foo.dicon"</arg></initMethod>
-				<initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/Namespaces/bar.dicon"</arg></initMethod>
-				<initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/Namespaces/app.dicon"</arg></initMethod>
-				<initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Namespaces/Namespaces.cs"</arg></initMethod>
-			</component>
-		</arg></initMethod>
-		<initMethod name="Add"><arg>
-			<component class="Seasar.Examples.Impl.BasicExamplesHandler">
-				<property name="Title">"ライフサイクル"</property>
-				<property name="Examples">Lifecycle</property>
-				<initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/Lifecycle/lifecycle.dicon"</arg></initMethod>
-				<initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Lifecycle/Lifecycle.cs"</arg></initMethod>
-				<initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Lifecycle/LifecycleClient.cs"</arg></initMethod>
-			</component>
-		</arg></initMethod>
-		<initMethod name="Add"><arg>
-			<component class="Seasar.Examples.Impl.BasicExamplesHandler">
-				<property name="Title">"コンポーネントでS2Containerを利用する"</property>
-				<property name="Examples">ContainerClient</property>
-				<initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/Container/container.dicon"</arg></initMethod>
-				<initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Container/ContainerClient.cs"</arg></initMethod>
-			</component>
-		</arg></initMethod>
-		<initMethod name="Add"><arg>
-			<component class="Seasar.Examples.Impl.BasicExamplesHandler">
-				<property name="Title">"AOPの適用"</property>
-				<property name="Examples">Aop</property>
-				<initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/Aop/aop.dicon"</arg></initMethod>
-				<initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Aop/AopClient.cs"</arg></initMethod>
-			</component>
-		</arg></initMethod>
-		<initMethod name="Add"><arg>
-			<component class="Seasar.Examples.Impl.BasicExamplesHandler">
-				<property name="Title">"TraceInterceptor"</property>
-				<property name="Examples">AopTraceInterceptor</property>
-				<initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/Aop/Trace.dicon"</arg></initMethod>
-				<initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Aop/AopTraceClient.cs"</arg></initMethod>
-			</component>
-		</arg></initMethod>
-		<initMethod name="Add"><arg>
-			<component class="Seasar.Examples.Impl.BasicExamplesHandler">
-				<property name="Title">"独自実装によるInterceptor"</property>
-				<property name="Examples">AopMeasurementInterceptor</property>
-				<initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/Aop/Measurement.dicon"</arg></initMethod>
-				<initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Aop/MeasurementInterceptor.cs"</arg></initMethod>
-				<initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Aop/HeavyProcess.cs"</arg></initMethod>
-				<initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Aop/AopMeasurementClient.cs"</arg></initMethod>
-			</component>
-		</arg></initMethod>
-		<initMethod name="Add"><arg>
-			<component class="Seasar.Examples.Impl.BasicExamplesHandler">
-				<property name="Title">"メタデータ"</property>
-				<property name="Examples">Metadata</property>
-				<initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/Metadata/meta.dicon"</arg></initMethod>
-				<initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Metadata/MetaClient.cs"</arg></initMethod>
-			</component>
-		</arg></initMethod>
-		<initMethod name="Add"><arg>
-			<component class="Seasar.Examples.Impl.BasicExamplesHandler">
-				<property name="Title">"ローカルトランザクション"</property>
-				<property name="Examples">LocalTxClient</property>
-				<initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/LocalTx/LocalTxClient.dicon"</arg></initMethod>
-				<initMethod name="AddDicon"><arg>"Seasar.Examples/Tx.dicon"</arg></initMethod>
-				<initMethod name="AddDicon"><arg>"Seasar.Examples/Ado.dicon"</arg></initMethod>
-				<initMethod name="AddCode"><arg>"Seasar.Examples/Reference/LocalTx/LocalTxClient.cs"</arg></initMethod>
-				<initMethod name="AddCode"><arg>"Seasar.Examples/Reference/LocalTx/EmployeeDao.cs"</arg></initMethod>
-			</component>
-		</arg></initMethod>
-		<initMethod name="Add"><arg>
-			<component class="Seasar.Examples.Impl.BasicExamplesHandler">
-				<property name="Title">"MS DTCトランザクション"</property>
-				<property name="Examples">DTCTxClient</property>
-				<initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/DTCTx/DTCTxClient.dicon"</arg></initMethod>
-				<initMethod name="AddDicon"><arg>"Seasar.Examples/Tx.dicon"</arg></initMethod>
-				<initMethod name="AddDicon"><arg>"Seasar.Examples/Ado.dicon"</arg></initMethod>
-				<initMethod name="AddCode"><arg>"Seasar.Examples/Reference/DTCTx/DTCTxClient.cs"</arg></initMethod>
-				<initMethod name="AddCode"><arg>"Seasar.Examples/Reference/DTCTx/EmployeeDao.cs"</arg></initMethod>
-			</component>
-		</arg></initMethod>
+  <component name="reference" class="System.Collections.ArrayList">
+    <initMethod name="Add"><arg>
+      <component class="Seasar.Examples.Impl.BasicExamplesHandler">
+        <property name="Title">"コンストラクタ・インジェクション"</property>
+        <property name="Examples">ConstructorInjection</property>
+        <initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/Injection/HelloConstructorInjection.dicon"</arg></initMethod>
+        <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Injection/IHello.cs"</arg></initMethod>
+        <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Injection/HelloConstructorInjection.cs"</arg></initMethod>
+      </component>
+    </arg></initMethod>
+    <initMethod name="Add"><arg>
+      <component class="Seasar.Examples.Impl.BasicExamplesHandler">
+        <property name="Title">"プロパティ・インジェクション"</property>
+        <property name="Examples">PropertyInjection</property>
+        <initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/Injection/HelloPropertyInjection.dicon"</arg></initMethod>
+        <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Injection/IHello.cs"</arg></initMethod>
+        <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Injection/HelloPropertyInjection.cs"</arg></initMethod>
+      </component>
+    </arg></initMethod>
+    <initMethod name="Add"><arg>
+      <component class="Seasar.Examples.Impl.BasicExamplesHandler">
+        <property name="Title">"メソッド・インジェクション"</property>
+        <property name="Examples">MethodInjection</property>
+        <initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/Injection/HelloMethodInjection.dicon"</arg></initMethod>
+        <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Injection/IHello.cs"</arg></initMethod>
+        <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Injection/HelloMethodInjection.cs"</arg></initMethod>
+      </component>
+    </arg></initMethod>
+    <initMethod name="Add"><arg>
+      <component class="Seasar.Examples.Impl.BasicExamplesHandler">
+        <property name="Title">"自動バインディング(コンストラクタ・インジェクション)"</property>
+        <property name="Examples">AutoConstructorInjection</property>
+        <initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/AutoBinding/AutoHelloConstructorInjection.dicon"</arg></initMethod>
+        <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/AutoBinding/IHello.cs"</arg></initMethod>
+        <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/AutoBinding/AutoHelloConstructorInjection.cs"</arg></initMethod>
+      </component>
+    </arg></initMethod>
+    <initMethod name="Add"><arg>
+      <component class="Seasar.Examples.Impl.BasicExamplesHandler">
+        <property name="Title">"自動バインディング(プロパティ・インジェクション)"</property>
+        <property name="Examples">AutoPropertyInjection</property>
+        <initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/AutoBinding/AutoHelloPropertyInjection.dicon"</arg></initMethod>
+        <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/AutoBinding/IHello.cs"</arg></initMethod>
+        <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/AutoBinding/AutoHelloPropertyInjection.cs"</arg></initMethod>
+      </component>
+    </arg></initMethod>
+    <initMethod name="Add"><arg>
+      <component class="Seasar.Examples.Impl.BasicExamplesHandler">
+        <property name="Title">"S2Container定義の分割とインクルード"</property>
+        <property name="Examples">Include</property>
+        <initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/Includes/root.dicon"</arg></initMethod>
+        <initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/Includes/aaa.dicon"</arg></initMethod>
+        <initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/Includes/bbb.dicon"</arg></initMethod>
+        <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Includes/IHello.cs"</arg></initMethod>
+        <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Includes.Impl/HelloImpl.cs"</arg></initMethod>
+        <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Includes/IHelloClient.cs"</arg></initMethod>
+        <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Includes.Impl/HelloClientImpl.cs"</arg></initMethod>
+      </component>
+    </arg></initMethod>
+    <initMethod name="Add"><arg>
+      <component class="Seasar.Examples.Impl.BasicExamplesHandler">
+        <property name="Title">"名前空間"</property>
+        <property name="Examples">Namespace</property>
+        <initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/Namespaces/foo.dicon"</arg></initMethod>
+        <initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/Namespaces/bar.dicon"</arg></initMethod>
+        <initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/Namespaces/app.dicon"</arg></initMethod>
+        <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Namespaces/Namespaces.cs"</arg></initMethod>
+      </component>
+    </arg></initMethod>
+    <initMethod name="Add"><arg>
+      <component class="Seasar.Examples.Impl.BasicExamplesHandler">
+        <property name="Title">"ライフサイクル"</property>
+        <property name="Examples">Lifecycle</property>
+        <initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/Lifecycle/lifecycle.dicon"</arg></initMethod>
+        <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Lifecycle/Lifecycle.cs"</arg></initMethod>
+        <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Lifecycle/LifecycleClient.cs"</arg></initMethod>
+      </component>
+    </arg></initMethod>
+    <initMethod name="Add"><arg>
+      <component class="Seasar.Examples.Impl.BasicExamplesHandler">
+        <property name="Title">"コンポーネントでS2Containerを利用する"</property>
+        <property name="Examples">ContainerClient</property>
+        <initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/Container/container.dicon"</arg></initMethod>
+        <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Container/ContainerClient.cs"</arg></initMethod>
+      </component>
+    </arg></initMethod>
+    <initMethod name="Add"><arg>
+      <component class="Seasar.Examples.Impl.BasicExamplesHandler">
+        <property name="Title">"AOPの適用"</property>
+        <property name="Examples">Aop</property>
+        <initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/Aop/aop.dicon"</arg></initMethod>
+        <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Aop/AopClient.cs"</arg></initMethod>
+      </component>
+    </arg></initMethod>
+    <initMethod name="Add"><arg>
+      <component class="Seasar.Examples.Impl.BasicExamplesHandler">
+        <property name="Title">"TraceInterceptor"</property>
+        <property name="Examples">AopTraceInterceptor</property>
+        <initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/Aop/Trace.dicon"</arg></initMethod>
+        <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Aop/AopTraceClient.cs"</arg></initMethod>
+      </component>
+    </arg></initMethod>
+    <initMethod name="Add"><arg>
+      <component class="Seasar.Examples.Impl.BasicExamplesHandler">
+        <property name="Title">"独自実装によるInterceptor"</property>
+        <property name="Examples">AopMeasurementInterceptor</property>
+        <initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/Aop/Measurement.dicon"</arg></initMethod>
+        <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Aop/MeasurementInterceptor.cs"</arg></initMethod>
+        <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Aop/HeavyProcess.cs"</arg></initMethod>
+        <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Aop/AopMeasurementClient.cs"</arg></initMethod>
+      </component>
+    </arg></initMethod>
+    <initMethod name="Add"><arg>
+      <component class="Seasar.Examples.Impl.BasicExamplesHandler">
+        <property name="Title">"メタデータ"</property>
+        <property name="Examples">Metadata</property>
+        <initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/Metadata/meta.dicon"</arg></initMethod>
+        <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Metadata/MetaClient.cs"</arg></initMethod>
+      </component>
+    </arg></initMethod>
+    <initMethod name="Add"><arg>
+      <component class="Seasar.Examples.Impl.BasicExamplesHandler">
+        <property name="Title">"ローカルトランザクション"</property>
+        <property name="Examples">LocalTxClient</property>
+        <initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/LocalTx/LocalTxClient.dicon"</arg></initMethod>
+        <initMethod name="AddDicon"><arg>"Seasar.Examples/Tx.dicon"</arg></initMethod>
+        <initMethod name="AddDicon"><arg>"Seasar.Examples/Ado.dicon"</arg></initMethod>
+        <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/LocalTx/LocalTxClient.cs"</arg></initMethod>
+        <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/LocalTx/EmployeeDao.cs"</arg></initMethod>
+      </component>
+    </arg></initMethod>
+    <initMethod name="Add"><arg>
+      <component class="Seasar.Examples.Impl.BasicExamplesHandler">
+        <property name="Title">"MS DTCトランザクション"</property>
+        <property name="Examples">DTCTxClient</property>
+        <initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/DTCTx/DTCTxClient.dicon"</arg></initMethod>
+        <initMethod name="AddDicon"><arg>"Seasar.Examples/DTCTx.dicon"</arg></initMethod>
+        <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/DTCTx/DTCTxClient.cs"</arg></initMethod>
+        <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/DTCTx/EmployeeDao.cs"</arg></initMethod>
+      </component>
+    </arg></initMethod>
     <initMethod name="Add"><arg>
         <component class="Seasar.Examples.Impl.BasicExamplesHandler">
           <property name="Title">"Select文に対するテスト(1)"</property>
@@ -205,6 +204,7 @@
           <initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/S2Unit/EmployeeDao.dicon"</arg></initMethod>
           <initMethod name="AddDicon"><arg>"Seasar.Examples/Ado.dicon"</arg></initMethod>
           <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/S2Unit/EmployeeDaoTest.cs"</arg></initMethod>
+          <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/S2Unit/EmployeeDao.cs"</arg></initMethod>
         </component>
     </arg></initMethod>
   </component>
