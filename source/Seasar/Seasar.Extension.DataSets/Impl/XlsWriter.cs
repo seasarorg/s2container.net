@@ -28,11 +28,16 @@ namespace Seasar.Extension.DataSets.Impl
 {
 	public class XlsWriter : IDataWriter
 	{
-		private string path_;
+		private string fullPath_;
 
-		public XlsWriter(string path)
+		public XlsWriter(string fullPath)
 		{
-			path_ = Path.GetFullPath(path);
+			fullPath_ = Path.GetFullPath(fullPath);
+		}
+
+		public string FullPath
+		{
+			get { return fullPath_; }
 		}
 
 		#region IDataWriter ÉÅÉìÉo
@@ -41,9 +46,13 @@ namespace Seasar.Extension.DataSets.Impl
 		{
 			string connectonString = string.Format(
 				"Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Extended Properties=\"Excel 8.0;HDR=Yes\"",
-				path_
+				fullPath_
 				);
 			CreateDir();
+			if (File.Exists(fullPath_))
+			{
+				File.Delete(fullPath_);
+			}
 			using (OleDbConnection con = new OleDbConnection(connectonString)) 
 			{
 				if (con.State != ConnectionState.Open) 
@@ -155,7 +164,7 @@ namespace Seasar.Extension.DataSets.Impl
 
 		private void CreateDir()
 		{
-			string dir = Path.GetDirectoryName(path_);
+			string dir = Path.GetDirectoryName(fullPath_);
 			if (!Directory.Exists(dir))
 			{
 				Directory.CreateDirectory(dir);
