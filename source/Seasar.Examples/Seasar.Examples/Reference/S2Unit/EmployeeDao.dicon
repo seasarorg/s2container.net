@@ -7,8 +7,7 @@
   <component class="Seasar.Examples.Reference.S2Unit.EmployeeDao">
     <property name="GetEmployeeHandler">
       <component class="Seasar.Extension.ADO.Impl.BasicSelectHandler">
-        <property name="Sql">"SELECT e.empno, e.ename, e.deptno, d.dname
-        FROM emp e, dept d WHERE e.empno = @empno AND e.deptno = d.deptno"</property>
+        <property name="Sql">"SELECT e.empno, e.ename, e.deptno, d.dname FROM emp e, dept d WHERE e.empno = @empno AND e.deptno = d.deptno"</property>
       </component>
     </property>
   </component>
