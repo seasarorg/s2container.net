@@ -118,7 +118,7 @@ namespace Seasar.Extension.Unit
 		/// <summary>
 		/// オブジェクトをDataSetと比較します。
 		/// 
-		/// オブジェクトは、Bean、Hashtable、BeanのIList、HashtableのIListのいずれか でなければなりません。
+		/// オブジェクトは、Bean、IDictionary、BeanのIList、IDictionaryのIListのいずれか でなければなりません。
 		/// 
 		/// Beanの場合はプロパティ名を、Mapの場合はキーをカラム名として 比較します。
 		/// カラムの並び順は比較に影響しません。 
@@ -150,7 +150,11 @@ namespace Seasar.Extension.Unit
 				return;
 			}
 
-			if (actual is IList) 
+			if (actual is object[])
+			{
+				AreEqual(expected, new ArrayList((object[]) actual), message);
+			}
+			else if (actual is IList) 
 			{
 				IList actualList = (IList) actual;
 				Assert.IsTrue(actualList.Count != 0);
@@ -163,10 +167,6 @@ namespace Seasar.Extension.Unit
 				{
 					AreBeanListEqual(expected, actualList, message);
 				}
-			} 
-			else if (actual is object[]) 
-			{
-				AreEqual(expected, new ArrayList((object[]) actual), message);
 			} 
 			else 
 			{
