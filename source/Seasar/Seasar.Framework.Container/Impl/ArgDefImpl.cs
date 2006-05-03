@@ -64,26 +64,30 @@ namespace Seasar.Framework.Container.Impl
 					{
 						return container_.GetComponent(expression_);
 					}
-					else if(expression_.IndexOf(".") > 0)
+					else if (IsCharacterString(expression_))
 					{
-                        int lastIndex = expression_.LastIndexOf(".");
-                        string enumTypeName = 
-                            expression_.Substring(0, lastIndex);
-                        Type enumType = ClassUtil.ForName(enumTypeName, 
-                            AppDomain.CurrentDomain.GetAssemblies());
-                        if(enumType != null && enumType.IsEnum)
-                        {
-                            return Enum.Parse(enumType, expression_.Substring(lastIndex + 1));
-                        }
-                        else
-                        {
-                            return JScriptUtil.Evaluate(expression_,container_);
-                        }
-                    }
-                    else
-                    {
-                        return JScriptUtil.Evaluate(expression_,container_);
-                    }
+						return JScriptUtil.Evaluate(expression_, container_);
+					}
+					else if (expression_.IndexOf(".") > 0)
+					{
+						int lastIndex = expression_.LastIndexOf(".");
+						string enumTypeName =
+							expression_.Substring(0, lastIndex);
+						Type enumType = ClassUtil.ForName(enumTypeName,
+							AppDomain.CurrentDomain.GetAssemblies());
+						if (enumType != null && enumType.IsEnum)
+						{
+							return Enum.Parse(enumType, expression_.Substring(lastIndex + 1));
+						}
+						else
+						{
+							return JScriptUtil.Evaluate(expression_, container_);
+						}
+					}
+					else
+					{
+						return JScriptUtil.Evaluate(expression_, container_);
+					}
 				}
 				if(childComponentDef_ != null) 
 				{
@@ -188,5 +192,12 @@ namespace Seasar.Framework.Container.Impl
 		}
 
 		#endregion
+
+		private bool IsCharacterString(string str)
+		{
+			if (str == null) return false;
+			if (str.StartsWith("\"") && str.EndsWith("\"") && str.Length >= 2) return true;
+			return false;
+		}
 	}
 }
