@@ -96,6 +96,7 @@ namespace Seasar.Tests.Extension.Tx.Impl
                     Transaction tx2 = Transaction.Current;
                     Assert.IsTrue(tx.TransactionInformation.Status == TransactionStatus.Active,"0");
                     Assert.IsTrue(tx2.TransactionInformation.Status == TransactionStatus.Active, "1");
+                    scope2.Complete();
                 }
 
                 Assert.IsTrue(tx.TransactionInformation.Status == TransactionStatus.Active, "2");
