@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using NUnit.Framework;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Factory;
@@ -37,7 +38,7 @@ namespace TestSeasar.Framework.Container.Factory
 		{
 			IS2Container container = S2ContainerFactory.Create(PATH);
 			container.Init();
-			Assert.IsNotNull(container.GetComponent(typeof(IList)));
+			Assert.IsNotNull(container.GetComponent(typeof(ArrayList)));
 			Assert.IsNotNull(container.GetComponent("aaa"));
 			Assert.AreEqual(1, container.GetComponent("bbb"));
 			Assert.AreEqual(true, container.GetComponent("ccc") != 
@@ -51,6 +52,15 @@ namespace TestSeasar.Framework.Container.Factory
 			Assert.IsNotNull(container.GetComponent("fff"));
 			Assert.IsNotNull(container.GetComponent("ggg"));
 		}
+
+        [Test]
+        public void TestGeneric()
+        {
+            IS2Container container = S2ContainerFactory.Create(PATH);
+            container.Init();
+            Assert.IsNotNull(container.GetComponent(typeof(IList<String>)));
+            Assert.IsNotNull(container.GetComponent(typeof(Dictionary<String, Int32>)));
+        }
 		
 	}
 }
