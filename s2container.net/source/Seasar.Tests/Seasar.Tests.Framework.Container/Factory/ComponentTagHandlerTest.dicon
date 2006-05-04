@@ -23,5 +23,8 @@
 	<component name="ggg">
 		container.GetComponent("fff").GetHashCode()
 	</component>
+
+	<component name="hhh" class="System.Collections.Generic.List`1[System.String]" />
+	<component name="iii" class="System.Collections.Generic.Dictionary`2[System.String, System.Int32]" />
 	
 </components>
