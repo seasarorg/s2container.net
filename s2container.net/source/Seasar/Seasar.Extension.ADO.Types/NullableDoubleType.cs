@@ -21,9 +21,9 @@ using System.Data;
 
 namespace Seasar.Extension.ADO.Types
 {
-    public class DoubleType : BaseValueType, IValueType
+    public class NullableDoubleType : BaseValueType, IValueType
     {
-        public DoubleType()
+		public NullableDoubleType()
         {
         }
 
@@ -42,10 +42,14 @@ namespace Seasar.Extension.ADO.Types
 			{
 				return null;
 			}
+			else if (value is double)
+			{
+				return new Nullable<Double>((double) value);
+			}
 			else
 			{
 				return Convert.ToDouble(value);
 			}
-        }
+		}
     }
 }

@@ -18,12 +18,13 @@
 
 using System;
 using System.Data;
+using System.Data.SqlTypes;
 
 namespace Seasar.Extension.ADO.Types
 {
-    public class DoubleType : BaseValueType, IValueType
+    public class SqlDoubleType : BaseValueType, IValueType
     {
-        public DoubleType()
+		public SqlDoubleType()
         {
         }
 
@@ -40,11 +41,15 @@ namespace Seasar.Extension.ADO.Types
 		{
 			if (value == DBNull.Value)
 			{
-				return null;
+				return SqlDouble.Null;
+			}
+			else if (value is double)
+			{
+				return new SqlDouble((double) value);
 			}
 			else
 			{
-				return Convert.ToDouble(value);
+				return SqlDouble.Parse(value.ToString());
 			}
         }
     }
