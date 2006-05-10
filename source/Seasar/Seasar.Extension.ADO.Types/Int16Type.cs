@@ -18,8 +18,6 @@
 
 using System;
 using System.Data;
-using System.Data.SqlTypes;
-using Nullables;
 
 namespace Seasar.Extension.ADO.Types
 {
@@ -31,45 +29,15 @@ namespace Seasar.Extension.ADO.Types
 
         #region IValueType ÉÅÉìÉo
 
-        public object GetValue(System.Data.IDataReader reader, int index, Type type)
-        {
-            return GetValue(reader[index], type);
-        }
-
-        public object GetValue(System.Data.IDataReader reader, string columnName, Type type)
-        {
-            return GetValue(reader[columnName], type);
-        }
-
-        public void BindValue(System.Data.IDbCommand cmd, string columnName, object value)
+		public override void BindValue(IDbCommand cmd, string columnName, object value)
         {
             BindValue(cmd, columnName, value, DbType.Int16);
         }
 
         #endregion
 
-        protected override object GetValue(object value, Type type)
-        {
-            if(typeof(short).Equals(type))
-            {
-                return GetPrimitiveValue(value);
-            }
-            else if(typeof(SqlInt16).Equals(type))
-            {
-                return GetSqlInt16Value(value);
-            }
-            else if(typeof(NullableInt16).Equals(type))
-            {
-                return GetNullableInt16Value(value);
-            }
-            else
-            {
-                return value;
-            }
-        }
-
-		private object GetPrimitiveValue(object value)
-        {
+		protected override object GetValue(object value)
+		{
 			if (value == DBNull.Value)
 			{
 				return null;
@@ -78,38 +46,6 @@ namespace Seasar.Extension.ADO.Types
 			{
 				return Convert.ToInt16(value);
 			}
-        }
-
-		private object GetSqlInt16Value(object value)
-        {
-            if(value == DBNull.Value)
-            {
-                return SqlInt16.Null;
-            }
-            else if(value is short)
-            {
-                return new SqlInt16((short) value);
-            }
-            else
-            {
-                return SqlInt16.Parse(value.ToString());
-            }
-        }
-
-		private object GetNullableInt16Value(object value)
-        {
-            if(value == DBNull.Value)
-            {
-                return null;
-            }
-            else if(value is short)
-            {
-                return new NullableInt16((short) value);
-            }
-            else
-            {
-                return NullableInt16.Parse(value.ToString());
-            }
         }
     }
 }

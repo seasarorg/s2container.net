@@ -175,6 +175,40 @@
     <Compile Include="Seasar.Extension.ADO.Types\ValueTypes.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Extension.ADO.Types\NHibernateNullableInt16Type.cs" />
+    <Compile Include="Seasar.Extension.ADO.Types\NHibernateNullableInt64Type.cs" />
+    <Compile Include="Seasar.Extension.ADO.Types\NHibernateNullableInt32Type.cs" />
+    <Compile Include="Seasar.Extension.ADO.Types\NHibernateNullableCharType.cs" />
+    <Compile Include="Seasar.Extension.ADO.Types\NHibernateNullableByteType.cs" />
+    <Compile Include="Seasar.Extension.ADO.Types\NHibernateNullableSByteType.cs" />
+    <Compile Include="Seasar.Extension.ADO.Types\NHibernateNullableSingleType.cs" />
+    <Compile Include="Seasar.Extension.ADO.Types\NHibernateNullableDoubleType.cs" />
+    <Compile Include="Seasar.Extension.ADO.Types\NHibernateNullableDecimalType.cs" />
+    <Compile Include="Seasar.Extension.ADO.Types\NHibernateNullableDateTimeType.cs" />
+    <Compile Include="Seasar.Extension.ADO.Types\NHibernateNullableBooleanType.cs" />
+    <Compile Include="Seasar.Extension.ADO.Types\NHibernateNullableGuidType.cs" />
+    <Compile Include="Seasar.Extension.ADO.Types\SqlStringType.cs" />
+    <Compile Include="Seasar.Extension.ADO.Types\SqlByteType.cs" />
+    <Compile Include="Seasar.Extension.ADO.Types\SqlInt16Type.cs" />
+    <Compile Include="Seasar.Extension.ADO.Types\SqlInt32Type.cs" />
+    <Compile Include="Seasar.Extension.ADO.Types\SqlInt64Type.cs" />
+    <Compile Include="Seasar.Extension.ADO.Types\SqlSingleType.cs" />
+    <Compile Include="Seasar.Extension.ADO.Types\SqlDoubleType.cs" />
+    <Compile Include="Seasar.Extension.ADO.Types\SqlDecimalType.cs" />
+    <Compile Include="Seasar.Extension.ADO.Types\SqlDateTimeType.cs" />
+    <Compile Include="Seasar.Extension.ADO.Types\SqlBooleanType.cs" />
+    <Compile Include="Seasar.Extension.ADO.Types\SqlGuidType.cs" />
+    <Compile Include="Seasar.Extension.ADO.Types\NullableByteType.cs" />
+    <Compile Include="Seasar.Extension.ADO.Types\NullableSByteType.cs" />
+    <Compile Include="Seasar.Extension.ADO.Types\NullableInt16Type.cs" />
+    <Compile Include="Seasar.Extension.ADO.Types\NullableInt32Type.cs" />
+    <Compile Include="Seasar.Extension.ADO.Types\NullableInt64Type.cs" />
+    <Compile Include="Seasar.Extension.ADO.Types\NullableSingleType.cs" />
+    <Compile Include="Seasar.Extension.ADO.Types\NullableDoubleType.cs" />
+    <Compile Include="Seasar.Extension.ADO.Types\NullableDecimalType.cs" />
+    <Compile Include="Seasar.Extension.ADO.Types\NullableBooleanType.cs" />
+    <Compile Include="Seasar.Extension.ADO.Types\NullableGuidType.cs" />
+    <Compile Include="Seasar.Extension.ADO.Types\NullableDateTimeType.cs" />
     <Compile Include="Seasar.Extension.ADO\ColumnNotFoundRuntimeException.cs">
       <SubType>Code</SubType>
     </Compile>

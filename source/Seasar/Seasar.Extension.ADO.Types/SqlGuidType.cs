@@ -18,20 +18,21 @@
 
 using System;
 using System.Data;
+using System.Data.SqlTypes;
 
 namespace Seasar.Extension.ADO.Types
 {
-    public class DoubleType : BaseValueType, IValueType
-    {
-        public DoubleType()
-        {
+	public class SqlGuidType : BaseValueType, IValueType
+	{
+		public SqlGuidType()
+		{
         }
 
         #region IValueType ÉÅÉìÉo
 
 		public override void BindValue(IDbCommand cmd, string columnName, object value)
         {
-            BindValue(cmd, columnName, value, DbType.Double);
+            BindValue(cmd, columnName, value, DbType.Guid);
         }
 
         #endregion
@@ -40,12 +41,24 @@ namespace Seasar.Extension.ADO.Types
 		{
 			if (value == DBNull.Value)
 			{
-				return null;
+				return Guid.Empty;
+			}
+			else if (value is Guid)
+			{
+				return (Guid) value;
+			}
+			else if (value is string)
+			{
+				return new Guid((string) value);
+			}
+			else if (value is byte[])
+			{
+				return new Guid((byte[]) value);
 			}
 			else
 			{
-				return Convert.ToDouble(value);
+				return new Guid(value.ToString());
 			}
-        }
+		}
     }
 }

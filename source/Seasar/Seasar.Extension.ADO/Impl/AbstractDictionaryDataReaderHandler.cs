@@ -35,8 +35,7 @@ namespace Seasar.Extension.ADO.Impl
 			{
 				object value = propertyTypes[i].ValueType.GetValue(
 					reader,
-					i,
-					propertyTypes[i].PropertyType
+					i
 					);
 				row.Add(propertyTypes[i].PropertyName, value);
 			}

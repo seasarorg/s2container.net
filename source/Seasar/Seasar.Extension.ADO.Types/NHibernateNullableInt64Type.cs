@@ -18,12 +18,13 @@
 
 using System;
 using System.Data;
+using Nullables;
 
 namespace Seasar.Extension.ADO.Types
 {
-    public class DoubleType : BaseValueType, IValueType
+    public class NHibernateNullableInt64Type : BaseValueType, IValueType
     {
-        public DoubleType()
+		public NHibernateNullableInt64Type()
         {
         }
 
@@ -31,7 +32,7 @@ namespace Seasar.Extension.ADO.Types
 
 		public override void BindValue(IDbCommand cmd, string columnName, object value)
         {
-            BindValue(cmd, columnName, value, DbType.Double);
+            BindValue(cmd, columnName, value, DbType.Int64);
         }
 
         #endregion
@@ -42,9 +43,13 @@ namespace Seasar.Extension.ADO.Types
 			{
 				return null;
 			}
+			else if (value is long)
+			{
+				return new NullableInt64((long) value);
+			}
 			else
 			{
-				return Convert.ToDouble(value);
+				return NullableInt64.Parse(value.ToString());
 			}
         }
     }

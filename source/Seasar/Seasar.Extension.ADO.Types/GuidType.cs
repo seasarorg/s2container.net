@@ -18,8 +18,6 @@
 
 using System;
 using System.Data;
-using System.Data.SqlTypes;
-using Nullables;
 
 namespace Seasar.Extension.ADO.Types
 {
@@ -31,45 +29,15 @@ namespace Seasar.Extension.ADO.Types
 
         #region IValueType ÉÅÉìÉo
 
-        public object GetValue(IDataReader reader, int index, Type type)
-        {
-            return GetValue(reader[index], type);
-        }
-
-        public object GetValue(IDataReader reader, string columnName, Type type)
-        {
-            return GetValue(reader[columnName], type);
-        }
-
-        public void BindValue(IDbCommand cmd, string columnName, object value)
+		public override void BindValue(IDbCommand cmd, string columnName, object value)
         {
             BindValue(cmd, columnName, value, DbType.Guid);
         }
 
         #endregion
 
-        protected override object GetValue(object value, Type type)
-        {
-            if(typeof(Guid).Equals(type))
-            {
-                return GetGuidValue(value);
-            }
-            else if(typeof(SqlGuid).Equals(type))
-            {
-                return GetSqlGuidValue(value);
-            }
-            else if(typeof(NullableGuid).Equals(type))
-            {
-                return GetNullableGuid(value);
-            }
-            else
-            {
-                return value;
-            }
-        }
-
-		private object GetGuidValue(object value)
-        {
+		protected override object GetValue(object value)
+		{
             if(value == DBNull.Value)
             {
                 return Guid.Empty;
@@ -89,50 +57,6 @@ namespace Seasar.Extension.ADO.Types
             else
             {
                 return new Guid(value.ToString());
-            }
-        }
-
-		private object GetSqlGuidValue(object value)
-        {
-            if(value == DBNull.Value)
-            {
-                return SqlGuid.Null;
-            }
-            else if(value is Guid)
-            {
-                return new SqlGuid((Guid) value);
-            }
-            else if(value is string)
-            {
-                return new SqlGuid((string) value);
-            }
-            else if(value is byte[])
-            {
-                return new SqlGuid((byte[]) value);
-            }
-            else
-            {
-                return SqlGuid.Parse(value.ToString());
-            }
-        }
-
-		private object GetNullableGuid(object value)
-        {
-            if(value == DBNull.Value)
-            {
-                return null;
-            }
-            else if(value is Guid)
-            {
-                return new NullableGuid((Guid) value);
-            }
-            else if(value is string)
-            {
-                return new NullableGuid((string) value);
-            }
-            else
-            {
-                return new NullableGuid(value.ToString());
             }
         }
     }

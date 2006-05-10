@@ -18,8 +18,6 @@
 
 using System;
 using System.Data;
-using System.Data.SqlTypes;
-using Nullables;
 
 namespace Seasar.Extension.ADO.Types
 {
@@ -31,45 +29,15 @@ namespace Seasar.Extension.ADO.Types
 
         #region IValueType ÉÅÉìÉo
 
-        public object GetValue(IDataReader reader, int index, Type type)
-        {
-            return GetValue(reader[index], type);
-        }
-
-        public object GetValue(IDataReader reader, string columnName, Type type)
-        {
-            return GetValue(reader[columnName], type);
-        }
-
-        public void BindValue(IDbCommand cmd, string columnName, object value)
+		public override void BindValue(IDbCommand cmd, string columnName, object value)
         {
             BindValue(cmd, columnName, value, DbType.Byte);
         }
 
         #endregion
 
-        protected override object GetValue(object value, Type type)
-        {
-            if(typeof(byte).Equals(type))
-            {
-                return GetPrimitiveValue(value);
-            }
-            else if(typeof(SqlByte).Equals(type))
-            {
-                return GetSqlByteValue(value);
-            }
-            else if(typeof(NullableByte).Equals(type))
-            {
-                return GetNullableByteValue(value);
-            }
-            else
-            {
-                return value;
-            }
-        }
-
-		private object GetPrimitiveValue(object value)
-        {
+		protected override object GetValue(object value)
+		{
 			if (value == DBNull.Value)
 			{
 				return null;
@@ -78,38 +46,6 @@ namespace Seasar.Extension.ADO.Types
 			{
 				return Convert.ToByte(value);
 			}
-        }
-
-		private object GetSqlByteValue(object value)
-        {
-            if(value == DBNull.Value)
-            {
-                return SqlByte.Null;
-            }
-            if(value is byte)
-            {
-                return new SqlByte((byte) value);
-            }
-            else
-            {
-                return SqlByte.Parse(value.ToString());
-            }
-        }
-
-		private object GetNullableByteValue(object value)
-        {
-            if(value == DBNull.Value)
-            {
-                return null;
-            }
-            if(value is byte)
-            {
-                return new NullableByte((byte) value);
-            }
-            else
-            {
-                return NullableByte.Parse(value.ToString());
-            }
         }
     }
 }

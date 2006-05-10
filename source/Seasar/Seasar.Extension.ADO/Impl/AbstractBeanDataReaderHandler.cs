@@ -69,7 +69,7 @@ namespace Seasar.Extension.ADO.Impl
 			{
 				IPropertyType pt = propertyTypes[i];
 				IValueType valueType = pt.ValueType;
-				object value = valueType.GetValue(dataReader, pt.ColumnName, pt.PropertyInfo.PropertyType);
+				object value = valueType.GetValue(dataReader, pt.ColumnName);
 				PropertyInfo pi = pt.PropertyInfo;
 				pi.SetValue(row, value, null);
 			}

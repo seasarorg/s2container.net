@@ -18,8 +18,6 @@
 
 using System;
 using System.Data;
-using System.Data.SqlTypes;
-using Nullables;
 
 namespace Seasar.Extension.ADO.Types
 {
@@ -31,45 +29,15 @@ namespace Seasar.Extension.ADO.Types
 
         #region IValueType ÉÅÉìÉo
 
-        public object GetValue(IDataReader reader, int index, Type type)
-        {
-            return GetValue(reader[index], type);
-        }
-
-        public object GetValue(IDataReader reader, string columnName, Type type)
-        {
-            return GetValue(reader[columnName], type);
-        }
-
-        public void BindValue(IDbCommand cmd, string columnName, object value)
+		public override void BindValue(IDbCommand cmd, string columnName, object value)
         {
             BindValue(cmd, columnName, value, DbType.DateTime);
         }
 
         #endregion
 
-        protected override object GetValue(object value, Type type)
-        {
-            if(typeof(DateTime).Equals(type))
-            {
-                return GetPrimitiveValue(value);
-            }
-            else if(typeof(SqlDateTime).Equals(type))
-            {
-                return GetSqlDateTimeValue(value);
-            }
-            else if(typeof(NullableDateTime).Equals(type))
-            {
-                return GetNullableDateTimeValue(value);
-            }
-            else
-            {
-                return value;
-            }
-        }
-
-		private object GetPrimitiveValue(object value)
-        {
+		protected override object GetValue(object value)
+		{
 			if (value == DBNull.Value)
 			{
 				return null;
@@ -78,38 +46,6 @@ namespace Seasar.Extension.ADO.Types
 			{
 				return Convert.ToDateTime(value);
 			}
-        }
-
-		private object GetSqlDateTimeValue(object value)
-        {
-            if(value == DBNull.Value)
-            {
-                return SqlDateTime.Null;
-            }
-            else if(value is DateTime)
-            {
-                return new SqlDateTime((DateTime) value);
-            }
-            else
-            {
-                return SqlDateTime.Parse(value.ToString());
-            }
-        }
-
-		private object GetNullableDateTimeValue(object value)
-        {
-            if(value == DBNull.Value)
-            {
-                return null;
-            }
-            else if(value is DateTime)
-            {
-                return new NullableDateTime((DateTime) value);
-            }
-            else
-            {
-                return NullableDateTime.Parse(value.ToString());
-            }
         }
     }
 }

@@ -18,12 +18,13 @@
 
 using System;
 using System.Data;
+using Nullables;
 
 namespace Seasar.Extension.ADO.Types
 {
-    public class DoubleType : BaseValueType, IValueType
+    public class NHibernateNullableDoubleType : BaseValueType, IValueType
     {
-        public DoubleType()
+		public NHibernateNullableDoubleType()
         {
         }
 
@@ -42,10 +43,14 @@ namespace Seasar.Extension.ADO.Types
 			{
 				return null;
 			}
+			else if (value is double)
+			{
+				return new NullableDouble((double) value);
+			}
 			else
 			{
-				return Convert.ToDouble(value);
+				return NullableDouble.Parse(value.ToString());
 			}
-        }
+		}
     }
 }

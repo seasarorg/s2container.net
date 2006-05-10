@@ -18,8 +18,6 @@
 
 using System;
 using System.Data;
-using System.Data.SqlTypes;
-using Nullables;
 
 namespace Seasar.Extension.ADO.Types
 {
@@ -31,83 +29,23 @@ namespace Seasar.Extension.ADO.Types
 
         #region IValueType ÉÅÉìÉo
 
-        public object GetValue(IDataReader reader, int index, Type type)
-        {
-            return GetValue(reader[index], type);
-        }
-
-        public object GetValue(IDataReader reader, string columnName, Type type)
-        {
-            return GetValue(reader[columnName], type);
-        }
-
-        public void BindValue(IDbCommand cmd, string columnName, object value)
+		public override void BindValue(IDbCommand cmd, string columnName, object value)
         {
             BindValue(cmd, columnName, value, DbType.Binary);
         }
 
         #endregion
 
-        protected override object GetValue(object value, Type type)
+        protected override object GetValue(object value)
         {
-            if(ValueTypes.BYTE_ARRAY_TYPE.Equals(type))
-            {
-                return GetPrimitiveValue(value);
-            }
-            else if(typeof(SqlBinary).Equals(type))
-            {
-                return GetSqlBinaryValue(value);
-            }
-            else if(ValueTypes.NULLABLE_BYTE_ARRAY_TYPE.Equals(type))
-            {
-                return GetNullableByteArrayValue(value);
-            }
-            else
-            {
-                return value;
-            }
-        }
-
-		private object GetPrimitiveValue(object value)
-        {
-            if(value == DBNull.Value)
-            {
-                return null;
-            }
-            else
-            {
-                return (byte[]) value;
-            }
-        }
-
-		private object GetSqlBinaryValue(object value)
-        {
-            if(value == DBNull.Value)
-            {
-                return SqlBinary.Null;
-            }
-            else
-            {
-                return new SqlBinary((byte[]) value);
-            }
-        }
-
-		private object GetNullableByteArrayValue(object value)
-        {
-            if(value == DBNull.Value)
-            {
-                return null;
-            }
-            else
-            {
-                byte[] bytes = (byte[]) value;
-                NullableByte[] nBytes = new NullableByte[bytes.Length];
-                for(int i = 0; i < bytes.Length; ++i)
-                {
-                    nBytes[i] = new NullableByte(bytes[i]);
-                }
-                return nBytes;
-            }
-        }
+			if (value == DBNull.Value)
+			{
+				return null;
+			}
+			else
+			{
+				return (byte[]) value;
+			}
+		}
     }
 }

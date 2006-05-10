@@ -68,7 +68,7 @@ namespace Seasar.Extension.DataSets.Impl
 		private object GetValue(System.Data.IDataReader reader, int index, IPropertyType[] propertyTypes)
 		{
 			Type type = propertyTypes[index].PropertyType;
-			object value = propertyTypes[index].ValueType.GetValue(reader, index, type);
+			object value = propertyTypes[index].ValueType.GetValue(reader, index);
 			if (value == null)
 			{
 				return DBNull.Value;
