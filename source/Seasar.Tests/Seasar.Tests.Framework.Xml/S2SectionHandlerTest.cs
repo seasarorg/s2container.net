@@ -20,7 +20,7 @@ using System;
 using NUnit.Framework;
 using Seasar.Framework.Xml;
 
-namespace TestSeasar.Framework.Xml
+namespace Seasar.Tests.Framework.Xml
 {
 	/// <summary>
 	/// S2SectionHandlerTest ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
@@ -34,7 +34,7 @@ namespace TestSeasar.Framework.Xml
 			S2Section section = S2SectionHandler.GetS2Section();
 
 			Assert.AreEqual("test.dicon", section.ConfigPath);
-			Assert.AreEqual(2, section.Assemblys.Count);
+			Assert.AreEqual(3, section.Assemblys.Count);
 			Assert.AreEqual("Seasar.Tests", (string) section.Assemblys[0]);
 			Assert.AreEqual("Seasar", (string) section.Assemblys[1]);
 		}

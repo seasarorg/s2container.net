@@ -24,7 +24,7 @@ using Seasar.Framework.Container;
 using Seasar.Framework.Container.Impl;
 using Seasar.Framework.Container.Factory;
 
-namespace TestSeasar.Extension.ADO
+namespace Seasar.Tests.Extension.ADO
 {
 	/// <summary>
 	/// テストを実行するためには、s2-dotnet/data/setUpDemo.batを実行し、

@@ -23,7 +23,7 @@ using System.Web;
 using System.Web.Hosting;
 using NUnit.Framework;
 
-namespace TestSeasar.Framework.Container.Deployer
+namespace Seasar.Tests.Framework.Container.Deployer
 {
 	/// <summary>
 	/// SessionComponentDeployerTest ‚ÌŠT—v‚Ìà–¾‚Å‚·B

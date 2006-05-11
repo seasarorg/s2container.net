@@ -9,7 +9,7 @@
 		<aspect>traceInterceptor</aspect>
 	</component>
 		
-	<component class="TestSeasar.Framework.Container.Factory.AspectTagHandlerTest+FooImpl">
+	<component class="Seasar.Tests.Framework.Container.Factory.AspectTagHandlerTest+FooImpl">
 		<aspect pointcut="Time, GetHashCode">traceInterceptor</aspect>
 	</component>
 

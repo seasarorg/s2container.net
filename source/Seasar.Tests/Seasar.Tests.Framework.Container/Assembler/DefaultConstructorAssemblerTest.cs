@@ -31,7 +31,7 @@ using log4net.Util;
 
 using Seasar.Framework.Log;
 
-namespace TestSeasar.Framework.Container.Assembler
+namespace Seasar.Tests.Framework.Container.Assembler
 {
 	
 	/// <summary>

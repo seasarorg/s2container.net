@@ -30,7 +30,7 @@ using log4net;
 using log4net.Config;
 using log4net.Util;
 
-namespace TestSeasar.Framework.Container.Deployer
+namespace Seasar.Tests.Framework.Container.Deployer
 {
 	/// <summary>
 	/// SingletonComponentDeployerTest ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
@@ -116,6 +116,7 @@ namespace TestSeasar.Framework.Container.Deployer
 
 			IComponentDeployer deployer = new SingletonComponentDeployer(cd);
 			ICulc culc = (ICulc) deployer.Deploy(typeof(ICulc));
+            PlusOneInterceptor.Count = 0;
 			Assert.AreEqual(1, culc.Count());
 		}
 

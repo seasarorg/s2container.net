@@ -25,7 +25,7 @@ using log4net;
 using log4net.Config;
 using log4net.Util;
 
-namespace TestSeasar.Framework.Log
+namespace Seasar.Tests.Framework.Log
 {
 	/// <summary>
 	/// LoggerTest ‚ÌŠT—v‚Ìà–¾‚Å‚·B

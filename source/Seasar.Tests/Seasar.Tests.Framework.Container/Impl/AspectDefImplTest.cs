@@ -22,7 +22,7 @@ using Seasar.Framework.Aop.Interceptors;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Impl;
 
-namespace TestSeasar.Framework.Container.Impl
+namespace Seasar.Tests.Framework.Container.Impl
 {
 	/// <summary>
 	/// AspectDefImplTest ‚ÌŠT—v‚Ìà–¾‚Å‚·B

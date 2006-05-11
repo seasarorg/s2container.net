@@ -21,7 +21,7 @@ using System.Collections;
 using NUnit.Framework;
 using Seasar.Framework.Xml;
 
-namespace TestSeasar.Framework.Xml
+namespace Seasar.Tests.Framework.Xml
 {
 	/// <summary>
 	/// TagHandlerContextTest ‚ÌŠT—v‚Ìà–¾‚Å‚·B

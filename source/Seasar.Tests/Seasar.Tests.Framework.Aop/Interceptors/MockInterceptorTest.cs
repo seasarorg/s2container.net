@@ -26,7 +26,7 @@ using Seasar.Framework.Aop.Proxy;
 using NUnit.Framework;
 
 
-namespace TestSeasar.Framework.Aop.Interceptors
+namespace Seasar.Tests.Framework.Aop.Interceptors
 {
 	/// <summary>
 	/// MockInterceptorTest ‚ÌŠT—v‚Ìà–¾‚Å‚·B

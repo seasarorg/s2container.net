@@ -30,7 +30,7 @@ using log4net;
 using log4net.Config;
 using log4net.Util;
 
-namespace TestSeasar.Framework.Container.Assembler
+namespace Seasar.Tests.Framework.Container.Assembler
 {
 	/// <summary>
 	/// ManualConstructorAssemblerTest ‚ÌŠT—v‚Ìà–¾‚Å‚·B

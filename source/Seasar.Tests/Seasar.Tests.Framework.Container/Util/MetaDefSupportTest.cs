@@ -22,7 +22,7 @@ using Seasar.Framework.Container;
 using Seasar.Framework.Container.Impl;
 using Seasar.Framework.Container.Util;
 
-namespace TestSeasar.Framework.Container.Util
+namespace Seasar.Tests.Framework.Container.Util
 {
 	/// <summary>
 	/// MetaDefSupportTest ‚ÌŠT—v‚Ìà–¾‚Å‚·B

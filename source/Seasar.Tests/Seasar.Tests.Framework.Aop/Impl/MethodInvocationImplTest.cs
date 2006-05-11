@@ -22,7 +22,7 @@ using Seasar.Framework.Aop.Impl;
 using Seasar.Framework.Aop.Proxy;
 using NUnit.Framework;
 
-namespace TestSeasar.Framework.Aop.Impl
+namespace Seasar.Tests.Framework.Aop.Impl
 {
 	/// <summary>
 	/// MethodInvocationImplTest ‚ÌŠT—v‚Ìà–¾‚Å‚·B
