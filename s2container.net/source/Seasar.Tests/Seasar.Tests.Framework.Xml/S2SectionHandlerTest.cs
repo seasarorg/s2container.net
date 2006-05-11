@@ -20,7 +20,7 @@ using System;
 using NUnit.Framework;
 using Seasar.Framework.Xml;
 
-namespace TestSeasar.Framework.Xml
+namespace Seasar.Tests.Framework.Xml
 {
 	/// <summary>
 	/// S2SectionHandlerTest ‚ÌŠT—v‚Ìà–¾‚Å‚·B

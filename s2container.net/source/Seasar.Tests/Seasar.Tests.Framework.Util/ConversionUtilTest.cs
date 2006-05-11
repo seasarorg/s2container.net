@@ -22,7 +22,7 @@ using NUnit.Framework;
 using Seasar.Framework.Util;
 using Nullables;
 
-namespace TestSeasar.Framework.Util
+namespace Seasar.Tests.Framework.Util
 {
     [TestFixture]
 	public class ConversionUtilTest

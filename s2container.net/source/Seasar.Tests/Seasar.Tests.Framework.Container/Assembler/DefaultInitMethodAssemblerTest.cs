@@ -24,7 +24,7 @@ using Seasar.Framework.Container;
 using Seasar.Framework.Container.Assembler;
 using Seasar.Framework.Container.Impl;
 
-namespace TestSeasar.Framework.Container.Assembler
+namespace Seasar.Tests.Framework.Container.Assembler
 {
 	/// <summary>
 	/// DefaultInitMethodAssemblerTest ‚ÌŠT—v‚Ìà–¾‚Å‚·B

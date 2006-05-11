@@ -32,7 +32,7 @@ using log4net.Util;
 
 using NUnit.Framework;
 
-namespace TestSeasar.Extension.Tx.Impl
+namespace Seasar.Tests.Extension.Tx.Impl
 {
 	/// <summary>
 	/// LocalNotSupportedInterceptorTest ‚ÌŠT—v‚Ìà–¾‚Å‚·B

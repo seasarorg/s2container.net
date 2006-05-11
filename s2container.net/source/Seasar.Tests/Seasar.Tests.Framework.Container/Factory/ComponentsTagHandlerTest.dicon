@@ -2,5 +2,5 @@
 <!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
 "http://www.seasar.org/dtd/components21.dtd">
 <components namespace="aaa">
-	<component name="bbb" class="TestSeasar.Framework.Container.Factory.ComponentsTagHandlerTest+A" />
+	<component name="bbb" class="Seasar.Tests.Framework.Container.Factory.ComponentsTagHandlerTest+A" />
 </components>

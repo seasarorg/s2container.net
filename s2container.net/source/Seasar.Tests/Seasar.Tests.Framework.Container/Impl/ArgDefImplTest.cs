@@ -21,7 +21,7 @@ using NUnit.Framework;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Impl;
 
-namespace TestSeasar.Framework.Container.Impl
+namespace Seasar.Tests.Framework.Container.Impl
 {
 	/// <summary>
 	/// ArgDefImplTest ‚ÌŠT—v‚Ìà–¾‚Å‚·B

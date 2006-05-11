@@ -23,7 +23,7 @@ using Seasar.Framework.Aop.Impl;
 using Seasar.Framework.Aop.Proxy;
 using Seasar.Framework.Aop.Interceptors;
 
-namespace TestSeasar.Framework.Aop.Proxy
+namespace Seasar.Tests.Framework.Aop.Proxy
 {
 	/// <summary>
 	/// AopProxyTest ‚ÌŠT—v‚Ìà–¾‚Å‚·B

@@ -22,7 +22,7 @@ using System.Reflection;
 using Seasar.Framework.Util;
 using Seasar.Framework.Exceptions;
 
-namespace TestSeasar.Framework.Util
+namespace Seasar.Tests.Framework.Util
 {
 	/// <summary>
 	/// ClassUtilTest ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
@@ -54,7 +54,7 @@ namespace TestSeasar.Framework.Util
 		{
 			Assembly asm = Assembly.GetExecutingAssembly();
 			Assert.AreEqual(typeof(A), ClassUtil.ForName(
-				"TestSeasar.Framework.Util.ClassUtilTest+A",
+				"Seasar.Tests.Framework.Util.ClassUtilTest+A",
 				new Assembly[] {asm}));
 		}
 
@@ -68,7 +68,7 @@ namespace TestSeasar.Framework.Util
 		public void TestNewInstance2()
 		{
 			Assert.IsNotNull(ClassUtil.NewInstance(
-				"TestSeasar.Framework.Util.ClassUtilTest+B",
+				"Seasar.Tests.Framework.Util.ClassUtilTest+B",
 				"Seasar.Tests.dll"));
 		}
 

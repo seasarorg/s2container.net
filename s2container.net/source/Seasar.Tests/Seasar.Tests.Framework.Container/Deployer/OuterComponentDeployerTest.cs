@@ -23,7 +23,7 @@ using Seasar.Framework.Container;
 using Seasar.Framework.Container.Deployer;
 using Seasar.Framework.Container.Impl;
 
-namespace TestSeasar.Framework.Container.Deployer
+namespace Seasar.Tests.Framework.Container.Deployer
 {
 	/// <summary>
 	/// OuterComponentDeployerTest ‚ÌŠT—v‚Ìà–¾‚Å‚·B

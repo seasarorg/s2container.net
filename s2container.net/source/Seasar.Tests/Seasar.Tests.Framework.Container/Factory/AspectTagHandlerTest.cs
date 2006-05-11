@@ -27,7 +27,7 @@ using log4net;
 using log4net.Config;
 using log4net.Util;
 
-namespace TestSeasar.Framework.Container.Factory
+namespace Seasar.Tests.Framework.Container.Factory
 {
 	/// <summary>
 	/// AspectTagHandlerTest ‚ÌŠT—v‚Ìà–¾‚Å‚·B

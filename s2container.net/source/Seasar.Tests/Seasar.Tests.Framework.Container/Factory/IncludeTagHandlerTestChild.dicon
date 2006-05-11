@@ -3,7 +3,7 @@
 "http://www.seasar.org/dtd/components21.dtd">
 <components namespace="child">
 	<include path="Seasar/Tests/Framework/Container/Factory/IncludeTagHandlerTestGrandChild.dicon" />
-	<component class="TestSeasar.Framework.Container.Factory.IncludeTagHandlerTest+A">
+	<component class="Seasar.Tests.Framework.Container.Factory.IncludeTagHandlerTest+A">
 		<property name="Time">314</property>
 	</component>
 </components>

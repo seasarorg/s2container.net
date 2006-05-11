@@ -26,7 +26,7 @@ using Seasar.Framework.Container.Assembler;
 using Seasar.Framework.Container.Impl;
 using Seasar.Framework.Exceptions;
 
-namespace TestSeasar.Framework.Container.Assembler
+namespace Seasar.Tests.Framework.Container.Assembler
 {
 	/// <summary>
 	/// ManualPropertyAssemblerTest ‚ÌŠT—v‚Ìà–¾‚Å‚·B

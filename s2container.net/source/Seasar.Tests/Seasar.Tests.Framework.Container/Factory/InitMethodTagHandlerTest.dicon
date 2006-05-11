@@ -10,7 +10,7 @@
 		<initMethod>self.Add("bbb", 222)</initMethod>
 	</component>
 	<component class="System.Collections.ArrayList"/>
-	<component name="bbb" class="TestSeasar.Framework.Container.Factory.InitMethodTagHandlerTest+Bbb">
+	<component name="bbb" class="Seasar.Tests.Framework.Container.Factory.InitMethodTagHandlerTest+Bbb">
 		
 		<initMethod name="Value"/>
 		<initMethod>out.WriteLine("Hello")</initMethod>

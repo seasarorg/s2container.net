@@ -37,7 +37,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
 			Include(PATH);
 		}
 
-		[Test, S2(Tx.Rollback)]
+		[Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
 		public void Handle()
 		{
 			IDataReaderHandler handler = new BeanDataReaderHandler(typeof(Employee));
@@ -65,7 +65,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
 			Include(PATH);
 		}
 
-		[Test, S2(Tx.Rollback)]
+		[Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
 		public void Handle2()
 		{
 			IDataReaderHandler handler = new BeanDataReaderHandler(typeof(Employee));

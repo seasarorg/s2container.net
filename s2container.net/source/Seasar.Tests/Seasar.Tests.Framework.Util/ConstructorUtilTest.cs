@@ -21,7 +21,7 @@ using System.Reflection;
 using NUnit.Framework;
 using Seasar.Framework.Util;
 
-namespace TestSeasar.Framework.Util
+namespace Seasar.Tests.Framework.Util
 {
 	/// <summary>
 	/// ConstructorUtilTest ‚ÌŠT—v‚Ìà–¾‚Å‚·B

@@ -20,7 +20,7 @@ using System;
 using NUnit.Framework;
 using Seasar.Framework.Exceptions;
 
-namespace TestSeasar.Framework.Exceptions
+namespace Seasar.Tests.Framework.Exceptions
 {
 	/// <summary>
 	/// SRuntimeExceptionTest ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
@@ -29,7 +29,7 @@ namespace TestSeasar.Framework.Exceptions
 	public class SRuntimeExceptionTest
 	{
 		[Test]
-		public void TestSeasarTuntimeException()
+		public void TestSRuntimeException()
 		{
 			SRuntimeException ex = new SRuntimeException("ESSR0001", new object[] { "hoge" });
 			Assert.AreEqual("ESSR0001", ex.MessageCode);

@@ -22,7 +22,7 @@ using Seasar.Framework.Container.Assembler;
 using Seasar.Framework.Container.Impl;
 using NUnit.Framework;
 
-namespace TestSeasar.Framework.Container.Assembler
+namespace Seasar.Tests.Framework.Container.Assembler
 {
 	/// <summary>
 	/// ExpressionConstructorAssemblerTest ‚ÌŠT—v‚Ìà–¾‚Å‚·B

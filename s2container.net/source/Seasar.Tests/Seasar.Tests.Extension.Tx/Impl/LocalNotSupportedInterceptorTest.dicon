@@ -4,7 +4,7 @@
 <components>
 	<include path="Ado.dicon" />
 	
-	<component class="TestSeasar.Extension.Tx.Impl.LocalTxTest">
+	<component class="Seasar.Tests.Extension.Tx.Impl.LocalTxTest">
 		<aspect>NotSupportedTx</aspect>
 	</component>
 
