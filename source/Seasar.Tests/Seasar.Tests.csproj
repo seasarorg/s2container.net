@@ -1,4 +1,4 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+�ｻｿ<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
     <ProductVersion>8.0.50727</ProductVersion>
@@ -74,6 +74,7 @@
     <WarningLevel>4</WarningLevel>
     <DebugType>none</DebugType>
     <ErrorReport>prompt</ErrorReport>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net">
@@ -111,6 +112,10 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
+    <ProjectReference Include="..\Seasar.DynamicProxy\Seasar.DynamicProxy.csproj">
+      <Project>{063DED73-CA16-4038-904D-5A18A630843D}</Project>
+      <Name>Seasar.DynamicProxy</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Seasar.Unit\Seasar.Unit.csproj">
       <Name>Seasar.Unit</Name>
       <Project>{FC3A021B-6288-4C34-8303-544640D22FDA}</Project>
@@ -172,6 +177,7 @@
     <EmbeddedResource Include="Seasar.Tests.Extension.Tx\Impl\RequiresNewInterceptorTest.dicon" />
     <EmbeddedResource Include="Seasar.Tests.Extension.Tx\Impl\NotSupportedInterceptorTest.dicon" />
     <None Include="Seasar.Tests.Extension.Unit\testdata.xls" />
+    <EmbeddedResource Include="Seasar.Tests.Framework.Aop\Proxy\proxy.dicon" />
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -287,6 +293,7 @@
     <Compile Include="Seasar.Tests.Framework.Aop\Proxy\AopProxyTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Tests.Framework.Aop\Proxy\DynamicAopProxyTest.cs" />
     <Compile Include="Seasar.Tests.Framework.Container\Assembler\AutoConstructorAssemblerTest.cs">
       <SubType>Code</SubType>
     </Compile>
