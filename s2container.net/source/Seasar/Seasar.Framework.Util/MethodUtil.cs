@@ -23,9 +23,6 @@ using Seasar.Framework.Exceptions;
 
 namespace Seasar.Framework.Util
 {
-	/// <summary>
-	/// MethodUtil ‚ÌŠT—v‚Ìà–¾‚Å‚·B
-	/// </summary>
 	public sealed class MethodUtil
 	{
 		private MethodUtil()

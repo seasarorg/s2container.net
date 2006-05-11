@@ -22,9 +22,6 @@ using Seasar.Framework.Exceptions;
 
 namespace Seasar.Framework.Util
 {
-	/// <summary>
-	/// ConstructorUtil ‚ÌŠT—v‚Ìà–¾‚Å‚·B
-	/// </summary>
 	public sealed class ConstructorUtil
 	{
 		private ConstructorUtil()

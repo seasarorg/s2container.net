@@ -25,9 +25,6 @@ using Seasar.Framework.Log;
 
 namespace Seasar.Framework.Util
 {
-	/// <summary>
-	/// DataSetInspector ‚ÌŠT—v‚Ìà–¾‚Å‚·B
-	/// </summary>
 	public class DataSetInspector
 	{
 		private static readonly Logger Log = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);

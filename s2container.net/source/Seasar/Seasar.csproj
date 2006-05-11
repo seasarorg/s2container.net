@@ -828,9 +828,6 @@
     <Compile Include="Seasar.Framework.Util\ParameterUtil.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Seasar.Framework.Util\PropertiesUtil.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Seasar.Framework.Util\ResourceNotFoundRuntimeException.cs">
       <SubType>Code</SubType>
     </Compile>
