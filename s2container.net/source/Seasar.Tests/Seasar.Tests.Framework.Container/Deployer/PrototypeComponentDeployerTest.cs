@@ -24,7 +24,7 @@ using Seasar.Framework.Container;
 using Seasar.Framework.Container.Deployer;
 using Seasar.Framework.Container.Impl;
 
-namespace TestSeasar.Framework.Container.Deployer
+namespace Seasar.Tests.Framework.Container.Deployer
 {
 	/// <summary>
 	/// PrototypeComponentDeployerTest ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
@@ -95,6 +95,7 @@ namespace TestSeasar.Framework.Container.Deployer
 
 			IComponentDeployer deployer = new PrototypeComponentDeployer(cd);
 			ICulc culc = (ICulc) deployer.Deploy(typeof(ICulc));
+            PlusOneInterceptor.Count = 0;
 			Assert.AreEqual(1, culc.Count());
 		}
 

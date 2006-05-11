@@ -20,7 +20,7 @@ using System;
 using NUnit.Framework;
 using Seasar.Framework.Container.Factory;
 
-namespace TestSeasar.Framework.Container.Factory
+namespace Seasar.Tests.Framework.Container.Factory
 {
 
 	/// <summary>

@@ -24,7 +24,7 @@ using NUnit.Framework;
 using Seasar.Framework.Xml;
 using Seasar.Framework.Util;
 
-namespace TestSeasar.Framework.Xml
+namespace Seasar.Tests.Framework.Xml
 {
 	/// <summary>
 	/// XmlHandlerTest ‚ÌŠT—v‚Ìà–¾‚Å‚·B

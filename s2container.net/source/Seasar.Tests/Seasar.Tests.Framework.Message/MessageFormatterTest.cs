@@ -24,7 +24,7 @@ using NUnit.Framework;
 
 using Seasar.Framework.Message;
 
-namespace TestSeasar.Framework.Message
+namespace Seasar.Tests.Framework.Message
 {
 	[TestFixture]
 	public class MessageFormatterTest

@@ -28,7 +28,7 @@ using log4net;
 using log4net.Config;
 using log4net.Util;
 
-namespace TestSeasar.Framework.Container.Impl
+namespace Seasar.Tests.Framework.Container.Impl
 {
 	/// <summary>
 	/// ComponentDefImplTest ‚ÌŠT—v‚Ìà–¾‚Å‚·B

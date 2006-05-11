@@ -21,7 +21,7 @@ using NUnit.Framework;
 using Seasar.Framework.Aop;
 using Seasar.Framework.Aop.Impl;
 
-namespace TestSeasar.Framework.Aop.Impl
+namespace Seasar.Tests.Framework.Aop.Impl
 {
 	/// <summary>
 	/// PointcutImplTest ‚ÌŠT—v‚Ìà–¾‚Å‚·B
