@@ -22,7 +22,7 @@ using System.Reflection;
 
 namespace Seasar.Framework.Util
 {
-	public class TextUtil
+	public sealed class TextUtil
 	{
 		private TextUtil()
 		{
