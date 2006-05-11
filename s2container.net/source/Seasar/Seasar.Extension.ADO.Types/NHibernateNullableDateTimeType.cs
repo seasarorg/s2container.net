@@ -18,12 +18,13 @@
 
 using System;
 using System.Data;
+using Nullables;
 
 namespace Seasar.Extension.ADO.Types
 {
-    public class DoubleType : BaseValueType, IValueType
+    public class NHibernateNullableDateTimeType : BaseValueType, IValueType
     {
-        public DoubleType()
+		public NHibernateNullableDateTimeType()
         {
         }
 
@@ -31,7 +32,7 @@ namespace Seasar.Extension.ADO.Types
 
 		public override void BindValue(IDbCommand cmd, string columnName, object value)
         {
-            BindValue(cmd, columnName, value, DbType.Double);
+            BindValue(cmd, columnName, value, DbType.DateTime);
         }
 
         #endregion
@@ -42,10 +43,14 @@ namespace Seasar.Extension.ADO.Types
 			{
 				return null;
 			}
+			else if (value is DateTime)
+			{
+				return new NullableDateTime((DateTime) value);
+			}
 			else
 			{
-				return Convert.ToDouble(value);
+				return NullableDateTime.Parse(value.ToString());
 			}
-        }
+		}
     }
 }

@@ -17,18 +17,40 @@
 #endregion
 
 using System;
+using System.Data;
+using System.Data.SqlTypes;
 
-namespace Seasar.Framework.Util
+namespace Seasar.Extension.ADO.Types
 {
-	/// <summary>
-	/// PropertiesUtil ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public sealed class PropertiesUtil
+	public class SqlByteType : BaseValueType, IValueType
 	{
-		private PropertiesUtil()
+		public SqlByteType()
 		{
+        }
+
+        #region IValueType ÉÅÉìÉo
+
+		public override void BindValue(IDbCommand cmd, string columnName, object value)
+        {
+            BindValue(cmd, columnName, value, DbType.Byte);
+        }
+
+        #endregion
+
+		protected override object GetValue(object value)
+		{
+			if (value == DBNull.Value)
+			{
+				return SqlByte.Null;
+			}
+			if (value is byte)
+			{
+				return new SqlByte((byte) value);
+			}
+			else
+			{
+				return SqlByte.Parse(value.ToString());
+			}
 		}
-
-
-	}
+    }
 }

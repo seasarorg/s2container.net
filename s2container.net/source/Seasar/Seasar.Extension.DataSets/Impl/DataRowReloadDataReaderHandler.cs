@@ -63,7 +63,7 @@ namespace Seasar.Extension.DataSets.Impl
 		{
 			for (int i = 0; i < propertyTypes.Length; ++i)
 			{
-				object value = propertyTypes[i].ValueType.GetValue(reader, i, propertyTypes[i].PropertyType);
+				object value = propertyTypes[i].ValueType.GetValue(reader, i);
 				if (value == null)
 				{
 					newRow_[i] = DBNull.Value;

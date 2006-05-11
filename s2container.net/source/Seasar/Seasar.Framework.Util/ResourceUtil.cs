@@ -22,9 +22,6 @@ using System.Reflection;
 
 namespace Seasar.Framework.Util
 {
-	/// <summary>
-	/// ResourceUtil ‚ÌŠT—v‚Ìà–¾‚Å‚·B
-	/// </summary>
 	public sealed class ResourceUtil
 	{
 		private ResourceUtil()

@@ -23,8 +23,16 @@ namespace Seasar.Extension.ADO
 {
     public interface IValueType
     {
-        object GetValue(IDataReader reader, int index, Type type);
-        object GetValue(IDataReader reader, string columnName, Type type);
-        void BindValue(IDbCommand cmd, string columnName, object value);
+		[Obsolete("GetValue(IDataReader, int)を使用してください。")]
+		object GetValue(IDataReader reader, int index, Type type);
+
+		[Obsolete("GetValue(IDataReader, string)を使用してください。")]
+		object GetValue(IDataReader reader, string columnName, Type type);
+
+		object GetValue(IDataReader reader, int index);
+
+		object GetValue(IDataReader reader, string columnName);
+
+		void BindValue(IDbCommand cmd, string columnName, object value);
     }
 }

@@ -23,13 +23,39 @@ using Seasar.Framework.Util;
 
 namespace Seasar.Extension.ADO.Types
 {
-    public abstract class BaseValueType
+	public abstract class BaseValueType : IValueType
     {
         public BaseValueType()
         {
         }
 
-        public void BindValue(IDbCommand cmd, string columnName, object value, DbType dbType)
+		#region IValueType ÉÅÉìÉo
+
+		public virtual object GetValue(IDataReader reader, int index, Type type)
+		{
+			return GetValue(reader[index]);
+		}
+
+		public virtual object GetValue(IDataReader reader, string columnName, Type type)
+		{
+			return GetValue(reader[columnName]);
+		}
+
+		public virtual object GetValue(IDataReader reader, int index)
+		{
+			return GetValue(reader[index]);
+		}
+
+		public virtual object GetValue(IDataReader reader, string columnName)
+		{
+			return GetValue(reader[columnName]);
+		}
+
+		public abstract void BindValue(IDbCommand cmd, string columnName, object value);
+
+		#endregion
+
+		public void BindValue(IDbCommand cmd, string columnName, object value, DbType dbType)
         {
 			BindVariableType vt = DataProviderUtil.GetBindVariableType(cmd);
             switch(vt)
@@ -101,6 +127,6 @@ namespace Seasar.Extension.ADO.Types
             }
         }
 
-        protected abstract object GetValue(object value, Type type);
+        protected abstract object GetValue(object value);
     }
 }

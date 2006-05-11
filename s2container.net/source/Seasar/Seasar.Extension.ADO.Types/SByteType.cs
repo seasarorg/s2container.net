@@ -18,7 +18,6 @@
 
 using System;
 using System.Data;
-using Nullables;
 
 namespace Seasar.Extension.ADO.Types
 {
@@ -30,41 +29,15 @@ namespace Seasar.Extension.ADO.Types
 
         #region IValueType ÉÅÉìÉo
 
-        public object GetValue(IDataReader reader, int index, Type type)
-        {
-            return GetValue(reader[index], type);
-        }
-
-        public object GetValue(IDataReader reader, string columnName, Type type)
-        {
-            return GetValue(reader[columnName], type);
-        }
-
-        public void BindValue(IDbCommand cmd, string columnName, object value)
+		public override void BindValue(IDbCommand cmd, string columnName, object value)
         {
             BindValue(cmd, columnName, value, DbType.SByte);
         }
 
         #endregion
 
-        protected override object GetValue(object value, Type type)
-        {
-            if(typeof(sbyte).Equals(type))
-            {
-                return GetPrimitiveValue(value);
-            }
-            else if(typeof(NullableSByte).Equals(type))
-            {
-                return GetNullableSByteValue(value);
-            }
-            else
-            {
-                return value;
-            }
-        }
-
-		private object GetPrimitiveValue(object value)
-        {
+		protected override object GetValue(object value)
+		{
 			if (value == DBNull.Value)
 			{
 				return null;
@@ -73,22 +46,6 @@ namespace Seasar.Extension.ADO.Types
 			{
 				return Convert.ToSByte(value);
 			}
-        }
-
-		private object GetNullableSByteValue(object value)
-        {
-            if(value == DBNull.Value)
-            {
-                return null;
-            }
-            else if(value is sbyte)
-            {
-                return new NullableSByte((sbyte) value);
-            }
-            else
-            {
-                return NullableSByte.Parse(value.ToString());
-            }
         }
     }
 }

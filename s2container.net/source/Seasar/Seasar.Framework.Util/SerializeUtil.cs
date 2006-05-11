@@ -22,10 +22,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Seasar.Framework.Util
 {
-	/// <summary>
-	/// SerializeUtil ‚ÌŠT—v‚Ìà–¾‚Å‚·B
-	/// </summary>
-	public class SerializeUtil
+	public sealed class SerializeUtil
 	{
 		private SerializeUtil()
 		{

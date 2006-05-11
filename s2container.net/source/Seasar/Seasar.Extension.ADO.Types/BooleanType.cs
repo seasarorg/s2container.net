@@ -18,8 +18,6 @@
 
 using System;
 using System.Data;
-using System.Data.SqlTypes;
-using Nullables;
 
 namespace Seasar.Extension.ADO.Types
 {
@@ -31,45 +29,15 @@ namespace Seasar.Extension.ADO.Types
 
         #region IValueType ÉÅÉìÉo
 
-        public object GetValue(IDataReader reader, int index, Type type)
-        {
-            return GetValue(reader[index], type);
-        }
-
-        public object GetValue(IDataReader reader, string columnName, Type type)
-        {
-            return GetValue(reader[columnName], type);
-        }
-
-        public void BindValue(IDbCommand cmd, string columnName, object value)
+		public override void BindValue(IDbCommand cmd, string columnName, object value)
         {
             BindValue(cmd, columnName, value, DbType.Boolean);
         }
 
         #endregion
 
-        protected override object GetValue(object value, Type type)
-        {
-            if(typeof(bool).Equals(type))
-            {
-                return GetPrimitiveValue(value);
-            }
-            else if(typeof(SqlBoolean).Equals(type))
-            {
-                return GetSqlBooleanValue(value);
-            }
-            else if(typeof(NullableBoolean).Equals(type))
-            {
-                return GetNullableBooleanValue(value);
-            }
-            else
-            {
-                return value;
-            }
-        }
-
-        private object GetPrimitiveValue(object value)
-        {
+		protected override object GetValue(object value)
+		{
 			if (value == DBNull.Value)
 			{
 				return null;
@@ -78,42 +46,6 @@ namespace Seasar.Extension.ADO.Types
 			{
 				return Convert.ToBoolean(value);
 			}
-        }
-
-        private object GetSqlBooleanValue(object value)
-        {
-            if(value == DBNull.Value)
-            {
-                return SqlBoolean.Null;
-            }
-            else if(value is int)
-            {
-                return new SqlBoolean((int) value);
-            }
-            else if(value is bool)
-            {
-                return new SqlBoolean((bool) value);
-            }
-            else
-            {
-                return SqlBoolean.Parse(value.ToString());
-            }
-        }
-
-        private object GetNullableBooleanValue(object value)
-        {
-            if(value == DBNull.Value)
-            {
-                return null;
-            }
-            else if(value is bool)
-            {
-                return new NullableBoolean((bool) value);
-            }
-            else
-            {
-                return NullableBoolean.Parse(value.ToString());
-            }
-        }
+		}
     }
 }

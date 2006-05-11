@@ -41,11 +41,37 @@ namespace Seasar.Extension.ADO.Types
 		public readonly static IValueType GUID = new GuidType();
 		public readonly static IValueType OBJECT = new ObjectType();
 
-        private readonly static byte[] BYTE_ARRAY = new byte[0];
-        private readonly static NullableByte[] NULLABLE_BYTE_ARRAY = new NullableByte[0];
-        public readonly static Type BYTE_ARRAY_TYPE = BYTE_ARRAY.GetType();
-        public readonly static Type NULLABLE_BYTE_ARRAY_TYPE = NULLABLE_BYTE_ARRAY.GetType();
-        private static Hashtable types = new Hashtable();
+		public readonly static IValueType NHIBERNATE_NULLABLE_CHAR = new NHibernateNullableCharType();
+		public readonly static IValueType NHIBERNATE_NULLABLE_BYTE = new NHibernateNullableByteType();
+		public readonly static IValueType NHIBERNATE_NULLABLE_SBYTE = new NHibernateNullableSByteType();
+		public readonly static IValueType NHIBERNATE_NULLABLE_INT16 = new NHibernateNullableInt16Type();
+		public readonly static IValueType NHIBERNATE_NULLABLE_INT32 = new NHibernateNullableInt32Type();
+		public readonly static IValueType NHIBERNATE_NULLABLE_INT64 = new NHibernateNullableInt64Type();
+		public readonly static IValueType NHIBERNATE_NULLABLE_SINGLE = new NHibernateNullableSingleType();
+		public readonly static IValueType NHIBERNATE_NULLABLE_DOUBLE = new NHibernateNullableDoubleType();
+		public readonly static IValueType NHIBERNATE_NULLABLE_DECIMAL = new NHibernateNullableDecimalType();
+		public readonly static IValueType NHIBERNATE_NULLABLE_DATETIME = new NHibernateNullableDateTimeType();
+		public readonly static IValueType NHIBERNATE_NULLABLE_BOOLEAN = new NHibernateNullableBooleanType();
+		public readonly static IValueType NHIBERNATE_NULLABLE_GUID = new NHibernateNullableGuidType();
+
+		public readonly static IValueType SQL_STRING = new SqlStringType();
+		public readonly static IValueType SQL_BYTE = new SqlByteType();
+		public readonly static IValueType SQL_INT16 = new SqlInt16Type();
+		public readonly static IValueType SQL_INT32 = new SqlInt32Type();
+		public readonly static IValueType SQL_INT64 = new SqlInt64Type();
+		public readonly static IValueType SQL_SINGLE = new SqlSingleType();
+		public readonly static IValueType SQL_DOUBLE = new SqlDoubleType();
+		public readonly static IValueType SQL_DECIMAL = new SqlDecimalType();
+		public readonly static IValueType SQL_DATETIME = new SqlDateTimeType();
+		public readonly static IValueType SQL_BOOLEAN = new SqlBooleanType();
+		public readonly static IValueType SQL_GUID = new SqlGuidType();
+
+		private readonly static byte[] BYTE_ARRAY = new byte[0];
+		private readonly static NullableByte[] NHIBERNATE_NULLABLE_BYTE_ARRAY = new NullableByte[0];
+		public readonly static Type BYTE_ARRAY_TYPE = BYTE_ARRAY.GetType();
+		public readonly static Type NHIBERNATE_NULLABLE_BYTE_ARRAY_TYPE = NHIBERNATE_NULLABLE_BYTE_ARRAY.GetType();
+
+		private static Hashtable types = new Hashtable();
 
 		static ValueTypes()
         {
@@ -63,35 +89,34 @@ namespace Seasar.Extension.ADO.Types
             RegisterValueType(typeof(Boolean), BOOLEAN);
             RegisterValueType(typeof(Guid), GUID);
 
-            RegisterValueType(typeof(SqlString), STRING);
-            RegisterValueType(typeof(SqlByte), BYTE);
-            RegisterValueType(typeof(SqlInt16), INT16);
-            RegisterValueType(typeof(SqlInt32), INT32);
-            RegisterValueType(typeof(SqlInt64), INT64);
-            RegisterValueType(typeof(SqlSingle), SINGLE);
-            RegisterValueType(typeof(SqlDouble), DOUBLE);
-            RegisterValueType(typeof(SqlDecimal), DECIMAL);
-            RegisterValueType(typeof(SqlDateTime), DATETIME);
-            RegisterValueType(typeof(SqlBinary), BINARY);
-            RegisterValueType(typeof(SqlBoolean), BOOLEAN);
-            RegisterValueType(typeof(SqlMoney), DECIMAL);
-            RegisterValueType(typeof(SqlGuid), GUID);
+			RegisterValueType(typeof(SqlString), SQL_STRING);
+			RegisterValueType(typeof(SqlByte), SQL_BYTE);
+			RegisterValueType(typeof(SqlInt16), SQL_INT16);
+			RegisterValueType(typeof(SqlInt32), SQL_INT32);
+			RegisterValueType(typeof(SqlInt64), SQL_INT64);
+			RegisterValueType(typeof(SqlSingle), SQL_SINGLE);
+			RegisterValueType(typeof(SqlDouble), SQL_DOUBLE);
+			RegisterValueType(typeof(SqlDecimal), SQL_DECIMAL);
+			RegisterValueType(typeof(SqlDateTime), SQL_DATETIME);
+			RegisterValueType(typeof(SqlBinary), BINARY);
+			RegisterValueType(typeof(SqlBoolean), SQL_BOOLEAN);
+			RegisterValueType(typeof(SqlMoney), SQL_DECIMAL);
+			RegisterValueType(typeof(SqlGuid), SQL_GUID);
 
-            RegisterValueType(typeof(NullableChar), STRING);
-            RegisterValueType(typeof(NullableByte), BYTE);
-            RegisterValueType(typeof(NullableSByte), SBYTE);
-            RegisterValueType(typeof(NullableInt16), INT16);
-            RegisterValueType(typeof(NullableInt32), INT32);
-            RegisterValueType(typeof(NullableInt64), INT64);
-            RegisterValueType(typeof(NullableSingle), SINGLE);
-            RegisterValueType(typeof(NullableDouble), DOUBLE);
-            RegisterValueType(typeof(NullableDecimal), DECIMAL);
-            RegisterValueType(typeof(NullableDateTime), DATETIME);
-            RegisterValueType(NULLABLE_BYTE_ARRAY_TYPE, BINARY);
-            RegisterValueType(typeof(NullableBoolean), BOOLEAN);
-            RegisterValueType(typeof(NullableGuid), GUID);
-
-        }
+			RegisterValueType(typeof(NullableChar), NHIBERNATE_NULLABLE_CHAR);
+			RegisterValueType(typeof(NullableByte), NHIBERNATE_NULLABLE_BYTE);
+			RegisterValueType(typeof(NullableSByte), NHIBERNATE_NULLABLE_SBYTE);
+			RegisterValueType(typeof(NullableInt16), NHIBERNATE_NULLABLE_INT16);
+			RegisterValueType(typeof(NullableInt32), NHIBERNATE_NULLABLE_INT32);
+			RegisterValueType(typeof(NullableInt64), NHIBERNATE_NULLABLE_INT64);
+			RegisterValueType(typeof(NullableSingle), NHIBERNATE_NULLABLE_SINGLE);
+			RegisterValueType(typeof(NullableDouble), NHIBERNATE_NULLABLE_DOUBLE);
+			RegisterValueType(typeof(NullableDecimal), NHIBERNATE_NULLABLE_DECIMAL);
+			RegisterValueType(typeof(NullableDateTime), NHIBERNATE_NULLABLE_DATETIME);
+			RegisterValueType(NHIBERNATE_NULLABLE_BYTE_ARRAY_TYPE, BINARY);
+			RegisterValueType(typeof(NullableBoolean), NHIBERNATE_NULLABLE_BOOLEAN);
+			RegisterValueType(typeof(NullableGuid), NHIBERNATE_NULLABLE_GUID);
+		}
 
 		private ValueTypes()
 		{

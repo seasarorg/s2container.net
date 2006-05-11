@@ -18,8 +18,6 @@
 
 using System;
 using System.Data;
-using System.Data.SqlTypes;
-using Nullables;
 
 namespace Seasar.Extension.ADO.Types
 {
@@ -31,44 +29,14 @@ namespace Seasar.Extension.ADO.Types
 
         #region IValueType ÉÅÉìÉo
 
-        public object GetValue(System.Data.IDataReader reader, int index, Type type)
-        {
-            return GetValue(reader[index], type);
-        }
-
-        public object GetValue(System.Data.IDataReader reader, string columnName, Type type)
-        {
-            return GetValue(reader[columnName], type);
-        }
-
-        public void BindValue(System.Data.IDbCommand cmd, string columnName, object value)
+		public override void BindValue(IDbCommand cmd, string columnName, object value)
         {
             BindValue(cmd, columnName, value, DbType.String);
         }
 
         #endregion
 
-        protected override object GetValue(object value, Type type)
-        {
-            if(typeof(string).Equals(type))
-            {
-                return GetStringValue(value);
-            }
-            else if(typeof(SqlString).Equals(type))
-            {
-                return GetSqlStringValue(value);
-            }
-            else if(typeof(NullableChar).Equals(type))
-            {
-                return GetNullableCharValue(value);
-            }
-            else
-            {
-                return value;
-            }
-        }
-
-		private object GetStringValue(object value)
+        protected override object GetValue(object value)
         {
             if(value == DBNull.Value)
             {
@@ -81,38 +49,6 @@ namespace Seasar.Extension.ADO.Types
             else
             {
                 return value.ToString();
-            }
-        }
-
-		private object GetSqlStringValue(object value)
-        {
-            if( value == DBNull.Value)
-            {
-                return SqlString.Null;
-            }
-            else if(value is string)
-            {
-                return new SqlString((string) value);
-            }
-            else
-            {
-                return new SqlString(value.ToString());
-            }
-        }
-
-		private object GetNullableCharValue(object value)
-        {
-            if(value == DBNull.Value)
-            {
-                return null;
-            }
-            else if(value is string)
-            {
-                return new NullableChar(((string) value)[0]);
-            }
-            else
-            {
-                return NullableChar.Parse(value.ToString());
             }
         }
     }

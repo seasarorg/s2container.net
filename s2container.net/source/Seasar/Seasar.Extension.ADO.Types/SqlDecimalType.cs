@@ -18,12 +18,13 @@
 
 using System;
 using System.Data;
+using System.Data.SqlTypes;
 
 namespace Seasar.Extension.ADO.Types
 {
-    public class DoubleType : BaseValueType, IValueType
+    public class SqlDecimalType : BaseValueType, IValueType
     {
-        public DoubleType()
+		public SqlDecimalType()
         {
         }
 
@@ -31,7 +32,7 @@ namespace Seasar.Extension.ADO.Types
 
 		public override void BindValue(IDbCommand cmd, string columnName, object value)
         {
-            BindValue(cmd, columnName, value, DbType.Double);
+            BindValue(cmd, columnName, value, DbType.Decimal);
         }
 
         #endregion
@@ -40,12 +41,28 @@ namespace Seasar.Extension.ADO.Types
 		{
 			if (value == DBNull.Value)
 			{
-				return null;
+				return SqlDecimal.Null;
+			}
+			else if (value is decimal)
+			{
+				return new SqlDecimal((decimal) value);
+			}
+			else if (value is int)
+			{
+				return new SqlDecimal((int) value);
+			}
+			else if (value is long)
+			{
+				return new SqlDecimal((long) value);
+			}
+			else if (value is double)
+			{
+				return new SqlDecimal((double) value);
 			}
 			else
 			{
-				return Convert.ToDouble(value);
+				return SqlDecimal.Parse(value.ToString());
 			}
-        }
+		}
     }
 }

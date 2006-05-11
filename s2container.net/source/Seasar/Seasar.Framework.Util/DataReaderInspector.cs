@@ -22,9 +22,6 @@ using System.Text;
 
 namespace Seasar.Framework.Util
 {
-	/// <summary>
-	/// DataReaderInspector ‚ÌŠT—v‚Ìà–¾‚Å‚·B
-	/// </summary>
 	public class DataReaderInspector
 	{
 		private IDataReader _reader = null;

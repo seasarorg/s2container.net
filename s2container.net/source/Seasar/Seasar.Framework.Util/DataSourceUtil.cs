@@ -25,7 +25,7 @@ using Seasar.Framework.Log;
 
 namespace Seasar.Framework.Util
 {
-    public class DataSourceUtil
+	public sealed class DataSourceUtil
     {
         private static readonly Logger logger = Logger.GetLogger(typeof(DataSourceUtil));
 

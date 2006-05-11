@@ -22,9 +22,6 @@ using Seasar.Framework.Exceptions;
 
 namespace Seasar.Framework.Util
 {
-	/// <summary>
-	/// ResourceNotFoundRuntimeException ‚ÌŠT—v‚Ìà–¾‚Å‚·B
-	/// </summary>
 	[Serializable]
 	public class ResourceNotFoundRuntimeException : SRuntimeException
 	{
