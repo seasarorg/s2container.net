@@ -98,7 +98,7 @@ namespace Seasar.Framework.Aop.Proxy
             }
             else
             {
-                result = this.generator.CreateClassProxy(this.type, this, new object[] { null });
+                result = this.generator.CreateClassProxy(this.type, this, new object[] { });
             }
             return result;
         }
@@ -167,7 +167,7 @@ namespace Seasar.Framework.Aop.Proxy
                 IMethodInterceptor[] interceptors = (IMethodInterceptor[])
                     interceptorList.ToArray(typeof(IMethodInterceptor));
                 IMethodInvocation mehotdInvocation =
-                    new DynamicProxyMethodInvocation(target, invocation, args, interceptors, parameters);
+                    new DynamicProxyMethodInvocation(invocation.InvocationTarget, invocation, args, interceptors, parameters);
                 ret = interceptors[0].Invoke(mehotdInvocation);
             }
             return ret;
