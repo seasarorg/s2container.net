@@ -23,7 +23,7 @@ using Seasar.Framework.Aop.Impl;
 using Seasar.Framework.Aop.Proxy;
 using Seasar.Framework.Aop.Interceptors;
 
-namespace TestSeasar.Framework.Aop.Proxy
+namespace Seasar.Tests.Framework.Aop.Proxy
 {
 	/// <summary>
 	/// AopProxyTest の概要の説明です。
@@ -69,25 +69,6 @@ namespace TestSeasar.Framework.Aop.Proxy
 			Assert.AreEqual(false,object.Equals(proxy,null));
 			Assert.AreEqual(false,object.Equals(proxy,"hoge"));
 		}
-
-		/// <summary>
-		/// AopProxyで
-		/// System.ObjectのFieldGetterを実行しようとして、
-		/// エラーが発生しています。
-		/// </summary>
-//		[Test]
-//		public void TestSerialize()
-//		{
-//			IPointcut pointcut = new PointcutImpl(new string[] { "Greeting" });
-//			IAspect aspect = new AspectImpl(new HelloInterceptor(),pointcut);
-//			AopProxy aopProxy = new AopProxy(typeof(HelloImpl),
-//				new IAspect[] { aspect });
-//			HelloImpl proxy = (HelloImpl) aopProxy.Create(new Type[] { typeof(string) },
-//				new object[] {"Hello"});
-//
-//			IHello copy = (IHello) SerializeUtil.Serialize(proxy);
-//			Assert.AreEqual("Hello",copy.Greeting());
-//		}
 
 		public class TestInvocation : IMethodInterceptor
 		{
