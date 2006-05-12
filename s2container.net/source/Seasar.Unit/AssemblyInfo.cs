@@ -25,7 +25,7 @@ using System.Runtime.CompilerServices;
 // 情報を変更するには、これらの属性値を変更してください。
 //
 [assembly: AssemblyTitle("S2Unit.NET")]
-[assembly: AssemblyDescription("S2Unit.NET 1.1.1")]
+[assembly: AssemblyDescription("S2Unit.NET 1.2.0-RC1")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("S2Unit.NET")]
@@ -44,7 +44,7 @@ using System.Runtime.CompilerServices;
 // 下にあるように、'*' を使って、すべての値を指定するか、
 // ビルドおよびリビジョン番号を既定値にすることができます。
 
-[assembly: AssemblyVersion("1.1.1")]
+[assembly: AssemblyVersion("1.2.0.1")]
 
 //
 // アセンブリに署名するには、使用するキーを指定しなければなりません。 
@@ -72,3 +72,4 @@ using System.Runtime.CompilerServices;
 //       詳細については Microsoft .NET Framework ドキュメントを参照してください。
 [assembly: AssemblyDelaySign(false)]
 [assembly: AssemblyKeyName("")]
+[assembly: AssemblyFileVersionAttribute("1.2.0")]
