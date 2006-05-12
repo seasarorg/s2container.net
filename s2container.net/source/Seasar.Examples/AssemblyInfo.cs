@@ -44,7 +44,7 @@ using System.Runtime.CompilerServices;
 // 下にあるように、'*' を使って、すべての値を指定するか、
 // ビルドおよびリビジョン番号を既定値にすることができます。
 
-[assembly: AssemblyVersion("1.0.0")]
+[assembly: AssemblyVersion("1.2.0.1")]
 
 //
 // アセンブリに署名するには、使用するキーを指定しなければなりません。 
