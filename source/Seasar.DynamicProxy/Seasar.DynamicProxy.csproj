@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.DynamicProxy, Version=1.1.5.0, Culture=neutral, PublicKeyToken=f362209d9bee91d8, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Castle.DynamicProxy.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -45,10 +49,6 @@
     <None Include="Seasar.snk" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\DynamicProxy\Castle.DynamicProxy\Castle.DynamicProxy-2.0.csproj">
-      <Project>{70EE6AF2-1F6D-4CC5-A1B2-C3182F035F67}</Project>
-      <Name>Castle.DynamicProxy-2.0</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Seasar\Seasar.csproj">
       <Project>{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}</Project>
       <Name>Seasar</Name>
