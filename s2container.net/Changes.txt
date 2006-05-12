@@ -5,7 +5,7 @@
 - .NET 2.0から提供されたSystem.Transactionsを用いた新しいトランザクション・インターセプター
 を追加する
 - AOPを提供するためのProxyにこれまでのRealProxyに加え、CastleプロジェクトのDynamicProxyを
-選択できる機能を追加する
+選択できる機能を追加する(試用機能)
 - 手動でバインディング(Property, Constractor)した場合に、Aspectが効かない問題を修正する
 - アプリケーション構成ファイルでSingletonS2ContainerFactoryで使用されるデフォルトのdicon
 ファイルを指定した場合に、コード上からそのdiconファイルを上書きできない問題を修正する
