@@ -63,7 +63,7 @@ namespace Seasar.Extension.DataSets.Types
 			RegisterColumnType(typeof(NullableBoolean), BOOLEAN);
 			RegisterColumnType(typeof(NullableDecimal), DECIMAL);
 			RegisterColumnType(typeof(NullableDateTime), DATETIME);
-			RegisterColumnType(ValueTypes.NULLABLE_BYTE_ARRAY_TYPE, BINARY);
+			RegisterColumnType(ValueTypes.NHIBERNATE_NULLABLE_BYTE_ARRAY_TYPE, BINARY);
 			RegisterColumnType(typeof(NullableGuid), OBJECT);
 		}
 
