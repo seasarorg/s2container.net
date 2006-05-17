@@ -20,7 +20,6 @@ using System;
 using System.Data;
 using Seasar.Extension.ADO;
 using Seasar.Framework.Util;
-using Nullables;
 
 namespace Seasar.Extension.DataSets.Types
 {
@@ -34,9 +33,9 @@ namespace Seasar.Extension.DataSets.Types
 
 		public override object Convert(object value, string formatPattern)
 		{
-			if (value == null || value == DBNull.Value || value is INullableType)
+			if (IsNullable(value))
 			{
-				return value;
+				return DBNull.Value;
 			}
 			return BooleanConversionUtil.ToBoolean(value);
 		}
