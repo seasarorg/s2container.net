@@ -19,6 +19,7 @@
 using System;
 using System.Data;
 using Seasar.Extension.ADO;
+using Nullables;
 
 namespace Seasar.Extension.DataSets.Types
 {
@@ -32,15 +33,15 @@ namespace Seasar.Extension.DataSets.Types
 
 		public virtual object Convert(object value, string formatPattern)
 		{
+			if (IsNullable(value))
+			{
+				return DBNull.Value;
+			}
 			return value;
 		}
 
 		public bool Equals1(object arg1, object arg2)
 		{
-			if (arg1 == null)
-			{
-				return arg2 == null;
-			}
 			return DoEquals(arg1, arg2);
 		}
 
@@ -65,7 +66,14 @@ namespace Seasar.Extension.DataSets.Types
 		{
 			try
 			{
-				arg1 = Convert(arg1, null);
+				if (IsNullable(arg1))
+				{
+					arg1 = DBNull.Value;
+				}
+				else
+				{
+					arg1 = Convert(arg1, null);
+				}
 			}
 			catch
 			{
@@ -73,13 +81,41 @@ namespace Seasar.Extension.DataSets.Types
 			}
 			try
 			{
-				arg2 = Convert(arg2, null);
+				if (IsNullable(arg2))
+				{
+					arg2 = DBNull.Value;
+				}
+				else
+				{
+					arg2 = Convert(arg2, null);
+				}
 			}
 			catch
 			{
 				return false;
 			}
 			return arg1.Equals(arg2);
+		}
+
+		protected bool IsNullable(object value)
+		{
+			if (value == null)
+			{
+				return true;
+			}
+			if (value == DBNull.Value)
+			{
+				return true;
+			}
+			if (value is INullableType)
+			{
+				INullableType nt = (INullableType) value;
+				if (!((INullableType) value).HasValue)
+				{
+					return true;
+				}
+			}
+			return false;
 		}
 	}
 }

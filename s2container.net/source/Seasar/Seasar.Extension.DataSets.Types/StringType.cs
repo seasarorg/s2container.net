@@ -34,11 +34,10 @@ namespace Seasar.Extension.DataSets.Types
 
 		public override object Convert(object value, string formatPattern)
 		{
-			if (value == null || value == DBNull.Value || value is INullableType)
+			if (IsNullable(value))
 			{
-				return value;
+				return DBNull.Value;
 			}
-
 			string s = StringConversionUtil.ToString(value, formatPattern);
 			if (s != null)
 			{
