@@ -19,7 +19,6 @@
 using System;
 using System.Data;
 using Seasar.Extension.ADO;
-using Nullables;
 
 namespace Seasar.Extension.DataSets.Types
 {
@@ -33,9 +32,9 @@ namespace Seasar.Extension.DataSets.Types
 
 		public override object Convert(object value, string formatPattern)
 		{
-			if (value == null || value == DBNull.Value || value is INullableType)
+			if (IsNullable(value))
 			{
-				return value;
+				return DBNull.Value;
 			}
 			else if (value is DateTime)
 			{
@@ -46,7 +45,7 @@ namespace Seasar.Extension.DataSets.Types
 			{
 				return DateTime.ParseExact(value as string, formatPattern, null);
 			}
-			return null;
+			return DBNull.Value;
 		}
 
 		public override string ToDbTypeString()

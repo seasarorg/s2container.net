@@ -16,6 +16,7 @@
  */
 #endregion
 
+using System;
 using System.Data;
 using MbUnit.Framework;
 using Seasar.Extension.Unit;
@@ -26,7 +27,7 @@ namespace Seasar.Tests.Extension.Unit
 	public class BeanReaderTest
 	{
 		[Test]
-		public void TestRead()
+		public void TestReadPrimitiveType()
 		{
 			Employee emp = new Employee();
 			emp.Empno = 7788;
@@ -37,11 +38,112 @@ namespace Seasar.Tests.Extension.Unit
 			DataSet ds = reader.Read();
 			DataTable table = ds.Tables[0];
 			DataRow row = table.Rows[0];
+			DataColumnCollection columns = table.Columns;
 			Assert.AreEqual(7788, row["empno"], "1");
 			Assert.AreEqual("SCOTT", row["ename"], "2");
 			Assert.AreEqual(10, row["deptno"], "3");
 			Assert.AreEqual("HOGE", row["dname"], "4");
-			Assert.AreEqual(DataRowState.Unchanged, row.RowState, "5");			
+			Assert.AreEqual(DataRowState.Unchanged, row.RowState, "5");
+			Assert.AreEqual(typeof(long), columns["empno"].DataType, "6");
+			Assert.AreEqual(typeof(string), columns["ename"].DataType, "7");
+			Assert.AreEqual(typeof(int), columns["deptno"].DataType, "8");
+			Assert.AreEqual(typeof(string), columns["dname"].DataType, "9");
+		}
+
+		[Test]
+		public void TestReadNHibernateNullableType()
+		{
+			NHibernateNullableEmployee emp = new NHibernateNullableEmployee();
+			emp.Empno = 7788;
+			emp.Ename = "SCOTT";
+			emp.Deptno = 10;
+			emp.Dname = "HOGE";
+			BeanReader reader = new BeanReader(emp);
+			DataSet ds = reader.Read();
+			DataTable table = ds.Tables[0];
+			DataRow row = table.Rows[0];
+			DataColumnCollection columns = table.Columns;
+			Assert.AreEqual(7788, row["empno"], "1");
+			Assert.AreEqual("SCOTT", row["ename"], "2");
+			Assert.AreEqual(10, row["deptno"], "3");
+			Assert.AreEqual("HOGE", row["dname"], "4");
+			Assert.AreEqual(DataRowState.Unchanged, row.RowState, "5");
+			Assert.AreEqual(typeof(long), columns["empno"].DataType, "6");
+			Assert.AreEqual(typeof(string), columns["ename"].DataType, "7");
+			Assert.AreEqual(typeof(int), columns["deptno"].DataType, "8");
+			Assert.AreEqual(typeof(string), columns["dname"].DataType, "9");
+		}
+
+		[Test]
+		public void TestReadNHibernateNullableTypeNullValue()
+		{
+			NHibernateNullableEmployee emp = new NHibernateNullableEmployee();
+			emp.Empno = null;
+			emp.Ename = null;
+			emp.Deptno = null;
+			emp.Dname = null;
+			BeanReader reader = new BeanReader(emp);
+			DataSet ds = reader.Read();
+			DataTable table = ds.Tables[0];
+			DataRow row = table.Rows[0];
+			DataColumnCollection columns = table.Columns;
+			Assert.AreEqual(DBNull.Value, row["empno"], "1");
+			Assert.AreEqual(DBNull.Value, row["ename"], "2");
+			Assert.AreEqual(DBNull.Value, row["deptno"], "3");
+			Assert.AreEqual(DBNull.Value, row["dname"], "4");
+			Assert.AreEqual(DataRowState.Unchanged, row.RowState, "5");
+			Assert.AreEqual(typeof(long), columns["empno"].DataType, "6");
+			Assert.AreEqual(typeof(string), columns["ename"].DataType, "7");
+			Assert.AreEqual(typeof(int), columns["deptno"].DataType, "8");
+			Assert.AreEqual(typeof(string), columns["dname"].DataType, "9");
+		}
+
+		[Test]
+		public void TestReadNullableType()
+		{
+			NullableEmployee emp = new NullableEmployee();
+			emp.Empno = 7788;
+			emp.Ename = "SCOTT";
+			emp.Deptno = 10;
+			emp.Dname = "HOGE";
+			BeanReader reader = new BeanReader(emp);
+			DataSet ds = reader.Read();
+			DataTable table = ds.Tables[0];
+			DataRow row = table.Rows[0];
+			DataColumnCollection columns = table.Columns;
+			Assert.AreEqual(7788, row["empno"], "1");
+			Assert.AreEqual("SCOTT", row["ename"], "2");
+			Assert.AreEqual(10, row["deptno"], "3");
+			Assert.AreEqual("HOGE", row["dname"], "4");
+			Assert.AreEqual(DataRowState.Unchanged, row.RowState, "5");
+			Assert.AreEqual(typeof(long), columns["empno"].DataType, "6");
+			Assert.AreEqual(typeof(string), columns["ename"].DataType, "7");
+			Assert.AreEqual(typeof(int), columns["deptno"].DataType, "8");
+			Assert.AreEqual(typeof(string), columns["dname"].DataType, "9");
+		}
+
+		[Test]
+		public void TestReadNullableTypeNullValue()
+		{
+			NullableEmployee emp = new NullableEmployee();
+			emp.Empno = null;
+			emp.Ename = null;
+			emp.Deptno = null;
+			emp.Dname = null;
+			BeanReader reader = new BeanReader(emp);
+			DataSet ds = reader.Read();
+			DataTable table = ds.Tables[0];
+			DataRow row = table.Rows[0];
+			DataColumnCollection columns = table.Columns;
+			Assert.AreEqual(DBNull.Value, row["empno"], "1");
+			Assert.AreEqual(DBNull.Value, row["ename"], "2");
+			Assert.AreEqual(DBNull.Value, row["deptno"], "3");
+			Assert.AreEqual(DBNull.Value, row["dname"], "4");
+			Assert.AreEqual(DataRowState.Unchanged, row.RowState, "5");
+			Assert.AreEqual(typeof(long), columns["empno"].DataType, "6");
+			Assert.AreEqual(typeof(string), columns["ename"].DataType, "7");
+			Assert.AreEqual(typeof(int), columns["deptno"].DataType, "8");
+			Assert.AreEqual(typeof(string), columns["dname"].DataType, "9");
 		}
 	}
 }
