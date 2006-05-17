@@ -341,6 +341,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Seasar.Tests.Extension.Unit\NHibernateNullableEmployee.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Seasar.Tests.Extension.Unit\S2AssertTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

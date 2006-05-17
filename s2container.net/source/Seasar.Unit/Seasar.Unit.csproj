@@ -89,6 +89,11 @@
                     AssemblyName = "MbUnit.Framework"
                     HintPath = "..\..\lib\MbUnit.Framework.dll"
                 />
+                <Reference
+                    Name = "Nullables"
+                    AssemblyName = "Nullables"
+                    HintPath = "..\..\lib\Nullables.dll"
+                />
             </References>
         </Build>
         <Files>
