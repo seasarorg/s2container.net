@@ -75,9 +75,9 @@ namespace Seasar.Extension.Unit
 				ParameterInfo[] parameterInfos = constructorInfos[0].GetParameters();
 				propertyType = parameterInfos[0].ParameterType;
 			}
-			else if (propertyType.IsGenericType)
+			else if (propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
 			{
-				propertyType = propertyType.GetGenericArguments()[0];
+				propertyType = Nullable.GetUnderlyingType(propertyType);
 			}
 			return propertyType;
 		}
