@@ -86,9 +86,12 @@ DataProvider, TxDataSourceの設定を行います。
 </tr>
 <tr>
 <td>ConnectionString</td>
-<td>データベースに接続するための接続文字列を指定します。System.Data.IDbConnection.ConnectionStringプロパティに設定する文字列です。<br>
-必須です。</td>
-<td>&quot;Server=127.0.0.1;database=s2dotnetdemo;Integrated Security=SSPI&quot;</td>
+<td>データベースに接続するための接続文字列を指定します。System.Data.IDbConnection.ConnectionStringプロパティに設定する文字列です。<br />
+必須です。<br />
+<span style="color:red;">※ 「\」(エンマーク)は「\\」とエスケープする必要があります。
+例えばSQL Server 2005にインスタンス名を指定して接続する場合は「コンピュータ名\\インスタンス名」となります。</span>
+</td>
+<td>&quot;Server=MYPC\\SQLEXPRESS;database=s2dotnetdemo;Integrated Security=SSPI&quot;</td>
 </tr>
 </table>
 
