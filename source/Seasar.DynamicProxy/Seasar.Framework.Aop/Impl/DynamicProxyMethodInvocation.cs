@@ -18,13 +18,14 @@ namespace Seasar.Framework.Aop.Impl
     /// 複数のAdvice(Interceptor)によるチェーンを抽象化したインタフェースの実装クラスです
     /// </summary>
     /// <author>Kazz</author>
-    /// <version>1.0 2006/04/18</version>
+    /// <version>1.3 2006/05/23</version>
     ///
     public class DynamicProxyMethodInvocation : IMethodInvocation
     {
         #region fields
 
         private Object target;
+        private Type targetType;
         private IInvocation invocation;
         private IMethodInterceptor[] interceptors;
         private int interceptorsIndex = 1;
@@ -32,23 +33,29 @@ namespace Seasar.Framework.Aop.Impl
         private Hashtable parameters;
 
         #endregion
+
         #region constructors
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="target">Interceptされるオブジェクト</param>
-        /// <param name="invocation">InterceptされるIInvocationインタフェース</param>
-        /// <param name="interceptors">メソッドをInterceptするInterceptor</param>
-        public DynamicProxyMethodInvocation(object target, IInvocation invocation
+        /// <param name="target">対象のオブジェクトをセット</param>
+        /// <param name="targetType">対象の型をセット</param>
+        /// <param name="invocation">IInvocationインタフェースをセット</param>
+        /// <param name="interceptors">インターセプタの配列をセット</param>
+        public DynamicProxyMethodInvocation(object target
+                                            , Type targetType
+                                            , IInvocation invocation
                                             , object[] arguments
                                             , IMethodInterceptor[] interceptors
                                             , Hashtable parameters)
         {
-            if(target==null) throw new NullReferenceException("target");
+            if (target == null) throw new NullReferenceException("target");
+            if (targetType == null) throw new NullReferenceException("target");
             if (invocation == null) throw new NullReferenceException("invocation");
-            if(interceptors==null) throw new NullReferenceException("interceptors");
+            if (interceptors == null) throw new NullReferenceException("interceptors");
             this.target = target;
+            this.targetType = targetType;
             this.invocation = invocation;
             this.arguments = arguments;
             this.interceptors = interceptors;
@@ -56,34 +63,33 @@ namespace Seasar.Framework.Aop.Impl
         }
 
         #endregion
+
         #region IMethodInvocation member
 
         public MethodBase Method
         {
-            get    { return this.invocation.Method ;}
+            get { return this.invocation.Method; }
         }
 
         public Object Target
         {
-            get    { return this.target; }
+            get { return this.target; }
         }
         public Type TargetType
         {
-            get { return this.target.GetType(); }
+            get { return this.targetType; }
         }
         public Object[] Arguments
         {
-            get    { return this.arguments;}
+            get { return this.arguments; }
         }
 
         public Object Proceed()
         {
-            while(interceptorsIndex < interceptors.Length)
+            while (interceptorsIndex < interceptors.Length)
             {
-                // 他にInterceptorがあれば、Interceptorを呼び出す
                 return interceptors[interceptorsIndex++].Invoke(this);
             }
-            // Interceptされたメソッドを実行する
             return this.invocation.Proceed(arguments);
         }
 
