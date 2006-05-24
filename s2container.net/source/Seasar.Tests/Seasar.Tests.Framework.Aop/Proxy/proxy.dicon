@@ -4,7 +4,8 @@
 <components>
 
 	<component class="Seasar.Tests.Framework.Aop.Proxy.HelloImpl">
-		<aspect>HelloInterceptor</aspect>
+		<aspect pointcut="Greeting">HelloInterceptor</aspect>
+		<property name="Prop">"TestProperty"</property>
 	</component>
 
 	<component name="HelloInterceptor" class="Seasar.Tests.Framework.Aop.Proxy.HelloInterceptor" />
