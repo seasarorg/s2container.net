@@ -21,10 +21,30 @@ namespace Seasar.Framework.Aop.Impl
             Hashtable parameters = new Hashtable();
             parameters[ContainerConstants.COMPONENT_DEF_NAME] = componentDef;
 
-            DynamicAopProxy aopProxy = new DynamicAopProxy(componentDef.ComponentType,
-                GetAspects(componentDef), parameters, target);
-            target = aopProxy.Create();
-            componentDef.AddProxy(componentDef.ComponentType, target);
+            Type[] interfaces = componentDef.ComponentType.GetInterfaces();
+
+            foreach (Type interfaceType in interfaces)
+            {
+                this.AddProxy(ref target, componentDef, interfaceType, parameters);
+            }
+            if (!componentDef.ComponentType.IsInterface)
+            {
+                this.AddProxy(ref target, componentDef, componentDef.ComponentType, parameters);
+            }
+        }
+
+        /// <summary>
+        /// コンポーネント定義にProxyを追加する
+        /// </summary>
+        /// <param name="target">Aspectを織り込む対象のオブジェクト</param>
+        /// <param name="componentDef">Aspectを織り込む対象のコンポーネント定義</param>
+        /// <param name="type">コンポーネント定義に追加するProxyのType</param>
+        /// <param name="parameters">パラメータ</param>
+        protected void AddProxy(ref object target, IComponentDef componentDef, Type type, Hashtable parameters)
+        {
+            DynamicAopProxy aopProxy = new DynamicAopProxy(type,
+                    GetAspects(componentDef), parameters, target);
+            componentDef.AddProxy(type, aopProxy.Create());
         }
 	}
 }
