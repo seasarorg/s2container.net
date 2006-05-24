@@ -18,11 +18,11 @@ using Castle.DynamicProxy;
 namespace Seasar.Framework.Aop.Proxy
 {
     /// <summary>
-    /// Castle.DynamicProxyを使用した、Aopにおけるメソッドの委譲をAspectとして実行するためのプロキシクラス
+    /// Castle.DynamicProxyを使用した、Aspect実行のためのプロキシクラス
     /// </summary>
     /// <author>Kazz
     /// </author>
-    /// <version>1.0 2006/04/18</version>
+    /// <version>1.3 2006/05/23</version>
     ///
     [Serializable]
     public class DynamicAopProxy : IInterceptor
@@ -42,17 +42,17 @@ namespace Seasar.Framework.Aop.Proxy
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="type">Aspectされるターゲットの型のType</param>
+        /// <param name="type">Aspectが摘要される型</param>
         public DynamicAopProxy(Type type)
-            :this(type, null)
+            : this(type, null)
         {
         }
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="type">Aspectされるターゲットの型のType</param>
-        /// <param name="aspects">適応するAspect</param>
+        /// <param name="type">Aspectが摘要される型</param>
+        /// <param name="aspects">摘要するAspectの配列</param>
         public DynamicAopProxy(Type type, IAspect[] aspects)
             : this(type, aspects, null)
         {
@@ -61,8 +61,8 @@ namespace Seasar.Framework.Aop.Proxy
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="type">Aspectされるターゲットの型のType</param>
-        /// <param name="aspects">適応するAspect</param>
+        /// <param name="type">Aspectが摘要される型</param>
+        /// <param name="aspects">摘要するAspectの配列</param>
         /// <param name="parameters">パラメータ</param>
         public DynamicAopProxy(Type type, IAspect[] aspects, Hashtable parameters)
             : this(type, aspects, parameters, null)
@@ -72,10 +72,10 @@ namespace Seasar.Framework.Aop.Proxy
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="type">Aspectされるターゲットの型のType</param>
-        /// <param name="aspects">適応するAspect</param>
+        /// <param name="type">Aspectが摘要される型</param>
+        /// <param name="aspects">摘要するAspectの配列</param>
         /// <param name="parameters">パラメータ</param>
-        /// <param name="target">Aspectされるターゲット</param>
+        /// <param name="target">Aspectが摘要されるターゲット</param>
         public DynamicAopProxy(Type type, IAspect[] aspects, Hashtable parameters, object target)
         {
             this.type = type;
@@ -89,6 +89,9 @@ namespace Seasar.Framework.Aop.Proxy
         #endregion
         #region public method
 
+        /// <summary>
+        /// プロキシオブジェクトを生成します
+        /// </summary>
         public object Create()
         {
             object result = null;
@@ -99,10 +102,16 @@ namespace Seasar.Framework.Aop.Proxy
             else
             {
                 result = this.generator.CreateClassProxy(this.type, this, new object[] { });
+                
             }
             return result;
         }
 
+        /// <summary>
+        /// プロキシオブジェクトを生成します    
+        /// </summary>
+        /// <param name="argTypes">パラメタ型の配列</param>
+        /// <param name="args">生成時のパラメタの配列</param>
         public object Create(Type[] argTypes, object[] args)
         {
             object result = null;
@@ -116,7 +125,12 @@ namespace Seasar.Framework.Aop.Proxy
             }
             return result;
         }
-
+        /// <summary>
+        /// プロキシオブジェクトを生成します
+        /// </summary>
+        /// <param name="argTypes">パラメタ型の配列</param>
+        /// <param name="args">生成時のパラメタの配列</param>
+        /// <param name="targetType">ターゲットの型</param>
         public object Create(Type[] argTypes, object[] args, Type targetType)
         {
             object result = null;
@@ -136,38 +150,31 @@ namespace Seasar.Framework.Aop.Proxy
 
         public object Intercept(IInvocation invocation, params object[] args)
         {
-            Debug.WriteLine(target.ToString() + " invocation method = " + invocation.Method.Name);
             ArrayList interceptorList = new ArrayList();
             object ret = null;
 
             if (aspects != null)
             {
-                // 定義されたAspectからInterceptorのリストの作成
                 foreach (IAspect aspect in aspects)
                 {
                     IPointcut pointcut = aspect.Pointcut;
-                    // IPointcutよりAdvice(Interceptor)を挿入するか確認
                     if (pointcut == null || pointcut.IsApplied(invocation.Method))
                     {
-                        // Aspectを適用する場合
                         interceptorList.Add(aspect.MethodInterceptor);
                     }
                 }
             }
-
             if (interceptorList.Count == 0)
             {
-                // Interceptorを挿入しない場合
-                //ret = invocation.Method.Invoke(target, args);
                 ret = invocation.Proceed(args);
             }
             else
             {
-                // Interceptorを挿入する場合
                 IMethodInterceptor[] interceptors = (IMethodInterceptor[])
                     interceptorList.ToArray(typeof(IMethodInterceptor));
                 IMethodInvocation mehotdInvocation =
-                    new DynamicProxyMethodInvocation(invocation.InvocationTarget, invocation, args, interceptors, parameters);
+                    new DynamicProxyMethodInvocation(
+                        invocation.InvocationTarget, this.type, invocation, args, interceptors, parameters);
                 ret = interceptors[0].Invoke(mehotdInvocation);
             }
             return ret;
