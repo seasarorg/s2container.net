@@ -66,13 +66,8 @@ namespace Seasar.Framework.Container.Deployer
 
 		protected object GetProxy(Type receiveType)
 		{
-			object proxy = null;
 			if(receiveType == null) return null;
-			if(receiveType.IsInterface || receiveType.IsMarshalByRef)
-			{
-				proxy = ComponentDef.GetProxy(receiveType);
-			}
-			return proxy;
+			return ComponentDef.GetProxy(receiveType);
 		}
 
 		protected IComponentDef ComponentDef
