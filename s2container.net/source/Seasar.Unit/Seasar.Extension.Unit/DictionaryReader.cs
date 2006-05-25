@@ -19,6 +19,7 @@
 using System;
 using System.Collections;
 using System.Data;
+using Seasar.Framework.Util;
 
 namespace Seasar.Extension.Unit
 {
@@ -51,7 +52,8 @@ namespace Seasar.Extension.Unit
 				object value = dictionary[key];
 				if (value != null) 
 				{
-					table_.Columns.Add(key, value.GetType());
+					Type type = PropertyUtil.GetPrimitiveType(value.GetType());
+					table_.Columns.Add(key, type);
 				} 
 				else 
 				{
@@ -66,10 +68,7 @@ namespace Seasar.Extension.Unit
 			foreach (DataColumn column in table_.Columns) 
 			{
 				object value = dictionary[column.ColumnName];
-				if (value != null) 
-				{
-					row[column.ColumnName] = value;
-				}
+				row[column.ColumnName] = PropertyUtil.GetPrimitiveValue(value);
 			}
 			table_.Rows.Add(row);
 			row.AcceptChanges();

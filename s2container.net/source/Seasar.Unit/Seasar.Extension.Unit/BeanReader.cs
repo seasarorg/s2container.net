@@ -19,7 +19,7 @@
 using System;
 using System.Data;
 using System.Reflection;
-using Nullables;
+using Seasar.Framework.Util;
 
 namespace Seasar.Extension.Unit
 {
@@ -50,7 +50,7 @@ namespace Seasar.Extension.Unit
 		{
 			foreach (PropertyInfo pi in beanType.GetProperties()) 
 			{
-				Type propertyType = GetPrimitiveType(pi);
+				Type propertyType = PropertyUtil.GetPrimitiveType(pi.PropertyType);
                 table_.Columns.Add(pi.Name, propertyType);
 			}
 		}
@@ -60,51 +60,11 @@ namespace Seasar.Extension.Unit
 			DataRow row = table_.NewRow();
 			foreach (PropertyInfo pi in beanType.GetProperties()) 
 			{
-				row[pi.Name] = GetPrimitiveValue(pi, bean);
+				object value = pi.GetValue(bean, null);
+				row[pi.Name] = PropertyUtil.GetPrimitiveValue(value);
 			}
 			table_.Rows.Add(row);
 			row.AcceptChanges();
-		}
-
-		private Type GetPrimitiveType(PropertyInfo pi)
-		{
-			Type propertyType = pi.PropertyType;
-			if (propertyType.GetInterface(typeof(INullableType).Name) != null)
-			{
-				ConstructorInfo[] constructorInfos = propertyType.GetConstructors();
-				ParameterInfo[] parameterInfos = constructorInfos[0].GetParameters();
-				propertyType = parameterInfos[0].ParameterType;
-			}
-			else if (propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
-			{
-				propertyType = Nullable.GetUnderlyingType(propertyType);
-			}
-			return propertyType;
-		}
-
-		private object GetPrimitiveValue(PropertyInfo pi, object bean)
-		{
-			object value = pi.GetValue(bean, null);
-
-			if (value is INullableType)
-			{
-				INullableType nullableType = (INullableType) value;
-				if (nullableType.HasValue)
-				{
-					return nullableType.Value;
-				}
-				else
-				{
-					return DBNull.Value;
-				}
-			}
-
-			if (value == null)
-			{
-				return DBNull.Value;
-			}
-
-			return value;
 		}
 
 		#region IDataReader ÉÅÉìÉo

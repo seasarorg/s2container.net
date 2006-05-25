@@ -2,6 +2,8 @@
 
 - .NET 2.0環境でのテーブル定義でエラーが発生する場合がある不具合を修正する
 - CastleプロジェクトのDynamicProxyを使用する場合の不具合を修正する
+- S2Unit.NETでBeanReader, DictionaryReaderで変換する変数のデータ型が
+NullableまたはSqlTypeの場合、対応する値型をDataColumnのDbTypeにセットする
 
 S2Container.NET 1.2.0-rc1
 
@@ -14,8 +16,8 @@ S2Container.NET 1.2.0-rc1
 - 手動でバインディング(Property, Constractor)した場合に、Aspectが効かない問題を修正する
 - アプリケーション構成ファイルでSingletonS2ContainerFactoryで使用されるデフォルトのdicon
 ファイルを指定した場合に、コード上からそのdiconファイルを上書きできない問題を修正する
-- S2Unit.NET : Excel周りのデータ型の扱いをJava版と同等にする
-- S2ADO : .NET 2.0から提供されたSystem.Nullableに対応
+- S2Unit.NETでExcel周りのデータ型の扱いをJava版と同等にする
+- S2ADO.NETで.NET 2.0から提供されたSystem.Nullableに対応
 
 S2Container.NET 1.1.1
 2006/3/15

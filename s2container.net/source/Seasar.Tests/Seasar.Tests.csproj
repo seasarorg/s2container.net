@@ -273,17 +273,16 @@
     <Compile Include="Seasar.Tests.Extension.Unit\DictionaryReaderTest.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Seasar.Tests.Extension.Unit\Employee.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Seasar.Tests.Extension.Unit\S2AssertTest.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Seasar.Tests.Extension.Unit\S2TestCaseTest.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Seasar.Tests.Extension.Unit\NHibernateNullableEmployee.cs" />
-    <Compile Include="Seasar.Tests.Extension.Unit\NullableEmployee.cs" />
+    <Compile Include="Seasar.Tests.Extension.Unit\BasicTypeBean.cs" />
+    <Compile Include="Seasar.Tests.Extension.Unit\NHibernateNullableBasicTypeBean.cs" />
+    <Compile Include="Seasar.Tests.Extension.Unit\NullableBasicTypeBean.cs" />
+    <Compile Include="Seasar.Tests.Extension.Unit\SqlTypeBasicTypeBean.cs" />
     <Compile Include="Seasar.Tests.Framework.Aop\Impl\MethodInvocationImplTest.cs">
       <SubType>Code</SubType>
     </Compile>
