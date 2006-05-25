@@ -22,6 +22,7 @@ using System.Data;
 using System.Data.Common;
 using Seasar.Extension.ADO;
 using Seasar.Framework.Util;
+using Seasar.Framework.Exceptions;
 
 namespace Seasar.Extension.ADO.Impl
 {
@@ -54,25 +55,48 @@ namespace Seasar.Extension.ADO.Impl
 
         #endregion
 
+        /// <summary>
+        /// テーブル定義情報を作成する
+        /// </summary>
+        /// <param name="tableName">テーブル名</param>
         private void CreateTableMetaData(string tableName)
         {
             lock(this)
             {
+                // IDbConnectionを取得する
                 IDbConnection cn = DataSourceUtil.GetConnection(dataSource);
                 try
                 {
+                    // テーブル定義情報を取得するためのSQLを作成する
                     string sql = "SELECT * FROM " + tableName;
 
+                    // IDbCommandを取得する
                     IDbCommand cmd = dataSource.GetCommand(sql, cn);
+
+                    // Transactionの処理を行う
                     DataSourceUtil.SetTransaction(dataSource, cmd);
-                    DbDataAdapter adapter = dataSource.GetDataAdapter(cmd) as DbDataAdapter;
-                    DataTable metaDataTable = new DataTable(tableName);
-                    adapter.FillSchema(metaDataTable, SchemaType.Mapped);
-                    primaryKeys[tableName] = GetPrimaryKeySet(metaDataTable.PrimaryKey);
-                    columns[tableName] = GetColumnSet(metaDataTable.Columns);
+
+                    // IDataAdapterを取得する
+                    IDataAdapter adapter = dataSource.GetDataAdapter(cmd);
+
+                    // テーブル定義情報を取得する
+                    DataTable[] metaDataTables = adapter.FillSchema(new DataSet(), SchemaType.Mapped);
+
+                    if (metaDataTables.Length == 0)
+                    {
+                        // テーブル定義情報が見つからない場合は、実行時例外を発生させる
+                        throw new SRuntimeException("ESSR0067", new object[] { tableName });
+                    }
+
+                    // テーブル定義情報からプライマリキーを取得する
+                    primaryKeys[tableName] = GetPrimaryKeySet(metaDataTables[0].PrimaryKey);
+
+                    // テーブル定義情報からカラムを取得する
+                    columns[tableName] = GetColumnSet(metaDataTables[0].Columns);
                 }
                 finally
                 {
+                    // IDbConnectionのClose処理を行う
                     DataSourceUtil.CloseConnection(dataSource, cn);
                 }
             }
