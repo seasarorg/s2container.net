@@ -23,13 +23,20 @@ namespace Seasar.Framework.Aop.Impl
 
             Type[] interfaces = componentDef.ComponentType.GetInterfaces();
 
+            if (!componentDef.ComponentType.IsInterface)
+            {
+                DynamicAopProxy aopProxy = new DynamicAopProxy(componentDef.ComponentType,
+                    GetAspects(componentDef), parameters, target);
+                target = aopProxy.Create();
+            }
+            else
+            {
+                this.AddProxy(ref target, componentDef, componentDef.ComponentType, parameters);
+            }
+
             foreach (Type interfaceType in interfaces)
             {
                 this.AddProxy(ref target, componentDef, interfaceType, parameters);
-            }
-            if (!componentDef.ComponentType.IsInterface)
-            {
-                this.AddProxy(ref target, componentDef, componentDef.ComponentType, parameters);
             }
         }
 
@@ -39,7 +46,6 @@ namespace Seasar.Framework.Aop.Impl
         /// <param name="target">Aspectを織り込む対象のオブジェクト</param>
         /// <param name="componentDef">Aspectを織り込む対象のコンポーネント定義</param>
         /// <param name="type">コンポーネント定義に追加するProxyのType</param>
-        /// <param name="parameters">パラメータ</param>
         protected void AddProxy(ref object target, IComponentDef componentDef, Type type, Hashtable parameters)
         {
             DynamicAopProxy aopProxy = new DynamicAopProxy(type,
