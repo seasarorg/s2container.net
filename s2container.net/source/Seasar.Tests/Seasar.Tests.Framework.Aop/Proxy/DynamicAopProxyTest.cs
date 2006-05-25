@@ -19,7 +19,9 @@ namespace Seasar.Tests.Framework.Aop.Proxy
     [TestFixture]
 	class DynamicAopProxyTest : S2TestCase
 	{
-        IHello _hello = null;
+        HelloImpl _hello = null;
+        IHello _hello2 = null;
+        IHello3 _hello3 = null;
 
         public DynamicAopProxyTest()
         {
@@ -29,15 +31,17 @@ namespace Seasar.Tests.Framework.Aop.Proxy
             XmlConfigurator.Configure(LogManager.GetRepository(), info);
         }
 
-        public void SetUpProxy()
+        public void SetUpAspect()
         {
             this.Include("Seasar.Tests.Framework.Aop.Proxy.proxy.dicon");
         }
 
         [Test, S2]
-        public void TestProxy()
+        public void TestAspect()
         {
-            Assert.AreEqual("Hello", _hello.Greeting());
+            Assert.AreEqual("Hello", _hello.Greeting(), "1");
+            Assert.AreEqual("Hello", _hello2.Greeting(), "2");
+            Assert.AreEqual("Hello", _hello3.Greeting(), "3");
         }
 
         public void SetUpProperty()
@@ -48,7 +52,20 @@ namespace Seasar.Tests.Framework.Aop.Proxy
         [Test, S2]
         public void TestProperty()
         {
-            Assert.AreEqual("TestProperty", _hello.Prop);
+            Assert.AreEqual("TestProperty", _hello.Prop, "1");
+            Assert.AreEqual("TestProperty", _hello2.Prop, "2");
+        }
+
+        public void SetUpSingleton()
+        {
+            this.Include("Seasar.Tests.Framework.Aop.Proxy.proxy.dicon");
+        }
+
+        [Test, S2]
+        public void TestSingleton()
+        {
+            _hello.Prop = "TestSingleton";
+            Assert.AreEqual(_hello.Prop, _hello2.Prop);
         }
 	}
 
@@ -84,5 +101,10 @@ namespace Seasar.Tests.Framework.Aop.Proxy
         {
             return "Hello";
         }
+    }
+
+    public interface IHello3
+    {
+        string Greeting();
     }
 }
