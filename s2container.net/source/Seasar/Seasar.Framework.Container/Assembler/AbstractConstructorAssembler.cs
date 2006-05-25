@@ -19,6 +19,7 @@
 using System;
 using System.Reflection;
 using Seasar.Framework.Util;
+using Seasar.Framework.Container.Util;
 
 namespace Seasar.Framework.Container.Assembler
 {
@@ -38,6 +39,10 @@ namespace Seasar.Framework.Container.Assembler
 			Type type = this.ComponentDef.ComponentType;
 			ConstructorInfo constructor = ClassUtil.GetConstructorInfo(type,null);
 			object obj = ConstructorUtil.NewInstance(constructor,null);
+            if (this.ComponentDef.AspectDefSize > 0)
+            {
+                AopProxyUtil.WeaveAspect(ref obj, this.ComponentDef);
+            }
 			return obj;
 		}
 
