@@ -16,7 +16,6 @@
  */
 #endregion
 
-using System;
 using System.Data;
 using Seasar.Extension.ADO;
 using Seasar.Extension.ADO.Impl;
@@ -260,7 +259,7 @@ namespace Seasar.Extension.Unit
 		/// DBから指定するテーブルの全レコードを削除します。
 		/// </summary>
 		/// <param name="tableName">削除対象のテーブル名</param>
-		public void DeleteTable(String tableName) 
+		public void DeleteTable(string tableName) 
 		{
 			IUpdateHandler handler = new BasicUpdateHandler(
 				DataSource,
