@@ -8,6 +8,10 @@
 		<property name="Prop">"TestProperty"</property>
 	</component>
 
+	<component class="Seasar.Tests.Framework.Aop.Proxy.IHello3">
+		<aspect pointcut="Greeting">HelloInterceptor</aspect>
+	</component>
+
 	<component name="HelloInterceptor" class="Seasar.Tests.Framework.Aop.Proxy.HelloInterceptor" />
 
 	<component class="Seasar.Framework.Aop.Impl.DynamicAopProxyAspectWeaver" />
