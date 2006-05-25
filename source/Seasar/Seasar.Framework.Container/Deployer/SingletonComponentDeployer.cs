@@ -59,10 +59,6 @@ namespace Seasar.Framework.Container.Deployer
 			instantiating_ = false;
 			this.PropertyAssembler.Assemble(component_);
 			this.InitMethodAssembler.Assemble(component_);
-			if(this.ComponentDef.AspectDefSize > 0)
-			{
-				AopProxyUtil.WeaveAspect(ref component_,this.ComponentDef);
-			}
 		}
 
 		public override void Init()
