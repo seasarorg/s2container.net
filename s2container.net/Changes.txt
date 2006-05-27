@@ -1,3 +1,7 @@
+﻿S2Container.NET 1.2.0-rc2
+- S2Unit.NETでBeanReader, DictionaryReaderで変換する変数のデータ型が
+NullableまたはSqlTypeの場合、対応する値型をDataColumnのDbTypeにセットする
+
 S2Container.NET 1.2.0-rc1
 
 - S2ADO.NETの機能を追加する

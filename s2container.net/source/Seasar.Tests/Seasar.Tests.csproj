@@ -316,6 +316,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Seasar.Tests.Extension.Unit\BasicTypeBean.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Seasar.Tests.Extension.Unit\BeanListReaderTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -341,6 +346,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Seasar.Tests.Extension.Unit\NHibernateNullableBasicTypeBean.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Seasar.Tests.Extension.Unit\NHibernateNullableEmployee.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -352,6 +362,11 @@
                 />
                 <File
                     RelPath = "Seasar.Tests.Extension.Unit\S2TestCaseTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Tests.Extension.Unit\SqlTypeBasicTypeBean.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
