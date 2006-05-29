@@ -46,11 +46,25 @@ namespace Seasar.Extension.DataSets.Types
 			RegisterColumnType(typeof(Int64), DECIMAL);
 			RegisterColumnType(typeof(Single), DECIMAL);
 			RegisterColumnType(typeof(Double), DECIMAL);
-			RegisterColumnType(typeof(Boolean), BOOLEAN);
 			RegisterColumnType(typeof(Decimal), DECIMAL);
 			RegisterColumnType(typeof(DateTime), DATETIME);
 			RegisterColumnType(ValueTypes.BYTE_ARRAY_TYPE, BINARY);
+			RegisterColumnType(typeof(Boolean), BOOLEAN);
 			RegisterColumnType(typeof(Guid), OBJECT);
+
+			RegisterColumnType(typeof(SqlString), STRING);
+			RegisterColumnType(typeof(SqlByte), DECIMAL);
+			RegisterColumnType(typeof(SqlInt16), DECIMAL);
+			RegisterColumnType(typeof(SqlInt32), DECIMAL);
+			RegisterColumnType(typeof(SqlInt64), DECIMAL);
+			RegisterColumnType(typeof(SqlSingle), DECIMAL);
+			RegisterColumnType(typeof(SqlDouble), DECIMAL);
+			RegisterColumnType(typeof(SqlDecimal), DECIMAL);
+			RegisterColumnType(typeof(SqlDateTime), DATETIME);
+			RegisterColumnType(typeof(SqlBinary), BINARY);
+			RegisterColumnType(typeof(SqlBoolean), BOOLEAN);
+			RegisterColumnType(typeof(SqlMoney), DECIMAL);
+			RegisterColumnType(typeof(SqlGuid), OBJECT);
 
 			RegisterColumnType(typeof(NullableChar), STRING);
 			RegisterColumnType(typeof(NullableByte), DECIMAL);
@@ -60,10 +74,10 @@ namespace Seasar.Extension.DataSets.Types
 			RegisterColumnType(typeof(NullableInt64), DECIMAL);
 			RegisterColumnType(typeof(NullableSingle), DECIMAL);
 			RegisterColumnType(typeof(NullableDouble), DECIMAL);
-			RegisterColumnType(typeof(NullableBoolean), BOOLEAN);
 			RegisterColumnType(typeof(NullableDecimal), DECIMAL);
 			RegisterColumnType(typeof(NullableDateTime), DATETIME);
 			RegisterColumnType(ValueTypes.NHIBERNATE_NULLABLE_BYTE_ARRAY_TYPE, BINARY);
+			RegisterColumnType(typeof(NullableBoolean), BOOLEAN);
 			RegisterColumnType(typeof(NullableGuid), OBJECT);
 		}
 
