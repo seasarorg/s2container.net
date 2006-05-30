@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
   <head>
-    <title>Coverage for s2container.net</title>
+    <title>Coverage for s2container.net </title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" type="text/css" href="../../../style.css"/>
     <link rel="stylesheet" type="text/css" href="../../../print.css" media="print"/>
@@ -13,10 +13,10 @@
     <tr><td valign="top">
       <h1 class="titleText">
         Clover.NET coverage report - 
-                  <a href="" target="">Coverage for s2container.net</a>
+                  <a href="http://s2container.net.seasar.org/" target="top">Coverage for s2container.net </a>
               </h1>
       <p class="timestamp">
-        <span class="heading">Coverage timestamp:</span>&nbsp;2006年5月18日 12:46:23
+        <span class="heading">Coverage timestamp:</span>&nbsp;2006年5月30日 11:21:29
       </p>
       <p class="navBar">
                   <a class="navBarModeLink" href="../../../overview.html">Overview</a>
@@ -36,14 +36,14 @@
         <tr>
                       <td  rowspan="3" valign="top">File Stats:</td>
                     <td align="right">LOC:</td>
-          <td align="right">31</td>
+          <td align="right">57</td>
           <td rowspan="3">&nbsp;</td>
           <td align="right">Methods:</td>
-          <td align="right">1</td>
+          <td align="right">2</td>
         </tr>
         <tr>
           <td align="right">NCLOC:</td>
-          <td align="right">20</td>
+          <td align="right">37</td>
           <td align="right">Classes:</td>
           <td align="right">1</td>
         </tr>
@@ -296,7 +296,7 @@
                 </td>
                   <td class="coverageCountWarning">&nbsp;</td>
                           <td class="srcCell">
-                              <span class="srcLineWarning" title="Line 18: Method WeaveAspect not entered.">            DynamicAopProxy aopProxy = <span class="keyword">new</span> DynamicAopProxy(componentDef.ComponentType,</span>
+                              <span class="srcLineWarning" title="Line 18: Method WeaveAspect not entered.">            Type[] interfaces = componentDef.ComponentType.GetInterfaces();</span>
                   </td>
       </tr>        
           <tr>
@@ -305,7 +305,7 @@
                 </td>
                   <td class="coverageCountWarning">&nbsp;</td>
                           <td class="srcCell">
-                              <span class="srcLineWarning" title="Line 18: Method WeaveAspect not entered.">                GetAspects(componentDef), parameters, target);</span>
+                              <span class="srcLineWarning" title="Line 18: Method WeaveAspect not entered."></span>
                   </td>
       </tr>        
           <tr>
@@ -314,7 +314,7 @@
                 </td>
                   <td class="coverageCountWarning">&nbsp;</td>
                           <td class="srcCell">
-                              <span class="srcLineWarning" title="Line 18: Method WeaveAspect not entered.">            target = aopProxy.Create();</span>
+                              <span class="srcLineWarning" title="Line 18: Method WeaveAspect not entered.">            <span class="keyword">if</span> (!componentDef.ComponentType.IsInterface)</span>
                   </td>
       </tr>        
           <tr>
@@ -323,7 +323,7 @@
                 </td>
                   <td class="coverageCountWarning">&nbsp;</td>
                           <td class="srcCell">
-                              <span class="srcLineWarning" title="Line 18: Method WeaveAspect not entered.">            componentDef.AddProxy(componentDef.ComponentType, target);</span>
+                              <span class="srcLineWarning" title="Line 18: Method WeaveAspect not entered.">            {</span>
                   </td>
       </tr>        
           <tr>
@@ -332,12 +332,248 @@
                 </td>
                   <td class="coverageCountWarning">&nbsp;</td>
                           <td class="srcCell">
+                              <span class="srcLineWarning" title="Line 18: Method WeaveAspect not entered.">                DynamicAopProxy aopProxy = <span class="keyword">new</span> DynamicAopProxy(componentDef.ComponentType,</span>
+                  </td>
+      </tr>        
+          <tr>
+        <td class="lineNumberHilight">
+                  29
+                </td>
+                  <td class="coverageCountWarning">&nbsp;</td>
+                          <td class="srcCell">
+                              <span class="srcLineWarning" title="Line 18: Method WeaveAspect not entered.">                    GetAspects(componentDef), parameters, target);</span>
+                  </td>
+      </tr>        
+          <tr>
+        <td class="lineNumberHilight">
+                  30
+                </td>
+                  <td class="coverageCountWarning">&nbsp;</td>
+                          <td class="srcCell">
+                              <span class="srcLineWarning" title="Line 18: Method WeaveAspect not entered.">                target = aopProxy.Create();</span>
+                  </td>
+      </tr>        
+          <tr>
+        <td class="lineNumberHilight">
+                  31
+                </td>
+                  <td class="coverageCountWarning">&nbsp;</td>
+                          <td class="srcCell">
+                              <span class="srcLineWarning" title="Line 18: Method WeaveAspect not entered.">            }</span>
+                  </td>
+      </tr>        
+          <tr>
+        <td class="lineNumberHilight">
+                  32
+                </td>
+                  <td class="coverageCountWarning">&nbsp;</td>
+                          <td class="srcCell">
+                              <span class="srcLineWarning" title="Line 18: Method WeaveAspect not entered.">            <span class="keyword">else</span></span>
+                  </td>
+      </tr>        
+          <tr>
+        <td class="lineNumberHilight">
+                  33
+                </td>
+                  <td class="coverageCountWarning">&nbsp;</td>
+                          <td class="srcCell">
+                              <span class="srcLineWarning" title="Line 18: Method WeaveAspect not entered.">            {</span>
+                  </td>
+      </tr>        
+          <tr>
+        <td class="lineNumberHilight">
+                  34
+                </td>
+                  <td class="coverageCountWarning">&nbsp;</td>
+                          <td class="srcCell">
+                              <span class="srcLineWarning" title="Line 18: Method WeaveAspect not entered.">                <span class="keyword">this</span>.AddProxy(<span class="keyword">ref</span> target, componentDef, componentDef.ComponentType, parameters);</span>
+                  </td>
+      </tr>        
+          <tr>
+        <td class="lineNumberHilight">
+                  35
+                </td>
+                  <td class="coverageCountWarning">&nbsp;</td>
+                          <td class="srcCell">
+                              <span class="srcLineWarning" title="Line 18: Method WeaveAspect not entered.">            }</span>
+                  </td>
+      </tr>        
+          <tr>
+        <td class="lineNumberHilight">
+                  36
+                </td>
+                  <td class="coverageCountWarning">&nbsp;</td>
+                          <td class="srcCell">
+                              <span class="srcLineWarning" title="Line 18: Method WeaveAspect not entered."></span>
+                  </td>
+      </tr>        
+          <tr>
+        <td class="lineNumberHilight">
+                  37
+                </td>
+                  <td class="coverageCountWarning">&nbsp;</td>
+                          <td class="srcCell">
+                              <span class="srcLineWarning" title="Line 18: Method WeaveAspect not entered.">            <span class="keyword">foreach</span> (Type interfaceType <span class="keyword">in</span> interfaces)</span>
+                  </td>
+      </tr>        
+          <tr>
+        <td class="lineNumberHilight">
+                  38
+                </td>
+                  <td class="coverageCountWarning">&nbsp;</td>
+                          <td class="srcCell">
+                              <span class="srcLineWarning" title="Line 18: Method WeaveAspect not entered.">            {</span>
+                  </td>
+      </tr>        
+          <tr>
+        <td class="lineNumberHilight">
+                  39
+                </td>
+                  <td class="coverageCountWarning">&nbsp;</td>
+                          <td class="srcCell">
+                              <span class="srcLineWarning" title="Line 18: Method WeaveAspect not entered.">                <span class="keyword">this</span>.AddProxy(<span class="keyword">ref</span> target, componentDef, interfaceType, parameters);</span>
+                  </td>
+      </tr>        
+          <tr>
+        <td class="lineNumberHilight">
+                  40
+                </td>
+                  <td class="coverageCountWarning">&nbsp;</td>
+                          <td class="srcCell">
+                              <span class="srcLineWarning" title="Line 18: Method WeaveAspect not entered.">            }</span>
+                  </td>
+      </tr>        
+          <tr>
+        <td class="lineNumberHilight">
+                  41
+                </td>
+                  <td class="coverageCountWarning">&nbsp;</td>
+                          <td class="srcCell">
                               <span class="srcLineWarning" title="Line 18: Method WeaveAspect not entered.">        }</span>
                   </td>
       </tr>        
           <tr>
         <td class="lineNumber">
-                  29
+                  42
+                </td>
+                  <td class="coverageCount">&nbsp;</td>
+                          <td class="srcCell">
+                              <span class="srcLine"></span>
+                  </td>
+      </tr>        
+          <tr>
+        <td class="lineNumber">
+                  43
+                </td>
+                  <td class="coverageCount">&nbsp;</td>
+                          <td class="srcCell">
+                              <span class="srcLine">        <span class="docComment">/// &lt;summary></span></span>
+                  </td>
+      </tr>        
+          <tr>
+        <td class="lineNumber">
+                  44
+                </td>
+                  <td class="coverageCount">&nbsp;</td>
+                          <td class="srcCell">
+                              <span class="srcLine">        <span class="docComment">/// <span class="docContent">コンポーネント定義にProxyを追加する</span></span></span>
+                  </td>
+      </tr>        
+          <tr>
+        <td class="lineNumber">
+                  45
+                </td>
+                  <td class="coverageCount">&nbsp;</td>
+                          <td class="srcCell">
+                              <span class="srcLine">        <span class="docComment">/// &lt;/summary></span></span>
+                  </td>
+      </tr>        
+          <tr>
+        <td class="lineNumber">
+                  46
+                </td>
+                  <td class="coverageCount">&nbsp;</td>
+                          <td class="srcCell">
+                              <span class="srcLine">        <span class="docComment">/// &lt;param name="target"><span class="docContent">Aspectを織り込む対象のオブジェクト</span>&lt;/param></span></span>
+                  </td>
+      </tr>        
+          <tr>
+        <td class="lineNumber">
+                  47
+                </td>
+                  <td class="coverageCount">&nbsp;</td>
+                          <td class="srcCell">
+                              <span class="srcLine">        <span class="docComment">/// &lt;param name="componentDef"><span class="docContent">Aspectを織り込む対象のコンポーネント定義</span>&lt;/param></span></span>
+                  </td>
+      </tr>        
+          <tr>
+        <td class="lineNumber">
+                  48
+                </td>
+                  <td class="coverageCount">&nbsp;</td>
+                          <td class="srcCell">
+                              <span class="srcLine">        <span class="docComment">/// &lt;param name="type"><span class="docContent">コンポーネント定義に追加するProxyのType</span>&lt;/param></span></span>
+                  </td>
+      </tr>        
+          <tr>
+        <td class="lineNumberHilight">
+                  49
+                </td>
+                  <td class="coverageCountWarning">
+                          <a title="Line 49: Method AddProxy not entered.">0</a>
+                      </td>
+                          <td class="srcCell">
+                              <span class="srcLineWarning" title="Line 49: Method AddProxy not entered.">        <span class="keyword">protected</span> <span class="keyword">void</span> AddProxy(<span class="keyword">ref</span> <span class="keyword">object</span> target, IComponentDef componentDef, Type type, Hashtable parameters)</span>
+                  </td>
+      </tr>        
+          <tr>
+        <td class="lineNumberHilight">
+                  50
+                </td>
+                  <td class="coverageCountWarning">&nbsp;</td>
+                          <td class="srcCell">
+                              <span class="srcLineWarning" title="Line 49: Method AddProxy not entered.">        {</span>
+                  </td>
+      </tr>        
+          <tr>
+        <td class="lineNumberHilight">
+                  51
+                </td>
+                  <td class="coverageCountWarning">&nbsp;</td>
+                          <td class="srcCell">
+                              <span class="srcLineWarning" title="Line 49: Method AddProxy not entered.">            DynamicAopProxy aopProxy = <span class="keyword">new</span> DynamicAopProxy(type,</span>
+                  </td>
+      </tr>        
+          <tr>
+        <td class="lineNumberHilight">
+                  52
+                </td>
+                  <td class="coverageCountWarning">&nbsp;</td>
+                          <td class="srcCell">
+                              <span class="srcLineWarning" title="Line 49: Method AddProxy not entered.">                    GetAspects(componentDef), parameters, target);</span>
+                  </td>
+      </tr>        
+          <tr>
+        <td class="lineNumberHilight">
+                  53
+                </td>
+                  <td class="coverageCountWarning">&nbsp;</td>
+                          <td class="srcCell">
+                              <span class="srcLineWarning" title="Line 49: Method AddProxy not entered.">            componentDef.AddProxy(type, aopProxy.Create());</span>
+                  </td>
+      </tr>        
+          <tr>
+        <td class="lineNumberHilight">
+                  54
+                </td>
+                  <td class="coverageCountWarning">&nbsp;</td>
+                          <td class="srcCell">
+                              <span class="srcLineWarning" title="Line 49: Method AddProxy not entered.">        }</span>
+                  </td>
+      </tr>        
+          <tr>
+        <td class="lineNumber">
+                  55
                 </td>
                   <td class="coverageCount">&nbsp;</td>
                           <td class="srcCell">
@@ -346,7 +582,7 @@
       </tr>        
           <tr>
         <td class="lineNumber">
-                  30
+                  56
                 </td>
                   <td class="coverageCount">&nbsp;</td>
                           <td class="srcCell">
@@ -355,7 +591,7 @@
       </tr>        
           <tr>
         <td class="lineNumber">
-                  31
+                  57
                 </td>
                   <td class="coverageCount">&nbsp;</td>
                           <td class="srcCell">
@@ -375,7 +611,7 @@
         </td>
         <td>Report generated by 
           <a class="footerLink" target="_new" href="http://cenqua.com/clover.net/">Clover.NET v2.0.2284</a>
-          <br />2006年5月18日 12:52:42.
+          <br />2006年5月30日 11:22:42.
         </td>
         <td class="footerMessage">Open Source License registered to the s2container.net Project. This license of Clover.NET is provided to support the development of s2container.net only.<br /></td>
       </tr>

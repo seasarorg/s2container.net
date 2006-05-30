@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
   <head>
-    <title>Coverage for s2container.net</title>
+    <title>Coverage for s2container.net </title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" type="text/css" href="../../../style.css"/>
     <link rel="stylesheet" type="text/css" href="../../../print.css" media="print"/>
@@ -13,10 +13,10 @@
     <tr><td valign="top">
       <h1 class="titleText">
         Clover.NET coverage report - 
-                  <a href="" target="">Coverage for s2container.net</a>
+                  <a href="http://s2container.net.seasar.org/" target="top">Coverage for s2container.net </a>
               </h1>
       <p class="timestamp">
-        <span class="heading">Coverage timestamp:</span>&nbsp;2006年5月18日 12:46:23
+        <span class="heading">Coverage timestamp:</span>&nbsp;2006年5月30日 11:21:29
       </p>
       <p class="navBar">
                   <a class="navBarModeLink" href="../../../overview.html">Overview</a>
@@ -36,14 +36,14 @@
         <tr>
                       <td  rowspan="3" valign="top">File Stats:</td>
                     <td align="right">LOC:</td>
-          <td align="right">89</td>
+          <td align="right">84</td>
           <td rowspan="3">&nbsp;</td>
           <td align="right">Methods:</td>
           <td align="right">5</td>
         </tr>
         <tr>
           <td align="right">NCLOC:</td>
-          <td align="right">59</td>
+          <td align="right">55</td>
           <td align="right">Classes:</td>
           <td align="right">1</td>
         </tr>
@@ -67,17 +67,17 @@
                         Seasar.Framework.Container\Deployer\RequestComponentDeployer.cs
                   </td>
     
-    <td class="graphPercent">87.5%</td>
-    <td class="graphPercent">81.8%</td>
+    <td class="graphPercent">83.3%</td>
+    <td class="graphPercent">80.0%</td>
     <td class="graphPercent">40.0%</td>
-    <td class="graphBarLeft">77.1%</td>
+    <td class="graphBarLeft">74.2%</td>
     <td class="graphBar">
               <table cellspacing="0" cellpadding="0">
           <tr>
                           <td class="covered"><img alt="coverage" src="../../../img/green.gif"
-                  width="154" height="12"/></td>
+                  width="148" height="12"/></td>
               <td class="uncovered"><img alt="coverage" src="../../../img/red.gif"
-                  width="46" height="12"/></td>
+                  width="52" height="12"/></td>
                       </tr>
         </table>
           </td>
@@ -693,7 +693,7 @@
                 </td>
                   <td class="coverageCountHilight">&nbsp;</td>
                           <td class="srcCell">
-                              <span class="srcLine" title="Line 41: Method Deploy entered 5 times.">            </span>
+                              <span class="srcLine" title="Line 41: Method Deploy entered 5 times."></span>
                   </td>
       </tr>        
           <tr>
@@ -701,79 +701,77 @@
                   65
                 </td>
                   <td class="coverageCountHilight">
-                          <a title="Line 65: Expression evaluated to true 3 times, false 1 time.">4</a>
+                          <a title="Line 65: Statement executed 4 times.">4</a>
                       </td>
                           <td class="srcCell">
-                              <span class="srcLine" title="Line 65: Expression evaluated to true 3 times, false 1 time.">            <span class="keyword">if</span>(<span class="keyword">this</span>.ComponentDef.AspectDefSize > 0)</span>
+                              <span class="srcLine" title="Line 65: Statement executed 4 times.">            <span class="keyword">object</span> proxy = GetProxy(receiveType);</span>
                   </td>
       </tr>        
           <tr>
         <td class="lineNumberHilight">
                   66
                 </td>
-                  <td class="coverageCountHilight">&nbsp;</td>
+                  <td class="coverageCountHilight">
+                          <a title="Line 66: Statement executed 4 times.">4</a>
+                      </td>
                           <td class="srcCell">
-                              <span class="srcLine" title="Line 65: Statement executed 4 times.">            {</span>
+                              <span class="srcLine" title="Line 66: Statement executed 4 times.">            <span class="keyword">return</span> proxy == <span class="keyword">null</span> ? component : proxy;</span>
                   </td>
       </tr>        
           <tr>
         <td class="lineNumberHilight">
                   67
                 </td>
-                  <td class="coverageCountHilight">
-                          <a title="Line 67: Statement executed 3 times.">3</a>
-                      </td>
+                  <td class="coverageCountHilight">&nbsp;</td>
                           <td class="srcCell">
-                              <span class="srcLine" title="Line 67: Statement executed 3 times.">                AopProxyUtil.WeaveAspect(<span class="keyword">ref</span> component,<span class="keyword">this</span>.ComponentDef);</span>
+                              <span class="srcLine" title="Line 41: Method Deploy entered 5 times.">        }</span>
                   </td>
       </tr>        
           <tr>
-        <td class="lineNumberHilight">
+        <td class="lineNumber">
                   68
                 </td>
-                  <td class="coverageCountHilight">&nbsp;</td>
+                  <td class="coverageCount">&nbsp;</td>
                           <td class="srcCell">
-                              <span class="srcLine" title="Line 65: Statement executed 4 times.">            }</span>
+                              <span class="srcLine"></span>
                   </td>
       </tr>        
           <tr>
         <td class="lineNumberHilight">
                   69
                 </td>
-                  <td class="coverageCountHilight">&nbsp;</td>
+                  <td class="coverageCountWarning">
+                          <a title="Line 69: Method InjectDependency not entered.">0</a>
+                      </td>
                           <td class="srcCell">
-                              <span class="srcLine" title="Line 41: Method Deploy entered 5 times."></span>
+                              <span class="srcLineWarning" title="Line 69: Method InjectDependency not entered.">        <span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> InjectDependency(<span class="keyword">object</span> component)</span>
                   </td>
       </tr>        
           <tr>
         <td class="lineNumberHilight">
                   70
                 </td>
-                  <td class="coverageCountHilight">
-                          <a title="Line 70: Statement executed 4 times.">4</a>
-                      </td>
+                  <td class="coverageCountWarning">&nbsp;</td>
                           <td class="srcCell">
-                              <span class="srcLine" title="Line 70: Statement executed 4 times.">            <span class="keyword">object</span> proxy = GetProxy(receiveType);</span>
+                              <span class="srcLineWarning" title="Line 69: Method InjectDependency not entered.">        {</span>
                   </td>
       </tr>        
           <tr>
         <td class="lineNumberHilight">
                   71
                 </td>
-                  <td class="coverageCountHilight">
-                          <a title="Line 71: Statement executed 4 times.">4</a>
-                      </td>
+                  <td class="coverageCountWarning">&nbsp;</td>
                           <td class="srcCell">
-                              <span class="srcLine" title="Line 71: Statement executed 4 times.">            <span class="keyword">return</span> proxy == <span class="keyword">null</span> ? component : proxy;</span>
+                              <span class="srcLineWarning" title="Line 69: Method InjectDependency not entered.">            <span class="keyword">throw</span> <span class="keyword">new</span> NotSupportedException(<span class="string">"InjectDependency"</span>);</span>
                   </td>
       </tr>        
           <tr>
         <td class="lineNumberHilight">
                   72
                 </td>
-                  <td class="coverageCountHilight">&nbsp;</td>
+                  <td class="coverageCountWarning">&nbsp;</td>
                           <td class="srcCell">
-                              <span class="srcLine" title="Line 41: Method Deploy entered 5 times.">        }</span>
+                              <span class="srcLineWarning" title="Line 69: Method InjectDependency not entered.">        }</span>
                   </td>
       </tr>        
           <tr>
@@ -790,10 +788,10 @@
                   74
                 </td>
                   <td class="coverageCountWarning">
-                          <a title="Line 74: Method InjectDependency not entered.">0</a>
+                          <a title="Line 74: Method Init not entered.">0</a>
                       </td>
                           <td class="srcCell">
-                              <span class="srcLineWarning" title="Line 74: Method InjectDependency not entered.">        <span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> InjectDependency(<span class="keyword">object</span> component)</span>
+                              <span class="srcLineWarning" title="Line 74: Method Init not entered.">        <span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> Init()</span>
                   </td>
       </tr>        
           <tr>
@@ -802,7 +800,7 @@
                 </td>
                   <td class="coverageCountWarning">&nbsp;</td>
                           <td class="srcCell">
-                              <span class="srcLineWarning" title="Line 74: Method InjectDependency not entered.">        {</span>
+                              <span class="srcLineWarning" title="Line 74: Method Init not entered.">        {</span>
                   </td>
       </tr>        
           <tr>
@@ -811,21 +809,12 @@
                 </td>
                   <td class="coverageCountWarning">&nbsp;</td>
                           <td class="srcCell">
-                              <span class="srcLineWarning" title="Line 74: Method InjectDependency not entered.">            <span class="keyword">throw</span> <span class="keyword">new</span> NotSupportedException(<span class="string">"InjectDependency"</span>);</span>
-                  </td>
-      </tr>        
-          <tr>
-        <td class="lineNumberHilight">
-                  77
-                </td>
-                  <td class="coverageCountWarning">&nbsp;</td>
-                          <td class="srcCell">
-                              <span class="srcLineWarning" title="Line 74: Method InjectDependency not entered.">        }</span>
+                              <span class="srcLineWarning" title="Line 74: Method Init not entered.">        }</span>
                   </td>
       </tr>        
           <tr>
         <td class="lineNumber">
-                  78
+                  77
                 </td>
                   <td class="coverageCount">&nbsp;</td>
                           <td class="srcCell">
@@ -834,13 +823,22 @@
       </tr>        
           <tr>
         <td class="lineNumberHilight">
-                  79
+                  78
                 </td>
                   <td class="coverageCountWarning">
-                          <a title="Line 79: Method Init not entered.">0</a>
+                          <a title="Line 78: Method Destroy not entered.">0</a>
                       </td>
                           <td class="srcCell">
-                              <span class="srcLineWarning" title="Line 79: Method Init not entered.">        <span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> Init()</span>
+                              <span class="srcLineWarning" title="Line 78: Method Destroy not entered.">        <span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> Destroy()</span>
+                  </td>
+      </tr>        
+          <tr>
+        <td class="lineNumberHilight">
+                  79
+                </td>
+                  <td class="coverageCountWarning">&nbsp;</td>
+                          <td class="srcCell">
+                              <span class="srcLineWarning" title="Line 78: Method Destroy not entered.">        {</span>
                   </td>
       </tr>        
           <tr>
@@ -849,16 +847,16 @@
                 </td>
                   <td class="coverageCountWarning">&nbsp;</td>
                           <td class="srcCell">
-                              <span class="srcLineWarning" title="Line 79: Method Init not entered.">        {</span>
+                              <span class="srcLineWarning" title="Line 78: Method Destroy not entered.">        }</span>
                   </td>
       </tr>        
           <tr>
-        <td class="lineNumberHilight">
+        <td class="lineNumber">
                   81
                 </td>
-                  <td class="coverageCountWarning">&nbsp;</td>
+                  <td class="coverageCount">&nbsp;</td>
                           <td class="srcCell">
-                              <span class="srcLineWarning" title="Line 79: Method Init not entered.">        }</span>
+                              <span class="srcLine"></span>
                   </td>
       </tr>        
           <tr>
@@ -867,59 +865,12 @@
                 </td>
                   <td class="coverageCount">&nbsp;</td>
                           <td class="srcCell">
-                              <span class="srcLine"></span>
-                  </td>
-      </tr>        
-          <tr>
-        <td class="lineNumberHilight">
-                  83
-                </td>
-                  <td class="coverageCountWarning">
-                          <a title="Line 83: Method Destroy not entered.">0</a>
-                      </td>
-                          <td class="srcCell">
-                              <span class="srcLineWarning" title="Line 83: Method Destroy not entered.">        <span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> Destroy()</span>
-                  </td>
-      </tr>        
-          <tr>
-        <td class="lineNumberHilight">
-                  84
-                </td>
-                  <td class="coverageCountWarning">&nbsp;</td>
-                          <td class="srcCell">
-                              <span class="srcLineWarning" title="Line 83: Method Destroy not entered.">        {</span>
-                  </td>
-      </tr>        
-          <tr>
-        <td class="lineNumberHilight">
-                  85
-                </td>
-                  <td class="coverageCountWarning">&nbsp;</td>
-                          <td class="srcCell">
-                              <span class="srcLineWarning" title="Line 83: Method Destroy not entered.">        }</span>
-                  </td>
-      </tr>        
-          <tr>
-        <td class="lineNumber">
-                  86
-                </td>
-                  <td class="coverageCount">&nbsp;</td>
-                          <td class="srcCell">
-                              <span class="srcLine"></span>
-                  </td>
-      </tr>        
-          <tr>
-        <td class="lineNumber">
-                  87
-                </td>
-                  <td class="coverageCount">&nbsp;</td>
-                          <td class="srcCell">
                               <span class="srcLine">    }</span>
                   </td>
       </tr>        
           <tr>
         <td class="lineNumber">
-                  88
+                  83
                 </td>
                   <td class="coverageCount">&nbsp;</td>
                           <td class="srcCell">
@@ -928,7 +879,7 @@
       </tr>        
           <tr>
         <td class="lineNumber">
-                  89
+                  84
                 </td>
                   <td class="coverageCount">&nbsp;</td>
                           <td class="srcCell">
@@ -948,7 +899,7 @@
         </td>
         <td>Report generated by 
           <a class="footerLink" target="_new" href="http://cenqua.com/clover.net/">Clover.NET v2.0.2284</a>
-          <br />2006年5月18日 12:52:42.
+          <br />2006年5月30日 11:22:42.
         </td>
         <td class="footerMessage">Open Source License registered to the s2container.net Project. This license of Clover.NET is provided to support the development of s2container.net only.<br /></td>
       </tr>
