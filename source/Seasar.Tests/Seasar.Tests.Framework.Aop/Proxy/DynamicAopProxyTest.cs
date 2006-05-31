@@ -22,6 +22,9 @@ namespace Seasar.Tests.Framework.Aop.Proxy
         HelloImpl _hello = null;
         IHello _hello2 = null;
         IHello3 _hello3 = null;
+        HelloImpl2 _helloImpl2 = null;
+        AutoHello _autoHello = null;
+        AutoHello2 _autoHello2 = null;
 
         public DynamicAopProxyTest()
         {
@@ -67,6 +70,39 @@ namespace Seasar.Tests.Framework.Aop.Proxy
             _hello.Prop = "TestSingleton";
             Assert.AreEqual(_hello.Prop, _hello2.Prop);
         }
+
+        public void SetUpArg()
+        {
+            this.Include("Seasar.Tests.Framework.Aop.Proxy.proxy.dicon");
+        }
+
+        [Test, S2]
+        public void TestArg()
+        {
+            Assert.AreEqual("Hello", _helloImpl2.Greeting());
+        }
+
+        public void SetUpAutoProperty()
+        {
+            this.Include("Seasar.Tests.Framework.Aop.Proxy.proxy.dicon");
+        }
+
+        [Test, S2]
+        public void TestAutoProperty()
+        {
+            Assert.AreEqual("Hello", _autoHello.Greeting());
+        }
+
+        public void SetUpAutoArg()
+        {
+            this.Include("Seasar.Tests.Framework.Aop.Proxy.proxy.dicon");
+        }
+
+        [Test, S2]
+        public void TestAutoArg()
+        {
+            Assert.AreEqual("Hello", _autoHello2.Greeting());
+        }
 	}
 
     public interface IHello
@@ -106,5 +142,51 @@ namespace Seasar.Tests.Framework.Aop.Proxy
     public interface IHello3
     {
         string Greeting();
+    }
+
+    public class HelloImpl2
+    {
+        private string _message;
+
+        public HelloImpl2(string message)
+        {
+            _message = message;
+        }
+
+        public string Greeting()
+        {
+            return _message;
+        }
+    }
+
+    public class AutoHello
+    {
+        private IHello _hello;
+
+        public IHello Hello
+        {
+            set { _hello = value; }
+            get { return _hello; }
+        }
+
+        public string Greeting()
+        {
+            return _hello.Greeting();
+        }
+    }
+
+    public class AutoHello2
+    {
+        private IHello _hello;
+
+        public AutoHello2(IHello hello)
+        {
+            _hello = hello;
+        }
+
+        public string Greeting()
+        {
+            return _hello.Greeting();
+        }
     }
 }
