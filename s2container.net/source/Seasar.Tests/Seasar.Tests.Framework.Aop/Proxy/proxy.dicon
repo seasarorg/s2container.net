@@ -12,6 +12,14 @@
 		<aspect pointcut="Greeting">HelloInterceptor</aspect>
 	</component>
 
+	<component class="Seasar.Tests.Framework.Aop.Proxy.HelloImpl2">
+		<arg>"Hello"</arg>
+	</component>
+
+	<component class="Seasar.Tests.Framework.Aop.Proxy.AutoHello" />
+
+	<component class="Seasar.Tests.Framework.Aop.Proxy.AutoHello2" />
+
 	<component name="HelloInterceptor" class="Seasar.Tests.Framework.Aop.Proxy.HelloInterceptor" />
 
 	<component class="Seasar.Framework.Aop.Impl.DynamicAopProxyAspectWeaver" />
