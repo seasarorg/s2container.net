@@ -24,25 +24,76 @@
 <!-- don't edit end -->
 <!-- document start -->
 
+<a href="index.html">S2Container.NET TOPページへ</a>
+
+<ul>
+	<li><a href="#DownloadFile">配布物の説明</a></li>
+	<li><a href="#S2Container">S2Container.NETのセットアップ</a></li>
+	<li><a href="#S2Unit">S2Unit.NETのセットアップ</a></li>
+	<li><a href="#Examples">Examples</a></li>
+</ul>
+
+<h2><a name="DownloadFile">配布物の説明</a></h2>
+<p>s2container.net-<span style="font-style:italic;">version</span>.zipを
+解答して出来たディレクトリの構成と説明です。（※ S2Container.NET 1.2.0-RC2以降）</p>
+<table border="1">
+	<tr bgcolor="#d1f3f4" align="center">
+		<th>ディレクトリ</th>
+		<th>説明</th>
+	</tr>
+	<tr>
+		<td>s2container.net/build</td>
+		<td>S2Container.NETのリリースビルドされたアセンブリ</td>
+	</tr>
+	<tr>
+		<td>s2container.net/data</td>
+		<td>Examplesで使用するDBのDDL等</td>
+	</tr>
+	<tr>
+		<td>s2container.net/lib</td>
+		<td>S2Container.NETが参照しているアセンブリ等</td>
+	</tr>
+	<tr>
+		<td>s2container.net/source</td>
+		<td>S2Container.NETのソースコード</td>
+	</tr>
+	<tr>
+		<td>www</td>
+		<td>ドキュメント</td>
+	</tr>
+</table>
+
+<h2><a name="S2Container">S2Container.NETのセットアップ</a></h2>
 <p>
-	S2Container.NETはMicrosoft .NET Framework 1.1上で動作します。
-	稼動確認は、Microsoft Visual Studio .NET 2003で行っています。
-</p>
-<p>
-	s2container.net-<span style="font-style:italic;">version</span>.zip
-	を解凍してできたディレクトリにあるsource/Seasar.slnファイルを、
-	Microsoft Visual Studio .NET 2003で開くとS2Container.NETのソースを見ることができます。
-	Examplesやテストコードも含まれています。
-	テストには<a href="http://sourceforge.net/projects/nunit">NUnit</a>を使用しています。
-</p>
-<p>
-	S2Container.NETを利用する場合には以下のファイルの参照を追加する必要があります。
-	なお、libディレクトリにあるSeasar.dllとja-JPディレクトリは同じディレクトリに配置してください。
+	S2Container.NETを利用する場合には以下のファイル(アセンブリ)への参照を追加する必要があります。
+	なお、buildディレクトリにあるSeasar.dllとja-JPディレクトリは同じディレクトリに配置してください。
 	<ul>
-		<li>lib/Seasar.dll</li>
-		<li>lib/log4net.dll</li>
+		<li>s2container.net/build/Seasar.dll</li>
+		<li>s2container.net/lib/log4net.dll</li>
 	</ul>
 </p>
+<p>
+	次にアプリケーション構成ファイル(app.config)に必要であれば設定を行います。
+	アプリケーション構成ファイルについては以下のドキュメントを参照して下さい。
+</p>
+<p>
+	<a href="dicontainer.html#AppConfig">
+		S2Container.NET リファレンス - アプリケーション構成ファイル
+	</a>
+</p>
+
+<h2><a name="S2Unit">S2Unit.NETのセットアップ</a></h2>
+<p>
+	S2Unit.NETはS2Container.NETを使ったテストを楽しく簡単に行うためのテスティングフレームワークです。
+	S2Unit.NETのセットアップについては以下のドキュメントを参照して下さい。
+</p>
+<p>
+	<a href="s2unit.html#setup">
+		S2Unit.NET - 事前の準備
+	</a>
+</p>
+
+<h2><a name="Examples">Examples</a></h2>
 <p>
 Examplesを実行するには、Visual Studio .NET 2003でsource/Seasar.slnを開き、
 Seasar.Examplesプロジェクトをスタートアッププロジェクトに設定して下さい。
@@ -50,7 +101,7 @@ Seasar.Examplesプロジェクトをスタートアッププロジェクトに�
 </p>
 <p>
 Examplesでは一部、SQL Server 2000（もしくは MSDE 2000）を必要とする機能があります。
-その機能を試す場合には、data/setUpDemo.batを実行し、Examples用のデータベースを作成します。
+その機能を試す場合には、s2container.net/data/setUpDemo.batを実行し、Examples用のデータベースを作成します。
 そして、Seasar.ExamplesのTx.diconとDTCTx.diconのデータベースへの接続文字列を
 お使いの環境に合わせて変更して下さい。
 </p>
