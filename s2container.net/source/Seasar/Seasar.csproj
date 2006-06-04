@@ -346,6 +346,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Seasar.Extension.ADO.Types\NHibernateNullableBinaryType.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Seasar.Extension.ADO.Types\NHibernateNullableBooleanType.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -417,6 +422,11 @@
                 />
                 <File
                     RelPath = "Seasar.Extension.ADO.Types\SingleType.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.ADO.Types\SqlBinaryType.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

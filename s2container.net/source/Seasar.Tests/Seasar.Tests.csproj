@@ -155,6 +155,21 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "Seasar.Tests.Extension\BasicTypeBean.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Tests.Extension\NHibernateNullableBasicTypeBean.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Tests.Extension\SqlTypeBasicTypeBean.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Seasar.Tests.Extension.ADO\DataSourceImplTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -316,11 +331,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Seasar.Tests.Extension.Unit\BasicTypeBean.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Seasar.Tests.Extension.Unit\BeanListReaderTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -341,22 +351,12 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Seasar.Tests.Extension.Unit\NHibernateNullableBasicTypeBean.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Seasar.Tests.Extension.Unit\S2AssertTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "Seasar.Tests.Extension.Unit\S2TestCaseTest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Seasar.Tests.Extension.Unit\SqlTypeBasicTypeBean.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

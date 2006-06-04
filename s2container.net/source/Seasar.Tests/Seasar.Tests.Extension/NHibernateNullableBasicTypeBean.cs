@@ -17,122 +17,141 @@
 #endregion
 
 using System;
-using System.Data.SqlTypes;
 using System.Text;
+using Nullables;
 
-namespace Seasar.Tests.Extension.Unit
+namespace Seasar.Tests.Extension
 {
 	[Serializable]
-	public class SqlTypeBasicTypeBean 
+	public class NHibernateNullableBasicTypeBean 
 	{
-		private SqlInt64 id;
+		private NullableInt64 id;
 
-		public SqlInt64 Id
+		public NullableInt64 Id
 		{
 			get { return id; }
 			set { id = value; }
 		}
 
-		private SqlBoolean boolType;
+		private NullableBoolean boolType;
 
-		public SqlBoolean BoolType
+		public NullableBoolean BoolType
 		{
 			get { return boolType; }
 			set { boolType = value; }
 		}
 
-		private SqlByte byteType;
+		private NullableSByte sbyteType;
 
-		public SqlByte ByteType
+		public NullableSByte SbyteType
+		{
+			get { return sbyteType; }
+			set { sbyteType = value; }
+		}
+
+		private NullableByte byteType;
+
+		public NullableByte ByteType
 		{
 			get { return byteType; }
 			set { byteType = value; }
 		}
 
-		private SqlInt16 int16Type;
+		private NullableInt16 int16Type;
 
-		public SqlInt16 Int16Type
+		public NullableInt16 Int16Type
 		{
 			get { return int16Type; }
 			set { int16Type = value; }
 		}
 
-		private SqlInt32 int32Type;
+		private NullableInt32 int32Type;
 
-		public SqlInt32 Int32Type
+		public NullableInt32 Int32Type
 		{
 			get { return int32Type; }
 			set { int32Type = value; }
 		}
 
-		private SqlInt64 int64Type;
+		private NullableInt64 int64Type;
 
-		public SqlInt64 Int64Type
+		public NullableInt64 Int64Type
 		{
 			get { return int64Type; }
 			set { int64Type = value; }
 		}
 
-		private SqlDecimal decimalType;
+		private NullableDecimal decimalType;
 
-		public SqlDecimal DecimalType
+		public NullableDecimal DecimalType
 		{
 			get { return decimalType; }
 			set { decimalType = value; }
 		}
 
-		private SqlSingle singleType;
+		private NullableSingle singleType;
 
-		public SqlSingle SingleType
+		public NullableSingle SingleType
 		{
 			get { return singleType; }
 			set { singleType = value; }
 		}
 
-		private SqlDouble doubleType;
+		private NullableDouble doubleType;
 
-		public SqlDouble DoubleType
+		public NullableDouble DoubleType
 		{
 			get { return doubleType; }
 			set { doubleType = value; }
 		}
 
-		private SqlString stringType;
+		private string stringType;
 
-		public SqlString StringType
+		public string StringType
 		{
 			get { return stringType; }
 			set { stringType = value; }
 		}
 
-		private SqlDateTime dateTimeType;
+		private NullableDateTime dateTimeType;
 
-		public SqlDateTime DateTimeType
+		public NullableDateTime DateTimeType
 		{
 			get { return dateTimeType; }
 			set { dateTimeType = value; }
 		}
 
-		public SqlTypeBasicTypeBean()
+		private NullableByte[] binaryType;
+
+		public NullableByte[] BinaryType
+		{
+			get { return binaryType; }
+			set { binaryType = value; }
+		}
+
+		public NHibernateNullableBasicTypeBean()
 		{
 		}
 
-		public SqlTypeBasicTypeBean(
-			SqlInt64 id,
-			SqlBoolean boolType,
-			SqlByte byteType,
-			SqlInt16 int16Type,
-			SqlInt32 int32Type,
-			SqlInt64 int64Type,
-			SqlDecimal decimalType,
-			SqlSingle singleType,
-			SqlDouble doubleType,
-			SqlString stringType,
-			SqlDateTime dateTimeType
+		public NHibernateNullableBasicTypeBean(
+			NullableInt64 id,
+			NullableBoolean boolType,
+			NullableSByte sbyteType,
+			NullableByte byteType,
+			NullableInt16 int16Type,
+			NullableInt32 int32Type,
+			NullableInt64 int64Type,
+			decimal decimalType,
+			float singleType,
+			double doubleType,
+			string stringType,
+			DateTime dateTimeType,
+			NullableByte[] binaryType
 			)
 		{
 			this.id = id;
 			this.boolType = boolType;
+			this.sbyteType = sbyteType;
 			this.byteType = byteType;
 			this.int16Type = int16Type;
 			this.int32Type = int32Type;
@@ -142,6 +161,7 @@ namespace Seasar.Tests.Extension.Unit
 			this.doubleType = doubleType;
 			this.stringType = stringType;
 			this.dateTimeType = dateTimeType;
+			this.binaryType = binaryType;
 		}
 
 		public override int GetHashCode()
@@ -154,6 +174,7 @@ namespace Seasar.Tests.Extension.Unit
 			StringBuilder buf = new StringBuilder();
 			buf.Append(id).Append(", ");
 			buf.Append(boolType).Append(", ");
+			buf.Append(sbyteType).Append(", ");
 			buf.Append(byteType).Append(", ");
 			buf.Append(int16Type).Append(", ");
 			buf.Append(int32Type).Append(", ");
@@ -162,7 +183,20 @@ namespace Seasar.Tests.Extension.Unit
 			buf.Append(singleType).Append(", ");
 			buf.Append(doubleType).Append(", ");
 			buf.Append(stringType).Append(", ");
-			buf.Append(dateTimeType);
+			buf.Append(dateTimeType).Append(", ");
+			if (binaryType != null)
+			{
+				byte[] bytes = new byte[binaryType.Length];
+				for (int i = 0; i < binaryType.Length; i++)
+				{
+					bytes[i] = binaryType[i].Value;
+				}
+				buf.Append(Convert.ToBase64String(bytes));
+			}
+			else
+			{
+				buf.Append("null");
+			}
 			return buf.ToString();
 		}
 	}

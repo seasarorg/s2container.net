@@ -19,86 +19,86 @@
 using System;
 using System.Text;
 
-namespace Seasar.Tests.Extension.Unit
+namespace Seasar.Tests.Extension
 {
 	[Serializable]
-	public class BasicTypeBean 
+	public class NullableBasicTypeBean 
 	{
-		private long id;
+		private long? id;
 
-		public long Id
+		public long? Id
 		{
 			get { return id; }
 			set { id = value; }
 		}
 
-		private bool boolType;
+		private bool? boolType;
 
-		public bool BoolType
+		public bool? BoolType
 		{
 			get { return boolType; }
 			set { boolType = value; }
 		}
 
-		private sbyte sbyteType;
+		private sbyte? sbyteType;
 
-		public sbyte SbyteType
+		public sbyte? SbyteType
 		{
 			get { return sbyteType; }
 			set { sbyteType = value; }
 		}
 
-		private byte byteType;
+		private byte? byteType;
 
-		public byte ByteType
+		public byte? ByteType
 		{
 			get { return byteType; }
 			set { byteType = value; }
 		}
 
-		private short int16Type;
+		private short? int16Type;
 
-		public short Int16Type
+		public short? Int16Type
 		{
 			get { return int16Type; }
 			set { int16Type = value; }
 		}
 
-		private int int32Type;
+		private int? int32Type;
 
-		public int Int32Type
+		public int? Int32Type
 		{
 			get { return int32Type; }
 			set { int32Type = value; }
 		}
 
-		private long int64Type;
+		private long? int64Type;
 
-		public long Int64Type
+		public long? Int64Type
 		{
 			get { return int64Type; }
 			set { int64Type = value; }
 		}
 
-		private decimal decimalType;
+		private decimal? decimalType;
 
-		public decimal DecimalType
+		public decimal? DecimalType
 		{
 			get { return decimalType; }
 			set { decimalType = value; }
 		}
 
-		private float singleType;
+		private float? singleType;
 
-		public float SingleType
+		public float? SingleType
 		{
 			get { return singleType; }
 			set { singleType = value; }
 		}
 
-		private double doubleType;
+		private double? doubleType;
 
-		public double DoubleType
+		public double? DoubleType
 		{
 			get { return doubleType; }
 			set { doubleType = value; }
@@ -112,31 +112,40 @@ namespace Seasar.Tests.Extension.Unit
 			set { stringType = value; }
 		}
 
-		private DateTime dateTimeType;
+		private DateTime? dateTimeType;
 
-		public DateTime DateTimeType
+		public DateTime? DateTimeType
 		{
 			get { return dateTimeType; }
 			set { dateTimeType = value; }
 		}
-		    
-		public BasicTypeBean()
+
+		private byte?[] binaryType;
+
+		public byte?[] BinaryType
+		{
+			get { return binaryType; }
+			set { binaryType = value; }
+		}
+
+		public NullableBasicTypeBean()
 		{
 		}
 
-		public BasicTypeBean(
-			long id,
-			bool boolType,
-			sbyte sbyteType,
-			byte byteType,
-			short int16Type,
-			int int32Type,
-			long int64Type,
-			decimal decimalType,
-			float singleType,
-			double doubleType,
+		public NullableBasicTypeBean(
+			long? id,
+			bool? boolType,
+			sbyte? sbyteType,
+			byte? byteType,
+			short? int16Type,
+			int? int32Type,
+			long? int64Type,
+			decimal? decimalType,
+			float? singleType,
+			double? doubleType,
 			string stringType,
-			DateTime dateTimeType
+			DateTime? dateTimeType,
+			byte?[] binaryType
 			)
 		{
 			this.id = id;
@@ -151,6 +160,7 @@ namespace Seasar.Tests.Extension.Unit
 			this.doubleType = doubleType;
 			this.stringType = stringType;
 			this.dateTimeType = dateTimeType;
+			this.binaryType = binaryType;
 		}
 
 		public override int GetHashCode()
@@ -172,7 +182,20 @@ namespace Seasar.Tests.Extension.Unit
 			buf.Append(singleType).Append(", ");
 			buf.Append(doubleType).Append(", ");
 			buf.Append(stringType).Append(", ");
-			buf.Append(dateTimeType);
+			buf.Append(dateTimeType).Append(", ");
+			if (binaryType != null)
+			{
+				byte[] bytes = new byte[binaryType.Length];
+				for (int i = 0; i < binaryType.Length; i++)
+				{
+					bytes[i] = binaryType[i].Value;
+				}
+				buf.Append(Convert.ToBase64String(bytes));
+			}
+			else
+			{
+				buf.Append("null");
+			}
 			return buf.ToString();
 		}
 	}

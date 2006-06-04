@@ -10,19 +10,19 @@ use [s2dotnetdemo]
 GO
 
 CREATE TABLE [dbo].[DEPT] (
-	[DEPTNO] numeric (2,0) NOT NULL ,
+	[DEPTNO] numeric (2, 0) NOT NULL ,
 	[DNAME] varchar (14) COLLATE Japanese_CI_AS NULL ,
 	[LOC] varchar (13) COLLATE Japanese_CI_AS NULL ,
-	[VERSIONNO] numeric (8,0) NULL ,
-	[ACTIVE] numeric (1,0) NULL ,
+	[VERSIONNO] numeric (8, 0) NULL ,
+	[ACTIVE] numeric (1, 0) NULL ,
 	CONSTRAINT [PK_DEPT] PRIMARY KEY CLUSTERED ([DEPTNO]))
 GO
 
 
 CREATE TABLE [dbo].[DEPT2] (
-	[DEPTNO] numeric (2,0) NOT NULL ,
+	[DEPTNO] numeric (2, 0) NOT NULL ,
 	[DNAME] varchar (14) COLLATE Japanese_CI_AS NULL ,
-	[ACTIVE] numeric (1,0) NULL ,
+	[ACTIVE] numeric (1, 0) NULL ,
 	CONSTRAINT [PK_DEPT2] PRIMARY KEY CLUSTERED ([DEPTNO]))
 GO
 
@@ -31,26 +31,24 @@ CREATE TABLE [dbo].[DUAL] (
 GO
 
 CREATE TABLE [dbo].[EMP] (
-	[EMPNO] numeric (4,0) NOT NULL ,
+	[EMPNO] numeric (4, 0) NOT NULL ,
 	[ENAME] varchar (10) COLLATE Japanese_CI_AS NULL ,
 	[JOB] varchar (9) COLLATE Japanese_CI_AS NULL ,
-	[MGR] numeric (4,0) NULL ,
+	[MGR] numeric (4, 0) NULL ,
 	[HIREDATE] datetime NULL ,
-	[SAL] decimal (7,2) NULL ,
-	[COMM] numeric (7,2) NULL ,
-	[DEPTNO] numeric (2,0) NULL ,
+	[SAL] decimal (7, 2) NULL ,
+	[COMM] numeric (7, 2) NULL ,
+	[DEPTNO] numeric (2, 0) NULL ,
 	[TSTAMP] datetime NULL ,
 	CONSTRAINT [PK_EMP] PRIMARY KEY CLUSTERED ([EMPNO]))
 GO
 
-
 CREATE TABLE [dbo].[EMP2] (
-	[EMPNO] numeric (4,0) NOT NULL ,
+	[EMPNO] numeric (4, 0) NOT NULL ,
 	[ENAME] varchar (10) COLLATE Japanese_CI_AS NULL ,
-	[DEPTNUM] numeric (2,0) NULL ,
+	[DEPTNUM] numeric (2, 0) NULL ,
 	CONSTRAINT [PK_EMP2] PRIMARY KEY CLUSTERED ([EMPNO]))
 GO
-
 
 CREATE TABLE [dbo].[IDENTITYTABLE] (
 	[ID] int NOT NULL ,
@@ -62,6 +60,24 @@ CREATE TABLE [dbo].[SEQTABLE] (
 	[ID] int NOT NULL ,
 	[NAME] varchar (20) COLLATE Japanese_CI_AS NULL ,
 	CONSTRAINT [PK_SEQTABLE] PRIMARY KEY CLUSTERED ([ID]))
+GO
+
+CREATE TABLE [dbo].[BASICTYPE] (
+	[ID] numeric (18, 0) NOT NULL,
+	[BOOLTYPE] bit NULL,
+	[BYTETYPE] tinyint NULL,
+	[SBYTETYPE] numeric (3, 0) NULL,
+	[INT16TYPE] smallint NULL,
+	[INT32TYPE] int NULL,
+	[INT64TYPE] bigint NULL,
+	[SINGLETYPE] float NULL,
+	[DOUBLETYPE] DOUBLE PRECISION NULL,
+	[DECIMALTYPE] decimal (28, 0) NULL,
+	[STRINGTYPE] varchar (1024) NULL,
+	[DATETIMETYPE] datetime NULL,
+	[BINARYTYPE] binary (16) NULL,
+	CONSTRAINT pk_basictype PRIMARY KEY NONCLUSTERED ([id])
+) 
 GO
 
 INSERT INTO [dbo].[EMP] VALUES(7369,'SMITH','CLERK',7902,CONVERT(datetime,'1980-12-17'),800,NULL,20,CONVERT(datetime,'2000-01-01 00:00:00.0'))
@@ -87,3 +103,24 @@ INSERT INTO [dbo].[EMP2] VALUES(7499,'ALLEN',30)
 INSERT INTO [dbo].[DEPT2] VALUES(20,'RESEARCH',1)
 INSERT INTO [dbo].[DEPT2] VALUES(30,'SALES',0)
 INSERT INTO [dbo].[DUAL] VALUES('X')
+INSERT INTO [dbo].[BASICTYPE] VALUES (
+	1,
+	1,
+	255,
+	-128,
+	32767,
+	2147483647,
+	9223372036854775807,
+	9.876543,
+	9.87654321098765,
+	9999999999999999999999999999,
+	'í|\ñ˜Å`',
+	CONVERT(datetime, '1980-12-17 12:34:56.123'),
+	CONVERT(binary, 0x7D)
+);
+
+INSERT INTO [dbo].[BASICTYPE] (
+	id
+) VALUES (
+	2
+);
