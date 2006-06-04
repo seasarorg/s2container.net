@@ -256,7 +256,7 @@ namespace Seasar.Extension.ADO.Impl
             {
                 return "'" + bindVariable + "'";
             }
-			else if(bindVariable == null)
+			else if(bindVariable == null)                                                                                                                                                                                                                                                             
 			{
 				return "null";
 			}

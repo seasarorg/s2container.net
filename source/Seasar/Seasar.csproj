@@ -209,6 +209,9 @@
     <Compile Include="Seasar.Extension.ADO.Types\NullableBooleanType.cs" />
     <Compile Include="Seasar.Extension.ADO.Types\NullableGuidType.cs" />
     <Compile Include="Seasar.Extension.ADO.Types\NullableDateTimeType.cs" />
+    <Compile Include="Seasar.Extension.ADO.Types\NHibernateNullableBinaryType.cs" />
+    <Compile Include="Seasar.Extension.ADO.Types\SqlBinaryType.cs" />
+    <Compile Include="Seasar.Extension.ADO.Types\NullableBinaryType.cs" />
     <Compile Include="Seasar.Extension.ADO\ColumnNotFoundRuntimeException.cs">
       <SubType>Code</SubType>
     </Compile>
