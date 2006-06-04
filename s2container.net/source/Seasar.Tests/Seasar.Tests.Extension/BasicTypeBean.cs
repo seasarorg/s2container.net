@@ -17,122 +17,140 @@
 #endregion
 
 using System;
-using System.Data.SqlTypes;
 using System.Text;
 
-namespace Seasar.Tests.Extension.Unit
+namespace Seasar.Tests.Extension
 {
 	[Serializable]
-	public class SqlTypeBasicTypeBean 
+	public class BasicTypeBean 
 	{
-		private SqlInt64 id;
+		private long id;
 
-		public SqlInt64 Id
+		public long Id
 		{
 			get { return id; }
 			set { id = value; }
 		}
 
-		private SqlBoolean boolType;
+		private bool boolType;
 
-		public SqlBoolean BoolType
+		public bool BoolType
 		{
 			get { return boolType; }
 			set { boolType = value; }
 		}
 
-		private SqlByte byteType;
+		private sbyte sbyteType;
 
-		public SqlByte ByteType
+		public sbyte SbyteType
+		{
+			get { return sbyteType; }
+			set { sbyteType = value; }
+		}
+
+		private byte byteType;
+
+		public byte ByteType
 		{
 			get { return byteType; }
 			set { byteType = value; }
 		}
 
-		private SqlInt16 int16Type;
+		private short int16Type;
 
-		public SqlInt16 Int16Type
+		public short Int16Type
 		{
 			get { return int16Type; }
 			set { int16Type = value; }
 		}
 
-		private SqlInt32 int32Type;
+		private int int32Type;
 
-		public SqlInt32 Int32Type
+		public int Int32Type
 		{
 			get { return int32Type; }
 			set { int32Type = value; }
 		}
 
-		private SqlInt64 int64Type;
+		private long int64Type;
 
-		public SqlInt64 Int64Type
+		public long Int64Type
 		{
 			get { return int64Type; }
 			set { int64Type = value; }
 		}
 
-		private SqlDecimal decimalType;
+		private decimal decimalType;
 
-		public SqlDecimal DecimalType
+		public decimal DecimalType
 		{
 			get { return decimalType; }
 			set { decimalType = value; }
 		}
 
-		private SqlSingle singleType;
+		private float singleType;
 
-		public SqlSingle SingleType
+		public float SingleType
 		{
 			get { return singleType; }
 			set { singleType = value; }
 		}
 
-		private SqlDouble doubleType;
+		private double doubleType;
 
-		public SqlDouble DoubleType
+		public double DoubleType
 		{
 			get { return doubleType; }
 			set { doubleType = value; }
 		}
 
-		private SqlString stringType;
+		private string stringType;
 
-		public SqlString StringType
+		public string StringType
 		{
 			get { return stringType; }
 			set { stringType = value; }
 		}
 
-		private SqlDateTime dateTimeType;
+		private DateTime dateTimeType;
 
-		public SqlDateTime DateTimeType
+		public DateTime DateTimeType
 		{
 			get { return dateTimeType; }
 			set { dateTimeType = value; }
 		}
 
-		public SqlTypeBasicTypeBean()
+		private byte[] binaryType;
+
+		public byte[] BinaryType
+		{
+			get { return binaryType; }
+			set { binaryType = value; }
+		}
+
+		public BasicTypeBean()
 		{
 		}
 
-		public SqlTypeBasicTypeBean(
-			SqlInt64 id,
-			SqlBoolean boolType,
-			SqlByte byteType,
-			SqlInt16 int16Type,
-			SqlInt32 int32Type,
-			SqlInt64 int64Type,
-			SqlDecimal decimalType,
-			SqlSingle singleType,
-			SqlDouble doubleType,
-			SqlString stringType,
-			SqlDateTime dateTimeType
+		public BasicTypeBean(
+			long id,
+			bool boolType,
+			sbyte sbyteType,
+			byte byteType,
+			short int16Type,
+			int int32Type,
+			long int64Type,
+			decimal decimalType,
+			float singleType,
+			double doubleType,
+			string stringType,
+			DateTime dateTimeType,
+			byte[] binaryType
 			)
 		{
 			this.id = id;
 			this.boolType = boolType;
+			this.sbyteType = sbyteType;
 			this.byteType = byteType;
 			this.int16Type = int16Type;
 			this.int32Type = int32Type;
@@ -142,6 +160,7 @@ namespace Seasar.Tests.Extension.Unit
 			this.doubleType = doubleType;
 			this.stringType = stringType;
 			this.dateTimeType = dateTimeType;
+			this.binaryType = binaryType;
 		}
 
 		public override int GetHashCode()
@@ -154,6 +173,7 @@ namespace Seasar.Tests.Extension.Unit
 			StringBuilder buf = new StringBuilder();
 			buf.Append(id).Append(", ");
 			buf.Append(boolType).Append(", ");
+			buf.Append(sbyteType).Append(", ");
 			buf.Append(byteType).Append(", ");
 			buf.Append(int16Type).Append(", ");
 			buf.Append(int32Type).Append(", ");
@@ -162,7 +182,8 @@ namespace Seasar.Tests.Extension.Unit
 			buf.Append(singleType).Append(", ");
 			buf.Append(doubleType).Append(", ");
 			buf.Append(stringType).Append(", ");
-			buf.Append(dateTimeType);
+			buf.Append(dateTimeType).Append(", ");
+			buf.Append((binaryType != null) ? Convert.ToBase64String(binaryType) : "null");
 			return buf.ToString();
 		}
 	}

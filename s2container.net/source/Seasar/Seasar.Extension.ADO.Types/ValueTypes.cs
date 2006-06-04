@@ -51,6 +51,7 @@ namespace Seasar.Extension.ADO.Types
 		public readonly static IValueType NHIBERNATE_NULLABLE_DOUBLE = new NHibernateNullableDoubleType();
 		public readonly static IValueType NHIBERNATE_NULLABLE_DECIMAL = new NHibernateNullableDecimalType();
 		public readonly static IValueType NHIBERNATE_NULLABLE_DATETIME = new NHibernateNullableDateTimeType();
+		public readonly static IValueType NHIBERNATE_NULLABLE_BINARY = new NHibernateNullableBinaryType();
 		public readonly static IValueType NHIBERNATE_NULLABLE_BOOLEAN = new NHibernateNullableBooleanType();
 		public readonly static IValueType NHIBERNATE_NULLABLE_GUID = new NHibernateNullableGuidType();
 
@@ -63,6 +64,7 @@ namespace Seasar.Extension.ADO.Types
 		public readonly static IValueType SQL_DOUBLE = new SqlDoubleType();
 		public readonly static IValueType SQL_DECIMAL = new SqlDecimalType();
 		public readonly static IValueType SQL_DATETIME = new SqlDateTimeType();
+		public readonly static IValueType SQL_BINARY = new SqlBinaryType();
 		public readonly static IValueType SQL_BOOLEAN = new SqlBooleanType();
 		public readonly static IValueType SQL_GUID = new SqlGuidType();
 
@@ -75,6 +77,7 @@ namespace Seasar.Extension.ADO.Types
 		public readonly static IValueType NULLABLE_DOUBLE = new NullableDoubleType();
 		public readonly static IValueType NULLABLE_DECIMAL = new NullableDecimalType();
 		public readonly static IValueType NULLABLE_DATETIME = new NullableDateTimeType();
+		public readonly static IValueType NULLABLE_BINARY = new NullableBinaryType();
 		public readonly static IValueType NULLABLE_BOOLEAN = new NullableBooleanType();
 		public readonly static IValueType NULLABLE_GUID = new NullableGuidType();
 
@@ -112,7 +115,7 @@ namespace Seasar.Extension.ADO.Types
 			RegisterValueType(typeof(SqlDouble), SQL_DOUBLE);
 			RegisterValueType(typeof(SqlDecimal), SQL_DECIMAL);
 			RegisterValueType(typeof(SqlDateTime), SQL_DATETIME);
-			RegisterValueType(typeof(SqlBinary), BINARY);
+			RegisterValueType(typeof(SqlBinary), SQL_BINARY);
 			RegisterValueType(typeof(SqlBoolean), SQL_BOOLEAN);
 			RegisterValueType(typeof(SqlMoney), SQL_DECIMAL);
 			RegisterValueType(typeof(SqlGuid), SQL_GUID);
@@ -127,7 +130,7 @@ namespace Seasar.Extension.ADO.Types
 			RegisterValueType(typeof(NullableDouble), NHIBERNATE_NULLABLE_DOUBLE);
 			RegisterValueType(typeof(NullableDecimal), NHIBERNATE_NULLABLE_DECIMAL);
 			RegisterValueType(typeof(NullableDateTime), NHIBERNATE_NULLABLE_DATETIME);
-			RegisterValueType(NHIBERNATE_NULLABLE_BYTE_ARRAY_TYPE, BINARY);
+			RegisterValueType(NHIBERNATE_NULLABLE_BYTE_ARRAY_TYPE, NHIBERNATE_NULLABLE_BINARY);
 			RegisterValueType(typeof(NullableBoolean), NHIBERNATE_NULLABLE_BOOLEAN);
 			RegisterValueType(typeof(NullableGuid), NHIBERNATE_NULLABLE_GUID);
 
@@ -140,7 +143,7 @@ namespace Seasar.Extension.ADO.Types
 			RegisterValueType(typeof(Nullable<Double>), NULLABLE_DOUBLE);
 			RegisterValueType(typeof(Nullable<Decimal>), NULLABLE_DECIMAL);
 			RegisterValueType(typeof(Nullable<DateTime>), NULLABLE_DATETIME);
-			RegisterValueType(NULLABLE_BYTE_ARRAY_TYPE, BINARY);
+			RegisterValueType(NULLABLE_BYTE_ARRAY_TYPE, NULLABLE_BINARY);
 			RegisterValueType(typeof(Nullable<Boolean>), NULLABLE_BOOLEAN);
 			RegisterValueType(typeof(Nullable<Guid>), NULLABLE_GUID);
 		}

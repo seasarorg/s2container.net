@@ -18,87 +18,88 @@
 
 using System;
 using System.Text;
+using Nullables;
 
-namespace Seasar.Tests.Extension.Unit
+namespace Seasar.Tests.Extension
 {
 	[Serializable]
-	public class NullableBasicTypeBean 
+	public class NHibernateNullableBasicTypeBean 
 	{
-		private long? id;
+		private NullableInt64 id;
 
-		public long? Id
+		public NullableInt64 Id
 		{
 			get { return id; }
 			set { id = value; }
 		}
 
-		private bool? boolType;
+		private NullableBoolean boolType;
 
-		public bool? BoolType
+		public NullableBoolean BoolType
 		{
 			get { return boolType; }
 			set { boolType = value; }
 		}
 
-		private sbyte? sbyteType;
+		private NullableSByte sbyteType;
 
-		public sbyte? SbyteType
+		public NullableSByte SbyteType
 		{
 			get { return sbyteType; }
 			set { sbyteType = value; }
 		}
 
-		private byte? byteType;
+		private NullableByte byteType;
 
-		public byte? ByteType
+		public NullableByte ByteType
 		{
 			get { return byteType; }
 			set { byteType = value; }
 		}
 
-		private short? int16Type;
+		private NullableInt16 int16Type;
 
-		public short? Int16Type
+		public NullableInt16 Int16Type
 		{
 			get { return int16Type; }
 			set { int16Type = value; }
 		}
 
-		private int? int32Type;
+		private NullableInt32 int32Type;
 
-		public int? Int32Type
+		public NullableInt32 Int32Type
 		{
 			get { return int32Type; }
 			set { int32Type = value; }
 		}
 
-		private long? int64Type;
+		private NullableInt64 int64Type;
 
-		public long? Int64Type
+		public NullableInt64 Int64Type
 		{
 			get { return int64Type; }
 			set { int64Type = value; }
 		}
 
-		private decimal? decimalType;
+		private NullableDecimal decimalType;
 
-		public decimal? DecimalType
+		public NullableDecimal DecimalType
 		{
 			get { return decimalType; }
 			set { decimalType = value; }
 		}
 
-		private float? singleType;
+		private NullableSingle singleType;
 
-		public float? SingleType
+		public NullableSingle SingleType
 		{
 			get { return singleType; }
 			set { singleType = value; }
 		}
 
-		private double? doubleType;
+		private NullableDouble doubleType;
 
-		public double? DoubleType
+		public NullableDouble DoubleType
 		{
 			get { return doubleType; }
 			set { doubleType = value; }
@@ -112,31 +113,40 @@ namespace Seasar.Tests.Extension.Unit
 			set { stringType = value; }
 		}
 
-		private DateTime? dateTimeType;
+		private NullableDateTime dateTimeType;
 
-		public DateTime? DateTimeType
+		public NullableDateTime DateTimeType
 		{
 			get { return dateTimeType; }
 			set { dateTimeType = value; }
 		}
-		    
-		public NullableBasicTypeBean()
+
+		private NullableByte[] binaryType;
+
+		public NullableByte[] BinaryType
+		{
+			get { return binaryType; }
+			set { binaryType = value; }
+		}
+
+		public NHibernateNullableBasicTypeBean()
 		{
 		}
 
-		public NullableBasicTypeBean(
-			long? id,
-			bool? boolType,
-			sbyte? sbyteType,
-			byte? byteType,
-			short? int16Type,
-			int? int32Type,
-			long? int64Type,
-			decimal? decimalType,
-			float? singleType,
-			double? doubleType,
+		public NHibernateNullableBasicTypeBean(
+			NullableInt64 id,
+			NullableBoolean boolType,
+			NullableSByte sbyteType,
+			NullableByte byteType,
+			NullableInt16 int16Type,
+			NullableInt32 int32Type,
+			NullableInt64 int64Type,
+			decimal decimalType,
+			float singleType,
+			double doubleType,
 			string stringType,
-			DateTime? dateTimeType
+			DateTime dateTimeType,
+			NullableByte[] binaryType
 			)
 		{
 			this.id = id;
@@ -151,6 +161,7 @@ namespace Seasar.Tests.Extension.Unit
 			this.doubleType = doubleType;
 			this.stringType = stringType;
 			this.dateTimeType = dateTimeType;
+			this.binaryType = binaryType;
 		}
 
 		public override int GetHashCode()
@@ -172,7 +183,20 @@ namespace Seasar.Tests.Extension.Unit
 			buf.Append(singleType).Append(", ");
 			buf.Append(doubleType).Append(", ");
 			buf.Append(stringType).Append(", ");
-			buf.Append(dateTimeType);
+			buf.Append(dateTimeType).Append(", ");
+			if (binaryType != null)
+			{
+				byte[] bytes = new byte[binaryType.Length];
+				for (int i = 0; i < binaryType.Length; i++)
+				{
+					bytes[i] = binaryType[i].Value;
+				}
+				buf.Append(Convert.ToBase64String(bytes));
+			}
+			else
+			{
+				buf.Append("null");
+			}
 			return buf.ToString();
 		}
 	}

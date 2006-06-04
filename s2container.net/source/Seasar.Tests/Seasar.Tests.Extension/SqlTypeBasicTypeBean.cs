@@ -17,126 +17,136 @@
 #endregion
 
 using System;
+using System.Data.SqlTypes;
 using System.Text;
 
-namespace Seasar.Tests.Extension.Unit
+namespace Seasar.Tests.Extension
 {
 	[Serializable]
-	public class BasicTypeBean 
+	public class SqlTypeBasicTypeBean 
 	{
-		private long id;
+		private SqlInt64 id;
 
-		public long Id
+		public SqlInt64 Id
 		{
 			get { return id; }
 			set { id = value; }
 		}
 
-		private bool boolType;
+		private SqlBoolean boolType;
 
-		public bool BoolType
+		public SqlBoolean BoolType
 		{
 			get { return boolType; }
 			set { boolType = value; }
 		}
 
-		private sbyte sbyteType;
+		private SqlByte byteType;
 
-		public sbyte SbyteType
-		{
-			get { return sbyteType; }
-			set { sbyteType = value; }
-		}
-
-		private byte byteType;
-
-		public byte ByteType
+		public SqlByte ByteType
 		{
 			get { return byteType; }
 			set { byteType = value; }
 		}
 
-		private short int16Type;
+		private SByte sbyteType;
 
-		public short Int16Type
+		public SByte SbyteType
+		{
+			get { return sbyteType; }
+			set { sbyteType = value; }
+		}
+
+		private SqlInt16 int16Type;
+
+		public SqlInt16 Int16Type
 		{
 			get { return int16Type; }
 			set { int16Type = value; }
 		}
 
-		private int int32Type;
+		private SqlInt32 int32Type;
 
-		public int Int32Type
+		public SqlInt32 Int32Type
 		{
 			get { return int32Type; }
 			set { int32Type = value; }
 		}
 
-		private long int64Type;
+		private SqlInt64 int64Type;
 
-		public long Int64Type
+		public SqlInt64 Int64Type
 		{
 			get { return int64Type; }
 			set { int64Type = value; }
 		}
 
-		private decimal decimalType;
+		private SqlDecimal decimalType;
 
-		public decimal DecimalType
+		public SqlDecimal DecimalType
 		{
 			get { return decimalType; }
 			set { decimalType = value; }
 		}
 
-		private float singleType;
+		private SqlSingle singleType;
 
-		public float SingleType
+		public SqlSingle SingleType
 		{
 			get { return singleType; }
 			set { singleType = value; }
 		}
 
-		private double doubleType;
+		private SqlDouble doubleType;
 
-		public double DoubleType
+		public SqlDouble DoubleType
 		{
 			get { return doubleType; }
 			set { doubleType = value; }
 		}
 
-		private string stringType;
+		private SqlString stringType;
 
-		public string StringType
+		public SqlString StringType
 		{
 			get { return stringType; }
 			set { stringType = value; }
 		}
 
-		private DateTime dateTimeType;
+		private SqlDateTime dateTimeType;
 
-		public DateTime DateTimeType
+		public SqlDateTime DateTimeType
 		{
 			get { return dateTimeType; }
 			set { dateTimeType = value; }
 		}
-		    
-		public BasicTypeBean()
+
+		private SqlBinary binaryType;
+
+		public SqlBinary BinaryType
+		{
+			get { return binaryType; }
+			set { binaryType = value; }
+		}
+
+		public SqlTypeBasicTypeBean()
 		{
 		}
 
-		public BasicTypeBean(
-			long id,
-			bool boolType,
-			sbyte sbyteType,
-			byte byteType,
-			short int16Type,
-			int int32Type,
-			long int64Type,
-			decimal decimalType,
-			float singleType,
-			double doubleType,
-			string stringType,
-			DateTime dateTimeType
+		public SqlTypeBasicTypeBean(
+			SqlInt64 id,
+			SqlBoolean boolType,
+			SByte sbyteType,
+			SqlByte byteType,
+			SqlInt16 int16Type,
+			SqlInt32 int32Type,
+			SqlInt64 int64Type,
+			SqlDecimal decimalType,
+			SqlSingle singleType,
+			SqlDouble doubleType,
+			SqlString stringType,
+			SqlDateTime dateTimeType,
+			SqlBinary binaryType
 			)
 		{
 			this.id = id;
@@ -151,6 +161,7 @@ namespace Seasar.Tests.Extension.Unit
 			this.doubleType = doubleType;
 			this.stringType = stringType;
 			this.dateTimeType = dateTimeType;
+			this.binaryType = binaryType;
 		}
 
 		public override int GetHashCode()
@@ -172,7 +183,8 @@ namespace Seasar.Tests.Extension.Unit
 			buf.Append(singleType).Append(", ");
 			buf.Append(doubleType).Append(", ");
 			buf.Append(stringType).Append(", ");
-			buf.Append(dateTimeType);
+			buf.Append(dateTimeType).Append(", ");
+			buf.Append(binaryType).Append(", ");
 			return buf.ToString();
 		}
 	}
