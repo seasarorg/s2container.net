@@ -2,7 +2,7 @@
 <!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
 "http://www.seasar.org/dtd/components21.dtd">
 <components>
-	<include path="Seasar.Examples/Tx.dicon" />
+	<include path="Seasar.Examples/LocalTx.dicon" />
 	<component name="LocalTxClient" class="Seasar.Examples.Reference.LocalTx.LocalTxClient" />
 	<component class="Seasar.Examples.Reference.LocalTx.EmployeeDaoImpl">
 		<aspect>Ado.RequiredTx</aspect>
