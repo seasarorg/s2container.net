@@ -34,7 +34,7 @@ namespace Seasar.Examples.Reference.S2Unit
 			Include("Seasar.Examples/Reference/S2Unit/EmployeeDao.dicon");
 		}
 
-		[Test, S2(Tx.Rollback)]
+		[Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
 		public void GetEmployee()
 		{
 			ReadXlsWriteDb("Seasar.Examples/Reference/S2Unit/GetEmployeePrepare.xls");
