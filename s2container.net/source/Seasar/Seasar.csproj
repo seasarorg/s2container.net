@@ -888,9 +888,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SSRMessages.resx</DependentUpon>
     </Compile>
-    <None Include="Tx.dicon" />
+    <EmbeddedResource Include="Tx.dicon" />
     <None Include="Seasar.Framework.Container\Web\Web.config" />
     <None Include="Seasar.snk" />
+    <EmbeddedResource Include="LocalTx.dicon" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

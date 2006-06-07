@@ -122,6 +122,7 @@
     <None Include="Seasar.Examples\Reference\S2Unit\Db2ExcelClient2.dicon" />
     <None Include="Seasar.Examples\Reference\S2Unit\EmployeeDao.dicon" />
     <None Include="Seasar.Examples\Reference\S2Unit\GetEmployeeExpected.xls" />
+    <None Include="Seasar.Examples\LocalTx.dicon" />
     <None Include="Seasar.Examples\Tx.dicon" />
     <None Include="Seasar.snk" />
     <Content Include="App.ico" />
