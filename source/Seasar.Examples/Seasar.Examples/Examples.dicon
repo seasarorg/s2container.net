@@ -18,6 +18,7 @@
   <include path="Seasar.Examples/Reference/Metadata/meta.dicon" />
   <include path="Seasar.Examples/Reference/LocalTx/LocalTxClient.dicon" />
   <include path="Seasar.Examples/Reference/DTCTx/DTCTxClient.dicon" />
+	<include path="Seasar.Examples/Reference/Tx/TxClient.dicon" />
   <include path="Seasar.Examples/Reference/S2Unit/Db2ExcelClient.dicon" />
   <include path="Seasar.Examples/Reference/S2Unit/Db2ExcelClient2.dicon" />
   <include path="Seasar.Examples/Reference/S2Unit/EmployeeDao.dicon" />
@@ -177,6 +178,16 @@
         <initMethod name="AddDicon"><arg>"Seasar.Examples/DTCTx.dicon"</arg></initMethod>
         <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/DTCTx/DTCTxClient.cs"</arg></initMethod>
         <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/DTCTx/EmployeeDao.cs"</arg></initMethod>
+      </component>
+    </arg></initMethod>
+    <initMethod name="Add"><arg>
+      <component class="Seasar.Examples.Impl.BasicExamplesHandler">
+        <property name="Title">"System.Transactionsトランザクション"</property>
+        <property name="Examples">TxClient</property>
+        <initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/Tx/TxClient.dicon"</arg></initMethod>
+        <initMethod name="AddDicon"><arg>"Seasar.Examples/Tx.dicon"</arg></initMethod>
+        <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Tx/TxClient.cs"</arg></initMethod>
+        <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Tx/EmployeeDao.cs"</arg></initMethod>
       </component>
     </arg></initMethod>
     <initMethod name="Add"><arg>

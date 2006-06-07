@@ -123,6 +123,7 @@
     <None Include="Seasar.Examples\Reference\S2Unit\EmployeeDao.dicon" />
     <None Include="Seasar.Examples\Reference\S2Unit\GetEmployeeExpected.xls" />
     <None Include="Seasar.Examples\LocalTx.dicon" />
+    <None Include="Seasar.Examples\Reference\Tx\TxClient.dicon" />
     <None Include="Seasar.Examples\Tx.dicon" />
     <None Include="Seasar.snk" />
     <Content Include="App.ico" />
@@ -246,6 +247,8 @@
     <Compile Include="Seasar.Examples\Reference\S2Unit\IEmployeeDao.cs" />
     <Compile Include="Seasar.Examples\Reference\S2Unit\EmployeeDao.cs" />
     <Compile Include="Seasar.Examples\Reference\S2Unit\EmployeeDaoTest.cs" />
+    <Compile Include="Seasar.Examples\Reference\Tx\TxClient.cs" />
+    <Compile Include="Seasar.Examples\Reference\Tx\EmployeeDao.cs" />
     <Compile Include="Seasar.Extension.UI\Forms\HighlightDescriptor.cs">
       <SubType>Code</SubType>
     </Compile>
