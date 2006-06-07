@@ -1,6 +1,39 @@
 <?xml version="1.0" encoding="utf-8" ?> 
 <!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
 "http://www.seasar.org/dtd/components21.dtd">
-<components namespace="LocalTx">
-  <include path="Seasar.Examples/Ado.dicon" />
+<components namespace="Tx">
+	
+	<component name="SqlClient" class="Seasar.Extension.ADO.DataProvider">
+		<property name="ConnectionType">"System.Data.SqlClient.SqlConnection"</property>
+		<property name="CommandType">"System.Data.SqlClient.SqlCommand"</property>
+		<property name="ParameterType">"System.Data.SqlClient.SqlParameter"</property>
+		<property name="DataAdapterType">"System.Data.SqlClient.SqlDataAdapter"</property>
+	</component>
+
+	<component name="SqlDataSource" class="Seasar.Extension.ADO.Impl.DataSourceImpl">
+		<property name="DataProvider">SqlClient</property>
+		<property name="ConnectionString">"Server=127.0.0.1;database=s2dotnetdemo;Integrated Security=SSPI"</property>
+	</component>
+
+	<component name="TransactionStateHandler" 
+			class="Seasar.Extension.Tx.Impl.TransactionStateHandler" />
+			
+	<component name="RequiredTx" class="Seasar.Extension.Tx.TransactionInterceptor">
+		<arg>
+			<component class="Seasar.Extension.Tx.Impl.RequiredTxHandler" />
+		</arg>
+	</component>
+	
+	<component name="RequiresNewTx" class="Seasar.Extension.Tx.TransactionInterceptor">
+		<arg>
+			<component class="Seasar.Extension.Tx.Impl.RequiresNewTxHandler" />
+		</arg>
+	</component>
+
+	<component name="NotSupportedTx" class="Seasar.Extension.Tx.TransactionInterceptor">
+		<arg>
+			<component class="Seasar.Extension.Tx.Impl.NotSupportedTxHandler" />
+		</arg>
+	</component>
+	
 </components>
