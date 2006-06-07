@@ -163,7 +163,7 @@
         <property name="Title">"ローカルトランザクション"</property>
         <property name="Examples">LocalTxClient</property>
         <initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/LocalTx/LocalTxClient.dicon"</arg></initMethod>
-        <initMethod name="AddDicon"><arg>"Seasar.Examples/Tx.dicon"</arg></initMethod>
+        <initMethod name="AddDicon"><arg>"Seasar.Examples/LocalTx.dicon"</arg></initMethod>
         <initMethod name="AddDicon"><arg>"Seasar.Examples/Ado.dicon"</arg></initMethod>
         <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/LocalTx/LocalTxClient.cs"</arg></initMethod>
         <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/LocalTx/EmployeeDao.cs"</arg></initMethod>
