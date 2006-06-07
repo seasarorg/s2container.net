@@ -188,6 +188,10 @@ S2Container作成時にロードするアセンブリを指定することがで
 指定されたアセンブリは、Seasar.Framework.Container.Factory.S2ContainerFactory#Create
 が呼び出されたときに、アプリケーションドメインに読み込まれます。
 </p>
+<p><span style="color:red;font-weight:bold;">
+	diconファイルに登録したクラスが見つからずにClassNotFoundRuntimeExceptionが発生する場合は、
+	&lt;assemblys&gt;にアセンブリを指定することを忘れていないか確認してみてください。
+</span></p>
 <pre>
 &lt;configuration&gt;
    &lt;configSections&gt;
