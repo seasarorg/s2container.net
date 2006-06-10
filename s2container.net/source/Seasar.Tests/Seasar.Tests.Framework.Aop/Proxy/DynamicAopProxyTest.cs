@@ -25,6 +25,7 @@ namespace Seasar.Tests.Framework.Aop.Proxy
         HelloImpl2 _helloImpl2 = null;
         AutoHello _autoHello = null;
         AutoHello2 _autoHello2 = null;
+        IHello4 _hello4 = null;
 
         public DynamicAopProxyTest()
         {
@@ -45,6 +46,7 @@ namespace Seasar.Tests.Framework.Aop.Proxy
             Assert.AreEqual("Hello", _hello.Greeting(), "1");
             Assert.AreEqual("Hello", _hello2.Greeting(), "2");
             Assert.AreEqual("Hello", _hello3.Greeting(), "3");
+            Assert.AreEqual("Hello", _hello4.Greeting(), "4");
         }
 
         public void SetUpProperty()
@@ -187,6 +189,21 @@ namespace Seasar.Tests.Framework.Aop.Proxy
         public string Greeting()
         {
             return _hello.Greeting();
+        }
+    }
+
+    public interface IHello4
+    {
+        string Greeting();
+    }
+
+    public class HelloImpl4 : IHello4
+    {
+        private string _str = "abc";
+
+        public string Greeting()
+        {
+            return _str;
         }
     }
 }
