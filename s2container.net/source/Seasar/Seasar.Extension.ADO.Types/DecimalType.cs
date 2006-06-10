@@ -21,7 +21,7 @@ using System.Data;
 
 namespace Seasar.Extension.ADO.Types
 {
-    public class DecimalType : BaseValueType, IValueType
+	public class DecimalType : PrimitiveBaseType, IValueType
     {
         public DecimalType()
         {
@@ -38,14 +38,7 @@ namespace Seasar.Extension.ADO.Types
 
 		protected override object GetValue(object value)
 		{
-			if (value == DBNull.Value)
-			{
-				return null;
-			}
-			else
-			{
-				return Convert.ToDecimal(value);
-			}
+			return Convert.ToDecimal(value);
         }
     }
 }

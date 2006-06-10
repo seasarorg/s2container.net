@@ -21,7 +21,7 @@ using System.Data;
 
 namespace Seasar.Extension.ADO.Types
 {
-    public class Int16Type : BaseValueType, IValueType
+	public class Int16Type : PrimitiveBaseType, IValueType
     {
         public Int16Type()
         {
@@ -38,14 +38,7 @@ namespace Seasar.Extension.ADO.Types
 
 		protected override object GetValue(object value)
 		{
-			if (value == DBNull.Value)
-			{
-				return null;
-			}
-			else
-			{
-				return Convert.ToInt16(value);
-			}
+			return Convert.ToInt16(value);
         }
     }
 }

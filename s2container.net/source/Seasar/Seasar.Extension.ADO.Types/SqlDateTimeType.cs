@@ -22,7 +22,7 @@ using System.Data.SqlTypes;
 
 namespace Seasar.Extension.ADO.Types
 {
-    public class SqlDateTimeType : BaseValueType, IValueType
+	public class SqlDateTimeType : SqlBaseType, IValueType
     {
 		public SqlDateTimeType()
         {

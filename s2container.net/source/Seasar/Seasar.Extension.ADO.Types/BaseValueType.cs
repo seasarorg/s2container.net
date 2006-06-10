@@ -86,46 +86,7 @@ namespace Seasar.Extension.ADO.Types
 			cmd.Parameters.Add(parameter);
         }
 
-        protected object GetBindValue(object value)
-        {
-            if(value == null)
-            {
-                return DBNull.Value;
-            }
-            else if(value.GetType().IsPrimitive)
-            {
-                return value;
-            }
-            else if(value is System.Data.SqlTypes.INullable)
-            {
-                System.Data.SqlTypes.INullable nValue = (System.Data.SqlTypes.INullable) value;
-                if(nValue.IsNull)
-                {
-                    return DBNull.Value;
-                }
-                else
-                {
-                    System.Reflection.PropertyInfo pi = value.GetType().GetProperty("Value");
-                    return pi.GetValue(value, null);
-                }
-            }
-            else if(value is Nullables.INullableType)
-            {
-                Nullables.INullableType nValue = value as Nullables.INullableType;
-                if(nValue == null || !nValue.HasValue)
-                {
-                    return DBNull.Value;
-                }
-                else
-                {
-                    return nValue.Value;
-                }
-            }
-            else
-            {
-                return value == null ? DBNull.Value : value;
-            }
-        }
+		protected abstract object GetBindValue(object value);
 
         protected abstract object GetValue(object value);
     }

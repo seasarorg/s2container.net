@@ -1,5 +1,6 @@
 ﻿S2Container.NET 1.2.0-rc3
 - S2ADO.NETでSystem.Data.SqlTypesのバイト配列とSystem.Nullableバイト配列のデータマッピングを追加。
+- S2ADO.NETのSqlGuid型の変換処理でGuid型からSqlGuid型を返すように修正。
 - Seasar.Extension.Tx.ImplTx.diconをLocalTx.diconとして、System.Transactions用に
     新しくTx.diconを作成する
 

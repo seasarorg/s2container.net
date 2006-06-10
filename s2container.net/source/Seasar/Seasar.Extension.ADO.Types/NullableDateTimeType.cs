@@ -21,7 +21,7 @@ using System.Data;
 
 namespace Seasar.Extension.ADO.Types
 {
-    public class NullableDateTimeType : BaseValueType, IValueType
+	public class NullableDateTimeType : NullableBaseType, IValueType
     {
 		public NullableDateTimeType()
         {

@@ -21,7 +21,7 @@ using System.Data;
 
 namespace Seasar.Extension.ADO.Types
 {
-	public class ByteType : BaseValueType, IValueType
+	public class ByteType : PrimitiveBaseType, IValueType
 	{
 		public ByteType()
 		{
@@ -38,14 +38,7 @@ namespace Seasar.Extension.ADO.Types
 
 		protected override object GetValue(object value)
 		{
-			if (value == DBNull.Value)
-			{
-				return null;
-			}
-			else
-			{
-				return Convert.ToByte(value);
-			}
+			return Convert.ToByte(value);
         }
     }
 }

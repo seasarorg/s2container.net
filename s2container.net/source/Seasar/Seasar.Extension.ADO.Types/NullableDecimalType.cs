@@ -21,7 +21,7 @@ using System.Data;
 
 namespace Seasar.Extension.ADO.Types
 {
-    public class NullableDecimalType : BaseValueType, IValueType
+	public class NullableDecimalType : NullableBaseType, IValueType
     {
 		public NullableDecimalType()
         {

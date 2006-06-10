@@ -22,7 +22,7 @@ using System.Data.SqlTypes;
 
 namespace Seasar.Extension.ADO.Types
 {
-	public class SqlGuidType : BaseValueType, IValueType
+	public class SqlGuidType : SqlBaseType, IValueType
 	{
 		public SqlGuidType()
 		{
@@ -41,23 +41,23 @@ namespace Seasar.Extension.ADO.Types
 		{
 			if (value == DBNull.Value)
 			{
-				return Guid.Empty;
+				return SqlGuid.Null;
 			}
 			else if (value is Guid)
 			{
-				return (Guid) value;
+				return new SqlGuid((Guid) value);
 			}
 			else if (value is string)
 			{
-				return new Guid((string) value);
+				return new SqlGuid((string) value);
 			}
 			else if (value is byte[])
 			{
-				return new Guid((byte[]) value);
+				return new SqlGuid((byte[]) value);
 			}
 			else
 			{
-				return new Guid(value.ToString());
+				return SqlGuid.Parse(value.ToString());
 			}
 		}
     }

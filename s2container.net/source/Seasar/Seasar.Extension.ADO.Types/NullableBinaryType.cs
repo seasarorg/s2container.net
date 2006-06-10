@@ -21,7 +21,7 @@ using System.Data;
 
 namespace Seasar.Extension.ADO.Types
 {
-	public class NullableBinaryType : BaseValueType, IValueType
+	public class NullableBinaryType : NullableBaseType, IValueType
 	{
 		public NullableBinaryType()
 		{
