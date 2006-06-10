@@ -22,7 +22,7 @@ using System.Data.SqlTypes;
 
 namespace Seasar.Extension.ADO.Types
 {
-    public class SqlInt16Type : BaseValueType, IValueType
+	public class SqlInt16Type : SqlBaseType, IValueType
     {
 		public SqlInt16Type()
         {

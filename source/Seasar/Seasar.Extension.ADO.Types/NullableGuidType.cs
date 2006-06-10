@@ -21,7 +21,7 @@ using System.Data;
 
 namespace Seasar.Extension.ADO.Types
 {
-	public class NullableGuidType : BaseValueType, IValueType
+	public class NullableGuidType : NullableBaseType, IValueType
 	{
 		public NullableGuidType()
 		{

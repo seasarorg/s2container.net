@@ -18,38 +18,30 @@
 
 using System;
 using System.Data;
+using System.Data.SqlTypes;
+using System.Reflection;
 
 namespace Seasar.Extension.ADO.Types
 {
-	public class NullableInt16Type : NullableBaseType, IValueType
+    public abstract class SqlBaseType : BaseValueType
     {
-		public NullableInt16Type()
+		public SqlBaseType()
         {
         }
 
-        #region IValueType ÉÅÉìÉo
-
-		public override void BindValue(IDbCommand cmd, string columnName, object value)
-        {
-            BindValue(cmd, columnName, value, DbType.Int16);
-        }
-
-        #endregion
-
-		protected override object GetValue(object value)
+		protected override object GetBindValue(object value)
 		{
-			if (value == DBNull.Value)
+			if (value == null)
 			{
-				return null;
+				return DBNull.Value;
 			}
-			else if (value is short)
+			INullable nValue = (INullable) value;
+			if (nValue.IsNull)
 			{
-				return new Nullable<Int16>((short) value);
+				return DBNull.Value;
 			}
-			else
-			{
-				return Convert.ToInt16(value);
-			}
+			PropertyInfo pi = value.GetType().GetProperty("Value");
+			return pi.GetValue(value, null);
 		}
     }
 }

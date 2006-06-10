@@ -21,7 +21,7 @@ using System.Data;
 
 namespace Seasar.Extension.ADO.Types
 {
-    public class SingleType : BaseValueType, IValueType
+	public class SingleType : PrimitiveBaseType, IValueType
     {
         public SingleType()
         {
@@ -38,14 +38,7 @@ namespace Seasar.Extension.ADO.Types
 
 		protected override object GetValue(object value)
 		{
-			if (value == DBNull.Value)
-			{
-				return null;
-			}
-			else
-			{
-				return Convert.ToSingle(value);
-			}
+			return Convert.ToSingle(value);
         }
     }
 }

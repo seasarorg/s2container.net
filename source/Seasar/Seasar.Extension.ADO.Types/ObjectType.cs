@@ -43,6 +43,15 @@ namespace Seasar.Extension.ADO.Types
 
         #endregion
 
+		protected override object GetBindValue(object value)
+		{
+			if (value == null)
+			{
+				return DBNull.Value;
+			}
+			return value;
+		}
+
 		protected override object GetValue(object value)
 		{
             if(value == DBNull.Value)

@@ -21,7 +21,7 @@ using System.Data;
 
 namespace Seasar.Extension.ADO.Types
 {
-    public class StringType : BaseValueType, IValueType
+	public class StringType : PrimitiveBaseType, IValueType
     {
         public StringType()
         {
@@ -36,7 +36,7 @@ namespace Seasar.Extension.ADO.Types
 
         #endregion
 
-        protected override object GetValue(object value)
+		protected override object GetValue(object value)
         {
             if(value == DBNull.Value)
             {

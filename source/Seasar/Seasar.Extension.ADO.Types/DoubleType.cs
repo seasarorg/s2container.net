@@ -21,7 +21,7 @@ using System.Data;
 
 namespace Seasar.Extension.ADO.Types
 {
-    public class DoubleType : BaseValueType, IValueType
+	public class DoubleType : PrimitiveBaseType, IValueType
     {
         public DoubleType()
         {
@@ -38,14 +38,7 @@ namespace Seasar.Extension.ADO.Types
 
 		protected override object GetValue(object value)
 		{
-			if (value == DBNull.Value)
-			{
-				return null;
-			}
-			else
-			{
-				return Convert.ToDouble(value);
-			}
+			return Convert.ToDouble(value);
         }
     }
 }

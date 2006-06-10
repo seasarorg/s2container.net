@@ -22,7 +22,7 @@ using Nullables;
 
 namespace Seasar.Extension.ADO.Types
 {
-    public class NHibernateNullableBooleanType : BaseValueType, IValueType
+	public class NHibernateNullableBooleanType : NHibernateNullableBaseType, IValueType
     {
 		public NHibernateNullableBooleanType()
         {

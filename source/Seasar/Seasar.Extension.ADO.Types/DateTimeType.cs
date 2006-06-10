@@ -21,7 +21,7 @@ using System.Data;
 
 namespace Seasar.Extension.ADO.Types
 {
-    public class DateTimeType : BaseValueType, IValueType
+	public class DateTimeType : PrimitiveBaseType, IValueType
     {
         public DateTimeType()
         {
@@ -38,14 +38,7 @@ namespace Seasar.Extension.ADO.Types
 
 		protected override object GetValue(object value)
 		{
-			if (value == DBNull.Value)
-			{
-				return null;
-			}
-			else
-			{
-				return Convert.ToDateTime(value);
-			}
+			return Convert.ToDateTime(value);
         }
     }
 }

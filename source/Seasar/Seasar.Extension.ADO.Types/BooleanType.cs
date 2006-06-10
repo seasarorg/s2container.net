@@ -21,7 +21,7 @@ using System.Data;
 
 namespace Seasar.Extension.ADO.Types
 {
-    public class BooleanType : BaseValueType, IValueType
+	public class BooleanType : PrimitiveBaseType, IValueType
     {
         public BooleanType()
         {
@@ -38,14 +38,7 @@ namespace Seasar.Extension.ADO.Types
 
 		protected override object GetValue(object value)
 		{
-			if (value == DBNull.Value)
-			{
-				return null;
-			}
-			else
-			{
-				return Convert.ToBoolean(value);
-			}
+			return Convert.ToBoolean(value);
 		}
     }
 }

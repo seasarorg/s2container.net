@@ -17,39 +17,22 @@
 #endregion
 
 using System;
-using System.Data;
 
 namespace Seasar.Extension.ADO.Types
 {
-	public class NullableInt16Type : NullableBaseType, IValueType
+    public abstract class NullableBaseType : BaseValueType
     {
-		public NullableInt16Type()
+		public NullableBaseType()
         {
         }
 
-        #region IValueType ÉÅÉìÉo
-
-		public override void BindValue(IDbCommand cmd, string columnName, object value)
-        {
-            BindValue(cmd, columnName, value, DbType.Int16);
-        }
-
-        #endregion
-
-		protected override object GetValue(object value)
+		protected override object GetBindValue(object value)
 		{
-			if (value == DBNull.Value)
+			if (value == null)
 			{
-				return null;
+				return DBNull.Value;
 			}
-			else if (value is short)
-			{
-				return new Nullable<Int16>((short) value);
-			}
-			else
-			{
-				return Convert.ToInt16(value);
-			}
+			return value;
 		}
     }
 }
