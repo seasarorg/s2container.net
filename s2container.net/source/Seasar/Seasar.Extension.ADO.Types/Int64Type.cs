@@ -38,7 +38,14 @@ namespace Seasar.Extension.ADO.Types
 
 		protected override object GetValue(object value)
 		{
-			return Convert.ToInt64(value);
+			if (value == DBNull.Value)
+			{
+				return null;
+			}
+			else
+			{
+				return Convert.ToInt64(value);
+			}
         }
     }
 }
