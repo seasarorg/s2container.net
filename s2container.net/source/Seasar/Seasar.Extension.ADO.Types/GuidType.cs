@@ -21,7 +21,7 @@ using System.Data;
 
 namespace Seasar.Extension.ADO.Types
 {
-	public class GuidType : BaseValueType, IValueType
+	public class GuidType : PrimitiveBaseType, IValueType
 	{
 		public GuidType()
 		{

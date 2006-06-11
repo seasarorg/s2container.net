@@ -21,7 +21,7 @@ using System.Data;
 
 namespace Seasar.Extension.ADO.Types
 {
-    public class DateTimeType : BaseValueType, IValueType
+	public class DateTimeType : PrimitiveBaseType, IValueType
     {
         public DateTimeType()
         {

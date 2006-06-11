@@ -17,39 +17,28 @@
 #endregion
 
 using System;
-using System.Data;
+using Nullables;
 
 namespace Seasar.Extension.ADO.Types
 {
-	public class StringType : PrimitiveBaseType, IValueType
-    {
-        public StringType()
-        {
+	public abstract class NHibernateNullableBaseType : BaseValueType
+	{
+		public NHibernateNullableBaseType()
+		{
         }
 
-        #region IValueType ÉÅÉìÉo
-
-		public override void BindValue(IDbCommand cmd, string columnName, object value)
-        {
-            BindValue(cmd, columnName, value, DbType.String);
-        }
-
-        #endregion
-
-		protected override object GetValue(object value)
-        {
-            if(value == DBNull.Value)
-            {
-                return null;
-            }
-            else if(value is string)
-            {
-                return (string) value;
-            }
-            else
-            {
-                return value.ToString();
-            }
-        }
+		protected override object GetBindValue(object value)
+		{
+			if (value == null)
+			{
+				return DBNull.Value;
+			}
+			INullableType ret = (INullableType) value;
+			if (!ret.HasValue)
+			{
+				return DBNull.Value;
+			}
+			return ret.Value;
+		}
     }
 }

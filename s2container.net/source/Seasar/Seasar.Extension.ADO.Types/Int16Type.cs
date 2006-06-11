@@ -21,7 +21,7 @@ using System.Data;
 
 namespace Seasar.Extension.ADO.Types
 {
-    public class Int16Type : BaseValueType, IValueType
+	public class Int16Type : PrimitiveBaseType, IValueType
     {
         public Int16Type()
         {

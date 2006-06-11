@@ -18,38 +18,30 @@
 
 using System;
 using System.Data;
+using System.Data.SqlTypes;
+using System.Reflection;
 
 namespace Seasar.Extension.ADO.Types
 {
-	public class StringType : PrimitiveBaseType, IValueType
+    public abstract class SqlBaseType : BaseValueType
     {
-        public StringType()
+		public SqlBaseType()
         {
         }
 
-        #region IValueType ÉÅÉìÉo
-
-		public override void BindValue(IDbCommand cmd, string columnName, object value)
-        {
-            BindValue(cmd, columnName, value, DbType.String);
-        }
-
-        #endregion
-
-		protected override object GetValue(object value)
-        {
-            if(value == DBNull.Value)
-            {
-                return null;
-            }
-            else if(value is string)
-            {
-                return (string) value;
-            }
-            else
-            {
-                return value.ToString();
-            }
-        }
+		protected override object GetBindValue(object value)
+		{
+			if (value == null)
+			{
+				return DBNull.Value;
+			}
+			INullable nValue = (INullable) value;
+			if (nValue.IsNull)
+			{
+				return DBNull.Value;
+			}
+			PropertyInfo pi = value.GetType().GetProperty("Value");
+			return pi.GetValue(value, null);
+		}
     }
 }

@@ -21,7 +21,7 @@ using System.Data;
 
 namespace Seasar.Extension.ADO.Types
 {
-    public class DoubleType : BaseValueType, IValueType
+	public class DoubleType : PrimitiveBaseType, IValueType
     {
         public DoubleType()
         {

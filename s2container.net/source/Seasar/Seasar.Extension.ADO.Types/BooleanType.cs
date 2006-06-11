@@ -21,7 +21,7 @@ using System.Data;
 
 namespace Seasar.Extension.ADO.Types
 {
-    public class BooleanType : BaseValueType, IValueType
+	public class BooleanType : PrimitiveBaseType, IValueType
     {
         public BooleanType()
         {

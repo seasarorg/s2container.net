@@ -22,7 +22,7 @@ using Nullables;
 
 namespace Seasar.Extension.ADO.Types
 {
-    public class NHibernateNullableDateTimeType : BaseValueType, IValueType
+	public class NHibernateNullableDateTimeType : NHibernateNullableBaseType, IValueType
     {
 		public NHibernateNullableDateTimeType()
         {

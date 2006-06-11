@@ -1,4 +1,8 @@
-﻿S2Container.NET 1.2.0-rc2
+﻿S2Container.NET 1.2.0-rc3
+- S2ADO.NETでSystem.Data.SqlTypesのバイト配列のデータマッピングを追加。
+- S2ADO.NETのSqlGuid型の変換処理でGuid型からSqlGuid型を返すように修正。
+
+S2Container.NET 1.2.0-rc2
 - S2Unit.NETでBeanReader, DictionaryReaderで変換する変数のデータ型が
 NullableまたはSqlTypeの場合、対応する値型をDataColumnのDbTypeにセットする
 

@@ -22,7 +22,7 @@ using Nullables;
 
 namespace Seasar.Extension.ADO.Types
 {
-    public class NHibernateNullableInt64Type : BaseValueType, IValueType
+	public class NHibernateNullableInt64Type : NHibernateNullableBaseType, IValueType
     {
 		public NHibernateNullableInt64Type()
         {

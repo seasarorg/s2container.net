@@ -22,7 +22,7 @@ using System.Data.SqlTypes;
 
 namespace Seasar.Extension.ADO.Types
 {
-    public class SqlDecimalType : BaseValueType, IValueType
+	public class SqlDecimalType : SqlBaseType, IValueType
     {
 		public SqlDecimalType()
         {

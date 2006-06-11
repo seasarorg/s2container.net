@@ -21,7 +21,7 @@ using System.Data;
 
 namespace Seasar.Extension.ADO.Types
 {
-	public class SByteType : BaseValueType, IValueType
+	public class SByteType : PrimitiveBaseType, IValueType
 	{
 		public SByteType()
 		{
