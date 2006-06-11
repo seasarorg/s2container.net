@@ -2,7 +2,7 @@
 <html><head><!-- don't edit start --><title>Seasar - DI Container with AOP -</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="Content-Style-Type" content="text/css">
 <link href="http://s2dotnet.oscj.net/seasar_b.css" type="text/css" rel="stylesheet" media="screen"><link href="seasar_p.css" type="text/css" rel="stylesheet" media="print"><script src="http://s2dotnet.oscj.net/seasar_b.js" type="text/JavaScript" language="JavaScript"></script></head>
-
+<link rel="stylesheet" type="text/css" href="csharp.css" >
 
 <body onload="preload('ja')"><table align="left" border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr>
 <td align="left" valign="top" width="780"><table class="white" border="0" cellpadding="0" cellspacing="0" width="780">
@@ -30,6 +30,7 @@
 	<li><a href="#DownloadFile">配布物の説明</a></li>
 	<li><a href="#S2Container">S2Container.NETのセットアップ</a></li>
 	<li><a href="#S2Unit">S2Unit.NETのセットアップ</a></li>
+	<li><a href="#Seasar.DynamicProxy">Seasar.DynamicProxyのセットアップ</a></li>
 	<li><a href="#Examples">Examples</a></li>
 </ul>
 
@@ -93,9 +94,47 @@
 	</a>
 </p>
 
+<h2><a name="Seasar.DynamicProxy">Seasar.DynamicProxyのセットアップ</a></h2>
+<p>
+	S2AOP.NETは標準でSystem.Runtime.Remoting.Proxies.RealProxyを用いて実装されていますが、
+	これを<a href="http://www.castleproject.org/index.php/DynamicProxy">Castle.DynamicProxy</a>
+	を用いたSeasar.DynamicProxyに差し替えることができます。(1.2.0 for .NET 2.0以降)
+	Seasar.DynamicProxyについては以下のドキュメントを参照して下さい。
+</p>
+<p>
+	<a href="aop.html#Seasar.DynamicProxy">AOP - Seasar.DynamicProxyによるAOP</a>
+</p>
+<p>
+	Seasar.DynamicProxyを利用する場合には、以下のファイル(アセンブリ)への参照を追加する必要があります。
+	<ul>
+		<li>s2container.net/build/Seasar.DynamicProxy.dll</li>
+		<li>s2container.net/lib/Castle.DynamicProxy.dll</li>
+	</ul>
+</p>
+<p>
+	次に以下のように、Seasar.Framework.Aop.Impl.DynamicAopProxyAspectWeaverクラスをdiconファイルに登録します。
+</p>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;?</span><span class="html">xml</span> <span class="attr">version</span><span class="kwrd">="1.0"</span> <span class="attr">encoding</span><span class="kwrd">="utf-8"</span> ?<span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;!</span><span class="html">DOCTYPE</span> <span class="attr">components</span> <span class="attr">PUBLIC</span> <span class="kwrd">"-//SEASAR//DTD S2Container//EN"</span>
+<span class="kwrd">"http://www.seasar.org/dtd/components.dtd"</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="Seasar.Framework.Aop.Impl.DynamicAopProxyAspectWeaver"</span> <span class="kwrd">/&gt;</span>
+
+    ・・・
+    
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
+</pre>
+<p>
+	以上でSeasar.DynamicProxyのセットアップは完了です。Seasar.DynamicProxyを用いたAOP実装に差し替えられました。
+</p>
+
 <h2><a name="Examples">Examples</a></h2>
 <p>
-Examplesを実行するには、Visual Studio .NET 2003でsource/Seasar.slnを開き、
+Examplesを実行するには、Visual Studioでs2container.net/source/Seasar.slnを開き、
 Seasar.Examplesプロジェクトをスタートアッププロジェクトに設定して下さい。
 実行すると、ExamplesExplorerが起動しS2Container.NETの機能を体験することができます。
 </p>
