@@ -23,6 +23,9 @@
 <tbody><tr align="left" valign="top"><td width="18"><img src="images/spacer.gif" alt="" height="14" width="18"></td><td class="main" width="744">
 <!-- don't edit end -->
 <!-- document start -->
+
+<a href="index.html">S2Container.NET TOPページへ</a>
+
 	<ul>
 		<li><a href="#S2概要">S2AOP.NETの概要</a>
         <ul>
@@ -31,7 +34,9 @@
             <li><a href="#AOPKey">AOPを考える上でキーとなる概念</a></li>
 			<li><a href="#AOPMerit">AOPのメリット</a></li>
 			<li><a href="#S2AOPMerit">S2AOP.NETのメリット</a></li>
-            <li><a href="#Warning">注意点</a></li>
+			<li><a href="#Seasar.DynamicProxy">Seasar.DynamicProxyによるAOP</a></li>
+			<li><a href="#DefaultAOP">標準実装によるAOPの特徴・制限</a></li>
+			<li><a href="#DynamicProxyAOP">Seasar.DynamicProxyによるAOPの特徴・制限</a></li>
         </ul></li>
 		<li><a href="#S2AOPReference">S2AOP.NETリファレンス</a>
             <ul>
@@ -195,15 +200,36 @@ DEBUG 2006-03-01 00:11:45,406 [1136] END IHello#ShowMessage() :
       	<li>コンポーネントにどんなアスペクトが適用されるのかが明確です。</li>
       	<li>基本的なAspect実装オブジェクトパターンが用意されているため、すぐに使用することが可能です。(独自にインターフェースや抽象クラスを実装することも可能)</li>
     </ul>
-	<h3><a name="Warning">注意点</a></h3>
-    <ul>
-      	<li>アスペクトを適用するためにはコンポーネントをインターフェース型で受け取ります。</li>
-		<li>S2Containerから直接受け取るコンポーネントにアスペクトを適用するには、
-		コンポーネントがSystem.MarshalByRefObjectの派生クラスである必要があります。</li>
-		<li>pointcut属性を指定しない場合、pointcut属性に".*"と指定した場合は、
-		実装しているインターフェースのすべてのメソッドが対象になります。</li>
-		<li>thisポインタ経由の場合（インターフェース経由で呼ばれない場合）はアスペクトは適用されません。</li>
-    </ul>
+
+<h3><a name="Seasar.DynamicProxy">Seasar.DynamicProxyによるAOP</a></h3>
+<p>
+	S2AOP.NETは標準でSystem.Runtime.Remoting.Proxies.RealProxyを用いて実装されていますが、
+	これを<a href="http://www.castleproject.org/index.php/DynamicProxy">Castle.DynamicProxy</a>
+	を用いたSeasar.DynamicProxyに差し替えることができます。(1.2.0 for .NET 2.0以降)
+	Seasar.DynamicProxyのセットアップについては以下のドキュメントを参照して下さい。
+</p>
+<p>
+	<a href="setup.html#Seasar.DynamicProxy">セットアップ - Seasar.DynamicProxyのセットアップ</a>
+</p>
+<p>
+	標準のSystem.Runtime.Remoting.Proxies.RealProxyを用いた実装と、
+	Seasar.DynamicProxyを用いた実装には、以下の特徴・制限があります。
+</p>
+
+<h3><a name="DefaultAOP">標準実装によるAOPの特徴・制限</a></h3>
+<ul>
+	<li>Aspectを適用するオブジェクトは透過プロキシになる</li>
+	<li>Aspectを適用する為には、Inteface型で受け取る、System.MarshalByRefObjectの派生クラスでなければならない</li>
+	<li>thisポインタ(自身への参照)経由の場合はアスペクトは適用されない</li>
+	<li>コンポーネントのインスタンス生成時のパフォーマンスはSeasar.DynamicProxyによるAOPより良い</li>
+</ul>
+
+<h3><a name="DynamicProxyAOP">Seasar.DynamicProxyによるAOPの特徴・制限</a></h3>
+<ul>
+	<li>Aspectを適用するオブジェクトは、型が拡張される</li>
+	<li>Aspectを適用する為には、Inteface型で受け取るか、対象のメソッドがVirtualでなければならない</li>
+	<li>メソッド実行時のパフォーマンスは標準実装によるAOPより良い</li>
+</ul>
 
 	<h2><a name="S2AOPReference">S2AOP.NETリファレンス</a></h2>
     <h3><a name="AOPMakeFile">作成すべきファイル</a></h3>
@@ -342,6 +368,7 @@ AopProxy aopProxy = new AopProxy(typeof(IDictionary),
 IDictionary proxy = (IDictionary) aopProxy.Create();
 proxy.Add("aaa", "bbb");
 </pre>
+
 	<h2><a name="Example">Example</a></h2>
 	<p>以下のサンプルを実行する場合は、<a href="setup.html">セットアップ</a>を行う必要があります。</p>
     <h3><a name="TraceInterceptorSample">TraceInterceptor</a></h3>
