@@ -17,25 +17,25 @@
 #endregion
 
 using System;
-using NUnit.Framework;
+using MbUnit.Framework;
 using Seasar.Framework.Aop;
 using Seasar.Framework.Aop.Impl;
 using Seasar.Framework.Aop.Proxy;
 using Seasar.Framework.Aop.Interceptors;
+using Seasar.Extension.Unit;
 
 namespace Seasar.Tests.Framework.Aop.Proxy
 {
-	/// <summary>
-	/// AopProxyTest ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
 	[TestFixture]
-	public class AopProxyTest
+	public class AopProxyTest : S2TestCase
 	{
+        private IHello4 _hello4;
+
 		public AopProxyTest()
 		{
 		}
 
-		[Test]
+		[Test, S2]
 		public void TestInterface()
 		{
 			IPointcut pointcut = new PointcutImpl(new string[] { "Greeting" });
@@ -45,7 +45,7 @@ namespace Seasar.Tests.Framework.Aop.Proxy
 			Assert.AreEqual("Hello",proxy.Greeting());
 		}
 
-		[Test]
+		[Test, S2]
 		public void TestCreateForArgs()
 		{
 			IAspect aspect = new AspectImpl(new TraceInterceptor());
@@ -56,7 +56,7 @@ namespace Seasar.Tests.Framework.Aop.Proxy
 			Console.WriteLine(proxy.GetHashCode());
 		}
 
-		[Test]
+		[Test, S2]
 		public void TestEquals()
 		{
 			IPointcut pointcut = new PointcutImpl(new string[] { "Greeting" });
@@ -69,6 +69,42 @@ namespace Seasar.Tests.Framework.Aop.Proxy
 			Assert.AreEqual(false,object.Equals(proxy,null));
 			Assert.AreEqual(false,object.Equals(proxy,"hoge"));
 		}
+
+        public void SetUpPerformance1()
+        {
+            this.Include("Seasar.Tests.Framework.Aop.Proxy.AopProxy.dicon");
+        }
+
+        [Test, S2]
+        public void TestPerformance1()
+        {
+            DateTime start = DateTime.Now;
+            for (int i = 0; i < 100; ++i)
+            {
+                this.Container.GetComponent(typeof(IHello4));
+            }
+            TimeSpan span = DateTime.Now - start;
+            System.Diagnostics.Debug.WriteLine(span.TotalMilliseconds + "ms");
+
+        }
+
+        public void SetUpPerformance2()
+        {
+            this.Include("Seasar.Tests.Framework.Aop.Proxy.AopProxy.dicon");
+        }
+
+        [Test, S2]
+        public void TestPerformance2()
+        {
+            IHello4 hello = (IHello4)this.Container.GetComponent(typeof(IHello4));
+            DateTime start = DateTime.Now;
+            for (int i = 0; i < 10000; ++i)
+            {
+                hello.Greeting();
+            }
+            TimeSpan span = DateTime.Now - start;
+            System.Diagnostics.Debug.WriteLine(span.TotalMilliseconds + "ms");
+        }
 
 		public class TestInvocation : IMethodInterceptor
 		{
@@ -133,5 +169,21 @@ namespace Seasar.Tests.Framework.Aop.Proxy
 				return "Hello";
 			}
 		}
+
+        public interface IHello4
+        {
+            string Greeting();
+        }
+
+        public class HelloImpl4 : IHello4
+        {
+            private string _str = "abc";
+
+            public string Greeting()
+            {
+                return _str;
+            }
+        }
+
 	}
 }
