@@ -17,7 +17,7 @@ using Seasar.Extension.Unit;
 namespace Seasar.Tests.Framework.Aop.Proxy
 {
     [TestFixture]
-	class DynamicAopProxyTest : S2TestCase
+	public class DynamicAopProxyTest : S2TestCase
 	{
         HelloImpl _hello = null;
         IHello _hello2 = null;
@@ -37,7 +37,7 @@ namespace Seasar.Tests.Framework.Aop.Proxy
 
         public void SetUpAspect()
         {
-            this.Include("Seasar.Tests.Framework.Aop.Proxy.proxy.dicon");
+            this.Include("Seasar.Tests.Framework.Aop.Proxy.DynamicProxy.dicon");
         }
 
         [Test, S2]
@@ -51,7 +51,7 @@ namespace Seasar.Tests.Framework.Aop.Proxy
 
         public void SetUpProperty()
         {
-            this.Include("Seasar.Tests.Framework.Aop.Proxy.proxy.dicon");
+            this.Include("Seasar.Tests.Framework.Aop.Proxy.DynamicProxy.dicon");
         }
 
         [Test, S2]
@@ -63,7 +63,7 @@ namespace Seasar.Tests.Framework.Aop.Proxy
 
         public void SetUpSingleton()
         {
-            this.Include("Seasar.Tests.Framework.Aop.Proxy.proxy.dicon");
+            this.Include("Seasar.Tests.Framework.Aop.Proxy.DynamicProxy.dicon");
         }
 
         [Test, S2]
@@ -75,7 +75,7 @@ namespace Seasar.Tests.Framework.Aop.Proxy
 
         public void SetUpArg()
         {
-            this.Include("Seasar.Tests.Framework.Aop.Proxy.proxy.dicon");
+            this.Include("Seasar.Tests.Framework.Aop.Proxy.DynamicProxy.dicon");
         }
 
         [Test, S2]
@@ -86,7 +86,7 @@ namespace Seasar.Tests.Framework.Aop.Proxy
 
         public void SetUpAutoProperty()
         {
-            this.Include("Seasar.Tests.Framework.Aop.Proxy.proxy.dicon");
+            this.Include("Seasar.Tests.Framework.Aop.Proxy.DynamicProxy.dicon");
         }
 
         [Test, S2]
@@ -97,7 +97,7 @@ namespace Seasar.Tests.Framework.Aop.Proxy
 
         public void SetUpAutoArg()
         {
-            this.Include("Seasar.Tests.Framework.Aop.Proxy.proxy.dicon");
+            this.Include("Seasar.Tests.Framework.Aop.Proxy.DynamicProxy.dicon");
         }
 
         [Test, S2]
@@ -105,105 +105,143 @@ namespace Seasar.Tests.Framework.Aop.Proxy
         {
             Assert.AreEqual("Hello", _autoHello2.Greeting());
         }
-	}
 
-    public interface IHello
-    {
-        string Greeting();
-        string Prop { set; get; }
+        public void SetUpPerformance1()
+        {
+            this.Include("Seasar.Tests.Framework.Aop.Proxy.DynamicProxy.dicon");
+        }
+
+        [Test, S2]
+        public void TestPerformance1()
+        {
+            DateTime start = DateTime.Now;
+            for (int i = 0; i < 100; ++i)
+            {
+                this.Container.GetComponent(typeof(IHello4));
+            }
+            TimeSpan span = DateTime.Now - start;
+            System.Diagnostics.Debug.WriteLine(span.TotalMilliseconds + "ms");
+            
+        }
+
+        public void SetUpPerformance2()
+        {
+            this.Include("Seasar.Tests.Framework.Aop.Proxy.DynamicProxy.dicon");
+        }
+
+        [Test, S2]
+        public void TestPerformance2()
+        {
+            IHello4 hello = (IHello4)this.Container.GetComponent(typeof(IHello4));
+            DateTime start = DateTime.Now;
+            for (int i = 0; i < 10000; ++i)
+            {
+                hello.Greeting();
+            }
+            TimeSpan span = DateTime.Now - start;
+            System.Diagnostics.Debug.WriteLine(span.TotalMilliseconds + "ms");
+        }
+
+        public interface IHello
+        {
+            string Greeting();
+            string Prop { set; get; }
+        }
+
+        public class HelloImpl : IHello
+        {
+            private string _str = "abc";
+            private string _prop = "default";
+            public HelloImpl()
+            {
+            }
+
+            public virtual string Greeting()
+            {
+                return _str;
+            }
+
+            public string Prop
+            {
+                set { _prop = value; }
+                get { return _prop; }
+            }
+        }
+
+        public class HelloInterceptor : IMethodInterceptor
+        {
+            public object Invoke(IMethodInvocation invocation)
+            {
+                return "Hello";
+            }
+        }
+
+        public interface IHello3
+        {
+            string Greeting();
+        }
+
+        public class HelloImpl2
+        {
+            private string _message;
+
+            public HelloImpl2(string message)
+            {
+                _message = message;
+            }
+
+            public string Greeting()
+            {
+                return _message;
+            }
+        }
+
+        public class AutoHello
+        {
+            private IHello _hello;
+
+            public IHello Hello
+            {
+                set { _hello = value; }
+                get { return _hello; }
+            }
+
+            public string Greeting()
+            {
+                return _hello.Greeting();
+            }
+        }
+
+        public class AutoHello2
+        {
+            private IHello _hello;
+
+            public AutoHello2(IHello hello)
+            {
+                _hello = hello;
+            }
+
+            public string Greeting()
+            {
+                return _hello.Greeting();
+            }
+        }
+
+        public interface IHello4
+        {
+            string Greeting();
+        }
+
+        public class HelloImpl4 : IHello4
+        {
+            private string _str = "abc";
+
+            public string Greeting()
+            {
+                return _str;
+            }
+        }
+
     }
 
-    public class HelloImpl : IHello
-    {
-        private string _str = "abc";
-        private string _prop = "default";
-        public HelloImpl()
-        {
-        }
-
-        public virtual string Greeting()
-        {
-            return _str;
-        }
-
-        public string Prop
-        {
-            set { _prop = value; }
-            get { return _prop; }
-        }
-    }
-
-    public class HelloInterceptor : IMethodInterceptor
-    {
-        public object Invoke(IMethodInvocation invocation)
-        {
-            return "Hello";
-        }
-    }
-
-    public interface IHello3
-    {
-        string Greeting();
-    }
-
-    public class HelloImpl2
-    {
-        private string _message;
-
-        public HelloImpl2(string message)
-        {
-            _message = message;
-        }
-
-        public string Greeting()
-        {
-            return _message;
-        }
-    }
-
-    public class AutoHello
-    {
-        private IHello _hello;
-
-        public IHello Hello
-        {
-            set { _hello = value; }
-            get { return _hello; }
-        }
-
-        public string Greeting()
-        {
-            return _hello.Greeting();
-        }
-    }
-
-    public class AutoHello2
-    {
-        private IHello _hello;
-
-        public AutoHello2(IHello hello)
-        {
-            _hello = hello;
-        }
-
-        public string Greeting()
-        {
-            return _hello.Greeting();
-        }
-    }
-
-    public interface IHello4
-    {
-        string Greeting();
-    }
-
-    public class HelloImpl4 : IHello4
-    {
-        private string _str = "abc";
-
-        public string Greeting()
-        {
-            return _str;
-        }
-    }
 }

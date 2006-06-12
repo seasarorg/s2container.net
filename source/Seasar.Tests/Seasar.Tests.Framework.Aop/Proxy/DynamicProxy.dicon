@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
+"http://www.seasar.org/dtd/components.dtd">
+<components>
+
+	<component class="Seasar.Tests.Framework.Aop.Proxy.DynamicAopProxyTest+HelloImpl">
+		<aspect pointcut="Greeting">HelloInterceptor</aspect>
+		<property name="Prop">"TestProperty"</property>
+	</component>
+
+	<component class="Seasar.Tests.Framework.Aop.Proxy.DynamicAopProxyTest+IHello3">
+		<aspect pointcut="Greeting">HelloInterceptor</aspect>
+	</component>
+
+	<component class="Seasar.Tests.Framework.Aop.Proxy.DynamicAopProxyTest+HelloImpl2">
+		<arg>"Hello"</arg>
+	</component>
+
+	<component class="Seasar.Tests.Framework.Aop.Proxy.DynamicAopProxyTest+AutoHello" />
+
+	<component class="Seasar.Tests.Framework.Aop.Proxy.DynamicAopProxyTest+AutoHello2" />
+
+  <component class="Seasar.Tests.Framework.Aop.Proxy.DynamicAopProxyTest+HelloImpl4" instance="prototype">
+    <aspect pointcut="Greeting">HelloInterceptor</aspect>
+  </component>
+
+	<component name="HelloInterceptor" class="Seasar.Tests.Framework.Aop.Proxy.DynamicAopProxyTest+HelloInterceptor" />
+
+	<component class="Seasar.Framework.Aop.Impl.DynamicAopProxyAspectWeaver" />
+	
+</components>
