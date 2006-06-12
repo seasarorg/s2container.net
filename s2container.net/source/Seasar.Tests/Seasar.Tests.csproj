@@ -177,7 +177,8 @@
     <EmbeddedResource Include="Seasar.Tests.Extension.Tx\Impl\RequiresNewInterceptorTest.dicon" />
     <EmbeddedResource Include="Seasar.Tests.Extension.Tx\Impl\NotSupportedInterceptorTest.dicon" />
     <None Include="Seasar.Tests.Extension.Unit\testdata.xls" />
-    <EmbeddedResource Include="Seasar.Tests.Framework.Aop\Proxy\proxy.dicon" />
+    <EmbeddedResource Include="Seasar.Tests.Framework.Aop\Proxy\AopProxy.dicon" />
+    <EmbeddedResource Include="Seasar.Tests.Framework.Aop\Proxy\DynamicProxy.dicon" />
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
