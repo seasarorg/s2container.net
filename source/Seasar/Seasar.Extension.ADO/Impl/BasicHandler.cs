@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Collections;
 using System.Data;
 using System.Data.SqlTypes;
 using System.Reflection;
@@ -127,18 +128,25 @@ namespace Seasar.Extension.ADO.Impl
             string[] argNames)
         {
             if(args == null) return;
+            Hashtable saveArgs = new Hashtable(StringComparer.CurrentCultureIgnoreCase);
             for(int i = 0; i < args.Length; ++i)
             {
+                if (saveArgs.ContainsKey(argNames[i]))
+                {
+                    continue;
+                }
                 IValueType valueType = ValueTypes.GetValueType(argTypes[i]);
                 try
                 {
                     valueType.BindValue(command, argNames[i], args[i]);
+                    saveArgs.Add(argNames[i], argNames[i]);
                 }
                 catch(Exception ex)
                 {
                     throw new SQLRuntimeException(ex);
                 }
             }
+            saveArgs.Clear();
         }
 
 		protected Type[] GetArgTypes(object[] args) 
