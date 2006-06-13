@@ -63,6 +63,26 @@ namespace Seasar.Tests.Extension.ADO.Impl
             Assert.AreEqual(9, ret.Count, "2");
 		}
 
+        public void SetUpExecuteDuplicationParam()
+        {
+            Include(PATH);
+        }
+
+        [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
+        public void ExecuteDuplicationParam()
+        {
+            string sql = "select * from emp where empno = @empno or empno=@empno2 or empno = @empno";
+            BasicSelectHandler handler = new BasicSelectHandler(
+                DataSource,
+                sql,
+                new DictionaryDataReaderHandler()
+                );
+            IDictionary ret = (IDictionary)handler.Execute(new object[] { 7788, 7789, 7788 });
+            Console.Out.WriteLine(ret);
+            Assert.IsNotNull(ret, "1");
+            Assert.AreEqual(9, ret.Count, "2");
+        }
+
         public void SetUpExecuteNullArgs()
         {
             Include(PATH);
