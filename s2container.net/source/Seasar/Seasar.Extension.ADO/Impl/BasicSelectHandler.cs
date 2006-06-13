@@ -132,8 +132,6 @@ namespace Seasar.Extension.ADO.Impl
         protected override IDbCommand Command(IDbConnection connection)
         {
             IDbCommand cmd = base.Command(connection);
-            //if(fetchSize > -1) CommandUtil.SetFetchSize(cmd, fetchSize);
-            //if(maxRows > -1) CommandUtil.SetMaxRows(cmd, maxRows);
             return cmd;
         }
 
