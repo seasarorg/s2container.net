@@ -108,11 +108,34 @@
 	Seasar.DynamicProxyを利用する場合には、以下のファイル(アセンブリ)への参照を追加する必要があります。
 	<ul>
 		<li>s2container.net/build/Seasar.DynamicProxy.dll</li>
-		<li>s2container.net/lib/Castle.DynamicProxy.dll</li>
+		<li>s2container.net/lib/Castle.DynamicProxy.dll<br />(Seasar.DynamicProxy.dllから見て解決できる場所にあれば参照に追加する必要はありません)</li>
 	</ul>
 </p>
 <p>
-	次に以下のように、Seasar.Framework.Aop.Impl.DynamicAopProxyAspectWeaverクラスをdiconファイルに登録します。
+	以下のようにアプリケーション構成ファイル(App.config)にアセンブリ[Seasar.DynamicProxy]を追加します。
+</p>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;?</span><span class="html">xml</span> <span class="attr">version</span><span class="kwrd">="1.0"</span> <span class="attr">encoding</span><span class="kwrd">="utf-8"</span> ?<span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;</span><span class="html">configuration</span><span class="kwrd">&gt;</span>
+
+    <span class="kwrd">&lt;</span><span class="html">configSections</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">section</span> <span class="attr">name</span><span class="kwrd">="seasar"</span> <span class="attr">type</span><span class="kwrd">="Seasar.Framework.Xml.S2SectionHandler, Seasar"</span> <span class="kwrd">/&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">configSections</span><span class="kwrd">&gt;</span>
+
+    <span class="kwrd">&lt;</span><span class="html">seasar</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">configPath</span><span class="kwrd">&gt;</span>App.dicon<span class="kwrd">&lt;/</span><span class="html">configPath</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">assemblys</span><span class="kwrd">&gt;</span>
+            <span class="kwrd">&lt;</span><span class="html">assembly</span><span class="kwrd">&gt;</span>Seasar.DynamicProxy<span class="kwrd">&lt;/</span><span class="html">assembly</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;/</span><span class="html">assemblys</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">seasar</span><span class="kwrd">&gt;</span>
+
+<span class="kwrd">&lt;/</span><span class="html">configuration</span><span class="kwrd">&gt;</span>
+</pre>
+
+<p>
+	以下のように、Seasar.Framework.Aop.Impl.DynamicAopProxyAspectWeaverクラスをdiconファイルに登録します。
 </p>
 
 <!-- code formatted by http://manoli.net/csharpformat/ -->
