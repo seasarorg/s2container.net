@@ -3,6 +3,7 @@
 - S2ADO.NETのSqlGuid型の変換処理でGuid型からSqlGuid型を返すように修正。
 - Seasar.Extension.Tx.ImplTx.diconをLocalTx.diconとして、System.Transactions用に
     新しくTx.diconを作成する
+- BasicHandlerで重複したパラメータを登録すると、エラーになる場合がある問題を修正する
 
 S2Container.NET 1.2.0-rc2
 
