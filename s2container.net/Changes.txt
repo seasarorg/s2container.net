@@ -1,13 +1,17 @@
-﻿S2Container.NET 1.2.0-rc3
+﻿S2Container.NET 1.2.0(準備中)
+
 - S2ADO.NETでSystem.Data.SqlTypesのバイト配列のデータマッピングを追加。
 - S2ADO.NETのSqlGuid型の変換処理でGuid型からSqlGuid型を返すように修正。
 - BasicHandlerで重複したパラメータを登録すると、エラーになる場合がある問題を修正する
 
 S2Container.NET 1.2.0-rc2
+2006/5/30
+
 - S2Unit.NETでBeanReader, DictionaryReaderで変換する変数のデータ型が
 NullableまたはSqlTypeの場合、対応する値型をDataColumnのDbTypeにセットする
 
 S2Container.NET 1.2.0-rc1
+2006/5/13
 
 - S2ADO.NETの機能を追加する
 - 手動でバインディング(Property, Constractor)した場合に、Aspectが効かない問題を修正する
