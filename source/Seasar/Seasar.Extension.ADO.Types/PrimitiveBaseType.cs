@@ -16,6 +16,8 @@
  */
 #endregion
 
+using System;
+
 namespace Seasar.Extension.ADO.Types
 {
     public abstract class PrimitiveBaseType : BaseValueType
@@ -26,6 +28,10 @@ namespace Seasar.Extension.ADO.Types
 
 		protected override object GetBindValue(object value)
 		{
+			if (value == null)
+			{
+				return DBNull.Value;
+			}
 			return value;
 		}
     }
