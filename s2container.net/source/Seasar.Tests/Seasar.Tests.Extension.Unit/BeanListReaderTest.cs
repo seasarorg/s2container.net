@@ -54,7 +54,7 @@ namespace Seasar.Tests.Extension.Unit
 			DataColumnCollection columns = table.Columns;
 
 			Assert.AreEqual(DataRowState.Unchanged, row.RowState);
-			Assert.AreEqual(12, columns.Count);
+			Assert.AreEqual(13, columns.Count);
 
 			Assert.AreEqual(1, row["id"]);
 			Assert.AreEqual(true, row["booltype"]);
