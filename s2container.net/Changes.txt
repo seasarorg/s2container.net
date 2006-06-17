@@ -1,4 +1,4 @@
-﻿S2Container.NET 1.2.0(準備中)
+﻿S2Container.NET 1.2.0
 
 - S2ADO.NETでSystem.Data.SqlTypesのバイト配列とSystem.Nullableバイト配列のデータマッピングを追加。
 - S2ADO.NETのSqlGuid型の変換処理でGuid型からSqlGuid型を返すように修正。
