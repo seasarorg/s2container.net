@@ -86,13 +86,18 @@
 <h2><a name="S2Unit">S2Unit.NETのセットアップ</a></h2>
 <p>
 	S2Unit.NETはS2Container.NETを使ったテストを楽しく簡単に行うためのテスティングフレームワークです。
-	S2Unit.NETのセットアップについては以下のドキュメントを参照して下さい。
 </p>
 <p>
-	<a href="s2unit.html#setup">
-		S2Unit.NET - 事前の準備
-	</a>
+S2Unit.NETではMbUnit 2.3.0を使用しています。
+事前に<a href="http://www.mertner.com/confluence/display/MbUnit/Home" target="_blank">MbUnit 2.3.0</a>
+<span style="color:red;font-weight:bold;">(このバージョンのMbUnitで無いと動作しません)</span>
+をインストールしておく必要があります。
 </p>
+<p>
+テストクラスはSeasar.Extension.Unit.S2TestCaseクラスを継承します。
+S2TestCaseクラスはSeasar.Unit.dllに含まれてるので、テストコードを含むプロジェクトではSeasar.Unit.dllを参照に追加して下さい。
+</p>
+<p><a href="s2unit.html">詳しくはS2Unit.NETのドキュメントを参照して下さい</a></p>
 
 <h2><a name="Seasar.DynamicProxy">Seasar.DynamicProxyのセットアップ</a></h2>
 <p>
