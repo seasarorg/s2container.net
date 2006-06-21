@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html><head><!-- don't edit start --><title>Seasar - DI Container with AOP -</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="Content-Style-Type" content="text/css">
-<link href="http://s2dotnet.oscj.net/seasar_b.css" type="text/css" rel="stylesheet" media="screen"><link href="seasar_p.css" type="text/css" rel="stylesheet" media="print"><script src="http://s2dotnet.oscj.net/seasar_b.js" type="text/JavaScript" language="JavaScript"></script></head>
+<link href="seasar_b.css" type="text/css" rel="stylesheet" media="screen"><link href="seasar_p.css" type="text/css" rel="stylesheet" media="print"><script src="http://s2dotnet.oscj.net/seasar_b.js" type="text/JavaScript" language="JavaScript"></script></head>
 <link rel="stylesheet" type="text/css" href="csharp.css" >
 
 <body onload="preload('ja')"><table align="left" border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr>
@@ -29,6 +29,7 @@
 <ul>
 	<li><a href="#DownloadFile">配布物の説明</a></li>
 	<li><a href="#S2Container">S2Container.NETのセットアップ</a></li>
+	<li><a href="#log4net">log4netのセットアップ</a></li>
 	<li><a href="#S2Unit">S2Unit.NETのセットアップ</a></li>
 	<li><a href="#Seasar.DynamicProxy">Seasar.DynamicProxyのセットアップ</a></li>
 	<li><a href="#Examples">Examples</a></li>
@@ -82,6 +83,101 @@
 		S2Container.NET リファレンス - アプリケーション構成ファイル
 	</a>
 </p>
+
+<h2><a name="log4net">log4netのセットアップ</a></h2>
+<p>
+	S2Container.NETでは
+	<a href="http://logging.apache.org/log4net/">Apache Logging Services projectのlog4net</a>
+	を使用してログを出力しています。
+	そのためlog4netの設定を行わないとS2Container.NETのログが出力されません。
+	以下にlog4netの設定の一例を示します。
+</p>
+<h3>log4netの設定ファイルの指定</h3>
+<p>
+	AssemblyInfo等に以下の属性を指定します。<br />
+	これはlog4netの設定ファイルにアプリケーション構成ファイル(app.config)を使うという設定です。
+</p>
+
+C#
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+[assembly: log4net.Config.XmlConfigurator(Watch=<span class="kwrd">true</span>)]</pre>
+
+VB.NET
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode vb">
+&lt;<span class="kwrd">Assembly</span>: log4net.Config.DOMConfigurator(Watch:=<span class="kwrd">True</span>)&gt;
+</pre>
+
+<h3>アプリケーション構成ファイル(app.config)にlog4netの設定を追加する</h3>
+<p>
+	以下にTraceAdapterを使用した例を示します。
+</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">configuration</span><span class="kwrd">&gt;</span>
+
+    <span class="kwrd">&lt;</span><span class="html">configSections</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">section</span> <span class="attr">name</span><span class="kwrd">="log4net"</span> <span class="attr">type</span><span class="kwrd">="System.Configuration.IgnoreSectionHandler"</span> <span class="kwrd">/&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">section</span> <span class="attr">name</span><span class="kwrd">="seasar"</span> <span class="attr">type</span><span class="kwrd">="Seasar.Framework.Xml.S2SectionHandler, Seasar"</span> <span class="kwrd">/&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">configSections</span><span class="kwrd">&gt;</span>
+    
+    <span class="kwrd">&lt;</span><span class="html">log4net</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">appender</span> <span class="attr">name</span><span class="kwrd">="TraceAppender"</span> <span class="attr">type</span><span class="kwrd">="log4net.Appender.TraceAppender"</span><span class="kwrd">&gt;</span>
+            <span class="kwrd">&lt;</span><span class="html">layout</span> <span class="attr">type</span><span class="kwrd">="log4net.Layout.PatternLayout"</span><span class="kwrd">&gt;</span>
+                <span class="kwrd">&lt;</span><span class="html">conversionPattern</span> <span class="attr">value</span><span class="kwrd">="%-5p %d [%t] %m%n"</span> <span class="kwrd">/&gt;</span>
+            <span class="kwrd">&lt;/</span><span class="html">layout</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;/</span><span class="html">appender</span><span class="kwrd">&gt;</span>
+
+        <span class="kwrd">&lt;</span><span class="html">root</span><span class="kwrd">&gt;</span>
+            <span class="kwrd">&lt;</span><span class="html">level</span> <span class="attr">value</span><span class="kwrd">="DEBUG"</span> <span class="kwrd">/&gt;</span>
+            <span class="kwrd">&lt;</span><span class="html">appender-ref</span> <span class="attr">ref</span><span class="kwrd">="TraceAppender"</span> <span class="kwrd">/&gt;</span>
+        <span class="kwrd">&lt;/</span><span class="html">root</span><span class="kwrd">&gt;</span>
+
+    <span class="kwrd">&lt;/</span><span class="html">log4net</span><span class="kwrd">&gt;</span>
+    
+    <span class="kwrd">&lt;</span><span class="html">seasar</span><span class="kwrd">&gt;</span>
+        <span class="rem">&lt;!-- 省略 --&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">seasar</span><span class="kwrd">&gt;</span>
+
+<span class="kwrd">&lt;/</span><span class="html">configuration</span><span class="kwrd">&gt;</span></pre>
+
+<p>
+以上でlog4netのセットアップは終了です。
+</p>
+<p>
+しかしlog4netの設定を行ったアプリケーション構成ファイルを含む
+アセンブリ内で最初にlog4netでログを出力させずに、Seasarアセンブリで最初にログが出力されると
+log4netはSeasarアセンブリ内のlog4netの設定を探すため、ログが出力されません。
+</p>
+<p>
+log4netの設定を行ったアプリケーション構成ファイルを持つアセンブリ内で最初にログを出力するか、
+プログラム起動時に以下のようにアプリケーション構成ファイルを読み込む処理を追加して下さい。
+</p>
+C#
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+System.IO.FileInfo info = <span class="kwrd">new</span> System.IO.FileInfo(
+   log4net.Util.SystemInfo.AssemblyShortName(
+   System.Refrection.Assembly.GetExecutingAssembly())
+   + <span class="str">".exe.config"</span>); <span class="rem">// アセンブリがdllの場合は".dll.config"</span>
+
+log4net.Config.XmlConfigurator.Configure(
+   log4net.LogManager.GetRepository(), info);
+</pre>
+
+VB.NET
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode vb">
+<span class="kwrd">Dim</span> info <span class="kwrd">As</span> <span class="kwrd">New</span> System.IO.FileInfo( _
+   log4net.Util.SystemInfo.AssemblyShortName( _
+   System.Refrection.<span class="kwrd">Assembly</span>.GetExecutingAssembly()) _
+   + <span class="str">".exe.config"</span>) <span class="rem">' アセンブリがdllの場合は".dll.config"</span>
+
+log4net.Config.XmlConfigurator.Configure( _
+   log4net.LogManager.GetRepository(), info)
+</pre>
+   
 
 <h2><a name="S2Unit">S2Unit.NETのセットアップ</a></h2>
 <p>
