@@ -29,7 +29,6 @@ namespace Seasar.Tests.Framework.Aop.Proxy
 	[TestFixture]
 	public class AopProxyTest : S2TestCase
 	{
-        private IHello4 _hello4;
 
 		public AopProxyTest()
 		{
