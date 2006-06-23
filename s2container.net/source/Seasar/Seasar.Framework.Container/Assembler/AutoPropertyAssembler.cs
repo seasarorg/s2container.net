@@ -67,11 +67,11 @@ namespace Seasar.Framework.Container.Assembler
 				else if(property.CanWrite 
 					&& AutoBindingUtil.IsSuitable(property.PropertyType))
 				{
-					try
+                    if(container.HasComponentDef(property.PropertyType))
 					{
 						value = container.GetComponent(property.PropertyType);
 					}
-					catch(ComponentNotFoundRuntimeException cause)
+					else
 					{
 						if(property.CanRead 
 							&& property.GetValue(component,null) != null)
@@ -80,7 +80,7 @@ namespace Seasar.Framework.Container.Assembler
 						}
 						logger_.Log("WSSR0008",
 							new object[] {this.GetComponentType(
-											 component).FullName, propName},cause);
+											 component).FullName, propName});
 						continue;
 					}
 					this.SetValue(property,component,value);

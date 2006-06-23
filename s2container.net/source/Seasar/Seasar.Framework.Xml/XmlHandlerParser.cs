@@ -51,41 +51,44 @@ namespace Seasar.Framework.Xml
 					Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path));
 			string extension = ResourceUtil.GetExtension(path);
 
-			try
-			{
-                if(File.Exists(path))
+            if(File.Exists(path))
+            {
+                reader = new StreamReader(path);
+            } 
+            else if(HttpContext.Current != null)
+            {
+                string path4http = Path.Combine(
+                    AppDomain.CurrentDomain.SetupInformation.ApplicationBase, path);
+                if (File.Exists(path4http))
                 {
-                    reader = new StreamReader(path);
-                } 
-                else if(HttpContext.Current != null)
-                {
-                    string path4http = Path.Combine(
-                        AppDomain.CurrentDomain.SetupInformation.ApplicationBase, path);
-                    if(File.Exists(path4http)) reader = new StreamReader(path4http);
+                    reader = new StreamReader(path4http);
                 }
-                if(reader == null)
-                {
-                    reader = ResourceUtil.GetResourceAsStreamReader(pathWithoutExt, extension);
-                }
-			}
-			catch(ResourceNotFoundRuntimeException)
+            }
+            
+            if(reader == null)
+            {
+                reader = ResourceUtil.GetResourceAsStreamReaderNoException(pathWithoutExt, extension);
+            }
+
+			if(reader == null)
 			{
 				Assembly[] assemblys = AppDomain.CurrentDomain.GetAssemblies();
 				foreach(Assembly assembly in assemblys)
 				{
-					try
-					{
-						reader = ResourceUtil.GetResourceAsStreamReader(pathWithoutExt,
-							extension,assembly);
-						break;
-					}
-					catch(ResourceNotFoundRuntimeException)
-					{
-						continue;
-					}
+					reader = ResourceUtil.GetResourceAsStreamReaderNoException(pathWithoutExt,
+						extension,assembly);
+                    if (reader != null)
+                    {
+                        break;
+                    }
 				}
 			}
-			if(reader == null) throw new ResourceNotFoundRuntimeException(path);
+            
+            if (reader == null)
+            {
+                throw new ResourceNotFoundRuntimeException(path);
+            }
+
 			return this.Parse(reader);
 		}
 

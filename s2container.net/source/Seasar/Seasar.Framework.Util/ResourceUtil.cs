@@ -59,19 +59,35 @@ namespace Seasar.Framework.Util
 			return GetResourceAsStreamReader(GetResourcePath(path, extension), Assembly.GetEntryAssembly());
 		}
 
+        public static StreamReader GetResourceAsStreamReaderNoException(string path, string extension)
+        {
+            return GetResourceAsStreamReaderNoException(GetResourcePath(path, extension), Assembly.GetEntryAssembly());
+        }
+
 		public static StreamReader GetResourceAsStreamReader(string path, string extension, Assembly assembly)
 		{
 			return GetResourceAsStreamReader(GetResourcePath(path, extension), assembly);
 		}
+
+        public static StreamReader GetResourceAsStreamReaderNoException(string path, string extension, Assembly assembly)
+        {
+            return GetResourceAsStreamReaderNoException(GetResourcePath(path, extension), assembly);
+        }
 
 		public static StreamReader GetResourceAsStreamReader(string path, Assembly assembly)
 		{
 			return new StreamReader(GetResourceAsStream(path, assembly));
 		}
 
+        public static StreamReader GetResourceAsStreamReaderNoException(string path, Assembly assembly)
+        {
+            Stream stream = GetResourceNoException(path, assembly);
+            return stream == null ? null : new StreamReader(stream);
+        }
+
 		public static Stream GetResourceAsStream(string path, Assembly assembly)
 		{
-			if(assembly == null) throw new ResourceNotFoundRuntimeException(path);
+			if(assembly == null) throw new ArgumentNullException("assembly");
 			
 			Stream stream = GetResourceNoException(path, assembly);
 			if(stream != null)
