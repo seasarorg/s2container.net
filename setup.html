@@ -237,6 +237,10 @@ S2TestCaseクラスはSeasar.Unit.dllに含まれてるので、テストコー�
 
 <p>
 	以下のように、Seasar.Framework.Aop.Impl.DynamicAopProxyAspectWeaverクラスをdiconファイルに登録します。
+	<span style="color:red;">
+		他のAspectを適用したいComponentより、DynamicAopProxyAspectWeaverの方が先に解決できるように、
+		記述場所に注意して下さい。
+	</span>
 </p>
 
 <!-- code formatted by http://manoli.net/csharpformat/ -->
