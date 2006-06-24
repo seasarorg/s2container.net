@@ -908,8 +908,9 @@ componentタグの前に記述する必要があります。</p>
 
             <li>charは、'a'のように'で囲みます。</li>
             <li>数値は、123のようにそのまま記述します。</li>
-            <li>論理値は、true,falseのようにそのまま記述します。</li>
-            <li>列挙型は、System.Data.DbType.Decimalのように列挙型の完全修飾名とメンバ名で記述します(厳密には、JScript.NETではありません)。</li>
+            <li>論理値(System.Boolean)は、true,falseのようにそのまま記述します。</li>
+            <li>列挙体(System.Enum)は、System.Data.DbType.Decimalのように列挙体の完全修飾名とメンバ名で記述します。(厳密には、JScript.NETの記法ではありません)</li>
+            <li>型宣言(System.Type)は、Foo.BarのようにTypeの完全修飾名を記述します。(厳密には、JScript.NETの記法ではありません)</li>
             <li>new DateTime()のように標準ライブラリ(mscorlib.dll)のクラスや構造体のコンストラクタを呼び出すことができます。(名前空間のSystemは省略して呼び出します）</li>
             </ul>
             詳しくは、<a href="http://msdn2.microsoft.com/ja-jp/library/x85xxsf4.aspx">JScript.NETのマニュアル</a>を参照してください。<br/>
