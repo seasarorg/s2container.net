@@ -17,15 +17,16 @@
 #endregion
 
 using System;
+using System.Collections;
+using Seasar.Extension.ADO;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Factory;
-using Seasar.Extension.DataSets.Impl;
 
-namespace Seasar.Examples.Reference.S2Unit
+namespace Seasar.Examples.Reference.ADO
 {
-	public class Db2ExcelClient2
+	public class SelectDictionaryClient
 	{
-		private const string PATH = "Seasar.Examples/Reference/S2Unit/Db2ExcelClient2.dicon";
+		private const string PATH = "Seasar.Examples/Reference/ADO/SelectDictionary.dicon";
 
 		public void Main()
 		{
@@ -33,14 +34,13 @@ namespace Seasar.Examples.Reference.S2Unit
 			container.Init();
 			try
 			{
-				SqlReader reader = (SqlReader) container.GetComponent(typeof(SqlReader));
-				XlsWriter writer = (XlsWriter) container.GetComponent(typeof(XlsWriter));
-				writer.Write(reader.Read());
-				Console.Out.WriteLine("output Excel File : {0}", writer.FullPath);
+				ISelectHandler handler = (ISelectHandler) container.GetComponent("SelectDictionaryHandler");
+				IDictionary result = (IDictionary) handler.Execute(new object[] { 7788 });
+				Console.Out.WriteLine(DictionaryUtil.ToDecorateString(result));
 			}
-			catch (ApplicationException e)
+			finally
 			{
-				Console.Out.WriteLine(e.Message);
+				container.Destroy();
 			}
 		}
 	}

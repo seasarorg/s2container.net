@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
+"http://www.seasar.org/dtd/components21.dtd">
+<components>
+  <include path="Seasar.Examples/Ado.dicon" />
+  <component name="SelectBeanListClient" class="Seasar.Examples.Reference.ADO.SelectBeanListClient"/>
+  <component name="SelectBeanListHandler" class="Seasar.Extension.ADO.Impl.BasicSelectHandler">
+    <property name="Sql">"SELECT empno, ename, job, mgr, hiredate, sal, comm, deptno FROM emp"</property>
+    <property name="DataReaderHandler">
+      <component class="Seasar.Extension.ADO.Impl.BeanListDataReaderHandler">
+        <arg>Seasar.Examples.Reference.ADO.Employee</arg>
+      </component>
+    </property>
+  </component>
+</components>

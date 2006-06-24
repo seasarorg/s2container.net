@@ -17,31 +17,31 @@
 #endregion
 
 using System;
-using Seasar.Framework.Container;
-using Seasar.Framework.Container.Factory;
-using Seasar.Extension.DataSets.Impl;
+using System.Collections;
+using System.Text;
 
-namespace Seasar.Examples.Reference.S2Unit
+namespace Seasar.Examples.Reference.ADO
 {
-	public class Db2ExcelClient2
+	public sealed class DictionaryUtil
 	{
-		private const string PATH = "Seasar.Examples/Reference/S2Unit/Db2ExcelClient2.dicon";
-
-		public void Main()
+		private DictionaryUtil()
 		{
-			IS2Container container = S2ContainerFactory.Create(PATH);
-			container.Init();
-			try
+		}
+
+		public static string ToDecorateString(IDictionary dictionary)
+		{
+			if (dictionary == null || dictionary.Count == 0)
 			{
-				SqlReader reader = (SqlReader) container.GetComponent(typeof(SqlReader));
-				XlsWriter writer = (XlsWriter) container.GetComponent(typeof(XlsWriter));
-				writer.Write(reader.Read());
-				Console.Out.WriteLine("output Excel File : {0}", writer.FullPath);
+				return string.Empty;
 			}
-			catch (ApplicationException e)
+
+			StringBuilder buf = new StringBuilder();
+			foreach (object key in dictionary.Keys)
 			{
-				Console.Out.WriteLine(e.Message);
+				buf.AppendFormat("{0}={1}, ", key, (dictionary[key] == null) ? "null" : dictionary[key]);
 			}
+			buf.Length -= 2;
+			return buf.ToString();
 		}
 	}
 }
