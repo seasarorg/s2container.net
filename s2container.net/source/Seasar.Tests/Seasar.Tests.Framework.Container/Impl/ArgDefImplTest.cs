@@ -81,6 +81,61 @@ namespace Seasar.Tests.Framework.Container.Impl
 			Assert.AreEqual("bbb", facade2.Str);
 		}
 
+		[Test]
+		public void TestValueEnumType()
+		{
+			IS2Container container = new S2ContainerImpl();
+			ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+			IArgDef ad = new ArgDefImpl();
+			ad.Expression = "System.Data.DbType.String";
+			cd.AddArgDef(ad);
+			container.Register(cd);
+			Assert.AreEqual(System.Data.DbType.String, ad.Value);
+			ad.Expression = "System.Data.DbType.Decimal";
+			Assert.AreEqual(System.Data.DbType.Decimal, ad.Value);
+		}
+
+		[Test]
+		[ExpectedException(typeof(System.ArgumentException))]
+		public void TestValueEnumTypeInvalidExpression()
+		{
+			// óÒãìíËêîÇÃñºëOÇÃâêÕé∏îséûÅA
+			// Seasar.Framework.Exceptions.JScriptEvaluateRuntimeException
+			// Çï‘Ç∑ÇÊÇ§Ç…ÇµÇΩÇŸÇ§Ç™Ç¢Ç¢Ç©Ç‡
+			IS2Container container = new S2ContainerImpl();
+			ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+			IArgDef ad = new ArgDefImpl();
+			ad.Expression = "System.Data.DbType.Zzz";
+			cd.AddArgDef(ad);
+			container.Register(cd);
+			object value = ad.Value;
+		}
+
+		[Test]
+		public void TestValueType()
+		{
+			IS2Container container = new S2ContainerImpl();
+			ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+			IArgDef ad = new ArgDefImpl();
+			ad.Expression = "System.Data.UniqueConstraint";
+			cd.AddArgDef(ad);
+			container.Register(cd);
+			Assert.AreSame(typeof(System.Data.UniqueConstraint), ad.Value);
+		}
+
+		[Test]
+		[ExpectedException(typeof(Seasar.Framework.Exceptions.JScriptEvaluateRuntimeException))]
+		public void TestValueTypeInvalidExpression()
+		{
+			IS2Container container = new S2ContainerImpl();
+			ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+			IArgDef ad = new ArgDefImpl();
+			ad.Expression = "System.Data.Zzz";
+			cd.AddArgDef(ad);
+			container.Register(cd);
+			object value = ad.Value;
+		}
+
 		public class A
 		{
 			private IHoge hoge_;
