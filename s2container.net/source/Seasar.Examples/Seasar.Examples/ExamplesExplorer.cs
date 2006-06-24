@@ -52,6 +52,7 @@ namespace Seasar.Examples
 		private System.Windows.Forms.MenuItem ScalingUp;
 		private System.Windows.Forms.MenuItem ScalingDown;
 		private System.Windows.Forms.MenuItem SelectFont;
+		private Splitter Splitter;
 		/// <summary>
 		/// 必要なデザイナ変数です。
 		/// </summary>
@@ -133,13 +134,14 @@ namespace Seasar.Examples
 			this.ResultConsole = new System.Windows.Forms.TabPage();
 			this.ResultView = new System.Windows.Forms.TextBox();
 			this.DiconConsole = new System.Windows.Forms.TabPage();
-			this.DiconView = new Seasar.Extension.UI.Forms.SyntaxHighlightingTextBox();
 			this.CodeConsole = new System.Windows.Forms.TabPage();
-			this.CodeView = new Seasar.Extension.UI.Forms.SyntaxHighlightingTextBox();
 			this.FontContextMenu = new System.Windows.Forms.ContextMenu();
 			this.ScalingUp = new System.Windows.Forms.MenuItem();
 			this.ScalingDown = new System.Windows.Forms.MenuItem();
 			this.SelectFont = new System.Windows.Forms.MenuItem();
+			this.Splitter = new System.Windows.Forms.Splitter();
+			this.DiconView = new Seasar.Extension.UI.Forms.SyntaxHighlightingTextBox();
+			this.CodeView = new Seasar.Extension.UI.Forms.SyntaxHighlightingTextBox();
 			this.MainTabControl.SuspendLayout();
 			this.ResultConsole.SuspendLayout();
 			this.DiconConsole.SuspendLayout();
@@ -149,10 +151,8 @@ namespace Seasar.Examples
 			// MainTreeView
 			// 
 			this.MainTreeView.Dock = System.Windows.Forms.DockStyle.Left;
-			this.MainTreeView.ImageIndex = -1;
 			this.MainTreeView.Location = new System.Drawing.Point(0, 0);
 			this.MainTreeView.Name = "MainTreeView";
-			this.MainTreeView.SelectedImageIndex = -1;
 			this.MainTreeView.Size = new System.Drawing.Size(168, 365);
 			this.MainTreeView.TabIndex = 0;
 			this.MainTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.MainTreeView_AfterSelect);
@@ -187,8 +187,7 @@ namespace Seasar.Examples
 			this.ResultView.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
 			this.ResultView.Size = new System.Drawing.Size(556, 340);
 			this.ResultView.TabIndex = 2;
-			this.ResultView.Text = "";
-			this.ResultView.MouseDown += new MouseEventHandler(this.View_MouseDown);
+			this.ResultView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.View_MouseDown);
 			// 
 			// DiconConsole
 			// 
@@ -199,17 +198,6 @@ namespace Seasar.Examples
 			this.DiconConsole.TabIndex = 1;
 			this.DiconConsole.Text = "DiconConsole";
 			// 
-			// DiconView
-			// 
-			this.DiconView.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.DiconView.Location = new System.Drawing.Point(0, 0);
-			this.DiconView.Name = "DiconView";
-			this.DiconView.Size = new System.Drawing.Size(556, 340);
-			this.DiconView.TabIndex = 1;
-			this.DiconView.Text = "";
-			this.DiconView.WordWrap = false;
-			this.DiconView.MouseDown += new MouseEventHandler(this.View_MouseDown);
-			// 
 			// CodeConsole
 			// 
 			this.CodeConsole.Controls.Add(this.CodeView);
@@ -219,23 +207,12 @@ namespace Seasar.Examples
 			this.CodeConsole.TabIndex = 2;
 			this.CodeConsole.Text = "CodeConsole";
 			// 
-			// CodeView
-			// 
-			this.CodeView.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.CodeView.Location = new System.Drawing.Point(0, 0);
-			this.CodeView.Name = "CodeView";
-			this.CodeView.Size = new System.Drawing.Size(556, 340);
-			this.CodeView.TabIndex = 0;
-			this.CodeView.Text = "";
-			this.CodeView.WordWrap = false;
-			this.CodeView.MouseDown += new MouseEventHandler(this.View_MouseDown);
-			// 
 			// FontContextMenu
 			// 
 			this.FontContextMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-																							this.ScalingUp,
-																							this.ScalingDown,
-																							this.SelectFont});
+            this.ScalingUp,
+            this.ScalingDown,
+            this.SelectFont});
 			// 
 			// ScalingUp
 			// 
@@ -255,16 +232,48 @@ namespace Seasar.Examples
 			this.SelectFont.Text = "フォント選択";
 			this.SelectFont.Click += new System.EventHandler(this.SelectFont_Click);
 			// 
+			// Splitter
+			// 
+			this.Splitter.Location = new System.Drawing.Point(0, 0);
+			this.Splitter.Name = "Splitter";
+			this.Splitter.Size = new System.Drawing.Size(3, 340);
+			this.Splitter.TabIndex = 3;
+			this.Splitter.TabStop = false;
+			// 
+			// DiconView
+			// 
+			this.DiconView.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.DiconView.Location = new System.Drawing.Point(0, 0);
+			this.DiconView.Name = "DiconView";
+			this.DiconView.Size = new System.Drawing.Size(556, 340);
+			this.DiconView.TabIndex = 1;
+			this.DiconView.Text = "";
+			this.DiconView.WordWrap = false;
+			this.DiconView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.View_MouseDown);
+			// 
+			// CodeView
+			// 
+			this.CodeView.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.CodeView.Location = new System.Drawing.Point(0, 0);
+			this.CodeView.Name = "CodeView";
+			this.CodeView.Size = new System.Drawing.Size(556, 340);
+			this.CodeView.TabIndex = 0;
+			this.CodeView.Text = "";
+			this.CodeView.WordWrap = false;
+			this.CodeView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.View_MouseDown);
+			// 
 			// ExamplesExplorer
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 12);
 			this.ClientSize = new System.Drawing.Size(732, 365);
 			this.Controls.Add(this.MainTabControl);
+			this.Controls.Add(this.Splitter);
 			this.Controls.Add(this.MainTreeView);
 			this.Name = "ExamplesExplorer";
 			this.Text = "ExamplesExplorer";
 			this.MainTabControl.ResumeLayout(false);
 			this.ResultConsole.ResumeLayout(false);
+			this.ResultConsole.PerformLayout();
 			this.DiconConsole.ResumeLayout(false);
 			this.CodeConsole.ResumeLayout(false);
 			this.ResumeLayout(false);
@@ -314,7 +323,6 @@ namespace Seasar.Examples
 					etn.ExamplesHandler.AppendCode(this.CodeAppender);
 					this.CodeView.ProcessHighlighting();
 				}
-
 			}
 			finally
 			{

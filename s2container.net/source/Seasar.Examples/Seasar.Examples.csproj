@@ -83,6 +83,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\MbUnit.Framework.dll</HintPath>
     </Reference>
+    <Reference Include="Nullables, Version=1.0.0.0, Culture=neutral, PublicKeyToken=154fdcb44c4484fc">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Nullables.dll</HintPath>
+    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -105,6 +109,11 @@
     <None Include="Seasar.Examples\DTCTx.dicon" />
     <None Include="Seasar.Examples\Examples.dicon" />
     <None Include="Seasar.Examples\Intro\Hello.dicon" />
+    <EmbeddedResource Include="Seasar.Examples\Reference\ADO\SelectBeanList.dicon" />
+    <EmbeddedResource Include="Seasar.Examples\Reference\ADO\SelectBean.dicon" />
+    <EmbeddedResource Include="Seasar.Examples\Reference\ADO\SelectDictionaryList.dicon" />
+    <EmbeddedResource Include="Seasar.Examples\Reference\ADO\SelectDictionary.dicon" />
+    <EmbeddedResource Include="Seasar.Examples\Reference\ADO\Update.dicon" />
     <None Include="Seasar.Examples\Reference\Aop\Measurement.dicon" />
     <None Include="Seasar.Examples\Reference\Aop\Trace.dicon" />
     <None Include="Seasar.Examples\Reference\S2Unit\Db2ExcelClient.dicon" />
@@ -151,6 +160,13 @@
     <Compile Include="Seasar.Examples\Intro\Hoge.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Examples\Reference\ADO\DictionaryUtil.cs" />
+    <Compile Include="Seasar.Examples\Reference\ADO\Employee.cs" />
+    <Compile Include="Seasar.Examples\Reference\ADO\SelectBeanListClient.cs" />
+    <Compile Include="Seasar.Examples\Reference\ADO\SelectBeanClient.cs" />
+    <Compile Include="Seasar.Examples\Reference\ADO\SelectDictionaryListClient.cs" />
+    <Compile Include="Seasar.Examples\Reference\ADO\SelectDictionaryClient.cs" />
+    <Compile Include="Seasar.Examples\Reference\ADO\UpdateClient.cs" />
     <Compile Include="Seasar.Examples\Reference\Aop\AopClient.cs">
       <SubType>Code</SubType>
     </Compile>

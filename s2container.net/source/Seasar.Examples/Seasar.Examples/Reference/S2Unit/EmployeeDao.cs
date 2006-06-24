@@ -25,8 +25,6 @@ namespace Seasar.Examples.Reference.S2Unit
 	{
 		private ISelectHandler getEmployeeHandler_;
 
-		public EmployeeDao() { }
-
 		public ISelectHandler GetEmployeeHandler
 		{
 			get { return getEmployeeHandler_; }
