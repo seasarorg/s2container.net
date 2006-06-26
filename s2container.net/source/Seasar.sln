@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seasar.Unit", "Seasar.Unit\
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seasar.Windows", "Seasar.Windows\Seasar.Windows.csproj", "{B361D11C-9C58-499C-8A56-4A677BEEBB2B}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -37,6 +41,10 @@ Global
 		{FC3A021B-6288-4C34-8303-544640D22FDA}.Debug.Build.0 = Debug|.NET
 		{FC3A021B-6288-4C34-8303-544640D22FDA}.Release.ActiveCfg = Release|.NET
 		{FC3A021B-6288-4C34-8303-544640D22FDA}.Release.Build.0 = Release|.NET
+		{B361D11C-9C58-499C-8A56-4A677BEEBB2B}.Debug.ActiveCfg = Debug|.NET
+		{B361D11C-9C58-499C-8A56-4A677BEEBB2B}.Debug.Build.0 = Debug|.NET
+		{B361D11C-9C58-499C-8A56-4A677BEEBB2B}.Release.ActiveCfg = Release|.NET
+		{B361D11C-9C58-499C-8A56-4A677BEEBB2B}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
