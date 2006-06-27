@@ -58,21 +58,43 @@ namespace Seasar.Extension.ADO.Impl
         {
             lock(this)
             {
+                // IDbConnectionを取得する
                 IDbConnection cn = DataSourceUtil.GetConnection(dataSource);
                 try
                 {
+                    // テーブル定義情報を取得するためのSQLを作成する
                     string sql = "SELECT * FROM " + tableName;
 
+                    // IDbCommandを取得する
                     IDbCommand cmd = dataSource.GetCommand(sql, cn);
+
+                    // Transactionの処理を行う
                     DataSourceUtil.SetTransaction(dataSource, cmd);
+
+                    // DbDataAdapterを取得する
                     DbDataAdapter adapter = dataSource.GetDataAdapter(cmd) as DbDataAdapter;
+
+                    // テーブル定義
                     DataTable metaDataTable = new DataTable(tableName);
-                    adapter.FillSchema(metaDataTable, SchemaType.Mapped);
+
+                    try
+                    {
+                        // テーブル定義を取得する
+                        adapter.FillSchema(metaDataTable, SchemaType.Mapped);
+                    }
+                    catch
+                    {
+                    }
+                    
+                    // テーブル定義情報からプライマリキーを取得する
                     primaryKeys[tableName] = GetPrimaryKeySet(metaDataTable.PrimaryKey);
+                    
+                    // テーブル定義情報からカラムを取得する
                     columns[tableName] = GetColumnSet(metaDataTable.Columns);
                 }
                 finally
                 {
+                    // IDbConnectionのClose処理を行う
                     DataSourceUtil.CloseConnection(dataSource, cn);
                 }
             }
