@@ -38,14 +38,7 @@ namespace Seasar.Extension.Tx
 
 		public override object Invoke(IMethodInvocation invocation)
 		{
-			try
-			{
-				return transactionhandler.Handle(invocation, this.TransactionStateHandler.IsInTransaction);
-			}
-			catch(Exception e)
-			{
-				throw e.InnerException;
-			}
+			return transactionhandler.Handle(invocation, this.TransactionStateHandler.IsInTransaction);
 		}
 
 		public ITransactionStateHandler TransactionStateHandler
