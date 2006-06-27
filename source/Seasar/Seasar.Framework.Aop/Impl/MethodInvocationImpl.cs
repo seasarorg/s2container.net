@@ -127,8 +127,16 @@ namespace Seasar.Framework.Aop.Impl
 				// 他にInterceptorがあれば、Interceptorを呼び出す
 				return interceptors_[interceptorsIndex_++].Invoke(this);
 			}
-			// Interceptされたメソッドを実行する
-			return method_.Invoke(target_,arguments_);
+
+            try
+            {
+                // Interceptされたメソッドを実行する
+                return method_.Invoke(target_, arguments_);
+            }
+            catch (TargetInvocationException ex)
+            {
+                throw ex.InnerException;
+            }
 		}
 
 		#endregion
