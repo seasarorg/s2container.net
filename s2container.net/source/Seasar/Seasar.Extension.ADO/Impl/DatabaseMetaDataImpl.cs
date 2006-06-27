@@ -79,13 +79,16 @@ namespace Seasar.Extension.ADO.Impl
                     // IDataAdapterを取得する
                     IDataAdapter adapter = dataSource.GetDataAdapter(cmd);
 
-                    // テーブル定義情報を取得する
-                    DataTable[] metaDataTables = adapter.FillSchema(new DataSet(), SchemaType.Mapped);
+                    // テーブル定義
+                    DataTable[] metaDataTables;
 
-                    if (metaDataTables.Length == 0)
+                    // テーブル定義情報を取得する
+                    try
                     {
-                        // テーブル定義情報が見つからない場合は、実行時例外を発生させる
-                        throw new SRuntimeException("ESSR0067", new object[] { tableName });
+                        metaDataTables = adapter.FillSchema(new DataSet(), SchemaType.Mapped);
+                    }
+                    catch
+                    {
                     }
 
                     // テーブル定義情報からプライマリキーを取得する
