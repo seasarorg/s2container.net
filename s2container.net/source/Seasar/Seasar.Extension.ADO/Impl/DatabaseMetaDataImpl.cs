@@ -84,6 +84,7 @@ namespace Seasar.Extension.ADO.Impl
                     }
                     catch
                     {
+                        return;
                     }
                     
                     // テーブル定義情報からプライマリキーを取得する
