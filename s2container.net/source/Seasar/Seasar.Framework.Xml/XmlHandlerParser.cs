@@ -46,47 +46,50 @@ namespace Seasar.Framework.Xml
 
 		public object Parse(string path)
 		{
-			StreamReader reader = null;
-			string pathWithoutExt = Path.Combine(
-					Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path));
-			string extension = ResourceUtil.GetExtension(path);
+            StreamReader reader = null;
+            string pathWithoutExt = Path.Combine(
+                Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path));
+            string extension = ResourceUtil.GetExtension(path);
 
-			try
-			{
-                if(File.Exists(path))
+            if(File.Exists(path))
+            {
+                reader = new StreamReader(path);
+            } 
+            else if(HttpContext.Current != null)
+            {
+                string path4http = Path.Combine(
+                    AppDomain.CurrentDomain.SetupInformation.ApplicationBase, path);
+                if (File.Exists(path4http))
                 {
-                    reader = new StreamReader(path);
-                } 
-                else if(HttpContext.Current != null)
-                {
-                    string path4http = Path.Combine(
-                        AppDomain.CurrentDomain.SetupInformation.ApplicationBase, path);
-                    if(File.Exists(path4http)) reader = new StreamReader(path4http);
+                    reader = new StreamReader(path4http);
                 }
-                if(reader == null)
+            }
+            
+            if(reader == null)
+            {
+                reader = ResourceUtil.GetResourceAsStreamReaderNoException(pathWithoutExt, extension);
+            }
+
+            if(reader == null)
+            {
+                Assembly[] assemblys = AppDomain.CurrentDomain.GetAssemblies();
+                foreach(Assembly assembly in assemblys)
                 {
-                    reader = ResourceUtil.GetResourceAsStreamReader(pathWithoutExt, extension);
+                    reader = ResourceUtil.GetResourceAsStreamReaderNoException(pathWithoutExt,
+                        extension,assembly);
+                    if (reader != null)
+                    {
+                        break;
+                    }
                 }
-			}
-			catch(ResourceNotFoundRuntimeException)
-			{
-				Assembly[] assemblys = AppDomain.CurrentDomain.GetAssemblies();
-				foreach(Assembly assembly in assemblys)
-				{
-					try
-					{
-						reader = ResourceUtil.GetResourceAsStreamReader(pathWithoutExt,
-							extension,assembly);
-						break;
-					}
-					catch(ResourceNotFoundRuntimeException)
-					{
-						continue;
-					}
-				}
-			}
-			if(reader == null) throw new ResourceNotFoundRuntimeException(path);
-			return this.Parse(reader);
+            }
+            
+            if (reader == null)
+            {
+                throw new ResourceNotFoundRuntimeException(path);
+            }
+
+            return this.Parse(reader);
 		}
 
 		public object Parse(StreamReader input)

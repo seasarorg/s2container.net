@@ -64,16 +64,15 @@ namespace Seasar.Framework.Container.Assembler
 			object[] args = new Object[argTypes.Length];
 			for(int i = 0; i < argTypes.Length; i++)
 			{
-				try 
-				{
+				if(this.ComponentDef.Container.HasComponentDef(argTypes[i]))
+                {
 					args[i] = this.ComponentDef.Container.GetComponent(argTypes[i]);
 				} 
-				catch (ComponentNotFoundRuntimeException ex) 
+				else
 				{
 					logger_.Log("WSSR0007",
 						new object[] {
-										 this.ComponentDef.ComponentType.FullName,
-										 ex.Message});
+										 this.ComponentDef.ComponentType.FullName});
 					args[i] = null;
 				}
 			}

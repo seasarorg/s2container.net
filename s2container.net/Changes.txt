@@ -1,4 +1,7 @@
-﻿S2Container.NET 1.2.0
+﻿S2Container.NET 1.2.1
+- 正常経路中での例外の利用を止める
+
+S2Container.NET 1.2.0
 2006/6/17
 
 - S2ADO.NETでSystem.Data.SqlTypesのバイト配列のデータマッピングを追加。
