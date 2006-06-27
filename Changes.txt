@@ -1,5 +1,11 @@
-﻿S2Container.NET 1.2.0
-200/6/17
+﻿S2Container.NET 1.2.1
+準備中
+
+- 正常経路中での例外の利用を止める
+- DatabaseMetaDataImplで存在しないテーブル定義取得の場合、例外を発生しないようにする
+
+S2Container.NET 1.2.0
+2006/6/17
 
 - S2ADO.NETでSystem.Data.SqlTypesのバイト配列とSystem.Nullableバイト配列のデータマッピングを追加。
 - S2ADO.NETのSqlGuid型の変換処理でGuid型からSqlGuid型を返すように修正。
