@@ -35,23 +35,20 @@ namespace Seasar.Extension.DataSets.States
 		{
 			DataTable table = row.Table;
 			string sql = GetSql(table);
-			string[] argNames = GetArgNames(table);
 			object[] args = GetArgs(row);
 			IUpdateHandler handler = new BasicUpdateHandler(dataSource, sql);
-			Execute(handler, args, argNames);
+			Execute(handler, args);
 		}
 
 		#endregion
 
 		protected abstract string GetSql(DataTable table);
 
-		protected abstract string[] GetArgNames(DataTable table);
-
 		protected abstract object[] GetArgs(DataRow row);
 
-		protected void Execute(IUpdateHandler handler, object[] args, string[] argNames) 
+		protected void Execute(IUpdateHandler handler, object[] args) 
 		{
-			handler.Execute(args, Type.GetTypeArray(args), argNames);
+			handler.Execute(args);
 		}
 	}
 }

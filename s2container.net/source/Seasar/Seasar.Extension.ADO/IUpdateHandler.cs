@@ -24,6 +24,9 @@ namespace Seasar.Extension.ADO
     {
         int Execute(object[] args);
 
+        int Execute(object[] args, Type[] argTypes);
+
+        [Obsolete("Execute(object[], Type[])‚ğg—p‚µ‚Ä‚­‚¾‚³‚¢B")]
         int Execute(object[] args, Type[] argTypes, string[] argNames);
     }
 }

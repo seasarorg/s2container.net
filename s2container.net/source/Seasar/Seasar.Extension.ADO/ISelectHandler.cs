@@ -23,6 +23,10 @@ namespace Seasar.Extension.ADO
     public interface ISelectHandler
     {
         object Execute(object[] args);
+
+        object Execute(object[] args, Type[] argTypes);
+
+        [Obsolete("Execute(object[], Type[])‚ğg—p‚µ‚Ä‚­‚¾‚³‚¢B")]
         object Execute(object[] args, Type[] argTypes, string[] argNames);
     }
 }
