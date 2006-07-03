@@ -33,11 +33,6 @@ namespace Seasar.Examples.Reference.S2Unit
 
 		public Employee GetEmployee(long empno)
 		{
-			// TODO 暫定措置。DICONファイルでクラスが指定できるようになったら削除する。
-			if (getEmployeeHandler_ is BasicSelectHandler)
-			{
-				((BasicSelectHandler) getEmployeeHandler_).DataReaderHandler = new BeanDataReaderHandler(typeof(Employee));
-			}
 			return (Employee) getEmployeeHandler_.Execute(new object[] { empno });
 		}
 	}
