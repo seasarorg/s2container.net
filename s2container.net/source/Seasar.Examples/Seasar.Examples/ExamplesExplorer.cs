@@ -52,6 +52,7 @@ namespace Seasar.Examples
 		private System.Windows.Forms.MenuItem ScalingUp;
 		private System.Windows.Forms.MenuItem ScalingDown;
 		private System.Windows.Forms.MenuItem SelectFont;
+		private System.Windows.Forms.Splitter Splitter;
 		/// <summary>
 		/// 必要なデザイナ変数です。
 		/// </summary>
@@ -140,6 +141,7 @@ namespace Seasar.Examples
 			this.ScalingUp = new System.Windows.Forms.MenuItem();
 			this.ScalingDown = new System.Windows.Forms.MenuItem();
 			this.SelectFont = new System.Windows.Forms.MenuItem();
+			this.Splitter = new System.Windows.Forms.Splitter();
 			this.MainTabControl.SuspendLayout();
 			this.ResultConsole.SuspendLayout();
 			this.DiconConsole.SuspendLayout();
@@ -188,7 +190,7 @@ namespace Seasar.Examples
 			this.ResultView.Size = new System.Drawing.Size(556, 340);
 			this.ResultView.TabIndex = 2;
 			this.ResultView.Text = "";
-			this.ResultView.MouseDown += new MouseEventHandler(this.View_MouseDown);
+			this.ResultView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.View_MouseDown);
 			// 
 			// DiconConsole
 			// 
@@ -208,7 +210,7 @@ namespace Seasar.Examples
 			this.DiconView.TabIndex = 1;
 			this.DiconView.Text = "";
 			this.DiconView.WordWrap = false;
-			this.DiconView.MouseDown += new MouseEventHandler(this.View_MouseDown);
+			this.DiconView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.View_MouseDown);
 			// 
 			// CodeConsole
 			// 
@@ -228,7 +230,7 @@ namespace Seasar.Examples
 			this.CodeView.TabIndex = 0;
 			this.CodeView.Text = "";
 			this.CodeView.WordWrap = false;
-			this.CodeView.MouseDown += new MouseEventHandler(this.View_MouseDown);
+			this.CodeView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.View_MouseDown);
 			// 
 			// FontContextMenu
 			// 
@@ -255,10 +257,19 @@ namespace Seasar.Examples
 			this.SelectFont.Text = "フォント選択";
 			this.SelectFont.Click += new System.EventHandler(this.SelectFont_Click);
 			// 
+			// Splitter
+			// 
+			this.Splitter.Location = new System.Drawing.Point(168, 0);
+			this.Splitter.Name = "Splitter";
+			this.Splitter.Size = new System.Drawing.Size(3, 365);
+			this.Splitter.TabIndex = 2;
+			this.Splitter.TabStop = false;
+			// 
 			// ExamplesExplorer
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 12);
 			this.ClientSize = new System.Drawing.Size(732, 365);
+			this.Controls.Add(this.Splitter);
 			this.Controls.Add(this.MainTabControl);
 			this.Controls.Add(this.MainTreeView);
 			this.Name = "ExamplesExplorer";

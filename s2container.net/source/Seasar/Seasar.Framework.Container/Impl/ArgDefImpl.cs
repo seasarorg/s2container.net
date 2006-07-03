@@ -31,7 +31,6 @@ namespace Seasar.Framework.Container.Impl
 		private IS2Container container_;
 		private string expression_;
 		private Type argType_;
-		//private object exp_;
 		private IComponentDef childComponentDef_;
 		private MetaDefSupport metaDefSupport_ = new MetaDefSupport();
 
@@ -57,7 +56,6 @@ namespace Seasar.Framework.Container.Impl
 		{
 			get
 			{
-				
 				if(expression_ != null)
 				{
 					if(container_.HasComponentDef(expression_))
@@ -79,10 +77,15 @@ namespace Seasar.Framework.Container.Impl
 						{
 							return Enum.Parse(enumType, expression_.Substring(lastIndex + 1));
 						}
-						else
+
+						Type classType = ClassUtil.ForName(expression_,
+							AppDomain.CurrentDomain.GetAssemblies());
+						if (classType != null && classType.IsClass)
 						{
-							return JScriptUtil.Evaluate(expression_, container_);
+							return classType;
 						}
+
+						return JScriptUtil.Evaluate(expression_, container_);
 					}
 					else
 					{
@@ -103,14 +106,9 @@ namespace Seasar.Framework.Container.Impl
 
 		public IS2Container Container
 		{
-			get
-			{
-				
-				return container_;
-			}
+			get { return container_; }
 			set
 			{
-				
 				container_ = value;
 				if(childComponentDef_ != null) 
 				{
@@ -122,24 +120,14 @@ namespace Seasar.Framework.Container.Impl
 
 		public string Expression
 		{
-			get
-			{
-				
-				return expression_;
-			}
-			set
-			{
-				
-				expression_ = value;
-				//exp_ = null;
-			}
+			get { return expression_; }
+			set	{ expression_ = value; }
 		}
 
 		public IComponentDef ChildComponentDef
 		{
 			set
 			{
-				
 				if(container_ != null)
 				{
 					value.Container = container_;
@@ -150,8 +138,8 @@ namespace Seasar.Framework.Container.Impl
 
 		public Type ArgType
 		{
-			set { argType_ = value; }
 			get { return argType_; }
+			set { argType_ = value; }
 		}
 
 		#endregion
@@ -160,34 +148,26 @@ namespace Seasar.Framework.Container.Impl
 
 		public void AddMetaDef(IMetaDef metaDef)
 		{
-			
 			metaDefSupport_.AddMetaDef(metaDef);
 		}
 
 		public int MetaDefSize
 		{
-			get
-			{
-				
-				return metaDefSupport_.MetaDefSize;
-			}
+			get { return metaDefSupport_.MetaDefSize; }
 		}
 
 		public IMetaDef GetMetaDef(int index)
 		{
-			
 			return metaDefSupport_.GetMetaDef(index);
 		}
 
 		public IMetaDef GetMetaDef(string name)
 		{
-			
 			return metaDefSupport_.GetMetaDef(name);
 		}
 
 		public IMetaDef[] GetMetaDefs(string name)
 		{
-			
 			return metaDefSupport_.GetMetaDefs(name);
 		}
 

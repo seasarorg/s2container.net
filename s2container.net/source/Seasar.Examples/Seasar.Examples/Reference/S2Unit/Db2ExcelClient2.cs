@@ -25,9 +25,7 @@ namespace Seasar.Examples.Reference.S2Unit
 {
 	public class Db2ExcelClient2
 	{
-		private static readonly string PATH = "Seasar.Examples/Reference/S2Unit/Db2ExcelClient2.dicon";
-
-		public Db2ExcelClient2() { }
+		private const string PATH = "Seasar.Examples/Reference/S2Unit/Db2ExcelClient2.dicon";
 
 		public void Main()
 		{

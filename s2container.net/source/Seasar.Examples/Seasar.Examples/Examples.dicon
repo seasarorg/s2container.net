@@ -21,16 +21,25 @@
   <include path="Seasar.Examples/Reference/S2Unit/Db2ExcelClient.dicon" />
   <include path="Seasar.Examples/Reference/S2Unit/Db2ExcelClient2.dicon" />
   <include path="Seasar.Examples/Reference/S2Unit/EmployeeDao.dicon" />
+  <include path="Seasar.Examples/Reference/ADO/SelectBeanList.dicon" />
+  <include path="Seasar.Examples/Reference/ADO/SelectBean.dicon" />
+  <include path="Seasar.Examples/Reference/ADO/SelectDictionaryList.dicon" />
+  <include path="Seasar.Examples/Reference/ADO/SelectDictionary.dicon" />
+  <include path="Seasar.Examples/Reference/ADO/Update.dicon" />
 
   <component class="Seasar.Examples.ExamplesExplorer">
-    <initMethod name="AddExamples"><arg>"S2Container概要"</arg><arg>intro</arg></initMethod>
-    <initMethod name="AddExamples"><arg>"S2Containerリファレンス"</arg><arg>reference</arg></initMethod>
+    <initMethod name="AddExamples"><arg>"Hello"</arg><arg>intro</arg></initMethod>
+    <initMethod name="AddExamples"><arg>"DIContainer"</arg><arg>dicontainer</arg></initMethod>
+    <initMethod name="AddExamples"><arg>"AOP"</arg><arg>aop</arg></initMethod>
+    <initMethod name="AddExamples"><arg>"トランザクションの自動制御"</arg><arg>transaction</arg></initMethod>
+    <initMethod name="AddExamples"><arg>"S2Unit"</arg><arg>s2unit</arg></initMethod>
+    <initMethod name="AddExamples"><arg>"S2ADO"</arg><arg>s2ado</arg></initMethod>
   </component>
   
   <component name="intro" class="System.Collections.ArrayList">
     <initMethod name="Add"><arg>
       <component class="Seasar.Examples.Impl.BasicExamplesHandler">
-        <property name="Title">"Hello World!"</property>
+        <property name="Title">"World!"</property>
         <property name="Examples">helloWorld</property>
         <initMethod name="AddDicon"><arg>"Seasar.Examples/Intro/Hello.dicon"</arg></initMethod>
         <initMethod name="AddCode"><arg>"Seasar.Examples/Intro/Hoge.cs"</arg></initMethod>
@@ -38,7 +47,7 @@
     </arg></initMethod>
   </component>
 
-  <component name="reference" class="System.Collections.ArrayList">
+  <component name="dicontainer" class="System.Collections.ArrayList">
     <initMethod name="Add"><arg>
       <component class="Seasar.Examples.Impl.BasicExamplesHandler">
         <property name="Title">"コンストラクタ・インジェクション"</property>
@@ -134,6 +143,17 @@
     </arg></initMethod>
     <initMethod name="Add"><arg>
       <component class="Seasar.Examples.Impl.BasicExamplesHandler">
+        <property name="Title">"メタデータ"</property>
+        <property name="Examples">Metadata</property>
+        <initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/Metadata/meta.dicon"</arg></initMethod>
+        <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Metadata/MetaClient.cs"</arg></initMethod>
+      </component>
+    </arg></initMethod>
+  </component>
+  
+  <component name="aop" class="System.Collections.ArrayList">
+    <initMethod name="Add"><arg>
+      <component class="Seasar.Examples.Impl.BasicExamplesHandler">
         <property name="Title">"TraceInterceptor"</property>
         <property name="Examples">AopTraceInterceptor</property>
         <initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/Aop/Trace.dicon"</arg></initMethod>
@@ -150,20 +170,15 @@
         <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Aop/AopMeasurementClient.cs"</arg></initMethod>
       </component>
     </arg></initMethod>
-    <initMethod name="Add"><arg>
-      <component class="Seasar.Examples.Impl.BasicExamplesHandler">
-        <property name="Title">"メタデータ"</property>
-        <property name="Examples">Metadata</property>
-        <initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/Metadata/meta.dicon"</arg></initMethod>
-        <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/Metadata/MetaClient.cs"</arg></initMethod>
-      </component>
-    </arg></initMethod>
+  </component>
+  
+  <component name="transaction" class="System.Collections.ArrayList">
     <initMethod name="Add"><arg>
       <component class="Seasar.Examples.Impl.BasicExamplesHandler">
         <property name="Title">"ローカルトランザクション"</property>
         <property name="Examples">LocalTxClient</property>
         <initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/LocalTx/LocalTxClient.dicon"</arg></initMethod>
-        <initMethod name="AddDicon"><arg>"Seasar.Examples/Tx.dicon"</arg></initMethod>
+        <initMethod name="AddDicon"><arg>"Seasar.Examples/LocalTx.dicon"</arg></initMethod>
         <initMethod name="AddDicon"><arg>"Seasar.Examples/Ado.dicon"</arg></initMethod>
         <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/LocalTx/LocalTxClient.cs"</arg></initMethod>
         <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/LocalTx/EmployeeDao.cs"</arg></initMethod>
@@ -179,6 +194,9 @@
         <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/DTCTx/EmployeeDao.cs"</arg></initMethod>
       </component>
     </arg></initMethod>
+  </component>
+  
+  <component name="s2unit" class="System.Collections.ArrayList">
     <initMethod name="Add"><arg>
         <component class="Seasar.Examples.Impl.BasicExamplesHandler">
           <property name="Title">"Select文に対するテスト(1)"</property>
@@ -207,5 +225,54 @@
           <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/S2Unit/EmployeeDao.cs"</arg></initMethod>
         </component>
     </arg></initMethod>
+  </component>
+  <component name="s2ado" class="System.Collections.ArrayList">
+    <initMethod name="Add"><arg>
+        <component class="Seasar.Examples.Impl.BasicExamplesHandler">
+          <property name="Title">"検索処理(BeanList)"</property>
+          <property name="Examples">SelectBeanListClient</property>
+          <initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/ADO/SelectBeanList.dicon"</arg></initMethod>
+          <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/ADO/SelectBeanListClient.cs"</arg></initMethod>
+          <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/ADO/Employee.cs"</arg></initMethod>
+        </component>
+      </arg>
+    </initMethod>
+    <initMethod name="Add"><arg>
+        <component class="Seasar.Examples.Impl.BasicExamplesHandler">
+          <property name="Title">"検索処理(Bean)"</property>
+          <property name="Examples">SelectBeanClient</property>
+          <initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/ADO/SelectBean.dicon"</arg></initMethod>
+          <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/ADO/SelectBeanClient.cs"</arg></initMethod>
+          <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/ADO/Employee.cs"</arg></initMethod>
+        </component>
+      </arg>
+    </initMethod>
+    <initMethod name="Add"><arg>
+        <component class="Seasar.Examples.Impl.BasicExamplesHandler">
+          <property name="Title">"検索処理(DictionaryList)"</property>
+          <property name="Examples">SelectDictionaryListClient</property>
+          <initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/ADO/SelectDictionaryList.dicon"</arg></initMethod>
+          <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/ADO/SelectDictionaryListClient.cs"</arg></initMethod>
+        </component>
+      </arg>
+    </initMethod>
+    <initMethod name="Add"><arg>
+        <component class="Seasar.Examples.Impl.BasicExamplesHandler">
+          <property name="Title">"検索処理(Dictionary)"</property>
+          <property name="Examples">SelectDictionaryClient</property>
+          <initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/ADO/SelectDictionary.dicon"</arg></initMethod>
+          <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/ADO/SelectDictionaryClient.cs"</arg></initMethod>
+        </component>
+      </arg>
+    </initMethod>
+    <initMethod name="Add"><arg>
+        <component class="Seasar.Examples.Impl.BasicExamplesHandler">
+          <property name="Title">"更新処理"</property>
+          <property name="Examples">UpdateClient</property>
+          <initMethod name="AddDicon"><arg>"Seasar.Examples/Reference/ADO/Update.dicon"</arg></initMethod>
+          <initMethod name="AddCode"><arg>"Seasar.Examples/Reference/ADO/UpdateClient.cs"</arg></initMethod>
+        </component>
+      </arg>
+    </initMethod>
   </component>
 </components>
