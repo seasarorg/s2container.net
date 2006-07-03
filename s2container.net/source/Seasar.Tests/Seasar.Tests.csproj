@@ -410,6 +410,7 @@
     <Compile Include="Seasar.Tests.Framework.Util\ConversionUtilTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Tests.Framework.Util\JScriptUtilTest.cs" />
     <Compile Include="Seasar.Tests.Framework.Util\ResourceUtilTest.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -22,6 +22,7 @@ using System.Collections;
 using System.Reflection;
 using System.CodeDom.Compiler;
 using Seasar.Framework.Exceptions;
+using System.Configuration;
 
 namespace Seasar.Framework.Util
 {
@@ -39,7 +40,8 @@ namespace Seasar.Framework.Util
 				class Evaluator
 				{
 					public static function Eval(expr : String,unsafe : boolean,
-						self : Object,out : Object,err : Object, container : Object) : Object 
+						self : Object,out : Object,err : Object, container : Object,
+                        appSettings : Object) : Object 
 					{ 
 						if(unsafe)
 						{
@@ -71,7 +73,8 @@ namespace Seasar.Framework.Util
 			try
 			{
 				return evaluateType_.InvokeMember("Eval",BindingFlags.InvokeMethod,
-					null,null,new object[] {exp,true,ctx["self"],ctx["out"],ctx["err"],root});
+					null, null, new object[] {exp,true, ctx["self"], ctx["out"], ctx["err"], root,
+                    ConfigurationManager.AppSettings});
 			} 
 			catch(Exception ex)
 			{
@@ -83,8 +86,7 @@ namespace Seasar.Framework.Util
 		{
 			try
 			{
-				return evaluateType_.InvokeMember("Eval",BindingFlags.InvokeMethod,
-					null,null,new object[] {exp,true,null,null,null,root});
+                return Evaluate(exp, new Hashtable(), root);
 			} 
 			catch(Exception ex)
 			{
