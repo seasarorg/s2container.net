@@ -26,12 +26,14 @@ namespace Seasar.Tests.Framework.Aop.Proxy
         AutoHello _autoHello = null;
         AutoHello2 _autoHello2 = null;
         IHello4 _hello4 = null;
+        ICount _count = null;
+        CountImpl _countImpl = null;
 
         public DynamicAopProxyTest()
         {
             // log4netÇÃèâä˙âª
             FileInfo info = new FileInfo(SystemInfo.AssemblyShortName(
-                Assembly.GetExecutingAssembly()) + ".exe.config");
+                Assembly.GetExecutingAssembly()) + ".dll.config");
             XmlConfigurator.Configure(LogManager.GetRepository(), info);
         }
 
@@ -142,6 +144,20 @@ namespace Seasar.Tests.Framework.Aop.Proxy
             System.Diagnostics.Debug.WriteLine(span.TotalMilliseconds + "ms");
         }
 
+        public void SetUpProtectedMethod()
+        {
+            this.Include("Seasar.Tests.Framework.Aop.Proxy.DynamicProxy.dicon");
+        }
+
+        [Test, S2]
+        public void TestProtectedMethod()
+        {
+            Assert.AreEqual(1, _count.GetCount(), "_count");
+            Assert.AreEqual(1, _countImpl.GetCount(), "_countImpl");
+        }
+
+        #region Test Class & Interface
+
         public interface IHello
         {
             string Greeting();
@@ -241,6 +257,37 @@ namespace Seasar.Tests.Framework.Aop.Proxy
                 return _str;
             }
         }
+
+        public interface ICount
+        {
+            int GetCount();
+        }
+
+        public class CountImpl : ICount
+        {
+            private int _count = 0;
+
+            public virtual int GetCount()
+            {
+                return GetCount2();
+            }
+
+            protected virtual int GetCount2()
+            {
+                return _count;
+            }
+        }
+
+        public class IncrementInterceptor : IMethodInterceptor
+        {
+            public object Invoke(IMethodInvocation invocation)
+            {
+                int ret = (int) invocation.Proceed();
+                return ++ret;
+            }
+        }
+
+        #endregion
 
     }
 
