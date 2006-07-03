@@ -689,6 +689,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Seasar.Tests.Framework.Util\JScriptUtilTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Seasar.Tests.Framework.Util\ResourceUtilTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

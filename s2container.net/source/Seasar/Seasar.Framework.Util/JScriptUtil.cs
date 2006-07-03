@@ -19,6 +19,7 @@
 using Microsoft.JScript;
 using System;
 using System.Collections;
+using System.Configuration;
 using System.Reflection;
 using System.CodeDom.Compiler;
 using Seasar.Framework.Exceptions;
@@ -39,7 +40,8 @@ namespace Seasar.Framework.Util
 				class Evaluator
 				{
 					public static function Eval(expr : String,unsafe : boolean,
-						self : Object,out : Object,err : Object, container : Object) : Object 
+						self : Object,out : Object,err : Object, container : Object,
+                        appSettings : Object) : Object 
 					{ 
 						if(unsafe)
 						{
@@ -67,30 +69,30 @@ namespace Seasar.Framework.Util
 			evaluateType_ = assembly.GetType("Seasar.Framework.Util.JScript.Evaluator");
 		}
 
-		public static object Evaluate(string exp,Hashtable ctx, object root)
-		{
-			try
-			{
-				return evaluateType_.InvokeMember("Eval",BindingFlags.InvokeMethod,
-					null,null,new object[] {exp,true,ctx["self"],ctx["out"],ctx["err"],root});
-			} 
-			catch(Exception ex)
-			{
-				throw new JScriptEvaluateRuntimeException(exp,ex);
-			}
-		}
+        public static object Evaluate(string exp,Hashtable ctx, object root)
+        {
+            try
+            {
+                return evaluateType_.InvokeMember("Eval",BindingFlags.InvokeMethod,
+                    null, null, new object[] {exp,true, ctx["self"], ctx["out"], ctx["err"], root,
+                    ConfigurationSettings.AppSettings});
+            } 
+            catch(Exception ex)
+            {
+                throw new JScriptEvaluateRuntimeException(exp,ex);
+            }
+        }
 
-		public static object Evaluate(string exp, object root)
-		{
-			try
-			{
-				return evaluateType_.InvokeMember("Eval",BindingFlags.InvokeMethod,
-					null,null,new object[] {exp,true,null,null,null,root});
-			} 
-			catch(Exception ex)
-			{
-				throw new JScriptEvaluateRuntimeException(exp,ex);
-			}
-		}
+        public static object Evaluate(string exp, object root)
+        {
+            try
+            {
+                return Evaluate(exp, new Hashtable(), root);
+            } 
+            catch(Exception ex)
+            {
+                throw new JScriptEvaluateRuntimeException(exp,ex);
+            }
+        }
 	}
 }
