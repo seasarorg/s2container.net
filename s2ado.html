@@ -24,10 +24,34 @@
 <tr align="left" valign="top"><td width="14"><img height="14" width="14" src="images/spacer.gif" alt=""></td><td width="740" class="main">
 <!-- don't edit end -->
 <!-- document start -->
-<p>
-SQLは自由に発行したい。でもADO.NETを使うのはめんどくさい。そんなあなたのために用意されているのが、S2ADOです。</p>
 
-<h2><a name="BeanListDataReaderHandler">検索処理(BeanList)</a></h2>
+<a href="index.html">S2Container.NET TOPページへ</a>
+
+<p>SQLは自由に発行したい。でもADO.NETを使うのはめんどくさい。そんなあなたのために用意されているのが、S2ADOです。</p>
+
+<ul>
+<li><a href="#DML">データ操作</a></li>
+<ul>
+<li><a href="#BeanListDataReaderHandler">検索処理(BeanList)</a></li>
+<li><a href="#BeanDataReaderHandler">検索処理(Bean)</a></li>
+<li><a href="#DictionaryListDataReaderHandler">検索処理(DictionaryList)</a></li>
+<li><a href="#DictionaryDataReaderHandler">検索処理(Dictionary)</a></li>
+<li><a href="#BasicUpdateHandler">更新処理</a></li>
+</ul>
+
+<li><a href="#NullValue">NULL値の扱い</a>
+<ul>
+<li><a href="#NullValueNHibernate">NHibernateContribのNullables</a></li>
+<li><a href="#NullValueSqlTypes">System.Data.SqlTypesのNull</a></li>
+<li><a href="#NullValueNullable">System.Nullable(.NET 2.0以降)</a></li>
+</ul>
+
+<li><a href="#ParameterMark">パラメータマーカー(@, :, ?)の扱い</a>
+</ul>
+
+<h2><a name="DML">データ操作</a></h2>
+
+<h3><a name="BeanListDataReaderHandler">検索処理(BeanList)</a></h3>
 <p>さっそく複数件のobjectを検索してみましょう。検索するためにはBasicSelectHandlerを使います。次のようなプロパティが用意されています。</p>
 
 <h4>Seasar.Extension.ADO.Impl.BasicSelectHandler</h4>
@@ -144,7 +168,7 @@ DEBUG 2006-06-19 23:26:59,984 [9] 論理的なコネクションを閉じまし�
 バインド変数がある場合には、Execute(object[])の引数に指定します。今回の例はバインド変数がないので、nullを設定しています。S2Containerにコンポーネントを組み立ててもらい、後はExecute()を呼び出すだけなので楽チンです。カラム名にアンダースコア(_)が含まれている場合は、アンダースコアを除いてプロパティにマッピングされます。
 </p>
 
-<h4><a name="BeanDataReaderHandler">検索処理(Bean)</a></h4>
+<h3><a name="BeanDataReaderHandler">検索処理(Bean)</a></h3>
 <p>1件のobjectを検索するためには上記と同様にBasicSelectHandlerを使います。BeanDataReaderHandlerを使うこと以外は上記と同様です。結果はリストではなくobjectとしてかえってきます。</p>
 
 <h4>Seasar.Examples.Reference.ADO.SelectBean.dicon</h4>
@@ -205,7 +229,7 @@ DEBUG 2006-06-19 23:34:54,249 [9] 論理的なコネクションを閉じまし�
 7788, SCOTT, ANALYST, 7566, 1982/12/09 0:00:00, 3000, , 20, 
 </pre>
 
-<h4><a name="DictionaryListDataReaderHandler">検索処理(DictionaryList)</a></h4>
+<h3><a name="DictionaryListDataReaderHandler">検索処理(DictionaryList)</a></h3>
 <p>複数件のDictionaryを取得することもできます。DataReaderHandlerにはDictionaryListDataReaderHandlerを使います。</p>
 
 <h4>Seasar.Examples.Reference.ADO.SelectDictionaryList.dicon</h4>
@@ -296,7 +320,7 @@ ename=MILLER, hiredate=1982/01/23 0:00:00, comm=null, deptno=10, job=CLERK, empn
  sal=1300.00, mgr=7782
 </pre>
 
-<h4><a name="DictionaryDataReaderHandler">検索処理(Dictionary)</a></h4>
+<h3><a name="DictionaryDataReaderHandler">検索処理(Dictionary)</a></h3>
 <p>1件のDictionaryを取得することもできます。DataReaderHandlerにはDictionaryDataReaderHandlerを使います。</p>
 
 <h4>Seasar.Examples.Reference.ADO.SelectDictionary.dicon</h4>
@@ -358,8 +382,7 @@ ename=SCOTT, hiredate=1982/12/09 0:00:00, comm=null, deptno=20, job=ANALYST, emp
  sal=3000.00, mgr=7566
 </pre>
 
-
-<h4><a name="BasicUpdateHandler">更新処理</a></h4>
+<h3><a name="BasicUpdateHandler">更新処理</a></h3>
 <p>更新するためにはBasicUpdateHandlerを使います。次のようなプロパティが用意されています。</p>
 
 <h4>Seasar.Extension.ADO.Impl.BasicUpdateHandler</h4>
@@ -432,6 +455,217 @@ DEBUG 2006-06-19 23:55:46,999 [9] 論理的なコネクションを取得しま�
 DEBUG 2006-06-19 23:55:47,031 [9] 論理的なコネクションを閉じました
 1
 </pre>
+
+<h2><a name="NullValue">NULL値の扱いについて</a></h2>
+<p>NET Framework型とデータベースの列を対応させる場合、列にNULL値が格納されていると例外が発生する場合があります。
+.NET Framework型がSystem.Int32等の構造体の場合、NULLを表現できないからです。
+</p>
+<p>列にNULL値が格納される場合、
+<ul>
+<li><a href="#NullValueNHibernate">NHibernateContribのNullables</a></li>
+<li><a href="#NullValueSqlTypes">System.Data.SqlTypesのNull</a></li>
+<li><a href="#NullValueNullable">System.Nullable(.NET 2.0以降)</a></li>
+</ul>
+の方法を使用します。データベースのデータ型と各方法の対応を次の表に示します。
+</p>
+<table border="1">
+<tr bgcolor="#d1f3f4" align="center">
+<th>System.Data.DbType</th><th>.NET Framework型</th><th>Nullables</th><th>System.Data.SqlTypes</th><th>System.Nullable</th></tr>
+<tr>
+<td>Boolean</td><td>Boolean</td><td>NullableBoolean</td><td>SqlBoolean</td><td>Nullable&lt;Boolean&gt;</td></tr>
+<td>Byte</td><td>Byte</td><td>NullableByte</td><td>SqlByte</td><td>Nullable&lt;Byte&gt;</td></tr>
+<td>Binary</td><td>Byte[]</td><td>NullableByte</td><td>SqlBinary</td><td>Nullable&lt;Byte&gt;</td></tr>
+<td>DateTime</td><td>DateTime</td><td>NullableDateTime</td><td>SqlDateTime</td><td>Nullable&lt;DateTime&gt;</td></tr>
+<td>Decimal</td><td>Decimal</td><td>NullableDecimal</td><td>SqlDecimal</td><td>Nullable&lt;Decimal&gt;</td></tr>
+<td>Double</td><td>Double</td><td>NullableDouble</td><td>SqlDouble</td><td>Nullable&lt;Double&gt;</td></tr>
+<td>Single</td><td>Single</td><td>NullableSingle</td><td>SqlSingle</td><td>Nullable&lt;Single&gt;</td></tr>
+<td>Guid</td><td>Guid</td><td>NullableGuid</td><td>SqlGuid</td><td>Nullable&lt;Guid&gt;</td></tr>
+<td>Int16</td><td>Int16</td><td>NullableInt16</td><td>SqlInt16</td><td>Nullable&lt;Int16&gt;</td></tr>
+<td>Int32</td><td>Int32</td><td>NullableInt32</td><td>SqlInt32</td><td>Nullable&lt;Int32&gt;</td></tr>
+<td>Int64</td><td>Int64</td><td>NullableInt64</td><td>SqlInt64</td><td>Nullable&lt;Int64&gt;</td></tr>
+<td>String</td><td>String</td><td>-</td><td>SqlString</td><td>-</td></tr>
+<td><span style="text-decoration:line-through">Time</span></td><td><span style="text-decoration:line-through">TimeSpan</span></td><td>-</td><td>-</td><td><span style="text-decoration:line-through">Nullable&lt;TimeSpan&gt;</span></td></tr>
+<td>SByte</td><td>SByte</td><td>NullableSByte</td><td>-</td><td>Nullable&lt;SByte&gt;</td></tr>
+</table>
+
+<h3><a name="NullValueNHibernate">NHibernateContribのNullables</a></h3>
+<p>NHibernateContribのNullablesを利用する場合、以下のファイル(アセンブリ)への参照を追加する必要があります。
+<ul>
+<li>s2container.net/lib/Nullables.dll</li>
+</ul>
+</p>
+<p>ソースファイルからは、次のように使用します。
+<ul>
+<li>Nullables名前空間をインポートする必要があります。</li>
+<li>NULLであるか確認する場合、HasValueプロパティを使用します。</li>
+<li>値を取り出す場合、Valueプロパティを使用します。</li>
+</ul>
+</p>
+
+C#
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">using</span> System.Text;
+<span class="kwrd">using</span> Nullables;
+
+<span class="kwrd">namespace</span> Foo
+{
+    <span class="kwrd">public</span> <span class="kwrd">class</span> Bar
+    {
+        <span class="kwrd">private</span> NullableInt64 id;
+
+        <span class="kwrd">public</span> NullableInt64 Id
+        {
+            get { <span class="kwrd">return</span> id; }
+            set { id = <span class="kwrd">value</span>; }
+        }
+
+        <span class="kwrd">private</span> NullableBoolean boolType;
+
+        <span class="kwrd">public</span> NullableBoolean BoolType
+        {
+            get { <span class="kwrd">return</span> boolType; }
+            set { boolType = <span class="kwrd">value</span>; }
+        }
+
+        <span class="kwrd">public</span> <span class="kwrd">override</span> <span class="kwrd">string</span> ToString()
+        {
+            StringBuilder buf = <span class="kwrd">new</span> StringBuilder();
+            buf.Append(id.HasValue ? id.Value.ToString() : <span class="str">"NULL"</span>).Append(<span class="str">", "</span>);
+            buf.Append(boolType.HasValue ? boolType.Value.ToString() : <span class="str">"NULL"</span>).Append(<span class="str">", "</span>);
+            <span class="kwrd">return</span> buf.ToString();
+        }
+    }
+}
+</pre>
+
+<h3><a name="NullValueSqlTypes">System.Data.SqlTypesのNull</a></h3>
+<p>ソースファイルからは、次のように使用します。
+<ul>
+<li>System.Data.SqlTypes名前空間をインポートする必要があります。</li>
+<li>NULLであるか確認する場合、IsNullプロパティを使用します。</li>
+<li>値を取り出す場合、Valueプロパティを使用します。</li>
+</ul>
+</p>
+
+C#
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">using</span> System.Data.SqlTypes;
+<span class="kwrd">using</span> System.Text;
+
+<span class="kwrd">namespace</span> Foo
+{
+    <span class="kwrd">public</span> <span class="kwrd">class</span> Bar
+    {
+        <span class="kwrd">private</span> SqlInt64 id;
+
+        <span class="kwrd">public</span> SqlInt64 Id
+        {
+            get { <span class="kwrd">return</span> id; }
+            set { id = <span class="kwrd">value</span>; }
+        }
+
+        <span class="kwrd">private</span> SqlBoolean boolType;
+
+        <span class="kwrd">public</span> SqlBoolean BoolType
+        {
+            get { <span class="kwrd">return</span> boolType; }
+            set { boolType = <span class="kwrd">value</span>; }
+        }
+
+        <span class="kwrd">public</span> <span class="kwrd">override</span> <span class="kwrd">string</span> ToString()
+        {
+            StringBuilder buf = <span class="kwrd">new</span> StringBuilder();
+            buf.Append(!id.IsNull ? id.Value.ToString() : <span class="str">"NULL"</span>).Append(<span class="str">", "</span>);
+            buf.Append(!boolType.IsNull ? boolType.Value.ToString() : <span class="str">"NULL"</span>).Append(<span class="str">", "</span>);
+            <span class="kwrd">return</span> buf.ToString();
+        }
+    }
+}
+</pre>
+
+<h3><a name="NullValueNullable">System.Nullable(.NET 2.0以降)</a></h3>
+<p>.NET Framework 2.0以降を使用している場合、Nullable型を使用することが可能です。</p>
+<p>ソースファイルからは、次のように使用します。
+<ul>
+<li>System名前空間をインポートする必要があります。</li>
+<li>NULLであるか確認する場合、HasValueプロパティを使用します。</li>
+<li>値を取り出す場合、Valueプロパティを使用します。</li>
+</ul>
+</p>
+
+C#
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">using</span> System;
+<span class="kwrd">using</span> System.Text;
+
+<span class="kwrd">namespace</span> Foo
+{
+    <span class="kwrd">public</span> <span class="kwrd">class</span> Bar
+    {
+        <span class="kwrd">private</span> Nullable&lt;Int64&gt; id;
+
+        <span class="kwrd">public</span> Nullable&lt;Int64&gt; Id
+        {
+            get { <span class="kwrd">return</span> id; }
+            set { id = <span class="kwrd">value</span>; }
+        }
+
+        <span class="kwrd">private</span> Nullable&lt;Boolean&gt; boolType;
+
+        <span class="kwrd">public</span> Nullable&lt;Boolean&gt; BoolType
+        {
+            get { <span class="kwrd">return</span> boolType; }
+            set { boolType = <span class="kwrd">value</span>; }
+        }
+
+        <span class="kwrd">public</span> <span class="kwrd">override</span> <span class="kwrd">string</span> ToString()
+        {
+            StringBuilder buf = <span class="kwrd">new</span> StringBuilder();
+            buf.Append(id.HasValue ? id.Value.ToString() : <span class="str">"NULL"</span>).Append(<span class="str">", "</span>);
+            buf.Append(boolType.HasValue ? boolType.Value.ToString() : <span class="str">"NULL"</span>).Append(<span class="str">", "</span>);
+            <span class="kwrd">return</span> buf.ToString();
+        }
+    }
+}
+</pre>
+
+<h2><a name="ParameterMark">パラメータマーカー(@, :, ?)の扱い</a></h2>
+<p>SQL文に埋め込むパラメータマーカーは、ADO.NETのデータプロパイダによって異なります。
+(SqlClientは"@parmname"、OracleClientは":parmname"、OleDbは、"?"、Odbcは、"?")</p>
+<p>S2ADOではデータプロパイダごとにパラメータマーカーを自動的に切り替えるため、データプロパイダに依存しないSQL文の作成を可能にしています。
+</p>
+<p>例えば、次のようになります。
+<table border="1">
+<tr bgcolor="#d1f3f4" align="center">
+<th>データプロバイダ</th>
+<th>SQL文</th>
+</tr>
+<tr>
+<td>(ユーザが記述したSQL文)</td>
+<td>SELECT * FROM emp WHERE empno = @empno OR empno = :empno OR empno = ?</td>
+</tr>
+<tr>
+<td>SqlClient</td>
+<td>SELECT * FROM emp WHERE empno = @0 OR empno = @1 OR empno = @2</td>
+</tr>
+<tr>
+<td>OracleClient</td>
+<td>SELECT * FROM emp WHERE empno = :0 OR empno = :1 OR empno = :2</td>
+</tr>
+<tr>
+<td>OleDb</td>
+<td>SELECT * FROM emp WHERE empno = ? OR empno = ? OR empno = ?</td>
+</tr>
+<tr>
+<td>Odbc</td>
+<td>SELECT * FROM emp WHERE empno = ? OR empno = ? OR empno = ?</td>
+</tr>
+</table>
+</p>
+<p>※SQL文に複数のパラメータマーカーを混在することは可能ですが､可読性の点から単一のパラメータマーカーを使用してください。</p>
 
 <!-- document end -->
 <!-- don't edit start -->
