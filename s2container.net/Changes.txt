@@ -3,6 +3,9 @@
 
 - 正常経路中での例外の利用を止める
 - DatabaseMetaDataImplで存在しないテーブル定義取得の場合、例外を発生しないようにする
+- TransactionInterceptorで本来の例外が消される問題を修正する
+- AOP適用時の例外でTargetInvocationExceptionがthrowされた場合、InnerExceptionをthrowする
+- Diconファイルでアプリケーション構成ファイルの設定をDIできる機能を追加する
 
 S2Container.NET 1.2.0
 2006/6/17
