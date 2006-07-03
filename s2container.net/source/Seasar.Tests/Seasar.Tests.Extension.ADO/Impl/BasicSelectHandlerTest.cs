@@ -31,37 +31,37 @@ using Seasar.Extension.Unit;
 
 namespace Seasar.Tests.Extension.ADO.Impl
 {
-	[TestFixture]
-	public class BasicSelectHandlerTest : S2TestCase
-	{
-		private const string PATH = "Ado.dicon";
+    [TestFixture]
+    public class BasicSelectHandlerTest : S2TestCase
+    {
+        private const string PATH = "Ado.dicon";
 
         static BasicSelectHandlerTest()
-		{
-			FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
-				Assembly.GetExecutingAssembly()) + ".config");
-			XmlConfigurator.Configure(LogManager.GetRepository(), info);
-		}
+        {
+            FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
+                Assembly.GetExecutingAssembly()) + ".config");
+            XmlConfigurator.Configure(LogManager.GetRepository(), info);
+        }
 
-        public void SetUpExecute() 
-		{
-			Include(PATH);
-		}
+        public void SetUpExecute()
+        {
+            Include(PATH);
+        }
 
-		[Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
-		public void Execute()
-		{
-			string sql = "select * from emp where empno = @empno";
-			BasicSelectHandler handler = new BasicSelectHandler(
-				DataSource,
-				sql,
-				new DictionaryDataReaderHandler()
-				);
+        [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
+        public void Execute()
+        {
+            string sql = "SELECT * FROM emp WHERE empno = @empno";
+            BasicSelectHandler handler = new BasicSelectHandler(
+                DataSource,
+                sql,
+                new DictionaryDataReaderHandler()
+                );
             IDictionary ret = (IDictionary) handler.Execute(new object[] { 7788 });
-			Console.Out.WriteLine(ret);
+            Console.Out.WriteLine(ret);
             Assert.IsNotNull(ret, "1");
             Assert.AreEqual(9, ret.Count, "2");
-		}
+        }
 
         public void SetUpExecuteDuplicationParam()
         {
@@ -71,13 +71,13 @@ namespace Seasar.Tests.Extension.ADO.Impl
         [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
         public void ExecuteDuplicationParam()
         {
-            string sql = "select * from emp where empno = @empno or empno=@empno2 or empno = @empno";
+            string sql = "SELECT * FROM emp WHERE empno = @empno OR empno = @empno2 OR empno = @empno OR ename = @ename";
             BasicSelectHandler handler = new BasicSelectHandler(
                 DataSource,
                 sql,
                 new DictionaryDataReaderHandler()
                 );
-            IDictionary ret = (IDictionary)handler.Execute(new object[] { 7788, 7789, 7788 });
+            IDictionary ret = (IDictionary) handler.Execute(new object[] { 7788, 7789, 7788, "SCOTT" });
             Console.Out.WriteLine(ret);
             Assert.IsNotNull(ret, "1");
             Assert.AreEqual(9, ret.Count, "2");
@@ -91,7 +91,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
         [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
         public void ExecuteNullArgs()
         {
-            string sql = "select * from emp where empno = 7788";
+            string sql = "SELECT * FROM emp WHERE empno = 7788";
             BasicSelectHandler handler = new BasicSelectHandler(
                 DataSource,
                 sql,
@@ -103,41 +103,21 @@ namespace Seasar.Tests.Extension.ADO.Impl
             Assert.AreEqual(9, ret.Count, "2");
         }
 
-        public void SetUpExecuteColonWithParam()
+        public void SetUpExecuteParam()
         {
             Include(PATH);
         }
 
         [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
-        public void ExecuteColonWithParam()
+        public void ExecuteParam()
         {
-            string sql = "select * from emp where empno = :empno";
+            string sql = "SELECT * FROM emp WHERE empno = @empno OR empno = :empno OR empno = ?";
             BasicSelectHandler handler = new BasicSelectHandler(
                 DataSource,
                 sql,
                 new DictionaryDataReaderHandler()
                 );
-            IDictionary ret = (IDictionary) handler.Execute(new object[] { 7788 });
-            Console.Out.WriteLine(ret);
-            Assert.IsNotNull(ret, "1");
-            Assert.AreEqual(9, ret.Count, "2");
-        }
-
-        public void SetUpExecuteQuestionWithParam()
-        {
-            Include(PATH);
-        }
-
-        [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
-        public void ExecuteQuestionWithParam()
-        {
-            string sql = "select * from emp where empno = ?";
-            BasicSelectHandler handler = new BasicSelectHandler(
-                DataSource,
-                sql,
-                new DictionaryDataReaderHandler()
-                );
-            IDictionary ret = (IDictionary) handler.Execute(new object[] { 7788 });
+            IDictionary ret = (IDictionary) handler.Execute(new object[] { 7788, 7788, 7788 });
             Console.Out.WriteLine(ret);
             Assert.IsNotNull(ret, "1");
             Assert.AreEqual(9, ret.Count, "2");

@@ -22,7 +22,7 @@ using Seasar.Extension.ADO;
 using Seasar.Framework.Log;
 using Seasar.Framework.Util;
 
-namespace Seasar.Extension.ADO.Impl 
+namespace Seasar.Extension.ADO.Impl
 {
     public class BasicUpdateHandler : BasicHandler, IUpdateHandler
     {
@@ -47,19 +47,19 @@ namespace Seasar.Extension.ADO.Impl
 
         public int Execute(object[] args)
         {
-			Type[] argTypes = GetArgTypes(args);
-            string[] argNames = GetArgNames();
-            return Execute(args, argTypes, argNames);
+            return Execute(args, GetArgTypes(args));
         }
 
-        public int Execute(object[] args, Type[] argTypes, string[] argNames)
+        public int Execute(object[] args, Type[] argTypes)
         {
-            if(logger.IsDebugEnabled)
+            if (logger.IsDebugEnabled)
+            {
                 logger.Debug(GetCompleteSql(args));
+            }
             IDbConnection connection = Connection;
             try
             {
-                return Execute(connection, args, argTypes, argNames);
+                return Execute(connection, args, argTypes, GetArgNames());
             }
             finally
             {
@@ -67,7 +67,12 @@ namespace Seasar.Extension.ADO.Impl
             }
         }
 
-        protected int Execute(IDbConnection connection, object[] args, Type[] argTypes,
+        public int Execute(object[] args, Type[] argTypes, string[] argNames)
+        {
+            return Execute(args, argTypes);
+        }
+
+        protected virtual int Execute(IDbConnection connection, object[] args, Type[] argTypes,
             string[] argNames)
         {
             IDbCommand cmd = this.Command(connection);
