@@ -106,7 +106,7 @@ C#
 VB.NET
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <pre class="csharpcode vb">
-&lt;<span class="kwrd">Assembly</span>: log4net.Config.DOMConfigurator(Watch:=<span class="kwrd">True</span>)&gt;
+&lt;<span class="kwrd">Assembly</span>: log4net.Config.XmlConfigurator(Watch:=<span class="kwrd">True</span>)&gt;
 </pre>
 
 <h3>アプリケーション構成ファイル(app.config)にlog4netの設定を追加する</h3>
@@ -159,7 +159,7 @@ C#
 <pre class="csharpcode">
 System.IO.FileInfo info = <span class="kwrd">new</span> System.IO.FileInfo(
    log4net.Util.SystemInfo.AssemblyShortName(
-   System.Refrection.Assembly.GetExecutingAssembly())
+   System.Reflection.Assembly.GetExecutingAssembly())
    + <span class="str">".exe.config"</span>); <span class="rem">// アセンブリがdllの場合は".dll.config"</span>
 
 log4net.Config.XmlConfigurator.Configure(
@@ -171,7 +171,7 @@ VB.NET
 <pre class="csharpcode vb">
 <span class="kwrd">Dim</span> info <span class="kwrd">As</span> <span class="kwrd">New</span> System.IO.FileInfo( _
    log4net.Util.SystemInfo.AssemblyShortName( _
-   System.Refrection.<span class="kwrd">Assembly</span>.GetExecutingAssembly()) _
+   System.Reflection.<span class="kwrd">Assembly</span>.GetExecutingAssembly()) _
    + <span class="str">".exe.config"</span>) <span class="rem">' アセンブリがdllの場合は".dll.config"</span>
 
 log4net.Config.XmlConfigurator.Configure( _
