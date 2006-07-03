@@ -3,6 +3,11 @@
 
 - 正常経路中での例外の利用を止める
 - DatabaseMetaDataImplで存在しないテーブル定義取得の場合、例外を発生しないようにする
+- TransactionInterceptorで本来の例外が消される問題を修正する
+- AOP適用時の例外でTargetInvocationExceptionがthrowされた場合、InnerExceptionをthrowする
+- Seasar.DynamicProxyで2重にInterceptorが実行される問題を修正する
+- Seasar.DynamicProxyでprotectedスコープのメソッドにAOPが適用される問題を修正する
+- Diconファイルでアプリケーション構成ファイルの設定をDIできる機能を追加する
 - BasicHandlerで重複したパラメータを登録すると、エラーになる場合がある問題を修正する
 - BasicHandler, BasicSelectHandler, BasicUpdateHandler のprotectedメソッドにvirtualキーワードを付ける
 
