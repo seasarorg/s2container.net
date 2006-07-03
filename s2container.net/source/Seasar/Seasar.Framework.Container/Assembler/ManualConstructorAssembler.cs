@@ -69,7 +69,7 @@ namespace Seasar.Framework.Container.Assembler
             }
 
             object obj = ConstructorUtil.NewInstance(constructor,args);
-            if(this.ComponentDef.ComponentType.IsInterface && this.ComponentDef.AspectDefSize > 0)
+            if(this.ComponentDef.AspectDefSize > 0)
             {
                 AopProxyUtil.AspectWeaver(ref obj,this.ComponentDef);
             }
