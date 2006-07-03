@@ -30,17 +30,14 @@ using Nullables;
 
 namespace Seasar.Extension.ADO.Impl
 {
-    /// <summary>
-    /// BasicHandler ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-    /// </summary>
     public class BasicHandler
     {
         private IDataSource dataSource;
         private string sql;
         private MatchCollection sqlParameters;
         private ICommandFactory commandFactory = BasicCommandFactory.INSTANCE;
-		private int commandTimeout = -1;
-        
+        private int commandTimeout = -1;
+
         public BasicHandler()
         {
         }
@@ -80,27 +77,27 @@ namespace Seasar.Extension.ADO.Impl
             set { commandFactory = value; }
         }
 
-		public int CommandTimeout 
-		{
-			get { return commandTimeout; }
-			set { commandTimeout = value; }
-		}
+        public int CommandTimeout
+        {
+            get { return commandTimeout; }
+            set { commandTimeout = value; }
+        }
 
         protected IDbConnection Connection
         {
             get
             {
-                if(this.dataSource == null) throw new EmptyRuntimeException("dataSource");
+                if (this.dataSource == null) throw new EmptyRuntimeException("dataSource");
                 return DataSourceUtil.GetConnection(this.dataSource);
             }
         }
 
         protected virtual IDbCommand Command(IDbConnection connection)
         {
-            if(this.sql == null) throw new EmptyRuntimeException("sql");
-			IDbCommand cmd = connection.CreateCommand();
-			string changeSignSql = this.sql;
-			switch (DataProviderUtil.GetBindVariableType(cmd))
+            if (this.sql == null) throw new EmptyRuntimeException("sql");
+            IDbCommand cmd = connection.CreateCommand();
+            string changeSignSql = this.sql;
+            switch (DataProviderUtil.GetBindVariableType(cmd))
             {
                 case BindVariableType.AtmarkWithParam:
                     changeSignSql = GetChangeSignCommandText(this.sql, "@");
@@ -114,72 +111,65 @@ namespace Seasar.Extension.ADO.Impl
                 case BindVariableType.ColonWithParam:
                     changeSignSql = GetChangeSignCommandText(this.sql, ":");
                     break;
-				case BindVariableType.ColonWithParamToLower:
+                case BindVariableType.ColonWithParamToLower:
                     changeSignSql = GetChangeSignCommandText(this.sql, ":");
                     changeSignSql = changeSignSql.ToLower();
-					break;
+                    break;
             }
-			cmd.CommandText = changeSignSql;
-			if (this.commandTimeout > -1) cmd.CommandTimeout = this.commandTimeout;
-			return cmd;
+            cmd.CommandText = changeSignSql;
+            if (this.commandTimeout > -1) cmd.CommandTimeout = this.commandTimeout;
+            return cmd;
         }
 
-        protected void BindArgs(IDbCommand command, object[] args, Type[] argTypes,
+        protected virtual void BindArgs(IDbCommand command, object[] args, Type[] argTypes,
             string[] argNames)
         {
-            if(args == null) return;
-            Hashtable saveArgs = new Hashtable(StringComparer.CurrentCultureIgnoreCase);
-            for(int i = 0; i < args.Length; ++i)
+            if (args == null) return;
+            for (int i = 0; i < args.Length; ++i)
             {
-                if (saveArgs.ContainsKey(argNames[i]))
-                {
-                    continue;
-                }
                 IValueType valueType = ValueTypes.GetValueType(argTypes[i]);
                 try
                 {
                     valueType.BindValue(command, argNames[i], args[i]);
-                    saveArgs.Add(argNames[i], argNames[i]);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     throw new SQLRuntimeException(ex);
                 }
             }
-            saveArgs.Clear();
         }
 
-		protected Type[] GetArgTypes(object[] args) 
-		{
-			if (args == null) 
-			{
-				return null;
-			}
-			Type[] argTypes = new Type[args.Length];
-			for (int i = 0; i < args.Length; ++i) 
-			{
-				object arg = args[i];
-				if (arg != null) 
-				{
-					argTypes[i] = arg.GetType();
-				}
-			}
-			return argTypes;
-		}
+        protected virtual Type[] GetArgTypes(object[] args)
+        {
+            if (args == null)
+            {
+                return null;
+            }
+            Type[] argTypes = new Type[args.Length];
+            for (int i = 0; i < args.Length; ++i)
+            {
+                object arg = args[i];
+                if (arg != null)
+                {
+                    argTypes[i] = arg.GetType();
+                }
+            }
+            return argTypes;
+        }
 
-        protected string[] GetArgNames()
+        protected virtual string[] GetArgNames()
         {
             string[] argNames = new string[sqlParameters.Count];
             for (int i = 0; i < argNames.Length; ++i)
             {
-                argNames[i] = (sqlParameters[i].Value.Length == 1) ? Convert.ToString(i) : sqlParameters[i].Value.Substring(1);
+                argNames[i] = Convert.ToString(i);
             }
             return argNames;
         }
 
-        protected string GetCompleteSql(object[] args)
+        protected virtual string GetCompleteSql(object[] args)
         {
-            if(args == null || args.Length == 0) return this.sql;
+            if (args == null || args.Length == 0) return this.sql;
             return GetCompleteSql(sql, args);
         }
 
@@ -190,10 +180,10 @@ namespace Seasar.Extension.ADO.Impl
 
         private string ReplaceSql(string sql, object[] args, MatchCollection matches)
         {
-            for(int i = 0; i < matches.Count; ++i)
+            for (int i = 0; i < matches.Count; ++i)
             {
                 string capture = matches[i].Captures[0].Value;
-				sql = ReplaceAtFirstElement(sql, capture, GetBindVariableText(args[i]));
+                sql = ReplaceAtFirstElement(sql, capture, GetBindVariableText(args[i]));
             }
             return sql;
         }
@@ -209,7 +199,7 @@ namespace Seasar.Extension.ADO.Impl
             for (int i = 0; i < sqlParameters.Count; ++i)
             {
                 if (!sqlParameters[i].Success) continue;
-                string parameterName = (sqlParameters[i].Value.Length == 1) ? sign + i : sign + sqlParameters[i].Value.Substring(1);
+                string parameterName = sign + i;
                 text = ReplaceAtFirstElement(text, sqlParameters[i].Value, parameterName);
             }
             return text;
@@ -217,24 +207,24 @@ namespace Seasar.Extension.ADO.Impl
 
         private string ReplaceSql(string sql, string newValue, MatchCollection matches)
         {
-            for(int i = 0; i < matches.Count; ++i)
+            for (int i = 0; i < matches.Count; ++i)
             {
                 string capture = matches[i].Captures[0].Value;
-				sql = ReplaceAtFirstElement(sql, capture, newValue);
+                sql = ReplaceAtFirstElement(sql, capture, newValue);
             }
             return sql;
         }
 
-		private string ReplaceAtFirstElement(string source, string original, string replace)
-		{
+        private string ReplaceAtFirstElement(string source, string original, string replace)
+        {
             string pattern = original.Replace("?", "\\?");
             Regex regexp = new Regex(pattern, RegexOptions.IgnoreCase);
-			return regexp.Replace(source, replace, 1);
-		}
+            return regexp.Replace(source, replace, 1);
+        }
 
-        protected string GetBindVariableText(object bindVariable)
+        protected virtual string GetBindVariableText(object bindVariable)
         {
-            if(bindVariable is INullable)
+            if (bindVariable is INullable)
             {
                 INullable nullable = bindVariable as INullable;
                 if (nullable.IsNull)
@@ -260,25 +250,25 @@ namespace Seasar.Extension.ADO.Impl
                     return GetBindVariableText(pi.GetValue(bindVariable, null));
                 }
             }
-            else if(bindVariable is string)
+            else if (bindVariable is string)
             {
                 return "'" + bindVariable + "'";
             }
-			else if(bindVariable == null)                                                                                                                                                                                                                                                             
-			{
-				return "null";
-			}
-            else if(bindVariable.GetType().IsPrimitive)
+            else if (bindVariable == null)
+            {
+                return "null";
+            }
+            else if (bindVariable.GetType().IsPrimitive)
             {
                 return bindVariable.ToString();
             }
-            else if(bindVariable is decimal)
+            else if (bindVariable is decimal)
             {
                 return bindVariable.ToString();
             }
-            else if(bindVariable is DateTime)
+            else if (bindVariable is DateTime)
             {
-                if((DateTime) bindVariable == ((DateTime) bindVariable).Date)
+                if ((DateTime) bindVariable == ((DateTime) bindVariable).Date)
                 {
                     return "'" + ((DateTime) bindVariable).ToString("yyyy-MM-dd") + "'";
                 }
@@ -287,7 +277,7 @@ namespace Seasar.Extension.ADO.Impl
                     return "'" + ((DateTime) bindVariable).ToString("yyyy-MM-dd HH.mm.ss") + "'";
                 }
             }
-            else if(bindVariable is bool)
+            else if (bindVariable is bool)
             {
                 return bindVariable.ToString();
             }

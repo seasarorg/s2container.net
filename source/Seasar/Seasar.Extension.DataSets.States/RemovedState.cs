@@ -28,8 +28,6 @@ namespace Seasar.Extension.DataSets.States
 	{
 		private static Hashtable sqlCache_ = new Hashtable();
 
-		private static Hashtable argNamesCache_ = new Hashtable();
-
 		public override string ToString()
 		{
 			return DataRowState.Deleted.ToString();
@@ -68,36 +66,6 @@ namespace Seasar.Extension.DataSets.States
 			buf.Length -= 5;
 
 			return buf.ToString();
-		}
-
-		protected override string[] GetArgNames(DataTable table) 
-		{
-			string[] argNames = null;
-			WeakReference reference = (WeakReference) argNamesCache_[table];
-			if (reference == null || !reference.IsAlive) 
-			{
-				argNames = CreateArgNames(table);
-				argNamesCache_.Add(table, new WeakReference(argNames));
-			} 
-			else 
-			{
-				argNames = (string[]) reference.Target;
-			}
-			return argNames;
-		}
-
-		private static string[] CreateArgNames(DataTable table) 
-		{
-			ArrayList argNames = new ArrayList();
-			for (int i = 0; i < table.Columns.Count; ++i) 
-			{
-				DataColumn column = table.Columns[i];
-				if (DataTableUtil.IsPrimaryKey(table, column))
-				{
-					argNames.Add(column.ColumnName);
-				}
-			}
-			return (string[]) argNames.ToArray(typeof(string));
 		}
 
 		protected override object[] GetArgs(DataRow row) 
