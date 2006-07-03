@@ -900,21 +900,13 @@ componentタグの前に記述する必要があります。</p>
             <p><a href="#componentsTag">componentsタグ</a>、<a href="#componentTag">componentタグ</a>、<a href="#argTag">argタグ</a>、<a href="#propertyTag">propertyタグ</a>の子タグとしてdescriptionタグを使うことができます。自由に説明を記述できます。</p>
 
             <a name="Jscript"><h3>JScript.NET式</h3></a>
-            <p>S2Container.NETでは、式言語として<a href="http://www.gotdotnet.com/japan/team/jscript/">JScript.NET</a>を利用しています。
-            定義ファイルの中で、文字列で記述した内容(式)を.NETのオブジェクトに変換することが出来ます。</p>
 
-            <ul>
-            <li>文字列は、&quot;hoge&quot;のように&quot;で囲みます。</li>
-
-            <li>charは、'a'のように'で囲みます。</li>
-            <li>数値は、123のようにそのまま記述します。</li>
-            <li>論理値(System.Boolean)は、true,falseのようにそのまま記述します。</li>
-            <li>列挙体(System.Enum)は、System.Data.DbType.Decimalのように列挙体の完全修飾名とメンバ名で記述します。(厳密には、JScript.NETの記法ではありません)</li>
-            <li>型宣言(System.Type)は、Foo.BarのようにTypeの完全修飾名を記述します。(厳密には、JScript.NETの記法ではありません)</li>
-            <li>new DateTime()のように標準ライブラリ(mscorlib.dll)のクラスや構造体のコンストラクタを呼び出すことができます。(名前空間のSystemは省略して呼び出します）</li>
-            </ul>
-            詳しくは、<a href="http://msdn2.microsoft.com/ja-jp/library/x85xxsf4.aspx">JScript.NETのマニュアル</a>を参照してください。<br/>
-            <br/>
+			<p>
+				JScript.NETについては以下のドキュメントを参照して下さい。
+			</p>
+			<p>
+				<a href="jscript.html">S2Container.NET JScript.NET式</a>
+			<p>
 
             <a name="Example"><h2>Example</h2></a>
             <p>以下のサンプルを実行する場合は、<a href="setup.html">セットアップ</a>を行う必要があります。
