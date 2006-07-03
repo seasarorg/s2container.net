@@ -16,103 +16,53 @@
  */
 #endregion
 
-using System;
 using System.Data;
-using NUnit.Framework;
-using Seasar.Extension.ADO;
-using Seasar.Framework.Container;
-using Seasar.Framework.Container.Impl;
-using Seasar.Framework.Container.Factory;
+using MbUnit.Framework;
+using Seasar.Extension.Unit;
 
 namespace Seasar.Tests.Extension.ADO
 {
-	/// <summary>
-	/// テストを実行するためには、s2-dotnet/data/setUpDemo.batを実行し、
-	/// デモ用のデータベースをセットアップして下さい。
-	/// </summary>
-	[TestFixture]
-	public class DataSourceImplTest
-	{
-		private IS2Container container_;
+    [TestFixture]
+    public class DataSourceImplTest : S2TestCase
+    {
+        private const string PATH = "Ado.dicon";
 
-		[SetUp]
-		public void SetUp()
-		{
-			container_ = new S2ContainerImpl();
-			IS2Container daoContainer = S2ContainerFactory.Create("Ado.dicon");
-			container_.Include(daoContainer);
-			container_.Register(new ComponentDefImpl(typeof(EmployeeDaoImpl)));
-		}
+        public void SetUpGetCommand()
+        {
+            Include(PATH);
+        }
 
-		[Test]
-		public void TestDao()
-		{
-			IEmployeeDao dao = (IEmployeeDao) container_.GetComponent(typeof(IEmployeeDao));
-			Assert.AreEqual("WARD", dao.GetEnameByEmpno(7521));
-		}
+        [Test, S2]
+        public void GetCommand()
+        {
+            using (IDbCommand cmd = DataSource.GetCommand())
+            {
+                Assert.IsNotNull(cmd);
+            }
+        }
 
-		[Test]
-		public void TestDataSet()
-		{
-			IEmployeeDao dao = (IEmployeeDao) container_.GetComponent(typeof(IEmployeeDao));
-			DataSet dataSet = dao.GetEnameDataSetByEmpno(7521);
-			DataTable dt = dataSet.Tables[0];
-			Assert.AreEqual("WARD", dt.Rows[0]["ename"]);
-		}
+        public void SetUpGetParameter()
+        {
+            Include(PATH);
+        }
 
-		public interface IEmployeeDao
-		{
-			string GetEnameByEmpno(int empno);
-			DataSet GetEnameDataSetByEmpno(int productID);
-		}
+        [Test, S2]
+        public void GetParameter()
+        {
+            IDataParameter param = DataSource.GetParameter();
+            Assert.IsNotNull(param);
+        }
 
-		public class EmployeeDaoImpl : IEmployeeDao
-		{
-			private IDataSource dataSource_;
+        public void SetUpGetDataAdapter()
+        {
+            Include(PATH);
+        }
 
-			public EmployeeDaoImpl(IDataSource dataSource)
-			{
-				dataSource_ = dataSource;
-			}
-
-			public string GetEnameByEmpno(int empno)
-			{
-				string ret = null;
-				using(IDbConnection cn = dataSource_.GetConnection())
-				{
-					cn.Open();
-					string sql = "select ename from EMP where empno=@empno";
-					using(IDbCommand cmd = dataSource_.GetCommand(sql, cn))
-					{
-						cmd.Parameters.Add(dataSource_.GetParameter("@empno", empno));
-						using(IDataReader reader = cmd.ExecuteReader())
-						{
-							while(reader.Read())
-							{
-								ret = (string) reader["ename"];
-							}
-						}
-					}
-				}
-				return ret;
-			}
-
-			public DataSet GetEnameDataSetByEmpno(int empno)
-			{
-				DataSet dataSet = new DataSet();
-				using(IDbConnection cn = dataSource_.GetConnection())
-				{
-					cn.Open();
-					string sql = "select ename from EMP where empno=@empno";
-					using(IDbCommand cmd = dataSource_.GetCommand(sql, cn))
-					{
-						cmd.Parameters.Add(dataSource_.GetParameter("@empno", empno));
-						IDataAdapter dataAdapter = dataSource_.GetDataAdapter(cmd);
-						dataAdapter.Fill(dataSet);
-					}
-				}
-				return dataSet;
-			}
-		}
-	}
+        [Test, S2]
+        public void GetDataAdapter()
+        {
+            IDataAdapter da = DataSource.GetDataAdapter();
+            Assert.IsNotNull(da);
+        }
+    }
 }
