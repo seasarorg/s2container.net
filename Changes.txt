@@ -1,5 +1,5 @@
 ﻿S2Container.NET 1.2.1
-準備中
+2006/7/4
 
 - 正常経路中での例外の利用を止める
 - DatabaseMetaDataImplで存在しないテーブル定義取得の場合、例外を発生しないようにする
@@ -10,6 +10,7 @@
 - Diconファイルでアプリケーション構成ファイルの設定をDIできる機能を追加する
 - BasicHandlerで重複したパラメータを登録すると、エラーになる場合がある問題を修正する
 - BasicHandler, BasicSelectHandler, BasicUpdateHandler のprotectedメソッドにvirtualキーワードを付ける
+- コンストラクタインジェクション利用時にAspectが適用されない問題を修正する
 
 S2Container.NET 1.2.0
 2006/6/17
