@@ -70,6 +70,15 @@ namespace Seasar.Framework.Util
 
 		public static object Evaluate(string exp,Hashtable ctx, object root)
 		{
+            if (exp.Contains("\r"))
+            {
+                exp = exp.Replace("\r", "\\r");
+            }
+            if (exp.Contains("\n"))
+            {
+                exp = exp.Replace("\n", "\\n");
+            }
+
 			try
 			{
 				return evaluateType_.InvokeMember("Eval",BindingFlags.InvokeMethod,
