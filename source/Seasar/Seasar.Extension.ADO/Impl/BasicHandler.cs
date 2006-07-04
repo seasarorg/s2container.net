@@ -66,7 +66,7 @@ namespace Seasar.Extension.ADO.Impl
             set
             {
                 this.sql = value;
-                Regex regex = new Regex(@"(@\w+|:\w+|\?)");
+                Regex regex = new Regex(@"(@[^ ,\r\t\n\f\)]+|:[^ ,\r\t\n\f\)]+|\?)");
                 sqlParameters = regex.Matches(sql);
             }
         }
@@ -121,10 +121,17 @@ namespace Seasar.Extension.ADO.Impl
             return cmd;
         }
 
+        [Obsolete("BindArgs(IDbCommand, object[], Type[])ÇégópÇµÇƒÇ≠ÇæÇ≥Ç¢ÅB")]
         protected virtual void BindArgs(IDbCommand command, object[] args, Type[] argTypes,
             string[] argNames)
         {
+            BindArgs(command, args, argTypes);
+        }
+
+        protected virtual void BindArgs(IDbCommand command, object[] args, Type[] argTypes)
+        {
             if (args == null) return;
+            string[] argNames = GetArgNames();
             for (int i = 0; i < args.Length; ++i)
             {
                 IValueType valueType = ValueTypes.GetValueType(argTypes[i]);
@@ -157,7 +164,7 @@ namespace Seasar.Extension.ADO.Impl
             return argTypes;
         }
 
-        protected virtual string[] GetArgNames()
+        private string[] GetArgNames()
         {
             string[] argNames = new string[sqlParameters.Count];
             for (int i = 0; i < argNames.Length; ++i)
@@ -218,6 +225,7 @@ namespace Seasar.Extension.ADO.Impl
         private string ReplaceAtFirstElement(string source, string original, string replace)
         {
             string pattern = original.Replace("?", "\\?");
+            pattern = pattern.Replace("$", "\\$");
             Regex regexp = new Regex(pattern, RegexOptions.IgnoreCase);
             return regexp.Replace(source, replace, 1);
         }
