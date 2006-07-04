@@ -82,7 +82,7 @@ namespace Seasar.Extension.ADO.Impl
             IDbConnection con = Connection;
             try
             {
-                return Execute(con, args, argTypes, GetArgNames());
+                return Execute(con, args, argTypes);
             }
             finally
             {
@@ -95,14 +95,13 @@ namespace Seasar.Extension.ADO.Impl
             return Execute(args, argTypes);
         }
 
-        protected virtual object Execute(IDbConnection connection, object[] args, Type[] argTypes,
-            string[] argNames)
+        protected virtual object Execute(IDbConnection connection, object[] args, Type[] argTypes)
         {
             IDbCommand cmd = null;
             try
             {
                 cmd = this.Command(connection);
-                BindArgs(cmd, args, argTypes, argNames);
+                BindArgs(cmd, args, argTypes);
                 return this.Execute(cmd);
             }
             finally
