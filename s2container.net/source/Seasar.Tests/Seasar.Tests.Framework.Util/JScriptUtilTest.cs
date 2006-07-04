@@ -81,5 +81,13 @@ namespace Seasar.Tests.Framework.Util
             Assert.AreEqual("Hello", JScriptUtil.Evaluate(
                 "appSettings['message']", null));
         }
+
+        [Test]
+        public void TestReturn()
+        {
+            string str = @"'a
+b'";
+            Assert.AreEqual("a\r\nb", JScriptUtil.Evaluate(str, null));
+        }
 	}
 }
