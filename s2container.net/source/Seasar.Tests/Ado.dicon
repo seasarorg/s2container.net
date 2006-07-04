@@ -25,7 +25,7 @@
   </component>
   <component name="DataSource" class="Seasar.Extension.Tx.Impl.TxDataSource">
     <property name="DataProvider">OleDbClient</property>
-    <property name="ConnectionString">"Provider=SQLOLEDB;Data Source=127.0.0.1\\SQLEXPRESS;Integrated Security=SSPI;Initial Catalog=s2dotnetdemo"</property>
+    <property name="ConnectionString">"Provider=SQLOLEDB;Data Source=127.0.0.1;Integrated Security=SSPI;Initial Catalog=s2dotnetdemo"</property>
   </component>
   -->
 
@@ -39,7 +39,7 @@
   </component>
   <component name="DataSource" class="Seasar.Extension.Tx.Impl.TxDataSource">
     <property name="DataProvider">OdbcClient</property>
-    <property name="ConnectionString">"Driver={SQL Server};Server=127.0.0.1\\SQLEXPRESS;Trusted_Connection=Yes;Database=s2dotnetdemo;"</property>
+    <property name="ConnectionString">"Driver={SQL Server};Server=127.0.0.1;Trusted_Connection=Yes;Database=s2dotnetdemo;"</property>
   </component>
   -->
   
