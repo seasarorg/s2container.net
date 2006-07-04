@@ -123,23 +123,23 @@ namespace Seasar.Tests.Extension.ADO.Impl
             Assert.AreEqual(9, ret.Count, "2");
         }
 
-        public void SetUpIdentity()
+        public void SetUpExecuteDoubleAtParam()
         {
             Include(PATH);
         }
 
         [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
-        public void Identity()
+        public void ExecuteDoubleAtParam()
         {
             if (DataSource.GetCommand().GetType().Name.Equals("SqlCommand")) 
             {
-                string sql = "select @@identity";
+                string sql = "SELECT *, @@version FROM emp WHERE empno = @empno";
                 BasicSelectHandler handler = new BasicSelectHandler(
                     DataSource,
                     sql,
                     new DictionaryDataReaderHandler()
                     );
-                IDictionary ret = (IDictionary) handler.Execute(null);
+                IDictionary ret = (IDictionary) handler.Execute(new object[] { 7788 });
                 Assert.IsNotNull(ret, "1");
             }
         }
