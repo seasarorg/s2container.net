@@ -122,5 +122,26 @@ namespace Seasar.Tests.Extension.ADO.Impl
             Assert.IsNotNull(ret, "1");
             Assert.AreEqual(9, ret.Count, "2");
         }
+
+        public void SetUpIdentity()
+        {
+            Include(PATH);
+        }
+
+        [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
+        public void Identity()
+        {
+            if (DataSource.GetCommand().GetType().Name.Equals("SqlCommand")) 
+            {
+                string sql = "select @@identity";
+                BasicSelectHandler handler = new BasicSelectHandler(
+                    DataSource,
+                    sql,
+                    new DictionaryDataReaderHandler()
+                    );
+                IDictionary ret = (IDictionary) handler.Execute(null);
+                Assert.IsNotNull(ret, "1");
+            }
+        }
     }
 }
