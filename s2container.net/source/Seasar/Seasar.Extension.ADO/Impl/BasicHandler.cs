@@ -66,7 +66,7 @@ namespace Seasar.Extension.ADO.Impl
             set
             {
                 this.sql = value;
-                Regex regex = new Regex(@"(@[a-zA-Z0-9_$]+|:[a-zA-Z0-9_$]+|\?)");
+                Regex regex = new Regex(@"(@+[a-zA-Z0-9_$]+|:[a-zA-Z0-9_$]+|\?)");
                 sqlParameters = regex.Matches(sql);
             }
         }
@@ -131,7 +131,7 @@ namespace Seasar.Extension.ADO.Impl
         protected virtual void BindArgs(IDbCommand command, object[] args, Type[] argTypes)
         {
             if (args == null) return;
-            string[] argNames = GetArgNames();
+            string[] argNames = GetArgNames(args);
             for (int i = 0; i < args.Length; ++i)
             {
                 IValueType valueType = ValueTypes.GetValueType(argTypes[i]);
@@ -164,9 +164,9 @@ namespace Seasar.Extension.ADO.Impl
             return argTypes;
         }
 
-        private string[] GetArgNames()
+        private string[] GetArgNames(object[] args)
         {
-            string[] argNames = new string[sqlParameters.Count];
+            string[] argNames = new string[args.Length];
             for (int i = 0; i < argNames.Length; ++i)
             {
                 argNames[i] = Convert.ToString(i);
@@ -187,10 +187,12 @@ namespace Seasar.Extension.ADO.Impl
 
         private string ReplaceSql(string sql, object[] args, MatchCollection matches)
         {
-            for (int i = 0; i < matches.Count; ++i)
+            for (int i = 0, bindIndex = 0; i < matches.Count; ++i)
             {
                 string capture = matches[i].Captures[0].Value;
-                sql = ReplaceAtFirstElement(sql, capture, GetBindVariableText(args[i]));
+                if (capture.StartsWith("@@")) continue;
+                sql = ReplaceAtFirstElement(sql, capture, GetBindVariableText(args[bindIndex]));
+                bindIndex++;
             }
             return sql;
         }
@@ -203,11 +205,16 @@ namespace Seasar.Extension.ADO.Impl
         private string GetChangeSignCommandText(string sql, string sign)
         {
             string text = sql;
-            for (int i = 0; i < sqlParameters.Count; ++i)
+            for (int i = 0, paramIndex = 0; i < sqlParameters.Count; ++i)
             {
                 if (!sqlParameters[i].Success) continue;
-                string parameterName = sign + i;
+
+                string capture = sqlParameters[i].Captures[0].Value;
+                if (capture.StartsWith("@@")) continue;
+
+                string parameterName = sign + paramIndex;
                 text = ReplaceAtFirstElement(text, sqlParameters[i].Value, parameterName);
+                paramIndex++;
             }
             return text;
         }
@@ -217,6 +224,7 @@ namespace Seasar.Extension.ADO.Impl
             for (int i = 0; i < matches.Count; ++i)
             {
                 string capture = matches[i].Captures[0].Value;
+                if (capture.StartsWith("@@")) continue;
                 sql = ReplaceAtFirstElement(sql, capture, newValue);
             }
             return sql;
