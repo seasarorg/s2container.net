@@ -66,7 +66,7 @@ namespace Seasar.Extension.ADO.Impl
             set
             {
                 this.sql = value;
-                Regex regex = new Regex(@"(@+[a-zA-Z0-9_$]+|:[a-zA-Z0-9_$]+|\?)");
+                Regex regex = new Regex(@"(@+[a-zA-Z\.0-9_$]+|:[a-zA-Z\.0-9_$]+|\?)");
                 sqlParameters = regex.Matches(sql);
             }
         }
