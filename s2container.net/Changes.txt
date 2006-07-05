@@ -1,4 +1,9 @@
-﻿S2Container.NET 1.2.1
+﻿S2Container.NET 1.2.2
+準備中
+
+- BasicHandlerでDTOのパラメータが解析できない問題を修正する
+
+S2Container.NET 1.2.1
 2006/7/5
 
 - 正常経路中での例外の利用を止める
