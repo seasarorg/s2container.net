@@ -2,6 +2,7 @@
 準備中
 
 - BasicHandlerでDTOのパラメータが解析できない問題を修正する
+- Seasar.DynamicProxyのDynamicProxyMethodInvocationがIS2MethodInvocationを実装するように変更する
 
 S2Container.NET 1.2.1
 2006/7/5
