@@ -20,7 +20,7 @@ namespace Seasar.Framework.Aop.Impl
     /// <author>Kazz</author>
     /// <version>1.3 2006/05/23</version>
     ///
-    public class DynamicProxyMethodInvocation : IMethodInvocation
+    public class DynamicProxyMethodInvocation : IS2MethodInvocation
     {
         #region fields
 
@@ -75,10 +75,7 @@ namespace Seasar.Framework.Aop.Impl
         {
             get { return this.target; }
         }
-        public Type TargetType
-        {
-            get { return this.targetType; }
-        }
+
         public Object[] Arguments
         {
             get { return this.arguments; }
@@ -91,6 +88,15 @@ namespace Seasar.Framework.Aop.Impl
                 return interceptors[interceptorsIndex++].Invoke(this);
             }
             return this.invocation.Proceed(arguments);
+        }
+
+        #endregion
+
+        #region IS2MethodInvocation ÉÅÉìÉo
+
+        public Type TargetType
+        {
+            get { return this.targetType; }
         }
 
         public object GetParameter(string name)
