@@ -41,15 +41,13 @@ namespace Seasar.Framework.Container.Factory
 
 		static S2ContainerFactory()
 		{
-			try
-			{
-				builderProps_ = new ResourceManager(BUILDER_CONFIG_PATH,
-					Assembly.GetExecutingAssembly()).GetResourceSet(
-					CultureInfo.CurrentCulture,true,true);
-			}
-			catch(MissingManifestResourceException)
-			{
-			}
+            ResourceManager resourceManager =
+                new ResourceManager(BUILDER_CONFIG_PATH,
+                Assembly.GetExecutingAssembly());
+
+            builderProps_ = resourceManager.GetResourceSet(
+                CultureInfo.CurrentCulture, true, false);
+
 			builders_.Add("xml",defaultBuilder_);
 			builders_.Add("dicon",defaultBuilder_);
 		}
@@ -109,14 +107,24 @@ namespace Seasar.Framework.Container.Factory
 			lock(builders_)
 			{
 				builder = (IS2ContainerBuilder) builders_[ext];
-				if(builder != null) return builder;
-				string className = builderProps_.GetString(ext);
-				if(className != null)
+
+                if (builder != null)
+                {
+                    return builder;
+                }
+
+                string className = null;
+                
+                if (builderProps_ != null)
+                {
+                    className = builderProps_.GetString(ext);
+                }
+				
+                if(className != null)
 				{
 					Assembly[] asms = AppDomain.CurrentDomain.GetAssemblies();
 					Type type = ClassUtil.ForName(className, asms);
-					builder = (IS2ContainerBuilder) 
-						ClassUtil.NewInstance(type);
+					builder = (IS2ContainerBuilder) ClassUtil.NewInstance(type);
 					builders_[ext] = builder;
 				}
 				else
