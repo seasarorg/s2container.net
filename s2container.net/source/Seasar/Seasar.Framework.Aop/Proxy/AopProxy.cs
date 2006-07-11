@@ -23,6 +23,7 @@ using System.Runtime.Remoting.Proxies;
 using System.Runtime.Remoting.Messaging;
 using Seasar.Framework.Aop.Impl;
 using Seasar.Framework.Util;
+using System.Runtime.Remoting;
 
 namespace Seasar.Framework.Aop.Proxy
 {
@@ -177,50 +178,34 @@ namespace Seasar.Framework.Aop.Proxy
 			}
 
 			Object ret = null;
-			ArrayList outParameters = new ArrayList();
-			ParameterInfo[] pis = method.GetParameters();
+
+            object[] methodArgs = null;
 
 			if(interceptorList.Count == 0)
 			{
-				object[] args = methodMessage.Args;
-				// InterceptorÇë}ì¸ÇµÇ»Ç¢èÍçá
-				ret = method.Invoke(target_, args);
-				for(int i = 0; i < pis.Length; i++)
-				{
-					if (pis[i].ParameterType.IsByRef)
-					{	
-						outParameters.Add(args[i]);
-					}
-				}
+                methodArgs = methodMessage.Args;
+                
+                //InterceptorÇë}ì¸ÇµÇ»Ç¢èÍçá
+                ret = method.Invoke(target_, methodArgs);
 			}
 			else
 			{
 				// InterceptorÇë}ì¸Ç∑ÇÈèÍçá
 				IMethodInterceptor[] interceptors = (IMethodInterceptor[])
 					interceptorList.ToArray(typeof(IMethodInterceptor));
-				IMethodInvocation invocation = new MethodInvocationImpl(target_,
+
+                IMethodInvocation invocation = new MethodInvocationImpl(target_,
 					method,methodMessage.Args,interceptors,parameters_);
+
 				ret = interceptors[0].Invoke(invocation);
-				
-				for(int i = 0; i < pis.Length; i++)
-				{
-					if (pis[i].ParameterType.IsByRef)
-					{	
-						outParameters.Add(invocation.Arguments[i]);
-					}
-				}
+
+                methodArgs = invocation.Arguments;
 			}
-			
-			if (outParameters.Count == 0)
-			{
-				return new ReturnMessage(ret, null, 0, 
-					methodMessage.LogicalCallContext, (IMethodCallMessage)msg);
-			}
-			else
-			{
-				return new ReturnMessage(ret, outParameters.ToArray(), outParameters.Count, 
-					methodMessage.LogicalCallContext, (IMethodCallMessage)msg);
-			}
+
+            IMethodReturnMessage mrm = new ReturnMessage(ret, methodArgs, methodArgs.Length,
+                methodMessage.LogicalCallContext, (IMethodCallMessage)msg);
+            
+            return mrm;
 		}
 
 		#endregion
