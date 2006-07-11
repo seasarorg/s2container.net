@@ -41,17 +41,15 @@ namespace Seasar.Framework.Container.Factory
 
 		static S2ContainerFactory()
 		{
-			try
-			{
-				builderProps_ = new ResourceManager(BUILDER_CONFIG_PATH,
-					Assembly.GetExecutingAssembly()).GetResourceSet(
-					CultureInfo.CurrentCulture,true,true);
-			}
-			catch(MissingManifestResourceException)
-			{
-			}
-			builders_.Add("xml",defaultBuilder_);
-			builders_.Add("dicon",defaultBuilder_);
+            ResourceManager resourceManager =
+                new ResourceManager(BUILDER_CONFIG_PATH,
+                Assembly.GetExecutingAssembly());
+
+            builderProps_ = resourceManager.GetResourceSet(
+                CultureInfo.CurrentCulture, true, false);
+
+            builders_.Add("xml",defaultBuilder_);
+            builders_.Add("dicon",defaultBuilder_);
 		}
 
 		private S2ContainerFactory()
@@ -105,26 +103,36 @@ namespace Seasar.Framework.Container.Factory
 
 		private static IS2ContainerBuilder GetBuilder(string ext)
 		{
-			IS2ContainerBuilder builder = null;
-			lock(builders_)
-			{
-				builder = (IS2ContainerBuilder) builders_[ext];
-				if(builder != null) return builder;
-				string className = builderProps_.GetString(ext);
-				if(className != null)
-				{
-					Assembly[] asms = AppDomain.CurrentDomain.GetAssemblies();
-					Type type = ClassUtil.ForName(className, asms);
-					builder = (IS2ContainerBuilder) 
-						ClassUtil.NewInstance(type);
-					builders_[ext] = builder;
-				}
-				else
-				{
-					builder = defaultBuilder_;
-				}
+            IS2ContainerBuilder builder = null;
+            lock(builders_)
+            {
+                builder = (IS2ContainerBuilder) builders_[ext];
+
+                if (builder != null)
+                {
+                    return builder;
+                }
+
+                string className = null;
+                
+                if (builderProps_ != null)
+                {
+                    className = builderProps_.GetString(ext);
+                }
+				
+                if(className != null)
+                {
+                    Assembly[] asms = AppDomain.CurrentDomain.GetAssemblies();
+                    Type type = ClassUtil.ForName(className, asms);
+                    builder = (IS2ContainerBuilder) ClassUtil.NewInstance(type);
+                    builders_[ext] = builder;
+                }
+                else
+                {
+                    builder = defaultBuilder_;
+                }
             }
-			return builder;
+            return builder;
 		}
 	}
 }
