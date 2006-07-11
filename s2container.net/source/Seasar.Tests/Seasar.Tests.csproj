@@ -380,6 +380,10 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Seasar.Tests.Framework.Aop\Proxy\AopProxy.dicon"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "Seasar.Tests.Framework.Aop\Proxy\AopProxyTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

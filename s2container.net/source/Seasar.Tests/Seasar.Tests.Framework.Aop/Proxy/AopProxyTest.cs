@@ -1,4 +1,4 @@
-#region Copyright
+Ôªø#region Copyright
 /*
  * Copyright 2005 the Seasar Foundation and the Others.
  *
@@ -17,140 +17,216 @@
 #endregion
 
 using System;
-using NUnit.Framework;
+using MbUnit.Framework;
 using Seasar.Framework.Aop;
 using Seasar.Framework.Aop.Impl;
 using Seasar.Framework.Aop.Proxy;
 using Seasar.Framework.Aop.Interceptors;
+using Seasar.Extension.Unit;
 
 namespace Seasar.Tests.Framework.Aop.Proxy
 {
-	/// <summary>
-	/// AopProxyTest ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	[TestFixture]
-	public class AopProxyTest
-	{
-		public AopProxyTest()
-		{
-		}
+    [TestFixture]
+    public class AopProxyTest : S2TestCase
+    {
+        public AopProxyTest()
+        {
+        }
 
-		[Test]
-		public void TestInterface()
-		{
-			IPointcut pointcut = new PointcutImpl(new string[] { "Greeting" });
-			IAspect aspect = new AspectImpl(new HelloInterceptor(),pointcut);
-			AopProxy aopProxy = new AopProxy(typeof(IHello),new IAspect[] { aspect } );
-			IHello proxy = (IHello) aopProxy.GetTransparentProxy();
-			Assert.AreEqual("Hello",proxy.Greeting());
-		}
+        [Test, S2]
+        public void TestInterface()
+        {
+            IPointcut pointcut = new PointcutImpl(new string[] { "Greeting" });
+            IAspect aspect = new AspectImpl(new HelloInterceptor(), pointcut);
+            AopProxy aopProxy = new AopProxy(typeof(IHello), new IAspect[] { aspect });
+            IHello proxy = (IHello)aopProxy.GetTransparentProxy();
+            Assert.AreEqual("Hello", proxy.Greeting());
+        }
 
-		[Test]
-		public void TestCreateForArgs()
-		{
-			IAspect aspect = new AspectImpl(new TraceInterceptor());
-			AopProxy aopProxy = new AopProxy(typeof(HelloImpl), new IAspect[] { aspect });
-			IHello proxy = (IHello) aopProxy.Create(new Type[] { typeof(string) },
-				new object[] { "Hello" });
-			Assert.AreEqual("Hello",proxy.Greeting());
-			Console.WriteLine(proxy.GetHashCode());
-		}
+        [Test, S2]
+        public void TestCreateForArgs()
+        {
+            IAspect aspect = new AspectImpl(new TraceInterceptor());
+            AopProxy aopProxy = new AopProxy(typeof(HelloImpl), new IAspect[] { aspect });
+            IHello proxy = (IHello)aopProxy.Create(new Type[] { typeof(string) },
+                new object[] { "Hello" });
+            Assert.AreEqual("Hello", proxy.Greeting());
+            Console.WriteLine(proxy.GetHashCode());
+        }
 
-		[Test]
-		public void TestEquals()
-		{
-			IPointcut pointcut = new PointcutImpl(new string[] { "Greeting" });
-			IAspect aspect = new AspectImpl(new HelloInterceptor(),pointcut);
-			AopProxy aopProxy = new AopProxy(typeof(IHello), new IAspect[] { aspect });
-			IHello proxy = (IHello) aopProxy.Create();
-			
-			//Assert.AreEqual(true,proxy.Equals(proxy));Å@Ç±ÇÍÇÕë ñ⁄
-			Assert.AreEqual(true,object.Equals(proxy,proxy));
-			Assert.AreEqual(false,object.Equals(proxy,null));
-			Assert.AreEqual(false,object.Equals(proxy,"hoge"));
-		}
+        [Test, S2]
+        public void TestEquals()
+        {
+            IPointcut pointcut = new PointcutImpl(new string[] { "Greeting" });
+            IAspect aspect = new AspectImpl(new HelloInterceptor(), pointcut);
+            AopProxy aopProxy = new AopProxy(typeof(IHello), new IAspect[] { aspect });
+            IHello proxy = (IHello)aopProxy.Create();
 
-		/// <summary>
-		/// AopProxyÇ≈
-		/// System.ObjectÇÃFieldGetterÇé¿çsÇµÇÊÇ§Ç∆ÇµÇƒÅA
-		/// ÉGÉâÅ[Ç™î≠ê∂ÇµÇƒÇ¢Ç‹Ç∑ÅB
-		/// </summary>
-//		[Test]
-//		public void TestSerialize()
-//		{
-//			IPointcut pointcut = new PointcutImpl(new string[] { "Greeting" });
-//			IAspect aspect = new AspectImpl(new HelloInterceptor(),pointcut);
-//			AopProxy aopProxy = new AopProxy(typeof(HelloImpl),
-//				new IAspect[] { aspect });
-//			HelloImpl proxy = (HelloImpl) aopProxy.Create(new Type[] { typeof(string) },
-//				new object[] {"Hello"});
-//
-//			IHello copy = (IHello) SerializeUtil.Serialize(proxy);
-//			Assert.AreEqual("Hello",copy.Greeting());
-//		}
+            //Assert.AreEqual(true,proxy.Equals(proxy));
+            Assert.AreEqual(true, object.Equals(proxy, proxy));
+            Assert.AreEqual(false, object.Equals(proxy, null));
+            Assert.AreEqual(false, object.Equals(proxy, "hoge"));
+        }
 
-		public class TestInvocation : IMethodInterceptor
-		{
-			internal bool invoked_ = false;
+        public void SetUpPerformance1()
+        {
+            this.Include("Seasar.Tests.Framework.Aop.Proxy.AopProxy.dicon");
+        }
 
-			public object Invoke(IMethodInvocation invocation)
-			{
-				invoked_ = true;
-				return invocation.Proceed();
-			}
-		}
+        [Test, S2]
+        public void TestPerformance1()
+        {
+            DateTime start = DateTime.Now;
+            for (int i = 0; i < 100; ++i)
+            {
+                this.Container.GetComponent(typeof(IHello4));
+            }
+            TimeSpan span = DateTime.Now - start;
+            System.Diagnostics.Debug.WriteLine(span.TotalMilliseconds + "ms");
 
-		public class MyInvocation : IMethodInterceptor
-		{
-			public object Invoke(IMethodInvocation invocation)
-			{
-				return invocation.Proceed();
-			}
-		}
+        }
 
-		public interface IHello
-		{
-			string Greeting();
-		}
+        public void SetUpPerformance2()
+        {
+            this.Include("Seasar.Tests.Framework.Aop.Proxy.AopProxy.dicon");
+        }
 
-		[Serializable()]
-		public class HelloImpl : MarshalByRefObject, IHello
-		{
-			private string str_;
-			public HelloImpl(string str)
-			{
-				str_ = str;
-			}
+        [Test, S2]
+        public void TestPerformance2()
+        {
+            IHello4 hello = (IHello4)this.Container.GetComponent(typeof(IHello4));
+            DateTime start = DateTime.Now;
+            for (int i = 0; i < 10000; ++i)
+            {
+                hello.Greeting();
+            }
+            TimeSpan span = DateTime.Now - start;
+            System.Diagnostics.Debug.WriteLine(span.TotalMilliseconds + "ms");
+        }
 
-			public string Greeting()
-			{
-				return str_;
-			}
+        [Test, S2]
+        public void TestArgs()
+        {
+            IAspect aspect = new AspectImpl(new TraceInterceptor());
+            AopProxy aopProxy = new AopProxy(typeof(CalcImpl), new IAspect[] { aspect });
+            ICalc proxy = (ICalc)aopProxy.Create();
+            Assert.AreEqual(5, proxy.Add(2, 3));
+            int ret;
+            proxy.Add(4, 5, out ret);
+            Assert.AreEqual(9, ret);
+        }
 
-		}
+        [Test, S2]
+        public void TestArgsNoAspect()
+        {
+            AopProxy aopProxy = new AopProxy(typeof(CalcImpl), new IAspect[] { });
+            ICalc proxy = (ICalc)aopProxy.Create();
+            Assert.AreEqual(5, proxy.Add(2, 3));
+            int ret;
+            proxy.Add(4, 5, out ret);
+            Assert.AreEqual(9, ret);
+        }
 
-		public class Hello2Impl : IHello
-		{
-			public string Greeting()
-			{
-				return "Hello2";
-			}
-		}
+        public class TestInvocation : IMethodInterceptor
+        {
+            internal bool invoked_ = false;
 
-		public class HelloImpl3 : IHello
-		{
-			public string Greeting()
-			{
-				return "hoge";
-			}
-		}
+            public object Invoke(IMethodInvocation invocation)
+            {
+                invoked_ = true;
+                return invocation.Proceed();
+            }
+        }
 
-		public class HelloInterceptor : IMethodInterceptor
-		{
-			public object Invoke(IMethodInvocation invocation)
-			{
-				return "Hello";
-			}
-		}
-	}
+        public class MyInvocation : IMethodInterceptor
+        {
+            public object Invoke(IMethodInvocation invocation)
+            {
+                return invocation.Proceed();
+            }
+        }
+
+        public interface IHello
+        {
+            string Greeting();
+        }
+
+        [Serializable()]
+            public class HelloImpl : MarshalByRefObject, IHello
+        {
+            private string str_;
+            public HelloImpl(string str)
+            {
+                str_ = str;
+            }
+
+            public string Greeting()
+            {
+                return str_;
+            }
+
+        }
+
+        public class Hello2Impl : IHello
+        {
+            public string Greeting()
+            {
+                return "Hello2";
+            }
+        }
+
+        public class HelloImpl3 : IHello
+        {
+            public string Greeting()
+            {
+                return "hoge";
+            }
+        }
+
+        public class HelloInterceptor : IMethodInterceptor
+        {
+            public object Invoke(IMethodInvocation invocation)
+            {
+                return "Hello";
+            }
+        }
+
+        public interface IHello4
+        {
+            string Greeting();
+        }
+
+        public class HelloImpl4 : IHello4
+        {
+            private string _str = "abc";
+
+            public string Greeting()
+            {
+                return _str;
+            }
+        }
+
+        public interface ICalc
+        {
+            int Add(int x, int y);
+            void Add(int x, int y, out int ret);
+        }
+
+        public class CalcImpl : MarshalByRefObject, ICalc
+        {
+            public CalcImpl()
+            {
+            }
+
+            public int Add(int a, int b)
+            {
+                return a + b;
+            }
+
+            public void Add(int a, int b, out int ret)
+            {
+                ret = a + b;
+            }
+        }
+    }
 }
