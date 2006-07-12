@@ -29,7 +29,7 @@
               <li><a href="#S2ContainerReference">S2Container.NET リファレンス</a>
                 <ul>
                   <li><a href="#CreateFile">作成すべきファイル</a></li>
-                  <li><a href="#S2ContainerDefinition">S2Containerの定義</a></li>
+                  <li><a href="#S2ContainerDefinition">S2Containerの定義と定義(Dicon)ファイル</a></li>
 
                   <li><a href="#S2ContainerCreation">S2Containerの生成</a></li>
                   <li><a href="#getComponent">コンポーネントの取得</a></li>
@@ -122,23 +122,25 @@
 </pre>
 
 
-            <a name="S2ContainerCreation"><h3>S2Containerの生成</h3></a>
-            <p>S2Containerを作成する場合は、次のメソッドを使用します。</p>
-            <p>- Seasar.Framework.Container.Factory.S2ContainerFactory#Create(string path)</p>
-            <p>定義ファイルは、埋め込まれたリソースもしくはファイルシステムで指定することができます。</p>
-            <p>埋め込まれたリソースを使用する場合は、引数pathは定義ファイルの名前空間を含む完全限定名です。
-            セパレータは、/です。
-            定義ファイルのビルドアクションプロパティは、埋め込まれたりソースに設定します。</p>
-            <p>C#プロジェクトの場合は、フォルダを作成すると名前空間が作成されます。
-            VB.NETプロジェクトの場合は、フォルダを作成しても名前空間は作成されません。
-            例えば、プロジェクトフォルダ/Sample/Logic/aaa.diconとすると、C#プロジェクトの場合は、
-            既定の名前空間/Sample/Logic/aaa.diconになります。
-            VB.NETの場合は、既定の名前空間/aaa.diconになります。</p>
-            <p>ファイルシステムを使用する場合は、一般的なファイルパスを指定します。
-            絶対パス、相対パスを指定できます。</p>
-            <p>埋め込まれたリソース、ファイルシステムの定義ファイルを混在させることもできます。
-            同じパスで埋め込まれたリソース、ファイルシステムの両方でヒットする場合は、
-            ファイルシステムの定義ファイルが優先されます。</p>
+<a name="S2ContainerCreation"><h3>S2Containerの生成と定義(Dicon)ファイル</h3></a>
+
+<p>S2Containerを作成する場合は、次のメソッドを使用します。</p>
+<p>- Seasar.Framework.Container.Factory.S2ContainerFactory#Create(string path)</p>
+<p>定義ファイルは、埋め込まれたリソースもしくはファイルシステムで指定することができます。</p>
+<p>埋め込まれたリソースを使用する場合は、引数pathは定義ファイルの名前空間を含む完全限定名です。
+セパレータは、[ / ](スラッシュ)もしくは[ . ](ピリオド)です。
+<span style="color:red;">定義ファイルのビルドアクションプロパティは、埋め込まれたりソースに設定します。</span></p>
+<p><img src="images/diconProperty.png" /></p>
+<p>C#プロジェクトの場合は、フォルダを作成すると名前空間が作成されます。
+VB.NETプロジェクトの場合は、フォルダを作成しても名前空間は作成されません。
+例えば、プロジェクトフォルダ/Sample/Logic/aaa.diconとすると、C#プロジェクトの場合は、
+既定の名前空間/Sample/Logic/aaa.diconになります。
+VB.NETの場合は、既定の名前空間/aaa.diconになります。</p>
+<p>ファイルシステムを使用する場合は、一般的なファイルパスを指定します。
+絶対パス、相対パスを指定できます。</p>
+<p>埋め込まれたリソース、ファイルシステムの定義ファイルを混在させることもできます。
+同じパスで埋め込まれたリソース、ファイルシステムの両方でヒットする場合は、
+ファイルシステムの定義ファイルが優先されます。</p>
 
 <pre>
 
