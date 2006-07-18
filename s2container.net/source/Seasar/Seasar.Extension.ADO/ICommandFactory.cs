@@ -24,5 +24,7 @@ namespace Seasar.Extension.ADO
     public interface ICommandFactory
     {
         IDbCommand CreateCommand(IDbConnection con, string sql);
+
+        string GetCompleteSql(string sql, object[] args);
     }
 }
