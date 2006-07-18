@@ -17,16 +17,11 @@
 #endregion
 
 using System;
-using System.Collections;
 using System.Data;
-using System.Data.SqlTypes;
-using System.Reflection;
-using System.Text.RegularExpressions;
 using Seasar.Extension.ADO;
 using Seasar.Extension.ADO.Types;
 using Seasar.Framework.Exceptions;
 using Seasar.Framework.Util;
-using Nullables;
 
 namespace Seasar.Extension.ADO.Impl
 {
@@ -34,7 +29,6 @@ namespace Seasar.Extension.ADO.Impl
     {
         private IDataSource dataSource;
         private string sql;
-        private MatchCollection sqlParameters;
         private ICommandFactory commandFactory = BasicCommandFactory.INSTANCE;
         private int commandTimeout = -1;
 
@@ -63,12 +57,7 @@ namespace Seasar.Extension.ADO.Impl
         public string Sql
         {
             get { return this.sql; }
-            set
-            {
-                this.sql = value;
-                Regex regex = new Regex(@"(@+[a-zA-Z\.0-9_$#\.]*|:[A-Za-z0-9_$#\.]*|\?)");
-                sqlParameters = regex.Matches(sql);
-            }
+            set { this.sql = value; }
         }
 
         public ICommandFactory CommandFactory
@@ -95,29 +84,11 @@ namespace Seasar.Extension.ADO.Impl
         protected virtual IDbCommand Command(IDbConnection connection)
         {
             if (this.sql == null) throw new EmptyRuntimeException("sql");
-            IDbCommand cmd = connection.CreateCommand();
-            string changeSignSql = this.sql;
-            switch (DataProviderUtil.GetBindVariableType(cmd))
+            IDbCommand cmd = commandFactory.CreateCommand(connection, this.sql);
+            if (this.commandTimeout > -1) 
             {
-                case BindVariableType.AtmarkWithParam:
-                    changeSignSql = GetChangeSignCommandText(this.sql, "@");
-                    break;
-                case BindVariableType.Question:
-                    changeSignSql = GetCommandText(this.sql);
-                    break;
-                case BindVariableType.QuestionWithParam:
-                    changeSignSql = GetChangeSignCommandText(this.sql, "?");
-                    break;
-                case BindVariableType.ColonWithParam:
-                    changeSignSql = GetChangeSignCommandText(this.sql, ":");
-                    break;
-                case BindVariableType.ColonWithParamToLower:
-                    changeSignSql = GetChangeSignCommandText(this.sql, ":");
-                    changeSignSql = changeSignSql.ToLower();
-                    break;
+                cmd.CommandTimeout = this.commandTimeout;
             }
-            cmd.CommandText = changeSignSql;
-            if (this.commandTimeout > -1) cmd.CommandTimeout = this.commandTimeout;
             return cmd;
         }
 
@@ -177,130 +148,7 @@ namespace Seasar.Extension.ADO.Impl
         protected virtual string GetCompleteSql(object[] args)
         {
             if (args == null || args.Length == 0) return this.sql;
-            return GetCompleteSql(sql, args);
-        }
-
-        private string GetCompleteSql(string sql, object[] args)
-        {
-            return ReplaceSql(sql, args, sqlParameters);
-        }
-
-        private string ReplaceSql(string sql, object[] args, MatchCollection matches)
-        {
-            for (int i = 0, bindIndex = 0; i < matches.Count; ++i)
-            {
-                string capture = matches[i].Captures[0].Value;
-                if (capture.StartsWith("@@")) continue;
-                sql = ReplaceAtFirstElement(sql, capture, GetBindVariableText(args[bindIndex]));
-                bindIndex++;
-            }
-            return sql;
-        }
-
-        private string GetCommandText(string sql)
-        {
-            return ReplaceSql(sql, "?", sqlParameters);
-        }
-
-        private string GetChangeSignCommandText(string sql, string sign)
-        {
-            string text = sql;
-            for (int i = 0, paramIndex = 0; i < sqlParameters.Count; ++i)
-            {
-                if (!sqlParameters[i].Success) continue;
-
-                string capture = sqlParameters[i].Captures[0].Value;
-                if (capture.StartsWith("@@")) continue;
-
-                string parameterName = sign + paramIndex;
-                text = ReplaceAtFirstElement(text, sqlParameters[i].Value, parameterName);
-                paramIndex++;
-            }
-            return text;
-        }
-
-        private string ReplaceSql(string sql, string newValue, MatchCollection matches)
-        {
-            for (int i = 0; i < matches.Count; ++i)
-            {
-                string capture = matches[i].Captures[0].Value;
-                if (capture.StartsWith("@@")) continue;
-                sql = ReplaceAtFirstElement(sql, capture, newValue);
-            }
-            return sql;
-        }
-
-        private string ReplaceAtFirstElement(string source, string original, string replace)
-        {
-            string pattern = original.Replace("?", "\\?");
-            pattern = pattern.Replace("$", "\\$");
-            Regex regexp = new Regex(pattern, RegexOptions.IgnoreCase);
-            return regexp.Replace(source, replace, 1);
-        }
-
-        protected virtual string GetBindVariableText(object bindVariable)
-        {
-            if (bindVariable is INullable)
-            {
-                INullable nullable = bindVariable as INullable;
-                if (nullable.IsNull)
-                {
-                    return GetBindVariableText(null);
-                }
-                else
-                {
-                    PropertyInfo pi = bindVariable.GetType().GetProperty("Value");
-                    return GetBindVariableText(pi.GetValue(bindVariable, null));
-                }
-            }
-            else if (bindVariable is INullableType)
-            {
-                INullableType nullable = bindVariable as INullableType;
-                if (!nullable.HasValue)
-                {
-                    return GetBindVariableText(null);
-                }
-                else
-                {
-                    PropertyInfo pi = bindVariable.GetType().GetProperty("Value");
-                    return GetBindVariableText(pi.GetValue(bindVariable, null));
-                }
-            }
-            else if (bindVariable is string)
-            {
-                return "'" + bindVariable + "'";
-            }
-            else if (bindVariable == null)
-            {
-                return "null";
-            }
-            else if (bindVariable.GetType().IsPrimitive)
-            {
-                return bindVariable.ToString();
-            }
-            else if (bindVariable is decimal)
-            {
-                return bindVariable.ToString();
-            }
-            else if (bindVariable is DateTime)
-            {
-                if ((DateTime) bindVariable == ((DateTime) bindVariable).Date)
-                {
-                    return "'" + ((DateTime) bindVariable).ToString("yyyy-MM-dd") + "'";
-                }
-                else
-                {
-                    return "'" + ((DateTime) bindVariable).ToString("yyyy-MM-dd HH.mm.ss") + "'";
-                }
-            }
-            else if (bindVariable is bool)
-            {
-                return bindVariable.ToString();
-            }
-            else
-            {
-                return "'" + bindVariable.ToString() + "'";
-            }
+            return commandFactory.GetCompleteSql(sql, args);
         }
     }
 }
