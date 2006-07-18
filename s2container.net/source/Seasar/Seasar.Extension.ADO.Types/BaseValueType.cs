@@ -55,7 +55,18 @@ namespace Seasar.Extension.ADO.Types
 
 		#endregion
 
-		public void BindValue(IDbCommand cmd, string columnName, object value, DbType dbType)
+        public void BindValue(IDbCommand cmd, string columnName, object value, DbType dbType) 
+        {
+            BindValue(cmd, columnName, value, dbType, ParameterDirection.Input);
+        }
+
+        public void BindValue(
+            IDbCommand cmd,
+            string columnName,
+            object value,
+            DbType dbType,
+            ParameterDirection direction
+            )
         {
 			BindVariableType vt = DataProviderUtil.GetBindVariableType(cmd);
             switch(vt)
@@ -83,7 +94,8 @@ namespace Seasar.Extension.ADO.Types
 				oleDbParam.OleDbType = OleDbType.VarChar;
 			}
 			parameter.Value = GetBindValue(value);
-			cmd.Parameters.Add(parameter);
+            parameter.Direction = direction;
+            cmd.Parameters.Add(parameter);
         }
 
 		protected abstract object GetBindValue(object value);
