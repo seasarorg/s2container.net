@@ -19,6 +19,7 @@
 using System;
 using System.Collections;
 using System.Reflection;
+using Seasar.Framework.Util;
 
 namespace Seasar.Framework.Aop.Impl
 {
@@ -135,6 +136,10 @@ namespace Seasar.Framework.Aop.Impl
             }
             catch (TargetInvocationException ex)
             {
+                // InnerException‚ÌStackTrace‚ð•Û‘¶‚·‚é
+                ExceptionUtil.SaveStackTraceToRemoteStackTraceString(ex.InnerException);
+
+                // InnerException‚ðthrow‚·‚é
                 throw ex.InnerException;
             }
 		}

@@ -6,6 +6,7 @@
 - outパラメータを含むメソッドにAspectを適用するとIndexOutOfRangeExceptionが発生する問題を修正する
 - S2ContainerFactoryのGetBuilderでNullReferenceExceptionが発生する問題を修正する
 - S2ContainerFactoryで正常経路内で例外を利用しているのを止める
+- RealProxyによるAspectが適用される場合に部分的にStackTraceの内容が失われる問題を修正する
 
 S2Container.NET 1.2.1
 2006/7/5
