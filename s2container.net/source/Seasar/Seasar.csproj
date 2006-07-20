@@ -1435,6 +1435,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Seasar.Framework.Util\ExceptionUtil.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Seasar.Framework.Util\IListInspector.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
