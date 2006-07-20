@@ -826,6 +826,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Seasar.Framework.Util\DecimalConversionUtil.cs" />
+    <Compile Include="Seasar.Framework.Util\ExceptionUtil.cs" />
     <Compile Include="Seasar.Framework.Util\JScriptUtil.cs">
       <SubType>Code</SubType>
     </Compile>
