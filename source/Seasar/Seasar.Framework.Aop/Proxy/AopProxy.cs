@@ -184,9 +184,20 @@ namespace Seasar.Framework.Aop.Proxy
 			if(interceptorList.Count == 0)
 			{
                 methodArgs = methodMessage.Args;
-                
-                //Interceptor‚ğ‘}“ü‚µ‚È‚¢ê‡
-                ret = method.Invoke(target_, methodArgs);
+
+                try
+                {
+                    //Interceptor‚ğ‘}“ü‚µ‚È‚¢ê‡
+                    ret = method.Invoke(target_, methodArgs);
+                }
+                catch (TargetInvocationException ex)
+                {
+                    // InnerException‚ÌStackTrace‚ğ•Û‘¶‚·‚é
+                    ExceptionUtil.SaveStackTraceToRemoteStackTraceString(ex.InnerException);
+
+                    // InnerException‚ğthrow‚·‚é
+                    throw ex.InnerException;
+                }
 			}
 			else
 			{
