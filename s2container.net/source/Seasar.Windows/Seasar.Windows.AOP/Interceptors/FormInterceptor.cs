@@ -23,7 +23,6 @@ using System.Collections;
 using System.Collections.Specialized;
 using System.Reflection;
 using System.Windows.Forms;
-using log4net;
 using Seasar.Framework.Aop;
 using Seasar.Framework.Aop.Interceptors;
 using Seasar.Framework.Container;
@@ -41,9 +40,10 @@ namespace Seasar.Windows.AOP.Interceptors
         /// </summary>
         private IS2Container container_;
 
-        //ログ(log4net)
-        private static readonly ILog logger =
-            LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        /// <summary>
+        /// 返り値用プロパティ名
+        /// </summary>
+        private string returnPropertyName_;
 
         /// <summary>
         /// コンストラクタ
@@ -52,6 +52,16 @@ namespace Seasar.Windows.AOP.Interceptors
         public FormInterceptor(IS2Container container)
         {
             container_ = container;
+            returnPropertyName_ = "";
+        }
+
+        /// <summary>
+        /// 返り値用プロパティ名
+        /// </summary>
+        public string Property
+        {
+            get { return returnPropertyName_; }
+            set { returnPropertyName_ = value; }
         }
 
         /// <summary>
@@ -62,7 +72,11 @@ namespace Seasar.Windows.AOP.Interceptors
         /// <remarks>Defaultの戻り値はDialgResult.No</remarks>
         public override object Invoke(IMethodInvocation invocation)
         {
-            DialogResult ret = DialogResult.No;
+            DialogResult retOfReplace = DialogResult.No;
+
+            object ret = retOfReplace;
+
+            string propertyName;
 
             // メソッドの引数値の取得
             object[] args = invocation.Arguments;
@@ -84,7 +98,16 @@ namespace Seasar.Windows.AOP.Interceptors
                     TargetFormAttribute attribute = (TargetFormAttribute) o;
                     Type formType = attribute.FormType;
                     Form form = (Form) container_.GetComponent(formType);
-                    logger.Debug("Form Name:" + form.Name);
+
+                    if ( attribute.ReturnPropertyName != "" )
+                        propertyName = attribute.ReturnPropertyName;
+                    else
+                    {
+                        if ( returnPropertyName_ != null )
+                            propertyName = returnPropertyName_;
+                        else
+                            propertyName = "";
+                    }
                     for ( int i = 0; i < listOfParams.Count; i++ )
                     {
                         PropertyInfo property = form.GetType().GetProperty((string) listOfParams[i]);
@@ -92,7 +115,18 @@ namespace Seasar.Windows.AOP.Interceptors
                     }
 
                     if ( attribute.Mode == ModalType.Modal )
-                        ret = form.ShowDialog();
+                    {
+                        retOfReplace = form.ShowDialog();
+                        ret = retOfReplace;
+
+                        // WindowsFormから戻り値用プロパティから値を取得する
+                        if ( propertyName != "" )
+                        {
+                            PropertyInfo propInfo = form.GetType().GetProperty(propertyName);
+                            if ( propInfo != null )
+                                ret = propInfo.GetValue(form, null);
+                        }
+                    }
                     else
                         form.Show();
                 }
