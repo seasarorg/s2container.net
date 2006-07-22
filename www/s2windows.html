@@ -41,6 +41,7 @@ S2Windows.NETを使ったWindowsFormの画面遷移の制御について説明�
 
 <ul>
 <li><a href="#interface">画面遷移用インターフェイスを用意する</a></li>
+<li><a href="#form">WindowsFormにプロパティを用意する</a></li>
 <li><a href="#startup">起動用クラスを用意する</a></li>
 <li><a href="#dicon">diconファイルの修正</a></li>
 </ul>
@@ -63,7 +64,7 @@ S2Windows.NETを使用するときには、アプリケーション構成ファ�
 Seasar.Windows.Attr.TargetForm属性を使ってメソッドに表示するフォームを設定します。
 </p>
 <p>
-IDは引数の例で、フォームのIDプロパティに引数の値がセットされます。つまり、引数と同名のプロパティをフォームに用意していると引数の値をセットします。メソッドからの戻り値はvoidかDialogResultに対応しています。
+IDは引数の例で、フォームのIDプロパティに引数の値がセットされます。つまり、引数と同名のプロパティをフォームに用意していると引数の値をセットします。この引数名とプロパティ名は大文字小文字まで完全に一致する必要があります。
 </p>
 
 C#
@@ -73,6 +74,9 @@ C#
 {
     [TargetForm(typeof ( FrmHoge ), ModalType.Modal)]
     <span class="kwrd">void</span> ShowHoge(int ID);
+
+    [TargetForm(typeof ( FrmHoge2 ), ModalType.Modal, "ReturnValue")]
+    <span class="kwrd">HogeDto</span> ShowHoge2(int ID);
 }
 </pre>
 VB.NET
@@ -80,10 +84,23 @@ VB.NET
 <pre class="csharpcode vb">
 <span class="kwrd">Public</span> <span class="kwrd">Interface</span> IFormDispatcher
     &lt;TargetForm(<span class="kwrd">GetType</span>(FrmHoge), ModalType.Modal)&gt; <span class="kwrd">Sub</span> ShowHoge(<span class="kwrd">ByVal</span> ID <span class="kwrd">As</span> Integer)
+
+    &lt;TargetForm(<span class="kwrd">GetType</span>(FrmHoge2), ModalType.Modal, "ReturnValue")&gt; <span class="kwrd">Function</span> ShowHoge2(<span class="kwrd">ByVal</span> ID <span class="kwrd">As</span> Integer) As HogeDto
 <span class="kwrd">End</span> <span class="kwrd">Interface</span>
 </pre>
 <p>
-TargetForm属性の最初の引数は遷移先WindowsFormのtypeを指定します。二番目の引数はWindowsFormのモーダルタイプを指定します。
+一番目のメソッドの例でのTargetForm属性の最初の引数は、遷移先WindowsFormのtypeを指定します。二番目の引数はWindowsFormのモーダルタイプを指定します。こちらでメソッドの返値を指定するには、diconファイルで遷移先対象WindowsFormからの返値を取得するためのプロパティ名を指定します。
+</p>
+<p>
+二番目のメソッドの例でのTargetForm属性の最初の引数は遷移先WindowsFormのtypeを指定します。二番目の引数はWindowsFormのモーダルタイプを指定します。三番目の引数は遷移先対象WindowsFormからの返値を取得するためのプロパティ名です。
+</p>
+
+<h2><a name="form">WindowsFormにプロパティを用意する</a></h2>
+<p>
+画面遷移用インターフェイスに作成したメソッドに引数がある場合、遷移先WindowsFormに引数と同名のプロパティを用意します。型も一致させます。画面遷移時に、このプロパティに引数の値をセットすることになります。
+</p>
+<p>
+画面遷移用インターフェイスに作成したメソッドに返値がある場合、遷移先WindowsFormに返値と同じ型のプロパティを用意します。全てのFormで同じプロパティ名であれば、Diconファイルで指定し、Formごとに異なる場合はTargetForm属性で指定します。
 </p>
 
 <h2><a name="startup">起動用クラスを用意する</a></h2>
@@ -160,7 +177,10 @@ AOPによる画面遷移の設定は次のように行います。画面遷移�
     &lt;component name="Dispatcher" class="Seasar.Windows.Examples.IFormDispatcher"&gt;
         <span style="color:green;font-weight:bold;">&lt;!-- pointcutは命名規則に従ってつけたメソッド名を正規表現で表示する --&gt;</span>
         &lt;aspect pointcut="Show.*"&gt;
-            &lt;component class="Seasar.Windows.AOP.Interceptors.FormInterceptor" /&gt;
+            &lt;component class="Seasar.Windows.AOP.Interceptors.FormInterceptor" &gt;
+              <span style="color:green;font-weight:bold;">&lt;!-- プロパティPropertyはFormからの返値用プロパティを指定する --&gt;</span>
+              &lt;property name ="Property"&gt;"ReturnValue"&lt;/property&gt;
+            &lt;/component&gt;
         &lt;/aspect&gt;
     &lt;/component&gt;
 </pre>

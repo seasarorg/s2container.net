@@ -48,6 +48,25 @@ namespace Seasar.Windows.Attr
         /// </summary>
         private ModalType mode_ = ModalType.Modaless;
 
+
+        /// <summary>
+        /// 返り値用プロパティ名
+        /// </summary>
+        private string returnPropertyName_;
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="type">WindowsFormクラス</param>
+        /// <param name="mode">Window表示モード</param>
+        /// <param name="returnPropetyName">返り値用プロパティ名</param>
+        public TargetFormAttribute(Type type, ModalType mode, string returnPropetyName)
+        {
+            type_ = type;
+            mode_ = mode;
+            returnPropertyName_ = returnPropetyName;
+        }
+
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -57,6 +76,7 @@ namespace Seasar.Windows.Attr
         {
             type_ = type;
             mode_ = mode;
+            returnPropertyName_ = "";
         }
 
         /// <summary>
@@ -73,6 +93,15 @@ namespace Seasar.Windows.Attr
         public ModalType Mode
         {
             get { return mode_; }
+        }
+
+        /// <summary>
+        /// 返り値用プロパティ名
+        /// </summary>
+        public string ReturnPropertyName
+        {
+            get { return returnPropertyName_; }
+            set { returnPropertyName_ = value; }
         }
     }
 }
