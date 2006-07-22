@@ -35,8 +35,12 @@ namespace Seasar.Extension.ADO.Types
 			{
 				return DBNull.Value;
 			}
-			INullable nValue = (INullable) value;
-			if (nValue.IsNull)
+			INullable nValue = value as INullable;
+            if (nValue == null) 
+            {
+                return value;
+            }
+            if (nValue.IsNull)
 			{
 				return DBNull.Value;
 			}

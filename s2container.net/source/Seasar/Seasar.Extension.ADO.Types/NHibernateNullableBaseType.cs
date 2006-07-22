@@ -33,7 +33,11 @@ namespace Seasar.Extension.ADO.Types
 			{
 				return DBNull.Value;
 			}
-			INullableType ret = (INullableType) value;
+			INullableType ret = (INullableType) value as INullableType;
+            if (ret == null) 
+            {
+                return value;
+            }
 			if (!ret.HasValue)
 			{
 				return DBNull.Value;
