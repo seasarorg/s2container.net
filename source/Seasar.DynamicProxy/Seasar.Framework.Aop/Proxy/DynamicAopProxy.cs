@@ -32,7 +32,6 @@ namespace Seasar.Framework.Aop.Proxy
         #region fields
 
         private ProxyGenerator generator;
-        private object target;
         private IAspect[] aspects;
         private Hashtable interceptors = new Hashtable();
         private Type type;
@@ -82,15 +81,13 @@ namespace Seasar.Framework.Aop.Proxy
         public DynamicAopProxy(Type type, IAspect[] aspects, Hashtable parameters, object target)
         {
             this.type = type;
-            this.target = target;
-            if (this.target == null) this.target = new object();
             this.aspects = aspects;
             this.parameters = parameters;
             this.generator = new ProxyGenerator();
 
             if (this.type.IsInterface)
             {
-                this.enhancedType = this.generator.ProxyBuilder.CreateInterfaceProxy(new Type[] { this.type }, this.target.GetType());
+                this.enhancedType = this.generator.ProxyBuilder.CreateInterfaceProxy(new Type[] { this.type }, target.GetType());
             }
             else
             {
@@ -118,7 +115,7 @@ namespace Seasar.Framework.Aop.Proxy
         /// <summary>
         /// プロキシオブジェクトを生成します
         /// </summary>
-        public object Create()
+        public object Create(object target)
         {
             return Create(type, target);
         }
@@ -131,7 +128,7 @@ namespace Seasar.Framework.Aop.Proxy
             {
                 args.AddRange(new object[] { null });
             }
-            if (type.IsInterface && this.target.GetType() != typeof(object))
+            if (type.IsInterface && target.GetType() != typeof(object))
             {
                 return this.generator.CreateProxy(type, this, target);
             }
