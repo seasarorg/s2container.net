@@ -21,6 +21,8 @@ using System.Collections;
 using Seasar.Framework.Aop;
 using Seasar.Framework.Aop.Impl;
 using Seasar.Framework.Aop.Proxy;
+using System.Reflection;
+using Seasar.Framework.Util;
 
 namespace Seasar.Framework.Container.Util
 {
@@ -41,21 +43,33 @@ namespace Seasar.Framework.Container.Util
         /// <summary>
         /// Aspectを織り込む
         /// </summary>
-        /// <param name="target">Aspectを織り込む対象のオブジェクト</param>
         /// <param name="componentDef">Aspectを織り込む対象のコンポーネント定義</param>
-		public static void WeaveAspect(ref object target,IComponentDef componentDef)
+        /// <param name="constructor">コンストラクタ</param>
+        /// <param name="args">コンストラクタの引数</param>
+        /// <returns>Aspectを織り込んだオブジェクト</returns>
+		public static object WeaveAspect(IComponentDef componentDef,ConstructorInfo constructor, object[] args)
 		{
             // S2コンテナを取得する
             IS2Container container = componentDef.Container;
 
+            if (componentDef.ComponentType.FindInterfaces(TypeFilter, null).Length > 0)
+            {
+                return ConstructorUtil.NewInstance(constructor, args);
+            }
+
             // S2コンテナにIAspectWeaverが存在する場合は、S2コンテナから取得する
             // 存在しない場合は、デフォルトのAopProxyAspectWeaverを使用する
-            IAspectWeaver aspectWeaver = container.HasComponentDef(typeof(IAspectWeaver)) ?
+            IAspectWeaver aspectWeaver = container != null && container.HasComponentDef(typeof(IAspectWeaver)) ?
                 (IAspectWeaver) container.GetComponent(typeof(IAspectWeaver)) : DEFAULT_ASPECTWEAVER_INSTANCE;
 
             // Aspectを織り込む
-            aspectWeaver.WeaveAspect(ref target, componentDef);
+            return aspectWeaver.WeaveAspect(componentDef, constructor, args);
 
 		}
+
+        public static bool TypeFilter(Type type, object filterCriteria)
+        {
+            return type == typeof(IAspectWeaver);
+        }
 	}
 }

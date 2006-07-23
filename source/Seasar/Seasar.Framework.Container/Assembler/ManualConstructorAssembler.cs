@@ -68,12 +68,9 @@ namespace Seasar.Framework.Container.Assembler
                 if (value != null) args[i] = value;
             }
 
-			object obj = ConstructorUtil.NewInstance(constructor,args);
-			if(this.ComponentDef.AspectDefSize > 0)
-			{
-				AopProxyUtil.WeaveAspect(ref obj,this.ComponentDef);
-			}
-			return obj;
+            object obj = AopProxyUtil.WeaveAspect(this.ComponentDef, constructor, args);
+			
+            return obj;
 		}
 
 	}

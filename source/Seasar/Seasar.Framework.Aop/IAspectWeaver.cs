@@ -1,5 +1,6 @@
 using System;
 using Seasar.Framework.Container;
+using System.Reflection;
 
 namespace Seasar.Framework.Aop
 {
@@ -11,8 +12,10 @@ namespace Seasar.Framework.Aop
         /// <summary>
         /// Aspectを織り込む
         /// </summary>
-        /// <param name="target">Aspectを織り込む対象のオブジェクト</param>
         /// <param name="componentDef">Aspectを織り込む対象のコンポーネント定義</param>
-        void WeaveAspect(ref object target, IComponentDef componentDef);
+        /// <param name="constructor">コンストラクタ</param>
+        /// <param name="args">コンストラクタの引数</param>
+        /// <returns>Aspectを織り込んだオブジェクト</returns>
+        object WeaveAspect(IComponentDef componentDef, ConstructorInfo constructor, object[] args);
 	}
 }

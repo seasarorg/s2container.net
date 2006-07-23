@@ -38,11 +38,7 @@ namespace Seasar.Framework.Container.Assembler
 		{
 			Type type = this.ComponentDef.ComponentType;
 			ConstructorInfo constructor = ClassUtil.GetConstructorInfo(type,null);
-			object obj = ConstructorUtil.NewInstance(constructor,null);
-            if (this.ComponentDef.AspectDefSize > 0)
-            {
-                AopProxyUtil.WeaveAspect(ref obj, this.ComponentDef);
-            }
+			object obj = AopProxyUtil.WeaveAspect(this.ComponentDef, constructor, new object[] { });
 			return obj;
 		}
 
