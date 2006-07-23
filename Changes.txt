@@ -10,6 +10,7 @@
 - RealProxyでAspectが適用されない場合に例外が発生するとTargetInvocationExceptionがthrowされる問題を修正する
 - SqlType. Nullable型に対するパラメータバインド時、型変換に失敗する場合がある問題を修正する
 - Seasar.DynamicProxyでコンストラクタ・インジェクションを行うコンポーネントのインスタンスを作成できない問題を修正する
+- 画面遷移インターフェイスのメソッドで自由に戻り値を設定できるようにする
 
 S2Container.NET 1.2.1
 2006/7/5
