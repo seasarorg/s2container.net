@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using Seasar.Framework.Container;
 using Seasar.Framework.Aop.Proxy;
+using System.Reflection;
+using Seasar.Framework.Util;
 
 namespace Seasar.Framework.Aop.Impl
 {
@@ -13,11 +15,28 @@ namespace Seasar.Framework.Aop.Impl
         /// <summary>
         /// AopProxyを用いてAspectを織り込む
         /// </summary>
-        /// <param name="target">Aspectを織り込む対象のオブジェクト</param>
         /// <param name="componentDef">Aspectを織り込む対象のコンポーネント定義</param>
-        public override void WeaveAspect(ref object target, Seasar.Framework.Container.IComponentDef componentDef)
+        /// <param name="constructor">コンストラクタ</param>
+        /// <param name="args">コンストラクタの引数</param>
+        /// <returns>Aspectを織り込んだオブジェクト</returns>
+        public override object WeaveAspect(IComponentDef componentDef, ConstructorInfo constructor, object[] args)
         {
-            if (componentDef.AspectDefSize == 0) return;
+            object target;
+            
+            if (componentDef.ComponentType.IsInterface)
+            {
+                target = new object();
+            }
+            else
+            {
+                target = ConstructorUtil.NewInstance(constructor, args);
+            }
+
+            if (componentDef.AspectDefSize == 0)
+            {
+                return target;
+            }
+
             Hashtable parameters = new Hashtable();
             parameters[ContainerConstants.COMPONENT_DEF_NAME] = componentDef;
 
@@ -40,6 +59,8 @@ namespace Seasar.Framework.Aop.Impl
                     GetAspects(componentDef), parameters, target);
                 componentDef.AddProxy(interfaceType, aopProxy.Create());
             }
+
+            return target;
         }
 	}
 }

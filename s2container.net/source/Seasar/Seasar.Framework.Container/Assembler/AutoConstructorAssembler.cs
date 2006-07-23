@@ -36,28 +36,22 @@ namespace Seasar.Framework.Container.Assembler
 		public override object Assemble()
 		{
 			ConstructorInfo constructor =this.GetSuitableConstructor();
-			object obj;
+            object[] args = new object[0];
+
 			if(constructor == null)
 			{
-				if(this.ComponentDef.ComponentType.IsInterface)
-				{
-					obj = new object();
-				}
-				else
+				if(!this.ComponentDef.ComponentType.IsInterface)
 				{
 					return this.AssembleDefault();
 				}
 			}
 			else
 			{
-				object[] args = this.GetArgs(
+				args = this.GetArgs(
 					ParameterUtil.GetParameterTypes(constructor.GetParameters()));
-				obj = ConstructorUtil.NewInstance(constructor,args);
 			}
-			if(this.ComponentDef.AspectDefSize > 0)
-			{
-				AopProxyUtil.WeaveAspect(ref obj,this.ComponentDef);
-			}
+			object obj = AopProxyUtil.WeaveAspect(this.ComponentDef, constructor, args);
+			
 			return obj;
 		}
 
