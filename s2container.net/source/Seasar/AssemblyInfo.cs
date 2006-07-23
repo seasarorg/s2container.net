@@ -25,7 +25,7 @@ using System.Runtime.CompilerServices;
 // 情報を変更するには、これらの属性値を変更してください。
 //
 [assembly: AssemblyTitle("S2Container.NET")]
-[assembly: AssemblyDescription("S2Container.NET 1.2.1")]
+[assembly: AssemblyDescription("S2Container.NET 1.2.2")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("S2Container.NET")]
@@ -44,7 +44,7 @@ using System.Runtime.CompilerServices;
 // 下にあるように、'*' を使って、すべての値を指定するか、
 // ビルドおよびリビジョン番号を既定値にすることができます。
 
-[assembly: AssemblyVersion("1.2.1.0")]
+[assembly: AssemblyVersion("1.2.2.0")]
 
 //
 // アセンブリに署名するには、使用するキーを指定しなければなりません。 

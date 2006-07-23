@@ -1,5 +1,5 @@
 ﻿S2Container.NET 1.2.2
-準備中
+2006/7/24
 
 - BasicHandlerでDTOのパラメータが解析できない問題を修正する
 - outパラメータを含むメソッドにAspectを適用するとIndexOutOfRangeExceptionが発生する問題を修正する
