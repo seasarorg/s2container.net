@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- don't edit start -->
+<head><title>Seasar - DI Container with AOP - </title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link href="seasar_b.css" type="text/css" rel="stylesheet" media="screen"><script src="seasar_b.js" type="text/JavaScript" language="JavaScript"></script>
+</head><body onload="preload('en')">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" align="left"><tr>
+<td align="left" valign="top" width="780"><table width="780" border="0" cellspacing="0" cellpadding="0" class="white">
+<tr><td colspan="7"><img height="5" width="780" src="images/top01_b.gif" alt=""></td></tr>
+<tr><td><img height="117" width="235" src="images/top02_b.gif" alt="Seasar"></td>
+<td colspan="3"><img height="117" width="289" src="images/top03.gif" alt="DI Container with AOP"></td>
+<td colspan="3"><img height="117" width="256" src="images/spacer.gif" alt=""></td>
+</tr><tr><td rowspan="2"><img src="images/top04.gif" alt="" height="49" width="235"></td>
+<td><a href="http://www.seasar.org/en/index.html"><img src="images/menu01_b_en.gif" height="30" width="78" border="0" alt="" id="menu01" onmouseover="swap(1)" onmouseout="restore(1)"></a></td>
+<td><a href="http://www.seasar.org/en/projects.html"><img src="images/menu02_b_en.gif" height="30" width="101" border="0" alt="" id="menu02" onmouseover="swap(2)" onmouseout="restore(2)"></a></td>
+<td><a href="http://www.seasar.org/en/products.html"><img src="images/menu06_b_en.gif" height="30" width="110" border="0" alt="" id="menu06" onmouseover="swap(6)" onmouseout="restore(6)"></a></td>
+<td><a href="http://www.seasar.org/en/documents.html"><img src="images/menu04_b_en.gif" height="30" width="109" border="0" alt="" id="menu04" onmouseover="swap(4)" onmouseout="restore(4)"></a></td>
+<td><a href="http://www.seasar.org/en/resources.html"><img src="images/menu05_b_en.gif" height="30" width="113" border="0" alt="" id="menu05" onmouseover="swap(5)" onmouseout="restore(5)"></a></td>
+<!--
+<td><img src="images/menu07_b_en.gif" height="30" width="109" border="0" alt=""  id="menu07" onmouseover="swap(7)" onmouseout="restore(7)"></td>
+//-->
+<td><img height="30" width="34" src="images/menu06.gif" alt=""></td></tr><tr>
+
+<td colspan="6"><img height="19" width="545" src="images/spacer.gif" alt=""></td></tr></table>
+<table  width="780" border="0" cellspacing="0" cellpadding="0" class="menu">
+<tr align="left" valign="top"><td width="14"><img height="14" width="14" src="images/spacer.gif" alt=""></td><td width="740" class="main">
+<!-- don't edit end --><!-- document start -->
+
+<a href="index.html">S2Container.NET TOP page</a>
+
+<h2>FAQ</h2>
+<ul>
+	<li><a href="#faq0001">Class specified in a dicon file can not be found and S2Container.NET throws ClassNotFoundRuntimeException error</a></li>
+	<li><a href="#faq0002">Can not output S2Container.NET log</a></li>
+	<li><a href="#faq0003">S2Unit.NET does not insert rows in order they are written in an Excel sheet</a></li>
+	<li><a href="#faq0004">Dicon file can not be found</a></li>
+</ul>
+
+<h3><a name="faq0001">Class specified in a dicon file can not be found and S2Container.NET throws ClassNotFoundRuntimeException error</a></h3>
+<p>
+Followings are some possible reasons for this error:
+<ul>
+	<li>Class name specified in the dicon file is misspelled.</li>
+	<li>Assembly is not specified in the [seasar] section in application configuration file (app.config).
+		<br />
+		Document<br />
+		<a href="dicontainer.html#AppConfig">
+			S2Container.NET reference - application configuration file</a>
+	</li>
+</ul>
+</p>
+
+<h3><a name="faq0002">Can not output S2Container.NET log</a></h3>
+<p>
+Possible reason may be log4net is not setup or the log4net configuration file can not be read. Refer to the following page on setting up log4net.
+</p>
+<p>
+	<a href="setup.html#log4net">Setup - log4net setup</a>
+</p>
+
+<h3><a name="faq0003">S2Unit.NET does not insert rows in order they are written in an Excel sheet</a></h3>
+<p>
+	This is a restriction of S2Unit.NET.
+	Refer to the following page for details.
+</p>
+<p>
+	<a href="s2unit.html#limit">Restrictions</a>
+</p>
+
+<h3><a name="faq0004">Dicon file can not be found</a></h3>
+
+<p>
+When dicon file is specified as an embedded resource ("namespace/Dicon file"), build action property in dicon file must be set to "Embedded resource"
+Refer to the following page for further details.</p>
+<p>
+	<a href="dicontainer.html#S2ContainerCreation">
+		S2Container.NET - Creation of S2Container and Dicon configuration file
+	</a>
+</p>
+
+<!-- document end -->
+<!-- don't edit start -->
+</td>
+          <td width=14><img height=14 alt="" src="images/spacer.gif" 
+            width=14></td></tr>
+        <tr>
+          <td width=14><img height=30 alt="" src="images/spacer.gif" 
+            width=14></td>
+          <td width=766><img height=30 alt="" src="images/spacer.gif" 
+            width=592></td></tr>
+        <tr>
+          <td width=14><img height=14 alt="" src="images/spacer.gif" 
+            width=14></td>
+<td class=copyright><table cellSpacing=0 cellPadding=0 width=736><tr><td align="left">Trans. by H.Ozawa</td><td align="right">Copyright&copy; 2004-2006, The Seasar Foundation and the others. All rights reserved.</td></tr></table></td>
+</tr></table>
+    <td class=backright vAlign=top align=left>&nbsp;</td></tr>
+  <tr>
+    <td class=backunder vAlign=top align=left width=780 height=16>&nbsp;</td>
+    <td class=backcorner vAlign=top align=left 
+height=16>&nbsp;</td></tr></tbody></table>
+<!-- don't edit end -->
+</body></html>
