@@ -1,0 +1,565 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- don't edit start -->
+<head><title>Seasar - DI Container with AOP - </title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link href="seasar_b.css" type="text/css" rel="stylesheet" media="screen"><script src="seasar_b.js" type="text/JavaScript" language="JavaScript"></script>
+</head><body onload="preload('en')">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" align="left"><tr>
+<td align="left" valign="top" width="780"><table width="780" border="0" cellspacing="0" cellpadding="0" class="white">
+<tr><td colspan="7"><img height="5" width="780" src="images/top01_b.gif" alt=""></td></tr>
+<tr><td><img height="117" width="235" src="images/top02_b.gif" alt="Seasar"></td>
+<td colspan="3"><img height="117" width="289" src="images/top03.gif" alt="DI Container with AOP"></td>
+<td colspan="3"><img height="117" width="256" src="images/spacer.gif" alt=""></td>
+</tr><tr><td rowspan="2"><img src="images/top04.gif" alt="" height="49" width="235"></td>
+<td><a href="http://www.seasar.org/en/index.html"><img src="images/menu01_b_en.gif" height="30" width="78" border="0" alt="" id="menu01" onmouseover="swap(1)" onmouseout="restore(1)"></a></td>
+<td><a href="http://www.seasar.org/en/projects.html"><img src="images/menu02_b_en.gif" height="30" width="101" border="0" alt="" id="menu02" onmouseover="swap(2)" onmouseout="restore(2)"></a></td>
+<td><a href="http://www.seasar.org/en/products.html"><img src="images/menu06_b_en.gif" height="30" width="110" border="0" alt="" id="menu06" onmouseover="swap(6)" onmouseout="restore(6)"></a></td>
+<td><a href="http://www.seasar.org/en/documents.html"><img src="images/menu04_b_en.gif" height="30" width="109" border="0" alt="" id="menu04" onmouseover="swap(4)" onmouseout="restore(4)"></a></td>
+<td><a href="http://www.seasar.org/en/resources.html"><img src="images/menu05_b_en.gif" height="30" width="113" border="0" alt="" id="menu05" onmouseover="swap(5)" onmouseout="restore(5)"></a></td>
+<!--
+<td><img src="images/menu07_b_en.gif" height="30" width="109" border="0" alt=""  id="menu07" onmouseover="swap(7)" onmouseout="restore(7)"></td>
+//-->
+<td><img height="30" width="34" src="images/menu06.gif" alt=""></td></tr><tr>
+
+<td colspan="6"><img height="19" width="545" src="images/spacer.gif" alt=""></td></tr></table>
+<table  width="780" border="0" cellspacing="0" cellpadding="0" class="menu">
+<tr align="left" valign="top"><td width="14"><img height="14" width="14" src="images/spacer.gif" alt=""></td><td width="740" class="main">
+<!-- don't edit end --><!-- document start -->
+
+<a href="index.html">S2Container.NET TOP page</a>
+
+<h1>Easy Testing with S2Unit.NET</h1>
+
+<p>S2Container.NET version 1.1 and higher includes testing framework to make testing much easier.
+The framework extends MbUnit and has the following features:</p>
+
+<ul>
+	<li>
+		<a href="#autoS2">Creation of S2Container</a>
+		<ul>
+			<li>S2Container is created for each test method (TestXxx).</li>
+			<li>Register(), GetComponent(), and Include() methods are available.</li>
+			<li>Path of a namespace may be omitted when the namespace of the dicon file PATH is the same as the test class namespace.</li>
+		</ul>
+	</li>
+	<li>
+		<a href="#fieldBinding">Binding of fields</a>
+		<ul>
+			<li>If there is a field in a Test class that is not neither static, readonly, nor final and there exists a component with a name that equals the field name without the underscore (prefix or suffix), then that field and the component will be binded.</li>
+			<li>If there is a component (reference datatype or DateTime) in a container that can be substituted, that component is retrieved from the S2Container and set.</li>
+			<li>When the test method finishes, values that were set are reset to null (Nothing in VB).</li>
+		</ul>	
+	</li>
+	<li>
+		<a href="#init">Initial and final processes per each test method</a>
+		<ul>
+			<li>If SetUpXxx() method and TearDownXxx() method is defined, they will be called after SetUp() method and before TearDown() method. Initialization and clean up steps for each test may be written in these methods.</li>
+		</ul>
+	</li>
+	<li>
+		<a href="#trans">Transaction control</a>
+		<ul>
+			<li>If TxEnumerator(Seasar.Extension.Unit.Tx) is set to Rollback(Enumerator) in the S2 attribute in test method, transaction will marked to begin just before the test method and rolled back after test method finishes execution. This will allow tests to be repeated with the same set of database data.</li>
+		</ul>
+	</li>
+	<li>
+		<a href="#DBTest">Testing with a database</a>
+		<ul>
+			<li>
+New DataSet may be retrieved by a primary key using Reload(DataSet) to reload data. Result from an execution may be compared with the expected result entered in Excel.<br />
+Example:
+			DataSet expected = ReadXls("expectedResult.xls");
+			S2Assert.AreEqual(expected, Reload(expected);
+      </li>
+			<li>Expected result of datatype DataSet may be compared to IList of IDictionary and IDictionary, object, IList of object by using the S2Assert.AreEqual() function.</li>
+		</ul>
+	</li>
+</ul>
+
+<h2><a name="setup">S2Unit.NET Installation</a></h2>
+<p>Refer to <a href="setup.html#S2Unit">S2Unit.NET Installation</a> for details on installing S2Unit.NET.</p>
+
+<h2><a name="autoS2">Creation of S2Container</a></h2>
+<p>Test class is created by extending Seasar.Extension.Unit.S2TestCase. This class should define TestFixture attribute(MbUnit.Framework.TestFixtureAttribute).
+Test method should define Test attribute(MbUnit.Framework.TestAttribute) as well as S2 attribute(Seasar.Extension.Unit.S2Attribute). The test class will then create a S2Container.</p>
+C#
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+[TestFixture]
+<span class="kwrd">public</span> <span class="kwrd">class</span> HogeTest : S2TestCase
+{
+    [Test, S2]
+    <span class="kwrd">public</span> <span class="kwrd">void</span> TestHogeHoge()
+    {
+        <span class="rem">// test codes</span>
+    }
+}</pre>
+VB.NET
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode vb">
+&lt;TestFixture()&gt; _
+<span class="kwrd">Public</span> <span class="kwrd">Class</span> HogeTest
+   <span class="kwrd">Inherits</span> S2TestCase
+   
+    &lt;Test(), S2()&gt; _
+    <span class="kwrd">Public</span> <span class="kwrd">sub</span> TestHogeHoge()
+        <span class="rem">' test codes</span>
+    <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+    
+<span class="kwrd">End</span> Class</pre>
+
+<p>S2TestClass has Register(), GetComponent(), and Include() methods that may be used with S2Container.NET.</p>
+C#
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">public</span> <span class="kwrd">void</span> TestHogeHoge()
+{
+    <span class="rem">// read dicon file</span>
+    Include(<span class="str">"Hoge.dicon"</span>);
+    
+    <span class="rem">// Register components into a S2Container</span>
+    Register(<span class="kwrd">typeof</span>(Hashtable));
+    
+    <span class="rem">// Retrieve components from a S2Container</span>
+    Hashtable table = (Hashtable) GetComponent(<span class="kwrd">typeof</span>(Hashtable));
+}</pre>
+VB.NET
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode vb">
+&lt;Test(), S2()&gt; _
+<span class="kwrd">Public</span> <span class="kwrd">sub</span> TestHogeHoge()
+
+    <span class="rem">' read dicon file</span>
+    Include(<span class="str">"Hoge.dicon"</span>)
+    
+    <span class="rem">' Register components into a S2Container</span>
+    Register(<span class="kwrd">typeof</span>(Hashtable))
+    
+    <span class="rem">' Retrieve components from a S2Container</span>
+    <span class="kwrd">Dim</span> table <span class="kwrd">As</span> Hashtable = <span class="kwrd">CType</span>(GetComponent(<span class="kwrd">GetType</span>(Hashtable)), Hashtable)
+    
+    <span class="rem">' when there is no explicit cast, may be defined as below</span>
+    <span class="rem">' Dim table As Hashtable = GetComponent(GetType(Hashtable))</span>
+
+<span class="kwrd">End</span> Sub</pre>
+
+<p>If the PATH of the dicon file is the same as the namespace of the test class, path in the namespace may be omittted. When PATH of the dicon file is specified in the file system, path will become relative path from the assembly. (However, process such as the buildin event, to output to the same folder as the assembly is necessary.)</p>
+<p>
+if Test.dicon is in the namespace Foo.Fuga, it is possible to omit dicon file path on classes that are in Foo.Fuga namespace.</p>
+C#
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">namespace</span> Foo.Fuga
+{
+    [TestFixture]
+    <span class="kwrd">public</span> <span class="kwrd">class</span> HogeTest : S2TestCase
+    {
+        [Test, S2]
+        <span class="kwrd">public</span> <span class="kwrd">void</span> TestHogeHoge()
+        {
+            Include(<span class="str">"Test.dicon"</span>);
+        }
+    }
+}</pre>
+VB.NET
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode vb">
+<span class="kwrd">Namespace</span> Foo.Fuga
+   &lt;TestFixture()&gt; _
+   <span class="kwrd">Public</span> <span class="kwrd">Class</span> HogeTest
+      <span class="kwrd">Inherits</span> S2TestCase
+      
+      &lt;Test(), S2()&gt; _
+      <span class="kwrd">Public</span> <span class="kwrd">Sub</span> TestHogeHoge()
+         Include(<span class="str">"Test.dicon"</span>)
+      <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+      
+   <span class="kwrd">End</span> <span class="kwrd">Class</span>
+<span class="kwrd">End</span> Namespace</pre>
+
+<h2><a name="fieldBinding">Binding of Fields</a></h2>
+<p>If there is a field in a Test class that is not neither static, readonly, nor final and there exists a component with a name that equals the field name without the underscore (prefix or suffix), then that field and the component will be binded.</p>
+Test.dicon
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="abc"</span><span class="kwrd">&gt;</span>"hoge"<span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span></pre>
+C#
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+[TestFixture]
+<span class="kwrd">public</span> <span class="kwrd">class</span> HogeTest : S2TestCase
+{
+    <span class="kwrd">private</span> <span class="kwrd">string</span> _abc = <span class="kwrd">null</span>;
+
+    [Test, S2]
+    <span class="kwrd">public</span> <span class="kwrd">void</span> TestHogeHoge()
+    {
+        Include(<span class="str">"Test.dicon"</span>);
+        Assert.AreEqual(<span class="str">"hoge"</span>, _abc);
+    }
+}</pre>
+VB.NET
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode vb">
+&lt;TestFixture()&gt; _
+<span class="kwrd">Public</span> <span class="kwrd">Class</span> HogeTest
+   <span class="kwrd">Inherits</span> S2TestCase
+   
+    <span class="kwrd">Private</span> _abc <span class="kwrd">As</span> <span class="kwrd">String</span> = <span class="kwrd">Nothing</span>
+   
+    &lt;Test(), S2()&gt; _
+    <span class="kwrd">Public</span> <span class="kwrd">Sub</span> TestHogeHoge()
+        Include(<span class="str">"Test.dicon"</span>)
+        Assert.AreEqual(<span class="str">"hoge"</span>, _abc)
+    <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+
+<span class="kwrd">End</span> Class</pre>
+
+<p>If there is a component (reference datatype or DateTime) in a container that can be substituted, that component is retrieved from the S2Container and set.
+</p>
+Test.dicon
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="System.Collections.ArrayList"</span> <span class="kwrd">/&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span></pre>
+C#
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+[TestFixture]
+<span class="kwrd">public</span> <span class="kwrd">class</span> HogeTest : S2TestCase
+{
+    <span class="kwrd">private</span> IList _list = <span class="kwrd">null</span>;
+
+    [Test, S2]
+    <span class="kwrd">public</span> <span class="kwrd">void</span> TestHogeHoge()
+    {
+        Include(<span class="str">"Test.dicon"</span>);
+        Assert.IsNotNull(_list);
+    }
+}</pre>
+VB.NET
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode vb">
+&lt;TestFixture()&gt;  _
+<span class="kwrd">Public</span> <span class="kwrd">Class</span> HogeTest
+    <span class="kwrd">Inherits</span> S2TestCase
+
+    <span class="kwrd">Private</span> _list <span class="kwrd">As</span> IList = <span class="kwrd">Nothing</span>
+
+    &lt;Test(), S2()&gt; _
+    <span class="kwrd">Public</span> <span class="kwrd">Sub</span> TestHogeHoge()
+        Include(<span class="str">"Test.dicon"</span>)
+        Assert.IsNotNull(_list)
+    <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+
+<span class="kwrd">End</span> Class</pre>
+
+<p>When the test method finishes, values that were set are reset to null (Nothing in VB).
+</p>
+
+<h2><a name="init">Initial and final processes per each test method</a></h2>
+<p>If SetUpXxx() method and TearDownXxx() method is defined, they will be called after SetUp() method and before TearDown() method. Initialization and clean up steps for each test may be written in these methods. 
+</p>
+C#
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+[TestFixture]
+<span class="kwrd">public</span> <span class="kwrd">class</span> HogeTest : S2TestCase
+{
+    <span class="kwrd">public</span> <span class="kwrd">void</span> SetUpHogeHoge() 
+    {
+        <span class="rem">// initialization process</span>
+    }
+
+    [Test, S2]
+    <span class="kwrd">public</span> <span class="kwrd">void</span> TestHogeHoge()
+    {
+        <span class="rem">// test codes</span>
+    }
+
+    <span class="kwrd">public</span> <span class="kwrd">void</span> TearDownHogeHoge()
+    {
+        <span class="rem">// final processing</span>
+    }
+}</pre>
+VB.NET
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode vb">
+&lt;TestFixture()&gt; _
+<span class="kwrd">Public</span> <span class="kwrd">Class</span> HogeTest
+    <span class="kwrd">Inherits</span> S2TestCase
+   
+    <span class="kwrd">Public</span> <span class="kwrd">Sub</span> SetUpHogeHoge()
+        <span class="rem">' initialization process</span>
+    <span class="kwrd">End</span> <span class="kwrd">Sub</span> 
+
+    &lt;Test(), S2()&gt; _
+    <span class="kwrd">Public</span> <span class="kwrd">Sub</span> TestHogeHoge()
+        <span class="rem">' test codes</span>
+    <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+
+    <span class="kwrd">Public</span> <span class="kwrd">Sub</span> TearDownHogeHoge()
+        <span class="rem">' final processing</span>
+    <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+
+<span class="kwrd">End</span> Class</pre>
+
+<h2><a name="trans">Transaction control </a></h2>
+<p>If TxEnumerator(Seasar.Extension.Unit.Tx) is set to Rollback(Enumerator) in the S2 attribute in test method, transaction will marked to begin just before the test method and rolled back after test method finishes execution. This will allow tests to be repeated with the same set of database data.
+</p>
+<p>If Commit(Enumerator) in TxEnumerator is specified beside Rollback, transaction will be committed. If NotSupported(Enumerator) is specified, transaction will not begin. If TxEnumerator is not assigned to a S2 attribute, it will default to NotSupported(Enumerator).</p>
+
+<p>Furthermore, to use transaction, a dicon file with TransactionContext and DataSource definition is necessary.
+</p>
+Ado.dicon
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">components</span> <span class="attr">namespace</span><span class="kwrd">="Ado"</span><span class="kwrd">&gt;</span>
+
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="SqlClient"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.ADO.DataProvider"</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="ConnectionType"</span><span class="kwrd">&gt;</span>"System.Data.SqlClient.SqlConnection"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="CommandType"</span><span class="kwrd">&gt;</span>"System.Data.SqlClient.SqlCommand"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="ParameterType"</span><span class="kwrd">&gt;</span>"System.Data.SqlClient.SqlParameter"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="DataAdapterType"</span><span class="kwrd">&gt;</span>"System.Data.SqlClient.SqlDataAdapter"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+    
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="DataSource"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.Tx.Impl.TxDataSource"</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="DataProvider"</span><span class="kwrd">&gt;</span>SqlClient<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="ConnectionString"</span><span class="kwrd">&gt;</span>
+"Server=server name;database=s2dotnetdemo;Integrated Security=SSPI"
+<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.Tx.Impl.TransactionContext"</span> <span class="kwrd">/&gt;</span>
+    
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span></pre>
+
+C#
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+[TestFixture]
+<span class="kwrd">public</span> <span class="kwrd">class</span> HogeTest : S2TestCase
+{
+    <span class="kwrd">public</span> <span class="kwrd">void</span> SetUpHogeHoge() 
+    {
+        Include(<span class="str">"Ado.dicon"</span>);
+    }
+
+    [Test, S2(Tx.Rollback)]
+    <span class="kwrd">public</span> <span class="kwrd">void</span> TestHogeHoge()
+    {
+        <span class="rem">// rollback transaction when method ends</span>
+    }
+}</pre>
+
+VB.NET
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+&lt;TestFixture&gt; _ 
+<span class="kwrd">Public</span> <span class="kwrd">Class</span> HogeTest
+     <span class="kwrd">Inherits</span> S2TestCase
+
+    <span class="kwrd">Public</span>  <span class="kwrd">Sub</span> SetUpHogeHoge()
+        Include(<span class="str">"Ado.dicon"</span>)
+    <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+ 
+    &lt;Test, S2(Tx.Rollback)&gt; _ 
+    <span class="kwrd">Public</span>  <span class="kwrd">Sub</span> TestHogeHoge()
+        <span class="rem">' rollback transaction when method ends</span>
+    <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+
+<span class="kwrd">End</span> Class</pre>
+
+<h2><a name="trans">Testing with a database </a></h2>
+<p>S2, also, makes it easier to conduct tests using a database. Below is an example using S2ADO framework.
+</p>
+
+<h3><a name="SelectTest">Test using Select command</a></h3>
+
+<p>In this example, employee table is queried using employee number as a key. When employee table is queried for employee number 9900, that row joined with corresponding row from the deptartment table is returned.
+The test case for this example should consist of expected employee table row and department table row. This expected data is specified in an Excel sheet - sheet name should correspond to the database table name, first row in the sheet should contain column names, and expected row data should be specified from the second row. The data may be manually entered into the Excel sheets or generated from the database table.
+To run this example, first <a href="setup.html">Setup</a> a database to create a demostration database table used in this example. Excel sheets may then be filled with data from the database table using tool Db2ExcelClient in Seasar.Examples.</p>
+
+Seasar/Examples/Reference/S2Unit/Db2ExcelClient.dicon
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+&lt;components&gt;
+  &lt;include path=<span class="str">"Seasar.Examples/Ado.dicon"</span> /&gt;
+  &lt;component name=<span class="str">"Db2ExcelClient"</span> <span class="kwrd">class</span>=<span class="str">"Seasar.Examples.Reference.S2Unit.Db2ExcelClient"</span>/&gt;
+  &lt;component <span class="kwrd">class</span>=<span class="str">"Seasar.Extension.DataSets.Impl.SqlReader"</span>&gt;
+    &lt;initMethod&gt;self.AddTable(<span class="str">"emp"</span>, <span class="str">"empno = 7788"</span>)&lt;/initMethod&gt;
+    &lt;initMethod&gt;self.AddTable(<span class="str">"dept"</span>, <span class="str">"deptno = 20"</span>)&lt;/initMethod&gt;
+  &lt;/component&gt;
+  &lt;component <span class="kwrd">class</span>=<span class="str">"Seasar.Extension.DataSets.Impl.XlsWriter"</span> instance=<span class="str">"prototype"</span>&gt;
+    &lt;arg&gt;<span class="str">"Seasar.Examples/Reference/S2Unit/GetEmployeePrepare.xls"</span>&lt;/arg&gt;
+  &lt;/component&gt;
+&lt;/components&gt;
+</pre>
+<p>SqlReader fills DataSet from the database tables. The first argument to AddTable is the tableName(sheetName). The second argment should contain the condition.</p>
+<p>XlsWriter outputs DataSet to Excel. File path relative to the output folder is specified in the constructor.</p>
+Seasar/Examples/Reference/S2Unit/Db2ExcelClient
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">using</span> System;
+<span class="kwrd">using</span> Seasar.Extension.DataSets.Impl;
+<span class="kwrd">using</span> Seasar.Framework.Container;
+<span class="kwrd">using</span> Seasar.Framework.Container.Factory;
+
+<span class="kwrd">namespace</span> Seasar.Examples.Reference.S2Unit
+{
+    <span class="kwrd">public</span> <span class="kwrd">class</span> Db2ExcelClient
+    {
+        <span class="kwrd">private</span> <span class="kwrd">static</span> <span class="kwrd">readonly</span> <span class="kwrd">string</span> PATH = <span class="str">"Seasar.Examples/Reference/S2Unit/Db2ExcelClient.dicon"</span>;
+
+        <span class="kwrd">public</span> Db2ExcelClient() { }
+
+        <span class="kwrd">public</span> <span class="kwrd">void</span> Main()
+        {
+            IS2Container container = S2ContainerFactory.Create(PATH);
+            container.Init();
+            <span class="kwrd">try</span>
+            {
+                SqlReader reader = (SqlReader) container.GetComponent(<span class="kwrd">typeof</span>(SqlReader));
+                XlsWriter writer = (XlsWriter) container.GetComponent(<span class="kwrd">typeof</span>(XlsWriter));
+                writer.Write(reader.Read());
+                Console.Out.WriteLine(<span class="str">"output Excel File : {0}"</span>, writer.FullPath);
+            }
+            <span class="kwrd">catch</span> (ApplicationException e)
+            {
+                Console.Out.WriteLine(e.Message);
+            }
+        }
+    }
+}
+</pre>
+<p>Data from a database table may be written out to an Excel sheet by executing Read() method in SQLReader class retrieved from IS2Container and then executing Write() method in XlsWrite class retrieved from IS2Container.
+Check to make sure the data was created by executing Seasar.Examples, selecting S2Container reference from the tree, selecting "Test on Select Query(1)". There should be GetEmployeePrepare.xls in the folder Visual Studio output path + specified path (example: bin\Debug\Seasar.Examples\Reference\S2Unit). Double click on GetEmployeePrepare.xls to open this Excel sheet. In emp sheet, change EMPNO to 9900, ENAME to SCOTT2, DEPTNO to 99. In the dept sheet, change DEPTNO to 99, DNAME to RESEARCH2. Save and close the sheets.</p>
+<p>Next, it is necessary to create data to verify data. Db2ExcelClient2 (available in Seasar.Examples) may be used to create this data.</p>
+
+Seasar/Examples/Reference/S2Unit/Db2ExcelClient2.dicon
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+&lt;components&gt;
+  &lt;include path=<span class="str">"Seasar.Examples/Ado.dicon"</span> /&gt;
+  &lt;component name=<span class="str">"EmployeeDaoTest"</span> <span class="kwrd">class</span>=<span class="str">"Seasar.Examples.Reference.S2Unit.EmployeeDaoTest"</span>/&gt;
+  &lt;component <span class="kwrd">class</span>=<span class="str">"Seasar.Examples.Reference.S2Unit.EmployeeDao"</span>&gt;
+    &lt;property name=<span class="str">"GetEmployeeHandler"</span>&gt;
+      &lt;component <span class="kwrd">class</span>=<span class="str">"Seasar.Extension.ADO.Impl.BasicSelectHandler"</span>&gt;
+        &lt;property name=<span class="str">"Sql"</span>&gt;<span class="str">
+"SELECT e.empno, e.ename, e.deptno, d.dname
+FROM emp e, dept d WHERE e.empno = @empno AND e.deptno = d.deptno"</span>&lt;/property&gt;
+      &lt;/component&gt;
+    &lt;/property&gt;
+  &lt;/component&gt;
+&lt;/components&gt;
+</pre>
+<p>
+Execute Seasar.Examples, select S2Container reference from the tree, select "Test on Select Query(2)". Create GetEmployeeResult.xls in folder Visual Studio output path + specified path (example: bin\Debug\Seasar.Examples\Reference\S2Unit).</p>
+
+<p>In the emp sheet, change EMPNO to 9900, ENAME to SCOTT2, DEPTNO to 99, DNAME to RESEARCH2. Save and close the sheets after making the changes.</p>
+
+Seasar/Examples/Reference/S2Unit/EmployeeDao.dicon
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+&lt;components&gt;
+  &lt;include path=<span class="str">"Seasar.Examples/Ado.dicon"</span> /&gt;
+  &lt;component name=<span class="str">"EmployeeDaoTest"</span> <span class="kwrd">class</span>=<span class="str">"Seasar.Examples.Reference.S2Unit.EmployeeDaoTest"</span>/&gt;
+  &lt;component <span class="kwrd">class</span>=<span class="str">"Seasar.Examples.Reference.S2Unit.EmployeeDao"</span>&gt;
+    &lt;property name=<span class="str">"GetEmployeeHandler"</span>&gt;
+      &lt;component <span class="kwrd">class</span>=<span class="str">"Seasar.Extension.ADO.Impl.BasicSelectHandler"</span>&gt;
+        &lt;property name=<span class="str">"Sql"</span>&gt;<span class="str">
+"SELECT e.empno, e.ename, e.deptno, d.dname 
+FROM emp e, dept d WHERE e.empno = @empno AND e.deptno = d.deptno"</span>&lt;/property&gt;
+      &lt;/component&gt;
+    &lt;/property&gt;
+  &lt;/component&gt;
+&lt;/components&gt;
+</pre>
+
+Seasar/Examples/Reference/S2Unit/EmployeeDaoTest.cs
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">using</span> System.Data;
+<span class="kwrd">using</span> MbUnit.Core.Cons;
+<span class="kwrd">using</span> MbUnit.Framework;
+<span class="kwrd">using</span> Seasar.Extension.DataSets.Impl;
+<span class="kwrd">using</span> Seasar.Extension.Unit;
+
+<span class="kwrd">namespace</span> Seasar.Examples.Reference.S2Unit
+{
+    [TestFixture]
+    <span class="kwrd">public</span> <span class="kwrd">class</span> EmployeeDaoTest : S2TestCase
+    {
+        <span class="kwrd">private</span> IEmployeeDao dao_ = <span class="kwrd">null</span>;
+
+        <span class="kwrd">public</span> <span class="kwrd">void</span> SetUpGetEmployee()
+        {
+            Include(<span class="str">"Seasar.Examples/Reference/S2Unit/EmployeeDao.dicon"</span>);
+        }
+
+        [Test, S2(Tx.Rollback)]
+        <span class="kwrd">public</span> <span class="kwrd">void</span> GetEmployee()
+        {
+            ReadXlsWriteDb(<span class="str">"Seasar.Examples/Reference/S2Unit/GetEmployeePrepare.xls"</span>);
+            Employee emp = dao_.GetEmployee(9900);
+            DataSet expected = ReadXls(<span class="str">"Seasar.Examples/Reference/S2Unit/GetEmployeeExpected.xls"</span>);
+            S2Assert.AreEqual(expected, emp, <span class="str">"1"</span>);
+        }
+
+        <span class="kwrd">public</span> <span class="kwrd">void</span> Main()
+        {
+            <span class="kwrd">using</span> (MainClass mc = <span class="kwrd">new</span> MainClass())
+            {
+                mc.Main(<span class="kwrd">new</span> <span class="kwrd">string</span>[] { <span class="str">"Seasar.Examples.exe"</span> });
+            }
+        }
+    }
+}
+</pre>
+<p>Excecute Seasar.Examples. To start testing, select S2Container Reference from the tree. Select Test on Select query(3).
+Test may be executed from the console by executing <a href="http://www.mertner.com/confluence/display/MbUnit/Home" target="_blank">MbUnit</a>, but it is easier to use MbUnit.GUI.exe and <a href="http://www.testdriven.net/" target="_blank">TestDriven.NET</a>.</p>
+
+<p>SetUpGetEmployee() as app.dicon.
+S2Assert.AreEqual() method compares the DataSet with IList of IDictionary and IDictionary, object, and IList of object.
+</p>
+<p>ReadXlsWriteDb() method and ReadXlsAllReplaceDb() methods are used to write test data to the database.
+If Excel file is in the same namespace as the test class, namespace may be omitted from the path. (However, it is necessary to use build event to output to the same folder as the assembly.)
+</p>
+<p>To rollback after each test, execute ReadXlsWriteDb() andReadXlsAllReplaceDb() at the beginning of the test method.</p>
+
+<p>Execution result are compared with data in an Excel sheet.
+By passing data retrieved from Dao and verification data in Excel sheet retrieved from ReadXls() method to the S2Assert.AreEqual() method, data retrieved from Dao is converted to DataSet and is used in comparison with data from the Excel sheet.
+</p>
+
+<h2><a name="limit">Restrictions</a></h2>
+<p>S2Unit.NET reads sheet in alphabetical order and not in the order they are defined in the Excel sheets as in S2Unit.Java.
+</p>
+<p>If there is an error due to foreign key constraint, prefix sheet name with "#". For example, to insert data from the emp table into the third sheet, name the Excel sheet "#3 emp".
+</p>
+
+<!-- document end -->
+<!-- don't edit start -->
+</td>
+          <td width=14><img height=14 alt="" src="images/spacer.gif" 
+            width=14></td></tr>
+        <tr>
+          <td width=14><img height=30 alt="" src="images/spacer.gif" 
+            width=14></td>
+          <td width=766><img height=30 alt="" src="images/spacer.gif" 
+            width=592></td></tr>
+        <tr>
+          <td width=14><img height=14 alt="" src="images/spacer.gif" 
+            width=14></td>
+<td class=copyright><table cellSpacing=0 cellPadding=0 width=736><tr><td align="left">Trans. by H.Ozawa</td><td align="right">Copyright&copy; 2004-2006, The Seasar Foundation and the others. All rights reserved.</td></tr></table></td>
+</tr></table>
+    <td class=backright vAlign=top align=left>&nbsp;</td></tr>
+  <tr>
+    <td class=backunder vAlign=top align=left width=780 height=16>&nbsp;</td>
+    <td class=backcorner vAlign=top align=left 
+height=16>&nbsp;</td></tr></tbody></table>
+<!-- don't edit end -->
+</body></html>
