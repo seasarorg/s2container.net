@@ -20,6 +20,7 @@ using System;
 using System.Text;
 using System.Reflection;
 using Seasar.Framework.Log;
+using Seasar.Framework.Util;
 
 namespace Seasar.Framework.Aop.Interceptors
 {
@@ -81,6 +82,7 @@ namespace Seasar.Framework.Aop.Interceptors
 			}
 			else
 			{
+                ExceptionUtil.SaveStackTraceToRemoteStackTraceString(cause);
 				throw cause;
 			}
 		}
