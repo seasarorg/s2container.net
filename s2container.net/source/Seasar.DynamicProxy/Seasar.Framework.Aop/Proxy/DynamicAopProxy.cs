@@ -24,7 +24,7 @@ namespace Seasar.Framework.Aop.Proxy
     /// <author>Kazz
     /// </author>
     /// <remarks>edited Kazuya Sugimoto</remarks>
-    /// <version>1.7.1 2006/07/03</version>
+    /// <version>1.7.2 2006/07/24</version>
     ///
     [Serializable]
     public class DynamicAopProxy : IInterceptor
@@ -177,9 +177,9 @@ namespace Seasar.Framework.Aop.Proxy
             object ret = null;
             if ((invocation.Proxy == invocation.InvocationTarget ||
                 !(invocation.Method.IsVirtual && !invocation.Method.IsFinal)) &&
-                this.interceptors.ContainsKey(invocation.Method.Name))
+                this.interceptors.ContainsKey(invocation.Method))
             {
-                IMethodInterceptor[] interceptors = this.interceptors[invocation.Method.Name] as IMethodInterceptor[];
+                IMethodInterceptor[] interceptors = this.interceptors[invocation.Method] as IMethodInterceptor[];
                 IMethodInvocation mehotdInvocation =
                    new DynamicProxyMethodInvocation(invocation.InvocationTarget, this.type, invocation, args, interceptors, parameters);
                 ret = interceptors[0].Invoke(mehotdInvocation);
@@ -221,7 +221,7 @@ namespace Seasar.Framework.Aop.Proxy
                         {
                             IMethodInterceptor[] interceptors = (IMethodInterceptor[])
                             interceptorList.ToArray(typeof(IMethodInterceptor));
-                            this.interceptors.Add(method.Name, interceptors);
+                            this.interceptors.Add(method, interceptors);
                         }
                     }
                 }
