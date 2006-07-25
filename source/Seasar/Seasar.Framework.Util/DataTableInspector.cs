@@ -33,7 +33,8 @@ namespace Seasar.Framework.Util
 		{
 		}
 
-		public static string ToString(DataTable dataTable)
+        [Obsolete("ToStringUtil.ToString()")]
+        public static string ToString(DataTable dataTable)
 		{
 			StringBuilder result = new StringBuilder();
 
@@ -59,50 +60,58 @@ namespace Seasar.Framework.Util
 			return result.ToString();
 		}
 
-		public static void DebugLog(DataTable dataTable, string header)
+        [Obsolete("ToStringUtil.ToString()")]
+        public static void DebugLog(DataTable dataTable, string header)
 		{
 			string output = string.Format("{0}\r\n{1}", header,
 				DataTableInspector.ToString(dataTable));
 			Log.Debug(output);
 		}
 
-		public static void DebugLog(DataTable dataTable)
+        [Obsolete("ToStringUtil.ToString()")]
+        public static void DebugLog(DataTable dataTable)
 		{
 			Log.Debug(DataTableInspector.ToString(dataTable));
 		}
 
-		public static void DebugWriteLine(DataTable dataTable, string header)
+        [Obsolete("ToStringUtil.ToString()")]
+        public static void DebugWriteLine(DataTable dataTable, string header)
 		{
 			string output = string.Format("{0}\r\n{1}", header,
 			                              DataTableInspector.ToString(dataTable));
 			Debug.WriteLine(output);
 		}
 
-		public static void DebugWriteLine(DataTable dataTable)
+        [Obsolete("ToStringUtil.ToString()")]
+        public static void DebugWriteLine(DataTable dataTable)
 		{
 			Debug.WriteLine(DataTableInspector.ToString(dataTable));
 		}
 
-		public static void OutWriteLine(DataTable dataTable, string header)
+        [Obsolete("ToStringUtil.ToString()")]
+        public static void OutWriteLine(DataTable dataTable, string header)
 		{
 			string output = string.Format("{0}\r\n{1}", header,
 				DataTableInspector.ToString(dataTable));
 			Console.Out.WriteLine(output);
 		}
 
-		public static void OutWriteLine(DataTable dataTable)
+        [Obsolete("ToStringUtil.ToString()")]
+        public static void OutWriteLine(DataTable dataTable)
 		{
 			Console.Out.WriteLine(DataTableInspector.ToString(dataTable));
 		}
 
-		public static void TraceWriteLine(DataTable dataTable, string header)
+        [Obsolete("ToStringUtil.ToString()")]
+        public static void TraceWriteLine(DataTable dataTable, string header)
 		{
 			string output = string.Format("{0}\r\n{1}", header,
 			                              DataTableInspector.ToString(dataTable));
 			Trace.WriteLine(output);
 		}
 
-		public static void TraceWriteLine(DataTable dataTable)
+        [Obsolete("ToStringUtil.ToString()")]
+        public static void TraceWriteLine(DataTable dataTable)
 		{
 			Trace.WriteLine(DataTableInspector.ToString(dataTable));
 		}

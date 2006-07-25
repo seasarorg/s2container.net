@@ -17,6 +17,7 @@
 #endregion
 
 using System.Data;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using MbUnit.Framework;
@@ -46,8 +47,8 @@ namespace Seasar.Tests.Extension.DataSets.Impl
 		public void TestCreateTable() 
 		{
 			Assert.AreEqual(4, dataSet.Tables.Count, "1");
-			DataSetInspector.OutWriteLine(dataSet);
-		}
+            Trace.WriteLine(ToStringUtil.ToString(dataSet));
+        }
 
 		[Test]
 		public void TestSort() 

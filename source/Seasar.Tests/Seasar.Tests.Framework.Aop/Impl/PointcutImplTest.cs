@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Diagnostics;
 using NUnit.Framework;
 using Seasar.Framework.Aop;
 using Seasar.Framework.Aop.Impl;
@@ -41,7 +42,7 @@ namespace Seasar.Tests.Framework.Aop.Impl
 			Assert.AreEqual(2,methodNames.Length);
 			foreach(string methodName in methodNames)
 			{
-				Console.WriteLine(methodName);
+				Trace.WriteLine(methodName);
 			}
 		}
 
@@ -53,7 +54,7 @@ namespace Seasar.Tests.Framework.Aop.Impl
 			Assert.AreEqual(2,methodNames.Length);
 			foreach(string methodName in methodNames)
 			{
-				Console.WriteLine(methodName);
+				Trace.WriteLine(methodName);
 			}
 		}
 
@@ -65,7 +66,7 @@ namespace Seasar.Tests.Framework.Aop.Impl
 			Assert.AreEqual(2,methodNames.Length);
 			foreach(string methodName in methodNames)
 			{
-				Console.WriteLine(methodName);
+				Trace.WriteLine(methodName);
 			}	
 		}
 

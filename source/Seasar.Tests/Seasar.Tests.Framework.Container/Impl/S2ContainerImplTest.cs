@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Diagnostics;
 using System.Text;
 using System.Collections;
 using NUnit.Framework;
@@ -45,7 +46,7 @@ namespace Seasar.Tests.Framework.Container.Impl
 			}
 			catch(TooManyRegistrationRuntimeException ex)
 			{
-				Console.WriteLine(ex.Message);
+				Trace.WriteLine(ex.Message);
 				Assert.AreEqual(typeof(IHoge), ex.Key);
 				Assert.AreEqual(2, ex.ComponentTypes.Length);
 				Assert.AreEqual(typeof(B), ex.ComponentTypes[0]);
@@ -68,7 +69,7 @@ namespace Seasar.Tests.Framework.Container.Impl
 			}
 			catch(TooManyRegistrationRuntimeException ex)
 			{
-				Console.WriteLine(ex.Message);
+				Trace.WriteLine(ex.Message);
 				Assert.AreEqual("B", ex.Key);
 				Assert.AreEqual(2, ex.ComponentTypes.Length);
 				Assert.AreEqual(typeof(B), ex.ComponentTypes[0]);
@@ -167,7 +168,7 @@ namespace Seasar.Tests.Framework.Container.Impl
 			}
 			catch(TooManyRegistrationRuntimeException ex)
 			{
-				Console.WriteLine(ex.Message);
+				Trace.WriteLine(ex.Message);
 			}
 		}
 

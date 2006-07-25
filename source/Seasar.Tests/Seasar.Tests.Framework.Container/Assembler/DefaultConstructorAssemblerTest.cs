@@ -17,8 +17,9 @@
 #endregion
 
 using System;
-using System.IO;
 using System.Collections;
+using System.Diagnostics;
+using System.IO;
 using System.Reflection;
 using Seasar.Framework.Aop.Interceptors;
 using Seasar.Framework.Container;
@@ -67,7 +68,7 @@ namespace Seasar.Tests.Framework.Container.Assembler
 			container.Register(cd);
 			IConstructorAssembler assembler = new DefaultConstructorAssembler(cd);
 			A a = (A) assembler.Assemble();
-			Console.WriteLine(a.Name);
+			Trace.WriteLine(a.Name);
 		}
 
 		public class A : MarshalByRefObject

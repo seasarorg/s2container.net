@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Diagnostics;
 using System.Data;
 using System.IO;
 using System.Reflection;
@@ -96,7 +97,7 @@ namespace Seasar.Tests.Extension.Unit
 		public void ReadXlsTx() 
 		{
 			DataSet dataSet = ReadXls("testdata.xls");
-			DataSetInspector.OutWriteLine(dataSet);
+			Trace.WriteLine(ToStringUtil.ToString(dataSet));
 			Assert.AreEqual(2, dataSet.Tables.Count, "1");
 			DataTable table = dataSet.Tables["emp"];
 			Assert.AreEqual(2, table.Rows.Count, "2");
@@ -116,7 +117,7 @@ namespace Seasar.Tests.Extension.Unit
 		public void ReadDbByTableTx() 
 		{
 			DataTable table = ReadDbByTable("emp", "empno = 7788");
-			DataTableInspector.OutWriteLine(table);
+            Trace.WriteLine(ToStringUtil.ToString(table));
 			Assert.AreEqual(1, table.Rows.Count, "1");
 		}
 
@@ -135,8 +136,8 @@ namespace Seasar.Tests.Extension.Unit
 		{
 			DataSet dataSet = ReadXls("testdata.xls");
 			WriteXls("aaa.xls", dataSet);
-			DataSetInspector.OutWriteLine(dataSet);
-			DataSet dataSet2 = ReadXls("aaa.xls");
+            Trace.WriteLine(ToStringUtil.ToString(dataSet));
+            DataSet dataSet2 = ReadXls("aaa.xls");
 			S2Assert.AreEqual(dataSet, dataSet2);
 		}
 	}

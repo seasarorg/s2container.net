@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Diagnostics;
 using Seasar.Framework.Aop;
 using Seasar.Framework.Aop.Impl;
 using Seasar.Framework.Aop.Proxy;
@@ -46,7 +47,7 @@ namespace Seasar.Tests.Framework.Aop.Impl
 			Hoge proxy = new HogeImpl();
 			AopProxy aopProxy = new AopProxy(typeof(Hoge),new IAspect[] {aspect,aspect2},null,proxy);
 			proxy = (Hoge) aopProxy.GetTransparentProxy();
-			Console.WriteLine(proxy.Foo());
+			Trace.WriteLine(proxy.Foo());
 			Assert.AreEqual(true,interceptor.invoked_);
 			Assert.AreEqual(true,interceptor2.invoked_);
 		}
@@ -69,9 +70,9 @@ namespace Seasar.Tests.Framework.Aop.Impl
 			public object Invoke(Seasar.Framework.Aop.IMethodInvocation invocation)
 			{
 				invoked_ = true;
-				Console.WriteLine("before");
+				Trace.WriteLine("before");
 				object ret = invocation.Proceed();
-				Console.WriteLine("after");
+				Trace.WriteLine("after");
 				return ret;
 			}
 		}
@@ -88,7 +89,7 @@ namespace Seasar.Tests.Framework.Aop.Impl
 			public string Foo()
 			{
 				// TODO:  HogeImpl.Foo é¿ëïÇí«â¡ÇµÇ‹Ç∑ÅB
-				Console.WriteLine("Foo");
+				Trace.WriteLine("Foo");
 				return "hogehoge";
 			}
 

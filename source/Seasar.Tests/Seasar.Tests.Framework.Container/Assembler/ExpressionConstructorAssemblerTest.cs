@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Diagnostics;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Assembler;
 using Seasar.Framework.Container.Impl;
@@ -42,7 +43,7 @@ namespace Seasar.Tests.Framework.Container.Assembler
 			ExpressionConstructorAssembler assembler =
 				new ExpressionConstructorAssembler(cd2);
 			Int32 myInt = (Int32) assembler.Assemble();
-			Console.WriteLine(myInt);
+			Trace.WriteLine(myInt);
 			Assert.IsNotNull(myInt);
 		}
 
@@ -61,7 +62,7 @@ namespace Seasar.Tests.Framework.Container.Assembler
 			}
 			catch(TypeUnmatchRuntimeException ex)
 			{
-				Console.WriteLine(ex);
+				Trace.WriteLine(ex);
 			}
 		}
 	}

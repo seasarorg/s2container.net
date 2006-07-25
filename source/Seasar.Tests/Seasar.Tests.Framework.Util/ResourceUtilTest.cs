@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using NUnit.Framework;
@@ -24,9 +25,6 @@ using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Framework.Util
 {
-	/// <summary>
-	/// ResourceUtilTest ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
 	[TestFixture]
 	public class ResourceUtilTest
 	{
@@ -42,7 +40,7 @@ namespace Seasar.Tests.Framework.Util
 		{
 			StreamReader stream = ResourceUtil.GetResourceAsStreamReader(
 				"Seasar.Tests.Framework.Util.test1.xml", Assembly.GetExecutingAssembly());
-			Console.WriteLine(stream.ReadToEnd());
+			Trace.WriteLine(stream.ReadToEnd());
 			stream.Close();
 		}
 
@@ -58,7 +56,7 @@ namespace Seasar.Tests.Framework.Util
 			}
 			catch(ResourceNotFoundRuntimeException ex)
 			{
-				Console.WriteLine(ex.Message);
+				Trace.WriteLine(ex.Message);
 			}
 			finally
 			{

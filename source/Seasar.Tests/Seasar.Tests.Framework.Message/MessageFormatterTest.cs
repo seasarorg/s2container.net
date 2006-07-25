@@ -17,11 +17,10 @@
 #endregion
 
 using System;
+using System.Diagnostics;
 using System.Reflection;
 using System.Resources;
-
 using NUnit.Framework;
-
 using Seasar.Framework.Message;
 
 namespace Seasar.Tests.Framework.Message
@@ -46,9 +45,9 @@ namespace Seasar.Tests.Framework.Message
 			string message = MessageFormatter.GetMessage("ETST0001", new object[]{"test"}, asm);
 			ResourceManager rm = new ResourceManager("TSTMessages",asm);
 			try {
-				Console.WriteLine(rm.GetString("ETST0001"));
+				Trace.WriteLine(rm.GetString("ETST0001"));
 			} catch(Exception e) {
-				Console.WriteLine(e.StackTrace);
+				Trace.WriteLine(e.StackTrace);
 			}
 			Assert.AreEqual("[ETST0001] test message", message , "メッセージリソースを取得出来る事");
 		}
