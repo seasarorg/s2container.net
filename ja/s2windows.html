@@ -1,0 +1,219 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head><!-- don't edit start --><title>Seasar - DI Container with AOP -</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" type="text/css" href="csharp.css" >
+<link href="seasar_b.css" type="text/css" rel="stylesheet" media="screen"><link href="seasar_p.css" type="text/css" rel="stylesheet" media="print"><script src="seasar_b.js" type="text/JavaScript" language="JavaScript"></script></head>
+
+
+<body onload="preload('ja')"><table align="left" border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr>
+<td align="left" valign="top" width="780"><table class="white" border="0" cellpadding="0" cellspacing="0" width="780">
+<tbody><tr><td colspan="7"><img src="images/top01_b.gif" alt="" height="5" width="780"></td></tr>
+<tr><td width="235"><img src="images/top02_b.gif" alt="Seasar" height="117" width="235"></td>
+<td colspan="3"><img src="images/top03.gif" alt="DI Container with AOP" height="117" width="289"></td>
+<td colspan="3"><img src="images/spacer.gif" alt="" height="117" width="256"></td>
+</tr><tr><td rowspan="2"><img src="images/top04.gif" alt="" height="49" width="235"></td>
+<td><a href="http://www.seasar.org/index.html"><img src="images/menu01_b_ja.gif" alt="" id="menu01" onmouseover="swap(1)" onmouseout="restore(1)" border="0" height="30" width="78"></a></td>
+<td><a href="http://www.seasar.org/projects.html"><img src="images/menu02_b_ja.gif" alt="" id="menu02" onmouseover="swap(2)" onmouseout="restore(2)" border="0" height="30" width="101"></a></td>
+
+<td><a href="http://www.seasar.org/products.html"><img src="images/menu03_b_ja.gif" alt="" id="menu03" onmouseover="swap(3)" onmouseout="restore(3)" border="0" height="30" width="110"></a></td>
+<td><a href="http://www.seasar.org/resources.html"><img src="images/menu04_b_ja.gif" alt="" id="menu04" onmouseover="swap(4)" onmouseout="restore(4)" border="0" height="30" width="113"></a></td>
+<td><img src="images/menu05_b_ja.gif" alt="" id="menu05" onmouseover="swap(5)" onmouseout="restore(5)" border="0" height="30" width="109"></td>
+<td width="34"><img src="images/menu06.gif" alt="" height="30" width="34"></td></tr><tr>
+<td colspan="6"><img src="images/spacer.gif" alt="" height="19" width="545"></td></tr></tbody></table>
+<table class="white" border="0" cellpadding="0" cellspacing="0" width="780">
+<tbody><tr align="left" valign="top"><td width="18"><img src="images/spacer.gif" alt="" height="14" width="18"></td><td class="main" width="744">
+<!-- don't edit end -->
+<!-- document start -->
+
+<a href="index.html">S2Container.NET TOPページへ</a>
+
+<h1>WindowsFormの画面遷移をコントロールする</h1>
+<p>
+S2Windows.NETを使ったWindowsFormの画面遷移の制御について説明します。
+</p>
+<p>
+一般に、WindowsFormの画面遷移を制御するには、それぞれのWindowsFormのメソッドの中で呼び出すWindowsFormの
+オブジェクトを生成し、表示してきました。
+</p>
+<p>
+そこを、WindowsFormや画面遷移をDIするためには次のようにします。
+</p>
+
+<ul>
+<li><a href="#interface">画面遷移用インターフェイスを用意する</a></li>
+<li><a href="#form">WindowsFormにプロパティを用意する</a></li>
+<li><a href="#startup">起動用クラスを用意する</a></li>
+<li><a href="#dicon">diconファイルの修正</a></li>
+</ul>
+
+<p>
+<span style="color:red;font-weight:bold;">
+S2Windows.NETを使用するときには、アプリケーション構成ファイルの&lt;assemblys&gt;にアセンブリ(Seasar.Windows)を指定します。
+</span>
+</p>
+<h2><a name="interface">画面遷移用インターフェイスを用意する</a></h2>
+
+<p>
+実行用ファイルを作成するプロジェクトにインターフェイスを追加します。
+</p>
+<p>
+そして、WindowsFormを呼び出すメソッドを追加します。このメソッドを取り決めた命名規則に従って命名しておくと、
+下記のdiconファイルを設定するときに楽になります。
+</p>
+<p>
+Seasar.Windows.Attr.TargetForm属性を使ってメソッドに表示するフォームを設定します。
+</p>
+<p>
+IDは引数の例で、フォームのIDプロパティに引数の値がセットされます。つまり、引数と同名のプロパティをフォームに用意していると引数の値をセットします。この引数名とプロパティ名は大文字小文字まで完全に一致する必要があります。
+</p>
+
+C#
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">public</span> <span class="kwrd">interface</span> IFormDispatcher
+{
+    [TargetForm(typeof ( FrmHoge ), ModalType.Modal)]
+    <span class="kwrd">void</span> ShowHoge(int ID);
+
+    [TargetForm(typeof ( FrmHoge2 ), ModalType.Modal, "ReturnValue")]
+    <span class="kwrd">HogeDto</span> ShowHoge2(int ID);
+}
+</pre>
+VB.NET
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode vb">
+<span class="kwrd">Public</span> <span class="kwrd">Interface</span> IFormDispatcher
+    &lt;TargetForm(<span class="kwrd">GetType</span>(FrmHoge), ModalType.Modal)&gt; <span class="kwrd">Sub</span> ShowHoge(<span class="kwrd">ByVal</span> ID <span class="kwrd">As</span> Integer)
+
+    &lt;TargetForm(<span class="kwrd">GetType</span>(FrmHoge2), ModalType.Modal, "ReturnValue")&gt; <span class="kwrd">Function</span> ShowHoge2(<span class="kwrd">ByVal</span> ID <span class="kwrd">As</span> Integer) As HogeDto
+<span class="kwrd">End</span> <span class="kwrd">Interface</span>
+</pre>
+<p>
+一番目のメソッドの例でのTargetForm属性の最初の引数は、遷移先WindowsFormのtypeを指定します。二番目の引数はWindowsFormのモーダルタイプを指定します。こちらでメソッドの返値を指定するには、diconファイルで遷移先対象WindowsFormからの返値を取得するためのプロパティ名を指定します。
+</p>
+<p>
+二番目のメソッドの例でのTargetForm属性の最初の引数は遷移先WindowsFormのtypeを指定します。二番目の引数はWindowsFormのモーダルタイプを指定します。三番目の引数は遷移先対象WindowsFormからの返値を取得するためのプロパティ名です。
+</p>
+
+<h2><a name="form">WindowsFormにプロパティを用意する</a></h2>
+<p>
+画面遷移用インターフェイスに作成したメソッドに引数がある場合、遷移先WindowsFormに引数と同名のプロパティを用意します。型も一致させます。画面遷移時に、このプロパティに引数の値をセットすることになります。
+</p>
+<p>
+画面遷移用インターフェイスに作成したメソッドに返値がある場合、遷移先WindowsFormに返値と同じ型のプロパティを用意します。全てのFormで同じプロパティ名であれば、Diconファイルで指定し、Formごとに異なる場合はTargetForm属性で指定します。
+</p>
+
+<h2><a name="startup">起動用クラスを用意する</a></h2>
+<p>
+実行ファイルのプロジェクトにアプリケーション起動用クラスを用意します。通常、プロジェクトの生成時に作られる最初のフォームからMain文を
+移してくればいいでしょう。もちろん、プロジェクトのスタートアップオブジェクトもこの起動用クラスに変更します。
+</p>
+
+C#
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">public</span> <span class="kwrd">class</span> StartMain
+{
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// DIコンテナ設定ファイル
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+    <span class="kwrd">private</span> <span class="kwrd">const</span> string PATH = "Examples.dicon";
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// コンストラクタ
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+    <span class="kwrd">public</span> StartMain()
+    {
+        ;
+    }
+
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;summary&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;/// アプリケーションのメイン エントリ ポイントです。
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;
+    [STAThread]
+    <span class="kwrd">private</span> <span class="kwrd">static</span> void Main()
+    {
+        Application.EnableVisualStyles();
+
+        IS2Container container = S2ContainerFactory.Create(PATH);
+        container.Init();
+
+        ApplicationContext context
+             = (ApplicationContext) container.GetComponent(typeof ( S2ApplicationContext ));
+        Application.Run(context);
+    }
+}
+</pre>
+
+<h2><a name="dicon">diconファイルの修正</a></h2>
+
+<p>
+diconファイルにWindowsForm、ApplicationContextの設定、AOPによる画面遷移コントロールを設定します。
+</p>
+<p>
+WindowsFormの設定は次のように行います。
+</p>
+<pre>
+    &lt;component name="frmHoge" class="Seasar.Windows.Examples.FrmHoge" /&gt;
+</pre>
+<p>
+WindowsFormをModalessで表示するときには、該当するWindowsFormのinstance属性にはprototypeを指定します。そうしないと、
+WindowsFormを閉じて、再度表示されなくなります。
+</p>
+<p>
+起動用クラスで使うApplicationContextの設定は次のように行います。
+</p>
+<pre>
+    &lt;component name="AppContext" class="Seasar.Windows.S2ApplicationContext" &gt;
+       &lt;arg&gt;container&lt;/arg&gt;
+       <span style="color:green;font-weight:bold;">&lt;!-- MainFormを初期起動フォームに変更する --&gt;</span>
+       &lt;property name="MainForm"&gt;frmHoge&lt;/property&gt;
+    &lt;/component&gt;
+</pre>
+<p>
+AOPによる画面遷移の設定は次のように行います。画面遷移用インターフェイスのメソッドに対し、Seasar.Windows.AOP.Interceptors.FormInterceptorでpointcutを設定します。
+</p>
+<pre>
+    &lt;component name="Dispatcher" class="Seasar.Windows.Examples.IFormDispatcher"&gt;
+        <span style="color:green;font-weight:bold;">&lt;!-- pointcutは命名規則に従ってつけたメソッド名を正規表現で表示する --&gt;</span>
+        &lt;aspect pointcut="Show.*"&gt;
+            &lt;component class="Seasar.Windows.AOP.Interceptors.FormInterceptor" &gt;
+              <span style="color:green;font-weight:bold;">&lt;!-- プロパティPropertyはFormからの返値用プロパティを指定する --&gt;</span>
+              &lt;property name ="Property"&gt;"ReturnValue"&lt;/property&gt;
+            &lt;/component&gt;
+        &lt;/aspect&gt;
+    &lt;/component&gt;
+</pre>
+<p>
+上記のWindowsFormを設定したdiconファイルとDao等を設定したS2Unit.NETで使うdiconファイルで分けておいた方が、S2Unit.NETを使用する場合、テストに不要なWindowsFormのオブジェクトをS2Container.NETが生成しないで済みます。
+</p>
+
+<h2><a name="utility">WindowsForm用ユーティリティクラス</a></h3>
+
+<p>
+WindowsForm用にいくつかのユーティリティクラスを用意しています。入力チェックなどに使ってみてください。
+</p>
+<ul>
+<li>Seasar.Windows.Util.Validator&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- 入力チェック用ユーティリティクラス</li>
+</ul>
+.NET&nbsp;1.1版用では次のクラスもあります。
+<ul>
+<li>Seasar.Windows.Util.Converter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- 変換用ユーティリティクラス</li>
+</ul>
+<!-- document end -->
+<!-- don't edit start -->
+</td>
+<td width="14"><img src="images/spacer.gif" alt="" height="14" width="14"></td>
+</tr><tr>
+<td width="14"><img src="images/spacer.gif" alt="" height="30" width="14"></td>
+<td width="766"><img src="images/spacer.gif" alt="" height="30" width="592"></td>
+</tr><tr>
+<td width="14"><img src="images/spacer.gif" alt="" height="14" width="14"></td>
+<td class="copyright" width="766">&#169; Copyright The Seasar Project and the others 2004-2006, all rights reserved.</td>
+
+</tr></tbody></table>
+</td><td class="backright" align="left" valign="top">&nbsp;</td></tr><tr>
+<td class="backunder" align="left" height="16" valign="top" width="780">&nbsp;</td>
+<td class="backcorner" align="left" height="16" valign="top">&nbsp;</td>
+</tr></tbody></table><!-- don't edit end -->
+</body></html>
