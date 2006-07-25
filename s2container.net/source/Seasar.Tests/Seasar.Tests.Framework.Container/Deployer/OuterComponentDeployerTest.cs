@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections;
+using System.Diagnostics;
 using NUnit.Framework;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Deployer;
@@ -59,7 +60,7 @@ namespace Seasar.Tests.Framework.Container.Deployer
 			}
 			catch(NotSupportedException ex)
 			{
-				Console.WriteLine(ex);
+				Trace.WriteLine(ex);
 			}
 		}
 	}

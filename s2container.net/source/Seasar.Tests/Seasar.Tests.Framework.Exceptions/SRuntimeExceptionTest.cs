@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Diagnostics;
 using NUnit.Framework;
 using Seasar.Framework.Exceptions;
 
@@ -35,7 +36,7 @@ namespace Seasar.Tests.Framework.Exceptions
 			Assert.AreEqual("ESSR0001", ex.MessageCode);
 			Assert.AreEqual(1, ex.Args.Length);
 			Assert.AreEqual("hoge", ex.Args[0]);
-			Console.WriteLine(ex.Message);
+			Trace.WriteLine(ex.Message);
 		}
 
 		[Test]
@@ -45,8 +46,8 @@ namespace Seasar.Tests.Framework.Exceptions
 			SRuntimeException sre = new SRuntimeException("ESSR0017",
 				new object[] { ex }, ex);
 			Assert.AreEqual(ex, sre.InnerException);
-			Console.WriteLine(sre.Message);
-			Console.WriteLine(sre.StackTrace);
+			Trace.WriteLine(sre.Message);
+			Trace.WriteLine(sre.StackTrace);
 		}
 	}
 }

@@ -16,8 +16,8 @@
  */
 #endregion
 
+using System;
 using System.Collections;
-using System.Text;
 
 namespace Seasar.Framework.Util
 {
@@ -27,21 +27,10 @@ namespace Seasar.Framework.Util
 		{
 		}
 
-		public static string ToString(IList list)
+        [Obsolete("ToStringUtil.ToString()")]
+        public static string ToString(IList list)
 		{
-			StringBuilder buf = new StringBuilder();
-			buf.Append("[");
-			foreach (object o in list)
-			{
-				buf.Append(o.ToString());
-				buf.Append(", ");
-			}
-			if (list.Count != 0)
-			{
-				buf.Length -= 2;
-			}
-			buf.Append("]");
-			return buf.ToString();
+            return ToStringUtil.ToString(list);
 		}
 	}
 }

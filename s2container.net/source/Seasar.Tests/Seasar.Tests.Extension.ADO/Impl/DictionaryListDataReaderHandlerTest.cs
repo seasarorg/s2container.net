@@ -42,7 +42,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
 		{
 			IDataReaderHandler handler = new DictionaryListDataReaderHandler();
 			string sql = "select * from emp";
-			IDbConnection con = DataSource.GetConnection();
+            IDbConnection con = Connection;
 			IDbCommand cmd = con.CreateCommand();
 			cmd.CommandText = sql;
 			IList ret = null;

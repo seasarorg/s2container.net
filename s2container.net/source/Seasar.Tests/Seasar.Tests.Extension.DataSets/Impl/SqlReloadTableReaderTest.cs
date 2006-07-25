@@ -17,6 +17,7 @@
 #endregion
 
 using System.Data;
+using System.Diagnostics;
 using MbUnit.Framework;
 using Seasar.Extension.Unit;
 using Seasar.Extension.DataSets.Impl;
@@ -46,7 +47,7 @@ namespace Seasar.Tests.Extension.DataSets.Impl
 			table.Rows.Add(row);
 			SqlReloadTableReader reader = new SqlReloadTableReader(DataSource, table);
 			DataTable ret = reader.Read();
-			DataTableInspector.OutWriteLine(ret);
+            Trace.WriteLine(ToStringUtil.ToString(ret));
 			S2Assert.AreEqual(table, ret, "1");
 			Assert.AreEqual(DataRowState.Unchanged, ret.Rows[0].RowState, "2");
 		}

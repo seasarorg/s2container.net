@@ -109,7 +109,7 @@ namespace Seasar.Extension.Unit
 				}
 				if (errorMessages.Count != 0) 
 				{
-					Assert.Fail(message + IListInspector.ToString(errorMessages));
+                    Assert.Fail(message + ToStringUtil.ToString(errorMessages));
 				}
 			}
 		}

@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections;
+using System.Diagnostics;
 using NUnit.Framework;
 using Seasar.Framework.Beans;
 using Seasar.Framework.Container;
@@ -97,7 +98,7 @@ namespace Seasar.Tests.Framework.Container.Assembler
 			}
 			catch(MethodNotFoundRuntimeException ex)
 			{
-				Console.WriteLine(ex);
+				Trace.WriteLine(ex);
 			}
 		}
 
@@ -119,7 +120,7 @@ namespace Seasar.Tests.Framework.Container.Assembler
 			}
 			catch(MethodNotFoundRuntimeException ex)
 			{
-				Console.WriteLine(ex);
+				Trace.WriteLine(ex);
 			}
 		}
 

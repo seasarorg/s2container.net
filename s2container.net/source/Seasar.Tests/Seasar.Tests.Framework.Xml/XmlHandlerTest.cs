@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Diagnostics;
 using System.Reflection;
 using System.IO;
 using System.Text;
@@ -91,7 +92,7 @@ namespace Seasar.Tests.Framework.Xml
 			{
 				if(stream != null) stream.Close();
 			}
-			Console.WriteLine(buf);
+			Trace.WriteLine(buf);
 			Assert.AreEqual("[111 222][333]", buf.ToString());
 		}
 
@@ -129,7 +130,7 @@ namespace Seasar.Tests.Framework.Xml
 			{
 				if(stream != null) stream.Close();
 			}
-			Console.WriteLine(buf);
+			Trace.WriteLine(buf);
 			Assert.AreEqual("[111 222][333]", buf.ToString());
 		}
 
@@ -152,7 +153,7 @@ namespace Seasar.Tests.Framework.Xml
 			{
 				if(stream != null) stream.Close();
 			}
-			Console.WriteLine(buf);
+			Trace.WriteLine(buf);
 			Assert.AreEqual("[eee]", buf.ToString());
 		}
 
@@ -188,7 +189,7 @@ namespace Seasar.Tests.Framework.Xml
 			}
 			catch(ApplicationException ex)
 			{
-				Console.WriteLine(ex);
+				Trace.WriteLine(ex);
 			}
 			finally
 			{
@@ -213,7 +214,7 @@ namespace Seasar.Tests.Framework.Xml
 			rule_["tag3"] = th;
 			rule_["tag4"] = th;
 			rule_["tag5"] = th;
-			Console.WriteLine("tagMatching");
+			Trace.WriteLine("tagMatching");
 			XmlHandler handler = new XmlHandler(rule_);
 			XmlHandlerParser parser = new XmlHandlerParser(handler);
 			StreamReader stream = ResourceUtil.GetResourceAsStreamReader(XML_FILE_NAME,asm_);
@@ -231,7 +232,7 @@ namespace Seasar.Tests.Framework.Xml
 		{
 			public override void Start(TagHandlerContext context, IAttributes attributes)
 			{
-				Console.WriteLine(context.DetailPath);
+				Trace.WriteLine(context.DetailPath);
 			}
 		}
 	}

@@ -17,6 +17,7 @@
 #endregion
 
 using System.Data;
+using System.Diagnostics;
 using MbUnit.Framework;
 using Seasar.Extension.DataSets.Impl;
 using Seasar.Extension.Unit;
@@ -40,7 +41,7 @@ namespace Seasar.Tests.Extension.DataSets.Impl
 			SqlTableReader reader = new SqlTableReader(DataSource);
 			reader.SetTable("emp");
 			DataTable ret = reader.Read();
-			DataTableInspector.OutWriteLine(ret);
+			Trace.WriteLine(ToStringUtil.ToString(ret));
 			Assert.AreEqual(14, ret.Rows.Count, "1");
 			Assert.AreEqual(DataRowState.Unchanged, ret.Rows[0].RowState, "2");
 		}
@@ -56,8 +57,8 @@ namespace Seasar.Tests.Extension.DataSets.Impl
 			SqlTableReader reader = new SqlTableReader(DataSource);
 			reader.SetTable("emp", "empno = 7788");
 			DataTable ret = reader.Read();
-			DataTableInspector.OutWriteLine(ret);
-			Assert.AreEqual(1, ret.Rows.Count, "1");
+            Trace.WriteLine(ToStringUtil.ToString(ret));
+            Assert.AreEqual(1, ret.Rows.Count, "1");
 		}
 
 		public void SetUpRead3() 
@@ -71,8 +72,8 @@ namespace Seasar.Tests.Extension.DataSets.Impl
 			SqlTableReader reader = new SqlTableReader(DataSource);
 			reader.SetSql("select * from emp", "emp");
 			DataTable ret = reader.Read();
-			DataTableInspector.OutWriteLine(ret);
-			Assert.AreEqual(14, ret.Rows.Count, "1");
+            Trace.WriteLine(ToStringUtil.ToString(ret));
+            Assert.AreEqual(14, ret.Rows.Count, "1");
 		}
 	}
 }
