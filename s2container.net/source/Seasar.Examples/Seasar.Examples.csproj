@@ -192,6 +192,61 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Seasar.Examples\Reference\ADO\DictionaryUtil.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\ADO\Employee.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\ADO\SelectBean.dicon"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\ADO\SelectBeanClient.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\ADO\SelectBeanList.dicon"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\ADO\SelectBeanListClient.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\ADO\SelectDictionary.dicon"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\ADO\SelectDictionaryClient.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\ADO\SelectDictionaryList.dicon"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\ADO\SelectDictionaryListClient.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\ADO\Update.dicon"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Seasar.Examples\Reference\ADO\UpdateClient.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Seasar.Examples\Reference\Aop\aop.dicon"
                     BuildAction = "EmbeddedResource"
                 />
