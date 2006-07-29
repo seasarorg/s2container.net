@@ -191,6 +191,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Seasar.Extension.ADO\IDbParameterParser.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Seasar.Extension.ADO\IPropertyType.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -262,6 +267,11 @@
                 />
                 <File
                     RelPath = "Seasar.Extension.ADO\Impl\DataSourceImpl.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.ADO\Impl\DbParameterParser.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

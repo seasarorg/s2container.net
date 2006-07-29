@@ -195,6 +195,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Seasar.Tests.Extension.ADO\Impl\DbParameterParserTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Seasar.Tests.Extension.ADO\Impl\Department.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
