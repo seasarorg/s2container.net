@@ -17,6 +17,7 @@
 #endregion
 
 using System.Data;
+using System.Diagnostics;
 using MbUnit.Framework;
 using Seasar.Extension.DataSets.Impl;
 using Seasar.Extension.Unit;
@@ -55,7 +56,7 @@ namespace Seasar.Tests.Extension.DataSets.Impl
 			SqlTableReader reader = new SqlTableReader(DataSource);
 			reader.SetTable("emp", "empno = 9900");
 			DataTable ret = reader.Read();
-			DataTableInspector.OutWriteLine(ret);
+            Trace.WriteLine(ToStringUtil.ToString(ret));
 			Assert.IsNotNull(ret, "1");
 		}
 
@@ -81,8 +82,8 @@ namespace Seasar.Tests.Extension.DataSets.Impl
 			SqlTableReader reader2 = new SqlTableReader(DataSource);
 			reader2.SetTable("emp", "empno = 7788");
 			DataTable table2 = reader2.Read();
-			DataTableInspector.OutWriteLine(table2);
-			Assert.AreEqual("hoge", table2.Rows[0]["ename"], "1");
+            Trace.WriteLine(ToStringUtil.ToString(table2));
+            Assert.AreEqual("hoge", table2.Rows[0]["ename"], "1");
 		}
 
 		public void SetUpRemoved() 
@@ -106,8 +107,8 @@ namespace Seasar.Tests.Extension.DataSets.Impl
 			SqlTableReader reader2 = new SqlTableReader(DataSource);
 			reader2.SetTable("emp", "empno = 7788");
 			DataTable table2 = reader2.Read();
-			DataTableInspector.OutWriteLine(table2);
-			Assert.AreEqual(0, table2.Rows.Count, "1");
+            Trace.WriteLine(ToStringUtil.ToString(table2));
+            Assert.AreEqual(0, table2.Rows.Count, "1");
 		}
 	}
 }

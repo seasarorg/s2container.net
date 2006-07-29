@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using NUnit.Framework;
@@ -97,7 +98,7 @@ namespace Seasar.Tests.Framework.Log
 			long start = DateTime.Now.Ticks;
 			for(int i = 0; i < num; ++i)
 			{
-				Console.WriteLine("test" + i);
+				Trace.WriteLine("test" + i);
 			}
 			long csout = DateTime.Now.Ticks - start;
 			start = DateTime.Now.Ticks;
@@ -106,9 +107,8 @@ namespace Seasar.Tests.Framework.Log
 				_logger.Fatal("test" + i);
 			}
 			long logger = DateTime.Now.Ticks - start;
-			Console.WriteLine("Console:" + csout);
-			Console.WriteLine("Logger:" + logger);
+			Trace.WriteLine("Console:" + csout);
+			Trace.WriteLine("Logger:" + logger);
 		}
-
 	}
 }

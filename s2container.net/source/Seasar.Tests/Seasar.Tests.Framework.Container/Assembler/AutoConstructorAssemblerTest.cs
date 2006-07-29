@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Diagnostics;
 using NUnit.Framework;
 using Seasar.Framework.Aop;
 using Seasar.Framework.Aop.Interceptors;
@@ -106,7 +107,7 @@ namespace Seasar.Tests.Framework.Container.Assembler
 			}
 			catch(NoSuchConstructorRuntimeException ex)
 			{
-				Console.Error.WriteLine(ex);
+				Trace.WriteLine(ex);
 			}
 		}
 

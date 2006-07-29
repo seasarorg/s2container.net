@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Diagnostics;
 using MbUnit.Framework;
 using Seasar.Framework.Aop;
 using Seasar.Framework.Aop.Impl;
@@ -51,7 +52,7 @@ namespace Seasar.Tests.Framework.Aop.Proxy
             IHello proxy = (IHello)aopProxy.Create(new Type[] { typeof(string) },
                 new object[] { "Hello" });
             Assert.AreEqual("Hello", proxy.Greeting());
-            Console.WriteLine(proxy.GetHashCode());
+            Trace.WriteLine(proxy.GetHashCode());
         }
 
         [Test, S2]

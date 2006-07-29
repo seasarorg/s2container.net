@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -337,7 +338,7 @@ namespace Seasar.Tests.Framework.Container.Deployer
 			}
 			catch(NotSupportedException ex)
 			{
-				Console.WriteLine(ex);
+				Trace.WriteLine(ex);
 			}
 		}
 
@@ -481,7 +482,7 @@ namespace Seasar.Tests.Framework.Container.Deployer
 
 			public void Dispose()
 			{
-				Console.WriteLine("Dispose!");
+				Trace.WriteLine("Dispose!");
 			}
 
 			#endregion

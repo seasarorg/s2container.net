@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.Remoting;
 using System.Reflection;
@@ -90,7 +91,7 @@ namespace Seasar.Tests.Framework.Container.Assembler
 			}
 			catch(JScriptEvaluateRuntimeException ex)
 			{
-				Console.WriteLine(ex);
+				Trace.WriteLine(ex);
 			}
 		}
         

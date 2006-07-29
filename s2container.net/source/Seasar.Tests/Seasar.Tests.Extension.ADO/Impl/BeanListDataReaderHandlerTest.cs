@@ -19,6 +19,7 @@
 using System;
 using System.Collections;
 using System.Data;
+using System.Diagnostics;
 using MbUnit.Framework;
 using Seasar.Extension.ADO;
 using Seasar.Extension.ADO.Impl;
@@ -42,7 +43,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
 		{
 			IDataReaderHandler handler = new BeanListDataReaderHandler(typeof(Employee));
 			string sql = "select * from emp";
-			IDbConnection con = DataSource.GetConnection();
+            IDbConnection con = Connection;
 			IDbCommand cmd = con.CreateCommand();
 			cmd.CommandText = sql;
 			IList ret = null;
@@ -59,7 +60,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
 			Assert.IsNotNull(ret, "1");
 			foreach (Employee emp in ret) 
 			{
-				Console.Out.WriteLine(emp.Empno + "," + emp.Ename);
+				Trace.WriteLine(emp.Empno + "," + emp.Ename);
 			}
 		}
 	}

@@ -1495,6 +1495,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Seasar.Framework.Util\ToStringUtil.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Seasar.Framework.Xml\IAttributes.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

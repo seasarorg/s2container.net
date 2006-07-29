@@ -17,16 +17,14 @@
 #endregion
 
 using System;
-using NUnit.Framework;
+using System.Diagnostics;
 using System.Reflection;
+using NUnit.Framework;
 using Seasar.Framework.Util;
 using Seasar.Framework.Exceptions;
 
 namespace Seasar.Tests.Framework.Util
 {
-	/// <summary>
-	/// ClassUtilTest ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
 	[TestFixture]
 	public class ClassUtilTest
 	{
@@ -41,7 +39,7 @@ namespace Seasar.Tests.Framework.Util
 			}
 			catch(NoSuchConstructorRuntimeException ex)
 			{
-				Console.WriteLine(ex.Message);
+				Trace.WriteLine(ex.Message);
 			}
 			Type[] types = new Type[] { typeof(string) };
 			ConstructorInfo constructor2 = ClassUtil.GetConstructorInfo(

@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Diagnostics;
 using System.Runtime.Remoting;
 using NUnit.Framework;
 using Seasar.Framework.Aop.Interceptors;
@@ -66,7 +67,7 @@ namespace Seasar.Tests.Framework.Container.Assembler
 			}
 			catch(JScriptEvaluateRuntimeException ex)
 			{
-				Console.WriteLine(ex);
+				Trace.WriteLine(ex);
 			}
 		}
 
@@ -87,7 +88,7 @@ namespace Seasar.Tests.Framework.Container.Assembler
 			}
 			catch(PropertyNotFoundRuntimeException ex)
 			{
-				Console.WriteLine(ex);
+				Trace.WriteLine(ex);
 			}
 		}
 
@@ -108,7 +109,7 @@ namespace Seasar.Tests.Framework.Container.Assembler
 			}
 			catch(IllegalPropertyRuntimeException ex)
 			{
-				Console.WriteLine(ex);
+				Trace.WriteLine(ex);
 			}
 		}
 
