@@ -20,6 +20,7 @@ using System;
 using System.Data;
 using System.Data.SqlTypes;
 using System.Reflection;
+using System.Text;
 using System.Text.RegularExpressions;
 using Seasar.Framework.Util;
 using Nullables;
@@ -30,31 +31,40 @@ namespace Seasar.Extension.ADO.Impl
     {
         public static readonly ICommandFactory INSTANCE = new BasicCommandFactory();
 
-        private static readonly Regex regex = new Regex(@"(@+[a-zA-Z\.0-9_$#\.]*|:[A-Za-z0-9_$#\.]*|\?)");
+        private readonly IDbParameterParser parser;
+
+        public BasicCommandFactory()
+            : this(DbParameterParser.INSTANCE)
+        {
+        }
+
+        public BasicCommandFactory(IDbParameterParser dbParameterParser)
+        {
+            this.parser = dbParameterParser;
+        }
 
         #region ICommandFactory ÉÅÉìÉo
 
         public IDbCommand CreateCommand(IDbConnection con, string sql)
         {
             string changeSignSql = sql;
-            MatchCollection sqlParameters = regex.Matches(sql);
             IDbCommand cmd = con.CreateCommand();
             switch (DataProviderUtil.GetBindVariableType(cmd))
             {
                 case BindVariableType.AtmarkWithParam:
-                    changeSignSql = GetChangeSignCommandText(sql, sqlParameters, "@");
+                    changeSignSql = GetChangeSignCommandText(sql, "@");
                     break;
                 case BindVariableType.Question:
-                    changeSignSql = GetCommandText(sql, sqlParameters);
+                    changeSignSql = GetCommandText(sql, "?");
                     break;
                 case BindVariableType.QuestionWithParam:
-                    changeSignSql = GetChangeSignCommandText(sql, sqlParameters, "?");
+                    changeSignSql = GetChangeSignCommandText(sql, "?");
                     break;
                 case BindVariableType.ColonWithParam:
-                    changeSignSql = GetChangeSignCommandText(sql, sqlParameters, ":");
+                    changeSignSql = GetChangeSignCommandText(sql, ":");
                     break;
                 case BindVariableType.ColonWithParamToLower:
-                    changeSignSql = GetChangeSignCommandText(sql, sqlParameters, ":");
+                    changeSignSql = GetChangeSignCommandText(sql, ":");
                     changeSignSql = changeSignSql.ToLower();
                     break;
             }
@@ -64,63 +74,65 @@ namespace Seasar.Extension.ADO.Impl
 
         public string GetCompleteSql(string sql, object[] args)
         {
-            MatchCollection sqlParameters = regex.Matches(sql);
-            return ReplaceSql(sql, args, sqlParameters);
+            MatchCollection sqlParameters = parser.Parse(sql);
+            return ReplaceSql(sql, args);
         }
 
         #endregion
 
-        private string GetChangeSignCommandText(string sql, MatchCollection sqlParameters, string sign)
+        private string GetChangeSignCommandText(string sql, string sign)
         {
-            string text = sql;
-            for (int i = 0, paramIndex = 0; i < sqlParameters.Count; ++i)
+            StringBuilder text = new StringBuilder(sql);
+            for (int startIndex = 0, parameterIndex = 0; ; ++parameterIndex)
             {
-                if (!sqlParameters[i].Success) continue;
-
-                string capture = sqlParameters[i].Captures[0].Value;
-                if (capture.StartsWith("@@")) continue;
-
-                string parameterName = sign + paramIndex;
-                text = ReplaceAtFirstElement(text, sqlParameters[i].Value, parameterName);
-                paramIndex++;
+                Match match = parser.Match(text.ToString(), startIndex);
+                if (!match.Success)
+                {
+                    break;
+                }
+                string parameterName = sign + parameterIndex.ToString();
+                text.Replace(match.Value, parameterName, match.Index, match.Length);
+                startIndex = match.Index + parameterName.Length;
             }
-            return text;
+            return text.ToString();
         }
 
-        private string GetCommandText(string sql, MatchCollection sqlParameters)
+        private string GetCommandText(string sql, string sign)
         {
-            return ReplaceSql(sql, "?", sqlParameters);
+            return ReplaceSql(sql, sign);
         }
 
-        private string ReplaceSql(string sql, object[] args, MatchCollection matches)
+        private string ReplaceSql(string sql, string newValue)
         {
-            for (int i = 0, bindIndex = 0; i < matches.Count; ++i)
+            StringBuilder text = new StringBuilder(sql);
+            for (int startIndex = 0; ;)
             {
-                string capture = matches[i].Captures[0].Value;
-                if (capture.StartsWith("@@")) continue;
-                sql = ReplaceAtFirstElement(sql, capture, GetBindVariableText(args[bindIndex]));
-                bindIndex++;
+                Match match = parser.Match(text.ToString(), startIndex);
+                if (!match.Success)
+                {
+                    break;
+                }
+                text.Replace(match.Value, newValue, match.Index, match.Length);
+                startIndex = match.Index + newValue.Length;
             }
-            return sql;
+            return text.ToString();
         }
 
-        private string ReplaceSql(string sql, string newValue, MatchCollection matches)
+        private string ReplaceSql(string sql, object[] args)
         {
-            for (int i = 0; i < matches.Count; ++i)
+            StringBuilder text = new StringBuilder(sql);
+            for (int startIndex = 0, argsIndex = 0; argsIndex < args.Length; ++argsIndex)
             {
-                string capture = matches[i].Captures[0].Value;
-                if (capture.StartsWith("@@")) continue;
-                sql = ReplaceAtFirstElement(sql, capture, newValue);
+                Match match = parser.Match(text.ToString(), startIndex);
+                if (!match.Success)
+                {
+                    break;
+                }
+                string newValue = GetBindVariableText(args[argsIndex]);
+                text.Replace(match.Value, newValue, match.Index, match.Length);
+                startIndex = match.Index + newValue.Length;
             }
-            return sql;
-        }
-
-        private string ReplaceAtFirstElement(string source, string original, string replace)
-        {
-            string pattern = original.Replace("?", "\\?");
-            pattern = pattern.Replace("$", "\\$");
-            Regex regexp = new Regex(pattern, RegexOptions.IgnoreCase);
-            return regexp.Replace(source, replace, 1);
+            return text.ToString();
         }
 
         protected virtual string GetBindVariableText(object bindVariable)
