@@ -19,6 +19,7 @@
 using System;
 using System.Collections;
 using System.Data;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using log4net;
@@ -28,6 +29,7 @@ using MbUnit.Framework;
 using Seasar.Extension.ADO;
 using Seasar.Extension.ADO.Impl;
 using Seasar.Extension.Unit;
+using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Extension.ADO.Impl
 {
@@ -48,7 +50,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
             Include(PATH);
         }
 
-        [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
+        [Test, S2]
         public void Execute()
         {
             string sql = "SELECT * FROM emp WHERE empno = @empno";
@@ -58,7 +60,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
                 new DictionaryDataReaderHandler()
                 );
             IDictionary ret = (IDictionary) handler.Execute(new object[] { 7788 });
-            Console.Out.WriteLine(ret);
+            Trace.WriteLine(ToStringUtil.ToString(ret));
             Assert.IsNotNull(ret, "1");
             Assert.AreEqual(9, ret.Count, "2");
         }
@@ -68,7 +70,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
             Include(PATH);
         }
 
-        [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
+        [Test, S2]
         public void ExecuteDuplicationParam()
         {
             string sql = "SELECT * FROM emp WHERE empno = @empno OR empno = @empno2 OR empno = @empno OR ename = @ename";
@@ -78,7 +80,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
                 new DictionaryDataReaderHandler()
                 );
             IDictionary ret = (IDictionary) handler.Execute(new object[] { 7788, 7789, 7788, "SCOTT" });
-            Console.Out.WriteLine(ret);
+            Trace.WriteLine(ToStringUtil.ToString(ret));
             Assert.IsNotNull(ret, "1");
             Assert.AreEqual(9, ret.Count, "2");
         }
@@ -88,7 +90,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
             Include(PATH);
         }
 
-        [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
+        [Test, S2]
         public void ExecuteNullArgs()
         {
             string sql = "SELECT * FROM emp WHERE empno = 7788";
@@ -98,7 +100,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
                 new DictionaryDataReaderHandler()
                 );
             IDictionary ret = (IDictionary) handler.Execute(null);
-            Console.Out.WriteLine(ret);
+            Trace.WriteLine(ToStringUtil.ToString(ret));
             Assert.IsNotNull(ret, "1");
             Assert.AreEqual(9, ret.Count, "2");
         }
@@ -108,7 +110,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
             Include(PATH);
         }
 
-        [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
+        [Test, S2]
         public void ExecuteParam()
         {
             string sql = "SELECT * FROM emp WHERE empno = @empno OR empno = :empno OR empno = ?";
@@ -118,7 +120,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
                 new DictionaryDataReaderHandler()
                 );
             IDictionary ret = (IDictionary) handler.Execute(new object[] { 7788, 7788, 7788 });
-            Console.Out.WriteLine(ret);
+            Trace.WriteLine(ToStringUtil.ToString(ret));
             Assert.IsNotNull(ret, "1");
             Assert.AreEqual(9, ret.Count, "2");
         }
@@ -128,10 +130,10 @@ namespace Seasar.Tests.Extension.ADO.Impl
             Include(PATH);
         }
 
-        [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
+        [Test, S2]
         public void ExecuteDoubleAtParam()
         {
-            if (DataSource.GetCommand().GetType().Name.Equals("SqlCommand")) 
+            if (DataSource.GetCommand().GetType().Name.Equals("SqlCommand"))
             {
                 string sql = "SELECT *, @@version FROM emp WHERE empno = @empno";
                 BasicSelectHandler handler = new BasicSelectHandler(

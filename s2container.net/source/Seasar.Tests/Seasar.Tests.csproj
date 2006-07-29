@@ -197,6 +197,7 @@
     <Compile Include="Seasar.Tests.Extension.ADO\Impl\BeanListDataReaderHandlerTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Tests.Extension.ADO\Impl\DbParameterParserTest.cs" />
     <Compile Include="Seasar.Tests.Extension.ADO\Impl\Department.cs">
       <SubType>Code</SubType>
     </Compile>

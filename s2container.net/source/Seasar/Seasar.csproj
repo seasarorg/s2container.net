@@ -270,6 +270,7 @@
     <Compile Include="Seasar.Extension.ADO\Impl\DataSourceImpl.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Extension.ADO\Impl\DbParameterParser.cs" />
     <Compile Include="Seasar.Extension.ADO\Impl\DictionaryDataReaderHandler.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -297,6 +298,7 @@
     <Compile Include="Seasar.Extension.ADO\IValueType.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Extension.ADO\IDbParameterParser.cs" />
     <Compile Include="Seasar.Extension.Component\IComponentInvoker.cs" />
     <Compile Include="Seasar.Extension.Component\Impl\ComponentInvoker.cs" />
     <Compile Include="Seasar.Extension.DataSets.States\AbstractRowState.cs">
