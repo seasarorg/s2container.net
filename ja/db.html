@@ -109,11 +109,25 @@ DataProvider, TxDataSourceの設定を行います。
         <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="CommandType"</span><span class="kwrd">&gt;</span>"System.Data.SqlClient.SqlCommand"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
         <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="ParameterType"</span><span class="kwrd">&gt;</span>"System.Data.SqlClient.SqlParameter"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
         <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="DataAdapterType"</span><span class="kwrd">&gt;</span>"System.Data.SqlClient.SqlDataAdapter"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
-    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>    
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>   
+ 
+    <span class="rem">&lt;!-- トランザクション用のDataSource --&gt;</span>
     <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="DataSource"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.Tx.Impl.TxDataSource"</span><span class="kwrd">&gt;</span>
         <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="DataProvider"</span><span class="kwrd">&gt;</span>SqlClient<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
         <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="ConnectionString"</span><span class="kwrd">&gt;</span>"Server=(local);database=s2dotnetdemo;Integrated Security=SSPI"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
     <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+
+    <span class="rem">&lt;!-- ローカルトランザクション用のインターセプター --&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="LocalRequiredTx"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.Tx.TransactionInterceptor"</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">arg</span><span class="kwrd">&gt;&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.Tx.Impl.LocalRequiredTxHandler"</span> <span class="kwrd">/&gt;&lt;/</span><span class="html">arg</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="TransactionStateHandler"</span><span class="kwrd">&gt;</span>TransactionContext<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+    
+    <span class="rem">&lt;!-- ローカルトランザクション用のインターセプターで使用します --&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="TransactionContext"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.Tx.Impl.TransactionContext"</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="IsolationLevel"</span><span class="kwrd">&gt;</span>System.Data.IsolationLevel.ReadCommitted<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+
 <span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
 </pre>
 
