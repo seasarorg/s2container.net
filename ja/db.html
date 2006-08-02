@@ -99,7 +99,7 @@ DataProvider, TxDataSourceの設定を行います。
 <p>
 コンポーネントの設定は以下のようになります。環境に合わせて書き換えてください。
 </p>
-Ado.dicon
+<a name="ado.dicon">Ado.dicon</a>
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <pre class="csharpcode">
 <span class="kwrd">&lt;</span><span class="html">components</span> <span class="attr">namespace</span><span class="kwrd">="Ado"</span><span class="kwrd">&gt;</span>
@@ -112,7 +112,7 @@ Ado.dicon
     <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>    
     <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="DataSource"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.Tx.Impl.TxDataSource"</span><span class="kwrd">&gt;</span>
         <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="DataProvider"</span><span class="kwrd">&gt;</span>SqlClient<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
-        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="ConnectionString"</span><span class="kwrd">&gt;</span>"Server=127.0.0.1;database=s2dotnetdemo;Integrated Security=SSPI"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="ConnectionString"</span><span class="kwrd">&gt;</span>"Server=(local);database=s2dotnetdemo;Integrated Security=SSPI"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
     <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
 <span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
 </pre>
