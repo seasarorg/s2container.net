@@ -1,5 +1,5 @@
 ﻿S2Container.NET 1.2.3
-準備中
+2006/8/14
 
 - TraceInterceptor使用時に例外が発生すると部分的にStackTraceの内容が失われる問題を修正する
 - Seasar.DynamicProxy使用時にオーバーロードされたメソッドがある場合、例外が発生する問題を修正する
