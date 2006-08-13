@@ -14,7 +14,7 @@
 	</component>
 
 	<component name="TransactionContext" class="Seasar.Extension.Tx.Impl.TransactionContext">
-		<property name="IsolationLevel">System.Data.IsolationLevel.Chaos</property>
+		<property name="IsolationLevel">System.Data.IsolationLevel.ReadCommitted</property>
 	</component>
 
 	<component name="RequiredTx" class="Seasar.Extension.Tx.TransactionInterceptor">
