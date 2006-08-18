@@ -25,73 +25,73 @@ using Seasar.Extension.ADO.Types;
 
 namespace Seasar.Extension.DataSets.Impl
 {
-	public class SqlTableReader : ITableReader
-	{
-		private IDataSource dataSource_;
+    public class SqlTableReader : ITableReader
+    {
+        private IDataSource dataSource_;
 
-		private string tableName_;
+        private string tableName_;
 
-		private string sql_;
+        private string sql_;
 
-		public SqlTableReader(IDataSource dataSource)
-		{
-			dataSource_ = dataSource;
-		}
+        public SqlTableReader(IDataSource dataSource)
+        {
+            dataSource_ = dataSource;
+        }
 
-		public IDataSource DataSource 
-		{
-			get { return dataSource_; }
-		}
+        public IDataSource DataSource
+        {
+            get { return dataSource_; }
+        }
 
-		public string TableName 
-		{
-			get { return tableName_; }
-		}
+        public string TableName
+        {
+            get { return tableName_; }
+        }
 
-		public string Sql 
-		{
-			get { return sql_; }
-		}
+        public string Sql
+        {
+            get { return sql_; }
+        }
 
-		public void SetTable(string tableName) 
-		{
-			SetTable(tableName, null);
-		}
-			
-		public void SetTable(string tableName, String condition) 
-		{
-			tableName_ = tableName;
-			StringBuilder sqlBuf = new StringBuilder(100);
-			sqlBuf.Append("SELECT * FROM ");
-			sqlBuf.Append(tableName);
-			if (condition != null) 
-			{
-				sqlBuf.Append(" WHERE ");
-				sqlBuf.Append(condition);
-			}
-			sql_ = sqlBuf.ToString();
-		}
+        public virtual void SetTable(string tableName)
+        {
+            SetTable(tableName, null);
+        }
 
-		public void SetSql(string sql, string tableName) 
-		{
-			sql_ = sql;
-			tableName_ = tableName;
-		}
+        public virtual void SetTable(string tableName, String condition)
+        {
+            tableName_ = tableName;
+            StringBuilder sqlBuf = new StringBuilder(100);
+            sqlBuf.Append("SELECT * FROM ");
+            sqlBuf.Append(tableName);
+            if (condition != null)
+            {
+                sqlBuf.Append(" WHERE ");
+                sqlBuf.Append(condition);
+            }
+            sql_ = sqlBuf.ToString();
+        }
 
-		#region ITableReader ÉÅÉìÉo
+        public virtual void SetSql(string sql, string tableName)
+        {
+            sql_ = sql;
+            tableName_ = tableName;
+        }
 
-		public DataTable Read()
-		{
-			ISelectHandler selectHandler = new BasicSelectHandler(
-				dataSource_,
-				sql_,
-				new DataTableDataReaderHandler(tableName_)
-				);
-			DataTable table = (DataTable) selectHandler.Execute(null);
-			table.AcceptChanges();
-			return table;
-		}
+        #region ITableReader ÉÅÉìÉo
 
-		#endregion
-	}
+        public virtual DataTable Read()
+        {
+            ISelectHandler selectHandler = new BasicSelectHandler(
+                dataSource_,
+                sql_,
+                new DataTableDataReaderHandler(tableName_)
+                );
+            DataTable table = (DataTable) selectHandler.Execute(null);
+            table.AcceptChanges();
+            return table;
+        }
+
+        #endregion
+    }
 }

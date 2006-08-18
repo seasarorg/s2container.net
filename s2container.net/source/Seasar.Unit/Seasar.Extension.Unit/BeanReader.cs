@@ -23,57 +23,58 @@ using Seasar.Framework.Util;
 
 namespace Seasar.Extension.Unit
 {
-	public class BeanReader : Seasar.Extension.DataSets.IDataReader
-	{
-		private DataSet dataSet_;
+    public class BeanReader : Seasar.Extension.DataSets.IDataReader
+    {
+        private DataSet dataSet_;
 
-		private DataTable table_;
+        private DataTable table_;
 
-		protected BeanReader() : this(null)
-		{
-		}
+        protected BeanReader()
+            : this(null)
+        {
+        }
 
-		public BeanReader(object bean)
-		{
-			dataSet_ = new DataSet();
-			table_ = dataSet_.Tables.Add("Bean");
+        public BeanReader(object bean)
+        {
+            dataSet_ = new DataSet();
+            table_ = dataSet_.Tables.Add("Bean");
 
-			if (bean != null) 
-			{
-				Type beanType = bean.GetType();
-				SetupColumns(beanType);
-				SetupRow(beanType, bean);
-			}
-		}
+            if (bean != null)
+            {
+                Type beanType = bean.GetType();
+                SetupColumns(beanType);
+                SetupRow(beanType, bean);
+            }
+        }
 
-		protected void SetupColumns(Type beanType) 
-		{
-			foreach (PropertyInfo pi in beanType.GetProperties()) 
-			{
-				Type propertyType = PropertyUtil.GetPrimitiveType(pi.PropertyType);
+        protected virtual void SetupColumns(Type beanType)
+        {
+            foreach (PropertyInfo pi in beanType.GetProperties())
+            {
+                Type propertyType = PropertyUtil.GetPrimitiveType(pi.PropertyType);
                 table_.Columns.Add(pi.Name, propertyType);
-			}
-		}
+            }
+        }
 
-		protected void SetupRow(Type beanType, object bean) 
-		{
-			DataRow row = table_.NewRow();
-			foreach (PropertyInfo pi in beanType.GetProperties()) 
-			{
-				object value = pi.GetValue(bean, null);
-				row[pi.Name] = PropertyUtil.GetPrimitiveValue(value);
-			}
-			table_.Rows.Add(row);
-			row.AcceptChanges();
-		}
+        protected virtual void SetupRow(Type beanType, object bean)
+        {
+            DataRow row = table_.NewRow();
+            foreach (PropertyInfo pi in beanType.GetProperties())
+            {
+                object value = pi.GetValue(bean, null);
+                row[pi.Name] = PropertyUtil.GetPrimitiveValue(value);
+            }
+            table_.Rows.Add(row);
+            row.AcceptChanges();
+        }
 
-		#region IDataReader ÉÅÉìÉo
+        #region IDataReader ÉÅÉìÉo
 
-		public DataSet Read()
-		{
-			return dataSet_;
-		}
+        public DataSet Read()
+        {
+            return dataSet_;
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }
