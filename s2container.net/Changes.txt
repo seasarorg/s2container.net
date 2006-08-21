@@ -1,4 +1,9 @@
-﻿S2Container.NET 1.2.3
+﻿S2Container.NET 1.2.4
+準備中
+
+- S2Unitで使用するクラスの(public|protected)メソッドにvirtualキーワードを付ける
+
+S2Container.NET 1.2.3
 2006/8/14
 
 - TraceInterceptor使用時に例外が発生すると部分的にStackTraceの内容が失われる問題を修正する

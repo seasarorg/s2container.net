@@ -24,45 +24,45 @@ using Seasar.Framework.Util;
 
 namespace Seasar.Extension.DataSets.Impl
 {
-	public class SqlTableWriter : ITableWriter
-	{
-		private IDataSource dataSource_;
+    public class SqlTableWriter : ITableWriter
+    {
+        private IDataSource dataSource_;
 
-		public SqlTableWriter(IDataSource dataSource)
-		{
-			dataSource_ = dataSource;
-		}
+        public SqlTableWriter(IDataSource dataSource)
+        {
+            dataSource_ = dataSource;
+        }
 
-		public IDataSource DataSource 
-		{
-			get { return dataSource_; }
-		}
+        public IDataSource DataSource
+        {
+            get { return dataSource_; }
+        }
 
-		#region ITableWriter ÉÅÉìÉo
+        #region ITableWriter ÉÅÉìÉo
 
-		public void Write(DataTable table)
-		{
-			SetupMetaData(table);
+        public virtual void Write(DataTable table)
+        {
+            SetupMetaData(table);
 
-			DoWrite(table);
-		}
+            DoWrite(table);
+        }
 
-		#endregion
+        #endregion
 
-		protected virtual void DoWrite(DataTable table) 
-		{
-			foreach (DataRow row in table.Rows) 
-			{
-				RowState state = RowStateFactory.GetRowState(row.RowState);
-				state.Update(DataSource, row);
-			}
-			table.AcceptChanges();
-		}
+        protected virtual void DoWrite(DataTable table)
+        {
+            foreach (DataRow row in table.Rows)
+            {
+                RowState state = RowStateFactory.GetRowState(row.RowState);
+                state.Update(DataSource, row);
+            }
+            table.AcceptChanges();
+        }
 
-		private void SetupMetaData(DataTable table) 
-		{
-			IDatabaseMetaData dbMetaData = new DatabaseMetaDataImpl(DataSource);
-			DataTableUtil.SetupMetaData(dbMetaData, table);
-		}
-	}
+        private void SetupMetaData(DataTable table)
+        {
+            IDatabaseMetaData dbMetaData = new DatabaseMetaDataImpl(DataSource);
+            DataTableUtil.SetupMetaData(dbMetaData, table);
+        }
+    }
 }
