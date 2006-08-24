@@ -19,13 +19,19 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 using System.Reflection;
 using System.Windows.Forms;
 using Seasar.Framework.Aop;
 using Seasar.Framework.Aop.Interceptors;
 using Seasar.Framework.Container;
 using Seasar.Windows.Attr;
+
+#if NET_1_1
+    using System.Collections;
+    using System.Collections.Specialized;
+#else
+    using System.Collections.Generic;
+#endif
 
 namespace Seasar.Windows.AOP.Interceptors
 {
@@ -80,8 +86,15 @@ namespace Seasar.Windows.AOP.Interceptors
             // メソッドの引数値の取得
             object[] args = invocation.Arguments;
             ParameterInfo[] pis = invocation.Method.GetParameters();
+
+#if NET_1_1
+            Hashtable hashOfParams = CollectionsUtil.CreateCaseInsensitiveHashtable();
+            IList listOfParams = new ArrayList();
+#else
             IDictionary<string, object> hashOfParams = new Dictionary<string, object>();
             IList<string> listOfParams = new List<string>();
+#endif
+       
             foreach (ParameterInfo pi in pis)
             {
                 hashOfParams.Add(pi.Name, args[pi.Position]);
@@ -109,7 +122,13 @@ namespace Seasar.Windows.AOP.Interceptors
                     }
                     for ( int i = 0; i < listOfParams.Count; i++ )
                     {
+
+#if NET_1_1
+                        PropertyInfo property = form.GetType().GetProperty((string) listOfParams[i]);
+#else
                         PropertyInfo property = form.GetType().GetProperty(listOfParams[i]);
+#endif
+                        
                         property.SetValue(form, hashOfParams[listOfParams[i]], null);
                     }
 

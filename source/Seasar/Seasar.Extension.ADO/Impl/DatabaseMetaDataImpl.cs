@@ -28,9 +28,15 @@ namespace Seasar.Extension.ADO.Impl
 {
     public class DatabaseMetaDataImpl : IDatabaseMetaData
     {
+#if NET_1_1
+        private IDictionary primaryKeys = new Hashtable(
+            new CaseInsensitiveHashCodeProvider(), new CaseInsensitiveComparer());
+        private IDictionary columns = new Hashtable(
+            new CaseInsensitiveHashCodeProvider(), new CaseInsensitiveComparer());
+#else
         private IDictionary primaryKeys = new Hashtable(StringComparer.CurrentCultureIgnoreCase);
-
         private IDictionary columns = new Hashtable(StringComparer.CurrentCultureIgnoreCase);
+#endif
 
         private IDataSource dataSource;
 

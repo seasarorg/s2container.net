@@ -75,3 +75,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyKeyName("")]
 [assembly: log4net.Config.XmlConfigurator(Watch=true)]
 [assembly: AssemblyFileVersionAttribute("1.2.3")]
+
+#if NET_1_1
+[assembly: AssemblyKeyFile("..\\..\\..\\Seasar.snk")]
+#endif

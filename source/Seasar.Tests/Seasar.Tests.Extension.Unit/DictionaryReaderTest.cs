@@ -188,6 +188,8 @@ namespace Seasar.Tests.Extension.Unit
 			Assert.AreEqual(typeof(DateTime), columns["datetimetype"].DataType);
 		}
 
+#if !NET_1_1
+
 		[Test]
 		public void TestReadNullableType()
 		{
@@ -294,6 +296,8 @@ namespace Seasar.Tests.Extension.Unit
 			Assert.AreEqual(typeof(string), columns["stringtype"].DataType);
 			Assert.AreEqual(typeof(DateTime), columns["datetimetype"].DataType);
 		}
+
+#endif
 
 		[Test]
 		public void TestReadSqlType()

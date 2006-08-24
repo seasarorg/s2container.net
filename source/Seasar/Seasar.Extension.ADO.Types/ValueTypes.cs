@@ -67,8 +67,12 @@ namespace Seasar.Extension.ADO.Types
 		public readonly static IValueType SQL_BINARY = new SqlBinaryType();
 		public readonly static IValueType SQL_BOOLEAN = new SqlBooleanType();
 		public readonly static IValueType SQL_GUID = new SqlGuidType();
+		
+		private readonly static byte[] BYTE_ARRAY = new byte[0];
+		private readonly static NullableByte[] NHIBERNATE_NULLABLE_BYTE_ARRAY = new NullableByte[0];
 
-		public readonly static IValueType NULLABLE_BYTE = new NullableByteType();
+#if !NET_1_1
+        public readonly static IValueType NULLABLE_BYTE = new NullableByteType();
 		public readonly static IValueType NULLABLE_SBYTE = new NullableSByteType();
 		public readonly static IValueType NULLABLE_INT16 = new NullableInt16Type();
 		public readonly static IValueType NULLABLE_INT32 = new NullableInt32Type();
@@ -81,12 +85,13 @@ namespace Seasar.Extension.ADO.Types
 		public readonly static IValueType NULLABLE_BOOLEAN = new NullableBooleanType();
 		public readonly static IValueType NULLABLE_GUID = new NullableGuidType();
 
-		private readonly static byte[] BYTE_ARRAY = new byte[0];
-		private readonly static NullableByte[] NHIBERNATE_NULLABLE_BYTE_ARRAY = new NullableByte[0];
-		private readonly static Nullable<Byte>[] NULLABLE_BYTE_ARRAY = new Nullable<Byte>[0];
+        private readonly static Nullable<Byte>[] NULLABLE_BYTE_ARRAY = new Nullable<Byte>[0];
+
+        public readonly static Type NULLABLE_BYTE_ARRAY_TYPE = NULLABLE_BYTE_ARRAY.GetType();
+#endif
+		
 		public readonly static Type BYTE_ARRAY_TYPE = BYTE_ARRAY.GetType();
 		public readonly static Type NHIBERNATE_NULLABLE_BYTE_ARRAY_TYPE = NHIBERNATE_NULLABLE_BYTE_ARRAY.GetType();
-		public readonly static Type NULLABLE_BYTE_ARRAY_TYPE = NULLABLE_BYTE_ARRAY.GetType();
 
 		private static Hashtable types = new Hashtable();
 
@@ -134,6 +139,8 @@ namespace Seasar.Extension.ADO.Types
 			RegisterValueType(typeof(NullableBoolean), NHIBERNATE_NULLABLE_BOOLEAN);
 			RegisterValueType(typeof(NullableGuid), NHIBERNATE_NULLABLE_GUID);
 
+#if !NET_1_1
+            RegisterValueType(NULLABLE_BYTE_ARRAY_TYPE, NULLABLE_BINARY);
 			RegisterValueType(typeof(Nullable<Byte>), NULLABLE_BYTE);
 			RegisterValueType(typeof(Nullable<SByte>), NULLABLE_SBYTE);
 			RegisterValueType(typeof(Nullable<Int16>), NULLABLE_INT16);
@@ -143,9 +150,10 @@ namespace Seasar.Extension.ADO.Types
 			RegisterValueType(typeof(Nullable<Double>), NULLABLE_DOUBLE);
 			RegisterValueType(typeof(Nullable<Decimal>), NULLABLE_DECIMAL);
 			RegisterValueType(typeof(Nullable<DateTime>), NULLABLE_DATETIME);
-			RegisterValueType(NULLABLE_BYTE_ARRAY_TYPE, NULLABLE_BINARY);
 			RegisterValueType(typeof(Nullable<Boolean>), NULLABLE_BOOLEAN);
 			RegisterValueType(typeof(Nullable<Guid>), NULLABLE_GUID);
+#endif
+
 		}
 
 		private ValueTypes()

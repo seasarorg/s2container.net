@@ -34,7 +34,13 @@ namespace Seasar.Tests.Framework.Xml
 			S2Section section = S2SectionHandler.GetS2Section();
 
 			Assert.AreEqual("test.dicon", section.ConfigPath);
+
+#if NET_1_1
+            Assert.AreEqual(2, section.Assemblys.Count);
+#else
 			Assert.AreEqual(3, section.Assemblys.Count);
+#endif
+
 			Assert.AreEqual("Seasar.Tests", (string) section.Assemblys[0]);
 			Assert.AreEqual("Seasar", (string) section.Assemblys[1]);
 		}

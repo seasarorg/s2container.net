@@ -30,7 +30,12 @@ namespace Seasar.Extension.ADO.Impl
 
 		protected IDictionary CreateRow(IDataReader reader, IPropertyType[] propertyTypes) 
 		{
+#if NET_1_1
+            IDictionary row = new Hashtable(
+                new CaseInsensitiveHashCodeProvider(), new CaseInsensitiveComparer());
+#else
 			IDictionary row = new Hashtable(StringComparer.CurrentCultureIgnoreCase);
+#endif
 			for (int i = 0; i < propertyTypes.Length; ++i) 
 			{
 				object value = propertyTypes[i].ValueType.GetValue(
