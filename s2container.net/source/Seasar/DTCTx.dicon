@@ -3,7 +3,7 @@
 "http://www.seasar.org/dtd/components21.dtd">
 <components namespace="DTCTx">
 
-	<include path="Seasar.Examples/Ado.dicon" />
+	<include path="Ado.dicon" />
 
 	<component name="SqlDataSource" class="Seasar.Extension.ADO.Impl.DataSourceImpl">
 		<property name="DataProvider">SqlClient</property>
