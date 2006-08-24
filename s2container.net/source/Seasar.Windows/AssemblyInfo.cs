@@ -54,3 +54,7 @@ using System.Reflection;
 [assembly: AssemblyDelaySign(false)]
 [assembly: AssemblyKeyName("")]
 [assembly: AssemblyFileVersionAttribute("1.2.3")]
+
+#if NET_1_1
+[assembly: AssemblyKeyFile("..\\..\\..\\Seasar.snk")]
+#endif

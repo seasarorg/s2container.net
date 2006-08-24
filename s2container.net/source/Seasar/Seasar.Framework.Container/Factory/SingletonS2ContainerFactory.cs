@@ -26,7 +26,12 @@ namespace Seasar.Framework.Container.Factory
 	/// <summary>
 	/// SingletonS2ContainerFactory ‚ÌŠT—v‚Ìà–¾‚Å‚·B
 	/// </summary>
-	public static class SingletonS2ContainerFactory
+	
+#if NET_1_1
+    public class SingletonS2ContainerFactory
+#else
+    public static class SingletonS2ContainerFactory
+#endif
 	{
 		private static string configPath_ = "app.dicon";
 		private static IS2Container container_;

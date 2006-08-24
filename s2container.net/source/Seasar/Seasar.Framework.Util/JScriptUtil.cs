@@ -19,6 +19,7 @@
 using Microsoft.JScript;
 using System;
 using System.Collections;
+using System.Collections.Specialized;
 using System.Reflection;
 using System.CodeDom.Compiler;
 using Seasar.Framework.Exceptions;
@@ -63,13 +64,26 @@ namespace Seasar.Framework.Util
 		{
 			CompilerParameters parameters = new CompilerParameters();
 			parameters.GenerateInMemory = true;
+
+#if NET_1_1
+            ICodeCompiler compiler = provider_.CreateCompiler();
+            CompilerResults results = compiler.CompileAssemblyFromSource(parameters,EVAL_SOURCE);
+#else
             CompilerResults results = provider_.CompileAssemblyFromSource(parameters, EVAL_SOURCE);
+#endif
+
 			Assembly assembly = results.CompiledAssembly;
 			evaluateType_ = assembly.GetType("Seasar.Framework.Util.JScript.Evaluator");
 		}
 
 		public static object Evaluate(string exp,Hashtable ctx, object root)
 		{
+#if NET_1_1
+            exp = exp.Replace("\r", "\\r");
+            exp = exp.Replace("\n", "\\n");
+            
+            NameValueCollection appSettings = ConfigurationSettings.AppSettings;
+#else
             if (exp.Contains("\r"))
             {
                 exp = exp.Replace("\r", "\\r");
@@ -79,11 +93,14 @@ namespace Seasar.Framework.Util
                 exp = exp.Replace("\n", "\\n");
             }
 
+            NameValueCollection appSettings = ConfigurationManager.AppSettings;
+#endif
+
 			try
 			{
 				return evaluateType_.InvokeMember("Eval",BindingFlags.InvokeMethod,
 					null, null, new object[] {exp,true, ctx["self"], ctx["out"], ctx["err"], root,
-                    ConfigurationManager.AppSettings});
+                    appSettings});
 			} 
 			catch(Exception ex)
 			{

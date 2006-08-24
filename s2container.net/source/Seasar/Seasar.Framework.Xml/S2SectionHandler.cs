@@ -35,8 +35,13 @@ namespace Seasar.Framework.Xml
 
 		public static S2Section GetS2Section()
 		{
+#if NET_1_1
+            return (S2Section) ConfigurationSettings.GetConfig(
+                ContainerConstants.SEASAR_CONFIG);
+#else
 			return (S2Section) ConfigurationManager.GetSection(
 				ContainerConstants.SEASAR_CONFIG);
+#endif
 		}
 
 		#region IConfigurationSectionHandler ÉÅÉìÉo

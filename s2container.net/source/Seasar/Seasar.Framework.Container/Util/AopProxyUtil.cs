@@ -52,7 +52,7 @@ namespace Seasar.Framework.Container.Util
             // S2ƒRƒ“ƒeƒi‚ðŽæ“¾‚·‚é
             IS2Container container = componentDef.Container;
 
-            if (componentDef.ComponentType.FindInterfaces(TypeFilter, null).Length > 0)
+            if (componentDef.ComponentType.FindInterfaces(new TypeFilter(TypeFilter), null).Length > 0)
             {
                 return ConstructorUtil.NewInstance(constructor, args);
             }

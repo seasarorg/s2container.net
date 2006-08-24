@@ -73,3 +73,6 @@ using System.Runtime.CompilerServices;
 //
 [assembly: AssemblyDelaySign(false)]
 [assembly: AssemblyKeyName("")]
+#if NET_1_1
+[assembly: AssemblyKeyFile("..\\..\\..\\Seasar.snk")]
+#endif

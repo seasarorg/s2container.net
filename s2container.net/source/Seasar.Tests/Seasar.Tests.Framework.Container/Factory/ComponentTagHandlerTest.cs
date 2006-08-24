@@ -18,10 +18,13 @@
 
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using NUnit.Framework;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Factory;
+
+#if !NET_1_1
+using System.Collections.Generic;
+#endif
 
 namespace Seasar.Tests.Framework.Container.Factory
 {
@@ -31,7 +34,11 @@ namespace Seasar.Tests.Framework.Container.Factory
 	[TestFixture]
 	public class ComponentTagHandlerTest
 	{
-		private const string PATH = "Seasar/Tests/Framework/Container/Factory/ComponentTagHandlerTest.dicon";
+#if NET_1_1
+		private const string PATH = "Seasar/Tests/Framework/Container/Factory/ComponentTagHandlerTest.2003.dicon";
+#else
+        private const string PATH = "Seasar/Tests/Framework/Container/Factory/ComponentTagHandlerTest.dicon";
+#endif
 
 		[Test]
 		public void TestComponent()
@@ -53,6 +60,8 @@ namespace Seasar.Tests.Framework.Container.Factory
 			Assert.IsNotNull(container.GetComponent("ggg"));
 		}
 
+#if !NET_1_1
+
         [Test]
         public void TestGeneric()
         {
@@ -61,6 +70,8 @@ namespace Seasar.Tests.Framework.Container.Factory
             Assert.IsNotNull(container.GetComponent(typeof(IList<String>)));
             Assert.IsNotNull(container.GetComponent(typeof(Dictionary<String, Int32>)));
         }
+
+#endif
 		
 	}
 }

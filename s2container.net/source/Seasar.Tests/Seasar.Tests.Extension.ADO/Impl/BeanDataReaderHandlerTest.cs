@@ -209,6 +209,8 @@ namespace Seasar.Tests.Extension.ADO.Impl
 			Assert.IsNull(ret.BinaryType);
 		}
 
+#if !NET_1_1
+
 		public void SetUpHandleNullableType()
 		{
 			Include(PATH);
@@ -288,6 +290,8 @@ namespace Seasar.Tests.Extension.ADO.Impl
 			Assert.IsFalse(ret.DateTimeType.HasValue);
 			Assert.IsNull(ret.BinaryType);
 		}
+
+#endif
 
 		public void SetUpHandleSqlType()
 		{

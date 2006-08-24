@@ -42,10 +42,14 @@ namespace Seasar.Framework.Util
 				PropertyInfo npi = type.GetProperty("Value");
 				return npi.PropertyType;
 			}
+
+#if !NET_1_1
 			else if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
 			{
 				type = Nullable.GetUnderlyingType(type);
 			}
+#endif
+
 			return type;
 		}
 
