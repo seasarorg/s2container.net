@@ -1,7 +1,7 @@
 <VisualStudioProject>
     <CSHARP
         ProjectType = "Local"
-        ProductVersion = "7.10.3077"
+        ProductVersion = "7.10.6030"
         SchemaVersion = "2.0"
         ProjectGuid = "{6D6327B1-4252-470A-A76B-8E923F34AB7C}"
     >
@@ -715,6 +715,11 @@
                 <File
                     RelPath = "Seasar.Tests.Framework.Util\test1.xml"
                     BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Seasar.Tests.Framework.Util\ToStringUtilTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
                 />
                 <File
                     RelPath = "Seasar.Tests.Framework.Xml\S2SectionHandlerTest.cs"

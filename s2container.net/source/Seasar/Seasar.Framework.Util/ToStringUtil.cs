@@ -24,10 +24,10 @@ using System.Collections;
 namespace Seasar.Framework.Util
 {
     public sealed class ToStringUtil
-	{
-		private ToStringUtil()
-		{
-		}
+    {
+        private ToStringUtil()
+        {
+        }
 
         public static string ToString(object target)
         {
@@ -36,7 +36,28 @@ namespace Seasar.Framework.Util
                 return "null";
             }
 
-            return target.ToString();
+            string ret = null;
+            if (target is IDictionary)
+            {
+                ret = ToString(target as IDictionary);
+            }
+            else if (target is IList)
+            {
+                ret = ToString(target as IList);
+            }
+            else if (target is DataSet)
+            {
+                ret = ToString(target as DataSet);
+            }
+            else if (target is DataTable)
+            {
+                ret = ToString(target as DataTable);
+            }
+            else
+            {
+                ret = target.ToString();
+            }
+            return ret;
         }
 
         public static string ToString(IDictionary target)

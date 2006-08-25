@@ -418,6 +418,7 @@
     <Compile Include="Seasar.Tests.Framework.Util\SerializeUtilTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Tests.Framework.Util\ToStringUtilTest.cs" />
     <Compile Include="Seasar.Tests.Framework.Xml\S2SectionHandlerTest.cs">
       <SubType>Code</SubType>
     </Compile>
