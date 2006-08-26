@@ -237,6 +237,7 @@
     <Compile Include="Seasar.Extension.ADO\IDataSource.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Extension.ADO\IDbConnectionHolder.cs" />
     <Compile Include="Seasar.Extension.ADO\Impl\AbstractBeanDataReaderHandler.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -264,6 +265,7 @@
     <Compile Include="Seasar.Extension.ADO\Impl\BeanListDataReaderHandler.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Extension.ADO\Impl\ConnectionHolderDataSource.cs" />
     <Compile Include="Seasar.Extension.ADO\Impl\DatabaseMetaDataImpl.cs">
       <SubType>Code</SubType>
     </Compile>
