@@ -110,11 +110,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Ado.dicon" />
     <EmbeddedResource Include="Aop.dicon" />
     <EmbeddedResource Include="components.dtd" />
     <EmbeddedResource Include="components21.dtd" />
-    <EmbeddedResource Include="DTCTx.dicon" />
     <EmbeddedResource Include="SSRMessages.ja-JP.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -123,7 +121,6 @@
       <LastGenOutput>SSRMessages.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="ImplicitTx.dicon" />
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -898,10 +895,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SSRMessages.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Tx.dicon" />
     <None Include="Seasar.Framework.Container\Web\Web.config" />
     <None Include="Seasar.snk" />
-    <EmbeddedResource Include="LocalTx.dicon" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

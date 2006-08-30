@@ -53,10 +53,6 @@ namespace Seasar.Examples
 				FileInfo info = new FileInfo(SystemInfo.AssemblyShortName(
 					Assembly.GetExecutingAssembly()) + ".exe.config");
 				XmlConfigurator.Configure(LogManager.GetRepository(), info);
-				
-#if NET_1_1
-                SingletonS2ContainerFactory.ConfigPath = "Seasar.Examples/Examples.2003.dicon";
-#endif
 
 				SingletonS2ContainerFactory.Init();
 				IS2Container container = SingletonS2ContainerFactory.Container;

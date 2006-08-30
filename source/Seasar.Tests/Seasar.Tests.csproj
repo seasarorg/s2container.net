@@ -134,7 +134,6 @@
     <EmbeddedResource Include="Seasar.Tests.Extension.DataSets\Impl\XlsReaderTest1.xls" />
     <EmbeddedResource Include="Seasar.Tests.Extension.Tx\DTCRequiredInterceptorTest.dicon" />
     <EmbeddedResource Include="Seasar.Tests.Extension.Tx\DTCRequiresNewInterceptorTest.dicon" />
-    <EmbeddedResource Include="Seasar.Tests.Extension.Tx\DTCTx.dicon" />
     <EmbeddedResource Include="Seasar.Tests.Extension.Tx\Impl\LocalNotSupportedInterceptorTest.dicon" />
     <EmbeddedResource Include="Seasar.Tests.Extension.Tx\Impl\LocalRequiredInterceptorTest.dicon" />
     <EmbeddedResource Include="Seasar.Tests.Extension.Tx\Impl\LocalRequiresNewInterceptorTest.dicon" />
@@ -172,11 +171,15 @@
     <EmbeddedResource Include="test.dicon" />
     <EmbeddedResource Include="TSTMessages.resx" />
     <None Include="App.config" />
+    <EmbeddedResource Include="DTCTx.dicon" />
+    <EmbeddedResource Include="ImplicitTx.dicon" />
+    <EmbeddedResource Include="LocalTx.dicon" />
     <None Include="Seasar.snk" />
     <EmbeddedResource Include="Seasar.Tests.Extension.Tx\Impl\RequiredInterceptorTest.dicon" />
     <EmbeddedResource Include="Seasar.Tests.Extension.Tx\Impl\RequiresNewInterceptorTest.dicon" />
     <EmbeddedResource Include="Seasar.Tests.Extension.Tx\Impl\NotSupportedInterceptorTest.dicon" />
     <None Include="Seasar.Tests.Extension.Unit\testdata.xls" />
+    <EmbeddedResource Include="Tx.dicon" />
     <EmbeddedResource Include="Seasar.Tests.Framework.Aop\Proxy\AopProxy.dicon" />
     <EmbeddedResource Include="Seasar.Tests.Framework.Aop\Proxy\DynamicProxy.dicon" />
     <Compile Include="AssemblyInfo.cs">

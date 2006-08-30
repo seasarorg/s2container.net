@@ -2,40 +2,132 @@
 <!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
 "http://www.seasar.org/dtd/components21.dtd">
 <components namespace="Ado">
-	<component name="SqlClient" class="Seasar.Extension.ADO.DataProvider">
-		<property name="ConnectionType">"System.Data.SqlClient.SqlConnection"</property>
-		<property name="CommandType">"System.Data.SqlClient.SqlCommand"</property>
-		<property name="ParameterType">"System.Data.SqlClient.SqlParameter"</property>
-		<property name="DataAdapterType">"System.Data.SqlClient.SqlDataAdapter"</property>
-	</component>
 
-	<component name="DataSource" class="Seasar.Extension.Tx.Impl.TxDataSource">
-		<property name="DataProvider">SqlClient</property>
-		<property name="ConnectionString">"Server=(local);database=s2dotnetdemo;Integrated Security=SSPI"</property>
-	</component>
+  <!-- .NET Framework Data Provider for SQL Server を使用する場合に必要です。 -->
+  <component name="SqlClient" class="Seasar.Extension.ADO.DataProvider">
+    <property name="ConnectionType">"System.Data.SqlClient.SqlConnection"</property>
+    <property name="CommandType">"System.Data.SqlClient.SqlCommand"</property>
+    <property name="ParameterType">"System.Data.SqlClient.SqlParameter"</property>
+    <property name="DataAdapterType">"System.Data.SqlClient.SqlDataAdapter"</property>
+  </component>
+  <component name="DataSource" class="Seasar.Extension.Tx.Impl.TxDataSource">
+    <property name="DataProvider">SqlClient</property>
+    <property name="ConnectionString">"Data Source=(local);Initial Catalog=s2dotnetdemo;Integrated Security=SSPI"</property>
+  </component>
 
-	<component name="TransactionContext" class="Seasar.Extension.Tx.Impl.TransactionContext">
-		<property name="IsolationLevel">System.Data.IsolationLevel.ReadCommitted</property>
-	</component>
+  <!-- .NET Framework Data Provider for OLE DB を使用する場合に必要です。 -->
+  <!--
+  <component name="OleDbClient" class="Seasar.Extension.ADO.DataProvider">
+    <property name="ConnectionType">"System.Data.OleDb.OleDbConnection"</property>
+    <property name="CommandType">"System.Data.OleDb.OleDbCommand"</property>
+    <property name="ParameterType">"System.Data.OleDb.OleDbParameter"</property>
+    <property name="DataAdapterType">"System.Data.OleDb.OleDbDataAdapter"</property>
+  </component>
+  <component name="DataSource" class="Seasar.Extension.Tx.Impl.TxDataSource">
+    <property name="DataProvider">OleDbClient</property>
+    <property name="ConnectionString">"Provider=SQLOLEDB;Data Source=127.0.0.1\\SQLEXPRESS;Integrated Security=SSPI;Initial Catalog=s2dotnetdemo"</property>
+  </component>
+  -->
 
-	<component name="RequiredTx" class="Seasar.Extension.Tx.TransactionInterceptor">
-		<arg>
-			<component class="Seasar.Extension.Tx.Impl.LocalRequiredTxHandler" />
-		</arg>
-	</component>
-	<component name="RequiresNewTx" class="Seasar.Extension.Tx.TransactionInterceptor">
-		<arg>
-			<component class="Seasar.Extension.Tx.Impl.LocalRequiresNewTxHandler" />
-		</arg>
-	</component>
-	<component name="SupportedTx" class="Seasar.Extension.Tx.TransactionInterceptor">
-		<arg>
-			<component class="Seasar.Extension.Tx.Impl.LocalSupportedTxHandler" />
-		</arg>
-	</component>
-	<component name="NotSupportedTx" class="Seasar.Extension.Tx.TransactionInterceptor">
-		<arg>
-			<component class="Seasar.Extension.Tx.Impl.LocalNotSupportedTxHandler" />
-		</arg>
-	</component>
+  <!-- .NET Framework Data Provider for ODBC を使用する場合に必要です。 -->
+  <!--
+  <component name="OdbcClient" class="Seasar.Extension.ADO.DataProvider">
+    <property name="ConnectionType">"System.Data.Odbc.OdbcConnection"</property>
+    <property name="CommandType">"System.Data.Odbc.OdbcCommand"</property>
+    <property name="ParameterType">"System.Data.Odbc.OdbcParameter"</property>
+    <property name="DataAdapterType">"System.Data.Odbc.OdbcDataAdapter"</property>
+  </component>
+  <component name="DataSource" class="Seasar.Extension.Tx.Impl.TxDataSource">
+    <property name="DataProvider">OdbcClient</property>
+    <property name="ConnectionString">"Driver={SQL Server};Server=127.0.0.1\\SQLEXPRESS;Trusted_Connection=Yes;Database=s2dotnetdemo;"</property>
+  </component>
+  -->
+  
+  <!-- MySQL Connector Net を使用する場合に必要です。 -->
+  <!--
+  <component name="MySql" class="Seasar.Extension.ADO.DataProvider">
+    <property name="ConnectionType">"MySql.Data.MySqlClient.MySqlConnection"</property>
+    <property name="CommandType">"MySql.Data.MySqlClient.MySqlCommand"</property>
+    <property name="ParameterType">"MySql.Data.MySqlClient.MySqlParameter"</property>
+    <property name="DataAdapterType">"MySql.Data.MySqlClient.MySqlDataAdapter"</property>
+  </component>
+  <component name="DataSource" class="Seasar.Extension.Tx.Impl.TxDataSource">
+    <property name="DataProvider">MySql</property>
+    <property name="ConnectionString">"server=127.0.0.1;user id=s2dotnetdemo; password=s2dotnetdemo; database=s2dotnetdemo;"</property>
+  </component>
+  -->
+
+  <!-- .NET Framework Data Provider for Oracle を使用する場合に必要です。 -->
+  <!--
+  <component name="Oracle" class="Seasar.Extension.ADO.DataProvider">
+    <property name="ConnectionType">"System.Data.OracleClient.OracleConnection"</property>
+    <property name="CommandType">"System.Data.OracleClient.OracleCommand"</property>
+    <property name="ParameterType">"System.Data.OracleClient.OracleParameter"</property>
+    <property name="DataAdapterType">"System.Data.OracleClient.OracleDataAdapter"</property>
+  </component>
+  <component name="DataSource" class="Seasar.Extension.Tx.Impl.TxDataSource">
+    <property name="DataProvider">Oracle</property>
+    <property name="ConnectionString">"Data Source=ORCL;User ID=s2dotnetdemo;Password=s2dotnetdemo"</property>
+  </component>
+  -->
+
+  <!-- Oracle Data Provider for .NET を使用する場合に必要です。 -->
+  <!--
+  <component name="ODP.NET" class="Seasar.Extension.ADO.DataProvider">
+    <property name="ConnectionType">"Oracle.DataAccess.Client.OracleConnection"</property>
+    <property name="CommandType">"Oracle.DataAccess.Client.OracleCommand"</property>
+    <property name="ParameterType">"Oracle.DataAccess.Client.OracleParameter"</property>
+    <property name="DataAdapterType">"Oracle.DataAccess.Client.OracleDataAdapter"</property>
+  </component>
+  <component name="DataSource" class="Seasar.Extension.Tx.Impl.TxDataSource">
+    <property name="DataProvider">ODP.NET</property>
+    <property name="ConnectionString">"Data Source=ORCL;User ID=s2dotnetdemo;Password=s2dotnetdemo"</property>
+  </component>
+  -->
+
+  <!-- DB2 Data Provider for .NET を使用する場合に必要です。 -->
+  <!--
+  <component name="DB2" class="Seasar.Extension.ADO.DataProvider">
+    <property name="ConnectionType">"IBM.Data.DB2.DB2Connection"</property>
+    <property name="CommandType">"IBM.Data.DB2.DB2Command"</property>
+    <property name="ParameterType">"IBM.Data.DB2.DB2Parameter"</property>
+    <property name="DataAdapterType">"IBM.Data.DB2.DB2DataAdapter"</property>
+  </component>
+  <component name="SqlDataSource" class="Seasar.Extension.Tx.Impl.TxDataSource">
+    <property name="DataProvider">DB2</property>
+    <property name="ConnectionString">"Database=S2DEMO;UID=S2DEMOUSER;PWD=S2DEMOUSER"</property>
+  </component>
+  -->
+  
+  <!-- Npgsql .NET Data Provider を使用する場合に必要です。 -->
+  <!--
+  <component name="Npgsql" class="Seasar.Extension.ADO.DataProvider">
+    <property name="ConnectionType">"Npgsql.NpgsqlConnection"</property>
+    <property name="CommandType">"Npgsql.NpgsqlCommand"</property>
+    <property name="ParameterType">"Npgsql.NpgsqlParameter"</property>
+    <property name="DataAdapterType">"Npgsql.NpgsqlDataAdapter"</property>
+  </component>
+  <component name="DataSource" class="Seasar.Extension.Tx.Impl.TxDataSource">
+    <property name="DataProvider">Npgsql</property>
+    <property name="ConnectionString">"server=127.0.0.1;Port=5432;User Id=s2demouser;Password=s2demouser;Database=s2demo;Pooling=True;MinPoolSize=5;MaxPoolSize=20"</property>
+  </component>
+  -->
+
+  <!-- Firebird .NET Data Provider を使用する場合に必要です。 -->
+  <!--
+  <component name="FirebirdSql" class="Seasar.Extension.ADO.DataProvider">
+    <property name="ConnectionType">"FirebirdSql.Data.Firebird.FbConnection"</property>
+    <property name="CommandType">"FirebirdSql.Data.Firebird.FbCommand"</property>
+    <property name="ParameterType">"FirebirdSql.Data.Firebird.FbParameter"</property>
+    <property name="DataAdapterType">"FirebirdSql.Data.Firebird.FbDataAdapter"</property>
+  </component>
+  <component name="DataSource" class="Seasar.Extension.Tx.Impl.TxDataSource">
+    <property name="DataProvider">FirebirdSql</property>
+    <property name="ConnectionString">
+      "Data Source=127.0.0.1;Port Number=3050;Database=C:\\S2DEMO.FDB;User Id=S2DEMO;Password=s2demo;Pooling=True;Min Pool Size=5;Max Pool Size=20;Charset=UNICODE_FSS;Connection Lifetime=30;Server Type=0"
+    </property>
+  </component>
+  -->
+
+  <component class="Seasar.Extension.Tx.Impl.TransactionContext" />
 </components>

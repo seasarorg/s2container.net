@@ -5,6 +5,6 @@
 	<include path="Seasar.Examples/LocalTx.dicon" />
 	<component name="LocalTxClient" class="Seasar.Examples.Reference.LocalTx.LocalTxClient" />
 	<component class="Seasar.Examples.Reference.LocalTx.EmployeeDaoImpl">
-		<aspect>Ado.RequiredTx</aspect>
+		<aspect>LocalTx.RequiredTx</aspect>
 	</component>
 </components>

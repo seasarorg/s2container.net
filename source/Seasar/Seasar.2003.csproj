@@ -114,10 +114,6 @@
         <Files>
             <Include>
                 <File
-                    RelPath = "Ado.dicon"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "Aop.dicon"
                     BuildAction = "EmbeddedResource"
                 />
@@ -135,25 +131,12 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "DTCTx.dicon"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "SSRMessages.ja-JP.resx"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "SSRMessages.resx"
                     BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Tx.dicon"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Ex.xsx"
-                    DependentUpon = "Tx.dicon"
-                    BuildAction = "None"
                 />
                 <File
                     RelPath = "Seasar.Extension.ADO\ColumnNotFoundRuntimeException.cs"

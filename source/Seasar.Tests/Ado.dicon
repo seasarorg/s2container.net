@@ -129,28 +129,6 @@
   </component>
   -->
 
-  <component class="Seasar.Extension.Tx.Impl.TransactionContext">
-    <property name="IsolationLevel">System.Data.IsolationLevel.Chaos</property>
-  </component>
-
-  <component name="RequiredTx" class="Seasar.Extension.Tx.TransactionInterceptor">
-    <arg>
-      <component class="Seasar.Extension.Tx.Impl.LocalRequiredTxHandler" />
-    </arg>
-  </component>
-  <component name="RequiresNewTx" class="Seasar.Extension.Tx.TransactionInterceptor">
-    <arg>
-      <component class="Seasar.Extension.Tx.Impl.LocalRequiresNewTxHandler" />
-    </arg>
-  </component>
-  <component name="SupportedTx" class="Seasar.Extension.Tx.TransactionInterceptor">
-    <arg>
-      <component class="Seasar.Extension.Tx.Impl.LocalSupportedTxHandler" />
-    </arg>
-  </component>
-  <component name="NotSupportedTx" class="Seasar.Extension.Tx.TransactionInterceptor">
-    <arg>
-      <component class="Seasar.Extension.Tx.Impl.LocalNotSupportedTxHandler" />
-    </arg>
-  </component>
+  <!-- ローカルトランザクション用のインターセプターで使用します。 -->
+  <component class="Seasar.Extension.Tx.Impl.TransactionContext" />
 </components>
