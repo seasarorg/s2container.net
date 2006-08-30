@@ -51,9 +51,6 @@ Microsoft 分散トランザクション コーディネータ (MS DTC)の3つ�
 LocalTx.dicon（ローカルトランザクション用）, DTCTx.dicon（MS DTC用）には、
 次のトランザクション属性に対応した<a href="aop.html#Advice">Advice</a>が定義されています。
 コンポーネント名が<a href="aop.html#Advice">Advice</a>の名前です。</p>
-<p>
-Tx.dicon, LocalTx.dicon, DTCTx.diconは、s2container.net/source/Seasarフォルダに用意されています。
-</p>
 <table border="1">
 <tr bgcolor="#d1f3f4" align="center">
 <th width="92">属性</th>
@@ -333,15 +330,12 @@ EmployeeDaoImplのaspectにLocalTx.RequiredTxを指定してします。</p>
 <span class="kwrd">&lt;!</span><span class="html">DOCTYPE</span> <span class="attr">components</span> <span class="attr">PUBLIC</span> <span class="kwrd">"-//SEASAR2.1//DTD S2Container//EN"</span>
 <span class="kwrd">"http://www.seasar.org/dtd/components21.dtd"</span><span class="kwrd">&gt;</span>
 <span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
-    
-    <span class="kwrd">&lt;</span><span class="html">include</span> <span class="attr">path</span><span class="kwrd">="Seasar.Examples/Tx.dicon"</span> <span class="kwrd">/&gt;</span>
-    
+<span class="kwrd">&lt;</span><span class="html">include</span> <span class="attr">path</span><span class="kwrd">="Seasar.Examples/Tx.dicon"</span> <span class="kwrd">/&gt;</span>
     <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="LocalTxClient"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.LocalTx.LocalTxClient"</span> <span class="kwrd">/&gt;</span>
     
     <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.LocalTx.EmployeeDaoImpl"</span><span class="kwrd">&gt;</span>
         <span class="kwrd">&lt;</span><span class="html">aspect</span><span class="kwrd">&gt;</span>LocalTx.RequiredTx<span class="kwrd">&lt;/</span><span class="html">aspect</span><span class="kwrd">&gt;</span>
     <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
-    
 <span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
 </pre>
 
@@ -352,17 +346,7 @@ EmployeeDaoImplのaspectにLocalTx.RequiredTxを指定してします。</p>
 <span class="kwrd">&lt;!</span><span class="html">DOCTYPE</span> <span class="attr">components</span> <span class="attr">PUBLIC</span> <span class="kwrd">"-//SEASAR2.1//DTD S2Container//EN"</span>
 <span class="kwrd">"http://www.seasar.org/dtd/components21.dtd"</span><span class="kwrd">&gt;</span>
 <span class="kwrd">&lt;</span><span class="html">components</span> <span class="attr">namespace</span><span class="kwrd">="LocalTx"</span><span class="kwrd">&gt;</span>
-    
     <span class="kwrd">&lt;</span><span class="html">include</span> <span class="attr">path</span><span class="kwrd">="Seasar.Examples/Ado.dicon"</span> <span class="kwrd">/&gt;</span>
-
-    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="SqlDataSource"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.Tx.Impl.TxDataSource"</span><span class="kwrd">&gt;</span>
-        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="DataProvider"</span><span class="kwrd">&gt;</span>Ado.SqlClient<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
-        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="ConnectionString"</span><span class="kwrd">&gt;</span>
-            "Server=SQL Serverの名称;database=s2dotnetdemo;Integrated Security=SSPI"
-        <span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
-    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
-
-    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.Tx.Impl.TransactionContext"</span> <span class="kwrd">/&gt;</span>
 
     <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="RequiredTx"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.Tx.TransactionInterceptor"</span><span class="kwrd">&gt;</span>
         <span class="kwrd">&lt;</span><span class="html">arg</span><span class="kwrd">&gt;</span>
@@ -383,15 +367,22 @@ EmployeeDaoImplのaspectにLocalTx.RequiredTxを指定してします。</p>
 <span class="kwrd">"http://www.seasar.org/dtd/components21.dtd"</span><span class="kwrd">&gt;</span>
 <span class="kwrd">&lt;</span><span class="html">components</span> <span class="attr">namespace</span><span class="kwrd">="Ado"</span><span class="kwrd">&gt;</span>
 
-    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="SqlClient"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.ADO.DataProvider"</span><span class="kwrd">&gt;</span>
-        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="ConnectionType"</span><span class="kwrd">&gt;</span>"System.Data.SqlClient.SqlConnection"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
-        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="CommandType"</span><span class="kwrd">&gt;</span>"System.Data.SqlClient.SqlCommand"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
-        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="ParameterType"</span><span class="kwrd">&gt;</span>"System.Data.SqlClient.SqlParameter"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
-        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="DataAdapterType"</span><span class="kwrd">&gt;</span>"System.Data.SqlClient.SqlDataAdapter"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
-    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
-    
-<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
-</pre>
+  <span class="rem">&lt;!-- .NET Framework Data Provider for SQL Server を使用する場合に必要です。 --&gt;</span>
+  <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="SqlClient"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.ADO.DataProvider"</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="ConnectionType"</span><span class="kwrd">&gt;</span>"System.Data.SqlClient.SqlConnection"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="CommandType"</span><span class="kwrd">&gt;</span>"System.Data.SqlClient.SqlCommand"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="ParameterType"</span><span class="kwrd">&gt;</span>"System.Data.SqlClient.SqlParameter"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="DataAdapterType"</span><span class="kwrd">&gt;</span>"System.Data.SqlClient.SqlDataAdapter"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+  <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+  <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="DataSource"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.Tx.Impl.TxDataSource"</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="DataProvider"</span><span class="kwrd">&gt;</span>SqlClient<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="ConnectionString"</span><span class="kwrd">&gt;</span>
+"Data Source=(local);Initial Catalog=s2dotnetdemo;Integrated Security=SSPI"
+    <span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+  <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+
+  <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.Tx.Impl.TransactionContext"</span> <span class="kwrd">/&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span></pre>
 
 <h4>実行結果</h4>
 <pre>
@@ -603,7 +594,6 @@ EmployeeDaoImplのaspectにDTCTx.RequiredTxを指定します。
 <span class="kwrd">&lt;!</span><span class="html">DOCTYPE</span> <span class="attr">components</span> <span class="attr">PUBLIC</span> <span class="kwrd">"-//SEASAR2.1//DTD S2Container//EN"</span>
 <span class="kwrd">"http://www.seasar.org/dtd/components21.dtd"</span><span class="kwrd">&gt;</span>
 <span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
-    
     <span class="kwrd">&lt;</span><span class="html">include</span> <span class="attr">path</span><span class="kwrd">="Seasar.Examples/DTCTx.dicon"</span> <span class="kwrd">/&gt;</span>
     
     <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="DTCTxClient"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.DTCTx.DTCTxClient"</span> <span class="kwrd">/&gt;</span>
@@ -622,15 +612,7 @@ EmployeeDaoImplのaspectにDTCTx.RequiredTxを指定します。
 <span class="kwrd">&lt;!</span><span class="html">DOCTYPE</span> <span class="attr">components</span> <span class="attr">PUBLIC</span> <span class="kwrd">"-//SEASAR2.1//DTD S2Container//EN"</span>
 <span class="kwrd">"http://www.seasar.org/dtd/components21.dtd"</span><span class="kwrd">&gt;</span>
 <span class="kwrd">&lt;</span><span class="html">components</span> <span class="attr">namespace</span><span class="kwrd">="DTCTx"</span><span class="kwrd">&gt;</span>
-
     <span class="kwrd">&lt;</span><span class="html">include</span> <span class="attr">path</span><span class="kwrd">="Seasar.Examples/Ado.dicon"</span> <span class="kwrd">/&gt;</span>
-
-    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="SqlDataSource"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.ADO.Impl.DataSourceImpl"</span><span class="kwrd">&gt;</span>
-        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="DataProvider"</span><span class="kwrd">&gt;</span>Ado.SqlClient<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
-        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="ConnectionString"</span><span class="kwrd">&gt;</span>
-            "Server=SQL Serverの名称;database=s2dotnetdemo;Integrated Security=SSPI"
-        <span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
-    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
 
     <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="DTCTransactionStateHandler"</span> 
             <span class="attr">class</span><span class="kwrd">="Seasar.Extension.Tx.Impl.DTCTransactionStateHandler"</span> <span class="kwrd">/&gt;</span>
@@ -850,7 +832,6 @@ EmployeeDaoImplのaspectにTx.RequiredTxを指定します。
 <span class="kwrd">&lt;!</span><span class="html">DOCTYPE</span> <span class="attr">components</span> <span class="attr">PUBLIC</span> <span class="kwrd">"-//SEASAR2.1//DTD S2Container//EN"</span>
 <span class="kwrd">"http://www.seasar.org/dtd/components21.dtd"</span><span class="kwrd">&gt;</span>
 <span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
-    
     <span class="kwrd">&lt;</span><span class="html">include</span> <span class="attr">path</span><span class="kwrd">="Seasar.Examples/Tx.dicon"</span> <span class="kwrd">/&gt;</span>
     
     <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="TxClient"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.Tx.TxClient"</span> <span class="kwrd">/&gt;</span>
@@ -869,15 +850,7 @@ EmployeeDaoImplのaspectにTx.RequiredTxを指定します。
 <span class="kwrd">&lt;!</span><span class="html">DOCTYPE</span> <span class="attr">components</span> <span class="attr">PUBLIC</span> <span class="kwrd">"-//SEASAR2.1//DTD S2Container//EN"</span>
 <span class="kwrd">"http://www.seasar.org/dtd/components21.dtd"</span><span class="kwrd">&gt;</span>
 <span class="kwrd">&lt;</span><span class="html">components</span> <span class="attr">namespace</span><span class="kwrd">="Tx"</span><span class="kwrd">&gt;</span>
-
     <span class="kwrd">&lt;</span><span class="html">include</span> <span class="attr">path</span><span class="kwrd">="Seasar.Examples/Ado.dicon"</span> <span class="kwrd">/&gt;</span>
-
-    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="SqlDataSource"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.ADO.Impl.DataSourceImpl"</span><span class="kwrd">&gt;</span>
-        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="DataProvider"</span><span class="kwrd">&gt;</span>Ado.SqlClient<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
-        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="ConnectionString"</span><span class="kwrd">&gt;</span>
-            "Server=SQL Serverの名称;database=s2dotnetdemo;Integrated Security=SSPI"
-        <span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
-    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
 
     <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="TransactionStateHandler"</span> 
             <span class="attr">class</span><span class="kwrd">="Seasar.Extension.Tx.Impl.TransactionStateHandler"</span> <span class="kwrd">/&gt;</span>
@@ -897,12 +870,15 @@ Ado.diconと実行結果は、ローカルトランザクションの場合と�
 </p>
 
 <p>
-S2Container.NETには、Tx.dicon, LocalTx.dicon, DTCTx.diconがあらかじめ用意(s2container.net/source/Seasar)されています。
+S2Container.NETには、Tx.dicon, LocalTx.dicon, DTCTx.diconのサンプルがあらかじめ用意(s2container.net/source/Seasar.Tests)されています。
+必要に応じて、ユーザアプリケーションのプロジェクトにコピーしてください。
+</p>
+<p>
 Adviceのコンポーネント名をaspectタグのボディに指定するだけなので簡単です。 
 簡単にトランザクション管理機能が組み込めることがわかって頂けたと思います。
 </p>
 <h2><a name="Exception">例外発生時の動作</a></h2>
-<p>Tx.diconおよびDTCTx.dionに定義されているAdviceは、コンポーネントが例外をスローした場合はトランザクションをロールバックします．<br>
+<p>Tx.dicon、LocalTx.dicon、DTCTx.dionに定義されているAdviceは、コンポーネントが例外をスローした場合はトランザクションをロールバックします．<br>
 
 <!-- document end -->
 <!-- don't edit start -->

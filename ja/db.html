@@ -103,35 +103,28 @@ DataProvider, TxDataSourceの設定を行います。
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <pre class="csharpcode">
 <span class="kwrd">&lt;</span><span class="html">components</span> <span class="attr">namespace</span><span class="kwrd">="Ado"</span><span class="kwrd">&gt;</span>
-    <span class="rem">&lt;!-- .NET Framework Data Provider for SQL Server を使用する場合に必要です。 --&gt;</span>
-    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="SqlClient"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.ADO.DataProvider"</span><span class="kwrd">&gt;</span>
-        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="ConnectionType"</span><span class="kwrd">&gt;</span>"System.Data.SqlClient.SqlConnection"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
-        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="CommandType"</span><span class="kwrd">&gt;</span>"System.Data.SqlClient.SqlCommand"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
-        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="ParameterType"</span><span class="kwrd">&gt;</span>"System.Data.SqlClient.SqlParameter"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
-        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="DataAdapterType"</span><span class="kwrd">&gt;</span>"System.Data.SqlClient.SqlDataAdapter"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
-    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>   
+  <span class="rem">&lt;!-- .NET Framework Data Provider for SQL Server を使用する場合に必要です。 --&gt;</span>
+  <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="SqlClient"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.ADO.DataProvider"</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="ConnectionType"</span><span class="kwrd">&gt;</span>"System.Data.SqlClient.SqlConnection"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="CommandType"</span><span class="kwrd">&gt;</span>"System.Data.SqlClient.SqlCommand"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="ParameterType"</span><span class="kwrd">&gt;</span>"System.Data.SqlClient.SqlParameter"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="DataAdapterType"</span><span class="kwrd">&gt;</span>"System.Data.SqlClient.SqlDataAdapter"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+  <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>   
  
-    <span class="rem">&lt;!-- トランザクション用のDataSource --&gt;</span>
-    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="DataSource"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.Tx.Impl.TxDataSource"</span><span class="kwrd">&gt;</span>
-        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="DataProvider"</span><span class="kwrd">&gt;</span>SqlClient<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
-        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="ConnectionString"</span><span class="kwrd">&gt;</span>"Server=(local);database=s2dotnetdemo;Integrated Security=SSPI"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
-    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+  <span class="rem">&lt;!-- トランザクション用のDataSource --&gt;</span>
+  <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="DataSource"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.Tx.Impl.TxDataSource"</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="DataProvider"</span><span class="kwrd">&gt;</span>SqlClient<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="ConnectionString"</span><span class="kwrd">&gt;</span>"Server=(local);database=s2dotnetdemo;Integrated Security=SSPI"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+  <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
 
-    <span class="rem">&lt;!-- ローカルトランザクション用のインターセプター --&gt;</span>
-    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="LocalRequiredTx"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.Tx.TransactionInterceptor"</span><span class="kwrd">&gt;</span>
-        <span class="kwrd">&lt;</span><span class="html">arg</span><span class="kwrd">&gt;&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.Tx.Impl.LocalRequiredTxHandler"</span> <span class="kwrd">/&gt;&lt;/</span><span class="html">arg</span><span class="kwrd">&gt;</span>
-        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="TransactionStateHandler"</span><span class="kwrd">&gt;</span>TransactionContext<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
-    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
-    
-    <span class="rem">&lt;!-- ローカルトランザクション用のインターセプターで使用します --&gt;</span>
-    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="TransactionContext"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.Tx.Impl.TransactionContext"</span><span class="kwrd">&gt;</span>
-        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="IsolationLevel"</span><span class="kwrd">&gt;</span>System.Data.IsolationLevel.ReadCommitted<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
-    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
-
+  <span class="rem">&lt;!-- ローカルトランザクション用のインターセプターで使用します --&gt;</span>
+  <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="TransactionContext"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.Tx.Impl.TransactionContext"</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="IsolationLevel"</span><span class="kwrd">&gt;</span>System.Data.IsolationLevel.ReadCommitted<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+  <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
 <span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
 </pre>
 
-<h3>アプリケーション構成ファイル</h3>
+<h3><a name="AppConfig">アプリケーション構成ファイル</a></h3>
 <p>
 .NET Frameworkデータプロバイダ for SQL Server以外の.NET Frameworkデータプロバイダを使用する場合、アプリケーション構成ファイルに.NET Frameworkデータプロバイダのアセンブリを登録する必要があります。
 アプリケーション構成ファイルの &lt;seasar&gt; 構成セクションにアセンブリを指定します。
