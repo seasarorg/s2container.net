@@ -46,15 +46,21 @@ namespace Seasar.Framework.Util
             {
                 ret = ConvertConvertible(o, targetType);
             }
-            else if(typeof(INullable).IsAssignableFrom(targetType))
+#if !NET_1_1
+            else if (targetType.GetGenericTypeDefinition().Equals(typeof(Nullable<>)))
             {
                 ret = ConvertNullable(o, targetType);
             }
-            else if(typeof(INullableType).IsAssignableFrom(targetType))
+#endif
+            else if (typeof(INullable).IsAssignableFrom(targetType))
             {
-                ret = ConvertNullableType(o, targetType);
+                ret = ConvertSqlTypesNullable(o, targetType);
             }
-            else if(o == DBNull.Value)
+            else if (typeof(INullableType).IsAssignableFrom(targetType))
+            {
+                ret = ConvertNHibernateNullable(o, targetType);
+            }
+            else if (o == DBNull.Value)
             {
                 ret = null;
             }
@@ -72,7 +78,7 @@ namespace Seasar.Framework.Util
         /// <param name="o">変換するオブジェクト</param>
         /// <param name="targetType">INullableを実装するType</param>
         /// <returns>変換されたオブジェクト</returns>
-        public static object ConvertNullable(object o, Type targetType)
+        public static object ConvertSqlTypesNullable(object o, Type targetType)
         {
             INullable ret = null;
 
@@ -97,7 +103,7 @@ namespace Seasar.Framework.Util
         /// <param name="o">変換するオブジェクト</param>
         /// <param name="targetType">INullableTypeを実装するType</param>
         /// <returns>変換されたオブジェクト</returns>
-        public static object ConvertNullableType(object o, Type targetType)
+        public static object ConvertNHibernateNullable(object o, Type targetType)
         {
             INullableType ret = null;
 
@@ -115,6 +121,32 @@ namespace Seasar.Framework.Util
 
             return ret;
         }
+
+#if !NET_1_1
+        /// <summary>
+        /// オブジェクトをNullableジェネリック構造体に変換する
+        /// </summary>
+        /// <param name="o">変換するオブジェクト</param>
+        /// <param name="targetType">Nullable ジェネリック構造体のType</param>
+        /// <returns>変換されたオブジェクト</returns>
+        public static object ConvertNullable(object o, Type targetType)
+        {
+            object ret = null;
+
+            if (o == null || o == DBNull.Value)
+            {
+                ret = null;
+            }
+            else
+            {
+                Type paramType = GetValueType(targetType);
+                ret = Activator.CreateInstance(targetType,
+                    new object[] { Convert.ChangeType(o, paramType) });
+            }
+
+            return ret;
+        }
+#endif
 
         /// <summary>
         /// オブジェクトをIConvertibleを実装するTypeに変換する
