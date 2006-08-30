@@ -1,7 +1,7 @@
 <VisualStudioProject>
     <CSHARP
         ProjectType = "Local"
-        ProductVersion = "7.10.6030"
+        ProductVersion = "7.10.3077"
         SchemaVersion = "2.0"
         ProjectGuid = "{6D6327B1-4252-470A-A76B-8E923F34AB7C}"
     >
@@ -95,16 +95,6 @@
                     HintPath = "..\..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Drawing.dll"
                 />
                 <Reference
-                    Name = "Seasar"
-                    Project = "{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
-                    Name = "Seasar.Unit"
-                    Project = "{FC3A021B-6288-4C34-8303-544640D22FDA}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
                     Name = "log4net"
                     AssemblyName = "log4net"
                     HintPath = "..\..\lib\net1.1\log4net.dll"
@@ -128,6 +118,16 @@
                     Name = "nunit.extensions"
                     AssemblyName = "nunit.extensions"
                     HintPath = "..\..\lib\net1.1\nunit.extensions.dll"
+                />
+                <Reference
+                    Name = "Seasar.2003"
+                    Project = "{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "Seasar.Unit.2003"
+                    Project = "{FC3A021B-6288-4C34-8303-544640D22FDA}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
             </References>
         </Build>
