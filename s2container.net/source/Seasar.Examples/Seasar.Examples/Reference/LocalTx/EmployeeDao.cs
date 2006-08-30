@@ -27,7 +27,7 @@ namespace Seasar.Examples.Reference.LocalTx
         void Insert();
     }
 
-	public class EmployeeDaoImpl : IEmployeeDao
+    public class EmployeeDaoImpl : IEmployeeDao
     {
         private IDataSource dataSource;
 

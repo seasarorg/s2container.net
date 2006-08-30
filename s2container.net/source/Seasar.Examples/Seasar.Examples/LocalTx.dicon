@@ -1,6 +1,30 @@
-<?xml version="1.0" encoding="utf-8" ?> 
+<?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
 "http://www.seasar.org/dtd/components21.dtd">
 <components namespace="LocalTx">
   <include path="Seasar.Examples/Ado.dicon" />
+
+  <component name="RequiredTx" class="Seasar.Extension.Tx.TransactionInterceptor">
+    <arg>
+      <component class="Seasar.Extension.Tx.Impl.LocalRequiredTxHandler" />
+    </arg>
+  </component>
+
+  <component name="RequiresNewTx" class="Seasar.Extension.Tx.TransactionInterceptor">
+    <arg>
+      <component class="Seasar.Extension.Tx.Impl.LocalRequiresNewTxHandler" />
+    </arg>
+  </component>
+
+  <component name="SupportedTx" class="Seasar.Extension.Tx.TransactionInterceptor">
+    <arg>
+      <component class="Seasar.Extension.Tx.Impl.LocalSupportedTxHandler" />
+    </arg>
+  </component>
+
+  <component name="NotSupportedTx" class="Seasar.Extension.Tx.TransactionInterceptor">
+    <arg>
+      <component class="Seasar.Extension.Tx.Impl.LocalNotSupportedTxHandler" />
+    </arg>
+  </component>
 </components>

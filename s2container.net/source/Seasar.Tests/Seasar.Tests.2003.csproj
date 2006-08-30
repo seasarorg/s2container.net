@@ -147,6 +147,14 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "DTCTx.dicon"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "LocalTx.dicon"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "test.dicon"
                     BuildAction = "EmbeddedResource"
                 />
@@ -282,10 +290,6 @@
                 />
                 <File
                     RelPath = "Seasar.Tests.Extension.Tx\DTCRequiresNewInterceptorTest.dicon"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Seasar.Tests.Extension.Tx\DTCTx.dicon"
                     BuildAction = "EmbeddedResource"
                 />
                 <File

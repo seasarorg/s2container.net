@@ -18,7 +18,7 @@
   <include path="Seasar.Examples/Reference/Metadata/meta.dicon" />
   <include path="Seasar.Examples/Reference/LocalTx/LocalTxClient.dicon" />
   <include path="Seasar.Examples/Reference/DTCTx/DTCTxClient.dicon" />
-	<include path="Seasar.Examples/Reference/Tx/TxClient.dicon" />
+  <include path="Seasar.Examples/Reference/Tx/TxClient.dicon" />
   <include path="Seasar.Examples/Reference/S2Unit/Db2ExcelClient.dicon" />
   <include path="Seasar.Examples/Reference/S2Unit/Db2ExcelClient2.dicon" />
   <include path="Seasar.Examples/Reference/S2Unit/EmployeeDao.dicon" />

@@ -1,7 +1,7 @@
 <VisualStudioProject>
     <CSHARP
         ProjectType = "Local"
-        ProductVersion = "7.10.3077"
+        ProductVersion = "7.10.6030"
         SchemaVersion = "2.0"
         ProjectGuid = "{AF6F7B3F-FFE2-4C83-9275-7978F5039987}"
     >
@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "WinExe"
                 PreBuildEvent = ""
-                PostBuildEvent = 'xcopy "$(ProjectDir)Seasar.Examples" "$(TargetDir)\Seasar.Examples" /S /I /Y /D'
+                PostBuildEvent = 'copy "$(ProjectDir)App.2003.config" "$(TargetPath).config"&#xd;&#xa;xcopy "$(ProjectDir)Seasar.Examples" "$(TargetDir)\Seasar.Examples" /S /I /Y /D'
                 RootNamespace = ""
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
@@ -119,7 +119,7 @@
         <Files>
             <Include>
                 <File
-                    RelPath = "App.config"
+                    RelPath = "App.2003.config"
                     BuildAction = "None"
                 />
                 <File
@@ -174,7 +174,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Seasar.Examples\Tx.dicon"
+                    RelPath = "Seasar.Examples\LocalTx.dicon"
                     BuildAction = "None"
                 />
                 <File
