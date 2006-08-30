@@ -1,7 +1,7 @@
 <VisualStudioProject>
     <CSHARP
         ProjectType = "Local"
-        ProductVersion = "7.10.6030"
+        ProductVersion = "7.10.3077"
         SchemaVersion = "2.0"
         ProjectGuid = "{AF6F7B3F-FFE2-4C83-9275-7978F5039987}"
     >
@@ -90,11 +90,6 @@
                     HintPath = "C:\WINNT\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
                 />
                 <Reference
-                    Name = "Seasar"
-                    Project = "{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
                     Name = "Seasar.Unit"
                     Project = "{FC3A021B-6288-4C34-8303-544640D22FDA}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
@@ -113,6 +108,11 @@
                     Name = "MbUnit.Framework"
                     AssemblyName = "MbUnit.Framework"
                     HintPath = "..\..\lib\net1.1\MbUnit.Framework.dll"
+                />
+                <Reference
+                    Name = "Seasar.2003"
+                    Project = "{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
             </References>
         </Build>
