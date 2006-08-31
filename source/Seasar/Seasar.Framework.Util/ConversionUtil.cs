@@ -47,7 +47,8 @@ namespace Seasar.Framework.Util
                 ret = ConvertConvertible(o, targetType);
             }
 #if !NET_1_1
-            else if (targetType.GetGenericTypeDefinition().Equals(typeof(Nullable<>)))
+            else if (targetType.IsGenericType &&
+                targetType.GetGenericTypeDefinition().Equals(typeof(Nullable<>)))
             {
                 ret = ConvertNullable(o, targetType);
             }
