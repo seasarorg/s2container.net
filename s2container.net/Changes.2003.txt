@@ -5,6 +5,7 @@
 - ToStringUtilでコレクションの中にコレクションを含む場合、クラス名が出力される問題を修正
 - [CONTAINERNET-37]S2Unitでトランザクション有効時、DBセッション情報が残る問題を修正
 - [CONTAINERNET-19]Connectionを持ち回るための新しいDataSourceを作成する
+- ConversionUtilクラスのメソッド名をリファクタリングする
 
 S2Container.NET 1.2.3
 2006/8/14
