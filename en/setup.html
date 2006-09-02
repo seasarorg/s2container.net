@@ -35,6 +35,7 @@
 	<li><a href="#DownloadFile">Distribution Files</a></li>
 	<li><a href="#S2Container">S2Container.NET Setup</a></li>
 	<li><a href="#log4net">log4net Setup</a></li>
+	<li><a href="#S2ADO">S2ADO Setup</a></li>
 	<li><a href="#S2Unit">S2Unit.NET Setup</a></li>
 	<li><a href="#Seasar.DynamicProxy">Seasar.DynamicProxy Setup</a></li>
 	<li><a href="#Examples">Examples</a></li>
@@ -145,7 +146,7 @@ VB.NET
 <span class="kwrd">&lt;/</span><span class="html">configuration</span><span class="kwrd">&gt;</span></pre>
 
 <p>
-That ends log3net setup.
+That ends log4net setup.
 </p>
 <p>
 When an application configuration file that is configured with log4net does not log using log4net, however, log will not be outputted. As an example, if Seasar assembly tries to log an output, log4net tries to find log4net configuration in a Seasar assembly and will not output a log.
@@ -176,7 +177,20 @@ VB.NET
 log4net.Config.XmlConfigurator.Configure( _
    log4net.LogManager.GetRepository(), info)
 </pre>
-   
+
+<h2><a name="S2ADO">S2ADO Setup</a></h2>
+<p>
+  When using S2ADO, following files (assembly) must be added to referenced files.
+	<ul>
+		<li>s2container.net/lib/Nullables.dll</li>
+	</ul>
+</p>
+<p>
+  Next, set configuration in application configuration file (app.config) if necessary. Refer to the following page to set this configuration file.
+</p>
+<p>
+	<a href="db.html#AppConfig">S2Container.NET Reference - Application Configuration File</a>
+</p>
 
 <h2><a name="S2Unit">S2Unit.NET Setup</a></h2>
 <p>
