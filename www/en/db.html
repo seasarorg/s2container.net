@@ -106,21 +106,25 @@ Component configuration is as follows: (Replace values to those on your environm
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <pre class="csharpcode">
 <span class="kwrd">&lt;</span><span class="html">components</span> <span class="attr">namespace</span><span class="kwrd">="Ado"</span><span class="kwrd">&gt;</span>
-    <span class="rem">&lt;!-- .NET Framework Data Provider for SQL Server --&gt;</span>
-    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="SqlClient"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.ADO.DataProvider"</span><span class="kwrd">&gt;</span>
-        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="ConnectionType"</span><span class="kwrd">&gt;</span>"System.Data.SqlClient.SqlConnection"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
-        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="CommandType"</span><span class="kwrd">&gt;</span>"System.Data.SqlClient.SqlCommand"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
-        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="ParameterType"</span><span class="kwrd">&gt;</span>"System.Data.SqlClient.SqlParameter"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
-        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="DataAdapterType"</span><span class="kwrd">&gt;</span>"System.Data.SqlClient.SqlDataAdapter"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
-    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>    
-    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="DataSource"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.Tx.Impl.TxDataSource"</span><span class="kwrd">&gt;</span>
-        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="DataProvider"</span><span class="kwrd">&gt;</span>SqlClient<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
-        <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="ConnectionString"</span><span class="kwrd">&gt;</span>"Server=(local);database=s2dotnetdemo;Integrated Security=SSPI"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
-    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+  <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="SqlClient"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.ADO.DataProvider"</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="ConnectionType"</span><span class="kwrd">&gt;</span>"System.Data.SqlClient.SqlConnection"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="CommandType"</span><span class="kwrd">&gt;</span>"System.Data.SqlClient.SqlCommand"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="ParameterType"</span><span class="kwrd">&gt;</span>"System.Data.SqlClient.SqlParameter"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="DataAdapterType"</span><span class="kwrd">&gt;</span>"System.Data.SqlClient.SqlDataAdapter"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+  <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>   
+ 
+  <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="DataSource"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.Tx.Impl.TxDataSource"</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="DataProvider"</span><span class="kwrd">&gt;</span>SqlClient<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="ConnectionString"</span><span class="kwrd">&gt;</span>"Server=(local);database=s2dotnetdemo;Integrated Security=SSPI"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+  <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+
+  <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="TransactionContext"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.Tx.Impl.TransactionContext"</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="IsolationLevel"</span><span class="kwrd">&gt;</span>System.Data.IsolationLevel.ReadCommitted<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+  <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
 <span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
 </pre>
 
-<h3>Application Configuration File</h3>
+<h3><a name="AppConfig">Application Configuration File</a></h3>
 <p>
 To use .NET Framework data provider other than .NET Framework data provider for SQL Server, it is necessary to specify .NET Framework data provider assembly in &lt;seasar&gt; configuration section in the application configuration file.
 </p>
