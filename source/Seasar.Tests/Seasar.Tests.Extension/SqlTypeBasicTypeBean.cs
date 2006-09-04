@@ -22,170 +22,159 @@ using System.Text;
 
 namespace Seasar.Tests.Extension
 {
-	[Serializable]
-	public class SqlTypeBasicTypeBean 
-	{
-		private SqlInt64 id;
+    [Serializable]
+    public class SqlTypeBasicTypeBean
+    {
+        private SqlInt64 id;
 
-		public SqlInt64 Id
-		{
-			get { return id; }
-			set { id = value; }
-		}
+        public SqlInt64 Id
+        {
+            get { return id; }
+            set { id = value; }
+        }
 
-		private SqlBoolean boolType;
+        private SqlBoolean boolType;
 
-		public SqlBoolean BoolType
-		{
-			get { return boolType; }
-			set { boolType = value; }
-		}
+        public SqlBoolean BoolType
+        {
+            get { return boolType; }
+            set { boolType = value; }
+        }
 
-		private SqlByte byteType;
+        private SqlByte byteType;
 
-		public SqlByte ByteType
-		{
-			get { return byteType; }
-			set { byteType = value; }
-		}
+        public SqlByte ByteType
+        {
+            get { return byteType; }
+            set { byteType = value; }
+        }
 
-		private SByte sbyteType;
+        private SByte sbyteType;
 
-		public SByte SbyteType
-		{
-			get { return sbyteType; }
-			set { sbyteType = value; }
-		}
+        public SByte SbyteType
+        {
+            get { return sbyteType; }
+            set { sbyteType = value; }
+        }
 
-		private SqlInt16 int16Type;
+        private SqlInt16 int16Type;
 
-		public SqlInt16 Int16Type
-		{
-			get { return int16Type; }
-			set { int16Type = value; }
-		}
+        public SqlInt16 Int16Type
+        {
+            get { return int16Type; }
+            set { int16Type = value; }
+        }
 
-		private SqlInt32 int32Type;
+        private SqlInt32 int32Type;
 
-		public SqlInt32 Int32Type
-		{
-			get { return int32Type; }
-			set { int32Type = value; }
-		}
+        public SqlInt32 Int32Type
+        {
+            get { return int32Type; }
+            set { int32Type = value; }
+        }
 
-		private SqlInt64 int64Type;
+        private SqlInt64 int64Type;
 
-		public SqlInt64 Int64Type
-		{
-			get { return int64Type; }
-			set { int64Type = value; }
-		}
+        public SqlInt64 Int64Type
+        {
+            get { return int64Type; }
+            set { int64Type = value; }
+        }
 
-		private SqlDecimal decimalType;
+        private SqlDecimal decimalType;
 
-		public SqlDecimal DecimalType
-		{
-			get { return decimalType; }
-			set { decimalType = value; }
-		}
+        public SqlDecimal DecimalType
+        {
+            get { return decimalType; }
+            set { decimalType = value; }
+        }
 
-		private SqlSingle singleType;
+        private SqlSingle singleType;
 
-		public SqlSingle SingleType
-		{
-			get { return singleType; }
-			set { singleType = value; }
-		}
+        public SqlSingle SingleType
+        {
+            get { return singleType; }
+            set { singleType = value; }
+        }
 
-		private SqlDouble doubleType;
+        private SqlDouble doubleType;
 
-		public SqlDouble DoubleType
-		{
-			get { return doubleType; }
-			set { doubleType = value; }
-		}
+        public SqlDouble DoubleType
+        {
+            get { return doubleType; }
+            set { doubleType = value; }
+        }
 
-		private SqlString stringType;
+        private SqlString stringType;
 
-		public SqlString StringType
-		{
-			get { return stringType; }
-			set { stringType = value; }
-		}
+        public SqlString StringType
+        {
+            get { return stringType; }
+            set { stringType = value; }
+        }
 
-		private SqlDateTime dateTimeType;
+        private SqlDateTime dateTimeType;
 
-		public SqlDateTime DateTimeType
-		{
-			get { return dateTimeType; }
-			set { dateTimeType = value; }
-		}
+        public SqlDateTime DateTimeType
+        {
+            get { return dateTimeType; }
+            set { dateTimeType = value; }
+        }
 
-		private SqlBinary binaryType;
+        public SqlTypeBasicTypeBean()
+        {
+        }
 
-		public SqlBinary BinaryType
-		{
-			get { return binaryType; }
-			set { binaryType = value; }
-		}
+        public SqlTypeBasicTypeBean(
+            SqlInt64 id,
+            SqlBoolean boolType,
+            SByte sbyteType,
+            SqlByte byteType,
+            SqlInt16 int16Type,
+            SqlInt32 int32Type,
+            SqlInt64 int64Type,
+            SqlDecimal decimalType,
+            SqlSingle singleType,
+            SqlDouble doubleType,
+            SqlString stringType,
+            SqlDateTime dateTimeType
+            )
+        {
+            this.id = id;
+            this.boolType = boolType;
+            this.sbyteType = sbyteType;
+            this.byteType = byteType;
+            this.int16Type = int16Type;
+            this.int32Type = int32Type;
+            this.int64Type = int64Type;
+            this.decimalType = decimalType;
+            this.singleType = singleType;
+            this.doubleType = doubleType;
+            this.stringType = stringType;
+            this.dateTimeType = dateTimeType;
+        }
 
-		public SqlTypeBasicTypeBean()
-		{
-		}
+        public override int GetHashCode()
+        {
+            return (int) this.Id;
+        }
 
-		public SqlTypeBasicTypeBean(
-			SqlInt64 id,
-			SqlBoolean boolType,
-			SByte sbyteType,
-			SqlByte byteType,
-			SqlInt16 int16Type,
-			SqlInt32 int32Type,
-			SqlInt64 int64Type,
-			SqlDecimal decimalType,
-			SqlSingle singleType,
-			SqlDouble doubleType,
-			SqlString stringType,
-			SqlDateTime dateTimeType,
-			SqlBinary binaryType
-			)
-		{
-			this.id = id;
-			this.boolType = boolType;
-			this.sbyteType = sbyteType;
-			this.byteType = byteType;
-			this.int16Type = int16Type;
-			this.int32Type = int32Type;
-			this.int64Type = int64Type;
-			this.decimalType = decimalType;
-			this.singleType = singleType;
-			this.doubleType = doubleType;
-			this.stringType = stringType;
-			this.dateTimeType = dateTimeType;
-			this.binaryType = binaryType;
-		}
-
-		public override int GetHashCode()
-		{
-			return (int) this.Id;
-		}
-
-		public override string ToString()
-		{
-			StringBuilder buf = new StringBuilder();
-			buf.Append(id).Append(", ");
-			buf.Append(boolType).Append(", ");
-			buf.Append(sbyteType).Append(", ");
-			buf.Append(byteType).Append(", ");
-			buf.Append(int16Type).Append(", ");
-			buf.Append(int32Type).Append(", ");
-			buf.Append(int64Type).Append(", ");
-			buf.Append(decimalType).Append(", ");
-			buf.Append(singleType).Append(", ");
-			buf.Append(doubleType).Append(", ");
-			buf.Append(stringType).Append(", ");
-			buf.Append(dateTimeType).Append(", ");
-			buf.Append(binaryType).Append(", ");
-			return buf.ToString();
-		}
-	}
+        public override string ToString()
+        {
+            StringBuilder buf = new StringBuilder();
+            buf.Append(id).Append(", ");
+            buf.Append(boolType).Append(", ");
+            buf.Append(sbyteType).Append(", ");
+            buf.Append(byteType).Append(", ");
+            buf.Append(int16Type).Append(", ");
+            buf.Append(int32Type).Append(", ");
+            buf.Append(int64Type).Append(", ");
+            buf.Append(decimalType).Append(", ");
+            buf.Append(singleType).Append(", ");
+            buf.Append(doubleType).Append(", ");
+            buf.Append(stringType).Append(", ");
+            buf.Append(dateTimeType);
+            return buf.ToString();
+        }
+    }
 }
