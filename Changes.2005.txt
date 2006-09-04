@@ -1,5 +1,5 @@
 ﻿S2Container.NET 1.2.4
-準備中
+2006/9/5
 
 - S2Unitで使用するクラスの(public|protected)メソッドにvirtualキーワードを付ける
 - ToStringUtilでコレクションの中にコレクションを含む場合、クラス名が出力される問題を修正
