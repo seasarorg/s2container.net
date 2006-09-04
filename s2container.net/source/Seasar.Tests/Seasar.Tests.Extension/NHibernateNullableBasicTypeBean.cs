@@ -22,182 +22,159 @@ using Nullables;
 
 namespace Seasar.Tests.Extension
 {
-	[Serializable]
-	public class NHibernateNullableBasicTypeBean 
-	{
-		private NullableInt64 id;
+    [Serializable]
+    public class NHibernateNullableBasicTypeBean
+    {
+        private NullableInt64 id;
 
-		public NullableInt64 Id
-		{
-			get { return id; }
-			set { id = value; }
-		}
+        public NullableInt64 Id
+        {
+            get { return id; }
+            set { id = value; }
+        }
 
-		private NullableBoolean boolType;
+        private NullableBoolean boolType;
 
-		public NullableBoolean BoolType
-		{
-			get { return boolType; }
-			set { boolType = value; }
-		}
+        public NullableBoolean BoolType
+        {
+            get { return boolType; }
+            set { boolType = value; }
+        }
 
-		private NullableSByte sbyteType;
+        private NullableSByte sbyteType;
 
-		public NullableSByte SbyteType
-		{
-			get { return sbyteType; }
-			set { sbyteType = value; }
-		}
+        public NullableSByte SbyteType
+        {
+            get { return sbyteType; }
+            set { sbyteType = value; }
+        }
 
-		private NullableByte byteType;
+        private NullableByte byteType;
 
-		public NullableByte ByteType
-		{
-			get { return byteType; }
-			set { byteType = value; }
-		}
+        public NullableByte ByteType
+        {
+            get { return byteType; }
+            set { byteType = value; }
+        }
 
-		private NullableInt16 int16Type;
+        private NullableInt16 int16Type;
 
-		public NullableInt16 Int16Type
-		{
-			get { return int16Type; }
-			set { int16Type = value; }
-		}
+        public NullableInt16 Int16Type
+        {
+            get { return int16Type; }
+            set { int16Type = value; }
+        }
 
-		private NullableInt32 int32Type;
+        private NullableInt32 int32Type;
 
-		public NullableInt32 Int32Type
-		{
-			get { return int32Type; }
-			set { int32Type = value; }
-		}
+        public NullableInt32 Int32Type
+        {
+            get { return int32Type; }
+            set { int32Type = value; }
+        }
 
-		private NullableInt64 int64Type;
+        private NullableInt64 int64Type;
 
-		public NullableInt64 Int64Type
-		{
-			get { return int64Type; }
-			set { int64Type = value; }
-		}
+        public NullableInt64 Int64Type
+        {
+            get { return int64Type; }
+            set { int64Type = value; }
+        }
 
-		private NullableDecimal decimalType;
+        private NullableDecimal decimalType;
 
-		public NullableDecimal DecimalType
-		{
-			get { return decimalType; }
-			set { decimalType = value; }
-		}
+        public NullableDecimal DecimalType
+        {
+            get { return decimalType; }
+            set { decimalType = value; }
+        }
 
-		private NullableSingle singleType;
+        private NullableSingle singleType;
 
-		public NullableSingle SingleType
-		{
-			get { return singleType; }
-			set { singleType = value; }
-		}
+        public NullableSingle SingleType
+        {
+            get { return singleType; }
+            set { singleType = value; }
+        }
 
-		private NullableDouble doubleType;
+        private NullableDouble doubleType;
 
-		public NullableDouble DoubleType
-		{
-			get { return doubleType; }
-			set { doubleType = value; }
-		}
+        public NullableDouble DoubleType
+        {
+            get { return doubleType; }
+            set { doubleType = value; }
+        }
 
-		private string stringType;
+        private string stringType;
 
-		public string StringType
-		{
-			get { return stringType; }
-			set { stringType = value; }
-		}
+        public string StringType
+        {
+            get { return stringType; }
+            set { stringType = value; }
+        }
 
-		private NullableDateTime dateTimeType;
+        private NullableDateTime dateTimeType;
 
-		public NullableDateTime DateTimeType
-		{
-			get { return dateTimeType; }
-			set { dateTimeType = value; }
-		}
+        public NullableDateTime DateTimeType
+        {
+            get { return dateTimeType; }
+            set { dateTimeType = value; }
+        }
 
-		private NullableByte[] binaryType;
+        public NHibernateNullableBasicTypeBean()
+        {
+        }
 
-		public NullableByte[] BinaryType
-		{
-			get { return binaryType; }
-			set { binaryType = value; }
-		}
+        public NHibernateNullableBasicTypeBean(
+            NullableInt64 id,
+            NullableBoolean boolType,
+            NullableSByte sbyteType,
+            NullableByte byteType,
+            NullableInt16 int16Type,
+            NullableInt32 int32Type,
+            NullableInt64 int64Type,
+            NullableDecimal decimalType,
+            NullableSingle singleType,
+            NullableDouble doubleType,
+            string stringType,
+            NullableDateTime dateTimeType
+            )
+        {
+            this.id = id;
+            this.boolType = boolType;
+            this.sbyteType = sbyteType;
+            this.byteType = byteType;
+            this.int16Type = int16Type;
+            this.int32Type = int32Type;
+            this.int64Type = int64Type;
+            this.decimalType = decimalType;
+            this.singleType = singleType;
+            this.doubleType = doubleType;
+            this.stringType = stringType;
+            this.dateTimeType = dateTimeType;
+        }
 
-		public NHibernateNullableBasicTypeBean()
-		{
-		}
+        public override int GetHashCode()
+        {
+            return (int) this.Id;
+        }
 
-		public NHibernateNullableBasicTypeBean(
-			NullableInt64 id,
-			NullableBoolean boolType,
-			NullableSByte sbyteType,
-			NullableByte byteType,
-			NullableInt16 int16Type,
-			NullableInt32 int32Type,
-			NullableInt64 int64Type,
-			decimal decimalType,
-			float singleType,
-			double doubleType,
-			string stringType,
-			DateTime dateTimeType,
-			NullableByte[] binaryType
-			)
-		{
-			this.id = id;
-			this.boolType = boolType;
-			this.sbyteType = sbyteType;
-			this.byteType = byteType;
-			this.int16Type = int16Type;
-			this.int32Type = int32Type;
-			this.int64Type = int64Type;
-			this.decimalType = decimalType;
-			this.singleType = singleType;
-			this.doubleType = doubleType;
-			this.stringType = stringType;
-			this.dateTimeType = dateTimeType;
-			this.binaryType = binaryType;
-		}
-
-		public override int GetHashCode()
-		{
-			return (int) this.Id;
-		}
-
-		public override string ToString()
-		{
-			StringBuilder buf = new StringBuilder();
-			buf.Append(id).Append(", ");
-			buf.Append(boolType).Append(", ");
-			buf.Append(sbyteType).Append(", ");
-			buf.Append(byteType).Append(", ");
-			buf.Append(int16Type).Append(", ");
-			buf.Append(int32Type).Append(", ");
-			buf.Append(int64Type).Append(", ");
-			buf.Append(decimalType).Append(", ");
-			buf.Append(singleType).Append(", ");
-			buf.Append(doubleType).Append(", ");
-			buf.Append(stringType).Append(", ");
-			buf.Append(dateTimeType).Append(", ");
-			if (binaryType != null)
-			{
-				byte[] bytes = new byte[binaryType.Length];
-				for (int i = 0; i < binaryType.Length; i++)
-				{
-					bytes[i] = binaryType[i].Value;
-				}
-				buf.Append(Convert.ToBase64String(bytes));
-			}
-			else
-			{
-				buf.Append("null");
-			}
-			return buf.ToString();
-		}
-	}
+        public override string ToString()
+        {
+            StringBuilder buf = new StringBuilder();
+            buf.Append(id).Append(", ");
+            buf.Append(boolType).Append(", ");
+            buf.Append(sbyteType).Append(", ");
+            buf.Append(byteType).Append(", ");
+            buf.Append(int16Type).Append(", ");
+            buf.Append(int32Type).Append(", ");
+            buf.Append(int64Type).Append(", ");
+            buf.Append(decimalType).Append(", ");
+            buf.Append(singleType).Append(", ");
+            buf.Append(doubleType).Append(", ");
+            buf.Append(stringType).Append(", ");
+            buf.Append(dateTimeType);
+            return buf.ToString();
+        }
+    }
 }
