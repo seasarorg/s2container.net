@@ -125,7 +125,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
             Assert.AreEqual(9.876543, ret.SingleType);
             Assert.AreEqual(9.87654321098765, ret.DoubleType);
             Assert.AreEqual(@"í|\ñ˜Å`", ret.StringType);
-            Assert.AreEqual(new DateTime(1980, 12, 17, 12, 34, 56, 123), ret.DateTimeType);
+            Assert.AreEqual(new DateTime(1980, 12, 17, 12, 34, 56), ret.DateTimeType);
         }
 
         public void SetUpHandleNHibernateNullableType()
@@ -164,7 +164,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
             Assert.AreEqual(9.876543, ret.SingleType.Value);
             Assert.AreEqual(9.87654321098765, ret.DoubleType.Value);
             Assert.AreEqual(@"í|\ñ˜Å`", ret.StringType);
-            Assert.AreEqual(new DateTime(1980, 12, 17, 12, 34, 56, 123), ret.DateTimeType.Value);
+            Assert.AreEqual(new DateTime(1980, 12, 17, 12, 34, 56), ret.DateTimeType.Value);
         }
 
         public void SetUpHandleNHibernateNullableTypeNullValue()
@@ -244,7 +244,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
             Assert.AreEqual(9.876543, ret.SingleType.Value);
             Assert.AreEqual(9.87654321098765, ret.DoubleType.Value);
             Assert.AreEqual(@"í|\ñ˜Å`", ret.StringType);
-            Assert.AreEqual(new DateTime(1980, 12, 17, 12, 34, 56, 123), ret.DateTimeType.Value);
+            Assert.AreEqual(new DateTime(1980, 12, 17, 12, 34, 56), ret.DateTimeType.Value);
         }
 
         public void SetUpHandleNullableTypeNullValue()
@@ -324,7 +324,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
             Assert.AreEqual(9.876543, ret.SingleType.Value);
             Assert.AreEqual(9.87654321098765, ret.DoubleType.Value);
             Assert.AreEqual(@"í|\ñ˜Å`", ret.StringType.Value);
-            Assert.AreEqual(new DateTime(1980, 12, 17, 12, 34, 56, 123), ret.DateTimeType.Value);
+            Assert.AreEqual(new DateTime(1980, 12, 17, 12, 34, 56), ret.DateTimeType.Value);
         }
 
         public void SetUpHandleSqlTypeNullValue()
