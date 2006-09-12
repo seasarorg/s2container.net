@@ -1,4 +1,10 @@
-﻿S2Container.NET 1.2.4
+﻿S2Container.NET 1.2.5
+準備中
+
+- [CONTAINERNET-40]Seasar.Extension.Tx.Impl.TransactionContextのLevelプロパティの名前をIsolationLevelに変更する
+- [CONTAINERNET-41]TransactionContextにIsolationLevelを設定できない場合がある
+
+S2Container.NET 1.2.4
 2006/9/5
 
 - S2Unitで使用するクラスの(public|protected)メソッドにvirtualキーワードを付ける

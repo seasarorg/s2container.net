@@ -34,7 +34,7 @@ namespace Seasar.Extension.Tx.Impl
 		private LocalDataStoreSlot slot;
 
 		private IDataSource dataSource;
-		private IsolationLevel level = IsolationLevel.ReadCommitted;
+		private IsolationLevel isolationLevel = IsolationLevel.ReadCommitted;
 
 		private ITransactionContext parent;
 		private IDbConnection connection;
@@ -58,7 +58,7 @@ namespace Seasar.Extension.Tx.Impl
 		public void Begin()
 		{
 			OpenConnection();
-			this.transaction = this.Connection.BeginTransaction(this.Level);
+			this.transaction = this.Connection.BeginTransaction(this.IsolationLevel);
 			logger.Log("DSSR0003", null);
 		}
 
@@ -82,6 +82,7 @@ namespace Seasar.Extension.Tx.Impl
 		{
 			TransactionContext ctx = new TransactionContext(this.slot);
 			ctx.dataSource = this.dataSource;
+            ctx.isolationLevel = this.isolationLevel;
 			return ctx;
 		}
 
@@ -138,15 +139,15 @@ namespace Seasar.Extension.Tx.Impl
 			}
 		}
 
-		public IsolationLevel Level
+		public IsolationLevel IsolationLevel
 		{
 			get
 			{
-				return this.level;
+				return this.isolationLevel;
 			}
 			set
 			{
-				this.level = value;
+				this.isolationLevel = value;
 			}
 		}
 
