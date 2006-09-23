@@ -1,0 +1,37 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S2WindowsExample.2003", "S2WindowsExample\S2WindowsExample.2003.csproj", "{27A50643-AE9A-490E-8849-64F5CA9F4303}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S2WindowsExample.Logics.2003", "S2WindowsExample.Logics\S2WindowsExample.Logics.2003.csproj", "{9A5B4967-7574-49DA-84C5-9D277CF76B1F}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S2WindowsExample.Tests.2003", "S2WindowsExample.Tests\S2WindowsExample.Tests.2003.csproj", "{D07F6B6E-C4AB-47AC-8F48-4DB12E71FBD7}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{27A50643-AE9A-490E-8849-64F5CA9F4303}.Debug.ActiveCfg = Debug|.NET
+		{27A50643-AE9A-490E-8849-64F5CA9F4303}.Debug.Build.0 = Debug|.NET
+		{27A50643-AE9A-490E-8849-64F5CA9F4303}.Release.ActiveCfg = Release|.NET
+		{27A50643-AE9A-490E-8849-64F5CA9F4303}.Release.Build.0 = Release|.NET
+		{9A5B4967-7574-49DA-84C5-9D277CF76B1F}.Debug.ActiveCfg = Debug|.NET
+		{9A5B4967-7574-49DA-84C5-9D277CF76B1F}.Debug.Build.0 = Debug|.NET
+		{9A5B4967-7574-49DA-84C5-9D277CF76B1F}.Release.ActiveCfg = Release|.NET
+		{9A5B4967-7574-49DA-84C5-9D277CF76B1F}.Release.Build.0 = Release|.NET
+		{D07F6B6E-C4AB-47AC-8F48-4DB12E71FBD7}.Debug.ActiveCfg = Debug|.NET
+		{D07F6B6E-C4AB-47AC-8F48-4DB12E71FBD7}.Debug.Build.0 = Debug|.NET
+		{D07F6B6E-C4AB-47AC-8F48-4DB12E71FBD7}.Release.ActiveCfg = Release|.NET
+		{D07F6B6E-C4AB-47AC-8F48-4DB12E71FBD7}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

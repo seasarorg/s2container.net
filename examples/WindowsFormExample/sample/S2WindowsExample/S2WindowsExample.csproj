@@ -1,0 +1,159 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A9DA15AD-2F18-4450-B203-489BB70C6F48}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Seasar.WindowsExample.Forms</RootNamespace>
+    <AssemblyName>S2WindowsExample</AssemblyName>
+    <StartupObject>Seasar.WindowsExample.Forms.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\net2.0\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Nullables, Version=1.0.0.0, Culture=neutral, PublicKeyToken=154fdcb44c4484fc">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\net2.0\Nullables.dll</HintPath>
+    </Reference>
+    <Reference Include="Seasar, Version=1.2.4.0, Culture=neutral, PublicKeyToken=1d0d0c484d50ca62, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\net2.0\Seasar.dll</HintPath>
+    </Reference>
+    <Reference Include="Seasar.Dao, Version=1.0.0.1, Culture=neutral, PublicKeyToken=73a7c921d802e17e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\net2.0\Seasar.Dao.dll</HintPath>
+    </Reference>
+    <Reference Include="Seasar.DynamicProxy, Version=1.2.4.0, Culture=neutral, PublicKeyToken=1d0d0c484d50ca62, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\net2.0\Seasar.DynamicProxy.dll</HintPath>
+    </Reference>
+    <Reference Include="Seasar.Windows, Version=1.2.4.0, Culture=neutral, PublicKeyToken=1d0d0c484d50ca62, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\net2.0\Seasar.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FrmDepartmentEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmDepartmentEdit.Designer.cs">
+      <DependentUpon>FrmDepartmentEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmDepartmentList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmDepartmentList.Designer.cs">
+      <DependentUpon>FrmDepartmentList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmEmployeeEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmEmployeeEdit.Designer.cs">
+      <DependentUpon>FrmEmployeeEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmEmployeeList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmEmployeeList.Designer.cs">
+      <DependentUpon>FrmEmployeeList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmMainMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmMainMenu.Designer.cs">
+      <DependentUpon>FrmMainMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IFormDispatcher.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FrmDepartmentEdit.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmDepartmentEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmDepartmentList.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmDepartmentList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmEmployeeEdit.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmEmployeeEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmEmployeeList.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmEmployeeList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmMainMenu.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FrmMainMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="App.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\S2WindowsExample.Logics\S2WindowsExample.Logics.csproj">
+      <Project>{D881FB78-056A-483B-85A4-2F7B12D161F6}</Project>
+      <Name>S2WindowsExample.Logics</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(SolutionDir)\S2WindowsExample.Tests\*.dicon" "$(TargetDir)"/Y
+copy "$(SolutionDir)\S2WindowsExample.Tests\*.mdb" "$(TargetDir)"/Y
+copy "$(ProjectDir)App.Config" "$(TargetDir)\$(TargetFileName).config" /Y</PostBuildEvent>
+  </PropertyGroup>
+</Project>

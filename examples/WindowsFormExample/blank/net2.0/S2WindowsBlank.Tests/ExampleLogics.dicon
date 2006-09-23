@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
+"http://www.seasar.org/dtd/components21.dtd">
+<components >
+
+	<include path="Ex.dicon"/>
+	
+	<!-- DAO -->
+  <!-- 
+  <component name="departmentDao" class="Seasar.WindowsExample.Logics.Dao.IDepartmentDao">
+    <aspect>Ex.DaoInterceptor</aspect>
+	</component>
+	-->
+  
+  <!-- Logic -->
+  <!--
+  <component class="Seasar.WindowsExample.Logics.Service.Impl.DepartmentEditServiceImpl">
+    <aspect pointcut="ExecUpdate">Ex.LocalRequiredTx</aspect>
+    <aspect pointcut="ExecDelete">Ex.LocalRequiredTx</aspect>
+  </component>
+  -->
+  
+</components>
