@@ -5,7 +5,6 @@
 - [CONTAINERNET-41]TransactionContextにIsolationLevelを設定できない場合がある問題を修正する
 - [CONTAINERNET-44]SQLRuntimeExceptionでSQLを保持するようにする
 - ExamplesにWindowsFormExampleのサンプルとブランクソリューションを追加する
-- 
 
 S2Container.NET 1.2.4
 2006/9/5
