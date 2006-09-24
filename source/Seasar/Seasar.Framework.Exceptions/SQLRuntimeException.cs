@@ -22,16 +22,53 @@ using System.Runtime.Serialization;
 namespace Seasar.Framework.Exceptions
 {
     /// <summary>
-    /// SQLRuntimeException の概要の説明です。
+    /// RDBMSが警告またはエラーを返したときにスローされる例外
     /// </summary>
     [Serializable]
 	public class SQLRuntimeException : SRuntimeException
     {
+        private string _sql;
+
+        /// <summary>
+        /// 例外の原因となったSQLを設定もしくは取得する
+        /// </summary>
+        public string Sql
+        {
+            set
+            {
+                _sql = value;
+            }
+            get
+            {
+                return _sql;
+            }
+        }
+
+        /// <summary>
+        /// SQLRuntimeExceptionクラスの新しいインスタンスを初期化し、原因となった例外を設定する
+        /// </summary>
+        /// <param name="cause">原因となった例外</param>
         public SQLRuntimeException(Exception cause)
             : base("ESSR0071", new object[] { cause }, cause)
         {
         }
 
+        /// <summary>
+        /// SQLRuntimeExceptionクラスの新しいインスタンスを初期化し、原因となった例外とSQLを設定する
+        /// </summary>
+        /// <param name="cause">原因となった例外</param>
+        /// <param name="targetSql">原因となったSQL</param>
+        public SQLRuntimeException(Exception cause, string sql)
+            : this(cause)
+        {
+            _sql = sql;
+        }
+
+        /// <summary>
+        /// シリアル化したデータを使用して、SQLRuntimeExceptionクラスの新しいインスタンスを初期化する
+        /// </summary>
+        /// <param name="info">シリアル化されたオブジェクト データを保持するオブジェクト</param>
+        /// <param name="context">転送元または転送先に関するコンテキスト情報</param>
 		public SQLRuntimeException(SerializationInfo info, StreamingContext context) 
 			: base( info, context )
 		{
