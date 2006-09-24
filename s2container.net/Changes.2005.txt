@@ -1,8 +1,11 @@
 ﻿S2Container.NET 1.2.5
-準備中
+2006/9/25
 
 - [CONTAINERNET-40]Seasar.Extension.Tx.Impl.TransactionContextのLevelプロパティの名前をIsolationLevelに変更する
-- [CONTAINERNET-41]TransactionContextにIsolationLevelを設定できない場合がある
+- [CONTAINERNET-41]TransactionContextにIsolationLevelを設定できない場合がある問題を修正する
+- [CONTAINERNET-44]SQLRuntimeExceptionでSQLを保持するようにする
+- ExamplesにWindowsFormExampleのサンプルとブランクソリューションを追加する
+- 
 
 S2Container.NET 1.2.4
 2006/9/5

@@ -51,7 +51,7 @@ namespace Seasar.Framework.Util
             }
             catch(Exception ex)
             {
-                throw new SQLRuntimeException(ex);
+                throw new SQLRuntimeException(ex, cmd.CommandText);
             }
         }
 
@@ -64,7 +64,7 @@ namespace Seasar.Framework.Util
             }
             catch(Exception ex)
             {
-                throw new SQLRuntimeException(ex);
+                throw new SQLRuntimeException(ex, cmd.CommandText);
             }
         }
 
@@ -77,7 +77,7 @@ namespace Seasar.Framework.Util
             }
             catch(Exception ex)
             {
-                throw new SQLRuntimeException(ex);
+                throw new SQLRuntimeException(ex, cmd.CommandText);
             }
         }
 
