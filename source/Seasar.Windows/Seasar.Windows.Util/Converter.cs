@@ -68,7 +68,14 @@ namespace Seasar.Windows.Utils
                 foreach (PropertyInfo pi in pis)
                 {
                     PropertyInfo p = bean.GetType().GetProperty(pi.Name);
-                    row[pi.Name] = p.GetValue(bean, null);
+                    if ( p.GetValue(bean, null) != null )
+                    {
+                        row[pi.Name] = p.GetValue(bean, null);
+                    }
+                    else
+                    {
+                        row[pi.Name] = DBNull.Value;
+                    }
                 }
 
                 dt.Rows.Add(row);
