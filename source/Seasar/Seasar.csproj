@@ -451,12 +451,14 @@
     <Compile Include="Seasar.Framework.Aop\Impl\MethodInvocationImpl.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Framework.Aop\Impl\NestedMethodInvocation.cs" />
     <Compile Include="Seasar.Framework.Aop\Impl\PointcutImpl.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Seasar.Framework.Aop\Interceptors\AbstractInterceptor.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Framework.Aop\Interceptors\InterceptorChain.cs" />
     <Compile Include="Seasar.Framework.Aop\Interceptors\MockInterceptor.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -784,6 +786,7 @@
     <Compile Include="Seasar.Framework.Message\MessageFormatter.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Framework.Util\ArrayUtil.cs" />
     <Compile Include="Seasar.Framework.Util\BindVariableType.cs">
       <SubType>Code</SubType>
     </Compile>

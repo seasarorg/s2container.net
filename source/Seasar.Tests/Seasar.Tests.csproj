@@ -294,6 +294,7 @@
     <Compile Include="Seasar.Tests.Framework.Aop\Impl\PointcutImplTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Tests.Framework.Aop\Interceptors\InterceptorChainTest.cs" />
     <Compile Include="Seasar.Tests.Framework.Aop\Interceptors\MockInterceptorTest.cs">
       <SubType>Code</SubType>
     </Compile>
