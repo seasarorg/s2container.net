@@ -90,15 +90,17 @@ namespace Seasar.Windows.AOP.Interceptors
 #if NET_1_1
             Hashtable hashOfParams = CollectionsUtil.CreateCaseInsensitiveHashtable();
             IList listOfParams = new ArrayList();
+            Hashtable hashOfPropNames = CollectionsUtil.CreateCaseInsensitiveHashtable();
 #else
             IDictionary<string, object> hashOfParams = new Dictionary<string, object>();
             IList<string> listOfParams = new List<string>();
+            IDictionary<string, string> hashOfPropNames = new Dictionary<string, string>();
 #endif
        
             foreach (ParameterInfo pi in pis)
             {
-                hashOfParams.Add(pi.Name, args[pi.Position]);
-                listOfParams.Add(pi.Name);
+                hashOfParams.Add(pi.Name.ToLower(), args[pi.Position]);
+                listOfParams.Add(pi.Name.ToLower());
             }
 
             // WindowsFormの表示
@@ -107,6 +109,7 @@ namespace Seasar.Windows.AOP.Interceptors
             {
                 if ( o is TargetFormAttribute )
                 {
+                    // 戻り値のプロパティ名を取得する
                     TargetFormAttribute attribute = (TargetFormAttribute) o;
                     Type formType = attribute.FormType;
                     Form form = (Form) container_.GetComponent(formType);
@@ -120,18 +123,35 @@ namespace Seasar.Windows.AOP.Interceptors
                         else
                             propertyName = "";
                     }
+                    
+                    // フォームに値をセットする
+                    PropertyInfo[] infos = form.GetType().GetProperties();
+                    foreach (PropertyInfo info in infos)
+                    {
+                        hashOfPropNames.Add(info.Name.ToLower(), info.Name);
+                    }
+                    
                     for ( int i = 0; i < listOfParams.Count; i++ )
                     {
-
 #if NET_1_1
-                        PropertyInfo property = form.GetType().GetProperty((string) listOfParams[i]);
+                        if ( hashOfPropNames.ContainsKey((string) listOfParams[i]) )
+                        {
+                            string propName = (string) hashOfPropNames[(string) listOfParams[i]];
+                            PropertyInfo property = form.GetType().GetProperty(propName);
+                            property.SetValue(form, hashOfParams[(string) listOfParams[i]], null);
+                        }
 #else
-                        PropertyInfo property = form.GetType().GetProperty(listOfParams[i]);
+                        if ( hashOfPropNames.ContainsKey(listOfParams[i]) )
+                        {
+                            string propName = hashOfPropNames[listOfParams[i]];
+                            PropertyInfo property = form.GetType().GetProperty(propName);
+                            property.SetValue(form, hashOfParams[listOfParams[i]], null);
+                        }                        
 #endif
-                        
-                        property.SetValue(form, hashOfParams[listOfParams[i]], null);
+
                     }
 
+                    // WindowsFormの表示
                     if ( attribute.Mode == ModalType.Modal )
                     {
                         retOfReplace = form.ShowDialog();
