@@ -1,4 +1,8 @@
-﻿S2Container.NET 1.2.5
+﻿S2Container.NET 1.2.6
+2006/??/??
+- [CONTAINERNET-43]S2Unit.NETのExcelデータ投入時、ID列にデータを挿入できるようにする
+
+S2Container.NET 1.2.5
 2006/9/25
 
 - [CONTAINERNET-40]Seasar.Extension.Tx.Impl.TransactionContextのLevelプロパティの名前をIsolationLevelに変更する

@@ -16,15 +16,27 @@
  */
 #endregion
 
-using System;
-using System.Collections;
+using System.Data;
+using Seasar.Extension.ADO;
+using Seasar.Extension.DataSets;
+using Seasar.Extension.DataSets.Impl;
 
-namespace Seasar.Extension.ADO
+namespace Seasar.Extension.DataSets.Impl
 {
-    public interface IDatabaseMetaData
+    public class SqlServerSqlWriter : SqlWriter
     {
-        IList GetPrimaryKeySet(string tableName);
-        IList GetColumnSet(string tableName);
-        IList GetAutoIncrementColumnSet(string tableName);
+        public SqlServerSqlWriter(IDataSource dataSource)
+            : base(dataSource)
+        {
+        }
+
+        public override void Write(DataSet dataSet)
+        {
+            ITableWriter writer = new SqlServerSqlTableWriter(DataSource);
+            foreach (DataTable table in dataSet.Tables)
+            {
+                writer.Write(table);
+            }
+        }
     }
 }

@@ -49,14 +49,31 @@ namespace Seasar.Extension.DataSets.Impl
 
         #endregion
 
+        protected virtual void BeginDoWrite(DataTable table)
+        {
+        }
+
         protected virtual void DoWrite(DataTable table)
         {
-            foreach (DataRow row in table.Rows)
+            try
             {
-                RowState state = RowStateFactory.GetRowState(row.RowState);
-                state.Update(DataSource, row);
+                BeginDoWrite(table);
+                
+                foreach (DataRow row in table.Rows)
+                {
+                    RowState state = RowStateFactory.GetRowState(row.RowState);
+                    state.Update(DataSource, row);
+                }
+                table.AcceptChanges();
             }
-            table.AcceptChanges();
+            finally
+            {
+                EndDoWrite(table);
+            }
+        }
+
+        protected virtual void EndDoWrite(DataTable table)
+        {
         }
 
         private void SetupMetaData(DataTable table)

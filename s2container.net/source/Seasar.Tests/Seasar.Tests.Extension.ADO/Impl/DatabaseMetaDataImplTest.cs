@@ -31,32 +31,32 @@ using Seasar.Framework.Exceptions;
 
 namespace Seasar.Tests.Extension.ADO.Impl
 {
-	[TestFixture]
-	public class DatabaseMetaDataImplTest : S2TestCase
-	{
-		private const string PATH = "Ado.dicon";
+    [TestFixture]
+    public class DatabaseMetaDataImplTest : S2TestCase
+    {
+        private const string PATH = "Ado.dicon";
 
         static DatabaseMetaDataImplTest()
-		{
-			FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
-				Assembly.GetExecutingAssembly()) + ".config");
-			XmlConfigurator.Configure(LogManager.GetRepository(), info);
-		}
+        {
+            FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
+                Assembly.GetExecutingAssembly()) + ".config");
+            XmlConfigurator.Configure(LogManager.GetRepository(), info);
+        }
 
-        public void SetUpGetPrimaryKeySet() 
-		{
-			Include(PATH);
-		}
+        public void SetUpGetPrimaryKeySet()
+        {
+            Include(PATH);
+        }
 
         [Test, S2]
         public void TestGetPrimaryKeySet()
-		{
+        {
             DatabaseMetaDataImpl dmd = new DatabaseMetaDataImpl(this.DataSource);
             IList primaryKeySet = dmd.GetPrimaryKeySet("EMP");
 
             Assert.AreEqual(1, primaryKeySet.Count);
             Assert.AreEqual("EMPNO", primaryKeySet[0] as string);
-		}
+        }
 
         public void SetUpGetColumnSet()
         {
@@ -79,6 +79,24 @@ namespace Seasar.Tests.Extension.ADO.Impl
             Assert.IsTrue(columSet.Contains("COMM"));
             Assert.IsTrue(columSet.Contains("DEPTNO"));
             Assert.IsTrue(columSet.Contains("TSTAMP"));
+        }
+
+        public void SetUpGetAutoIncrementColumnSet()
+        {
+            Include(PATH);
+        }
+
+        [Test, S2]
+        public void TestGetAutoIncrementColumnSet()
+        {
+            if (DataSource.GetCommand().GetType().Name.Equals("SqlCommand"))
+            {
+                DatabaseMetaDataImpl dmd = new DatabaseMetaDataImpl(this.DataSource);
+                IList autoIncrementColumSet = dmd.GetAutoIncrementColumnSet("IDENTITYTABLE");
+
+                Assert.AreEqual(1, autoIncrementColumSet.Count);
+                Assert.IsTrue(autoIncrementColumSet.Contains("ID"));
+            }
         }
     }
 }
