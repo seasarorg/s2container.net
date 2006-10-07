@@ -1,7 +1,7 @@
 <VisualStudioProject>
     <CSHARP
         ProjectType = "Local"
-        ProductVersion = "7.10.3077"
+        ProductVersion = "7.10.6030"
         SchemaVersion = "2.0"
         ProjectGuid = "{6D6327B1-4252-470A-A76B-8E923F34AB7C}"
     >
@@ -368,6 +368,10 @@
                     RelPath = "Seasar.Tests.Extension.Unit\S2TestCaseTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Tests.Extension.Unit\S2TestCaseTest_ReadXlsWriteDbTx.xls"
+                    BuildAction = "None"
                 />
                 <File
                     RelPath = "Seasar.Tests.Extension.Unit\testdata.xls"

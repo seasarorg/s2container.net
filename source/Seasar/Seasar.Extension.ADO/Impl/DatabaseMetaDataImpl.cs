@@ -33,9 +33,12 @@ namespace Seasar.Extension.ADO.Impl
             new CaseInsensitiveHashCodeProvider(), new CaseInsensitiveComparer());
         private IDictionary columns = new Hashtable(
             new CaseInsensitiveHashCodeProvider(), new CaseInsensitiveComparer());
+        private IDictionary autoIncrementColumns = new Hashtable(
+            new CaseInsensitiveHashCodeProvider(), new CaseInsensitiveComparer());
 #else
         private IDictionary primaryKeys = new Hashtable(StringComparer.CurrentCultureIgnoreCase);
         private IDictionary columns = new Hashtable(StringComparer.CurrentCultureIgnoreCase);
+        private IDictionary autoIncrementColumns = new Hashtable(StringComparer.CurrentCultureIgnoreCase);
 #endif
 
         private IDataSource dataSource;
@@ -57,6 +60,12 @@ namespace Seasar.Extension.ADO.Impl
         {
             if(!this.columns.Contains(tableName)) CreateTableMetaData(tableName);
             return (IList) columns[tableName];
+        }
+
+        public IList GetAutoIncrementColumnSet(string tableName)
+        {
+            if (!this.autoIncrementColumns.Contains(tableName)) CreateTableMetaData(tableName);
+            return (IList) autoIncrementColumns[tableName];
         }
 
         #endregion
@@ -103,6 +112,9 @@ namespace Seasar.Extension.ADO.Impl
 
                     // テーブル定義情報からカラムを取得する
                     columns[tableName] = GetColumnSet(metaDataTables[0].Columns);
+
+                    // テーブル定義情報からAutoIncrementカラムを取得する
+                    autoIncrementColumns[tableName] = GetAutoIncrementColumnSet(metaDataTables[0].Columns);
                 }
                 finally
                 {
@@ -131,6 +143,18 @@ namespace Seasar.Extension.ADO.Impl
             }
             return list;
         }
-        
+
+        private IList GetAutoIncrementColumnSet(DataColumnCollection columns)
+        {
+            IList list = new CaseInsentiveSet();
+            foreach (DataColumn column in columns)
+            {
+                if (column.AutoIncrement)
+                {
+                    list.Add(column.ColumnName);
+                }
+            }
+            return list;
+        }
     }
 }

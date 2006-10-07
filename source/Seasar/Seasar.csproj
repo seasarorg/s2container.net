@@ -357,6 +357,8 @@
     <Compile Include="Seasar.Extension.DataSets\Impl\SqlReloadTableReader.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Extension.DataSets\Impl\SqlServerSqlTableWriter.cs" />
+    <Compile Include="Seasar.Extension.DataSets\Impl\SqlServerSqlWriter.cs" />
     <Compile Include="Seasar.Extension.DataSets\Impl\SqlTableReader.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -372,6 +374,7 @@
     <Compile Include="Seasar.Extension.DataSets\Impl\XlsWriter.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Extension.DataSets\Impl\SqlWriterFactory.cs" />
     <Compile Include="Seasar.Extension.DataSets\ITableReader.cs">
       <SubType>Code</SubType>
     </Compile>

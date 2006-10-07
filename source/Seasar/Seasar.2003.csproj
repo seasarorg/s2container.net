@@ -584,6 +584,16 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Seasar.Extension.DataSets\Impl\SqlServerSqlTableWriter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.DataSets\Impl\SqlServerSqlWriter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Seasar.Extension.DataSets\Impl\SqlTableReader.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -595,6 +605,11 @@
                 />
                 <File
                     RelPath = "Seasar.Extension.DataSets\Impl\SqlWriter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.DataSets\Impl\SqlWriterFactory.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

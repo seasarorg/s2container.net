@@ -119,7 +119,7 @@ namespace Seasar.Extension.Unit
         /// <param name="dataSet">データベースに書き込む内容のDataSet</param>
         public virtual void WriteDb(DataSet dataSet)
         {
-            IDataWriter writer = new SqlWriter(DataSource);
+            IDataWriter writer = SqlWriterFactory.GetSqlWriter(DataSource);
             writer.Write(dataSet);
         }
 
