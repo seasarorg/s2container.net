@@ -64,7 +64,7 @@ S2Windows.NETを使用するときには、アプリケーション構成ファ�
 Seasar.Windows.Attr.TargetForm属性を使ってメソッドに表示するフォームを設定します。
 </p>
 <p>
-IDは引数の例で、フォームのIDプロパティに引数の値がセットされます。つまり、引数と同名のプロパティをフォームに用意していると引数の値をセットします。この引数名とプロパティ名は大文字小文字まで完全に一致する必要があります。
+idは引数の例で、フォームのIDプロパティに引数の値がセットされます。つまり、引数と同名のプロパティをフォームに用意していると引数の値をセットします。
 </p>
 
 C#
@@ -73,19 +73,19 @@ C#
 <span class="kwrd">public</span> <span class="kwrd">interface</span> IFormDispatcher
 {
     [TargetForm(typeof ( FrmHoge ), ModalType.Modal)]
-    <span class="kwrd">void</span> ShowHoge(int ID);
+    <span class="kwrd">void</span> ShowHoge(int id);
 
     [TargetForm(typeof ( FrmHoge2 ), ModalType.Modal, "ReturnValue")]
-    <span class="kwrd">HogeDto</span> ShowHoge2(int ID);
+    <span class="kwrd">HogeDto</span> ShowHoge2(int id);
 }
 </pre>
 VB.NET
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <pre class="csharpcode vb">
 <span class="kwrd">Public</span> <span class="kwrd">Interface</span> IFormDispatcher
-    &lt;TargetForm(<span class="kwrd">GetType</span>(FrmHoge), ModalType.Modal)&gt; <span class="kwrd">Sub</span> ShowHoge(<span class="kwrd">ByVal</span> ID <span class="kwrd">As</span> Integer)
+    &lt;TargetForm(<span class="kwrd">GetType</span>(FrmHoge), ModalType.Modal)&gt; <span class="kwrd">Sub</span> ShowHoge(<span class="kwrd">ByVal</span> id <span class="kwrd">As</span> Integer)
 
-    &lt;TargetForm(<span class="kwrd">GetType</span>(FrmHoge2), ModalType.Modal, "ReturnValue")&gt; <span class="kwrd">Function</span> ShowHoge2(<span class="kwrd">ByVal</span> ID <span class="kwrd">As</span> Integer) As HogeDto
+    &lt;TargetForm(<span class="kwrd">GetType</span>(FrmHoge2), ModalType.Modal, "ReturnValue")&gt; <span class="kwrd">Function</span> ShowHoge2(<span class="kwrd">ByVal</span> id <span class="kwrd">As</span> Integer) As HogeDto
 <span class="kwrd">End</span> <span class="kwrd">Interface</span>
 </pre>
 <p>
