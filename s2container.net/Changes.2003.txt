@@ -1,6 +1,7 @@
 ﻿S2Container.NET 1.2.6
 2006/??/??
 - [CONTAINERNET-43]S2Unit.NETのExcelデータ投入時、ID列にデータを挿入できるようにする
+- [CONTAINERNET-46]複数のInterceptorをグルーピング化するInterceptorChainを追加する
 
 S2Container.NET 1.2.5
 2006/9/25
