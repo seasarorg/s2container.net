@@ -4,7 +4,7 @@
 <link href="seasar_b.css" type="text/css" rel="stylesheet" media="screen"><link href="seasar_p.css" type="text/css" rel="stylesheet" media="print"><script src="seasar_b.js" type="text/JavaScript" language="JavaScript"></script></head>
 
 
-<body onload="preload('ja')"><table align="left" border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr>
+<body onLoad="preload('ja')"><table align="left" border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr>
 <td align="left" valign="top" width="780"><table class="white" border="0" cellpadding="0" cellspacing="0" width="780">
 <tbody><tr><td colspan="7"><img src="images/top01_b.gif" alt="" height="5" width="780"></td></tr>
 <tr><td width="235"><img src="images/top02_b.gif" alt="Seasar" height="117" width="235"></td>
@@ -32,6 +32,7 @@
 	<li><a href="#faq0002">S2Container.NETのログが出力されない</a></li>
 	<li><a href="#faq0003">S2Unit.NETでExcelシートの定義順にデータが挿入されない</a></li>
 	<li><a href="#faq0004">Diconファイルが見つからない</a></li>
+	<li><a href="#faq0005">S2Container.NET 1.2.6にバージョンアップしたらS2Unitの実行に失敗する</a></li>
 </ul>
 
 <h3><a name="faq0001">diconファイルに登録したクラスが見つからず、ClassNotFoundRuntimeExceptionが発生する</a></h3>
@@ -51,7 +52,7 @@
 		<a href="http://ml.seasar.org/archives/seasar-dotnet/2006-June/000226.html">http://ml.seasar.org/archives/seasar-dotnet/2006-June/000226.html</a>
 	</li>
 </ul>
-</p>
+<p></p>
 
 <h3><a name="faq0002">S2Container.NETのログが出力されない</a></h3>
 <p>
@@ -83,6 +84,17 @@ Diconファイルのプロパティでビルドアクションを「埋め込ま
 <p>
 	<a href="dicontainer.html#S2ContainerCreation">
 		S2Container.NET - S2Containerの生成と定義ファイル(Diconファイル)
+	</a>
+</p>
+
+<h3><a name="faq0005">S2Container.NET 1.2.6にバージョンアップしたらS2Unit.NETの実行に失敗する</a></h3>
+
+<p>S2Container.NET 1.2.6からS2Unit.NETが参照しているMbUnitを2.3.83にバージョンアップしました。
+そのため、MbUnit 2.3.83以上をインストールする必要があります。</p>
+<p>MbUnitは、下記のURLからダウンロードできます。</p>
+<p>
+	<a href="http://www.mbunit.org/">
+		MbUnit
 	</a>
 </p>
 
