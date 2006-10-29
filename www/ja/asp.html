@@ -5,7 +5,7 @@
 <link href="seasar_b.css" type="text/css" rel="stylesheet" media="screen"><link href="seasar_p.css" type="text/css" rel="stylesheet" media="print"><script src="seasar_b.js" type="text/JavaScript" language="JavaScript"></script></head>
 
 
-<body onload="preload('ja')"><table align="left" border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr>
+<body onLoad="preload('ja')"><table align="left" border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr>
 <td align="left" valign="top" width="780"><table class="white" border="0" cellpadding="0" cellspacing="0" width="780">
 <tbody><tr><td colspan="7"><img src="images/top01_b.gif" alt="" height="5" width="780"></td></tr>
 <tr><td width="235"><img src="images/top02_b.gif" alt="Seasar" height="117" width="235"></td>
@@ -109,7 +109,7 @@ name属性にはWebフォームへの要求の仮想パスを指定します。
 instance属性にはouterを指定します。（S2ContainerでWebフォームのインスタンスを管理しないためです。）
 </p>
 
-<h2><a name="request">リクエストの自動バインディング</a></h3>
+<h2><a name="request">リクエストの自動バインディング</a></h2>
 
 <p>コンポーネントに対して、HttpRequestを自動的にバインディングすることが出来ます。
 そのためには、コンポーネントに、HttpRequest Request { set; }のプロパティを定義します。
