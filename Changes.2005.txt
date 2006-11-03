@@ -3,8 +3,9 @@
 - [CONTAINERNET-43]S2Unit.NETのExcelデータ投入時、ID列にデータを挿入できるようにする
 - [CONTAINERNET-45]S2Windows.NETの画面遷移インターフェイス用メソッドの引数の大文字小文字を区別しないようにする
 - [CONTAINERNET-46]複数のInterceptorをグルーピング化するInterceptorChainを追加する
-- [CONTAINERNET-47]S2Unit.NETが参照しているMbUnitのバージョンを最新版にする。
-                   S2Unit.NETを使用する場合、MbUnit 2.3.83以上をインストールする必要がある。
+- [CONTAINERNET-47]S2Unit.NETが参照しているMbUnitのバージョンを最新版にする
+                   S2Unit.NETを使用する場合、MbUnit 2.3.83以上をインストールする必要がある
+- [CONTAINERNET-48]System.Windows.Forms.FormクラスのプロパティAcceptButton, CancelButton, Siteを自動バインディングの対象から外す
 
 S2Container.NET 1.2.5
 2006/9/25
