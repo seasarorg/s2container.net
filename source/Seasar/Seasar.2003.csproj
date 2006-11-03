@@ -109,6 +109,11 @@
                     AssemblyName = "Nullables"
                     HintPath = "..\..\lib\net1.1\Nullables.dll"
                 />
+                <Reference
+                    Name = "System.Windows.Forms"
+                    AssemblyName = "System.Windows.Forms"
+                    HintPath = "..\..\..\..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Windows.Forms.dll"
+                />
             </References>
         </Build>
         <Files>

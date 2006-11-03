@@ -64,8 +64,8 @@ namespace Seasar.Framework.Container.Assembler
 					
                     this.SetValue(property,component,value);
 				}
-				else if(property.CanWrite 
-					&& AutoBindingUtil.IsSuitable(property.PropertyType))
+				else if(property.CanWrite
+                    && AutoBindingUtil.IsSuitable(property.PropertyType, component, propName))
 				{
                     if(container.HasComponentDef(property.PropertyType))
 					{

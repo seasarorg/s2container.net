@@ -129,6 +129,11 @@
                     Project = "{FC3A021B-6288-4C34-8303-544640D22FDA}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
+                <Reference
+                    Name = "System.Windows.Forms"
+                    AssemblyName = "System.Windows.Forms"
+                    HintPath = "..\..\..\..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Windows.Forms.dll"
+                />
             </References>
         </Build>
         <Files>
@@ -635,6 +640,11 @@
                 <File
                     RelPath = "Seasar.Tests.Framework.Container\Impl\test3.dicon"
                     BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Seasar.Tests.Framework.Container\Util\AutoBindingUnitTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
                 />
                 <File
                     RelPath = "Seasar.Tests.Framework.Container\Util\MetaDefSupportTest.cs"
