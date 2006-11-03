@@ -6,6 +6,7 @@
 - [CONTAINERNET-47]S2Unit.NETが参照しているMbUnitのバージョンを最新版にする。
                    S2Unit.NETを使用する場合、MbUnit 2.3.83以上をインストールする必要がある。
 - [CONTAINERNET-48]System.Windows.Forms.FormクラスのプロパティAcceptButton, CancelButton, Siteを自動バインディングの対象から外す
+- [CONTAINERNET-49]Nunit関連のdllファイルを削除する
 
 S2Container.NET 1.2.5
 2006/9/25

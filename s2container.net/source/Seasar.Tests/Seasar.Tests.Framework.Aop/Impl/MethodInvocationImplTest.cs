@@ -21,7 +21,7 @@ using System.Diagnostics;
 using Seasar.Framework.Aop;
 using Seasar.Framework.Aop.Impl;
 using Seasar.Framework.Aop.Proxy;
-using NUnit.Framework;
+using MbUnit.Framework;
 
 namespace Seasar.Tests.Framework.Aop.Impl
 {

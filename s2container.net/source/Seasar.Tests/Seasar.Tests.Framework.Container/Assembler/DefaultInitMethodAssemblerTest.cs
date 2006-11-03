@@ -19,7 +19,7 @@
 using System;
 using System.Collections;
 using System.Diagnostics;
-using NUnit.Framework;
+using MbUnit.Framework;
 using Seasar.Framework.Beans;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Assembler;

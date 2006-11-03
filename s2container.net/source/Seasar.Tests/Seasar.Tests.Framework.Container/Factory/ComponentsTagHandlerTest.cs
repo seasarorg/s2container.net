@@ -19,7 +19,7 @@
 using System;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Factory;
-using NUnit.Framework;
+using MbUnit.Framework;
 
 namespace Seasar.Tests.Framework.Container.Factory
 {

@@ -100,11 +100,6 @@
                     HintPath = "..\..\lib\net1.1\log4net.dll"
                 />
                 <Reference
-                    Name = "nunit.framework"
-                    AssemblyName = "nunit.framework"
-                    HintPath = "..\..\lib\net1.1\nunit.framework.dll"
-                />
-                <Reference
                     Name = "MbUnit.Framework"
                     AssemblyName = "MbUnit.Framework"
                     HintPath = "..\..\lib\net1.1\MbUnit.Framework.dll"
@@ -113,11 +108,6 @@
                     Name = "Nullables"
                     AssemblyName = "Nullables"
                     HintPath = "..\..\lib\net1.1\Nullables.dll"
-                />
-                <Reference
-                    Name = "nunit.extensions"
-                    AssemblyName = "nunit.extensions"
-                    HintPath = "..\..\lib\net1.1\nunit.extensions.dll"
                 />
                 <Reference
                     Name = "Seasar.2003"

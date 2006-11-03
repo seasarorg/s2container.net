@@ -21,7 +21,7 @@ using System.IO;
 using System.Text;
 using System.Web;
 using System.Web.Hosting;
-using NUnit.Framework;
+using MbUnit.Framework;
 
 namespace Seasar.Tests.Framework.Container.Deployer
 {

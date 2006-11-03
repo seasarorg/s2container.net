@@ -18,7 +18,7 @@
 
 using System;
 using System.Reflection;
-using NUnit.Framework;
+using MbUnit.Framework;
 using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Framework.Util

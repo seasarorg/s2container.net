@@ -17,7 +17,7 @@
 #endregion
 
 using System;
-using NUnit.Framework;
+using MbUnit.Framework;
 using Seasar.Framework.Aop.Interceptors;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Impl;

@@ -20,7 +20,7 @@ using System;
 using System.Diagnostics;
 using System.Text;
 using System.Collections;
-using NUnit.Framework;
+using MbUnit.Framework;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Impl;
 

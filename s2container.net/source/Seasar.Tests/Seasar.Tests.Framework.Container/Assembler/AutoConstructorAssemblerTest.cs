@@ -18,7 +18,7 @@
 
 using System;
 using System.Diagnostics;
-using NUnit.Framework;
+using MbUnit.Framework;
 using Seasar.Framework.Aop;
 using Seasar.Framework.Aop.Interceptors;
 using Seasar.Framework.Container;

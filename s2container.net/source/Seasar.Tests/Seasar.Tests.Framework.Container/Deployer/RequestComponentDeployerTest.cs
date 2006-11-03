@@ -18,7 +18,7 @@
 
 using System;
 using System.Web;
-using NUnit.Framework;
+using MbUnit.Framework;
 using Seasar.Framework.Aop;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Deployer;

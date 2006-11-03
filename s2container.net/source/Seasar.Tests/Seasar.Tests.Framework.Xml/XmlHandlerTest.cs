@@ -21,7 +21,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.IO;
 using System.Text;
-using NUnit.Framework;
+using MbUnit.Framework;
 using Seasar.Framework.Xml;
 using Seasar.Framework.Util;
 

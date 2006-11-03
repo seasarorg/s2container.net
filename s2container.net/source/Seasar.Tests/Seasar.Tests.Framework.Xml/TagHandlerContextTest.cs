@@ -18,7 +18,7 @@
 
 using System;
 using System.Collections;
-using NUnit.Framework;
+using MbUnit.Framework;
 using Seasar.Framework.Xml;
 
 namespace Seasar.Tests.Framework.Xml

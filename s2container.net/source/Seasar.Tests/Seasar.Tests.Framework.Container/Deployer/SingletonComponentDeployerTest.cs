@@ -22,7 +22,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Text;
-using NUnit.Framework;
+using MbUnit.Framework;
 using Seasar.Framework.Aop;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Deployer;

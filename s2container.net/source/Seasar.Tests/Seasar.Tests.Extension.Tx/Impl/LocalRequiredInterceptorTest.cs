@@ -30,7 +30,7 @@ using log4net;
 using log4net.Config;
 using log4net.Util;
 
-using NUnit.Framework;
+using MbUnit.Framework;
 
 namespace Seasar.Tests.Extension.Tx.Impl
 {

@@ -20,7 +20,7 @@ using System;
 using System.Collections;
 using System.Reflection;
 using System.IO;
-using NUnit.Framework;
+using MbUnit.Framework;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Factory;
 using log4net;
