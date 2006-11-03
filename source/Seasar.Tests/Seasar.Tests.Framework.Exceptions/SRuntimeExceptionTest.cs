@@ -18,7 +18,7 @@
 
 using System;
 using System.Diagnostics;
-using NUnit.Framework;
+using MbUnit.Framework;
 using Seasar.Framework.Exceptions;
 
 namespace Seasar.Tests.Framework.Exceptions

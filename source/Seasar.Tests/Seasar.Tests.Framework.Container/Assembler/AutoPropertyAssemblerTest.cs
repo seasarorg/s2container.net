@@ -20,7 +20,7 @@ using System;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Assembler;
 using Seasar.Framework.Container.Impl;
-using NUnit.Framework;
+using MbUnit.Framework;
 using System.Windows.Forms;
 
 namespace Seasar.Tests.Framework.Container.Assembler

@@ -20,7 +20,7 @@ using System;
 using System.Diagnostics;
 using System.Reflection;
 using System.Resources;
-using NUnit.Framework;
+using MbUnit.Framework;
 using Seasar.Framework.Message;
 
 namespace Seasar.Tests.Framework.Message

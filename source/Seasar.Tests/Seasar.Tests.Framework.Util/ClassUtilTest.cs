@@ -19,7 +19,7 @@
 using System;
 using System.Diagnostics;
 using System.Reflection;
-using NUnit.Framework;
+using MbUnit.Framework;
 using Seasar.Framework.Util;
 using Seasar.Framework.Exceptions;
 

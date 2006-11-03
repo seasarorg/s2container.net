@@ -8,7 +8,7 @@ using log4net;
 using log4net.Config;
 using log4net.Util;
 
-using NUnit.Framework;
+using MbUnit.Framework;
 
 using Seasar.Framework.Container.Factory;
 using Seasar.Framework.Unit;

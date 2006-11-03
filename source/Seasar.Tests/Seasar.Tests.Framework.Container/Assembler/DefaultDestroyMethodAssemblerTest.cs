@@ -23,7 +23,7 @@ using Seasar.Framework.Beans;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Assembler;
 using Seasar.Framework.Container.Impl;
-using NUnit.Framework;
+using MbUnit.Framework;
 
 namespace Seasar.Tests.Framework.Container.Assembler
 {

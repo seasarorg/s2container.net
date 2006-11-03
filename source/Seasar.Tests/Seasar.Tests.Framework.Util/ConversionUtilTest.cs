@@ -18,7 +18,7 @@
 
 using System;
 using System.Data.SqlTypes;
-using NUnit.Framework;
+using MbUnit.Framework;
 using Seasar.Framework.Util;
 using Nullables;
 

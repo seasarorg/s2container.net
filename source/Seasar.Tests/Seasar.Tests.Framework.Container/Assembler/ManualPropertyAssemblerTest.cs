@@ -19,7 +19,7 @@
 using System;
 using System.Diagnostics;
 using System.Runtime.Remoting;
-using NUnit.Framework;
+using MbUnit.Framework;
 using Seasar.Framework.Aop.Interceptors;
 using Seasar.Framework.Beans;
 using Seasar.Framework.Container;

@@ -20,7 +20,7 @@ using System;
 using System.IO;
 using System.Collections;
 using System.Reflection;
-using NUnit.Framework;
+using MbUnit.Framework;
 using Seasar.Framework.Aop.Interceptors;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Impl;

@@ -26,7 +26,7 @@ using Seasar.Framework.Container;
 using Seasar.Framework.Container.Assembler;
 using Seasar.Framework.Container.Impl;
 using Seasar.Framework.Exceptions;
-using NUnit.Framework;
+using MbUnit.Framework;
 using log4net;
 using log4net.Config;
 using log4net.Util;

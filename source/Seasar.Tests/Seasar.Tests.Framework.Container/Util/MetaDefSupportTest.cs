@@ -17,7 +17,7 @@
 #endregion
 
 using System;
-using NUnit.Framework;
+using MbUnit.Framework;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Impl;
 using Seasar.Framework.Container.Util;
