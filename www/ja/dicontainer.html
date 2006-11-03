@@ -567,8 +567,15 @@ System.Collections.Hashtable#Add()メソッドに初期化(aaaに111を設定)�
 </pre>
 
 
-            <a name="AutoBindingMode"><h3>自動バインディング</h3></a>
-            <p>コンポーネント間の依存関係は、型がインターフェースの場合、コンテナによって自動的に解決されます。これがS2Containerのデフォルトですが、<a href="#componentTag">componentタグ</a>のautoBinding属性を指定することで細かく制御することもできます。</p>
+<a name="AutoBindingMode"><h3>自動バインディング</h3></a>
+<p>
+コンポーネント間の依存関係は、型がインターフェースの場合、コンテナによって自動的に解決されます。
+これがS2Containerのデフォルトですが、<a href="#componentTag">componentタグ</a>のautoBinding属性を指定することで細かく制御することもできます。
+</p>
+<p>
+S2Container.NET 1.2.6以降では、System.Windows.Forms.Formクラスが持つAcceptButton, CancelButton, Siteの3つのプロパティは、
+自動バインディングの対象外になります。
+</p>
 
 <table width="744" border="1">
 <tr bgcolor="#d1f3f4" align="center">

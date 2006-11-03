@@ -21,15 +21,27 @@ using Seasar.Framework.Container;
 using Seasar.Framework.Container.Assembler;
 using Seasar.Framework.Container.Impl;
 using NUnit.Framework;
+using System.Windows.Forms;
 
 namespace Seasar.Tests.Framework.Container.Assembler
 {
 	/// <summary>
-	/// AutoPropertyAssemblerTest の概要の説明です。
+	/// AutoPropertyAssemblerのテストクラス
 	/// </summary>
 	[TestFixture]
 	public class AutoPropertyAssemblerTest
 	{
+        public AutoPropertyAssemblerTest()
+        {
+            System.IO.FileInfo info = new System.IO.FileInfo(
+               log4net.Util.SystemInfo.AssemblyShortName(
+               System.Reflection.Assembly.GetExecutingAssembly())
+               + ".dll.config");
+
+            log4net.Config.XmlConfigurator.Configure(
+               log4net.LogManager.GetRepository(), info);
+        }
+
 		[Test]
 		public void TestAssemble()
 		{
@@ -91,6 +103,21 @@ namespace Seasar.Tests.Framework.Container.Assembler
 			assembler.Assemble(a2);
 			Assert.AreEqual("B",a2.HogeName);
 		}
+
+        [Test]
+        public void TestAssemble_FormのAcceptButtonが自動バインディングされないことを確認()
+        {
+            IS2Container container = new S2ContainerImpl();
+            ComponentDefImpl cd = new ComponentDefImpl(typeof(TestForm));
+            container.Register(cd);
+            container.Register(new ComponentDefImpl(typeof(Button)));
+
+            IPropertyAssembler assembler = new AutoPropertyAssembler(cd);
+            TestForm testForm = new TestForm();
+            assembler.Assemble(testForm);
+            Assert.IsNull(testForm.AcceptButton);
+            Assert.IsNull(testForm.CancelButton);
+        }
 		
 		public interface IFoo
 		{
@@ -172,6 +199,9 @@ namespace Seasar.Tests.Framework.Container.Assembler
 			}
 		}
 
+        class TestForm : Form
+        {
+        }
 
 	}
 }

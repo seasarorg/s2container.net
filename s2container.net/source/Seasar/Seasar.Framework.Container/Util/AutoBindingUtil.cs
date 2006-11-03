@@ -48,6 +48,30 @@ namespace Seasar.Framework.Container.Util
 			return type.IsInterface;
 		}
 
+        /// <summary>
+        /// AutoBindingが有効であるかを返す
+        /// </summary>
+        /// <param name="propertyType">プロパティのType</param>
+        /// <param name="component">プロパティを持つコンポーネント</param>
+        /// <param name="propertyName">プロパティ名</param>
+        /// <returns><see cref="System.Windows.Forms.Form"/>クラスのプロパティが
+        /// (AcceptButton, CancelButton, Site)の場合は自動バインディングは無効とする。
+        /// それ以外の場合はpropertyTypeがInterface型であれば有効とする。</returns>
+        public static bool IsSuitable(Type propertyType, object component, string propertyName)
+        {
+            if (component is System.Windows.Forms.Form
+                    && ("AcceptButton".Equals(propertyName)
+                        || "CancelButton".Equals(propertyName)
+                        || "Site".Equals(propertyName)))
+            {
+                return false;
+            }
+            else
+            {
+                return IsSuitable(propertyType);
+            }
+        }
+
 		public static bool IsAuto(string mode)
 		{
 			return ContainerConstants.AUTO_BINDING_AUTO.ToLower().Equals(mode.ToLower());

@@ -109,6 +109,7 @@
     <Reference Include="System.Web">
       <Name>System.Web</Name>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
@@ -390,6 +391,7 @@
     <Compile Include="Seasar.Tests.Framework.Container\Impl\S2ContainerImplTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Tests.Framework.Container\Util\AutoBindingUnitTest.cs" />
     <Compile Include="Seasar.Tests.Framework.Container\Util\MetaDefSupportTest.cs">
       <SubType>Code</SubType>
     </Compile>
