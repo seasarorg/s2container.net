@@ -34,7 +34,15 @@ namespace Seasar.Framework.Container
 		/// </summary>
 		/// <param name="componentKey">コンポーネントを取得するためのキー</param>
 		/// <returns>コンポーネント</returns>
-		Object GetComponent(object componentKey);
+		object GetComponent(object componentKey);
+
+        /// <summary>
+        /// コンポーネントを解決するためのTypeと名前を指定してコンポーネントを取得します。
+        /// </summary>
+        /// <param name="componentType">コンポーネントを解決するためのType</param>
+        /// <param name="componentName">コンポーネント名</param>
+        /// <returns>コンポーネント</returns>
+        object GetComponent(Type componentType, string componentName);
 
 		/// <summary>
 		/// 外部コンポーネントにプロパティ・インジェクション、
@@ -43,7 +51,7 @@ namespace Seasar.Framework.Container
 		/// instanceモードが"outer"と定義されたコンポーネントのみ有効です。
 		/// </summary>
 		/// <param name="outerComponent">外部コンポーネント</param>
-		void InjectDependency(Object outerComponent);
+		void InjectDependency(object outerComponent);
 
 		/// <summary>
 		/// 外部コンポーネントにプロパティ・インジェクション、
@@ -54,7 +62,7 @@ namespace Seasar.Framework.Container
 		/// </summary>
 		/// <param name="outerComponent">外部コンポーネント</param>
 		/// <param name="componentType">外部コンポーネント定義のキー(Type)</param>
-		void InjectDependency(Object outerComponent,Type componentType);
+		void InjectDependency(object outerComponent,Type componentType);
 
 		/// <summary>
 		/// 外部コンポーネントにプロパティ・インジェクション、
@@ -65,21 +73,21 @@ namespace Seasar.Framework.Container
 		/// </summary>
 		/// <param name="outerComponent">外部コンポーネント</param>
 		/// <param name="componentName">外部コンポーネント定義のキー（名前）</param>
-		void InjectDependency(Object outerComponent,string componentName);
+		void InjectDependency(object outerComponent,string componentName);
 
 		/// <summary>
 		/// オブジェクトをコンポーネントとして登録します。
 		/// キーはオブジェクトのクラスになります。
 		/// </summary>
 		/// <param name="component">コンポーネントとして登録するオブジェクト</param>
-		void Register(Object component);
+		void Register(object component);
 
 		/// <summary>
 		/// オブジェクトを名前付きコンポーネントとして登録します。
 		/// </summary>
 		/// <param name="component">コンポーネントとして登録するオブジェクト</param>
 		/// <param name="componentName">コンポーネント名</param>
-		void Register(Object component,string componentName);
+		void Register(object component,string componentName);
 
 		/// <summary>
 		/// Typeをコンポーネント定義として登録します

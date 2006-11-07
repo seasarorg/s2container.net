@@ -8,6 +8,7 @@
 - [CONTAINERNET-48]System.Windows.Forms.FormクラスのプロパティAcceptButton, CancelButton, Siteを自動バインディングの対象から外す
 - [CONTAINERNET-49]Nunit関連のdllファイルを削除する
 - ExamplesにWindowsFormExampleのサンプル解説パワーポイントファイルを追加する
+- [CONTEINERNET-50]S2ContainerからTypeと名前でコンポーネントを取得できるようにする
 
 S2Container.NET 1.2.5
 2006/9/25

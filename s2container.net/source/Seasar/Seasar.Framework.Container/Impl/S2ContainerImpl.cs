@@ -69,7 +69,7 @@ namespace Seasar.Framework.Container.Impl
 
 		#region S2Container ÉÅÉìÉo
 
-		public Object GetComponent(object componentKey)
+		public object GetComponent(object componentKey)
 		{
 			IComponentDef cd = this.GetComponentDef(componentKey);
 			if(componentKey is Type)
@@ -82,31 +82,37 @@ namespace Seasar.Framework.Container.Impl
 			}
 		}
 
-		public void InjectDependency(Object outerComponent)
+        public object GetComponent(Type componentType, string componentName)
+        {
+            IComponentDef cd = this.GetComponentDef(componentName);
+            return cd.GetComponent(componentType);
+        }
+
+		public void InjectDependency(object outerComponent)
 		{
 			
 			this.InjectDependency(outerComponent,outerComponent.GetType());
 		}
 
-		public void InjectDependency(Object outerComponent, Type componentType)
+		public void InjectDependency(object outerComponent, Type componentType)
 		{
 			
 			this.GetComponentDef(componentType).InjectDependency(outerComponent);
 		}
 
-		public void InjectDependency(Object outerComponent, string componentName)
+		public void InjectDependency(object outerComponent, string componentName)
 		{
 			
 			this.GetComponentDef(componentName).InjectDependency(outerComponent);
 		}
 
-		public void Register(Object component)
+		public void Register(object component)
 		{
 			
 			this.Register(new SimpleComponentDef(component));
 		}
 
-		public void Register(Object component, string componentName)
+		public void Register(object component, string componentName)
 		{
 			
 			this.Register(new SimpleComponentDef(component,componentName));

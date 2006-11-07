@@ -23,6 +23,7 @@ using System.Collections;
 using MbUnit.Framework;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Impl;
+using Seasar.Framework.Aop;
 
 namespace Seasar.Tests.Framework.Container.Impl
 {
@@ -302,6 +303,23 @@ namespace Seasar.Tests.Framework.Container.Impl
 			Assert.AreEqual("Foo", hoge.Name);
 		}
 
+        [Test]
+        public void TestGetComponentTypeName()
+        {
+            IS2Container container = new S2ContainerImpl();
+            IAspectDef ad = new AspectDefImpl();
+            ad.Expression = "testInterceptor";
+            ad.Container = container;
+            ComponentDefImpl cd = new ComponentDefImpl(typeof(FooImpl), "foo");
+            cd.AddAspeceDef(ad);
+            ComponentDefImpl aspectCd = new ComponentDefImpl(typeof(TestInterceptor), "testInterceptor");
+            container.Register(aspectCd);
+            container.Register(cd);
+
+            IFoo foo = (IFoo)container.GetComponent(typeof(IFoo), "foo");
+            Assert.AreEqual("interceptor", foo.Name);
+        }
+
 		public class A
 		{
 			private IHoge hoge_;
@@ -385,5 +403,16 @@ namespace Seasar.Tests.Framework.Container.Impl
 			}
 		}
 
-	}
+        public class TestInterceptor : IMethodInterceptor
+        {
+            #region IMethodInterceptor ÉÅÉìÉo
+
+            public object Invoke(IMethodInvocation invocation)
+            {
+                return "interceptor";
+            }
+
+            #endregion
+        }
+}
 }
