@@ -29,15 +29,20 @@
               <li><a href="#S2ContainerReference">S2Container.NET リファレンス</a>
                 <ul>
                   <li><a href="#CreateFile">作成すべきファイル</a></li>
-                  <li><a href="#S2ContainerDefinition">S2Containerの定義</a></li>
-                  <li><a href="#S2ContainerCreation">S2Containerの生成と定義ファイル(Diconファイル)</a></li>
+                  <li><a href="#S2ContainerDefinition">S2Containerの定義(Diconファイル)</a></li>
+                  <li><a href="#S2ContainerCreation">S2Containerの生成</a>
+                    <ul>
+                      <li><a href="#SingletonS2ContainerFactory">SingletonS2ContainerFactoryを使用する</a></li>
+                      <li><a href="#S2ContainerFactory">S2ContainerFactoryを使用する</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="#S2ContainerInit">S2Containerの初期化</a></li>
                   <li><a href="#getComponent">コンポーネントの取得</a></li>
                   <li><a href="#AppConfig">アプリケーション構成ファイル</a></li>
                   <li><a href="#DIType">Dependency Injectionのタイプ</a>
                     <ul>
                       <li type="circle"><a href="#ConstructorInjection">コンストラクタ・インジェクション</a></li>
                       <li type="circle"><a href="#PropertyInjection">プロパティ・インジェクション</a></li>
-
                       <li type="circle"><a href="#MethodInjection">メソッド・インジェクション</a></li>
                     </ul>
                   </li>
@@ -91,7 +96,7 @@
             定義ファイルは、コンポーネントを組み立てるための設計書のようなものです。<br/>
             形式はXMLで、拡張子は、diconです。（xmlでも特に問題はありません）diconは、ダイコンと読みます。</p>
 
-            <a name="S2ContainerDefinition"><b><h3>S2Containerの定義</h3></b></a>
+            <a name="S2ContainerDefinition"><b><h3>S2Containerの定義(Diconファイル)</h3></b></a>
             <p>S2Containerの定義は、次のようになります。</p>
 
 <pre>
@@ -120,11 +125,6 @@
 &lt;/components&gt;
 </pre>
 
-
-<a name="S2ContainerCreation"><h3>S2Containerの生成と定義ファイル(Diconファイル)</h3></a>
-
-<p>S2Containerを作成する場合は、次のメソッドを使用します。</p>
-<p>- Seasar.Framework.Container.Factory.S2ContainerFactory#Create(string path)</p>
 <p>定義ファイルは、埋め込まれたリソースもしくはファイルシステムで指定することができます。
 ※Visual Studio 2005のWebサイトプロジェクトでは埋め込まれたリソースにすることが出来ないので、
 ファイルシステムを使用するか別のクラスライブラリプロジェクト等を作成して、そこに埋め込む必要があります。
@@ -144,16 +144,65 @@ VB.NETの場合は、既定の名前空間/aaa.diconになります。</p>
 同じパスで埋め込まれたリソース、ファイルシステムの両方でヒットする場合は、
 ファイルシステムの定義ファイルが優先されます。</p>
 
-<pre>
 
+<h3><a name="S2ContainerCreation">S2Containerの生成</a></h3>
+<p>S2Containerを生成する方法は二通りあります。</p>
+<ul>
+  <li>SingletonS2ContainerFactoryを使用する</li>
+  <li>S2ContainerFactoryを使用する</li>
+</ul>
+
+<h4><a name="SingletonS2ContainerFactory">SingletonS2ContainerFactoryを使用する</a></h4>
+<p>SingletonS2ContainerFactoryを使用する場合は、次のメソッドを使用します。</p>
+<p>- Seasar.Framework.Container.Factory.SingletonS2ContainerFactory#Init()</p>
+定義ファイルは<a href="#AppConfig">アプリケーション構成ファイルの&lt;seasar&gt;セクション</a>で指定した定義ファイルが使われます。
+アプリケーション構成ファイルで指定していない場合はapp.diconが使われます。</p>
+
+<p>作成したS2Containerは、どこからでも次のプロパティから取得することができます。</p>
+<p>- Seasar.Framework.Container.Factory.SingletonS2ContainerFactory#Container</p>
+
+<pre>
+SingletonS2ContainerFactory.Init();
+...
+IS2Container container = SingletonS2ContainerFactory.Container;
+</pre>
+
+<p>定義ファイルのパスを指定する場合はInit()メソッドを呼び出す前に次のプロパティで指定します。</p>
+<p>- Seasar.Framework.Container.Factory.SingletonS2ContainerFactory#ConfigPath</p>
+
+<pre>
+private const string PATH = "aaa/bbb/ccc.dicon";
+...
+SingletonS2ContainerFactory.ConfigPath = PATH;
+SingletonS2ContainerFactory.Init();
+...
+IS2Container container = SingletonS2ContainerFactory.Container;
+</pre>
+
+<a name="S2ContainerFactory"><h4>S2ContainerFactoryを使用する</h4></a>
+
+
+
+<p>S2Containerを作成する場合は、次のメソッドを使用します。</p>
+<p>- Seasar.Framework.Container.Factory.S2ContainerFactory#Create(string path)</p>
+<p>S2Containerを生成した後に次のメソッドでS2Containerを初期化します。</p>
+<p>- Seasar.Framework.Container.IS2Container#Init()</p>
+<pre>
 private const string PATH = "aaa/bbb/ccc.dicon";
 ...
 IS2Container container = S2ContainerFactory.Create(PATH);
+container.Init();
 </pre>
+<p>この方法で取得したコンテナのインスタンスはアプリケーションで管理する必要があります。</p>
+
+<h3><a name="S2ContainerInit">S2Containerの初期化</a></h3>
+<p>S2Containerを生成した後に次のメソッドでS2Containerを初期化します。</p>
+<p>- Seasar.Framework.Container.IS2Container#Init()</p>
+<p>初期化を行うと<a href="#instanceAttr">インスタンス属性</a>
+がsingletonに設定されているコンポーネントのインスタンスを生成します。</p>
 
 
-            <a name="getComponent">
-<h3>コンポーネントの取得</h3></a>
+<h3><a name="getComponent">コンポーネントの取得</a></h3>
             <p>S2Containerからコンポーネントを取り出すには、次のメソッドを使用します。</p>
             <p>- Seasar.Framework.Container.IS2Container#GetComponent(object componentKey)</p>
             引数には、コンポーネントの型宣言を表すSystem.Typeもしくはコンポーネント名を指定できます。
