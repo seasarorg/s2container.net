@@ -32,9 +32,6 @@ using MbUnit.Framework;
 
 namespace Seasar.Tests.Extension.Tx
 {
-	/// <summary>
-	/// RequiresNewInterceptorTest ‚ÌŠT—v‚Ìà–¾‚Å‚·B
-	/// </summary>
 	[TestFixture]
 	[Transaction(TransactionOption.RequiresNew)]
 	public class DTCRequiresNewInterceptorTest : ServicedComponent

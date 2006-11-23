@@ -280,22 +280,22 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Seasar.Tests.Extension.Tx\DTCRequiredInterceptorTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Seasar.Tests.Extension.Tx\DTCRequiredInterceptorTest.dicon"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "Seasar.Tests.Extension.Tx\DTCRequiresNewInterceptorTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Seasar.Tests.Extension.Tx\DTCRequiresNewInterceptorTest.dicon"
                     BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Seasar.Tests.Extension.Tx\RequiredInterceptorTest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Seasar.Tests.Extension.Tx\RequiresNewInterceptorTest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
                 />
                 <File
                     RelPath = "Seasar.Tests.Extension.Tx\TxTest.cs"

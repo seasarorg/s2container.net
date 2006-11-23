@@ -32,9 +32,6 @@ using MbUnit.Framework;
 
 namespace Seasar.Tests.Extension.Tx
 {
-	/// <summary>
-	/// RequiredInterceptorTest ‚ÌŠT—v‚Ìà–¾‚Å‚·B
-	/// </summary>
 	[TestFixture]
 	public class DTCRequiredInterceptorTest
 	{
