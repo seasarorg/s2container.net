@@ -240,6 +240,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Seasar.Tests.Extension.DataSets\Impl\SqlServerSqlTableWriterTest.cs" />
+    <Compile Include="Seasar.Tests.Extension.Tx\DTCRequiredInterceptorTest.cs" />
+    <Compile Include="Seasar.Tests.Extension.Tx\DTCRequiresNewInterceptorTest.cs" />
     <Compile Include="Seasar.Tests.Extension.Tx\Impl\LocalNotSupportedInterceptorTest.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -256,12 +258,6 @@
     <Compile Include="Seasar.Tests.Extension.Tx\Impl\TxTest.cs" />
     <Compile Include="Seasar.Tests.Extension.Tx\Impl\RequiresNewInterceptorTest.cs" />
     <Compile Include="Seasar.Tests.Extension.Tx\Impl\NotSupportedInterceptorTest.cs" />
-    <Compile Include="Seasar.Tests.Extension.Tx\RequiredInterceptorTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Extension.Tx\RequiresNewInterceptorTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Seasar.Tests.Extension.Tx\TxTest.cs">
       <SubType>Code</SubType>
     </Compile>
