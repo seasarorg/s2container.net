@@ -1,7 +1,11 @@
 ﻿<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html><head><!-- don't edit start --><title>Seasar - DI Container with AOP -</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="Content-Style-Type" content="text/css">
-<link href="seasar_b.css" type="text/css" rel="stylesheet" media="screen"><link href="seasar_p.css" type="text/css" rel="stylesheet" media="print"><script src="seasar_b.js" type="text/JavaScript" language="JavaScript"></script></head>
+<link href="seasar_b.css" type="text/css" rel="stylesheet" media="screen">
+<link href="csharp.css" type="text/css" rel="stylesheet" media="screen">
+<link href="seasar_p.css" type="text/css" rel="stylesheet" media="print">
+<script src="seasar_b.js" type="text/JavaScript" language="JavaScript"></script>
+</head>
 
 
 <body onload="preload('ja')"><table align="left" border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr>
@@ -196,10 +200,33 @@ container.Init();
 <p>この方法で取得したコンテナのインスタンスはアプリケーションで管理する必要があります。</p>
 
 <h3><a name="S2ContainerInit">S2Containerの初期化</a></h3>
-<p>S2Containerを生成した後に次のメソッドでS2Containerを初期化します。</p>
+<p>S2Containerを生成した後に次のメソッドでS2Containerを初期化することができます。</p>
 <p>- Seasar.Framework.Container.IS2Container#Init()</p>
 <p>初期化を行うと<a href="#instanceAttr">インスタンス属性</a>
-がsingletonに設定されているコンポーネントのインスタンスを生成します。</p>
+がsingletonに設定されているコンポーネントのインスタンスが生成されます。</p>
+<p>
+Windowsアプリケーションのようにアプリケーションの起動をなるべく早く行いたい場合には、
+次のように初期化を行わずにS2Container.NETを利用することもできます。
+初期化を行わない場合は、GetComponentでコンポーネントを取得した際に、
+そのコンポーネントとそれに必要なコンポーネントのインスタンスを生成します。
+</p>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="rem">// アプリケーション構成ファイルで設定されたDiconファイルのパスを取得する</span>
+<span class="kwrd">string</span> diconPath = SingletonS2ContainerFactory.ConfigPath;
+
+<span class="rem">// SingletonS2ContainerFactoryは初期化を行わないとS2Containerを作成できないのでS2ContainerFactoryを利用する</span>
+IS2Container container = S2ContainerFactory.Create(diconPath);
+
+<span class="rem">// どこかれでもS2Containerが取得できるようにSingletonS2ContainerFactoryにS2Containerをセットする</span>
+SignletonS2ContainerFactory.Container = container;
+
+<span class="rem">// 開始画面を取得する</span>
+StartForm form = (StartForm) container.GetComponent(<span class="kwrd">typeof</span>(StartForm));
+
+<span class="rem">// アプリケーションを起動する</span>
+Application.Run(form);</pre>
 
 
 <h3><a name="getComponent">コンポーネントの取得</a></h3>
