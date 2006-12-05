@@ -1,4 +1,8 @@
-﻿S2Container.NET 1.2.6
+﻿S2Container.NET 1.2.7
+準備中
+- [CONTAINERNET-51]動的アセンブリをdiconファイル読込対象から除外する
+
+S2Container.NET 1.2.6
 2006/11/8
 - [CONTAINERNET-43]S2Unit.NETのExcelデータ投入時、ID列にデータを挿入できるようにする
 - [CONTAINERNET-45]S2Windows.NETの画面遷移インターフェイス用メソッドの引数の大文字小文字を区別しないようにする
