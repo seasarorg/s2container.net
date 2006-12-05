@@ -100,10 +100,29 @@ namespace Seasar.Framework.Util
 			}
 		}
 
+        /// <summary>
+        /// リソースを取得する。リソースが見つからなくても例外は発生しない。
+        /// </summary>
+        /// <param name="path">リソースのパス</param>
+        /// <param name="asm">リソースが含まれるアセンブリ</param>
+        /// <returns>リソースのStream</returns>
+        /// <remarks>asmがnullもしくは動的アセンブリの場合はnullを返す</remarks>
 		public static Stream GetResourceNoException(string path, Assembly asm)
 		{
-			if(asm == null) return null;
+            // asmがnullの場合はnullを返す
+            if (asm == null)
+            {
+                return null;
+            }
+
+            // asmが動的アセンブリの場合はnullを返す
+            if (asm is System.Reflection.Emit.AssemblyBuilder)
+            {
+                return null;
+            }
+
 			Stream stream = asm.GetManifestResourceStream(path);
+
 			return stream;
 		}
 
