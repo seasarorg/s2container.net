@@ -1,5 +1,5 @@
 ﻿S2Container.NET 1.2.7
-準備中
+2007/12/11
 - [CONTAINERNET-51]動的アセンブリをdiconファイル読込対象から除外する
 
 S2Container.NET 1.2.6
