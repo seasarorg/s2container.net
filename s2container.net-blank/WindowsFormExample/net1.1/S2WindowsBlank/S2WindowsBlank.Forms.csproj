@@ -1,7 +1,7 @@
 <VisualStudioProject>
     <CSHARP
         ProjectType = "Local"
-        ProductVersion = "7.10.3077"
+        ProductVersion = "7.10.6030"
         SchemaVersion = "2.0"
         ProjectGuid = "{27A50643-AE9A-490E-8849-64F5CA9F4303}"
     >
@@ -118,6 +118,11 @@
                     Name = "log4net"
                     AssemblyName = "log4net"
                     HintPath = "..\lib\log4net.dll"
+                />
+                <Reference
+                    Name = "S2WindowsBlank.Logics"
+                    Project = "{9A5B4967-7574-49DA-84C5-9D277CF76B1F}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
             </References>
         </Build>
