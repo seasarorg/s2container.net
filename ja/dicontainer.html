@@ -220,7 +220,7 @@ Windowsアプリケーションのようにアプリケーションの起動を�
 IS2Container container = S2ContainerFactory.Create(diconPath);
 
 <span class="rem">// どこかれでもS2Containerが取得できるようにSingletonS2ContainerFactoryにS2Containerをセットする</span>
-SignletonS2ContainerFactory.Container = container;
+SingletonS2ContainerFactory.Container = container;
 
 <span class="rem">// 開始画面を取得する</span>
 StartForm form = (StartForm) container.GetComponent(<span class="kwrd">typeof</span>(StartForm));
