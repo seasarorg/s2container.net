@@ -46,16 +46,38 @@ namespace Seasar.Framework.Container.Deployer
 			{
 				throw new EmptyRuntimeException("componentName");
 			}
-			object component = session[componentName];
-			if(component != null) return component;
 
-			component = this.ConstructorAssembler.Assemble();
-			session[componentName] = component;
-			this.PropertyAssembler.Assemble(component);
-			this.InitMethodAssembler.Assemble(component);
+            object component = session[componentName];
 
-			object proxy = GetProxy(receiveType);
-			return proxy == null ? component : proxy;
+            if (component != null)
+            {
+                return component;
+            }
+
+            component = this.ConstructorAssembler.Assemble();
+
+            object proxy = GetProxy(receiveType);
+
+            if (proxy == null)
+            {
+                session[componentName] = component;
+            }
+            else
+            {
+                session[componentName] = proxy;
+            }
+
+            this.PropertyAssembler.Assemble(component);
+            this.InitMethodAssembler.Assemble(component);
+
+            if (proxy == null)
+            {
+                return component;
+            }
+            else
+            {
+                return proxy;
+            }
 		}
 
 		public override void InjectDependency(object outerComponent)
