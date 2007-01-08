@@ -30,9 +30,10 @@ namespace Seasar.Tests.Framework.Container.Deployer
 	{
 		protected System.Web.UI.WebControls.Label ResultLabel;
 	
-		public SessionComponentDeployerWebPage()
-		{
-		}
+        public SessionComponentDeployerWebPage()
+        {
+            InitializeComponent();
+        }
 
 		private void InitializeComponent()
 		{
@@ -61,6 +62,9 @@ namespace Seasar.Tests.Framework.Container.Deployer
 			IComponentDeployer deployer1 = new SessionComponentDeployer(cd1);
 			ICulc culc1 = (ICulc) deployer1.Deploy(typeof(ICulc));
 			Assert.AreEqual(1, culc1.Count());
+
+            ICulc culc12 = (ICulc)deployer1.Deploy(typeof(ICulc));
+            Assert.AreEqual(3, culc12.Count());
 
 			ComponentDefImpl cd2 = new ComponentDefImpl(typeof(CulcImpl2), "culcTest2");
 			IAspectDef ad2 = new AspectDefImpl();
