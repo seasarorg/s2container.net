@@ -1,4 +1,8 @@
-﻿S2Container.NET 1.2.7
+﻿S2Container.NET 1.2.8
+2007/x/xx
+- [CONTAINERNET-56]インスタンス属性がrequest, sessionのコンポーネントでAOPが適用されないを修正する
+
+S2Container.NET 1.2.7
 2007/12/11
 - [CONTAINERNET-51]動的アセンブリをdiconファイル読込対象から除外する
 
