@@ -1,5 +1,5 @@
 ﻿S2Container.NET 1.2.8
-2007/x/xx
+2007/1/15
 - [CONTAINERNET-56]インスタンス属性がrequest, sessionのコンポーネントでAOPが適用されないを修正する
 
 S2Container.NET 1.2.7
