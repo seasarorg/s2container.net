@@ -55,15 +55,36 @@ namespace Seasar.Framework.Container.Deployer
 				componentName = StringUtil.Decapitalize(componentName);
 			}
 			object component = context.Items[componentName];
-			if(component != null) return component;
+
+            if (component != null)
+            {
+                return component;
+            }
 
 			component = this.ConstructorAssembler.Assemble();
-			context.Items[componentName] = component;
+
+            object proxy = GetProxy(receiveType);
+
+            if (proxy == null)
+            {
+                context.Items[componentName] = component;
+            }
+            else
+            {
+                context.Items[componentName] = proxy;
+            }
+
 			this.PropertyAssembler.Assemble(component);
 			this.InitMethodAssembler.Assemble(component);
 
-			object proxy = GetProxy(receiveType);
-			return proxy == null ? component : proxy;
+            if (proxy == null)
+            {
+                return component;
+            }
+            else
+            {
+                return proxy;
+            }
 		}
 
 		public override void InjectDependency(object component)

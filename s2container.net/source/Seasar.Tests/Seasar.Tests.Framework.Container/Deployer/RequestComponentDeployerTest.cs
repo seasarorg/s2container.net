@@ -118,6 +118,29 @@ namespace Seasar.Tests.Framework.Container.Deployer
 			Assert.AreEqual(2, culc.Count());
 		}
 
+        [Test]
+        public void TestDeployAspect4()
+        {
+            container = new S2ContainerImpl();
+            ComponentDefImpl cd = new ComponentDefImpl(typeof(CulcImpl1));
+
+            IAspectDef ad = new AspectDefImpl();
+            ad.Expression = "plusOne";
+            ad.Container = container;
+            cd.AddAspeceDef(ad);
+            ComponentDefImpl plusOneCd = new ComponentDefImpl(typeof(PlusOneInterceptor), "plusOne");
+            container.Register(plusOneCd);
+            container.Register(cd);
+
+            IComponentDeployer deployer = new RequestComponentDeployer(cd);
+            ICulc culc = (ICulc)deployer.Deploy(typeof(ICulc));
+            PlusOneInterceptor.Count = 0;
+            Assert.AreEqual(1, culc.Count());
+
+            ICulc culc2 = (ICulc)deployer.Deploy(typeof(ICulc));
+            Assert.AreEqual(2, culc2.Count());
+        }
+
 		public class Foo
 		{
 			private string message_;
