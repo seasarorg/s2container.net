@@ -1,4 +1,8 @@
-﻿S2Container.NET 1.2.8
+﻿S2Container.NET 1.2.9
+2007/??/??
+- [CONTAINERNET-53]テスト用のDB作成スクリプトを追加する
+
+S2Container.NET 1.2.8
 2007/1/15
 - [CONTAINERNET-56]インスタンス属性がrequest, sessionのコンポーネントでAOPが適用されないを修正する
 
