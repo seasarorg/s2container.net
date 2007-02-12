@@ -264,7 +264,17 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Seasar.Extension.ADO\Impl\DataReaderWrapper.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Seasar.Extension.ADO\Impl\DataSourceImpl.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.ADO\Impl\DbCommandWrapper.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
