@@ -150,13 +150,13 @@ namespace Seasar.Tests.Extension.Unit
         public void ReadXlsWriteDbTx()
         {
             ReadXlsWriteDb("S2TestCaseTest_ReadXlsWriteDbTx.xls");
-            DataTable table = ReadDbByTable("identitytable", "1 = 1 ORDER BY id");
+            DataTable table = ReadDbByTable("idtable", "1 = 1 ORDER BY id");
             Trace.WriteLine(ToStringUtil.ToString(table));
             Assert.AreEqual(2, table.Rows.Count, "1");
             Assert.AreEqual(2, table.Columns.Count, "2");
             DataRow row = table.Rows[0];
             Assert.AreEqual(831m, row["id"], "3");
-            Assert.AreEqual("hoge", row["name"], "4");
+            Assert.AreEqual("hoge", row["id_name"], "4");
         }
     }
 }

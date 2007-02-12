@@ -40,12 +40,12 @@ namespace Seasar.Tests.Extension.DataSets.Impl
         {
             if (DataSource.GetCommand().GetType().Name.Equals("SqlCommand"))
             {
-                DataTable table = new DataTable("identitytable");
+                DataTable table = new DataTable("idtable");
                 table.Columns.Add("id", typeof(int));
-                table.Columns.Add("name", typeof(string));
+                table.Columns.Add("id_name", typeof(string));
                 DataRow row = table.NewRow();
                 row["id"] = 9900;
-                row["name"] = "hoge";
+                row["id_name"] = "hoge";
                 table.Rows.Add(row);
 
                 SqlServerSqlTableWriter writer = new SqlServerSqlTableWriter(DataSource);
@@ -53,7 +53,7 @@ namespace Seasar.Tests.Extension.DataSets.Impl
                 writer.Write(table);
 
                 SqlTableReader reader = new SqlTableReader(DataSource);
-                reader.SetTable("identitytable", "id = 9900");
+                reader.SetTable("idtable", "id = 9900");
                 DataTable ret = reader.Read();
                 Trace.WriteLine(ToStringUtil.ToString(ret));
                 Assert.IsNotNull(ret, "1");
