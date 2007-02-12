@@ -92,7 +92,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
             if (DataSource.GetCommand().GetType().Name.Equals("SqlCommand"))
             {
                 DatabaseMetaDataImpl dmd = new DatabaseMetaDataImpl(this.DataSource);
-                IList autoIncrementColumSet = dmd.GetAutoIncrementColumnSet("IDENTITYTABLE");
+                IList autoIncrementColumSet = dmd.GetAutoIncrementColumnSet("IDTABLE");
 
                 Assert.AreEqual(1, autoIncrementColumSet.Count);
                 Assert.IsTrue(autoIncrementColumSet.Contains("ID"));
