@@ -254,6 +254,26 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Seasar.Extension.ADO\Impl\BooleanToIntCommand.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.ADO\Impl\BooleanToIntCommandFactory.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.ADO\Impl\BooleanToIntParameter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.ADO\Impl\BooleanToIntParameterCollection.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Seasar.Extension.ADO\Impl\ConnectionHolderDataSource.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -279,6 +299,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Seasar.Extension.ADO\Impl\DbDataParameterWrapper.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Seasar.Extension.ADO\Impl\DbParameterParser.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -295,6 +320,16 @@
                 />
                 <File
                     RelPath = "Seasar.Extension.ADO\Impl\ObjectDataReaderHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.ADO\Impl\OracleDataReader.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.ADO\Impl\OracleDataReaderFactory.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

@@ -131,4 +131,11 @@
 
   <!-- ローカルトランザクション用のインターセプターで使用します。 -->
   <component class="Seasar.Extension.Tx.Impl.TransactionContext" />
+
+  <component class="Seasar.Extension.ADO.Impl.BasicCommandFactory" />
+  <component class="Seasar.Extension.ADO.Impl.BasicDataReaderFactory" />
+  <!--
+  <component class="Seasar.Extension.ADO.Impl.BooleanToIntCommandFactory" />
+  <component class="Seasar.Extension.ADO.Impl.OracleDataReaderFactory" />
+  -->
 </components>

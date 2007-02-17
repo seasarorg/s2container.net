@@ -16,26 +16,25 @@
  */
 #endregion
 
-using System;
 using System.Data;
-using Seasar.Extension.ADO;
-using Seasar.Framework.Util;
 
 namespace Seasar.Extension.ADO.Impl
 {
-    public class BasicDataReaderFactory : IDataReaderFactory
+    public class BooleanToIntCommandFactory : ICommandFactory
     {
-        public readonly static IDataReaderFactory INSTANCE = new BasicDataReaderFactory();
+        public static readonly ICommandFactory INSTANCE = new BooleanToIntCommandFactory();
 
-        public BasicDataReaderFactory()
+        #region ICommandFactory ÉÅÉìÉo
+
+        public IDbCommand CreateCommand(IDbConnection con, string sql)
         {
+            IDbCommand cmd = BasicCommandFactory.INSTANCE.CreateCommand(con, sql);
+            return new BooleanToIntCommand(cmd);
         }
 
-        #region IDataReaderFactory ÉÅÉìÉo
-
-        public virtual IDataReader CreateDataReader(IDataSource dataSource, IDbCommand cmd)
+        public string GetCompleteSql(string sql, object[] args)
         {
-            return CommandUtil.ExecuteReader(dataSource, cmd);
+            return BasicCommandFactory.INSTANCE.GetCompleteSql(sql, args);
         }
 
         #endregion
