@@ -33,6 +33,10 @@ namespace Seasar.Extension.ADO.Impl
 
         private readonly IDbParameterParser parser;
 
+        private string sqlLogDateFormat = "yyyy-MM-dd";
+
+        private string sqlLogDateTimeFormat = "yyyy-MM-dd HH.mm.ss";
+
         public BasicCommandFactory()
             : this(DbParameterParser.INSTANCE)
         {
@@ -41,6 +45,18 @@ namespace Seasar.Extension.ADO.Impl
         public BasicCommandFactory(IDbParameterParser dbParameterParser)
         {
             this.parser = dbParameterParser;
+        }
+
+        public string SqlLogDateFormat
+        {
+            get { return sqlLogDateFormat; }
+            set { sqlLogDateFormat = value; }
+        }
+
+        public string SqlLogDateTimeFormat
+        {
+            get { return sqlLogDateTimeFormat; }
+            set { sqlLogDateTimeFormat = value; }
         }
 
         #region ICommandFactory ÉÅÉìÉo
@@ -105,7 +121,7 @@ namespace Seasar.Extension.ADO.Impl
         private string ReplaceSql(string sql, string newValue)
         {
             StringBuilder text = new StringBuilder(sql);
-            for (int startIndex = 0; ;)
+            for (int startIndex = 0; ; )
             {
                 Match match = parser.Match(text.ToString(), startIndex);
                 if (!match.Success)
@@ -183,11 +199,11 @@ namespace Seasar.Extension.ADO.Impl
             {
                 if ((DateTime) bindVariable == ((DateTime) bindVariable).Date)
                 {
-                    return "'" + ((DateTime) bindVariable).ToString("yyyy-MM-dd") + "'";
+                    return "'" + ((DateTime) bindVariable).ToString(SqlLogDateFormat) + "'";
                 }
                 else
                 {
-                    return "'" + ((DateTime) bindVariable).ToString("yyyy-MM-dd HH.mm.ss") + "'";
+                    return "'" + ((DateTime) bindVariable).ToString(SqlLogDateTimeFormat) + "'";
                 }
             }
             else if (bindVariable is bool)
