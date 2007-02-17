@@ -16,28 +16,16 @@
  */
 #endregion
 
-using System;
 using System.Data;
 using Seasar.Extension.ADO;
-using Seasar.Framework.Util;
 
 namespace Seasar.Extension.ADO.Impl
 {
-    public class BasicDataReaderFactory : IDataReaderFactory
+    public class OracleDataReaderFactory : BasicDataReaderFactory
     {
-        public readonly static IDataReaderFactory INSTANCE = new BasicDataReaderFactory();
-
-        public BasicDataReaderFactory()
+        public override IDataReader CreateDataReader(IDataSource dataSource, IDbCommand cmd)
         {
+            return new OracleDataReader(base.CreateDataReader(dataSource, cmd));
         }
-
-        #region IDataReaderFactory ÉÅÉìÉo
-
-        public virtual IDataReader CreateDataReader(IDataSource dataSource, IDbCommand cmd)
-        {
-            return CommandUtil.ExecuteReader(dataSource, cmd);
-        }
-
-        #endregion
     }
 }

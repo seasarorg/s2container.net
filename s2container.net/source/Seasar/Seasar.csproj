@@ -262,6 +262,10 @@
     <Compile Include="Seasar.Extension.ADO\Impl\BeanListDataReaderHandler.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Extension.ADO\Impl\BooleanToIntCommand.cs" />
+    <Compile Include="Seasar.Extension.ADO\Impl\BooleanToIntCommandFactory.cs" />
+    <Compile Include="Seasar.Extension.ADO\Impl\BooleanToIntParameter.cs" />
+    <Compile Include="Seasar.Extension.ADO\Impl\BooleanToIntParameterCollection.cs" />
     <Compile Include="Seasar.Extension.ADO\Impl\ConnectionHolderDataSource.cs" />
     <Compile Include="Seasar.Extension.ADO\Impl\DatabaseMetaDataImpl.cs">
       <SubType>Code</SubType>
@@ -287,6 +291,9 @@
     </Compile>
     <Compile Include="Seasar.Extension.ADO\Impl\DataReaderWrapper.cs" />
     <Compile Include="Seasar.Extension.ADO\Impl\DbCommandWrapper.cs" />
+    <Compile Include="Seasar.Extension.ADO\Impl\DbDataParameterWrapper.cs" />
+    <Compile Include="Seasar.Extension.ADO\Impl\OracleDataReader.cs" />
+    <Compile Include="Seasar.Extension.ADO\Impl\OracleDataReaderFactory.cs" />
     <Compile Include="Seasar.Extension.ADO\IPropertyType.cs">
       <SubType>Code</SubType>
     </Compile>
