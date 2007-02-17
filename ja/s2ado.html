@@ -666,6 +666,29 @@ C#
 <p></p>
 <p>※SQL文に複数のパラメータマーカーを混在することは可能ですが､可読性の点から単一のパラメータマーカーを使用してください。</p>
 
+<h2><a name="OracleUnicode">OracleのUnicode問題(バージョン1.2.9以降)</a></h2>
+<p>OracleのJDBC Driverは、Unicodeのマッピングに一部問題があり、～が化けてしまいます。
+この問題に対処するには、Ado.diconにOracleDataReaderFactoryの設定を追加します。</p>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">components</span> <span class="attr">namespace</span><span class="kwrd">="Ado"</span><span class="kwrd">&gt;</span>
+  ....
+  <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.ADO.Impl.OracleDataReaderFactory"</span> <span class="kwrd">/&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span></pre>
+
+<h2><a name="BooleanToInt">Booleanの扱い(バージョン1.2.9以降)</a></h2>
+<p>Oracleのようにbool型に対応していないRDBMSもあります。
+この問題に対処するには、Ado.diconにBooleanToIntCommandFactoryの設定を追加します。</p>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">components</span> <span class="attr">namespace</span><span class="kwrd">="Ado"</span><span class="kwrd">&gt;</span>
+  ....
+  <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.ADO.Impl.BooleanToIntCommandFactory"</span> <span class="kwrd">/&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span></pre>
+
+
 <!-- document end -->
 <!-- don't edit start -->
 </td>
