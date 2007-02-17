@@ -26,7 +26,7 @@ namespace Seasar.Framework.Util
     /// <summary>
     /// Utility of array
     /// </summary>
-    public class ArrayUtil
+    public sealed class ArrayUtil
 	{
         private ArrayUtil() {
         }
