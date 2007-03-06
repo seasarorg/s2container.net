@@ -175,15 +175,43 @@ namespace Seasar.Extension.ADO.Types
 
         public static IValueType GetValueType(object obj)
         {
-            if(obj == null) return OBJECT;
+            if (obj == null)
+            {
+                return OBJECT;
+            }
+
             return GetValueType(obj.GetType());
         }
 
         public static IValueType GetValueType(Type type)
         {
-            if(type == null) return OBJECT;
+            if (type == null)
+            {
+                return OBJECT;
+            }
+
             IValueType valueType = GetValueType0(type);
-            if(valueType != null) return valueType;
+
+            if (valueType != null)
+            {
+                return valueType;
+            }
+            else if (type.IsEnum)
+            {
+                return new EnumType(type);
+            }
+#if !NET_1_1
+            else if (IsNullableType(type))
+            {
+                Type nullableType = GetNullableType(type);
+
+                if (nullableType.IsEnum)
+                {
+                    return new NullableEnumType(nullableType);
+                }
+            }
+#endif
+
             return OBJECT;
         }
 
@@ -233,5 +261,18 @@ namespace Seasar.Extension.ADO.Types
                     return OBJECT;
             }
         }
+
+#if !NET_1_1
+        private static bool IsNullableType(Type type)
+        {
+            return type.IsGenericType &&
+            type.GetGenericTypeDefinition().Equals(typeof(Nullable<>));
+        }
+
+        private static Type GetNullableType(Type type)
+        {
+            return type.GetGenericArguments()[0];
+        }
+#endif
     }
 }

@@ -145,6 +145,7 @@
     <Compile Include="Seasar.Extension.ADO.Types\DoubleType.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Extension.ADO.Types\EnumType.cs" />
     <Compile Include="Seasar.Extension.ADO.Types\GuidType.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -157,6 +158,7 @@
     <Compile Include="Seasar.Extension.ADO.Types\Int64Type.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Extension.ADO.Types\NullableEnumType.cs" />
     <Compile Include="Seasar.Extension.ADO.Types\ObjectType.cs">
       <SubType>Code</SubType>
     </Compile>
