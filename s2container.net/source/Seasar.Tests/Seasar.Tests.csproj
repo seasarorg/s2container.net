@@ -212,6 +212,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Seasar.Tests.Extension.ADO\Impl\DatabaseMetaDataImplTest.cs" />
+    <Compile Include="Seasar.Tests.Extension.ADO\Impl\BeanGenericListDataReaderHandlerTest.cs" />
     <Compile Include="Seasar.Tests.Extension.DataSets\Impl\SqlDeleteTableWriterTest.cs">
       <SubType>Code</SubType>
     </Compile>
