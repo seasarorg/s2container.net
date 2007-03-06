@@ -1,7 +1,7 @@
 <VisualStudioProject>
     <CSHARP
         ProjectType = "Local"
-        ProductVersion = "7.10.6030"
+        ProductVersion = "7.10.3077"
         SchemaVersion = "2.0"
         ProjectGuid = "{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}"
     >
@@ -375,6 +375,11 @@
                 />
                 <File
                     RelPath = "Seasar.Extension.ADO.Types\DoubleType.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Extension.ADO.Types\EnumType.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
