@@ -74,7 +74,8 @@
 <tr>
 <td>DataReaderHandler</td>
 <td>System.Data.IDataReaderを処理するHandlerのクラス</td>
-<td>複数件のobjectを返すためにはBeanListDataReaderHandlerを使います。
+<td>複数件のobjectを返すためにはBeanListDataReaderHandlerを使います。<br>
+※.NET 2.0のGenericを使用する場合、BeanGenericListDataReaderHandlerを使います。
 <pre>&lt;component
   class=&quot;Seasar.Extension.ADO.Impl.BeanListDataReaderHandler&quot;&gt;
   &lt;arg&gt;Seasar.Examples.Reference.ADO.Employee&lt;/arg&gt;
@@ -84,7 +85,7 @@
 </tr>
 <tr>
 <td>CommandTimeout</td>
-<td>コマンドが実行されるまでの待機時間(秒)。-1の場合は特に設定は行われない。</td>
+<td>コマンドが実行されるまでの待機時間(秒)。値が-1の場合は特に設定しない(System.Data.IDbCommand.CommandTimeoutプロパティの規定値が適用)。</td>
 <td>&nbsp;</td>
 </tr>
 </table>
