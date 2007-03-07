@@ -22,7 +22,7 @@ using System.Data;
 namespace Seasar.Extension.ADO.Types
 {
     public class NullableEnumType : NullableBaseType
-	{
+    {
         private Type enumType;
         private Type underlyingType;
         private IValueType underlyingValueType;
@@ -32,6 +32,16 @@ namespace Seasar.Extension.ADO.Types
             this.enumType = enumType;
             this.underlyingType = Enum.GetUnderlyingType(this.enumType);
             this.underlyingValueType = ValueTypes.GetValueType(this.underlyingType);
+        }
+
+        public override object GetValue(IDataReader reader, int index)
+        {
+            return GetValue(this.underlyingValueType.GetValue(reader, index));
+        }
+
+        public override object GetValue(IDataReader reader, string columnName)
+        {
+            return GetValue(this.underlyingValueType.GetValue(reader, columnName));
         }
 
         public override void BindValue(
@@ -63,8 +73,14 @@ namespace Seasar.Extension.ADO.Types
             {
                 return null;
             }
-
-            return Enum.ToObject(this.enumType, value);
+            else if (value == null)
+            {
+                return null;
+            }
+            else
+            {
+                return Enum.ToObject(this.enumType, value);
+            }
         }
-	}
+    }
 }

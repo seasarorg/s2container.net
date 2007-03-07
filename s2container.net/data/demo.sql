@@ -151,9 +151,22 @@ INSERT INTO [dbo].[BASICTYPE] VALUES (
 	'í|\ñ˜Å`',
 	CONVERT(datetime, '1980-12-17 12:34:56')
 );
-
 INSERT INTO [dbo].[BASICTYPE] (
 	id
 ) VALUES (
 	2
+);
+INSERT INTO [dbo].[BASICTYPE] VALUES (
+	3,
+	1,
+	2,
+	3,
+	4,
+	5,
+	6,
+	7,
+	8,
+	9,
+	'10',
+	NULL
 );

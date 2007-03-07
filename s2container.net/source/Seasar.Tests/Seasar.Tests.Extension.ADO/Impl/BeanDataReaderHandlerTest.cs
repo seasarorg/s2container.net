@@ -340,5 +340,111 @@ namespace Seasar.Tests.Extension.ADO.Impl
             Assert.IsTrue(ret.StringType.IsNull);
             Assert.IsTrue(ret.DateTimeType.IsNull);
         }
+
+        public void SetUpHandleEnumType()
+        {
+            Include(PATH);
+        }
+
+        [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
+        public void HandleEnumType()
+        {
+            IDataReaderHandler handler = new BeanDataReaderHandler(typeof(EnumTypeBean));
+            string sql = "select id, bytetype, sbytetype, int16type, int32type, int64type, singletype, doubletype, decimaltype, stringtype  from basictype where id = 3";
+            IDbCommand cmd = commandFactory.CreateCommand(Connection, sql);
+            IDataReader reader = dataReaderFactory.CreateDataReader(DataSource, cmd);
+            EnumTypeBean ret = null;
+            try
+            {
+                ret = (EnumTypeBean) handler.Handle(reader);
+            }
+            finally
+            {
+                reader.Close();
+            }
+
+            Assert.AreEqual(3, ret.Id);
+            Assert.AreEqual(Numbers.TWO, ret.ByteType);
+            Assert.AreEqual(Numbers.THREE, ret.SbyteType);
+            Assert.AreEqual(Numbers.FOUR, ret.Int16Type);
+            Assert.AreEqual(Numbers.FIVE, ret.Int32Type);
+            Assert.AreEqual(Numbers.SIX, ret.Int64Type);
+            Assert.AreEqual(Numbers.SEVEN, ret.SingleType);
+            Assert.AreEqual(Numbers.EIGHT, ret.DoubleType);
+            Assert.AreEqual(Numbers.NINE, ret.DecimalType);
+            Assert.AreEqual(Numbers.TEN, ret.StringType);
+        }
+
+#if !NET_1_1
+
+        public void SetUpHandleNullableEnumType()
+        {
+            Include(PATH);
+        }
+
+        [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
+        public void HandleNullableEnumType()
+        {
+            IDataReaderHandler handler = new BeanDataReaderHandler(typeof(NullableEnumTypeBean));
+            string sql = "select id, bytetype, sbytetype, int16type, int32type, int64type, singletype, doubletype, decimaltype, stringtype  from basictype where id = 3";
+            IDbCommand cmd = commandFactory.CreateCommand(Connection, sql);
+            IDataReader reader = dataReaderFactory.CreateDataReader(DataSource, cmd);
+            NullableEnumTypeBean ret = null;
+            try
+            {
+                ret = (NullableEnumTypeBean) handler.Handle(reader);
+            }
+            finally
+            {
+                reader.Close();
+            }
+
+            Assert.AreEqual(3, ret.Id);
+            Assert.AreEqual(Numbers.TWO, ret.ByteType);
+            Assert.AreEqual(Numbers.THREE, ret.SbyteType);
+            Assert.AreEqual(Numbers.FOUR, ret.Int16Type);
+            Assert.AreEqual(Numbers.FIVE, ret.Int32Type);
+            Assert.AreEqual(Numbers.SIX, ret.Int64Type);
+            Assert.AreEqual(Numbers.SEVEN, ret.SingleType);
+            Assert.AreEqual(Numbers.EIGHT, ret.DoubleType);
+            Assert.AreEqual(Numbers.NINE, ret.DecimalType);
+            Assert.AreEqual(Numbers.TEN, ret.StringType);
+        }
+
+        public void SetUpHandleNullableEnumTypeNullValue()
+        {
+            Include(PATH);
+        }
+
+        [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
+        public void HandleNullableEnumTypeNullValue()
+        {
+            IDataReaderHandler handler = new BeanDataReaderHandler(typeof(NullableEnumTypeBean));
+            string sql = "select id, bytetype, sbytetype, int16type, int32type, int64type, singletype, doubletype, decimaltype, stringtype  from basictype where id = 2";
+            IDbCommand cmd = commandFactory.CreateCommand(Connection, sql);
+            IDataReader reader = dataReaderFactory.CreateDataReader(DataSource, cmd);
+            NullableEnumTypeBean ret = null;
+            try
+            {
+                ret = (NullableEnumTypeBean) handler.Handle(reader);
+            }
+            finally
+            {
+                reader.Close();
+            }
+
+            Assert.AreEqual(2, ret.Id.Value);
+            Assert.IsFalse(ret.SbyteType.HasValue);
+            Assert.IsFalse(ret.ByteType.HasValue);
+            Assert.IsFalse(ret.Int16Type.HasValue);
+            Assert.IsFalse(ret.Int32Type.HasValue);
+            Assert.IsFalse(ret.Int64Type.HasValue);
+            Assert.IsFalse(ret.DecimalType.HasValue);
+            Assert.IsFalse(ret.SingleType.HasValue);
+            Assert.IsFalse(ret.DoubleType.HasValue);
+            Assert.IsNull(ret.StringType);
+        }
+
+#endif
     }
 }
