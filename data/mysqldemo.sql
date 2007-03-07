@@ -154,3 +154,17 @@ INSERT INTO `s2dotnetdemo`.`BASICTYPE` (
 ) VALUES (
     2
 );
+INSERT INTO `s2dotnetdemo`.`BASICTYPE` VALUES (
+    3,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    '10',
+    NULL
+);

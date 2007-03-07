@@ -163,6 +163,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Seasar.Tests.Extension\EnumTypeBean.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Seasar.Tests.Extension\NHibernateNullableBasicTypeBean.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
