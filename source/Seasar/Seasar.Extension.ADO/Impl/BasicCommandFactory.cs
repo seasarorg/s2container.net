@@ -210,6 +210,11 @@ namespace Seasar.Extension.ADO.Impl
             {
                 return bindVariable.ToString();
             }
+            else if (bindVariable.GetType().IsEnum)
+            {
+                object o = Convert.ChangeType(bindVariable, Enum.GetUnderlyingType(bindVariable.GetType()));
+                return o.ToString();
+            }
             else
             {
                 return "'" + bindVariable.ToString() + "'";
