@@ -37,6 +37,8 @@ namespace Seasar.Extension.ADO.Impl
 
         private string sqlLogDateTimeFormat = "yyyy-MM-dd HH.mm.ss";
 
+        private int commandTimeout = -1;
+
         public BasicCommandFactory()
             : this(DbParameterParser.INSTANCE)
         {
@@ -59,32 +61,22 @@ namespace Seasar.Extension.ADO.Impl
             set { sqlLogDateTimeFormat = value; }
         }
 
+        public int CommandTimeout
+        {
+            get { return commandTimeout; }
+            set { commandTimeout = value; }
+        }
+
         #region ICommandFactory ƒƒ“ƒo
 
-        public IDbCommand CreateCommand(IDbConnection con, string sql)
+        public virtual IDbCommand CreateCommand(IDbConnection con, string sql)
         {
-            string changeSignSql = sql;
             IDbCommand cmd = con.CreateCommand();
-            switch (DataProviderUtil.GetBindVariableType(cmd))
+            cmd.CommandText = ChangeSignSql(cmd, sql);
+            if (this.commandTimeout > -1)
             {
-                case BindVariableType.AtmarkWithParam:
-                    changeSignSql = GetChangeSignCommandText(sql, "@");
-                    break;
-                case BindVariableType.Question:
-                    changeSignSql = GetCommandText(sql, "?");
-                    break;
-                case BindVariableType.QuestionWithParam:
-                    changeSignSql = GetChangeSignCommandText(sql, "?");
-                    break;
-                case BindVariableType.ColonWithParam:
-                    changeSignSql = GetChangeSignCommandText(sql, ":");
-                    break;
-                case BindVariableType.ColonWithParamToLower:
-                    changeSignSql = GetChangeSignCommandText(sql, ":");
-                    changeSignSql = changeSignSql.ToLower();
-                    break;
+                cmd.CommandTimeout = this.commandTimeout;
             }
-            cmd.CommandText = changeSignSql;
             return cmd;
         }
 
@@ -95,6 +87,34 @@ namespace Seasar.Extension.ADO.Impl
         }
 
         #endregion
+
+        protected string ChangeSignSql(IDbCommand cmd, string original)
+        {
+            string ret = null;
+            switch (DataProviderUtil.GetBindVariableType(cmd))
+            {
+                case BindVariableType.AtmarkWithParam:
+                    ret = GetChangeSignCommandText(original, "@");
+                    break;
+                case BindVariableType.Question:
+                    ret = GetCommandText(original, "?");
+                    break;
+                case BindVariableType.QuestionWithParam:
+                    ret = GetChangeSignCommandText(original, "?");
+                    break;
+                case BindVariableType.ColonWithParam:
+                    ret = GetChangeSignCommandText(original, ":");
+                    break;
+                case BindVariableType.ColonWithParamToLower:
+                    ret = GetChangeSignCommandText(original, ":");
+                    ret = ret.ToLower();
+                    break;
+                default:
+                    ret = original;
+                    break;
+            }
+            return ret;
+        }
 
         private string GetChangeSignCommandText(string sql, string sign)
         {

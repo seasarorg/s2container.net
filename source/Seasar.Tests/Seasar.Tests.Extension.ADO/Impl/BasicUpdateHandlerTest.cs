@@ -30,48 +30,48 @@ using Seasar.Extension.Unit;
 
 namespace Seasar.Tests.Extension.ADO.Impl
 {
-	[TestFixture]
-	public class BasicUpdateHandlerTest : S2TestCase
-	{
-		private const string PATH = "Ado.dicon";
+    [TestFixture]
+    public class BasicUpdateHandlerTest : S2TestCase
+    {
+        private const string PATH = "Ado.dicon";
 
         static BasicUpdateHandlerTest()
-		{
-			FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
-				Assembly.GetExecutingAssembly()) + ".config");
-			XmlConfigurator.Configure(LogManager.GetRepository(), info);
-		}
+        {
+            FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
+                Assembly.GetExecutingAssembly()) + ".config");
+            XmlConfigurator.Configure(LogManager.GetRepository(), info);
+        }
 
-		public void SetUpExecute() 
-		{
-			Include(PATH);
-		}
-
-        [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
-		public void Execute()
-		{
-			string sql = "update emp set ename = @ename, comm = @comm where empno = @empno";
-			BasicUpdateHandler handler = new BasicUpdateHandler(DataSource, sql);
-			object[] args = new object[] { "SCOTT", null, 7788 };
-			Type[] argTypes = new Type[] { typeof(string), typeof(NullableInt32), typeof(int) };
-			string[] argNames = new string[] { "ename", "comm", "empno" };
-			int ret = handler.Execute(args, argTypes, argNames);
-			Assert.AreEqual(1, ret, "1");
-		}
-
-        public void SetUpExecuteNullArgs() 
-		{
-			Include(PATH);
-		}
+        public void SetUpExecute()
+        {
+            Include(PATH);
+        }
 
         [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
-		public void ExecuteNullArgs()
-		{
-			string sql = "delete from emp";
-			BasicUpdateHandler handler = new BasicUpdateHandler(DataSource, sql);
-			int ret = handler.Execute(null);
-			Assert.AreEqual(14, ret, "1");
-		}
+        public void Execute()
+        {
+            string sql = "update emp set ename = @ename, comm = @comm where empno = @empno";
+            BasicUpdateHandler handler = new BasicUpdateHandler(DataSource, sql);
+            object[] args = new object[] { "SCOTT", null, 7788 };
+            Type[] argTypes = new Type[] { typeof(string), typeof(NullableInt32), typeof(int) };
+            string[] argNames = new string[] { "ename", "comm", "empno" };
+            int ret = handler.Execute(args, argTypes, argNames);
+            Assert.AreEqual(1, ret, "1");
+        }
+
+        public void SetUpExecuteNullArgs()
+        {
+            Include(PATH);
+        }
+
+        [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
+        public void ExecuteNullArgs()
+        {
+            string sql = "delete from emp";
+            BasicUpdateHandler handler = new BasicUpdateHandler(DataSource, sql);
+            int ret = handler.Execute(null);
+            Assert.AreEqual(14, ret, "1");
+        }
 
         public void SetUpExecuteAtmarkWithParam()
         {
@@ -114,6 +114,21 @@ namespace Seasar.Tests.Extension.ADO.Impl
             string sql = "update emp set ename = ?, comm = ? where empno = ?";
             BasicUpdateHandler handler = new BasicUpdateHandler(DataSource, sql);
             object[] args = new object[] { "SCOTT", null, 7788 };
+            int ret = handler.Execute(args);
+            Assert.AreEqual(1, ret, "1");
+        }
+
+        public void SetUpExecuteEnumType()
+        {
+            Include(PATH);
+        }
+
+        [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
+        public void ExecuteEnumType()
+        {
+            string sql = "update basictype set bytetype = ?, sbytetype = ?, int16type = ?, int32type = ?, int64type = ?, singletype = ?, doubletype = ?, decimaltype = ?, stringtype = ? where id = ?";
+            BasicUpdateHandler handler = new BasicUpdateHandler(DataSource, sql);
+            object[] args = new object[] { Numbers.ONE, Numbers.TWO, Numbers.THREE, Numbers.FOUR, Numbers.FIVE, Numbers.SIX, Numbers.SEVEN, Numbers.EIGHT, Numbers.NINE, 1 };
             int ret = handler.Execute(args);
             Assert.AreEqual(1, ret, "1");
         }
