@@ -66,6 +66,7 @@ namespace Seasar.Extension.ADO.Impl
             set { commandFactory = value; }
         }
 
+        [Obsolete("BasicCommandFactory.CommandTimeout‚ğg—p‚µ‚Ä‚­‚¾‚³‚¢B")]
         public int CommandTimeout
         {
             get { return commandTimeout; }
