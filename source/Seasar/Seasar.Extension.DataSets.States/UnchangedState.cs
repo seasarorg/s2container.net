@@ -21,19 +21,19 @@ using Seasar.Extension.ADO;
 
 namespace Seasar.Extension.DataSets.States
 {
-	public class UnchangedState : RowState
-	{
-		public override string ToString()
-		{
-			return DataRowState.Unchanged.ToString();
-		}
+    public class UnchangedState : RowState
+    {
+        public override string ToString()
+        {
+            return DataRowState.Unchanged.ToString();
+        }
 
-		#region RowState ƒƒ“ƒo
+        #region RowState ƒƒ“ƒo
 
-		public void Update(IDataSource dataSource, DataRow row)
-		{
-		}
+        public void Update(IDataSource dataSource, DataRow row, ICommandFactory commandFactory)
+        {
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

@@ -29,12 +29,17 @@ namespace Seasar.Extension.DataSets.Impl
         {
         }
 
+        public SqlDeleteTableWriter(IDataSource dataSource, ICommandFactory commandFactory)
+            : base(dataSource, commandFactory)
+        {
+        }
+
         protected override void DoWrite(DataTable table)
         {
             foreach (DataRow row in table.Rows)
             {
                 RowState state = RowStateFactory.GetRowState(DataRowState.Deleted);
-                state.Update(DataSource, row);
+                state.Update(DataSource, row, CommandFactory);
             }
         }
     }

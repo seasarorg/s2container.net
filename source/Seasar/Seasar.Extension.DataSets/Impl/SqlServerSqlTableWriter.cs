@@ -30,6 +30,11 @@ namespace Seasar.Extension.DataSets.Impl
         {
         }
 
+        public SqlServerSqlTableWriter(IDataSource dataSource, ICommandFactory commandFactory)
+            : base(dataSource, commandFactory)
+        {
+        }
+
         protected override void BeginDoWrite(DataTable table)
         {
             if (HasIdentityColumn(table))
@@ -66,7 +71,7 @@ namespace Seasar.Extension.DataSets.Impl
 
         private void ExecuteSql(string sql)
         {
-            IUpdateHandler handler = new BasicUpdateHandler(DataSource, sql);
+            IUpdateHandler handler = new BasicUpdateHandler(DataSource, sql, CommandFactory);
             handler.Execute(null);
         }
     }

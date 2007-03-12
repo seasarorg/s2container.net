@@ -30,9 +30,14 @@ namespace Seasar.Extension.DataSets.Impl
         {
         }
 
+        public SqlServerSqlWriter(IDataSource dataSource, ICommandFactory commandFactory)
+            : base(dataSource, commandFactory)
+        {
+        }
+
         public override void Write(DataSet dataSet)
         {
-            ITableWriter writer = new SqlServerSqlTableWriter(DataSource);
+            ITableWriter writer = new SqlServerSqlTableWriter(DataSource, CommandFactory);
             foreach (DataTable table in dataSet.Tables)
             {
                 writer.Write(table);

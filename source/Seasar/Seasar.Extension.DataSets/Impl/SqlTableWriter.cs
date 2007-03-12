@@ -27,15 +27,28 @@ namespace Seasar.Extension.DataSets.Impl
     public class SqlTableWriter : ITableWriter
     {
         private IDataSource dataSource_;
+        private ICommandFactory commandFactory_ = BasicCommandFactory.INSTANCE;
 
         public SqlTableWriter(IDataSource dataSource)
+            : this(dataSource, BasicCommandFactory.INSTANCE)
+        {
+        }
+
+        public SqlTableWriter(IDataSource dataSource, ICommandFactory commandFactory)
         {
             dataSource_ = dataSource;
+            commandFactory_ = commandFactory;
         }
 
         public IDataSource DataSource
         {
             get { return dataSource_; }
+        }
+
+        public ICommandFactory CommandFactory
+        {
+            get { return commandFactory_; }
+            set { commandFactory_ = value; }
         }
 
         #region ITableWriter ÉÅÉìÉo
@@ -58,11 +71,11 @@ namespace Seasar.Extension.DataSets.Impl
             try
             {
                 BeginDoWrite(table);
-                
+
                 foreach (DataRow row in table.Rows)
                 {
                     RowState state = RowStateFactory.GetRowState(row.RowState);
-                    state.Update(DataSource, row);
+                    state.Update(DataSource, row, CommandFactory);
                 }
                 table.AcceptChanges();
             }
