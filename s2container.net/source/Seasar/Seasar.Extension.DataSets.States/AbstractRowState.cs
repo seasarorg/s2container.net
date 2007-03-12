@@ -23,32 +23,32 @@ using Seasar.Extension.ADO.Impl;
 
 namespace Seasar.Extension.DataSets.States
 {
-	public abstract class AbstractRowState : RowState
-	{
-		protected AbstractRowState()
-		{
-		}
+    public abstract class AbstractRowState : RowState
+    {
+        protected AbstractRowState()
+        {
+        }
 
-		#region RowState ÉÅÉìÉo
+        #region RowState ÉÅÉìÉo
 
-		public void Update(IDataSource dataSource, DataRow row)
-		{
-			DataTable table = row.Table;
-			string sql = GetSql(table);
-			object[] args = GetArgs(row);
-			IUpdateHandler handler = new BasicUpdateHandler(dataSource, sql);
-			Execute(handler, args);
-		}
+        public void Update(IDataSource dataSource, DataRow row, ICommandFactory commandFactory)
+        {
+            DataTable table = row.Table;
+            string sql = GetSql(table);
+            object[] args = GetArgs(row);
+            IUpdateHandler handler = new BasicUpdateHandler(dataSource, sql, commandFactory);
+            Execute(handler, args);
+        }
 
-		#endregion
+        #endregion
 
-		protected abstract string GetSql(DataTable table);
+        protected abstract string GetSql(DataTable table);
 
-		protected abstract object[] GetArgs(DataRow row);
+        protected abstract object[] GetArgs(DataRow row);
 
-		protected void Execute(IUpdateHandler handler, object[] args) 
-		{
-			handler.Execute(args);
-		}
-	}
+        protected void Execute(IUpdateHandler handler, object[] args)
+        {
+            handler.Execute(args);
+        }
+    }
 }

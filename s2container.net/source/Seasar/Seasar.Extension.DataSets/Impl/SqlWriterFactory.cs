@@ -26,16 +26,16 @@ namespace Seasar.Extension.DataSets.Impl
         {
         }
 
-        public static IDataWriter GetSqlWriter(IDataSource dataSource)
+        public static IDataWriter GetSqlWriter(IDataSource dataSource, ICommandFactory commandFactory)
         {
             IDataWriter result = null;
             if (dataSource.GetCommand().GetType().Name.Equals("SqlCommand"))
             {
-                result = new SqlServerSqlWriter(dataSource);
+                result = new SqlServerSqlWriter(dataSource, commandFactory);
             }
             else
             {
-                result = new SqlWriter(dataSource);
+                result = new SqlWriter(dataSource, commandFactory);
             }
             return result;
         }

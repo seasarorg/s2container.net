@@ -18,16 +18,24 @@
 
 using System.Data;
 using Seasar.Extension.ADO;
+using Seasar.Extension.ADO.Impl;
 
 namespace Seasar.Extension.DataSets.Impl
 {
     public class SqlWriter : IDataWriter
     {
         private IDataSource dataSource_;
+        private ICommandFactory commandFactory_ = BasicCommandFactory.INSTANCE;
 
         public SqlWriter(IDataSource dataSource)
+            : this(dataSource, BasicCommandFactory.INSTANCE)
+        {
+        }
+
+        public SqlWriter(IDataSource dataSource, ICommandFactory commandFactory)
         {
             dataSource_ = dataSource;
+            commandFactory_ = commandFactory;
         }
 
         public IDataSource DataSource
@@ -35,11 +43,17 @@ namespace Seasar.Extension.DataSets.Impl
             get { return dataSource_; }
         }
 
+        public ICommandFactory CommandFactory
+        {
+            get { return commandFactory_; }
+            set { commandFactory_ = value; }
+        }
+
         #region IDataWriter ÉÅÉìÉo
 
         public virtual void Write(DataSet dataSet)
         {
-            ITableWriter writer = new SqlTableWriter(DataSource);
+            ITableWriter writer = new SqlTableWriter(DataSource, CommandFactory);
             foreach (DataTable table in dataSet.Tables)
             {
                 writer.Write(table);

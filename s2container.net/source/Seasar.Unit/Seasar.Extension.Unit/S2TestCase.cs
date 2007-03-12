@@ -34,6 +34,8 @@ namespace Seasar.Extension.Unit
 
         private IDbConnection connection;
 
+        private ICommandFactory commandFactory;
+
         public S2TestCase()
         {
         }
@@ -66,6 +68,21 @@ namespace Seasar.Extension.Unit
         public bool HasConnection
         {
             get { return connection != null; }
+        }
+
+        public ICommandFactory CommandFactory
+        {
+            get {
+                if (commandFactory == null)
+                {
+                    commandFactory = Container.GetComponent(typeof(ICommandFactory)) as ICommandFactory;
+                }
+                if (commandFactory == null)
+                {
+                    commandFactory = BasicCommandFactory.INSTANCE;
+                }
+                return commandFactory;
+            }
         }
 
         internal void SetConnection(IDbConnection connection)
@@ -119,7 +136,7 @@ namespace Seasar.Extension.Unit
         /// <param name="dataSet">データベースに書き込む内容のDataSet</param>
         public virtual void WriteDb(DataSet dataSet)
         {
-            IDataWriter writer = SqlWriterFactory.GetSqlWriter(DataSource);
+            IDataWriter writer = SqlWriterFactory.GetSqlWriter(DataSource, CommandFactory);
             writer.Write(dataSet);
         }
 
