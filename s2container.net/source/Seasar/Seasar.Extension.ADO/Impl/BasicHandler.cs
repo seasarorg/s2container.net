@@ -43,9 +43,9 @@ namespace Seasar.Extension.ADO.Impl
 
         public BasicHandler(IDataSource ds, string sql, ICommandFactory commandFactory)
         {
-            this.DataSource = ds;
-            this.Sql = sql;
-            this.CommandFactory = commandFactory;
+            DataSource = ds;
+            Sql = sql;
+            CommandFactory = commandFactory;
         }
 
         public IDataSource DataSource
@@ -77,16 +77,22 @@ namespace Seasar.Extension.ADO.Impl
         {
             get
             {
-                if (this.dataSource == null) throw new EmptyRuntimeException("dataSource");
+                if (this.dataSource == null)
+                {
+                    throw new EmptyRuntimeException("dataSource");
+                }
                 return DataSourceUtil.GetConnection(this.dataSource);
             }
         }
 
         protected virtual IDbCommand Command(IDbConnection connection)
         {
-            if (this.sql == null) throw new EmptyRuntimeException("sql");
+            if (this.sql == null)
+            {
+                throw new EmptyRuntimeException("sql");
+            }
             IDbCommand cmd = commandFactory.CreateCommand(connection, this.sql);
-            if (this.commandTimeout > -1) 
+            if (this.commandTimeout > -1)
             {
                 cmd.CommandTimeout = this.commandTimeout;
             }
