@@ -40,19 +40,14 @@ namespace Seasar.Extension.ADO.Impl
             : this(dataSource, sql, dataReaderHandler,
                     BasicCommandFactory.INSTANCE, BasicDataReaderFactory.INSTANCE)
         {
-            DataSource = dataSource;
-            Sql = sql;
-            DataReaderHandler = dataReaderHandler;
         }
 
         public BasicSelectHandler(IDataSource dataSource, string sql,
             IDataReaderHandler dataReaderHandler,
             ICommandFactory commandFactory, IDataReaderFactory dataReaderFactory)
+            : base(dataSource, sql, commandFactory)
         {
-            DataSource = dataSource;
-            Sql = sql;
             DataReaderHandler = dataReaderHandler;
-            CommandFactory = commandFactory;
             DataReaderFactory = dataReaderFactory;
         }
 
@@ -68,12 +63,14 @@ namespace Seasar.Extension.ADO.Impl
             set { this.dataReaderHandler = value; }
         }
 
-        public object Execute(object[] args)
+        #region ISelectHandler ÉÅÉìÉo
+
+        public virtual object Execute(object[] args)
         {
             return Execute(args, GetArgTypes(args));
         }
 
-        public object Execute(object[] args, Type[] argTypes)
+        public virtual object Execute(object[] args, Type[] argTypes)
         {
             if (logger.IsDebugEnabled)
             {
@@ -90,10 +87,12 @@ namespace Seasar.Extension.ADO.Impl
             }
         }
 
-        public object Execute(object[] args, Type[] argTypes, string[] argNames)
+        public virtual object Execute(object[] args, Type[] argTypes, string[] argNames)
         {
             return Execute(args, argTypes);
         }
+
+        #endregion
 
         protected virtual object Execute(IDbConnection connection, object[] args, Type[] argTypes)
         {
@@ -110,21 +109,12 @@ namespace Seasar.Extension.ADO.Impl
             }
         }
 
-        protected virtual object[] Setup(IDbConnection con, object[] args)
-        {
-            return args;
-        }
-
-        protected override IDbCommand Command(IDbConnection connection)
-        {
-            IDbCommand cmd = base.Command(connection);
-            return cmd;
-        }
-
         protected virtual object Execute(IDbCommand cmd)
         {
             if (dataReaderHandler == null)
+            {
                 throw new EmptyRuntimeException("dataReaderHandler");
+            }
             IDataReader dataReader = null;
             try
             {
@@ -140,10 +130,6 @@ namespace Seasar.Extension.ADO.Impl
             {
                 DataReaderUtil.Close(dataReader);
             }
-        }
-
-        protected virtual void SetupDataTable(DataTable dataTable)
-        {
         }
 
         protected virtual IDataReader CreateDataReader(IDbCommand cmd)

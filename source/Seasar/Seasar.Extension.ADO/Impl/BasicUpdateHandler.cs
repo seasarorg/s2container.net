@@ -45,12 +45,12 @@ namespace Seasar.Extension.ADO.Impl
 
         #region IUpdateHandler ÉÅÉìÉo
 
-        public int Execute(object[] args)
+        public virtual int Execute(object[] args)
         {
             return Execute(args, GetArgTypes(args));
         }
 
-        public int Execute(object[] args, Type[] argTypes)
+        public virtual int Execute(object[] args, Type[] argTypes)
         {
             if (logger.IsDebugEnabled)
             {
@@ -67,10 +67,12 @@ namespace Seasar.Extension.ADO.Impl
             }
         }
 
-        public int Execute(object[] args, Type[] argTypes, string[] argNames)
+        public virtual int Execute(object[] args, Type[] argTypes, string[] argNames)
         {
             return Execute(args, argTypes);
         }
+
+        #endregion
 
         protected virtual int Execute(IDbConnection connection, object[] args, Type[] argTypes)
         {
@@ -85,7 +87,5 @@ namespace Seasar.Extension.ADO.Impl
                 CommandUtil.Close(cmd);
             }
         }
-
-        #endregion
     }
 }
