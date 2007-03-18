@@ -1,5 +1,5 @@
 ﻿S2Container.NET 1.2.9
-2007/??/??
+2007/3/20
 - [CONTAINERNET-53]テスト用のDB作成スクリプトを追加する
 - [CONTAINERNET-57]Oracle Data Provider.NETで～(WAVE DASH)が文字化け
 - [CONTAINERNET-58]Boolean型に未対応のRDBMSに対処するためにBoolean->Int型の変換を行う
