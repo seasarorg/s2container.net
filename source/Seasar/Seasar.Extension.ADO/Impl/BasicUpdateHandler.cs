@@ -80,7 +80,7 @@ namespace Seasar.Extension.ADO.Impl
             try
             {
                 BindArgs(cmd, args, argTypes);
-                return CommandUtil.ExecuteNonQuery(this.DataSource, cmd);
+                return CommandFactory.ExecuteNonQuery(this.DataSource, cmd);
             }
             finally
             {

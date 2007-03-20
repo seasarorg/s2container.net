@@ -37,6 +37,21 @@ namespace Seasar.Extension.ADO.Impl
             return BasicCommandFactory.INSTANCE.GetCompleteSql(sql, args);
         }
 
+        public virtual int ExecuteNonQuery(IDataSource dataSource, IDbCommand cmd)
+        {
+            return BasicCommandFactory.INSTANCE.ExecuteNonQuery(dataSource, cmd);
+        }
+
+        public virtual IDataReader ExecuteReader(IDataSource dataSource, IDbCommand cmd)
+        {
+            return BasicCommandFactory.INSTANCE.ExecuteReader(dataSource, cmd);
+        }
+
+        public virtual object ExecuteScalar(IDataSource dataSource, IDbCommand cmd)
+        {
+            return BasicCommandFactory.INSTANCE.ExecuteScalar(dataSource, cmd);
+        }
+
         #endregion
     }
 }

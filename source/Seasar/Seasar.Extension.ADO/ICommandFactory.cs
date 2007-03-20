@@ -16,7 +16,6 @@
  */
 #endregion
 
-using System;
 using System.Data;
 
 namespace Seasar.Extension.ADO
@@ -26,5 +25,11 @@ namespace Seasar.Extension.ADO
         IDbCommand CreateCommand(IDbConnection con, string sql);
 
         string GetCompleteSql(string sql, object[] args);
+
+        int ExecuteNonQuery(IDataSource dataSource, IDbCommand cmd);
+
+        IDataReader ExecuteReader(IDataSource dataSource, IDbCommand cmd);
+
+        object ExecuteScalar(IDataSource dataSource, IDbCommand cmd);
     }
 }
