@@ -119,7 +119,9 @@ namespace Seasar.Extension.ADO.Impl
             try
             {
                 if (dataReaderHandler is ObjectDataReaderHandler)
-                    return CommandUtil.ExecuteScalar(this.DataSource, cmd);
+                {
+                    return CommandFactory.ExecuteScalar(this.DataSource, cmd);
+                }
                 else
                 {
                     dataReader = this.CreateDataReader(cmd);

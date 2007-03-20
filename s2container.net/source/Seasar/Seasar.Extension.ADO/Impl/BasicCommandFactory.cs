@@ -86,6 +86,21 @@ namespace Seasar.Extension.ADO.Impl
             return ReplaceSql(sql, args);
         }
 
+        public virtual int ExecuteNonQuery(IDataSource dataSource, IDbCommand cmd)
+        {
+            return CommandUtil.ExecuteNonQuery(dataSource, cmd);
+        }
+
+        public virtual IDataReader ExecuteReader(IDataSource dataSource, IDbCommand cmd)
+        {
+            return CommandUtil.ExecuteReader(dataSource, cmd);
+        }
+
+        public virtual object ExecuteScalar(IDataSource dataSource, IDbCommand cmd)
+        {
+            return CommandUtil.ExecuteScalar(dataSource, cmd);
+        }
+
         #endregion
 
         protected string ChangeSignSql(IDbCommand cmd, string original)

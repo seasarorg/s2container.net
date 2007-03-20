@@ -25,17 +25,29 @@ namespace Seasar.Extension.ADO.Impl
 {
     public class BasicDataReaderFactory : IDataReaderFactory
     {
-        public readonly static IDataReaderFactory INSTANCE = new BasicDataReaderFactory();
+        public readonly static IDataReaderFactory INSTANCE = new BasicDataReaderFactory(BasicCommandFactory.INSTANCE);
+        private ICommandFactory commandFactory;
 
         public BasicDataReaderFactory()
         {
+        }
+
+        public BasicDataReaderFactory(ICommandFactory commandFactory)
+        {
+            CommandFactory = commandFactory;
+        }
+
+        public ICommandFactory CommandFactory
+        {
+            get { return commandFactory; }
+            set { commandFactory = value; }
         }
 
         #region IDataReaderFactory ÉÅÉìÉo
 
         public virtual IDataReader CreateDataReader(IDataSource dataSource, IDbCommand cmd)
         {
-            return CommandUtil.ExecuteReader(dataSource, cmd);
+            return CommandFactory.ExecuteReader(dataSource, cmd);
         }
 
         #endregion
