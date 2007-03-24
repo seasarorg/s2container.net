@@ -20,33 +20,33 @@ using System;
 using System.Collections;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Factory;
+
 namespace Seasar.Examples.Reference.AutoBinding
 {
-	public class AutoHelloConstructorInjection : IHello
-	{
-		private IDictionary dictionary;
+    public class AutoHelloConstructorInjection : IHello
+    {
+        private readonly IDictionary _dictionary;
 
-		public AutoHelloConstructorInjection(IDictionary dictionary)
-		{
-			this.dictionary = dictionary;
-		}
+        public AutoHelloConstructorInjection(IDictionary dictionary)
+        {
+            _dictionary = dictionary;
+        }
 
-		public void ShowMessage()
-		{
-			Console.WriteLine(dictionary["hello"]);
-		}
-	}
+        public void ShowMessage()
+        {
+            Console.WriteLine(_dictionary["hello"]);
+        }
+    }
 
-	public class AutoHelloConstructorInjectionClient
-	{
-		private static readonly String PATH =
-			"Seasar.Examples/Reference/AutoBinding/AutoHelloConstructorInjection.dicon";
+    public class AutoHelloConstructorInjectionClient
+    {
+        private const string PATH = "Seasar.Examples/Reference/AutoBinding/AutoHelloConstructorInjection.dicon";
 
-		public void Main() 
-		{
-			IS2Container container = S2ContainerFactory.Create(PATH);
-			IHello hello = (IHello) container.GetComponent(typeof(IHello));
-			hello.ShowMessage();
-		}
-	}
+        public void Main()
+        {
+            IS2Container container = S2ContainerFactory.Create(PATH);
+            IHello hello = (IHello) container.GetComponent(typeof(IHello));
+            hello.ShowMessage();
+        }
+    }
 }

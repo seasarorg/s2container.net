@@ -22,39 +22,35 @@ using System.Data.SqlTypes;
 
 namespace Seasar.Extension.ADO.Types
 {
-	public class SqlBooleanType : SqlBaseType, IValueType
+    public class SqlBooleanType : SqlBaseType, IValueType
     {
-		public SqlBooleanType()
-        {
-        }
-
         #region IValueType ÉÅÉìÉo
 
-		public override void BindValue(IDbCommand cmd, string columnName, object value)
+        public override void BindValue(IDbCommand cmd, string columnName, object value)
         {
             BindValue(cmd, columnName, value, DbType.Boolean);
         }
 
         #endregion
 
-		protected override object GetValue(object value)
-		{
-			if (value == DBNull.Value)
-			{
-				return SqlBoolean.Null;
-			}
-			else if (value is int)
-			{
-				return new SqlBoolean((int) value);
-			}
-			else if (value is bool)
-			{
-				return new SqlBoolean((bool) value);
-			}
-			else
-			{
-				return SqlBoolean.Parse(value.ToString());
-			}
-		}
+        protected override object GetValue(object value)
+        {
+            if (value == DBNull.Value)
+            {
+                return SqlBoolean.Null;
+            }
+            else if (value is int)
+            {
+                return new SqlBoolean((int) value);
+            }
+            else if (value is bool)
+            {
+                return new SqlBoolean((bool) value);
+            }
+            else
+            {
+                return SqlBoolean.Parse(value.ToString());
+            }
+        }
     }
 }

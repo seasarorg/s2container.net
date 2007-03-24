@@ -16,7 +16,6 @@
  */
 #endregion
 
-using System;
 using Seasar.Framework.Container;
 using System.Reflection;
 
@@ -25,8 +24,8 @@ namespace Seasar.Framework.Aop.Impl
     /// <summary>
     /// Aspectを織り込む処理を持つ抽象クラス
     /// </summary>
-	public abstract class AbstractAspectWeaver : IAspectWeaver
-	{
+    public abstract class AbstractAspectWeaver : IAspectWeaver
+    {
         /// <summary>
         /// Aspectを織り込む
         /// </summary>
@@ -34,7 +33,7 @@ namespace Seasar.Framework.Aop.Impl
         /// <param name="constructor">コンストラクタ</param>
         /// <param name="args">コンストラクタの引数</param>
         /// <returns>Aspectを織り込んだオブジェクト</returns>
-        public abstract object WeaveAspect(IComponentDef componentDef, 
+        public abstract object WeaveAspect(IComponentDef componentDef,
             ConstructorInfo constructor, object[] args);
 
         /// <summary>
@@ -53,5 +52,5 @@ namespace Seasar.Framework.Aop.Impl
             return aspects;
         }
 
-	}
+    }
 }

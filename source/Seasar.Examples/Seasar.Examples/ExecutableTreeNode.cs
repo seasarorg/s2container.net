@@ -16,28 +16,23 @@
  */
 #endregion
 
-using System;
 using System.Windows.Forms;
 
 namespace Seasar.Examples
 {
-	/// <summary>
-	/// ExecutableTreeNode ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public class ExecutableTreeNode : TreeNode
-	{
-		private IExamplesHandler examplesHandler;
-		public ExecutableTreeNode(IExamplesHandler handler) : base(handler.Title)
-		{
-			this.examplesHandler = handler;
-		}
-		
-		public IExamplesHandler ExamplesHandler 
-		{
-			get 
-			{
-				return this.examplesHandler;
-			}
-		}
-	}
+    public class ExecutableTreeNode : TreeNode
+    {
+        private readonly IExamplesHandler examplesHandler;
+
+        public ExecutableTreeNode(IExamplesHandler handler)
+            : base(handler.Title)
+        {
+            this.examplesHandler = handler;
+        }
+
+        public IExamplesHandler ExamplesHandler
+        {
+            get { return examplesHandler; }
+        }
+    }
 }

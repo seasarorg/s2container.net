@@ -19,13 +19,8 @@
 #region using directives
 
 using System;
-using System.Text;
-using System.Reflection;
 using System.Collections;
-
-using Seasar.Framework.Aop;
-using Seasar.Framework.Aop.Interceptors;
-
+using System.Reflection;
 using Castle.DynamicProxy;
 
 #endregion
@@ -42,13 +37,13 @@ namespace Seasar.Framework.Aop.Impl
     {
         #region fields
 
-        private Object target;
-        private Type targetType;
-        private IInvocation invocation;
-        private IMethodInterceptor[] interceptors;
-        private int interceptorsIndex = 1;
-        private Object[] arguments;
-        private Hashtable parameters;
+        private readonly object _target;
+        private readonly Type _targetType;
+        private readonly IInvocation _invocation;
+        private readonly IMethodInterceptor[] _interceptors;
+        private int _interceptorsIndex = 1;
+        private readonly object[] _arguments;
+        private readonly Hashtable _parameters;
 
         #endregion
 
@@ -60,7 +55,9 @@ namespace Seasar.Framework.Aop.Impl
         /// <param name="target">対象のオブジェクトをセット</param>
         /// <param name="targetType">対象の型をセット</param>
         /// <param name="invocation">IInvocationインタフェースをセット</param>
+        /// <param name="arguments">引数</param>
         /// <param name="interceptors">インターセプタの配列をセット</param>
+        /// <param name="parameters">パラメータ</param>
         public DynamicProxyMethodInvocation(object target
                                             , Type targetType
                                             , IInvocation invocation
@@ -69,15 +66,15 @@ namespace Seasar.Framework.Aop.Impl
                                             , Hashtable parameters)
         {
             if (target == null) throw new NullReferenceException("target");
-            if (targetType == null) throw new NullReferenceException("target");
+            if (targetType == null) throw new NullReferenceException("targetType");
             if (invocation == null) throw new NullReferenceException("invocation");
             if (interceptors == null) throw new NullReferenceException("interceptors");
-            this.target = target;
-            this.targetType = targetType;
-            this.invocation = invocation;
-            this.arguments = arguments;
-            this.interceptors = interceptors;
-            this.parameters = parameters;
+            _target = target;
+            _targetType = targetType;
+            _invocation = invocation;
+            _arguments = arguments;
+            _interceptors = interceptors;
+            _parameters = parameters;
         }
 
         #endregion
@@ -86,26 +83,26 @@ namespace Seasar.Framework.Aop.Impl
 
         public MethodBase Method
         {
-            get { return this.invocation.Method; }
+            get { return _invocation.Method; }
         }
 
-        public Object Target
+        public object Target
         {
-            get { return this.target; }
+            get { return _target; }
         }
 
-        public Object[] Arguments
+        public object[] Arguments
         {
-            get { return this.arguments; }
+            get { return _arguments; }
         }
 
-        public Object Proceed()
+        public object Proceed()
         {
-            while (interceptorsIndex < interceptors.Length)
+            while (_interceptorsIndex < _interceptors.Length)
             {
-                return interceptors[interceptorsIndex++].Invoke(this);
+                return _interceptors[_interceptorsIndex++].Invoke(this);
             }
-            return this.invocation.Proceed(arguments);
+            return _invocation.Proceed(_arguments);
         }
 
         #endregion
@@ -114,12 +111,12 @@ namespace Seasar.Framework.Aop.Impl
 
         public Type TargetType
         {
-            get { return this.targetType; }
+            get { return _targetType; }
         }
 
         public object GetParameter(string name)
         {
-            return this.parameters[name];
+            return _parameters[name];
         }
 
         #endregion

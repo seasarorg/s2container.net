@@ -20,50 +20,50 @@ using System;
 
 namespace Seasar.Framework.Util
 {
-	public sealed class BooleanConversionUtil
-	{
-		private BooleanConversionUtil()
-		{
-		}
+    public sealed class BooleanConversionUtil
+    {
+        private BooleanConversionUtil()
+        {
+        }
 
-		public static bool ToBoolean(object o)
-		{
-			if (o == null || o == DBNull.Value)
-			{
-				throw new ArgumentNullException("o");
-			}
-			else if (o is bool)
-			{
-				return (bool) o;
-			}
-			else if (o is byte)
-			{
-				return Convert.ToBoolean((byte) o);
-			}
-			else if (o is string)
-			{
-				string s = (string) o;
-				if (string.Compare(bool.TrueString, s, true) == 0)
-				{
-					return true;
-				}
-				else if (string.Compare(bool.FalseString, s, true) == 0)
-				{
-					return false;
-				}
-				else if (s.Equals("0"))
-				{
-					return false;
-				}
-				else
-				{
-					return true;
-				}
-			}
-			else
-			{
-				return true;
-			}
-		}
-	}
+        public static bool ToBoolean(object o)
+        {
+            if (o == null || o == DBNull.Value)
+            {
+                throw new ArgumentNullException("o");
+            }
+            else if (o is bool)
+            {
+                return (bool) o;
+            }
+            else if (o is byte)
+            {
+                return Convert.ToBoolean((byte) o);
+            }
+            else if (o is string)
+            {
+                string s = (string) o;
+                if (string.Compare(bool.TrueString, s, true) == 0)
+                {
+                    return true;
+                }
+                else if (string.Compare(bool.FalseString, s, true) == 0)
+                {
+                    return false;
+                }
+                else if (s.Equals("0"))
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                return true;
+            }
+        }
+    }
 }

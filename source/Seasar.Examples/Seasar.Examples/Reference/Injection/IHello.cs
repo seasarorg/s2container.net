@@ -16,11 +16,10 @@
  */
 #endregion
 
-
 namespace Seasar.Examples.Reference.Injection
 {
-	public interface IHello
-	{
-		void ShowMessage();
-	}
+    public interface IHello
+    {
+        void ShowMessage();
+    }
 }

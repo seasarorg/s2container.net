@@ -22,89 +22,89 @@ namespace Seasar.Extension.ADO.Impl
 {
     public class DbCommandWrapper : IDbCommand
     {
-        private readonly IDbCommand original;
+        private readonly IDbCommand _original;
 
         public DbCommandWrapper(IDbCommand original)
         {
-            this.original = original;
+            _original = original;
         }
 
         #region IDbCommand ÉÅÉìÉo
 
         public virtual void Cancel()
         {
-            original.Cancel();
+            _original.Cancel();
         }
 
         public virtual string CommandText
         {
-            get { return original.CommandText; }
-            set { original.CommandText = value; }
+            get { return _original.CommandText; }
+            set { _original.CommandText = value; }
         }
 
         public virtual int CommandTimeout
         {
-            get { return original.CommandTimeout; }
-            set { original.CommandTimeout = value; }
+            get { return _original.CommandTimeout; }
+            set { _original.CommandTimeout = value; }
         }
 
         public virtual CommandType CommandType
         {
-            get { return original.CommandType; }
-            set { original.CommandType = value; }
+            get { return _original.CommandType; }
+            set { _original.CommandType = value; }
         }
 
         public virtual IDbConnection Connection
         {
-            get { return original.Connection; }
-            set { original.Connection = value; }
+            get { return _original.Connection; }
+            set { _original.Connection = value; }
         }
 
         public virtual IDbDataParameter CreateParameter()
         {
-            return original.CreateParameter();
+            return _original.CreateParameter();
         }
 
         public virtual int ExecuteNonQuery()
         {
-            return original.ExecuteNonQuery();
+            return _original.ExecuteNonQuery();
         }
 
         public virtual IDataReader ExecuteReader(CommandBehavior behavior)
         {
-            return original.ExecuteReader(behavior);
+            return _original.ExecuteReader(behavior);
         }
 
         public virtual IDataReader ExecuteReader()
         {
-            return original.ExecuteReader();
+            return _original.ExecuteReader();
         }
 
         public virtual object ExecuteScalar()
         {
-            return original.ExecuteScalar();
+            return _original.ExecuteScalar();
         }
 
         public virtual IDataParameterCollection Parameters
         {
-            get { return original.Parameters; }
+            get { return _original.Parameters; }
         }
 
         public virtual void Prepare()
         {
-            original.Prepare();
+            _original.Prepare();
         }
 
         public virtual IDbTransaction Transaction
         {
-            get { return original.Transaction; }
-            set { original.Transaction = value; }
+            get { return _original.Transaction; }
+            set { _original.Transaction = value; }
         }
 
         public virtual UpdateRowSource UpdatedRowSource
         {
-            get { return original.UpdatedRowSource; }
-            set { original.UpdatedRowSource = value; }
+            get { return _original.UpdatedRowSource; }
+            set { _original.UpdatedRowSource = value; }
         }
 
         #endregion
@@ -113,7 +113,7 @@ namespace Seasar.Extension.ADO.Impl
 
         public virtual void Dispose()
         {
-            original.Dispose();
+            _original.Dispose();
         }
 
         #endregion

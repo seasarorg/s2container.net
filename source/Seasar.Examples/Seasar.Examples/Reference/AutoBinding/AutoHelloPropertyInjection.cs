@@ -23,35 +23,30 @@ using Seasar.Framework.Container.Factory;
 
 namespace Seasar.Examples.Reference.AutoBinding
 {
-	public class AutoHelloPropertyInjection : IHello
-	{
-		private IDictionary dictionary;
+    public class AutoHelloPropertyInjection : IHello
+    {
+        private IDictionary _dictionary;
 
-		public AutoHelloPropertyInjection()
-		{
-		}
+        public IDictionary Message
+        {
+            set { _dictionary = value; }
+        }
 
-		public IDictionary Message
-		{
-			set { dictionary = value; }
-		}
+        public void ShowMessage()
+        {
+            Console.WriteLine(_dictionary["_hello"]);
+        }
+    }
 
-		public void ShowMessage()
-		{
-			Console.WriteLine(dictionary["hello"]);
-		}
-	}
+    public class AutoHelloPropertyInjectionClient
+    {
+        private const string PATH = "Seasar.Examples/Reference/AutoBinding/AutoHelloPropertyInjection.dicon";
 
-	public class AutoHelloPropertyInjectionClient
-	{
-		private static readonly String PATH =
-			"Seasar.Examples/Reference/AutoBinding/AutoHelloPropertyInjection.dicon";
-		
-		public void Main() 
-		{
-			IS2Container container = S2ContainerFactory.Create(PATH);
-			IHello hello = (IHello) container.GetComponent(typeof(IHello));
-			hello.ShowMessage();
-		}
-	}
+        public void Main()
+        {
+            IS2Container container = S2ContainerFactory.Create(PATH);
+            IHello hello = (IHello) container.GetComponent(typeof(IHello));
+            hello.ShowMessage();
+        }
+    }
 }

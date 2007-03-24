@@ -28,44 +28,44 @@ using System.Threading;
 
 namespace Seasar.Tests.Framework.Util
 {
-	[TestFixture]
-	public class ResourceUtilTest
-	{
-		[Test]
-		public void TestGetExtension()
-		{
-			Assert.AreEqual("xml", ResourceUtil.GetExtension("aaa.bbb.xml"));
-			Assert.AreEqual(null, ResourceUtil.GetExtension("aaa"));
-		}
+    [TestFixture]
+    public class ResourceUtilTest
+    {
+        [Test]
+        public void TestGetExtension()
+        {
+            Assert.AreEqual("xml", ResourceUtil.GetExtension("aaa.bbb.xml"));
+            Assert.AreEqual(null, ResourceUtil.GetExtension("aaa"));
+        }
 
-		[Test]
-		public void TestGetResourceAsStream()
-		{
-			StreamReader stream = ResourceUtil.GetResourceAsStreamReader(
-				"Seasar.Tests.Framework.Util.test1.xml", Assembly.GetExecutingAssembly());
-			Trace.WriteLine(stream.ReadToEnd());
-			stream.Close();
-		}
+        [Test]
+        public void TestGetResourceAsStream()
+        {
+            StreamReader stream = ResourceUtil.GetResourceAsStreamReader(
+                "Seasar.Tests.Framework.Util.test1.xml", Assembly.GetExecutingAssembly());
+            Trace.WriteLine(stream.ReadToEnd());
+            stream.Close();
+        }
 
-		[Test]
-		public void TestResourceNotFound()
-		{
-			StreamReader stream = null;
-			try
-			{
-				stream = ResourceUtil.GetResourceAsStreamReader(
-					"Seasar.Tests.Framework.Util.test2.xml", Assembly.GetExecutingAssembly());
-				Assert.Fail();
-			}
-			catch(ResourceNotFoundRuntimeException ex)
-			{
-				Trace.WriteLine(ex.Message);
-			}
-			finally
-			{
-				if(stream != null) stream.Close();
-			}
-		}
+        [Test]
+        public void TestResourceNotFound()
+        {
+            StreamReader stream = null;
+            try
+            {
+                stream = ResourceUtil.GetResourceAsStreamReader(
+                    "Seasar.Tests.Framework.Util.test2.xml", Assembly.GetExecutingAssembly());
+                Assert.Fail();
+            }
+            catch (ResourceNotFoundRuntimeException ex)
+            {
+                Trace.WriteLine(ex.Message);
+            }
+            finally
+            {
+                if (stream != null) stream.Close();
+            }
+        }
 
         [Test]
         public void TestGetResourceNoException_ÉäÉ\Å[ÉXÇ™ë∂ç›Ç∑ÇÈèÍçá()
@@ -93,7 +93,7 @@ namespace Seasar.Tests.Framework.Util
 
             AssemblyBuilder dynamicAssembly;
             IResourceWriter resourceWriter;
-            dynamicAssembly = (AssemblyBuilder)CreateAssembly(Thread.GetDomain()).Assembly;
+            dynamicAssembly = (AssemblyBuilder) CreateAssembly(Thread.GetDomain()).Assembly;
 
             resourceWriter = dynamicAssembly.DefineResource("myResourceFile",
                "A sample Resource File", "MyEmitAssembly.MyResource.resources");
@@ -133,11 +133,11 @@ namespace Seasar.Tests.Framework.Util
                MethodAttributes.Public, typeof(String), null);
 
             ILGenerator methodIL = myMethod.GetILGenerator();
-            methodIL.Emit(OpCodes.Ldstr, "Display method get called.");
+            methodIL.Emit(OpCodes.Ldstr, "Display _method get called.");
             methodIL.Emit(OpCodes.Ret);
 
             return (helloWorldClass.CreateType());
-        }   
+        }
 
-	}
+    }
 }

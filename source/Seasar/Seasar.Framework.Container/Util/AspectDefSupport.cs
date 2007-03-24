@@ -16,71 +16,60 @@
  */
 #endregion
 
-using System;
 using System.Collections;
 
 namespace Seasar.Framework.Container.Util
 {
-	/// <summary>
-	/// AspectDefSupport の概要の説明です。
-	/// </summary>
-	public sealed class AspectDefSupport
-	{
-		private IList aspectDefs_ = ArrayList.Synchronized(new ArrayList());
-		private IS2Container container_;
+    public sealed class AspectDefSupport
+    {
+        private readonly IList _aspectDefs = ArrayList.Synchronized(new ArrayList());
+        private IS2Container _container;
 
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		public AspectDefSupport()
-		{
-		}
+        /// <summary>
+        /// IAspectDefを追加します。
+        /// </summary>
+        /// <param name="aspectDef"></param>
+        public void AddAspectDef(IAspectDef aspectDef)
+        {
+            if (_container != null)
+            {
+                aspectDef.Container = _container;
+            }
+            _aspectDefs.Add(aspectDef);
+        }
 
-		/// <summary>
-		/// IAspectDefを追加します。
-		/// </summary>
-		/// <param name="aspectDef"></param>
-		public void AddAspectDef(IAspectDef aspectDef)
-		{
-			if(container_ != null)
-			{
-				aspectDef.Container = container_;
-			}
-			aspectDefs_.Add(aspectDef);
-		}
+        /// <summary>
+        /// IAspectDefの数
+        /// </summary>
+        public int AspectDefSize
+        {
+            get { return _aspectDefs.Count; }
+        }
 
-		/// <summary>
-		/// IAspectDefの数
-		/// </summary>
-		public int AspectDefSize
-		{
-			get { return aspectDefs_.Count; }
-		}
+        /// <summary>
+        /// 番号を指定してIAspectDefを返します。
+        /// </summary>
+        /// <param name="index">番号</param>
+        /// <returns>IAspectDef</returns>
+        public IAspectDef GetAspectDef(int index)
+        {
+            return (IAspectDef) _aspectDefs[index];
+        }
 
-		/// <summary>
-		/// 番号を指定してIAspectDefを返します。
-		/// </summary>
-		/// <param name="index">番号</param>
-		/// <returns>IAspectDef</returns>
-		public IAspectDef GetAspectDef(int index)
-		{
-			return (IAspectDef) aspectDefs_[index];
-		}
-
-		/// <summary>
-		/// S2Container
-		/// </summary>
-		public IS2Container Container
-		{
-			set
-			{
-				container_ = value;
-				IEnumerator enu = aspectDefs_.GetEnumerator();
-				while(enu.MoveNext())
-				{
-					((IAspectDef) enu.Current).Container = value;
-				}
-			}
-		}
-	}
+        /// <summary>
+        /// S2Container
+        /// </summary>
+        public IS2Container Container
+        {
+            set
+            {
+                _container = value;
+                IEnumerator enu = _aspectDefs.GetEnumerator();
+                while (enu.MoveNext())
+                {
+                    ((IAspectDef) enu.Current).Container = value;
+                }
+            }
+        }
+    }
 }

@@ -22,48 +22,47 @@ using Seasar.Framework.Aop.Interceptors;
 
 namespace Seasar.Examples.Reference.Aop
 {
-	public class MeasurementInterceptor : AbstractInterceptor
-	{
-		public override object Invoke(Seasar.Framework.Aop.IMethodInvocation invocation)
-		{
-			long start = 0;
-			long end = 0;
-			StringBuilder buf = new StringBuilder(100);
-			
-			buf.Append(GetComponentDef(invocation).ComponentType.FullName);
-			buf.Append("#");
-			buf.Append(invocation.Method.Name);
-			buf.Append("(");
-			object[] args = invocation.Arguments;
-			if(args != null && args.Length > 0)
-			{
-				foreach(object arg in args)
-				{
-					buf.Append(arg);
-					buf.Append(", ");
-				}
-				buf.Length = buf.Length - 2;
-			}
-			buf.Append(")");
-			try
-			{
-				start = DateTime.Now.Ticks;
-				object ret = invocation.Proceed();
-				end = DateTime.Now.Ticks;
-				buf.Append(" : ");
-				return ret;
-			}
-			catch(Exception ex)
-			{
-				buf.Append(" Exception:");
-				buf.Append(ex);
-				throw ex;
-			}
-			finally
-			{
-				Console.WriteLine(buf.ToString() + ((end - start) / 10000));
-			}
-		}
+    public class MeasurementInterceptor : AbstractInterceptor
+    {
+        public override object Invoke(Framework.Aop.IMethodInvocation invocation)
+        {
+            long start = 0;
+            long end = 0;
+            StringBuilder buf = new StringBuilder(100);
 
-	}
+            buf.Append(GetComponentDef(invocation).ComponentType.FullName);
+            buf.Append("#");
+            buf.Append(invocation.Method.Name);
+            buf.Append("(");
+            object[] args = invocation.Arguments;
+            if (args != null && args.Length > 0)
+            {
+                foreach (object arg in args)
+                {
+                    buf.Append(arg);
+                    buf.Append(", ");
+                }
+                buf.Length = buf.Length - 2;
+            }
+            buf.Append(")");
+            try
+            {
+                start = DateTime.Now.Ticks;
+                object ret = invocation.Proceed();
+                end = DateTime.Now.Ticks;
+                buf.Append(" : ");
+                return ret;
+            }
+            catch (Exception ex)
+            {
+                buf.Append(" Exception:");
+                buf.Append(ex);
+                throw;
+            }
+            finally
+            {
+                Console.WriteLine(buf.ToString() + ((end - start) / 10000));
+            }
+        }
+    }
 }

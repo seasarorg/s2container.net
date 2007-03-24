@@ -16,7 +16,6 @@
  */
 #endregion
 
-using System;
 using System.Diagnostics;
 using System.Runtime.Remoting;
 using MbUnit.Framework;
@@ -29,104 +28,101 @@ using Seasar.Framework.Exceptions;
 
 namespace Seasar.Tests.Framework.Container.Assembler
 {
-	/// <summary>
-	/// ManualPropertyAssemblerTest ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	[TestFixture]
-	public class ManualPropertyAssemblerTest
-	{
-		[Test]
-		public void TestAssemble()
-		{
-			IS2Container container = new S2ContainerImpl();
-			ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
-			IPropertyDef pd = new PropertyDefImpl("Hoge",new B());
-			cd.AddPropertyDef(pd);
-			container.Register(cd);
-			IPropertyAssembler assembler = new ManualPropertyAssembler(cd);
-			A a = new A();
-			assembler.Assemble(a);
-			Assert.AreEqual("B", a.HogeName);
-		}
+    [TestFixture]
+    public class ManualPropertyAssemblerTest
+    {
+        [Test]
+        public void TestAssemble()
+        {
+            IS2Container container = new S2ContainerImpl();
+            ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+            IPropertyDef pd = new PropertyDefImpl("Hoge", new B());
+            cd.AddPropertyDef(pd);
+            container.Register(cd);
+            IPropertyAssembler assembler = new ManualPropertyAssembler(cd);
+            A a = new A();
+            assembler.Assemble(a);
+            Assert.AreEqual("B", a.HogeName);
+        }
 
-		[Test]
-		public void TestAssembleIllegalProperty()
-		{
-			IS2Container container = new S2ContainerImpl();
-			ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
-			IPropertyDef pd = new PropertyDefImpl("Hoge");
-			pd.Expression = "B";
-			cd.AddPropertyDef(pd);
-			container.Register(cd);
-			IPropertyAssembler assembler = new ManualPropertyAssembler(cd);
-			A a = new A();
-			try
-			{
-				assembler.Assemble(a);
-				Assert.Fail();
-			}
-			catch(JScriptEvaluateRuntimeException ex)
-			{
-				Trace.WriteLine(ex);
-			}
-		}
+        [Test]
+        public void TestAssembleIllegalProperty()
+        {
+            IS2Container container = new S2ContainerImpl();
+            ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+            IPropertyDef pd = new PropertyDefImpl("Hoge");
+            pd.Expression = "B";
+            cd.AddPropertyDef(pd);
+            container.Register(cd);
+            IPropertyAssembler assembler = new ManualPropertyAssembler(cd);
+            A a = new A();
+            try
+            {
+                assembler.Assemble(a);
+                Assert.Fail();
+            }
+            catch (JScriptEvaluateRuntimeException ex)
+            {
+                Trace.WriteLine(ex);
+            }
+        }
 
-		[Test]
-		public void TestAssembleIllegalProperty2()
-		{
-			IS2Container container = new S2ContainerImpl();
-			ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
-			IPropertyDef pd = new PropertyDefImpl("abc", "111");
-			cd.AddPropertyDef(pd);
-			container.Register(cd);
-			IPropertyAssembler assembler = new ManualPropertyAssembler(cd);
-			A a = new A();
-			try
-			{
-				assembler.Assemble(a);
-				Assert.Fail();
-			}
-			catch(PropertyNotFoundRuntimeException ex)
-			{
-				Trace.WriteLine(ex);
-			}
-		}
+        [Test]
+        public void TestAssembleIllegalProperty2()
+        {
+            IS2Container container = new S2ContainerImpl();
+            ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+            IPropertyDef pd = new PropertyDefImpl("abc", "111");
+            cd.AddPropertyDef(pd);
+            container.Register(cd);
+            IPropertyAssembler assembler = new ManualPropertyAssembler(cd);
+            A a = new A();
+            try
+            {
+                assembler.Assemble(a);
+                Assert.Fail();
+            }
+            catch (PropertyNotFoundRuntimeException ex)
+            {
+                Trace.WriteLine(ex);
+            }
+        }
 
-		[Test]
-		public void TestAssembleIllegalProperty3()
-		{
-			IS2Container container = new S2ContainerImpl();
-			ComponentDefImpl cd = new ComponentDefImpl(typeof(B));
-			IPropertyDef pd = new PropertyDefImpl("Aaa", "abc");
-			cd.AddPropertyDef(pd);
-			container.Register(cd);
-			IPropertyAssembler assembler = new ManualPropertyAssembler(cd);
-			B b = new B();
-			try
-			{
-				assembler.Assemble(b);
-				Assert.Fail();
-			}
-			catch(IllegalPropertyRuntimeException ex)
-			{
-				Trace.WriteLine(ex);
-			}
-		}
+        [Test]
+        public void TestAssembleIllegalProperty3()
+        {
+            IS2Container container = new S2ContainerImpl();
+            ComponentDefImpl cd = new ComponentDefImpl(typeof(B));
+            IPropertyDef pd = new PropertyDefImpl("Aaa", "abc");
+            cd.AddPropertyDef(pd);
+            container.Register(cd);
+            IPropertyAssembler assembler = new ManualPropertyAssembler(cd);
+            B b = new B();
+            try
+            {
+                assembler.Assemble(b);
+                Assert.Fail();
+            }
+            catch (IllegalPropertyRuntimeException ex)
+            {
+                Trace.WriteLine(ex);
+            }
+        }
 
-		[Test]
-		public void TestWithConstructor()
-		{
-			IS2Container container = new S2ContainerImpl();
-			ComponentDefImpl cd = new ComponentDefImpl(typeof(B));
-			IPropertyDef pd = new PropertyDefImpl("Aaa", 123);
-			cd.AddPropertyDef(pd);
-			IArgDef ad = new ArgDefImpl("BBB");
-			cd.AddArgDef(ad);
-			container.Register(cd);
-			B b = (B) container.GetComponent(typeof(B));
-			Assert.AreEqual("BBB", b.Bbb);
-			Assert.AreEqual(123, b.Aaa);
-		}
+        [Test]
+        public void TestWithConstructor()
+        {
+            IS2Container container = new S2ContainerImpl();
+            ComponentDefImpl cd = new ComponentDefImpl(typeof(B));
+            IPropertyDef pd = new PropertyDefImpl("Aaa", 123);
+            cd.AddPropertyDef(pd);
+            IArgDef ad = new ArgDefImpl("BBB");
+            cd.AddArgDef(ad);
+            container.Register(cd);
+            B b = (B) container.GetComponent(typeof(B));
+            Assert.AreEqual("BBB", b.Bbb);
+            Assert.AreEqual(123, b.Aaa);
+        }
 
         [Test]
         public void TestAssembleWithAspect()
@@ -148,64 +144,61 @@ namespace Seasar.Tests.Framework.Container.Assembler
             Assert.IsTrue(RemotingServices.IsTransparentProxy(a.Hoge), "2");
         }
 
-		public interface IFoo
-		{
-			string HogeName { get; }
-		}
+        public interface IFoo
+        {
+            string HogeName { get; }
+        }
 
-		public class A : IFoo
-		{
-			private IHoge hoge_;
+        public class A : IFoo
+        {
+            private IHoge _hoge;
 
-			public A()
-			{
-			}
+            public IHoge Hoge
+            {
+                get { return _hoge; }
+                set { _hoge = value; }
+            }
 
-			public IHoge Hoge
-			{
-				get { return hoge_; }
-				set { hoge_ = value; }
-			}
+            public string HogeName
+            {
+                get { return _hoge.Name; }
+            }
+        }
 
-			public string HogeName
-			{
-				get { return hoge_.Name; }
-			}
-		}
+        public interface IHoge
+        {
+            string Name { get; }
+        }
 
-		public interface IHoge
-		{
-			string Name { get; }
-		}
+        public class B : IHoge
+        {
+            private int _aaa;
+            private readonly string _bbb;
 
-		public class B : IHoge
-		{
-			private int aaa_;
-			private string bbb_;
+            public B()
+            {
+            }
 
-			public B()
-			{
-			}
+            public B(string bbb)
+            {
+                _bbb = bbb;
+            }
 
-			public B(string bbb)
-			{
-				bbb_ = bbb;
-			}
-			public string Name
-			{
-				get { return "B"; }
-			}
+            public string Name
+            {
+                get { return "B"; }
+            }
 
-			public int Aaa
-			{
-				set { aaa_ = value; }
-				get { return aaa_; }
-			}
+            public int Aaa
+            {
+                set { _aaa = value; }
+                get { return _aaa; }
+            }
 
-			public string Bbb
-			{
-				get { return bbb_; }
-			}
-		}
-	}
+            public string Bbb
+            {
+                get { return _bbb; }
+            }
+        }
+    }
 }

@@ -40,9 +40,9 @@ namespace Seasar.Framework.Util
         /// <returns>変換されたオブジェクト</returns>
         public static object ConvertTargetType(object o, Type targetType)
         {
-            object ret = null;
+            object ret;
 
-            if(typeof(IConvertible).IsAssignableFrom(targetType))
+            if (typeof(IConvertible).IsAssignableFrom(targetType))
             {
                 ret = ConvertConvertible(o, targetType);
             }
@@ -81,9 +81,9 @@ namespace Seasar.Framework.Util
         /// <returns>変換されたオブジェクト</returns>
         public static object ConvertSqlTypesNullable(object o, Type targetType)
         {
-            INullable ret = null;
+            INullable ret;
 
-            if(o == null || o == DBNull.Value)
+            if (o == null || o == DBNull.Value)
             {
                 ret = (INullable) targetType.InvokeMember("Null", BindingFlags.GetField,
                     null, null, null);
@@ -91,7 +91,7 @@ namespace Seasar.Framework.Util
             else
             {
                 Type paramType = GetValueType(targetType);
-                ret = (INullable) Activator.CreateInstance(targetType, 
+                ret = (INullable) Activator.CreateInstance(targetType,
                     new object[] { Convert.ChangeType(o, paramType) });
             }
 
@@ -106,9 +106,9 @@ namespace Seasar.Framework.Util
         /// <returns>変換されたオブジェクト</returns>
         public static object ConvertNHibernateNullable(object o, Type targetType)
         {
-            INullableType ret = null;
+            INullableType ret;
 
-            if(o == null || o == DBNull.Value)
+            if (o == null || o == DBNull.Value)
             {
                 ret = (INullableType) targetType.InvokeMember("Default", BindingFlags.GetField,
                     null, null, null);
@@ -116,7 +116,7 @@ namespace Seasar.Framework.Util
             else
             {
                 Type paramType = GetValueType(targetType);
-                ret = (INullableType) Activator.CreateInstance(targetType, 
+                ret = (INullableType) Activator.CreateInstance(targetType,
                     new object[] { Convert.ChangeType(o, paramType) });
             }
 
@@ -132,7 +132,7 @@ namespace Seasar.Framework.Util
         /// <returns>変換されたオブジェクト</returns>
         public static object ConvertNullable(object o, Type targetType)
         {
-            object ret = null;
+            object ret;
 
             if (o == null || o == DBNull.Value)
             {
@@ -159,9 +159,9 @@ namespace Seasar.Framework.Util
         {
             object ret = null;
 
-            if(o == null || o == DBNull.Value)
+            if (o == null || o == DBNull.Value)
             {
-                if(!targetType.Equals(typeof(string)))
+                if (!targetType.Equals(typeof(string)))
                 {
                     ret = Convert.ChangeType(decimal.Zero, targetType);
                 }

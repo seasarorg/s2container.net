@@ -16,28 +16,24 @@
  */
 #endregion
 
-using System;
-
 namespace Seasar.Framework.Container.Impl
 {
-	/// <summary>
-	/// InitMethodDefImpl の概要の説明です。
-	/// </summary>
-	public class InitMethodDefImpl : MethodDefImpl, IInitMethodDef
-	{
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		public InitMethodDefImpl()
-		{
-		}
+    public class InitMethodDefImpl : MethodDefImpl, IInitMethodDef
+    {
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public InitMethodDefImpl()
+        {
+        }
 
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		/// <param name="methodName">メソッドの名前</param>
-		public InitMethodDefImpl(string methodName) : base(methodName)
-		{
-		}
-	}
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="methodName">メソッドの名前</param>
+        public InitMethodDefImpl(string methodName)
+            : base(methodName)
+        {
+        }
+    }
 }

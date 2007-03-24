@@ -16,32 +16,27 @@
  */
 #endregion
 
-using System;
-using System.Data;
 using System.IO;
 using System.Reflection;
 using System.Transactions;
-
 using log4net;
 using log4net.Config;
 using log4net.Util;
-
 using MbUnit.Framework;
-
 using Seasar.Framework.Container.Factory;
 using Seasar.Framework.Unit;
 
 namespace Seasar.Tests.Extension.Tx.Impl
 {
     [TestFixture]
-	public class NotSupportedInterceptorTest : S2FrameworkTestCaseBase
-	{
-        private ITxTest txTest;
+    public class NotSupportedInterceptorTest : S2FrameworkTestCaseBase
+    {
+        private ITxTest _txTest;
 
         public ITxTest TxTest
         {
-            get { return txTest; }
-            set { txTest = value; }
+            get { return _txTest; }
+            set { _txTest = value; }
         }
 
         public NotSupportedInterceptorTest()
@@ -51,13 +46,13 @@ namespace Seasar.Tests.Extension.Tx.Impl
             XmlConfigurator.Configure(LogManager.GetRepository(), info);
             base.Container = S2ContainerFactory.Create(base.ConvertPath("NotSupportedInterceptorTest.dicon"));
             base.Container.Init();
-            this.TxTest = base.GetComponent(typeof(ITxTest)) as ITxTest;
+            TxTest = base.GetComponent(typeof(ITxTest)) as ITxTest;
         }
 
         [Test]
         public void StartTx()
         {
-            Assert.AreEqual(false, this.TxTest.IsInTransaction());
+            Assert.AreEqual(false, TxTest.IsInTransaction());
         }
 
         [Test]
@@ -69,5 +64,5 @@ namespace Seasar.Tests.Extension.Tx.Impl
                 Assert.IsNull(TxTest.TxId);
             }
         }
-	}
+    }
 }

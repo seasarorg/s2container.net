@@ -30,46 +30,41 @@ using Seasar.Framework.Container.Factory;
 
 namespace Seasar.Examples
 {
-	/// <summary>
-	/// Examplesをブートストラップするクラスです。
-	/// </summary>
-	public class Examples
-	{
-		public Examples()
-		{
-		}
+    /// <summary>
+    /// Examplesをブートストラップするクラスです。
+    /// </summary>
+    public class Examples
+    {
+        /// <summary>
+        /// アプリケーションのメイン エントリ ポイントです。
+        /// </summary>
+        [STAThread]
+        static void Main()
+        {
+            TextWriter Out = Console.Out;
+            try
+            {
+                // log4netの初期化
+                FileInfo info = new FileInfo(SystemInfo.AssemblyShortName(
+                    Assembly.GetExecutingAssembly()) + ".exe.config");
+                XmlConfigurator.Configure(LogManager.GetRepository(), info);
 
-		/// <summary>
-		/// アプリケーションのメイン エントリ ポイントです。
-		/// </summary>
-		[STAThread]
-		static void Main() 
-		{
-			TextWriter Out = Console.Out;
-			TextWriter Err = Console.Error;
-			try 
-			{
-				// log4netの初期化
-				FileInfo info = new FileInfo(SystemInfo.AssemblyShortName(
-					Assembly.GetExecutingAssembly()) + ".exe.config");
-				XmlConfigurator.Configure(LogManager.GetRepository(), info);
-
-				SingletonS2ContainerFactory.Init();
-				IS2Container container = SingletonS2ContainerFactory.Container;
-				ExamplesExplorer de = container.GetComponent(typeof(ExamplesExplorer)) as ExamplesExplorer;
-				if(de != null) 
-				{
-					Application.Run(de);
-				}
-			} 
-			catch(Exception e) 
-			{
-				Out.WriteLine(e.Message);
-			} 
-			finally 
-			{
-				SingletonS2ContainerFactory.Destroy();
-			}
-		}
-	}
+                SingletonS2ContainerFactory.Init();
+                IS2Container container = SingletonS2ContainerFactory.Container;
+                ExamplesExplorer de = container.GetComponent(typeof(ExamplesExplorer)) as ExamplesExplorer;
+                if (de != null)
+                {
+                    Application.Run(de);
+                }
+            }
+            catch (Exception e)
+            {
+                Out.WriteLine(e.Message);
+            }
+            finally
+            {
+                SingletonS2ContainerFactory.Destroy();
+            }
+        }
+    }
 }

@@ -16,15 +16,14 @@
  */
 #endregion
 
-using System;
 using Seasar.Framework.Container;
 
 namespace Seasar.Extension.Component
 {
-	public interface IComponentInvoker
-	{
-		IS2Container Container { set; }
+    public interface IComponentInvoker
+    {
+        IS2Container Container { set; }
 
-		object Invoke(String componentName, String methodName, Object[] args);
-	}
+        object Invoke(string componentName, string methodName, object[] args);
+    }
 }

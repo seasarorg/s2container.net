@@ -25,45 +25,42 @@ using MbUnit.Framework;
 
 namespace Seasar.Tests.Framework.Container.Assembler
 {
-	/// <summary>
-	/// ExpressionConstructorAssemblerTest ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	[TestFixture]
-	public class ExpressionConstructorAssemblerTest
-	{
-		[Test]
-		public void TestAssemble()
-		{
-			IS2Container container = new S2ContainerImpl();
-			ComponentDefImpl cd = new ComponentDefImpl(typeof(object),"obj");
-			container.Register(cd);
-			ComponentDefImpl cd2 = new ComponentDefImpl();
-			cd2.Expression = "container.GetHashCode()";
-			container.Register(cd2);
-			ExpressionConstructorAssembler assembler =
-				new ExpressionConstructorAssembler(cd2);
-			Int32 myInt = (Int32) assembler.Assemble();
-			Trace.WriteLine(myInt);
-			Assert.IsNotNull(myInt);
-		}
+    [TestFixture]
+    public class ExpressionConstructorAssemblerTest
+    {
+        [Test]
+        public void TestAssemble()
+        {
+            IS2Container container = new S2ContainerImpl();
+            ComponentDefImpl cd = new ComponentDefImpl(typeof(object), "obj");
+            container.Register(cd);
+            ComponentDefImpl cd2 = new ComponentDefImpl();
+            cd2.Expression = "container.GetHashCode()";
+            container.Register(cd2);
+            ExpressionConstructorAssembler assembler =
+                new ExpressionConstructorAssembler(cd2);
+            Int32 myInt = (Int32) assembler.Assemble();
+            Trace.WriteLine(myInt);
+            Assert.IsNotNull(myInt);
+        }
 
-		[Test]
-		public void TestAssemblerForNull()
-		{
-			IS2Container container = new S2ContainerImpl();
-			ComponentDefImpl cd = new ComponentDefImpl(typeof(object),"obj");
-			cd.Expression = "null";
-			container.Register(cd);
-			ExpressionConstructorAssembler assembler = new ExpressionConstructorAssembler(cd);
-			try
-			{
-				assembler.Assemble();
-				Assert.Fail();
-			}
-			catch(TypeUnmatchRuntimeException ex)
-			{
-				Trace.WriteLine(ex);
-			}
-		}
-	}
+        [Test]
+        public void TestAssemblerForNull()
+        {
+            IS2Container container = new S2ContainerImpl();
+            ComponentDefImpl cd = new ComponentDefImpl(typeof(object), "obj");
+            cd.Expression = "null";
+            container.Register(cd);
+            ExpressionConstructorAssembler assembler = new ExpressionConstructorAssembler(cd);
+            try
+            {
+                assembler.Assemble();
+                Assert.Fail();
+            }
+            catch (TypeUnmatchRuntimeException ex)
+            {
+                Trace.WriteLine(ex);
+            }
+        }
+    }
 }

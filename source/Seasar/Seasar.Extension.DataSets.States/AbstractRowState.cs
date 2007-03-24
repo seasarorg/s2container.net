@@ -16,7 +16,6 @@
  */
 #endregion
 
-using System;
 using System.Data;
 using Seasar.Extension.ADO;
 using Seasar.Extension.ADO.Impl;

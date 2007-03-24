@@ -16,7 +16,6 @@
  */
 #endregion
 
-using System;
 using Seasar.Framework.Aop.Impl;
 using Seasar.Framework.Xml;
 using Seasar.Framework.Util;
@@ -25,35 +24,33 @@ using Seasar.Framework.Container.Impl;
 
 namespace Seasar.Framework.Container.Factory
 {
-	/// <summary>
-	/// AspectTagHandler ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public class AspectTagHandler : TagHandler
-	{
+    public class AspectTagHandler : TagHandler
+    {
+        public override void Start(TagHandlerContext context, IAttributes attributes)
+        {
+            IAspectDef aspectDef;
+            string pointcutStr = attributes["pointcut"];
+            if (pointcutStr != null)
+            {
+                string[] methodNames = pointcutStr.Split(new char[] { ',' });
+                aspectDef = new AspectDefImpl(new PointcutImpl(methodNames));
+            }
+            else
+            {
+                aspectDef = new AspectDefImpl();
+            }
+            context.Push(aspectDef);
+        }
 
-		public override void Start(TagHandlerContext context, IAttributes attributes)
-		{
-			IAspectDef aspectDef = null;
-			string pointcutStr = attributes["pointcut"];
-			if(pointcutStr != null)
-			{
-				string[] methodNames = pointcutStr.Split(new char[] {','});
-				aspectDef = new AspectDefImpl(new PointcutImpl(methodNames));
-			}
-			else
-			{
-				aspectDef = new AspectDefImpl();
-			}
-			context.Push(aspectDef);
-		}
-
-		public override void End(TagHandlerContext context, string body)
-		{
-			IAspectDef aspectDef = (IAspectDef) context.Pop();
-			if(!StringUtil.IsEmpty(body)) aspectDef.Expression = body;
-			IComponentDef componentDef = (IComponentDef) context.Peek();
-			componentDef.AddAspeceDef(aspectDef);
-		}
-
-	}
+        public override void End(TagHandlerContext context, string body)
+        {
+            IAspectDef aspectDef = (IAspectDef) context.Pop();
+            if (!StringUtil.IsEmpty(body))
+            {
+                aspectDef.Expression = body;
+            }
+            IComponentDef componentDef = (IComponentDef) context.Peek();
+            componentDef.AddAspeceDef(aspectDef);
+        }
+    }
 }

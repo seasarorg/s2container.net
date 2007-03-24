@@ -21,27 +21,27 @@ using System.Text;
 
 namespace Seasar.Framework.Util
 {
-	public sealed class BinaryConversionUtil
-	{
-		private BinaryConversionUtil()
-		{
-		}
+    public sealed class BinaryConversionUtil
+    {
+        private BinaryConversionUtil()
+        {
+        }
 
-		public static byte[] ToBinary(object o)
-		{
-			if (o == null || o == DBNull.Value)
-			{
-				throw new ArgumentNullException("o");
-			}
-			else if (o is byte[])
-			{
-				return (byte[]) o;
-			}
-			else if (o is string)
-			{
-				return Encoding.Default.GetBytes((string) o);
-			}
-			throw new ArgumentException(o.GetType().Name);
-		}
-	}
+        public static byte[] ToBinary(object o)
+        {
+            if (o == null || o == DBNull.Value)
+            {
+                throw new ArgumentNullException("o");
+            }
+            else if (o is byte[])
+            {
+                return (byte[]) o;
+            }
+            else if (o is string)
+            {
+                return Encoding.Default.GetBytes((string) o);
+            }
+            throw new ArgumentException(o.GetType().Name);
+        }
+    }
 }

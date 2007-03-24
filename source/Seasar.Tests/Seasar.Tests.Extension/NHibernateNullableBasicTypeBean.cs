@@ -25,100 +25,100 @@ namespace Seasar.Tests.Extension
     [Serializable]
     public class NHibernateNullableBasicTypeBean
     {
-        private NullableInt64 id;
+        private NullableInt64 _id;
 
         public NullableInt64 Id
         {
-            get { return id; }
-            set { id = value; }
+            get { return _id; }
+            set { _id = value; }
         }
 
-        private NullableBoolean boolType;
+        private NullableBoolean _boolType;
 
         public NullableBoolean BoolType
         {
-            get { return boolType; }
-            set { boolType = value; }
+            get { return _boolType; }
+            set { _boolType = value; }
         }
 
-        private NullableSByte sbyteType;
+        private NullableSByte _sbyteType;
 
         public NullableSByte SbyteType
         {
-            get { return sbyteType; }
-            set { sbyteType = value; }
+            get { return _sbyteType; }
+            set { _sbyteType = value; }
         }
 
-        private NullableByte byteType;
+        private NullableByte _byteType;
 
         public NullableByte ByteType
         {
-            get { return byteType; }
-            set { byteType = value; }
+            get { return _byteType; }
+            set { _byteType = value; }
         }
 
-        private NullableInt16 int16Type;
+        private NullableInt16 _int16Type;
 
         public NullableInt16 Int16Type
         {
-            get { return int16Type; }
-            set { int16Type = value; }
+            get { return _int16Type; }
+            set { _int16Type = value; }
         }
 
-        private NullableInt32 int32Type;
+        private NullableInt32 _int32Type;
 
         public NullableInt32 Int32Type
         {
-            get { return int32Type; }
-            set { int32Type = value; }
+            get { return _int32Type; }
+            set { _int32Type = value; }
         }
 
-        private NullableInt64 int64Type;
+        private NullableInt64 _int64Type;
 
         public NullableInt64 Int64Type
         {
-            get { return int64Type; }
-            set { int64Type = value; }
+            get { return _int64Type; }
+            set { _int64Type = value; }
         }
 
-        private NullableDecimal decimalType;
+        private NullableDecimal _decimalType;
 
         public NullableDecimal DecimalType
         {
-            get { return decimalType; }
-            set { decimalType = value; }
+            get { return _decimalType; }
+            set { _decimalType = value; }
         }
 
-        private NullableSingle singleType;
+        private NullableSingle _singleType;
 
         public NullableSingle SingleType
         {
-            get { return singleType; }
-            set { singleType = value; }
+            get { return _singleType; }
+            set { _singleType = value; }
         }
 
-        private NullableDouble doubleType;
+        private NullableDouble _doubleType;
 
         public NullableDouble DoubleType
         {
-            get { return doubleType; }
-            set { doubleType = value; }
+            get { return _doubleType; }
+            set { _doubleType = value; }
         }
 
-        private string stringType;
+        private string _stringType;
 
         public string StringType
         {
-            get { return stringType; }
-            set { stringType = value; }
+            get { return _stringType; }
+            set { _stringType = value; }
         }
 
-        private NullableDateTime dateTimeType;
+        private NullableDateTime _dateTimeType;
 
         public NullableDateTime DateTimeType
         {
-            get { return dateTimeType; }
-            set { dateTimeType = value; }
+            get { return _dateTimeType; }
+            set { _dateTimeType = value; }
         }
 
         public NHibernateNullableBasicTypeBean()
@@ -140,40 +140,40 @@ namespace Seasar.Tests.Extension
             NullableDateTime dateTimeType
             )
         {
-            this.id = id;
-            this.boolType = boolType;
-            this.sbyteType = sbyteType;
-            this.byteType = byteType;
-            this.int16Type = int16Type;
-            this.int32Type = int32Type;
-            this.int64Type = int64Type;
-            this.decimalType = decimalType;
-            this.singleType = singleType;
-            this.doubleType = doubleType;
-            this.stringType = stringType;
-            this.dateTimeType = dateTimeType;
+            _id = id;
+            _boolType = boolType;
+            _sbyteType = sbyteType;
+            _byteType = byteType;
+            _int16Type = int16Type;
+            _int32Type = int32Type;
+            _int64Type = int64Type;
+            _decimalType = decimalType;
+            _singleType = singleType;
+            _doubleType = doubleType;
+            _stringType = stringType;
+            _dateTimeType = dateTimeType;
         }
 
         public override int GetHashCode()
         {
-            return (int) this.Id;
+            return (int) Id;
         }
 
         public override string ToString()
         {
             StringBuilder buf = new StringBuilder();
-            buf.Append(id).Append(", ");
-            buf.Append(boolType).Append(", ");
-            buf.Append(sbyteType).Append(", ");
-            buf.Append(byteType).Append(", ");
-            buf.Append(int16Type).Append(", ");
-            buf.Append(int32Type).Append(", ");
-            buf.Append(int64Type).Append(", ");
-            buf.Append(decimalType).Append(", ");
-            buf.Append(singleType).Append(", ");
-            buf.Append(doubleType).Append(", ");
-            buf.Append(stringType).Append(", ");
-            buf.Append(dateTimeType);
+            buf.Append(_id).Append(", ");
+            buf.Append(_boolType).Append(", ");
+            buf.Append(_sbyteType).Append(", ");
+            buf.Append(_byteType).Append(", ");
+            buf.Append(_int16Type).Append(", ");
+            buf.Append(_int32Type).Append(", ");
+            buf.Append(_int64Type).Append(", ");
+            buf.Append(_decimalType).Append(", ");
+            buf.Append(_singleType).Append(", ");
+            buf.Append(_doubleType).Append(", ");
+            buf.Append(_stringType).Append(", ");
+            buf.Append(_dateTimeType);
             return buf.ToString();
         }
     }

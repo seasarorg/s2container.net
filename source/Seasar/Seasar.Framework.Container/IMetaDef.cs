@@ -16,18 +16,16 @@
  */
 #endregion
 
-using System;
-
 namespace Seasar.Framework.Container
 {
-	/// <summary>
-	/// メタを定義します。
-	/// </summary>
-	public interface IMetaDef : IArgDef
-	{
-		/// <summary>
-		/// メタの名前
-		/// </summary>
-		string Name{get;}
-	}
+    /// <summary>
+    /// メタを定義します。
+    /// </summary>
+    public interface IMetaDef : IArgDef
+    {
+        /// <summary>
+        /// メタの名前
+        /// </summary>
+        string Name { get; }
+    }
 }

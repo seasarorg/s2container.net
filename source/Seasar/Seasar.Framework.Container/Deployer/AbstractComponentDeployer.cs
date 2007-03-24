@@ -22,173 +22,166 @@ using Seasar.Framework.Container.Util;
 
 namespace Seasar.Framework.Container.Deployer
 {
-	/// <summary>
-	/// AbstractComponentDeployer の概要の説明です。
-	/// </summary>
-	public class AbstractComponentDeployer : IComponentDeployer
-	{
-		private IComponentDef componentDef_;
-		private IConstructorAssembler constructorAssembler_;
-		private IPropertyAssembler propertyAssembler_;
-		private IMethodAssembler initMethodAssembler_;
-		private IMethodAssembler destroyMethodAssembler_;
+    public class AbstractComponentDeployer : IComponentDeployer
+    {
+        private readonly IComponentDef _componentDef;
+        private IConstructorAssembler _constructorAssembler;
+        private IPropertyAssembler _propertyAssembler;
+        private IMethodAssembler _initMethodAssembler;
+        private IMethodAssembler _destroyMethodAssembler;
 
-		public AbstractComponentDeployer(IComponentDef componentDef)
-		{
-			componentDef_ = componentDef;
-			this.SetupAssembler();
-		}
+        public AbstractComponentDeployer(IComponentDef componentDef)
+        {
+            _componentDef = componentDef;
+            SetupAssembler();
+        }
 
-		#region ComponentDeployer メンバ
+        #region ComponentDeployer メンバ
 
-		public virtual object Deploy(Type receiveType)
-		{
-			
-			return null;
-		}
+        public virtual object Deploy(Type receiveType)
+        {
+            return null;
+        }
 
-		public virtual void InjectDependency(object outerComponent)
-		{
-			
-		}
+        public virtual void InjectDependency(object outerComponent)
+        {
+        }
 
-		public virtual void Init()
-		{
-			
-		}
+        public virtual void Init()
+        {
+        }
 
-		#endregion
+        #endregion
 
-		public virtual void Destroy()
-		{
-			
-		}
+        public virtual void Destroy()
+        {
+        }
 
-		protected object GetProxy(Type receiveType)
-		{
-			if(receiveType == null) return null;
-			return ComponentDef.GetProxy(receiveType);
-		}
+        protected object GetProxy(Type receiveType)
+        {
+            if (receiveType == null)
+            {
+                return null;
+            }
+            return ComponentDef.GetProxy(receiveType);
+        }
 
-		protected IComponentDef ComponentDef
-		{
-			get { return componentDef_; }
-		}
+        protected IComponentDef ComponentDef
+        {
+            get { return _componentDef; }
+        }
 
-		protected IConstructorAssembler ConstructorAssembler
-		{
-			get { return constructorAssembler_; }
-		}
+        protected IConstructorAssembler ConstructorAssembler
+        {
+            get { return _constructorAssembler; }
+        }
 
-		protected IPropertyAssembler PropertyAssembler
-		{
-			get { return propertyAssembler_; }
-		}
+        protected IPropertyAssembler PropertyAssembler
+        {
+            get { return _propertyAssembler; }
+        }
 
-		protected IMethodAssembler InitMethodAssembler
-		{
-			get { return initMethodAssembler_; }
-		}
+        protected IMethodAssembler InitMethodAssembler
+        {
+            get { return _initMethodAssembler; }
+        }
 
-		protected IMethodAssembler DestroyMethodAssembler
-		{
-			get { return destroyMethodAssembler_; }
-		}
+        protected IMethodAssembler DestroyMethodAssembler
+        {
+            get { return _destroyMethodAssembler; }
+        }
 
-		private void SetupAssembler()
-		{
-			string autoBindingMode = componentDef_.AutoBindingMode;
-			if(AutoBindingUtil.IsAuto(autoBindingMode))
-			{
-				this.SetupAssemblerForAuto();
-			}
-			else if(AutoBindingUtil.IsConstructor(autoBindingMode))
-			{
-				this.SetupAssemblerForConstructor();
-			}
-			else if(AutoBindingUtil.IsProperty(autoBindingMode))
-			{
-				this.SetupAssemblerForProperty();
-			}
-			else if(AutoBindingUtil.IsNone(autoBindingMode))
-			{
-				this.SetupAssemblerForNone();
-			}
-			else
-			{
-				throw new ArgumentException(autoBindingMode);
-			}
-			initMethodAssembler_ = new DefaultInitMethodAssembler(componentDef_);
-			destroyMethodAssembler_ = new DefaultDestroyMethodAssembler(componentDef_);
-		}
+        private void SetupAssembler()
+        {
+            string autoBindingMode = _componentDef.AutoBindingMode;
+            if (AutoBindingUtil.IsAuto(autoBindingMode))
+            {
+                SetupAssemblerForAuto();
+            }
+            else if (AutoBindingUtil.IsConstructor(autoBindingMode))
+            {
+                SetupAssemblerForConstructor();
+            }
+            else if (AutoBindingUtil.IsProperty(autoBindingMode))
+            {
+                SetupAssemblerForProperty();
+            }
+            else if (AutoBindingUtil.IsNone(autoBindingMode))
+            {
+                SetupAssemblerForNone();
+            }
+            else
+            {
+                throw new ArgumentException(autoBindingMode);
+            }
+            _initMethodAssembler = new DefaultInitMethodAssembler(_componentDef);
+            _destroyMethodAssembler = new DefaultDestroyMethodAssembler(_componentDef);
+        }
 
-		private void SetupAssemblerForAuto()
-		{
-			this.SetupConstructorAssemblerForAuto();
-			propertyAssembler_ = new AutoPropertyAssembler(componentDef_);
-		}
+        private void SetupAssemblerForAuto()
+        {
+            SetupConstructorAssemblerForAuto();
+            _propertyAssembler = new AutoPropertyAssembler(_componentDef);
+        }
 
-		private void SetupConstructorAssemblerForAuto()
-		{
-			if(componentDef_.ArgDefSize > 0)
-			{
-				constructorAssembler_ = new ManualConstructorAssembler(componentDef_);
-			}
-			else if(componentDef_.Expression != null)
-			{
-				constructorAssembler_ = 
-					new ExpressionConstructorAssembler(componentDef_);
-			}
-			else
-			{
-				constructorAssembler_ = new AutoConstructorAssembler(componentDef_);
-			}
-		}
+        private void SetupConstructorAssemblerForAuto()
+        {
+            if (_componentDef.ArgDefSize > 0)
+            {
+                _constructorAssembler = new ManualConstructorAssembler(_componentDef);
+            }
+            else if (_componentDef.Expression != null)
+            {
+                _constructorAssembler = new ExpressionConstructorAssembler(_componentDef);
+            }
+            else
+            {
+                _constructorAssembler = new AutoConstructorAssembler(_componentDef);
+            }
+        }
 
-		private void SetupAssemblerForConstructor()
-		{
-			this.SetupConstructorAssemblerForAuto();
-			propertyAssembler_ = new ManualPropertyAssembler(componentDef_);
-		}
+        private void SetupAssemblerForConstructor()
+        {
+            SetupConstructorAssemblerForAuto();
+            _propertyAssembler = new ManualPropertyAssembler(_componentDef);
+        }
 
-		private void SetupAssemblerForProperty()
-		{
-			if(componentDef_.Expression != null)
-			{
-				constructorAssembler_ = 
-					new ExpressionConstructorAssembler(componentDef_);
-			}
-			else
-			{
-				constructorAssembler_ = new ManualConstructorAssembler(componentDef_);
-			}
-			propertyAssembler_ = new AutoPropertyAssembler(componentDef_);
-		}
+        private void SetupAssemblerForProperty()
+        {
+            if (_componentDef.Expression != null)
+            {
+                _constructorAssembler =
+                    new ExpressionConstructorAssembler(_componentDef);
+            }
+            else
+            {
+                _constructorAssembler = new ManualConstructorAssembler(_componentDef);
+            }
+            _propertyAssembler = new AutoPropertyAssembler(_componentDef);
+        }
 
-		private void SetupAssemblerForNone()
-		{
-			if(componentDef_.ArgDefSize > 0)
-			{
-				constructorAssembler_ = new ManualConstructorAssembler(componentDef_);
-			}
-			else if(componentDef_.Expression != null)
-			{
-				constructorAssembler_ = 
-					new ExpressionConstructorAssembler(componentDef_);
-			}
-			else
-			{
-				constructorAssembler_ = new DefaultConstructorAssembler(componentDef_);
-			}
-			if(componentDef_.PropertyDefSize > 0)
-			{
-				propertyAssembler_ = new ManualPropertyAssembler(componentDef_);
-			}
-			else
-			{
-				propertyAssembler_ = new DefaultPropertyAssembler(componentDef_);
-			}
-		}
-
-	}
+        private void SetupAssemblerForNone()
+        {
+            if (_componentDef.ArgDefSize > 0)
+            {
+                _constructorAssembler = new ManualConstructorAssembler(_componentDef);
+            }
+            else if (_componentDef.Expression != null)
+            {
+                _constructorAssembler = new ExpressionConstructorAssembler(_componentDef);
+            }
+            else
+            {
+                _constructorAssembler = new DefaultConstructorAssembler(_componentDef);
+            }
+            if (_componentDef.PropertyDefSize > 0)
+            {
+                _propertyAssembler = new ManualPropertyAssembler(_componentDef);
+            }
+            else
+            {
+                _propertyAssembler = new DefaultPropertyAssembler(_componentDef);
+            }
+        }
+    }
 }

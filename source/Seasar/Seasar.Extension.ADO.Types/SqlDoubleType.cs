@@ -22,35 +22,31 @@ using System.Data.SqlTypes;
 
 namespace Seasar.Extension.ADO.Types
 {
-	public class SqlDoubleType : SqlBaseType, IValueType
+    public class SqlDoubleType : SqlBaseType, IValueType
     {
-		public SqlDoubleType()
-        {
-        }
-
         #region IValueType ÉÅÉìÉo
 
-		public override void BindValue(IDbCommand cmd, string columnName, object value)
+        public override void BindValue(IDbCommand cmd, string columnName, object value)
         {
             BindValue(cmd, columnName, value, DbType.Double);
         }
 
         #endregion
 
-		protected override object GetValue(object value)
-		{
-			if (value == DBNull.Value)
-			{
-				return SqlDouble.Null;
-			}
-			else if (value is double)
-			{
-				return new SqlDouble((double) value);
-			}
-			else
-			{
-				return SqlDouble.Parse(value.ToString());
-			}
+        protected override object GetValue(object value)
+        {
+            if (value == DBNull.Value)
+            {
+                return SqlDouble.Null;
+            }
+            else if (value is double)
+            {
+                return new SqlDouble((double) value);
+            }
+            else
+            {
+                return SqlDouble.Parse(value.ToString());
+            }
         }
     }
 }

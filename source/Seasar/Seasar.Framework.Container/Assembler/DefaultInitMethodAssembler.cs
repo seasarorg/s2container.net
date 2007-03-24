@@ -20,25 +20,22 @@ using System;
 
 namespace Seasar.Framework.Container.Assembler
 {
-	/// <summary>
-	/// DefaultInitMethodAssembler ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public class DefaultInitMethodAssembler : AbstractMethodAssembler
-	{
-		public DefaultInitMethodAssembler(IComponentDef componentDef)
-			: base(componentDef)
-		{
-		}
+    public class DefaultInitMethodAssembler : AbstractMethodAssembler
+    {
+        public DefaultInitMethodAssembler(IComponentDef componentDef)
+            : base(componentDef)
+        {
+        }
 
-		public override void Assemble(object component)
-		{
-			Type type = component.GetType();
-			int size = this.ComponentDef.InitMethodDefSize;
-			for(int i = 0; i < size; ++i)
-			{
-				IMethodDef methodDef = this.ComponentDef.GetInitMethodDef(i);
-				this.Invoke(type,component,methodDef);
-			}
-		}
-	}
+        public override void Assemble(object component)
+        {
+            Type type = component.GetType();
+            int size = ComponentDef.InitMethodDefSize;
+            for (int i = 0; i < size; ++i)
+            {
+                IMethodDef methodDef = ComponentDef.GetInitMethodDef(i);
+                Invoke(type, component, methodDef);
+            }
+        }
+    }
 }

@@ -16,55 +16,53 @@
  */
 #endregion
 
-using System;
-
 using Seasar.Framework.Aop;
 
 namespace Seasar.Extension.Tx.Impl
 {
-	/// <summary>
-	/// LocalRequiredTxHandler ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public class LocalRequiredTxHandler : AbstractLocalTxHandler
-	{
-		public override object Handle(IMethodInvocation invocation, bool alreadyInTransaction)
-		{
-			if(! alreadyInTransaction)
-			{
-				return HandleTransaction(invocation);
-			} 
-			else 
-			{
-				return invocation.Proceed();
-			}
-		}
+    public class LocalRequiredTxHandler : AbstractLocalTxHandler
+    {
+        public override object Handle(IMethodInvocation invocation, bool alreadyInTransaction)
+        {
+            if (!alreadyInTransaction)
+            {
+                return HandleTransaction(invocation);
+            }
+            else
+            {
+                return invocation.Proceed();
+            }
+        }
 
-		private object HandleTransaction(IMethodInvocation invocation) 
-		{
-			using(ITransactionContext current = this.Context.Create())
-			{
-				ITransactionContext parent = this.Context.Current;
-				current.Parent = parent;
-				current.Begin();
-				this.Context.Current = current;
-				try
-				{
-					object obj = invocation.Proceed();
-					current.Commit();
-					return obj;
-				}
-				catch
-				{
-					current.Rollback();
-					throw;
-				} 
-				finally
-				{
-					this.Context.Current = parent;
-					if(parent != null) this.Context.Current.Parent = null;
-				}
-			}
-		}
+        private object HandleTransaction(IMethodInvocation invocation)
+        {
+            using (ITransactionContext current = Context.Create())
+            {
+                ITransactionContext parent = Context.Current;
+                current.Parent = parent;
+                current.Begin();
+                Context.Current = current;
+                try
+                {
+                    object obj = invocation.Proceed();
+                    current.Commit();
+                    return obj;
+                }
+                catch
+                {
+                    current.Rollback();
+                    throw;
+                }
+                finally
+                {
+                    Context.Current = parent;
+                    if (parent != null)
+                    {
+                        Context.Current.Parent = null;
+                    }
+                }
+            }
+        }
 
-	}
+    }
 }

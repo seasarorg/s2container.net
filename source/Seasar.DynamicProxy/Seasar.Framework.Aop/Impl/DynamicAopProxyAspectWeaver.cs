@@ -31,7 +31,7 @@ namespace Seasar.Framework.Aop.Impl
     /// </summary>
     public class DynamicAopProxyAspectWeaver : AbstractAspectWeaver
     {
-        private IDictionary<IComponentDef, DynamicAopProxy> aopProxies =
+        private readonly IDictionary<IComponentDef, DynamicAopProxy> _aopProxies =
             new Dictionary<IComponentDef, DynamicAopProxy>();
 
         /// <summary>
@@ -54,19 +54,18 @@ namespace Seasar.Framework.Aop.Impl
             {
                 DynamicAopProxy aopProxy = GetAopProxy(target, componentDef);
                 target = aopProxy.Create(Type.GetTypeArray(args), args);
-
             }
             else
             {
                 target = new object();
-                this.AddProxy(target, componentDef, componentDef.ComponentType);
+                AddProxy(target, componentDef, componentDef.ComponentType);
             }
 
             Type[] interfaces = componentDef.ComponentType.GetInterfaces();
 
             foreach (Type interfaceType in interfaces)
             {
-                this.AddProxy(target, componentDef, interfaceType);
+                AddProxy(target, componentDef, interfaceType);
             }
 
             return target;
@@ -93,11 +92,11 @@ namespace Seasar.Framework.Aop.Impl
         /// <returns>Proxy</returns>
         protected DynamicAopProxy GetAopProxy(object target, IComponentDef componentDef)
         {
-            DynamicAopProxy aopProxy = null;
+            DynamicAopProxy aopProxy;
 
-            if (aopProxies.ContainsKey(componentDef))
+            if (_aopProxies.ContainsKey(componentDef))
             {
-                aopProxy = aopProxies[componentDef];
+                aopProxy = _aopProxies[componentDef];
             }
             else
             {
@@ -105,7 +104,7 @@ namespace Seasar.Framework.Aop.Impl
                 parameters[ContainerConstants.COMPONENT_DEF_NAME] = componentDef;
                 aopProxy = new DynamicAopProxy(componentDef.ComponentType,
                     GetAspects(componentDef), parameters, target);
-                aopProxies[componentDef] = aopProxy;
+                _aopProxies[componentDef] = aopProxy;
             }
 
             return aopProxy;

@@ -29,24 +29,24 @@ namespace Seasar.Examples.Reference.LocalTx
 
     public class EmployeeDaoImpl : IEmployeeDao
     {
-        private IDataSource dataSource;
+        private IDataSource _dataSource;
 
         public IDataSource DataSource
         {
-            set { dataSource = value; }
+            set { _dataSource = value; }
         }
 
         #region IEmployeeDao ÉÅÉìÉo
 
         public void Insert()
         {
-            string sql = "insert into emp2 values(@empno, @ename, @deptnum)";
-            using(IDbCommand cmd = dataSource.GetCommand(sql,
-                      dataSource.GetConnection(), dataSource.GetTransaction()))
+            string sql = "insert into emp2 _values(@_empno, @_ename, @deptnum)";
+            using (IDbCommand cmd = _dataSource.GetCommand(sql,
+                      _dataSource.GetConnection(), _dataSource.GetTransaction()))
             {
-                cmd.Parameters.Add(dataSource.GetParameter("@empno", 99));
-                cmd.Parameters.Add(dataSource.GetParameter("@ename", "Sugimoto"));
-                cmd.Parameters.Add(dataSource.GetParameter("@deptnum", 31));
+                cmd.Parameters.Add(_dataSource.GetParameter("@_empno", 99));
+                cmd.Parameters.Add(_dataSource.GetParameter("@_ename", "Sugimoto"));
+                cmd.Parameters.Add(_dataSource.GetParameter("@deptnum", 31));
                 cmd.ExecuteNonQuery();
                 Console.WriteLine("EMPÇí«â¡ÇµÇ‹ÇµÇΩÅB");
             }

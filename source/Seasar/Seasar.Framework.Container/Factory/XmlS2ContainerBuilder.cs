@@ -16,43 +16,39 @@
  */
 #endregion
 
-using System;
 using Seasar.Framework.Xml;
 
 namespace Seasar.Framework.Container.Factory
 {
-	/// <summary>
-	/// XmlS2ContainerBuilder の概要の説明です。
-	/// </summary>
-	public class XmlS2ContainerBuilder : IS2ContainerBuilder
-	{
-		private static S2ContainerTagHandlerRule rule_ = new S2ContainerTagHandlerRule();
-		
-		#region IS2ContainerBuilder メンバ
+    public class XmlS2ContainerBuilder : IS2ContainerBuilder
+    {
+        private static readonly S2ContainerTagHandlerRule rule = new S2ContainerTagHandlerRule();
 
-		public IS2Container Build(string path)
-		{
-			XmlHandlerParser parser = this.CreateXmlHandlerParser(null,path);
-			return (IS2Container) parser.Parse(path);
-		}
+        #region IS2ContainerBuilder メンバ
 
-		public IS2Container Include(IS2Container parent, string path)
-		{
-			XmlHandlerParser parser = this.CreateXmlHandlerParser(parent, path);
-			IS2Container child = (IS2Container) parser.Parse(path);
-			parent.Include(child);
-			return child;
-		}
+        public IS2Container Build(string path)
+        {
+            XmlHandlerParser parser = CreateXmlHandlerParser(null, path);
+            return (IS2Container) parser.Parse(path);
+        }
 
-		#endregion
+        public IS2Container Include(IS2Container parent, string path)
+        {
+            XmlHandlerParser parser = CreateXmlHandlerParser(parent, path);
+            IS2Container child = (IS2Container) parser.Parse(path);
+            parent.Include(child);
+            return child;
+        }
 
-		private XmlHandlerParser CreateXmlHandlerParser(IS2Container parent, string path)
-		{
-			XmlHandler handler = new XmlHandler(rule_);
-			TagHandlerContext ctx = handler.TagHandlerContext;
-			ctx.AddParameter("parent",parent);
-			ctx.AddParameter("path",path);
-			return new XmlHandlerParser(handler);
-		}
-	}
+        #endregion
+
+        private XmlHandlerParser CreateXmlHandlerParser(IS2Container parent, string path)
+        {
+            XmlHandler handler = new XmlHandler(rule);
+            TagHandlerContext ctx = handler.TagHandlerContext;
+            ctx.AddParameter("parent", parent);
+            ctx.AddParameter("path", path);
+            return new XmlHandlerParser(handler);
+        }
+    }
 }

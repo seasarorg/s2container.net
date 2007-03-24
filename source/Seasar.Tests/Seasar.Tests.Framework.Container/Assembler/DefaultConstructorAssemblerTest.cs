@@ -30,53 +30,44 @@ using log4net;
 using log4net.Config;
 using log4net.Util;
 
-using Seasar.Framework.Log;
-
 namespace Seasar.Tests.Framework.Container.Assembler
 {
-	
-	/// <summary>
-	/// DefaultConstructorAssemblerTest ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	[TestFixture]
-	public class DefaultConstructorAssemblerTest
-	{
-		[SetUp]
-		public void SetUp()
-		{
-			FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
-				Assembly.GetExecutingAssembly()) + ".config");
-			XmlConfigurator.Configure(LogManager.GetRepository(), info);
-		}
+    [TestFixture]
+    public class DefaultConstructorAssemblerTest
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
+                Assembly.GetExecutingAssembly()) + ".config");
+            XmlConfigurator.Configure(LogManager.GetRepository(), info);
+        }
 
-		[Test]
-		public void TestAssemble()
-		{
-			IS2Container container = new S2ContainerImpl();
-			ComponentDefImpl cd = new ComponentDefImpl(typeof(ArrayList));
-			container.Register(cd);
-			IConstructorAssembler assembler = new DefaultConstructorAssembler(cd);
-			Assert.IsNotNull(assembler.Assemble());
-		}
+        [Test]
+        public void TestAssemble()
+        {
+            IS2Container container = new S2ContainerImpl();
+            ComponentDefImpl cd = new ComponentDefImpl(typeof(ArrayList));
+            container.Register(cd);
+            IConstructorAssembler assembler = new DefaultConstructorAssembler(cd);
+            Assert.IsNotNull(assembler.Assemble());
+        }
 
-		[Test]
-		public void TestAssembleAspect()
-		{
-			IS2Container container = new S2ContainerImpl();
-			ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
-			cd.AddAspeceDef(new AspectDefImpl(new TraceInterceptor()));
-			container.Register(cd);
-			IConstructorAssembler assembler = new DefaultConstructorAssembler(cd);
-			A a = (A) assembler.Assemble();
-			Trace.WriteLine(a.Name);
-		}
+        [Test]
+        public void TestAssembleAspect()
+        {
+            IS2Container container = new S2ContainerImpl();
+            ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+            cd.AddAspeceDef(new AspectDefImpl(new TraceInterceptor()));
+            container.Register(cd);
+            IConstructorAssembler assembler = new DefaultConstructorAssembler(cd);
+            A a = (A) assembler.Assemble();
+            Trace.WriteLine(a.Name);
+        }
 
-		public class A : MarshalByRefObject
-		{
-			public string Name
-			{
-				get { return "A"; }
-			}
-		}
-	}
+        public class A : MarshalByRefObject
+        {
+            public string Name { get { return "A"; } }
+        }
+    }
 }

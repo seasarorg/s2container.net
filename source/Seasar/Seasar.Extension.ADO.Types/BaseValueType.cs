@@ -23,39 +23,35 @@ using Seasar.Framework.Util;
 
 namespace Seasar.Extension.ADO.Types
 {
-	public abstract class BaseValueType : IValueType
+    public abstract class BaseValueType : IValueType
     {
-        public BaseValueType()
+        #region IValueType ÉÅÉìÉo
+
+        public virtual object GetValue(IDataReader reader, int index, Type type)
         {
+            return GetValue(reader[index]);
         }
 
-		#region IValueType ÉÅÉìÉo
+        public virtual object GetValue(IDataReader reader, string columnName, Type type)
+        {
+            return GetValue(reader[columnName]);
+        }
 
-		public virtual object GetValue(IDataReader reader, int index, Type type)
-		{
-			return GetValue(reader[index]);
-		}
+        public virtual object GetValue(IDataReader reader, int index)
+        {
+            return GetValue(reader[index]);
+        }
 
-		public virtual object GetValue(IDataReader reader, string columnName, Type type)
-		{
-			return GetValue(reader[columnName]);
-		}
+        public virtual object GetValue(IDataReader reader, string columnName)
+        {
+            return GetValue(reader[columnName]);
+        }
 
-		public virtual object GetValue(IDataReader reader, int index)
-		{
-			return GetValue(reader[index]);
-		}
+        public abstract void BindValue(IDbCommand cmd, string columnName, object value);
 
-		public virtual object GetValue(IDataReader reader, string columnName)
-		{
-			return GetValue(reader[columnName]);
-		}
+        #endregion
 
-		public abstract void BindValue(IDbCommand cmd, string columnName, object value);
-
-		#endregion
-
-        public void BindValue(IDbCommand cmd, string columnName, object value, DbType dbType) 
+        public void BindValue(IDbCommand cmd, string columnName, object value, DbType dbType)
         {
             BindValue(cmd, columnName, value, dbType, ParameterDirection.Input);
         }
@@ -68,8 +64,8 @@ namespace Seasar.Extension.ADO.Types
             ParameterDirection direction
             )
         {
-			BindVariableType vt = DataProviderUtil.GetBindVariableType(cmd);
-            switch(vt)
+            BindVariableType vt = DataProviderUtil.GetBindVariableType(cmd);
+            switch (vt)
             {
                 case BindVariableType.QuestionWithParam:
                     columnName = "?" + columnName;
@@ -77,28 +73,28 @@ namespace Seasar.Extension.ADO.Types
                 case BindVariableType.ColonWithParam:
                     columnName = ":" + columnName;
                     break;
-				case BindVariableType.ColonWithParamToLower:
-					columnName = ":" + columnName.ToLower();
-					break;
+                case BindVariableType.ColonWithParamToLower:
+                    columnName = ":" + columnName.ToLower();
+                    break;
                 default:
                     columnName = "@" + columnName;
                     break;
             }
 
-			IDbDataParameter parameter = cmd.CreateParameter();
-			parameter.ParameterName = columnName;
-			parameter.DbType = dbType;
-			if("OleDbCommand".Equals(cmd.GetType().Name) && dbType == DbType.String)
-			{
-				OleDbParameter oleDbParam = parameter as OleDbParameter;
-				oleDbParam.OleDbType = OleDbType.VarChar;
-			}
-			parameter.Value = GetBindValue(value);
+            IDbDataParameter parameter = cmd.CreateParameter();
+            parameter.ParameterName = columnName;
+            parameter.DbType = dbType;
+            if ("OleDbCommand".Equals(cmd.GetType().Name) && dbType == DbType.String)
+            {
+                OleDbParameter oleDbParam = parameter as OleDbParameter;
+                oleDbParam.OleDbType = OleDbType.VarChar;
+            }
+            parameter.Value = GetBindValue(value);
             parameter.Direction = direction;
             cmd.Parameters.Add(parameter);
         }
 
-		protected abstract object GetBindValue(object value);
+        protected abstract object GetBindValue(object value);
 
         protected abstract object GetValue(object value);
     }

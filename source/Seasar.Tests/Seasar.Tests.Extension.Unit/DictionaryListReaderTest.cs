@@ -23,24 +23,24 @@ using Seasar.Extension.Unit;
 
 namespace Seasar.Tests.Extension.Unit
 {
-	[TestFixture]
-	public class DictionaryListReaderTest
-	{
-		[Test]
-		public void TestRead()
-		{
-			IDictionary emp = new Hashtable();
-			emp.Add("empno", 7788);
-			emp.Add("ename", "SCOTT");
-			IList list = new ArrayList();
-			list.Add(emp);
-			DictionaryReader reader = new DictionaryListReader(list);
-			DataSet ds = reader.Read();
-			DataTable table = ds.Tables[0];
-			DataRow row = table.Rows[0];
-			Assert.AreEqual(7788, row["empno"], "1");
-			Assert.AreEqual("SCOTT", row["ename"], "2");
-			Assert.AreEqual(DataRowState.Unchanged, row.RowState, "3");
-		}
-	}
+    [TestFixture]
+    public class DictionaryListReaderTest
+    {
+        [Test]
+        public void TestRead()
+        {
+            IDictionary emp = new Hashtable();
+            emp.Add("empno", 7788);
+            emp.Add("ename", "SCOTT");
+            IList list = new ArrayList();
+            list.Add(emp);
+            DictionaryReader reader = new DictionaryListReader(list);
+            DataSet ds = reader.Read();
+            DataTable table = ds.Tables[0];
+            DataRow row = table.Rows[0];
+            Assert.AreEqual(7788, row["empno"], "1");
+            Assert.AreEqual("SCOTT", row["ename"], "2");
+            Assert.AreEqual(DataRowState.Unchanged, row.RowState, "3");
+        }
+    }
 }

@@ -24,32 +24,32 @@ using Seasar.Extension.Unit;
 
 namespace Seasar.Tests.Extension.DataSets.Impl
 {
-	[TestFixture]
-	public class SqlDeleteTableWriterTest : S2TestCase
-	{
-		private const string PATH = "Ado.dicon";
+    [TestFixture]
+    public class SqlDeleteTableWriterTest : S2TestCase
+    {
+        private const string PATH = "Ado.dicon";
 
-		public void SetUpWrite() 
-		{
-			Include(PATH);
-		}
+        public void SetUpWrite()
+        {
+            Include(PATH);
+        }
 
         [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
-		public void Write() 
-		{
-			DataTable table = new DataTable("emp");
-			table.Columns.Add("empno", typeof(int));
-			table.Columns.Add("ename", typeof(string));
-			DataRow row = table.NewRow();
-			row["empno"] = 9900;
-			row["ename"] = "hoge";
-			table.Rows.Add(row);
-			ITableWriter writer = new SqlTableWriter(DataSource);
-			writer.Write(table);
-			ITableWriter writer2 = new SqlDeleteTableWriter(DataSource);
-			writer2.Write(table);
-			DataTable table2 = ReadDbByTable("emp", "empno = 9900");
-			Assert.AreEqual(0, table2.Rows.Count, "1");
-		}
-	}
+        public void Write()
+        {
+            DataTable table = new DataTable("emp");
+            table.Columns.Add("empno", typeof(int));
+            table.Columns.Add("ename", typeof(string));
+            DataRow row = table.NewRow();
+            row["empno"] = 9900;
+            row["ename"] = "hoge";
+            table.Rows.Add(row);
+            ITableWriter writer = new SqlTableWriter(DataSource);
+            writer.Write(table);
+            ITableWriter writer2 = new SqlDeleteTableWriter(DataSource);
+            writer2.Write(table);
+            DataTable table2 = ReadDbByTable("emp", "empno = 9900");
+            Assert.AreEqual(0, table2.Rows.Count, "1");
+        }
+    }
 }

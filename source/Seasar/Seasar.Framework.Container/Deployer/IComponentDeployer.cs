@@ -20,18 +20,14 @@ using System;
 
 namespace Seasar.Framework.Container.Deployer
 {
-	/// <summary>
-	/// ComponentDeployer ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public interface IComponentDeployer
-	{
+    public interface IComponentDeployer
+    {
+        object Deploy(Type receiveType);
 
-		object Deploy(Type receiveType);
+        void InjectDependency(object outerComponent);
 
-		void InjectDependency(object outerComponent);
+        void Init();
 
-		void Init();
-
-		void Destroy();
-	}
+        void Destroy();
+    }
 }

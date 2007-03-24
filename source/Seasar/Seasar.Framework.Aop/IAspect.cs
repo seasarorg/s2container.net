@@ -16,29 +16,25 @@
  */
 #endregion
 
-using System;
-
 namespace Seasar.Framework.Aop
 {
-	/// <summary>
-	/// Advice(Interceptor)とIPointcutの関連を定義します
-	/// </summary>
-	/// <remarks>
-	/// このインターフェイスはAOPアライアンス準拠。
-	/// </remarks>
-	/// <seealso href="http://aopalliance.sourceforge.net/doc/index.html">AOP Alliance</seealso>
-	public interface IAspect
-	{
+    /// <summary>
+    /// Advice(Interceptor)とIPointcutの関連を定義します
+    /// </summary>
+    /// <remarks>
+    /// このインターフェイスはAOPアライアンス準拠。
+    /// </remarks>
+    /// <seealso href="http://aopalliance.sourceforge.net/doc/index.html">AOP Alliance</seealso>
+    public interface IAspect
+    {
+        /// <summary>
+        /// Advice(Interceptor)
+        /// </summary>
+        IMethodInterceptor MethodInterceptor { get; }
 
-		/// <summary>
-		/// Advice(Interceptor)
-		/// </summary>
-		IMethodInterceptor MethodInterceptor{ get; }
-
-		/// <summary>
-		/// IPointcut
-		/// </summary>
-		IPointcut Pointcut{ set; get; }
-
-	}	// IAspect
+        /// <summary>
+        /// IPointcut
+        /// </summary>
+        IPointcut Pointcut { set; get; }
+    }
 }

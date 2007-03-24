@@ -16,22 +16,21 @@
  */
 #endregion
 
-using System;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Factory;
 
 namespace Seasar.Examples.Reference.Aop
 {
-	public class AopMeasurementClient
-	{
-		private const string PATH = "Seasar.Examples/Reference/Aop/Measurement.dicon";
+    public class AopMeasurementClient
+    {
+        private const string PATH = "Seasar.Examples/Reference/Aop/Measurement.dicon";
 
-		public void Main()
-		{
-			IS2Container container = S2ContainerFactory.Create(PATH);
-			HeavyProcess heavyProcess = (HeavyProcess) 
-				container.GetComponent(typeof(HeavyProcess));
-			heavyProcess.Heavy();
-		}
-	}
+        public void Main()
+        {
+            IS2Container container = S2ContainerFactory.Create(PATH);
+            HeavyProcess heavyProcess = (HeavyProcess)
+                container.GetComponent(typeof(HeavyProcess));
+            heavyProcess.Heavy();
+        }
+    }
 }

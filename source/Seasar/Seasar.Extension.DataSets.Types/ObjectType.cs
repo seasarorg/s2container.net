@@ -18,104 +18,99 @@
 
 using System;
 using System.Data;
-using Seasar.Extension.ADO;
 using Nullables;
 
 namespace Seasar.Extension.DataSets.Types
 {
-	public class ObjectType : IColumnType
-	{
-		public ObjectType()
-		{
-		}
+    public class ObjectType : IColumnType
+    {
+        #region IColumnType ÉÅÉìÉo
 
-		#region IColumnType ÉÅÉìÉo
+        public virtual object Convert(object value, string formatPattern)
+        {
+            if (IsNullable(value))
+            {
+                return DBNull.Value;
+            }
+            return value;
+        }
 
-		public virtual object Convert(object value, string formatPattern)
-		{
-			if (IsNullable(value))
-			{
-				return DBNull.Value;
-			}
-			return value;
-		}
+        public bool Equals1(object arg1, object arg2)
+        {
+            return DoEquals(arg1, arg2);
+        }
 
-		public bool Equals1(object arg1, object arg2)
-		{
-			return DoEquals(arg1, arg2);
-		}
+        public virtual string ToDbTypeString()
+        {
+            return "VARCHAR";
+        }
 
-		public virtual string ToDbTypeString()
-		{
-			return "VARCHAR";
-		}
+        public virtual DbType GetDbType()
+        {
+            return DbType.Object;
+        }
 
-		public virtual DbType GetDbType()
-		{
-			return DbType.Object;
-		}
+        public virtual Type GetColumnType()
+        {
+            return typeof(object);
+        }
 
-		public virtual Type GetColumnType()
-		{
-			return typeof(object);
-		}
+        #endregion
 
-		#endregion
+        protected virtual bool DoEquals(object arg1, object arg2)
+        {
+            try
+            {
+                if (IsNullable(arg1))
+                {
+                    arg1 = DBNull.Value;
+                }
+                else
+                {
+                    arg1 = Convert(arg1, null);
+                }
+            }
+            catch
+            {
+                return false;
+            }
+            try
+            {
+                if (IsNullable(arg2))
+                {
+                    arg2 = DBNull.Value;
+                }
+                else
+                {
+                    arg2 = Convert(arg2, null);
+                }
+            }
+            catch
+            {
+                return false;
+            }
+            return arg1.Equals(arg2);
+        }
 
-		protected virtual bool DoEquals(object arg1, object arg2)
-		{
-			try
-			{
-				if (IsNullable(arg1))
-				{
-					arg1 = DBNull.Value;
-				}
-				else
-				{
-					arg1 = Convert(arg1, null);
-				}
-			}
-			catch
-			{
-				return false;
-			}
-			try
-			{
-				if (IsNullable(arg2))
-				{
-					arg2 = DBNull.Value;
-				}
-				else
-				{
-					arg2 = Convert(arg2, null);
-				}
-			}
-			catch
-			{
-				return false;
-			}
-			return arg1.Equals(arg2);
-		}
-
-		protected bool IsNullable(object value)
-		{
-			if (value == null)
-			{
-				return true;
-			}
-			if (value == DBNull.Value)
-			{
-				return true;
-			}
-			if (value is INullableType)
-			{
-				INullableType nt = (INullableType) value;
-				if (!((INullableType) value).HasValue)
-				{
-					return true;
-				}
-			}
-			return false;
-		}
-	}
+        protected bool IsNullable(object value)
+        {
+            if (value == null)
+            {
+                return true;
+            }
+            if (value == DBNull.Value)
+            {
+                return true;
+            }
+            if (value is INullableType)
+            {
+                INullableType nt = (INullableType) value;
+                if (!((INullableType) value).HasValue)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
 }

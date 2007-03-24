@@ -29,45 +29,40 @@ namespace Seasar.Extension.Unit
 {
     public class S2TestCaseRunner : S2FrameworkTestCaseRunner
     {
-        private static readonly string DATASOURCE_NAME = "Ado"
-            + ContainerConstants.NS_SEP + "DataSource";
+        private static readonly string DATASOURCE_NAME = string.Format("Ado{0}DataSource", ContainerConstants.NS_SEP);
 
-        private S2TestCase fixture;
-        private Tx tx;
-        private ITransactionContext tc;
-        private IDataSource dataSource;
-
-        public S2TestCaseRunner()
-        {
-        }
+        private S2TestCase _fixture;
+        private Tx _tx;
+        private ITransactionContext _tc;
+        private IDataSource _dataSource;
 
         public object Run(IRunInvoker invoker, object o, IList args, Tx tx)
         {
-            this.tx = tx;
-            fixture = o as S2TestCase;
-            return this.Run(invoker, o, args);
+            _tx = tx;
+            _fixture = o as S2TestCase;
+            return Run(invoker, o, args);
         }
 
         protected override void BeginTransactionContext()
         {
-            if (Tx.NotSupported != tx)
+            if (Tx.NotSupported != _tx)
             {
-                tc = (ITransactionContext) this.Container.GetComponent(typeof(ITransactionContext));
-                tc.Begin();
+                _tc = (ITransactionContext) Container.GetComponent(typeof(ITransactionContext));
+                _tc.Begin();
             }
         }
 
         protected override void EndTransactionContext()
         {
-            if (tc != null)
+            if (_tc != null)
             {
-                if (Tx.Commit == tx)
+                if (Tx.Commit == _tx)
                 {
-                    tc.Commit();
+                    _tc.Commit();
                 }
-                if (Tx.Rollback == tx)
+                if (Tx.Rollback == _tx)
                 {
-                    tc.Rollback();
+                    _tc.Rollback();
                 }
             }
         }
@@ -86,40 +81,40 @@ namespace Seasar.Extension.Unit
 
         protected void SetupDataSource()
         {
-            if (this.Container.HasComponentDef(DATASOURCE_NAME))
+            if (Container.HasComponentDef(DATASOURCE_NAME))
             {
-                dataSource = this.Container.GetComponent(DATASOURCE_NAME) as IDataSource;
+                _dataSource = Container.GetComponent(DATASOURCE_NAME) as IDataSource;
             }
-            else if (this.Container.HasComponentDef(typeof(IDataSource)))
+            else if (Container.HasComponentDef(typeof(IDataSource)))
             {
-                dataSource = this.Container.GetComponent(typeof(IDataSource)) as IDataSource;
+                _dataSource = Container.GetComponent(typeof(IDataSource)) as IDataSource;
             }
-            if (fixture != null && dataSource != null)
+            if (_fixture != null && _dataSource != null)
             {
-                fixture.SetDataSource(dataSource);
+                _fixture.SetDataSource(_dataSource);
             }
         }
 
         protected void TearDownDataSource()
         {
-            if (dataSource is TxDataSource)
+            TxDataSource txDataSource = _dataSource as TxDataSource;
+            if (txDataSource != null)
             {
-                TxDataSource txDataSource = dataSource as TxDataSource;
                 if (txDataSource.Context.Connection != null)
                 {
                     DataSourceUtil.CloseConnection(txDataSource, txDataSource.Context.Connection);
                 }
             }
-            if (fixture.HasConnection)
+            if (_fixture.HasConnection)
             {
-                ConnectionUtil.Close(fixture.Connection);
-                fixture.SetConnection(null);
+                ConnectionUtil.Close(_fixture.Connection);
+                _fixture.SetConnection(null);
             }
-            if (fixture != null)
+            if (_fixture != null)
             {
-                fixture.SetDataSource(null);
+                _fixture.SetDataSource(null);
             }
-            dataSource = null;
+            _dataSource = null;
         }
     }
 }

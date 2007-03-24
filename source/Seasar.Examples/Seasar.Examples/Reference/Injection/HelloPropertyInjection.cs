@@ -17,40 +17,37 @@
 #endregion
 
 using System;
-
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Factory;
 
 namespace Seasar.Examples.Reference.Injection
 {
-	public class HelloPropertyInjection : IHello
-	{
-		private string message;
+    public class HelloPropertyInjection : IHello
+    {
+        private string _message;
 
-		public HelloPropertyInjection() {}
-		
-		public string Message
-		{
-			get { return this.message; }
-			set { this.message = value; }
-		}
+        public string Message
+        {
+            get { return _message; }
+            set { _message = value; }
+        }
 
-		public void ShowMessage()
-		{
-			Console.WriteLine(this.message);
-		}
+        public void ShowMessage()
+        {
+            Console.WriteLine(_message);
+        }
 
-	}
+    }
 
-	public class HelloPropertyInjectionClient
-	{
-		private static readonly String PATH = "Seasar.Examples/Reference/Injection/HelloPropertyInjection.dicon";
+    public class HelloPropertyInjectionClient
+    {
+        private const string PATH = "Seasar.Examples/Reference/Injection/HelloPropertyInjection.dicon";
 
-		public void Main() 
-		{
-			IS2Container container = S2ContainerFactory.Create(PATH);
-			IHello hello = (IHello) container.GetComponent(typeof(IHello));
-			hello.ShowMessage();
-		}
-	}
+        public void Main()
+        {
+            IS2Container container = S2ContainerFactory.Create(PATH);
+            IHello hello = (IHello) container.GetComponent(typeof(IHello));
+            hello.ShowMessage();
+        }
+    }
 }

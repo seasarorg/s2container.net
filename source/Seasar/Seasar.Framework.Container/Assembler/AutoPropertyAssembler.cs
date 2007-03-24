@@ -25,69 +25,63 @@ using Seasar.Framework.Container.Util;
 
 namespace Seasar.Framework.Container.Assembler
 {
-	/// <summary>
-	/// AutoPropertyAssembler ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public class AutoPropertyAssembler : AbstractPropertyAssembler
-	{
-		private static Logger logger_ = Logger.GetLogger(typeof(AutoPropertyAssembler));
-		
-		public AutoPropertyAssembler(IComponentDef componentDef)
-			: base(componentDef)
-		{
-		}
+    public class AutoPropertyAssembler : AbstractPropertyAssembler
+    {
+        private static readonly Logger _logger = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-		public override void Assemble(object component)
-		{
-			Type type = component.GetType();
-			if ( RemotingServices.IsTransparentProxy(component) )
-			{
-				AopProxy aopProxy = RemotingServices.GetRealProxy(component) as AopProxy;
+        public AutoPropertyAssembler(IComponentDef componentDef)
+            : base(componentDef)
+        {
+        }
+
+        public override void Assemble(object component)
+        {
+            Type type = component.GetType();
+            if (RemotingServices.IsTransparentProxy(component))
+            {
+                AopProxy aopProxy = RemotingServices.GetRealProxy(component) as AopProxy;
                 if (aopProxy != null)
                 {
-                    type = 	aopProxy.TargetType;
+                    type = aopProxy.TargetType;
                 }
-			}
+            }
 
-			IS2Container container = this.ComponentDef.Container;
-			foreach(PropertyInfo property in type.GetProperties())
-			{
-				object value = null;
-				string propName = property.Name;
-				if(this.ComponentDef.HasPropertyDef(propName))
-				{
-					IPropertyDef propDef = this.ComponentDef.GetPropertyDef(propName);
+            IS2Container container = ComponentDef.Container;
+            foreach (PropertyInfo property in type.GetProperties())
+            {
+                object value;
+                string propName = property.Name;
+                if (ComponentDef.HasPropertyDef(propName))
+                {
+                    IPropertyDef propDef = ComponentDef.GetPropertyDef(propName);
 
-                    value = this.GetComponentByReceiveType(property.PropertyType, propDef.Expression);
-					
-                    if(value == null) value = this.GetValue(propDef,component);
-					
-                    this.SetValue(property,component,value);
-				}
-				else if(property.CanWrite
+                    value = GetComponentByReceiveType(property.PropertyType, propDef.Expression);
+
+                    if (value == null) value = GetValue(propDef, component);
+
+                    SetValue(property, component, value);
+                }
+                else if (property.CanWrite
                     && AutoBindingUtil.IsSuitable(property.PropertyType, component, propName))
-				{
-                    if(container.HasComponentDef(property.PropertyType))
-					{
-						value = container.GetComponent(property.PropertyType);
-					}
-					else
-					{
-						if(property.CanRead 
-							&& property.GetValue(component,null) != null)
-						{
-							continue;
-						}
-						logger_.Log("WSSR0008",
-							new object[] {this.GetComponentType(
-											 component).FullName, propName});
-						continue;
-					}
-					this.SetValue(property,component,value);
-				}
-
-			}
-		}
-
-	}
+                {
+                    if (container.HasComponentDef(property.PropertyType))
+                    {
+                        value = container.GetComponent(property.PropertyType);
+                    }
+                    else
+                    {
+                        if (property.CanRead
+                            && property.GetValue(component, null) != null)
+                        {
+                            continue;
+                        }
+                        _logger.Log("WSSR0008",
+                            new object[] { GetComponentType(component).FullName, propName });
+                        continue;
+                    }
+                    SetValue(property, component, value);
+                }
+            }
+        }
+    }
 }

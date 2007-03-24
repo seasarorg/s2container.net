@@ -16,41 +16,37 @@
  */
 #endregion
 
-using System;
 using System.Data;
 using System.Text;
 using Seasar.Extension.ADO;
 using Seasar.Extension.ADO.Impl;
-using Seasar.Extension.ADO.Types;
 
 namespace Seasar.Extension.DataSets.Impl
 {
     public class SqlTableReader : ITableReader
     {
-        private IDataSource dataSource_;
-
-        private string tableName_;
-
-        private string sql_;
+        private readonly IDataSource _dataSource;
+        private string _tableName;
+        private string _sql;
 
         public SqlTableReader(IDataSource dataSource)
         {
-            dataSource_ = dataSource;
+            _dataSource = dataSource;
         }
 
         public IDataSource DataSource
         {
-            get { return dataSource_; }
+            get { return _dataSource; }
         }
 
         public string TableName
         {
-            get { return tableName_; }
+            get { return _tableName; }
         }
 
         public string Sql
         {
-            get { return sql_; }
+            get { return _sql; }
         }
 
         public virtual void SetTable(string tableName)
@@ -58,9 +54,9 @@ namespace Seasar.Extension.DataSets.Impl
             SetTable(tableName, null);
         }
 
-        public virtual void SetTable(string tableName, String condition)
+        public virtual void SetTable(string tableName, string condition)
         {
-            tableName_ = tableName;
+            _tableName = tableName;
             StringBuilder sqlBuf = new StringBuilder(100);
             sqlBuf.Append("SELECT * FROM ");
             sqlBuf.Append(tableName);
@@ -69,13 +65,13 @@ namespace Seasar.Extension.DataSets.Impl
                 sqlBuf.Append(" WHERE ");
                 sqlBuf.Append(condition);
             }
-            sql_ = sqlBuf.ToString();
+            _sql = sqlBuf.ToString();
         }
 
         public virtual void SetSql(string sql, string tableName)
         {
-            sql_ = sql;
-            tableName_ = tableName;
+            _sql = sql;
+            _tableName = tableName;
         }
 
         #region ITableReader ÉÅÉìÉo
@@ -83,9 +79,9 @@ namespace Seasar.Extension.DataSets.Impl
         public virtual DataTable Read()
         {
             ISelectHandler selectHandler = new BasicSelectHandler(
-                dataSource_,
-                sql_,
-                new DataTableDataReaderHandler(tableName_)
+                _dataSource,
+                _sql,
+                new DataTableDataReaderHandler(_tableName)
                 );
             DataTable table = (DataTable) selectHandler.Execute(null);
             table.AcceptChanges();

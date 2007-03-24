@@ -22,50 +22,58 @@ using Seasar.Framework.Exceptions;
 
 namespace Seasar.Framework.Util
 {
-	public sealed class ClassUtil
-	{
-		private ClassUtil()
-		{
-		}
+    public sealed class ClassUtil
+    {
+        private ClassUtil()
+        {
+        }
 
-		public static ConstructorInfo GetConstructorInfo(Type type,Type[] argTypes)
-		{
-			Type[] types;
-			if(argTypes == null)
-			{
-				types = Type.EmptyTypes;
-			}
-			else
-			{
-				types = argTypes;
-			}
-			ConstructorInfo constructor = type.GetConstructor(types);
-			if(constructor == null)
-				throw new NoSuchConstructorRuntimeException(type,argTypes);
-			return constructor;
-		}
+        public static ConstructorInfo GetConstructorInfo(Type type, Type[] argTypes)
+        {
+            Type[] types;
+            if (argTypes == null)
+            {
+                types = Type.EmptyTypes;
+            }
+            else
+            {
+                types = argTypes;
+            }
+            ConstructorInfo constructor = type.GetConstructor(types);
+            if (constructor == null)
+            {
+                throw new NoSuchConstructorRuntimeException(type, argTypes);
+            }
+            return constructor;
+        }
 
-		public static Type ForName(string className,Assembly[] assemblys)
-		{
-			Type type = Type.GetType(className);
-			if(type != null) return type;
-			foreach(Assembly assembly in assemblys)
-			{
-				type = assembly.GetType(className);
-				if(type != null) return type;
-			}
-			return null;
-		}
+        public static Type ForName(string className, Assembly[] assemblys)
+        {
+            Type type = Type.GetType(className);
+            if (type != null)
+            {
+                return type;
+            }
+            foreach (Assembly assembly in assemblys)
+            {
+                type = assembly.GetType(className);
+                if (type != null)
+                {
+                    return type;
+                }
+            }
+            return null;
+        }
 
-		public static object NewInstance(Type type)
-		{
-			return Activator.CreateInstance(type);
-		}
+        public static object NewInstance(Type type)
+        {
+            return Activator.CreateInstance(type);
+        }
 
-		public static object NewInstance(string className,string assemblyName)
-		{
-			Assembly[] asms = new Assembly[1] {Assembly.LoadFrom(assemblyName) };
-            return NewInstance(ForName(className,asms));
-		}
-	}
+        public static object NewInstance(string className, string assemblyName)
+        {
+            Assembly[] asms = new Assembly[1] { Assembly.LoadFrom(assemblyName) };
+            return NewInstance(ForName(className, asms));
+        }
+    }
 }

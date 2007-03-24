@@ -1,11 +1,11 @@
-﻿<?xml version="1.0" encoding="utf-8" ?> 
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
 "http://www.seasar.org/dtd/components21.dtd">
 <components>
-	<include path="Seasar.Examples/Reference/Namespaces/bar.dicon"/>
+  <include path="Seasar.Examples/Reference/Namespaces/bar.dicon"/>
 
-	<component name="Namespace" class="Seasar.Examples.Reference.Namespaces.Namespaces">
-		<property name="Bbb">bbb</property>
-		<property name="Ccc">ccc</property>
-	</component>
+  <component name="Namespace" class="Seasar.Examples.Reference.Namespaces.Namespaces">
+    <property name="Bbb">bbb</property>
+    <property name="Ccc">ccc</property>
+  </component>
 </components>

@@ -16,31 +16,30 @@
  */
 #endregion
 
-using System;
 using System.IO;
 using System.Reflection;
 
 namespace Seasar.Framework.Util
 {
-	public sealed class TextUtil
-	{
-		private TextUtil()
-		{
-		}
+    public sealed class TextUtil
+    {
+        private TextUtil()
+        {
+        }
 
-		public static string ReadText(string path, Assembly asm)
-		{
-			StreamReader sr = ResourceUtil.GetResourceAsStreamReader(path, asm);
-			string ret = null;
-			try
-			{
-				ret = sr.ReadToEnd();
-			}
-			finally
-			{
-				sr.Close();
-			}
-			return ret;
-		}
-	}
+        public static string ReadText(string path, Assembly asm)
+        {
+            StreamReader sr = ResourceUtil.GetResourceAsStreamReader(path, asm);
+            string ret;
+            try
+            {
+                ret = sr.ReadToEnd();
+            }
+            finally
+            {
+                sr.Close();
+            }
+            return ret;
+        }
+    }
 }

@@ -21,46 +21,42 @@ using System.Collections;
 
 namespace Seasar.Framework.Container.Impl
 {
-	/// <summary>
-	/// 1つのキーに複数のコンポーネントが登録された場合に利用されます。
-	/// </summary>
-	public class TooManyRegistrationComponentDef : SimpleComponentDef
-	{
-		private object key_;
-		private ArrayList componentTypes_ = new ArrayList();
+    /// <summary>
+    /// 1つのキーに複数のコンポーネントが登録された場合に利用されます。
+    /// </summary>
+    public class TooManyRegistrationComponentDef : SimpleComponentDef
+    {
+        private readonly object _key;
+        private readonly ArrayList _componentTypes = new ArrayList();
 
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		/// <param name="key">キー</param>
-		public TooManyRegistrationComponentDef(object key)
-		{
-			key_ = key;
-		}
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="key">キー</param>
+        public TooManyRegistrationComponentDef(object key)
+        {
+            _key = key;
+        }
 
-		/// <summary>
-		/// コンポーネントのTypeを追加します。
-		/// </summary>
-		/// <param name="componentType">コンポーネントのType</param>
-		public void AddComponentType(Type componentType)
-		{
-			componentTypes_.Add(componentType);
-		}
+        /// <summary>
+        /// コンポーネントのTypeを追加します。
+        /// </summary>
+        /// <param name="componentType">コンポーネントのType</param>
+        public void AddComponentType(Type componentType)
+        {
+            _componentTypes.Add(componentType);
+        }
 
+        public override object GetComponent()
+        {
+            throw new TooManyRegistrationRuntimeException(
+                _key, (Type[]) _componentTypes.ToArray(typeof(Type)));
+        }
 
-		public override object GetComponent()
-		{
-			throw new TooManyRegistrationRuntimeException(
-				key_,(Type[]) componentTypes_.ToArray(typeof(Type)));
-		}
-
-		public override object GetComponent(Type receiveType)
-		{
-			throw new TooManyRegistrationRuntimeException(
-				key_,(Type[]) componentTypes_.ToArray(typeof(Type)));
-		}
-
-
-
-	}
+        public override object GetComponent(Type receiveType)
+        {
+            throw new TooManyRegistrationRuntimeException(
+                _key, (Type[]) _componentTypes.ToArray(typeof(Type)));
+        }
+    }
 }

@@ -21,28 +21,15 @@ using System.Collections;
 
 namespace Seasar.Framework.Xml
 {
-	/// <summary>
-	/// TagHandlerRule ‚ÌŠT—v‚Ìà–¾‚Å‚·B
-	/// </summary>
-	[Serializable]
-	public class TagHandlerRule
-	{
-		private Hashtable tagHandlers_ = new Hashtable();
+    [Serializable]
+    public class TagHandlerRule
+    {
+        private readonly Hashtable _tagHandlers = new Hashtable();
 
-		public TagHandlerRule()
-		{
-		}
-
-		public TagHandler this[string path]
-		{
-			get
-			{
-				return (TagHandler)tagHandlers_[path];
-			}
-			set
-			{
-				tagHandlers_[path] = value;
-			}
-		}
-	}
+        public TagHandler this[string path]
+        {
+            get { return (TagHandler) _tagHandlers[path]; }
+            set { _tagHandlers[path] = value; }
+        }
+    }
 }

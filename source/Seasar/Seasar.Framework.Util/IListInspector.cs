@@ -21,16 +21,16 @@ using System.Collections;
 
 namespace Seasar.Framework.Util
 {
-	public class IListInspector
-	{
-		private IListInspector()
-		{
-		}
+    public class IListInspector
+    {
+        private IListInspector()
+        {
+        }
 
         [Obsolete("ToStringUtil.ToString()")]
         public static string ToString(IList list)
-		{
+        {
             return ToStringUtil.ToString(list);
-		}
-	}
+        }
+    }
 }

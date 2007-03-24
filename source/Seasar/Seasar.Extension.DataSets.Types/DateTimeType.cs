@@ -18,51 +18,46 @@
 
 using System;
 using System.Data;
-using Seasar.Extension.ADO;
 
 namespace Seasar.Extension.DataSets.Types
 {
-	public class DateTimeType : ObjectType, IColumnType
-	{
-		public DateTimeType()
-		{
-		}
+    public class DateTimeType : ObjectType, IColumnType
+    {
+        #region IColumnType ÉÅÉìÉo
 
-		#region IColumnType ÉÅÉìÉo
+        public override object Convert(object value, string formatPattern)
+        {
+            if (IsNullable(value))
+            {
+                return DBNull.Value;
+            }
+            else if (value is DateTime)
+            {
+                DateTime d = (DateTime) value;
+                return new DateTime(d.Year, d.Month, d.Day, d.Hour, d.Minute, d.Second);
+            }
+            else if (value is string)
+            {
+                return DateTime.ParseExact(value as string, formatPattern, null);
+            }
+            return DBNull.Value;
+        }
 
-		public override object Convert(object value, string formatPattern)
-		{
-			if (IsNullable(value))
-			{
-				return DBNull.Value;
-			}
-			else if (value is DateTime)
-			{
-				DateTime d = (DateTime) value;
-				return new DateTime(d.Year, d.Month, d.Day, d.Hour, d.Minute, d.Second);
-			}
-			else if (value is string)
-			{
-				return DateTime.ParseExact(value as string, formatPattern, null);
-			}
-			return DBNull.Value;
-		}
+        public override string ToDbTypeString()
+        {
+            return "DATE";
+        }
 
-		public override string ToDbTypeString()
-		{
-			return "DATE";
-		}
+        public override DbType GetDbType()
+        {
+            return DbType.DateTime;
+        }
 
-		public override DbType GetDbType()
-		{
-			return DbType.DateTime;
-		}
+        public override Type GetColumnType()
+        {
+            return typeof(DateTime);
+        }
 
-		public override Type GetColumnType()
-		{
-			return typeof(DateTime);
-		}
-
-		#endregion
-	}
+        #endregion
+    }
 }

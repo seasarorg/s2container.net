@@ -24,108 +24,105 @@ using System.Text;
 
 namespace Seasar.Framework.Message
 {
-	/// <summary>
-	/// メッセージコードと引数をプロパティに登録されている
-	/// パターンに適用し、メッセージを組み立てます。
-	/// メッセージコードは、8桁で構成され最初の1桁がメッセージの種別で、
-	/// E:エラー、W:ワーニング、I:インフォメーションで構成されます。
-	/// 次の3桁がシステム名でSeasarの場合は、SSRになります。
-	/// 最後の4桁は連番です。
-	/// メッセージ定義ファイルは、システム名 + Messages.resourcesになります。
-	/// SSRMessages.ja-JP.resourcesなどを用意することで他言語に対応できます。
-	/// </summary>
-	public sealed class MessageFormatter
-	{
-		private const string MESSAGES = "Messages";
-		private static readonly object[] EMPTY_ARRAY = new object[0];
-		private static Hashtable resourceManagers_ = new Hashtable();
+    /// <summary>
+    /// メッセージコードと引数をプロパティに登録されている
+    /// パターンに適用し、メッセージを組み立てます。
+    /// メッセージコードは、8桁で構成され最初の1桁がメッセージの種別で、
+    /// E:エラー、W:ワーニング、I:インフォメーションで構成されます。
+    /// 次の3桁がシステム名でSeasarの場合は、SSRになります。
+    /// 最後の4桁は連番です。
+    /// メッセージ定義ファイルは、システム名 + Messages.resourcesになります。
+    /// SSRMessages.ja-JP.resourcesなどを用意することで他言語に対応できます。
+    /// </summary>
+    public sealed class MessageFormatter
+    {
+        private const string MESSAGES = "Messages";
+        private static readonly object[] EMPTY_ARRAY = new object[0];
+        private static readonly Hashtable _resourceManagers = new Hashtable();
 
-		private MessageFormatter()
-		{
-		}
+        private MessageFormatter()
+        {
+        }
 
-		public static string GetMessage(string messageCode,object[] args)
-		{
-			return GetMessage(messageCode, args, Assembly.GetExecutingAssembly());
-		}
+        public static string GetMessage(string messageCode, object[] args)
+        {
+            return GetMessage(messageCode, args, Assembly.GetExecutingAssembly());
+        }
 
-		public static string GetMessage(string messageCode,object[] args, Assembly assembly)
-		{
-			if(messageCode == null)
-			{
-				messageCode = "";
-			}
-			return "[" + messageCode + "] " + GetSimpleMessage(messageCode,args, assembly);
-		}
+        public static string GetMessage(string messageCode, object[] args, Assembly assembly)
+        {
+            if (messageCode == null)
+            {
+                messageCode = string.Empty;
+            }
+            return "[" + messageCode + "] " + GetSimpleMessage(messageCode, args, assembly);
+        }
 
-		public static string GetSimpleMessage(string messageCode,object[] arguments)
-		{
-			return GetSimpleMessage(messageCode, arguments, Assembly.GetExecutingAssembly());
-		}
+        public static string GetSimpleMessage(string messageCode, object[] arguments)
+        {
+            return GetSimpleMessage(messageCode, arguments, Assembly.GetExecutingAssembly());
+        }
 
-		public static string GetSimpleMessage(string messageCode,object[] arguments, Assembly assembly)
-		{
-			try
-			{
-				string pattern = GetPattern(messageCode, assembly);
-				if(pattern != null)
-				{
-					if(arguments == null)
-					{
-						arguments = EMPTY_ARRAY;
-					}
-					return string.Format(pattern,arguments);
-				}
-			} 
-			catch
-			{
-			}
-			return GetNoPatternMessage(arguments);
-		}
+        public static string GetSimpleMessage(string messageCode, object[] arguments, Assembly assembly)
+        {
+            try
+            {
+                string pattern = GetPattern(messageCode, assembly);
+                if (pattern != null)
+                {
+                    if (arguments == null)
+                    {
+                        arguments = EMPTY_ARRAY;
+                    }
+                    return string.Format(pattern, arguments);
+                }
+            }
+            catch
+            {
+            }
+            return GetNoPatternMessage(arguments);
+        }
 
-		private static string GetPattern(string messageCode, Assembly assembly)
-		{
-			ResourceManager resourceManager = GetMessages(GetSystemName(messageCode), assembly);
-			if(resourceManager != null)
-			{
-				return resourceManager.GetString(messageCode);
-			}
-			return null;
-		}
+        private static string GetPattern(string messageCode, Assembly assembly)
+        {
+            ResourceManager resourceManager = GetMessages(GetSystemName(messageCode), assembly);
+            if (resourceManager != null)
+            {
+                return resourceManager.GetString(messageCode);
+            }
+            return null;
+        }
 
+        private static string GetSystemName(string messageCode)
+        {
+            return messageCode.Substring(1, Math.Min(3, messageCode.Length));
+        }
 
-		private static string GetSystemName(string messageCode)
-		{
-			return messageCode.Substring(1,Math.Min(3,messageCode.Length));
-		}
+        private static ResourceManager GetMessages(string systemName, Assembly assembly)
+        {
+            string key = systemName + assembly.FullName;
+            if (_resourceManagers.ContainsKey(key))
+            {
+                return (ResourceManager) _resourceManagers[key];
+            }
+            else
+            {
+                ResourceManager rm = new ResourceManager(systemName + MESSAGES, assembly);
+                _resourceManagers[key] = rm;
+                return rm;
+            }
+        }
 
-		private static ResourceManager GetMessages(string systemName, Assembly assembly)
-		{
-			string key = systemName + assembly.FullName;
-			if(resourceManagers_.ContainsKey(key))
-			{
-				return (ResourceManager) resourceManagers_[key];
-			}
-			else
-			{
-				ResourceManager rm = new ResourceManager(systemName + MESSAGES, assembly);
-				resourceManagers_[key] = rm;
-				return rm;
-			}
-		}
-
-
-		private static string GetNoPatternMessage(object[] args)
-		{
-			if(args == null || args.Length == 0) return "";
-			StringBuilder buffer = new StringBuilder();
-			foreach(object arg in args)
-			{
-				buffer.Append(arg + ", ");
-			}
-			buffer.Length = buffer.Length - 2;
-			return buffer.ToString();
-		}
-
-	}
+        private static string GetNoPatternMessage(object[] args)
+        {
+            if (args == null || args.Length == 0) return string.Empty;
+            StringBuilder buffer = new StringBuilder();
+            foreach (object arg in args)
+            {
+                buffer.Append(arg + ", ");
+            }
+            buffer.Length = buffer.Length - 2;
+            return buffer.ToString();
+        }
+    }
 }

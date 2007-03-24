@@ -32,9 +32,9 @@ namespace Seasar.Tests.Extension.ADO.Impl
     {
         private const string PATH = "Ado.dicon";
 
-        private ICommandFactory commandFactory = null;
+        private ICommandFactory _commandFactory = null;
 
-        private IDataReaderFactory dataReaderFactory = null;
+        private IDataReaderFactory _dataReaderFactory = null;
 
         public void SetUpHandle()
         {
@@ -46,9 +46,9 @@ namespace Seasar.Tests.Extension.ADO.Impl
         {
             IDataReaderHandler handler = new BeanDataReaderHandler(typeof(Employee));
             string sql = "select * from emp where empno = 7788";
-            IDbCommand cmd = commandFactory.CreateCommand(Connection, sql);
-            IDataReader reader = dataReaderFactory.CreateDataReader(DataSource, cmd);
-            Employee ret = null;
+            IDbCommand cmd = _commandFactory.CreateCommand(Connection, sql);
+            IDataReader reader = _dataReaderFactory.CreateDataReader(DataSource, cmd);
+            Employee ret;
             try
             {
                 ret = (Employee) handler.Handle(reader);
@@ -71,9 +71,9 @@ namespace Seasar.Tests.Extension.ADO.Impl
         {
             IDataReaderHandler handler = new BeanDataReaderHandler(typeof(Employee));
             string sql = "select ename, job from emp where empno = 7788";
-            IDbCommand cmd = commandFactory.CreateCommand(Connection, sql);
-            IDataReader reader = dataReaderFactory.CreateDataReader(DataSource, cmd);
-            Employee ret = null;
+            IDbCommand cmd = _commandFactory.CreateCommand(Connection, sql);
+            IDataReader reader = _dataReaderFactory.CreateDataReader(DataSource, cmd);
+            Employee ret;
             try
             {
                 ret = (Employee) handler.Handle(reader);
@@ -96,9 +96,9 @@ namespace Seasar.Tests.Extension.ADO.Impl
         {
             IDataReaderHandler handler = new BeanDataReaderHandler(typeof(BasicTypeBean));
             string sql = "select * from basictype where id = 1";
-            IDbCommand cmd = commandFactory.CreateCommand(Connection, sql);
-            IDataReader reader = dataReaderFactory.CreateDataReader(DataSource, cmd);
-            BasicTypeBean ret = null;
+            IDbCommand cmd = _commandFactory.CreateCommand(Connection, sql);
+            IDataReader reader = _dataReaderFactory.CreateDataReader(DataSource, cmd);
+            BasicTypeBean ret;
             try
             {
                 ret = (BasicTypeBean) handler.Handle(reader);
@@ -132,9 +132,9 @@ namespace Seasar.Tests.Extension.ADO.Impl
         {
             IDataReaderHandler handler = new BeanDataReaderHandler(typeof(NHibernateNullableBasicTypeBean));
             string sql = "select * from basictype where id = 1";
-            IDbCommand cmd = commandFactory.CreateCommand(Connection, sql);
-            IDataReader reader = dataReaderFactory.CreateDataReader(DataSource, cmd);
-            NHibernateNullableBasicTypeBean ret = null;
+            IDbCommand cmd = _commandFactory.CreateCommand(Connection, sql);
+            IDataReader reader = _dataReaderFactory.CreateDataReader(DataSource, cmd);
+            NHibernateNullableBasicTypeBean ret;
             try
             {
                 ret = (NHibernateNullableBasicTypeBean) handler.Handle(reader);
@@ -168,9 +168,9 @@ namespace Seasar.Tests.Extension.ADO.Impl
         {
             IDataReaderHandler handler = new BeanDataReaderHandler(typeof(NHibernateNullableBasicTypeBean));
             string sql = "select * from basictype where id = 2";
-            IDbCommand cmd = commandFactory.CreateCommand(Connection, sql);
-            IDataReader reader = dataReaderFactory.CreateDataReader(DataSource, cmd);
-            NHibernateNullableBasicTypeBean ret = null;
+            IDbCommand cmd = _commandFactory.CreateCommand(Connection, sql);
+            IDataReader reader = _dataReaderFactory.CreateDataReader(DataSource, cmd);
+            NHibernateNullableBasicTypeBean ret;
             try
             {
                 ret = (NHibernateNullableBasicTypeBean) handler.Handle(reader);
@@ -206,9 +206,9 @@ namespace Seasar.Tests.Extension.ADO.Impl
         {
             IDataReaderHandler handler = new BeanDataReaderHandler(typeof(NullableBasicTypeBean));
             string sql = "select * from basictype where id = 1";
-            IDbCommand cmd = commandFactory.CreateCommand(Connection, sql);
-            IDataReader reader = dataReaderFactory.CreateDataReader(DataSource, cmd);
-            NullableBasicTypeBean ret = null;
+            IDbCommand cmd = _commandFactory.CreateCommand(Connection, sql);
+            IDataReader reader = _dataReaderFactory.CreateDataReader(DataSource, cmd);
+            NullableBasicTypeBean ret;
             try
             {
                 ret = (NullableBasicTypeBean) handler.Handle(reader);
@@ -242,9 +242,9 @@ namespace Seasar.Tests.Extension.ADO.Impl
         {
             IDataReaderHandler handler = new BeanDataReaderHandler(typeof(NullableBasicTypeBean));
             string sql = "select * from basictype where id = 2";
-            IDbCommand cmd = commandFactory.CreateCommand(Connection, sql);
-            IDataReader reader = dataReaderFactory.CreateDataReader(DataSource, cmd);
-            NullableBasicTypeBean ret = null;
+            IDbCommand cmd = _commandFactory.CreateCommand(Connection, sql);
+            IDataReader reader = _dataReaderFactory.CreateDataReader(DataSource, cmd);
+            NullableBasicTypeBean ret;
             try
             {
                 ret = (NullableBasicTypeBean) handler.Handle(reader);
@@ -280,9 +280,9 @@ namespace Seasar.Tests.Extension.ADO.Impl
         {
             IDataReaderHandler handler = new BeanDataReaderHandler(typeof(SqlTypeBasicTypeBean));
             string sql = "select * from basictype where id = 1";
-            IDbCommand cmd = commandFactory.CreateCommand(Connection, sql);
-            IDataReader reader = dataReaderFactory.CreateDataReader(DataSource, cmd);
-            SqlTypeBasicTypeBean ret = null;
+            IDbCommand cmd = _commandFactory.CreateCommand(Connection, sql);
+            IDataReader reader = _dataReaderFactory.CreateDataReader(DataSource, cmd);
+            SqlTypeBasicTypeBean ret;
             try
             {
                 ret = (SqlTypeBasicTypeBean) handler.Handle(reader);
@@ -316,9 +316,9 @@ namespace Seasar.Tests.Extension.ADO.Impl
         {
             IDataReaderHandler handler = new BeanDataReaderHandler(typeof(SqlTypeBasicTypeBean));
             string sql = "select * from basictype where id = 2";
-            IDbCommand cmd = commandFactory.CreateCommand(Connection, sql);
-            IDataReader reader = dataReaderFactory.CreateDataReader(DataSource, cmd);
-            SqlTypeBasicTypeBean ret = null;
+            IDbCommand cmd = _commandFactory.CreateCommand(Connection, sql);
+            IDataReader reader = _dataReaderFactory.CreateDataReader(DataSource, cmd);
+            SqlTypeBasicTypeBean ret;
             try
             {
                 ret = (SqlTypeBasicTypeBean) handler.Handle(reader);
@@ -351,9 +351,9 @@ namespace Seasar.Tests.Extension.ADO.Impl
         {
             IDataReaderHandler handler = new BeanDataReaderHandler(typeof(EnumTypeBean));
             string sql = "select id, bytetype, sbytetype, int16type, int32type, int64type, singletype, doubletype, decimaltype, stringtype  from basictype where id = 3";
-            IDbCommand cmd = commandFactory.CreateCommand(Connection, sql);
-            IDataReader reader = dataReaderFactory.CreateDataReader(DataSource, cmd);
-            EnumTypeBean ret = null;
+            IDbCommand cmd = _commandFactory.CreateCommand(Connection, sql);
+            IDataReader reader = _dataReaderFactory.CreateDataReader(DataSource, cmd);
+            EnumTypeBean ret;
             try
             {
                 ret = (EnumTypeBean) handler.Handle(reader);
@@ -387,9 +387,9 @@ namespace Seasar.Tests.Extension.ADO.Impl
         {
             IDataReaderHandler handler = new BeanDataReaderHandler(typeof(NullableEnumTypeBean));
             string sql = "select id, bytetype, sbytetype, int16type, int32type, int64type, singletype, doubletype, decimaltype, stringtype  from basictype where id = 3";
-            IDbCommand cmd = commandFactory.CreateCommand(Connection, sql);
-            IDataReader reader = dataReaderFactory.CreateDataReader(DataSource, cmd);
-            NullableEnumTypeBean ret = null;
+            IDbCommand cmd = _commandFactory.CreateCommand(Connection, sql);
+            IDataReader reader = _dataReaderFactory.CreateDataReader(DataSource, cmd);
+            NullableEnumTypeBean ret;
             try
             {
                 ret = (NullableEnumTypeBean) handler.Handle(reader);
@@ -421,9 +421,9 @@ namespace Seasar.Tests.Extension.ADO.Impl
         {
             IDataReaderHandler handler = new BeanDataReaderHandler(typeof(NullableEnumTypeBean));
             string sql = "select id, bytetype, sbytetype, int16type, int32type, int64type, singletype, doubletype, decimaltype, stringtype  from basictype where id = 2";
-            IDbCommand cmd = commandFactory.CreateCommand(Connection, sql);
-            IDataReader reader = dataReaderFactory.CreateDataReader(DataSource, cmd);
-            NullableEnumTypeBean ret = null;
+            IDbCommand cmd = _commandFactory.CreateCommand(Connection, sql);
+            IDataReader reader = _dataReaderFactory.CreateDataReader(DataSource, cmd);
+            NullableEnumTypeBean ret;
             try
             {
                 ret = (NullableEnumTypeBean) handler.Handle(reader);

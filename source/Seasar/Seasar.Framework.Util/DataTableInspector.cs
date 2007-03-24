@@ -19,101 +19,100 @@
 using System;
 using System.Data;
 using System.Diagnostics;
-using System.Reflection;
 using System.Text;
 using Seasar.Framework.Log;
 
 namespace Seasar.Framework.Util
 {
-	public class DataTableInspector
-	{
-		private static readonly Logger Log = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+    public class DataTableInspector
+    {
+        private static readonly Logger _logger = Logger.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-		private DataTableInspector()
-		{
-		}
+        private DataTableInspector()
+        {
+        }
 
         [Obsolete("ToStringUtil.ToString()")]
         public static string ToString(DataTable dataTable)
-		{
-			StringBuilder result = new StringBuilder();
+        {
+            StringBuilder result = new StringBuilder();
 
-			result.AppendFormat("{0}\r\n", dataTable.TableName);
+            result.AppendFormat("{0}\r\n", dataTable.TableName);
 
-			DataRowCollection tableRows = dataTable.Rows;
-			DataColumnCollection tableColumns = dataTable.Columns;
+            DataRowCollection tableRows = dataTable.Rows;
+            DataColumnCollection tableColumns = dataTable.Columns;
 
-			for (int ctrRow = 0; ctrRow < tableRows.Count; ctrRow++)
-			{
-				DataRow row = tableRows[ctrRow] as DataRow;
-				result.AppendFormat("Row #{0}-\r\n", ctrRow + 1);
-				object[] rowItems = row.ItemArray;
+            for (int ctrRow = 0; ctrRow < tableRows.Count; ctrRow++)
+            {
+                DataRow row = tableRows[ctrRow] as DataRow;
+                result.AppendFormat("Row #{0}-\r\n", ctrRow + 1);
+                object[] rowItems = row.ItemArray;
 
-				for (int ctrColumn = 0; ctrColumn < tableColumns.Count; ctrColumn++)
-				{
-					DataColumn column = tableColumns[ctrColumn] as DataColumn;
-					result.AppendFormat("\t{0}: {1}\r\n", column.ColumnName,
-					                    rowItems[ctrColumn].ToString());
-				}
-			}
-			result.Append("\r\n");
-			return result.ToString();
-		}
+                for (int ctrColumn = 0; ctrColumn < tableColumns.Count; ctrColumn++)
+                {
+                    DataColumn column = tableColumns[ctrColumn] as DataColumn;
+                    result.AppendFormat("\t{0}: {1}\r\n", column.ColumnName,
+                                        rowItems[ctrColumn].ToString());
+                }
+            }
+            result.Append("\r\n");
+            return result.ToString();
+        }
 
         [Obsolete("ToStringUtil.ToString()")]
         public static void DebugLog(DataTable dataTable, string header)
-		{
-			string output = string.Format("{0}\r\n{1}", header,
-				DataTableInspector.ToString(dataTable));
-			Log.Debug(output);
-		}
+        {
+            string output = string.Format("{0}\r\n{1}", header,
+                DataTableInspector.ToString(dataTable));
+            _logger.Debug(output);
+        }
 
         [Obsolete("ToStringUtil.ToString()")]
         public static void DebugLog(DataTable dataTable)
-		{
-			Log.Debug(DataTableInspector.ToString(dataTable));
-		}
+        {
+            _logger.Debug(DataTableInspector.ToString(dataTable));
+        }
 
         [Obsolete("ToStringUtil.ToString()")]
         public static void DebugWriteLine(DataTable dataTable, string header)
-		{
-			string output = string.Format("{0}\r\n{1}", header,
-			                              DataTableInspector.ToString(dataTable));
-			Debug.WriteLine(output);
-		}
+        {
+            string output = string.Format("{0}\r\n{1}", header,
+                                          DataTableInspector.ToString(dataTable));
+            Debug.WriteLine(output);
+        }
 
         [Obsolete("ToStringUtil.ToString()")]
         public static void DebugWriteLine(DataTable dataTable)
-		{
-			Debug.WriteLine(DataTableInspector.ToString(dataTable));
-		}
+        {
+            Debug.WriteLine(DataTableInspector.ToString(dataTable));
+        }
 
         [Obsolete("ToStringUtil.ToString()")]
         public static void OutWriteLine(DataTable dataTable, string header)
-		{
-			string output = string.Format("{0}\r\n{1}", header,
-				DataTableInspector.ToString(dataTable));
-			Console.Out.WriteLine(output);
-		}
+        {
+            string output = string.Format("{0}\r\n{1}", header,
+                DataTableInspector.ToString(dataTable));
+            Console.Out.WriteLine(output);
+        }
 
         [Obsolete("ToStringUtil.ToString()")]
         public static void OutWriteLine(DataTable dataTable)
-		{
-			Console.Out.WriteLine(DataTableInspector.ToString(dataTable));
-		}
+        {
+            Console.Out.WriteLine(DataTableInspector.ToString(dataTable));
+        }
 
         [Obsolete("ToStringUtil.ToString()")]
         public static void TraceWriteLine(DataTable dataTable, string header)
-		{
-			string output = string.Format("{0}\r\n{1}", header,
-			                              DataTableInspector.ToString(dataTable));
-			Trace.WriteLine(output);
-		}
+        {
+            string output = string.Format("{0}\r\n{1}", header,
+                                          DataTableInspector.ToString(dataTable));
+            Trace.WriteLine(output);
+        }
 
         [Obsolete("ToStringUtil.ToString()")]
         public static void TraceWriteLine(DataTable dataTable)
-		{
-			Trace.WriteLine(DataTableInspector.ToString(dataTable));
-		}
-	}
+        {
+            Trace.WriteLine(DataTableInspector.ToString(dataTable));
+        }
+    }
 }

@@ -3,35 +3,17 @@
 "http://www.seasar.org/dtd/components21.dtd">
 
 <components namespace="Ado">
-<!--
-	<component name="sqlClient" class="Seasar.Extension.ADO.DataProvider">
-		<property name="ConnectionType">"System.Data.SqlClient.SqlConnection"</property>
-		<property name="CommandType">"System.Data.SqlClient.SqlCommand"</property>
-		<property name="ParameterType">"System.Data.SqlClient.SqlParameter"</property>
-		<property name="DataAdapterType">"System.Data.SqlClient.SqlDataAdapter"</property>
-	</component>
-	<component name="dataSource" class="Seasar.Extension.Tx.Impl.TxDataSource">
-		<property name="DataProvider">sqlClient</property>
-		<property name="ConnectionString">"Server=127.0.0.1;database=s2dotnetdemo;Integrated Security=SSPI"</property>
-	</component>
-	<component name="transactionContext" class="Seasar.Extension.Tx.Impl.TransactionContext">
-		<property name="IsolationLevel">System.Data.IsolationLevel.Chaos</property>
-	</component>	
--->	
-
-	<component name="dataSource" class="Seasar.Extension.ADO.IDataSource">
-		<aspect>
-			<component 
-				class="Seasar.Framework.Aop.Interceptors.MockInterceptor">
-			</component>
-		</aspect>	
-	</component>
-	<component name="transactionContext" class="Seasar.Extension.Tx.ITransactionContext">
-		<aspect>
-			<component 
-				class="Seasar.Framework.Aop.Interceptors.MockInterceptor">
-			</component>
-		</aspect>
-	</component>	
+  <component name="dataSource" class="Seasar.Extension.ADO.IDataSource">
+    <aspect>
+      <component class="Seasar.Framework.Aop.Interceptors.MockInterceptor">
+      </component>
+    </aspect>
+  </component>
+  <component name="transactionContext" class="Seasar.Extension.Tx.ITransactionContext">
+    <aspect>
+      <component class="Seasar.Framework.Aop.Interceptors.MockInterceptor">
+      </component>
+    </aspect>
+  </component>
 
 </components>

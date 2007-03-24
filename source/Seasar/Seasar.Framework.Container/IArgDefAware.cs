@@ -16,31 +16,29 @@
  */
 #endregion
 
-using System;
-
 namespace Seasar.Framework.Container
 {
-	/// <summary>
-	/// IArgDefの設定が可能になります。
-	/// </summary>
-	public interface IArgDefAware
-	{
-		/// <summary>
-		/// IArgDefを追加します
-		/// </summary>
-		/// <param name="argDef">IArgDef</param>
-		void AddArgDef(IArgDef argDef);
+    /// <summary>
+    /// IArgDefの設定が可能になります。
+    /// </summary>
+    public interface IArgDefAware
+    {
+        /// <summary>
+        /// IArgDefを追加します
+        /// </summary>
+        /// <param name="argDef">IArgDef</param>
+        void AddArgDef(IArgDef argDef);
 
-		/// <summary>
-		/// ArgDefの数
-		/// </summary>
-		int ArgDefSize{get;}
+        /// <summary>
+        /// ArgDefの数
+        /// </summary>
+        int ArgDefSize { get; }
 
-		/// <summary>
-		/// 番号を指定してIArgDefを取得します
-		/// </summary>
-		/// <param name="index">IArgDefの番号</param>
-		/// <returns>IArgDef</returns>
-		IArgDef GetArgDef(int index);
-	}
+        /// <summary>
+        /// 番号を指定してIArgDefを取得します
+        /// </summary>
+        /// <param name="index">IArgDefの番号</param>
+        /// <returns>IArgDef</returns>
+        IArgDef GetArgDef(int index);
+    }
 }

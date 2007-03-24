@@ -22,94 +22,90 @@ using Seasar.Framework.Aop;
 using Seasar.Framework.Aop.Impl;
 using Seasar.Framework.Aop.Interceptors;
 using Seasar.Framework.Aop.Proxy;
-
 using MbUnit.Framework;
-
 
 namespace Seasar.Tests.Framework.Aop.Interceptors
 {
-	/// <summary>
-	/// MockInterceptorTest ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	[TestFixture]
-	public class MockInterceptorTest
-	{	
-		private const string MSG = "hello";
-		private const string ECHO = "echo";
-		private MockInterceptor target = null;
+    [TestFixture]
+    public class MockInterceptorTest
+    {
+        private const string MSG = "hello";
+        private const string ECHO = "echo";
+        private MockInterceptor _target = null;
 
-		public static object CreateProxy(IMethodInterceptor interceptor,Type proxyType)
-		{
-			IAspect aspect = new AspectImpl(interceptor, null);
-			return new AopProxy(proxyType, new IAspect[] { aspect }).GetTransparentProxy();
-		}
+        public static object CreateProxy(IMethodInterceptor interceptor, Type proxyType)
+        {
+            IAspect aspect = new AspectImpl(interceptor, null);
+            return new AopProxy(proxyType, new IAspect[] { aspect }).GetTransparentProxy();
+        }
 
-		[SetUp]
-		public void SetUp()
-		{
-			target = new MockInterceptor(MSG);
-		}
+        [SetUp]
+        public void SetUp()
+        {
+            _target = new MockInterceptor(MSG);
+        }
 
-		[Test]
-		public void TestInvoke()
-		{
-			Hello hello = CreateProxy(target, typeof(Hello)) as Hello;
-			Assert.AreEqual(MSG, hello.Greeting());
-		}
-		
-		[Test]
-		public void TestInvoke2()
-		{
-			target.SetReturnValue("Greeting", MSG);
-			target.SetReturnValue("Echo", ECHO);
-			SayHello hello = CreateProxy(target, typeof(SayHello)) as SayHello;
+        [Test]
+        public void TestInvoke()
+        {
+            Hello hello = CreateProxy(_target, typeof(Hello)) as Hello;
+            Assert.AreEqual(MSG, hello.Greeting());
+        }
 
-			string message = "hoge";
+        [Test]
+        public void TestInvoke2()
+        {
+            _target.SetReturnValue("Greeting", MSG);
+            _target.SetReturnValue("Echo", ECHO);
+            SayHello hello = CreateProxy(_target, typeof(SayHello)) as SayHello;
 
-			Assert.AreEqual(ECHO, hello.Echo(message));
-			Assert.IsTrue(target.IsInvoked("Echo"));
-			Assert.IsFalse(target.IsInvoked("Greeting"));
-			Assert.AreEqual(message, target.GetArgs("Echo")[0]);
-		}
+            string message = "hoge";
 
-		[Test]
-		public void TestInvoke3()
-		{
-			target.SetReturnValue("Greeting", MSG);
-			target.SetReturnValue("Echo", ECHO);
-			SayHello hello = CreateProxy(target, typeof(SayHello)) as SayHello;
+            Assert.AreEqual(ECHO, hello.Echo(message));
+            Assert.IsTrue(_target.IsInvoked("Echo"));
+            Assert.IsFalse(_target.IsInvoked("Greeting"));
+            Assert.AreEqual(message, _target.GetArgs("Echo")[0]);
+        }
 
-			string message = "hoge";
-			Assert.AreEqual(MSG, hello.Greeting());
-			Assert.AreEqual(ECHO, hello.Echo(message));
-			Assert.IsTrue(target.IsInvoked("Greeting"));
-			Assert.IsTrue(target.IsInvoked("Echo"));
-		}
-		
-		[Test]
-		public void TestInvokeThrowException()
-		{
-			Exception ex = new ApplicationException();
-			target.SetThrowable("Greeting", ex);
-			Hello hello = CreateProxy(target, typeof(Hello)) as Hello;
-			try
-			{
-				hello.Greeting();
-				Assert.Fail();
-			} catch(ApplicationException exception)
-			{
-				Assert.AreEqual(ex, exception);
-			}
-		}
-	}
+        [Test]
+        public void TestInvoke3()
+        {
+            _target.SetReturnValue("Greeting", MSG);
+            _target.SetReturnValue("Echo", ECHO);
+            SayHello hello = CreateProxy(_target, typeof(SayHello)) as SayHello;
 
-	public interface Hello
-	{
-		string Greeting();
-	}
+            string message = "hoge";
+            Assert.AreEqual(MSG, hello.Greeting());
+            Assert.AreEqual(ECHO, hello.Echo(message));
+            Assert.IsTrue(_target.IsInvoked("Greeting"));
+            Assert.IsTrue(_target.IsInvoked("Echo"));
+        }
 
-	public interface SayHello : Hello
-	{
-		string Echo(string msg);
-	}
+        [Test]
+        public void TestInvokeThrowException()
+        {
+            Exception ex = new ApplicationException();
+            _target.SetThrowable("Greeting", ex);
+            Hello hello = CreateProxy(_target, typeof(Hello)) as Hello;
+            try
+            {
+                hello.Greeting();
+                Assert.Fail();
+            }
+            catch (ApplicationException exception)
+            {
+                Assert.AreEqual(ex, exception);
+            }
+        }
+    }
+
+    public interface Hello
+    {
+        string Greeting();
+    }
+
+    public interface SayHello : Hello
+    {
+        string Echo(string msg);
+    }
 }

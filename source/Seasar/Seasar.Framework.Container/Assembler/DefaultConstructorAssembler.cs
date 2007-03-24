@@ -16,23 +16,18 @@
  */
 #endregion
 
-using System;
-
 namespace Seasar.Framework.Container.Assembler
 {
-	/// <summary>
-	/// DefaultConstructorAssembler ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public sealed class DefaultConstructorAssembler : AbstractConstructorAssembler
-	{
-		public DefaultConstructorAssembler(IComponentDef componentDef)
-			: base(componentDef)
-		{
-		}
+    public sealed class DefaultConstructorAssembler : AbstractConstructorAssembler
+    {
+        public DefaultConstructorAssembler(IComponentDef componentDef)
+            : base(componentDef)
+        {
+        }
 
-		public override object Assemble()
-		{
-			return this.AssembleDefault();
-		}
-	}
+        public override object Assemble()
+        {
+            return AssembleDefault();
+        }
+    }
 }

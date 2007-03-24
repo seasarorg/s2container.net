@@ -21,66 +21,66 @@ using Nullables;
 
 namespace Seasar.Tests.Extension.ADO.Impl
 {
-	[Serializable]
-	public class Department
-	{
-		private int deptno;
+    [Serializable]
+    public class Department
+    {
+        private int _deptno;
 
-		private string dname;
+        private string _dname;
 
-		private string loc;
-    
-		private NullableInt32 versionNo;
-    
-		private NullableBoolean active;
-    
-		public Department()
-		{
-		}
+        private string _loc;
 
-		public Department(
-			int deptno,
-			string dname,
-			string loc,
-			NullableInt32 versionNo,
-			NullableBoolean active
-			)
-		{
-			this.deptno = deptno;
-			this.dname = dname;
-			this.loc = loc;
-			this.versionNo = versionNo;
-			this.active = active;
-		}
+        private NullableInt32 _versionNo;
 
-		public int Deptno
-		{
-			set { deptno = value; }
-			get { return deptno; }
-		}
+        private NullableBoolean _active;
 
-		public string Dname
-		{
-			set { dname = value; }
-			get { return dname; }
-		}
+        public Department()
+        {
+        }
 
-		public string Loc
-		{
-			set { loc = value; }
-			get { return loc; }
-		}
+        public Department(
+            int deptno,
+            string dname,
+            string loc,
+            NullableInt32 versionNo,
+            NullableBoolean active
+            )
+        {
+            _deptno = deptno;
+            _dname = dname;
+            _loc = loc;
+            _versionNo = versionNo;
+            _active = active;
+        }
 
-		public NullableInt32 VersionNo
-		{
-			set { versionNo = value; }
-			get { return versionNo; }
-		}
+        public int Deptno
+        {
+            set { _deptno = value; }
+            get { return _deptno; }
+        }
 
-		public NullableBoolean Active
-		{
-			set { active = value; }
-			get { return active; }
-		}
-	}
+        public string Dname
+        {
+            set { _dname = value; }
+            get { return _dname; }
+        }
+
+        public string Loc
+        {
+            set { _loc = value; }
+            get { return _loc; }
+        }
+
+        public NullableInt32 VersionNo
+        {
+            set { _versionNo = value; }
+            get { return _versionNo; }
+        }
+
+        public NullableBoolean Active
+        {
+            set { _active = value; }
+            get { return _active; }
+        }
+    }
 }

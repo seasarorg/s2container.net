@@ -25,81 +25,82 @@ using Seasar.Framework.Log;
 
 namespace Seasar.Framework.Util
 {
-	public class DataSetInspector
-	{
-		private static readonly Logger Log = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+    public class DataSetInspector
+    {
+        private static readonly Logger _logger = Logger.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-		private DataSetInspector()
-		{
-		}
+        private DataSetInspector()
+        {
+        }
 
         [Obsolete("ToStringUtil.ToString()")]
         public static string ToString(DataSet dataSet)
-		{
-			StringBuilder result = new StringBuilder();
+        {
+            StringBuilder result = new StringBuilder();
 
-			foreach (DataTable table in dataSet.Tables)
-			{	result.Append(DataTableInspector.ToString(table));
-				result.Append("\r\n");
-			}
-			return result.ToString();
-		}
+            foreach (DataTable table in dataSet.Tables)
+            {
+                result.Append(DataTableInspector.ToString(table));
+                result.Append("\r\n");
+            }
+            return result.ToString();
+        }
 
         [Obsolete("ToStringUtil.ToString()")]
         public static void DebugLog(DataSet dataSet, string header)
-		{
-			string output = string.Format("{0}\r\n{1}", header,
-				DataSetInspector.ToString(dataSet));
-			Log.Debug(output);
-		}
+        {
+            string output = string.Format("{0}\r\n{1}", header,
+                DataSetInspector.ToString(dataSet));
+            _logger.Debug(output);
+        }
 
         [Obsolete("ToStringUtil.ToString()")]
         public static void DebugLog(DataSet dataSet)
-		{
-			Log.Debug(DataSetInspector.ToString(dataSet));
-		}
+        {
+            _logger.Debug(DataSetInspector.ToString(dataSet));
+        }
 
         [Obsolete("ToStringUtil.ToString()")]
         public static void OutWriteLine(DataSet dataSet, string header)
-		{
-			string output = string.Format("{0}\r\n{1}", header,
-				DataSetInspector.ToString(dataSet));
-			Console.Out.WriteLine(output);
-		}
+        {
+            string output = string.Format("{0}\r\n{1}", header,
+                DataSetInspector.ToString(dataSet));
+            Console.Out.WriteLine(output);
+        }
 
         [Obsolete("ToStringUtil.ToString()")]
         public static void OutWriteLine(DataSet dataSet)
-		{
-			Console.Out.WriteLine(DataSetInspector.ToString(dataSet));
+        {
+            Console.Out.WriteLine(DataSetInspector.ToString(dataSet));
             System.Diagnostics.Trace.WriteLine(DataSetInspector.ToString(dataSet));
-		}
+        }
 
         [Obsolete("ToStringUtil.ToString()")]
         public static void DebugWriteLine(DataSet dataSet, string header)
-		{
-			string output = string.Format("{0}\r\n{1}", header,
-				DataSetInspector.ToString(dataSet));
-			Debug.WriteLine(output);
-		}
+        {
+            string output = string.Format("{0}\r\n{1}", header,
+                DataSetInspector.ToString(dataSet));
+            Debug.WriteLine(output);
+        }
 
         [Obsolete("ToStringUtil.ToString()")]
         public static void DebugWriteLine(DataSet dataSet)
-		{
-			Debug.WriteLine(DataSetInspector.ToString(dataSet));
-		}
+        {
+            Debug.WriteLine(DataSetInspector.ToString(dataSet));
+        }
 
         [Obsolete("ToStringUtil.ToString()")]
         public static void TraceWriteLine(DataSet dataSet, string header)
-		{
-			string output = string.Format("{0}\r\n{1}", header,
-				DataSetInspector.ToString(dataSet));
-			Trace.WriteLine(output);
-		}
+        {
+            string output = string.Format("{0}\r\n{1}", header,
+                DataSetInspector.ToString(dataSet));
+            Trace.WriteLine(output);
+        }
 
         [Obsolete("ToStringUtil.ToString()")]
         public static void TraceWriteLine(DataSet dataSet)
-		{
-			Trace.WriteLine(DataSetInspector.ToString(dataSet));
-		}
-	}
+        {
+            Trace.WriteLine(DataSetInspector.ToString(dataSet));
+        }
+    }
 }

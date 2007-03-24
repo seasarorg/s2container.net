@@ -16,38 +16,27 @@
  */
 #endregion
 
-using System;
-
 using Seasar.Framework.Aop;
 
 namespace Seasar.Extension.Tx.Impl
 {
-	/// <summary>
-	/// AbstractLocalTxHandler の概要の説明です。
-	/// </summary>
-	public abstract class AbstractLocalTxHandler : ITransactionHandler
-	{
-		private ITransactionContext context;
+    public abstract class AbstractLocalTxHandler : ITransactionHandler
+    {
+        private ITransactionContext _context;
 
-		#region ITransactionHandler メンバ
+        #region ITransactionHandler メンバ
 
-		public virtual object Handle(IMethodInvocation invocation, bool alreadyInTransaction)
-		{
-			return invocation.Proceed();
-		}
+        public virtual object Handle(IMethodInvocation invocation, bool alreadyInTransaction)
+        {
+            return invocation.Proceed();
+        }
 
-		#endregion
+        #endregion
 
-		public ITransactionContext Context
-		{
-			get
-			{
-				return this.context;
-			}
-			set
-			{
-				this.context = value;
-			}
-		}
-	}
+        public ITransactionContext Context
+        {
+            get { return _context; }
+            set { _context = value; }
+        }
+    }
 }

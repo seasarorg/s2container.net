@@ -21,16 +21,16 @@ using System.Collections;
 
 namespace Seasar.Extension.Unit
 {
-	public class BeanListReader : BeanReader
-	{
-		public BeanListReader(IList list)
-		{
-			Type beanType = list[0].GetType();
-			SetupColumns(beanType);
-			foreach (object bean in list)
-			{
-				SetupRow(beanType, bean);
-			}
-		}
-	}
+    public class BeanListReader : BeanReader
+    {
+        public BeanListReader(IList list)
+        {
+            Type beanType = list[0].GetType();
+            SetupColumns(beanType);
+            foreach (object bean in list)
+            {
+                SetupRow(beanType, bean);
+            }
+        }
+    }
 }

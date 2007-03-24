@@ -23,7 +23,8 @@ namespace Seasar.Extension.ADO.Impl
 {
     public class BooleanToIntParameter : DbDataParameterWrapper
     {
-        public BooleanToIntParameter(IDbDataParameter original) : base(original)
+        public BooleanToIntParameter(IDbDataParameter original)
+            : base(original)
         {
         }
 

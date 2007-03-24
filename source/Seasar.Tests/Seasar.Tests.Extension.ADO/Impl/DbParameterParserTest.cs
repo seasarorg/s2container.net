@@ -27,13 +27,13 @@ namespace Seasar.Tests.Extension.ADO.Impl
     [TestFixture]
     public class DbParameterParserTest : S2TestCase
     {
-        private IDbParameterParser parser = new DbParameterParser();
+        private readonly IDbParameterParser _parser = new DbParameterParser();
 
         [Test]
         public void ParseAtMark()
         {
             string sql = "INSERT INTO emp ( empno , ename , job ) VALUES ( @empno , 'M@NAGER' , @job )";
-            MatchCollection ret = parser.Parse(sql);
+            MatchCollection ret = _parser.Parse(sql);
             Assert.AreEqual(2, ret.Count);
             Assert.AreEqual("@empno", ret[0].Value);
             Assert.AreEqual("@job", ret[1].Value);
@@ -43,7 +43,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
         public void ParseAtMark2()
         {
             string sql = "INSERT INTO emp(empno,ename,job)VALUES(@empno,'m@nager',@job)";
-            MatchCollection ret = parser.Parse(sql);
+            MatchCollection ret = _parser.Parse(sql);
             Assert.AreEqual(2, ret.Count);
             Assert.AreEqual("@empno", ret[0].Value);
             Assert.AreEqual("@job", ret[1].Value);
@@ -53,7 +53,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
         public void ParseAtMark3()
         {
             string sql = "INSERT INTO emp (empno, ename, job) VALUES (@$empno, @#manager, @dto.job)";
-            MatchCollection ret = parser.Parse(sql);
+            MatchCollection ret = _parser.Parse(sql);
             Assert.AreEqual(3, ret.Count);
         }
 
@@ -61,7 +61,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
         public void ParseAtMark4()
         {
             string sql = "INSERT INTO emp (empno, ename, job) VALUES (@$è]ã∆àıî‘çÜ, @Ç©ÇÒÇËÇµÇ·, @ÉVÉáÉNÉMÉáÉE)";
-            MatchCollection ret = parser.Parse(sql);
+            MatchCollection ret = _parser.Parse(sql);
             Assert.AreEqual(3, ret.Count);
         }
 
@@ -69,7 +69,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
         public void ParseAtMark5()
         {
             string sql = "INSERT INTO emp (empno, ename, job) VALUES (@1empno, @m2anager, @job3)";
-            MatchCollection ret = parser.Parse(sql);
+            MatchCollection ret = _parser.Parse(sql);
             Assert.AreEqual(3, ret.Count);
         }
 
@@ -77,7 +77,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
         public void ParseAtMark6()
         {
             string sql = "INSERT INTO EMP (EMPNO, ENAME, JOB) VALUES (@EMP_NO, @MANAGER, @_JOB)";
-            MatchCollection ret = parser.Parse(sql);
+            MatchCollection ret = _parser.Parse(sql);
             Assert.AreEqual(3, ret.Count);
         }
 
@@ -85,7 +85,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
         public void ParseAtMark7()
         {
             string sql = "INSERT INTO EMP (EMPNO, ENAME, JOB) VALUES (@$#, @@USERID, @A.B)";
-            MatchCollection ret = parser.Parse(sql);
+            MatchCollection ret = _parser.Parse(sql);
             Assert.AreEqual(2, ret.Count);
             Assert.AreEqual("@$#", ret[0].Value);
             Assert.AreEqual("@A.B", ret[1].Value);
@@ -95,7 +95,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
         public void ParseColon()
         {
             string sql = "INSERT INTO emp ( empno , ename , job ) VALUES ( :empno , 'M:NAGER' , :job )";
-            MatchCollection ret = parser.Parse(sql);
+            MatchCollection ret = _parser.Parse(sql);
             Assert.AreEqual(2, ret.Count);
             Assert.AreEqual(":empno", ret[0].Value);
             Assert.AreEqual(":job", ret[1].Value);
@@ -105,7 +105,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
         public void ParseColon2()
         {
             string sql = "INSERT INTO emp(empno,ename,job)VALUES(:empno,'m:nager',:job)";
-            MatchCollection ret = parser.Parse(sql);
+            MatchCollection ret = _parser.Parse(sql);
             Assert.AreEqual(2, ret.Count);
             Assert.AreEqual(":empno", ret[0].Value);
             Assert.AreEqual(":job", ret[1].Value);
@@ -115,7 +115,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
         public void ParseColon3()
         {
             string sql = "INSERT INTO emp (empno, ename, job) VALUES (:$empno, :#manager, :dto.job)";
-            MatchCollection ret = parser.Parse(sql);
+            MatchCollection ret = _parser.Parse(sql);
             Assert.AreEqual(3, ret.Count);
         }
 
@@ -123,7 +123,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
         public void ParseColon4()
         {
             string sql = "INSERT INTO emp (empno, ename, job) VALUES (:$è]ã∆àıî‘çÜ, :Ç©ÇÒÇËÇµÇ·, :ÉVÉáÉNÉMÉáÉE)";
-            MatchCollection ret = parser.Parse(sql);
+            MatchCollection ret = _parser.Parse(sql);
             Assert.AreEqual(3, ret.Count);
         }
 
@@ -131,7 +131,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
         public void ParseColon5()
         {
             string sql = "INSERT INTO emp (empno, ename, job) VALUES (:1empno, :m2anager, :job3)";
-            MatchCollection ret = parser.Parse(sql);
+            MatchCollection ret = _parser.Parse(sql);
             Assert.AreEqual(3, ret.Count);
         }
 
@@ -139,7 +139,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
         public void ParseColon6()
         {
             string sql = "INSERT INTO EMP (EMPNO, ENAME, JOB) VALUES (:EMP_NO, :MANAGER, :_JOB)";
-            MatchCollection ret = parser.Parse(sql);
+            MatchCollection ret = _parser.Parse(sql);
             Assert.AreEqual(3, ret.Count);
         }
 
@@ -147,7 +147,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
         public void ParseColon7()
         {
             string sql = "INSERT INTO EMP (EMPNO, ENAME, JOB) VALUES (:$#, ::USERID, :A.B)";
-            MatchCollection ret = parser.Parse(sql);
+            MatchCollection ret = _parser.Parse(sql);
             Assert.AreEqual(2, ret.Count);
             Assert.AreEqual(":$#", ret[0].Value);
             Assert.AreEqual(":A.B", ret[1].Value);
@@ -157,7 +157,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
         public void ParseQuestion()
         {
             string sql = "INSERT INTO emp ( empno , ename , job ) VALUES ( :empno , 'M:NAGER' , :job )";
-            MatchCollection ret = parser.Parse(sql);
+            MatchCollection ret = _parser.Parse(sql);
             Assert.AreEqual(2, ret.Count);
             Assert.AreEqual(":empno", ret[0].Value);
             Assert.AreEqual(":job", ret[1].Value);
@@ -167,7 +167,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
         public void ParseQuestion2()
         {
             string sql = "INSERT INTO emp(empno,ename,job)VALUES(?,'m?nager',?)";
-            MatchCollection ret = parser.Parse(sql);
+            MatchCollection ret = _parser.Parse(sql);
             Assert.AreEqual(2, ret.Count);
             Assert.AreEqual("?", ret[0].Value);
             Assert.AreEqual("?", ret[1].Value);
@@ -177,7 +177,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
         public void ParseQuestion3()
         {
             string sql = "INSERT INTO emp (empno, ename, job) VALUES (?, ?, ?)";
-            MatchCollection ret = parser.Parse(sql);
+            MatchCollection ret = _parser.Parse(sql);
             Assert.AreEqual(3, ret.Count);
         }
     }

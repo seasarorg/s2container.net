@@ -16,46 +16,43 @@
  */
 #endregion
 
-using System;
-
 namespace Seasar.Framework.Container
 {
-	/// <summary>
-	/// IPropertyDefの設定が可能になります。
-	/// </summary>
-	public interface IPropertyDefAware
-	{
+    /// <summary>
+    /// IPropertyDefの設定が可能になります。
+    /// </summary>
+    public interface IPropertyDefAware
+    {
+        /// <summary>
+        /// IPropertyDefを追加します。
+        /// </summary>
+        /// <param name="propertyDef">IPropertyDef</param>
+        void AddPropertyDef(IPropertyDef propertyDef);
 
-		/// <summary>
-		/// IPropertyDefを追加します。
-		/// </summary>
-		/// <param name="propertyDef">IPropertyDef</param>
-		void AddPropertyDef(IPropertyDef propertyDef);
+        /// <summary>
+        /// IPropertyDefの数
+        /// </summary>
+        int PropertyDefSize { get;}
 
-		/// <summary>
-		/// IPropertyDefの数
-		/// </summary>
-		int PropertyDefSize{get;}
+        /// <summary>
+        /// 番号を指定してIPropertyDefを取得します。
+        /// </summary>
+        /// <param name="index">IPropertyDefの番号</param>
+        /// <returns>IPropertyDef</returns>
+        IPropertyDef GetPropertyDef(int index);
 
-		/// <summary>
-		/// 番号を指定してIPropertyDefを取得します。
-		/// </summary>
-		/// <param name="index">IPropertyDefの番号</param>
-		/// <returns>IPropertyDef</returns>
-		IPropertyDef GetPropertyDef(int index);
+        /// <summary>
+        /// 名前を指定してIPropertyDefを取得します。
+        /// </summary>
+        /// <param name="propertyName">IPropertyDefの名前</param>
+        /// <returns>IPropertyDef</returns>
+        IPropertyDef GetPropertyDef(string propertyName);
 
-		/// <summary>
-		/// 名前を指定してIPropertyDefを取得します。
-		/// </summary>
-		/// <param name="propertyName">IPropertyDefの名前</param>
-		/// <returns>IPropertyDef</returns>
-		IPropertyDef GetPropertyDef(string propertyName);
-
-		/// <summary>
-		/// 指定した名前のIPropertyDefを持っているか判定します。
-		/// </summary>
-		/// <param name="propertyName">IPropertyDefの名前</param>
-		/// <returns>存在するならtrue</returns>
-		bool HasPropertyDef(string propertyName);
-	}
+        /// <summary>
+        /// 指定した名前のIPropertyDefを持っているか判定します。
+        /// </summary>
+        /// <param name="propertyName">IPropertyDefの名前</param>
+        /// <returns>存在するならtrue</returns>
+        bool HasPropertyDef(string propertyName);
+    }
 }

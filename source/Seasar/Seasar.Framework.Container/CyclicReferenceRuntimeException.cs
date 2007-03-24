@@ -22,37 +22,35 @@ using Seasar.Framework.Exceptions;
 
 namespace Seasar.Framework.Container
 {
-	/// <summary>
-	/// コンポーネントの循環参照が起きたときの実行時例外
-	/// </summary>
-	[Serializable]
-	public class CyclicReferenceRuntimeException : SRuntimeException
-	{
-		private Type componentType_;
+    /// <summary>
+    /// コンポーネントの循環参照が起きたときの実行時例外
+    /// </summary>
+    [Serializable]
+    public class CyclicReferenceRuntimeException : SRuntimeException
+    {
+        private readonly Type _componentType;
 
-		public CyclicReferenceRuntimeException(Type componentType)
-			: base("ESSR0047",new object[] { componentType.FullName })
-		{
-			componentType_ = componentType;	
-		}
+        public CyclicReferenceRuntimeException(Type componentType)
+            : base("ESSR0047", new object[] { componentType.FullName })
+        {
+            _componentType = componentType;
+        }
 
-		public CyclicReferenceRuntimeException(SerializationInfo info, StreamingContext context) 
-			: base( info, context )
-		{
-			this.componentType_ = info.GetValue("componentType_", typeof(Type)) as Type;
-		}
+        public CyclicReferenceRuntimeException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+            _componentType = info.GetValue("_componentType", typeof(Type)) as Type;
+        }
 
-		public override void GetObjectData( SerializationInfo info,
-			StreamingContext context )
-		{
-			info.AddValue("componentType_", this.componentType_, typeof(Type));
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("_componentType", _componentType, typeof(Type));
+            base.GetObjectData(info, context);
+        }
 
-			base.GetObjectData(info, context);
-		}
-
-		public Type ComponentType
-		{
-			get { return componentType_; }
-		}
-	}
+        public Type ComponentType
+        {
+            get { return _componentType; }
+        }
+    }
 }

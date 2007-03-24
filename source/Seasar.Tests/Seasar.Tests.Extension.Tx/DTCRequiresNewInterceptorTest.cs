@@ -20,47 +20,45 @@ using System;
 using System.IO;
 using System.EnterpriseServices;
 using System.Reflection;
-
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Factory;
-
 using log4net;
 using log4net.Config;
 using log4net.Util;
-
 using MbUnit.Framework;
 
 namespace Seasar.Tests.Extension.Tx
 {
-	[TestFixture]
-	[Transaction(TransactionOption.RequiresNew)]
-	public class DTCRequiresNewInterceptorTest : ServicedComponent
-	{
-		private const string path = "Seasar/Tests/Extension/Tx/DTCRequiresNewInterceptorTest.dicon";
-		static DTCRequiresNewInterceptorTest()
-		{
-			FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
-				Assembly.GetExecutingAssembly()) + ".config");
-			XmlConfigurator.Configure(LogManager.GetRepository(), info);
-		}
+    [TestFixture]
+    [Transaction(TransactionOption.RequiresNew)]
+    public class DTCRequiresNewInterceptorTest : ServicedComponent
+    {
+        private const string PATH = "Seasar/Tests/Extension/Tx/DTCRequiresNewInterceptorTest.dicon";
+        private IS2Container _container = null;
+        private TxTest _tester = null;
 
-		private IS2Container container = null;
-		private TxTest tester = null;
-		[SetUp]
-		public void SetUp()
-		{
-			container = S2ContainerFactory.Create(path);
-			container.Init();
-			tester = container.GetComponent(typeof(TxTest)) as TxTest;
-		}
-		
-		[Test]
-		[AutoComplete]
-		public void TestProceed()
-		{
-			Guid txid = ContextUtil.TransactionId;
-			Assert.IsFalse(txid.Equals(tester.GetTransactionId()));
-			Assert.IsTrue(tester.IsInTransaction());
-		}
-	}
+        static DTCRequiresNewInterceptorTest()
+        {
+            FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
+                Assembly.GetExecutingAssembly()) + ".config");
+            XmlConfigurator.Configure(LogManager.GetRepository(), info);
+        }
+
+        [SetUp]
+        public void SetUp()
+        {
+            _container = S2ContainerFactory.Create(PATH);
+            _container.Init();
+            _tester = _container.GetComponent(typeof(TxTest)) as TxTest;
+        }
+
+        [Test]
+        [AutoComplete]
+        public void TestProceed()
+        {
+            Guid txid = ContextUtil.TransactionId;
+            Assert.IsFalse(txid.Equals(_tester.GetTransactionId()));
+            Assert.IsTrue(_tester.IsInTransaction());
+        }
+    }
 }

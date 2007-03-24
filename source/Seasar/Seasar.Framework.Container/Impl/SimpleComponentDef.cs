@@ -21,365 +21,332 @@ using System.Collections;
 
 namespace Seasar.Framework.Container.Impl
 {
-	/// <summary>
-	/// コンポーネントのインスタンスを直接返す場合に使用されます。
-	/// </summary>
-	public class SimpleComponentDef : IComponentDef
-	{
-		private object component_;
-		private Type componentType_;
-		private string componentName_;
-		private IS2Container container_;
-		private IDictionary proxies_ = new Hashtable();
+    /// <summary>
+    /// コンポーネントのインスタンスを直接返す場合に使用されます。
+    /// </summary>
+    public class SimpleComponentDef : IComponentDef
+    {
+        private readonly object _component;
+        private readonly Type _componentType;
+        private readonly string _componentName;
+        private IS2Container _container;
+        private readonly IDictionary _proxies = new Hashtable();
 
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		public SimpleComponentDef()
-		{
-		}
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public SimpleComponentDef()
+        {
+        }
 
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		/// <param name="componentType">コンポーネントのType</param>
-		public SimpleComponentDef(Type componentType) 
-			: this(null,componentType,null)
-		{
-		}
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="componentType">コンポーネントのType</param>
+        public SimpleComponentDef(Type componentType)
+            : this(null, componentType, null)
+        {
+        }
 
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		/// <param name="component">コンポーネント</param>
-		public SimpleComponentDef(object component) 
-			: this(component,component.GetType())
-		{
-		}
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="component">コンポーネント</param>
+        public SimpleComponentDef(object component)
+            : this(component, component.GetType())
+        {
+        }
 
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		/// <param name="component">コンポーネント</param>
-		/// <param name="componentType">コンポーネントのType</param>
-		public SimpleComponentDef(object component,Type componentType)
-			: this(component,componentType,null)
-		{
-		}
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="component">コンポーネント</param>
+        /// <param name="componentType">コンポーネントのType</param>
+        public SimpleComponentDef(object component, Type componentType)
+            : this(component, componentType, null)
+        {
+        }
 
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		/// <param name="component">コンポーネント</param>
-		/// <param name="componentName">コンポーネントの名前</param>
-		public SimpleComponentDef(object component,string componentName)
-			: this(component,component.GetType(),componentName)
-		{
-		}
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="component">コンポーネント</param>
+        /// <param name="componentName">コンポーネントの名前</param>
+        public SimpleComponentDef(object component, string componentName)
+            : this(component, component.GetType(), componentName)
+        {
+        }
 
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		/// <param name="component">コンポーネント</param>
-		/// <param name="componentType">コンポーネントのType</param>
-		/// <param name="componentName">コンポーネントの名前</param>
-		public SimpleComponentDef(object component, Type componentType,string componentName)
-		{
-			component_ = component;
-			componentType_ = componentType;
-			componentName_ = componentName;
-		}
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="component">コンポーネント</param>
+        /// <param name="componentType">コンポーネントのType</param>
+        /// <param name="componentName">コンポーネントの名前</param>
+        public SimpleComponentDef(object component, Type componentType, string componentName)
+        {
+            _component = component;
+            _componentType = componentType;
+            _componentName = componentName;
+        }
 
-		#region ComponentDef メンバ
+        #region ComponentDef メンバ
 
-		public virtual object GetComponent()
-		{
-			return component_;
-		}
+        public virtual object GetComponent()
+        {
+            return _component;
+        }
 
-		public virtual object GetComponent(Type receiveType)
-		{
-			return component_;
-		}
+        public virtual object GetComponent(Type receiveType)
+        {
+            return _component;
+        }
 
-		public void InjectDependency(Object outerComponent)
-		{
-			
-			throw new NotSupportedException("InjectDependency");
-		}
+        public void InjectDependency(object outerComponent)
+        {
+            throw new NotSupportedException("InjectDependency");
+        }
 
-		public IS2Container Container
-		{
-			get
-			{
-				
-				return container_;
-			}
-			set
-			{
-				
-				container_ = value;
-			}
-		}
+        public IS2Container Container
+        {
+            get
+            {
+                return _container;
+            }
+            set
+            {
+                _container = value;
+            }
+        }
 
-		public Type ComponentType
-		{
-			get
-			{
-				
-				return componentType_;
-			}
-		}
+        public Type ComponentType
+        {
+            get
+            {
+                return _componentType;
+            }
+        }
 
-		public string ComponentName
-		{
-			get
-			{
-				
-				return componentName_;
-			}
-		}
+        public string ComponentName
+        {
+            get
+            {
+                return _componentName;
+            }
+        }
 
-		public string AutoBindingMode
-		{
-			get
-			{
-				
-				throw new NotSupportedException("AutoBindingMode");
-			}
-			set
-			{
-				
-				throw new NotSupportedException("AutoBindingMode");
-			}
-		}
+        public string AutoBindingMode
+        {
+            get
+            {
+                throw new NotSupportedException("AutoBindingMode");
+            }
+            set
+            {
+                throw new NotSupportedException("AutoBindingMode");
+            }
+        }
 
-		public string InstanceMode
-		{
-			get
-			{
-				
-				throw new NotSupportedException("InstanceMode");
-			}
-			set
-			{
-				
-				throw new NotSupportedException("InstanceMode");
-			}
-		}
+        public string InstanceMode
+        {
+            get
+            {
+                throw new NotSupportedException("InstanceMode");
+            }
+            set
+            {
+                throw new NotSupportedException("InstanceMode");
+            }
+        }
 
-		public string Expression
-		{
-			get
-			{
-				
-				throw new NotSupportedException("Expression");
-			}
-			set
-			{
-				
-				throw new NotSupportedException("Expression");
-			}
-		}
+        public string Expression
+        {
+            get
+            {
+                throw new NotSupportedException("Expression");
+            }
+            set
+            {
+                throw new NotSupportedException("Expression");
+            }
+        }
 
-		public void Init()
-		{
-			
-		}
+        public void Init()
+        {
+        }
 
-		public void Destroy()
-		{
-		}
+        public void Destroy()
+        {
+        }
 
-		public object GetProxy(Type proxyType)
-		{
-			return proxies_[proxyType];
-		}
+        public object GetProxy(Type proxyType)
+        {
+            return _proxies[proxyType];
+        }
 
-		public void AddProxy(Type proxyType, object proxy)
-		{
-			proxies_[proxyType] = proxy;
-		}
+        public void AddProxy(Type proxyType, object proxy)
+        {
+            _proxies[proxyType] = proxy;
+        }
 
-		#endregion
+        #endregion
 
-		#region IArgDefAware メンバ
+        #region IArgDefAware メンバ
 
-		public void AddArgDef(IArgDef argDef)
-		{
-			
-			throw new NotSupportedException("AddArgDef");
-		}
+        public void AddArgDef(IArgDef argDef)
+        {
+            throw new NotSupportedException("AddArgDef");
+        }
 
-		public int ArgDefSize
-		{
-			get
-			{
-				
-				throw new NotSupportedException("ArgDefSize");
-			}
-		}
+        public int ArgDefSize
+        {
+            get
+            {
+                throw new NotSupportedException("ArgDefSize");
+            }
+        }
 
-		public IArgDef GetArgDef(int index)
-		{
-			
-			throw new NotSupportedException("GetArgDef");
-		}
+        public IArgDef GetArgDef(int index)
+        {
+            throw new NotSupportedException("GetArgDef");
+        }
 
-		#endregion
+        #endregion
 
-		#region IPropertyDefAware メンバ
+        #region IPropertyDefAware メンバ
 
-		public void AddPropertyDef(IPropertyDef propertyDef)
-		{
-			
-			throw new NotSupportedException("AddPropertyDef");
-		}
+        public void AddPropertyDef(IPropertyDef propertyDef)
+        {
+            throw new NotSupportedException("AddPropertyDef");
+        }
 
-		public int PropertyDefSize
-		{
-			get
-			{
-				
-				throw new NotSupportedException("PropertyDefSize");
-			}
-		}
+        public int PropertyDefSize
+        {
+            get
+            {
+                throw new NotSupportedException("PropertyDefSize");
+            }
+        }
 
-		public IPropertyDef GetPropertyDef(int index)
-		{
-			
-			throw new NotSupportedException("GetPropertyDef");
-		}
+        public IPropertyDef GetPropertyDef(int index)
+        {
+            throw new NotSupportedException("GetPropertyDef");
+        }
 
-		public IPropertyDef GetPropertyDef(string propertyName)
-		{
-			
-			throw new NotSupportedException("GetPropertyDef");
-		}
+        public IPropertyDef GetPropertyDef(string propertyName)
+        {
+            throw new NotSupportedException("GetPropertyDef");
+        }
 
-		public bool HasPropertyDef(string propertyName)
-		{
-			
-			throw new NotSupportedException("HasPropertyDef");
-		}
+        public bool HasPropertyDef(string propertyName)
+        {
+            throw new NotSupportedException("HasPropertyDef");
+        }
 
-		#endregion
+        #endregion
 
-		#region IInitMethodDefAware メンバ
+        #region IInitMethodDefAware メンバ
 
-		public void AddInitMethodDef(IInitMethodDef methodDef)
-		{
-			
-			throw new NotSupportedException("AddInitMethodDef");
-		}
+        public void AddInitMethodDef(IInitMethodDef methodDef)
+        {
+            throw new NotSupportedException("AddInitMethodDef");
+        }
 
-		public int InitMethodDefSize
-		{
-			get
-			{
-				
-				throw new NotSupportedException("InitMethodDefSize");
-			}
-		}
+        public int InitMethodDefSize
+        {
+            get
+            {
+                throw new NotSupportedException("InitMethodDefSize");
+            }
+        }
 
-		public IInitMethodDef GetInitMethodDef(int index)
-		{
-			
-			throw new NotSupportedException("GetInitMethodDef");
-		}
+        public IInitMethodDef GetInitMethodDef(int index)
+        {
+            throw new NotSupportedException("GetInitMethodDef");
+        }
 
-		#endregion
+        #endregion
 
-		#region IDestroyMethodDefAware メンバ
+        #region IDestroyMethodDefAware メンバ
 
-		public void AddDestroyMethodDef(IDestroyMethodDef methodDef)
-		{
-			
-			throw new NotSupportedException("AddDestroyMethodDef");
-		}
+        public void AddDestroyMethodDef(IDestroyMethodDef methodDef)
+        {
+            throw new NotSupportedException("AddDestroyMethodDef");
+        }
 
-		public int DestroyMethodDefSize
-		{
-			get
-			{
-				
-				throw new NotSupportedException("DestroyMethodDefSize");
-			}
-		}
+        public int DestroyMethodDefSize
+        {
+            get
+            {
+                throw new NotSupportedException("DestroyMethodDefSize");
+            }
+        }
 
-		public IDestroyMethodDef GetDestroyMethodDef(int index)
-		{
-			
-			throw new NotSupportedException("GetDestroyMethodDef");
-		}
+        public IDestroyMethodDef GetDestroyMethodDef(int index)
+        {
 
-		public IDestroyMethodDef[] GetDestroyMethodDefs()
-		{
-			throw new NotSupportedException("GetDestroyMethodDefs");
-		}
+            throw new NotSupportedException("GetDestroyMethodDef");
+        }
 
-		#endregion
+        public IDestroyMethodDef[] GetDestroyMethodDefs()
+        {
+            throw new NotSupportedException("GetDestroyMethodDefs");
+        }
 
-		#region IAspectDefAware メンバ
+        #endregion
 
-		public void AddAspeceDef(IAspectDef aspectDef)
-		{
-			
-			throw new NotSupportedException("AddAspectDef");
-		}
+        #region IAspectDefAware メンバ
 
-		public int AspectDefSize
-		{
-			get
-			{
-				
-				throw new NotSupportedException("AspectDefSize");
-			}
-		}
+        public void AddAspeceDef(IAspectDef aspectDef)
+        {
+            throw new NotSupportedException("AddAspectDef");
+        }
 
-		public IAspectDef GetAspectDef(int index)
-		{
-			
-			throw new NotSupportedException("GetAspectDef");
-		}
+        public int AspectDefSize
+        {
+            get
+            {
+                throw new NotSupportedException("AspectDefSize");
+            }
+        }
 
-		#endregion
+        public IAspectDef GetAspectDef(int index)
+        {
+            throw new NotSupportedException("GetAspectDef");
+        }
 
-		#region IMetaDefAware メンバ
+        #endregion
 
-		public void AddMetaDef(IMetaDef metaDef)
-		{
-			
-			throw new NotSupportedException("AddMetaDef");
-		}
+        #region IMetaDefAware メンバ
 
-		public int MetaDefSize
-		{
-			get
-			{
-				
-				throw new NotSupportedException("MetaDefSize");
-			}
-		}
+        public void AddMetaDef(IMetaDef metaDef)
+        {
+            throw new NotSupportedException("AddMetaDef");
+        }
 
-		public IMetaDef GetMetaDef(int index)
-		{
-			
-			throw new NotSupportedException("GetMetaDef");
-		}
+        public int MetaDefSize
+        {
+            get
+            {
+                throw new NotSupportedException("MetaDefSize");
+            }
+        }
 
-		public IMetaDef GetMetaDef(string name)
-		{
-			
-			throw new NotSupportedException("GetMethodDef");
-		}
+        public IMetaDef GetMetaDef(int index)
+        {
+            throw new NotSupportedException("GetMetaDef");
+        }
 
-		public IMetaDef[] GetMetaDefs(string name)
-		{
-			
-			throw new NotSupportedException("GetMetaDefs");
-		}
+        public IMetaDef GetMetaDef(string name)
+        {
+            throw new NotSupportedException("GetMethodDef");
+        }
 
-		#endregion
-	}
+        public IMetaDef[] GetMetaDefs(string name)
+        {
+            throw new NotSupportedException("GetMetaDefs");
+        }
+
+        #endregion
+    }
 }

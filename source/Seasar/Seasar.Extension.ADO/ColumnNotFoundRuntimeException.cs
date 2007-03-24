@@ -22,43 +22,41 @@ using Seasar.Framework.Exceptions;
 
 namespace Seasar.Extension.ADO
 {
-	[Serializable]
+    [Serializable]
     public class ColumnNotFoundRuntimeException : SRuntimeException
     {
-        private string tableName;
-        private string columnName;
+        private readonly string _tableName;
+        private readonly string _columnName;
 
         public ColumnNotFoundRuntimeException(string tableName, string columnName)
             : base("ESSR0068", new object[] { tableName, columnName })
         {
-            this.tableName = tableName;
-            this.columnName = columnName;
+            this._tableName = tableName;
+            this._columnName = columnName;
         }
-		
-		public ColumnNotFoundRuntimeException(SerializationInfo info, StreamingContext context) 
-			: base( info, context )
-		{
-			this.tableName = info.GetString("tableName");
-			this.columnName = info.GetString("columnName");
-		}
 
-		public override void GetObjectData( SerializationInfo info,
-			StreamingContext context )
-		{
-			info.AddValue("tableName", this.tableName, typeof(String));
-			info.AddValue("columnName", this.columnName, typeof(String));
+        public ColumnNotFoundRuntimeException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+            _tableName = info.GetString("_tableName");
+            _columnName = info.GetString("_columnName");
+        }
 
-			base.GetObjectData(info, context);
-		}
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("_tableName", _tableName, typeof(string));
+            info.AddValue("_columnName", _columnName, typeof(string));
+            base.GetObjectData(info, context);
+        }
 
         public string TableName
         {
-            get { return tableName; }
+            get { return _tableName; }
         }
 
         public string ColumnName
         {
-            get { return columnName; }
+            get { return _columnName; }
         }
     }
 }

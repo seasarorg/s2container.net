@@ -33,67 +33,64 @@ using log4net.Util;
 
 namespace Seasar.Tests.Framework.Container.Assembler
 {
-	/// <summary>
-	/// ManualConstructorAssemblerTest ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	[TestFixture]
-	public class ManualConstructorAssemblerTest
-	{
-		[SetUp]
-		public void SetUp()
-		{
-			FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
-				Assembly.GetExecutingAssembly()) + ".config");
-			XmlConfigurator.Configure(LogManager.GetRepository(), info);
-		}
+    [TestFixture]
+    public class ManualConstructorAssemblerTest
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
+                Assembly.GetExecutingAssembly()) + ".config");
+            XmlConfigurator.Configure(LogManager.GetRepository(), info);
+        }
 
-		[Test]
-		public void TestAssemble()
-		{
-			IS2Container container = new S2ContainerImpl();
-			ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
-			IArgDef argDef = new ArgDefImpl(new B());
-			cd.AddArgDef(argDef);
-			container.Register(cd);
-			IConstructorAssembler assembler = new ManualConstructorAssembler(cd);
-			A a = (A) assembler.Assemble();
-			Assert.AreEqual("B", a.HogeName);
-		}
+        [Test]
+        public void TestAssemble()
+        {
+            IS2Container container = new S2ContainerImpl();
+            ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+            IArgDef argDef = new ArgDefImpl(new B());
+            cd.AddArgDef(argDef);
+            container.Register(cd);
+            IConstructorAssembler assembler = new ManualConstructorAssembler(cd);
+            A a = (A) assembler.Assemble();
+            Assert.AreEqual("B", a.HogeName);
+        }
 
-		[Test]
-		public void TestAssembleAspect()
-		{
-			IS2Container container = new S2ContainerImpl();
-			ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
-			cd.AddAspeceDef(new AspectDefImpl(new TraceInterceptor()));
-			IArgDef argDef = new ArgDefImpl(new B());
-			cd.AddArgDef(argDef);
-			container.Register(cd);
-			IConstructorAssembler assembler = new ManualConstructorAssembler(cd);
-			A a = (A) assembler.Assemble();
-			Assert.AreEqual("B",a.HogeName);
-		}
+        [Test]
+        public void TestAssembleAspect()
+        {
+            IS2Container container = new S2ContainerImpl();
+            ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+            cd.AddAspeceDef(new AspectDefImpl(new TraceInterceptor()));
+            IArgDef argDef = new ArgDefImpl(new B());
+            cd.AddArgDef(argDef);
+            container.Register(cd);
+            IConstructorAssembler assembler = new ManualConstructorAssembler(cd);
+            A a = (A) assembler.Assemble();
+            Assert.AreEqual("B", a.HogeName);
+        }
 
-		[Test]
-		public void TestAssembleIllegalConstructorArgument()
-		{
-			IS2Container container = new S2ContainerImpl();
-			ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
-			IArgDef argDef = new ArgDefImpl();
-			argDef.Expression = "hoge";
-			cd.AddArgDef(argDef);
-			container.Register(cd);
-			IConstructorAssembler assembler = new ManualConstructorAssembler(cd);
-			try
-			{
-				assembler.Assemble();
-				Assert.Fail();
-			}
-			catch(JScriptEvaluateRuntimeException ex)
-			{
-				Trace.WriteLine(ex);
-			}
-		}
+        [Test]
+        public void TestAssembleIllegalConstructorArgument()
+        {
+            IS2Container container = new S2ContainerImpl();
+            ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+            IArgDef argDef = new ArgDefImpl();
+            argDef.Expression = "hoge";
+            cd.AddArgDef(argDef);
+            container.Register(cd);
+            IConstructorAssembler assembler = new ManualConstructorAssembler(cd);
+            try
+            {
+                assembler.Assemble();
+                Assert.Fail();
+            }
+            catch (JScriptEvaluateRuntimeException ex)
+            {
+                Trace.WriteLine(ex);
+            }
+        }
 
         [Test]
         public void TestAssembleWithAspect()
@@ -109,55 +106,47 @@ namespace Seasar.Tests.Framework.Container.Assembler
             cdB.AddAspeceDef(ad);
             container.Register(cdB);
             IConstructorAssembler assembler = new ManualConstructorAssembler(cd);
-            A a = (A)assembler.Assemble();
+            A a = (A) assembler.Assemble();
             Assert.AreEqual("B", a.HogeName, "1");
             Assert.IsTrue(RemotingServices.IsTransparentProxy(a.Hoge), "2");
         }
 
-		public interface IFoo
-		{
-			string HogeName { get; }
-		}
+        public interface IFoo
+        {
+            string HogeName { get; }
+        }
 
-		public class A : MarshalByRefObject, IFoo
-		{
-			private IHoge hoge_;
+        public class A : MarshalByRefObject, IFoo
+        {
+            private readonly IHoge _hoge;
 
-			public A(IHoge hoge)
-			{
-				hoge_ = hoge;
-			}
+            public A(IHoge hoge)
+            {
+                _hoge = hoge;
+            }
 
-			public IHoge Hoge
-			{
-				get { return hoge_; }
-			}
+            public IHoge Hoge
+            {
+                get { return _hoge; }
+            }
 
-			public string HogeName
-			{
-				get
-				{
-					return hoge_.Name;
-				}
-			}
-		}
+            public string HogeName
+            {
+                get { return _hoge.Name; }
+            }
+        }
 
-		public interface IHoge
-		{
-			string Name { get; }
-		}
+        public interface IHoge
+        {
+            string Name { get; }
+        }
 
-		public class B : IHoge
-		{
-			public string Name
-			{
-				get
-				{
-					return "B";
-				}
-			}
-		}
-
-
-	}
+        public class B : IHoge
+        {
+            public string Name
+            {
+                get { return "B"; }
+            }
+        }
+    }
 }

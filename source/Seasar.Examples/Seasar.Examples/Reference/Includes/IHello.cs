@@ -18,12 +18,8 @@
 
 namespace Seasar.Examples.Reference.Includes
 {
-	public interface IHello
-	{
-		string Message 
-		{
-			get;
-			set;
-		}
-	}
+    public interface IHello
+    {
+        string Message { get; set; }
+    }
 }

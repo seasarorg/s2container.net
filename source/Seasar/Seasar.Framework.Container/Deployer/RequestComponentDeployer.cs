@@ -17,51 +17,47 @@
 #endregion
 
 using System;
+using System.Reflection;
 using System.Web;
-using Seasar.Framework.Container;
-using Seasar.Framework.Container.Util;
 using Seasar.Framework.Exceptions;
 using Seasar.Framework.Log;
 using Seasar.Framework.Util;
 
 namespace Seasar.Framework.Container.Deployer
 {
-	/// <summary>
-	/// RequestComponentDeployer ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public class RequestComponentDeployer : AbstractComponentDeployer
-	{
-		private static Logger logger_ = Logger.GetLogger(typeof(RequestComponentDeployer));
+    public class RequestComponentDeployer : AbstractComponentDeployer
+    {
+        private static readonly Logger _logger = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-		public RequestComponentDeployer(IComponentDef componentDef)
-			: base(componentDef)
-		{
-		}
+        public RequestComponentDeployer(IComponentDef componentDef)
+            : base(componentDef)
+        {
+        }
 
-		public override object Deploy(Type receiveType)
-		{
-			IComponentDef cd = this.ComponentDef;
-			HttpContext context = cd.Container.Root.HttpContext;
-			if(context == null)
-			{
-				ApplicationException ae = new EmptyRuntimeException("HttpContext");
-				logger_.Log(ae);
-				throw ae;
-			}
-			string componentName = cd.ComponentName;
-			if(componentName == null)
-			{
-				componentName = cd.ComponentType.Name;
-				componentName = StringUtil.Decapitalize(componentName);
-			}
-			object component = context.Items[componentName];
+        public override object Deploy(Type receiveType)
+        {
+            IComponentDef cd = ComponentDef;
+            HttpContext context = cd.Container.Root.HttpContext;
+            if (context == null)
+            {
+                ApplicationException ae = new EmptyRuntimeException("HttpContext");
+                _logger.Log(ae);
+                throw ae;
+            }
+            string componentName = cd.ComponentName;
+            if (componentName == null)
+            {
+                componentName = cd.ComponentType.Name;
+                componentName = StringUtil.Decapitalize(componentName);
+            }
+            object component = context.Items[componentName];
 
             if (component != null)
             {
                 return component;
             }
 
-			component = this.ConstructorAssembler.Assemble();
+            component = ConstructorAssembler.Assemble();
 
             object proxy = GetProxy(receiveType);
 
@@ -74,8 +70,8 @@ namespace Seasar.Framework.Container.Deployer
                 context.Items[componentName] = proxy;
             }
 
-			this.PropertyAssembler.Assemble(component);
-			this.InitMethodAssembler.Assemble(component);
+            PropertyAssembler.Assemble(component);
+            InitMethodAssembler.Assemble(component);
 
             if (proxy == null)
             {
@@ -85,20 +81,19 @@ namespace Seasar.Framework.Container.Deployer
             {
                 return proxy;
             }
-		}
+        }
 
-		public override void InjectDependency(object component)
-		{
-			throw new NotSupportedException("InjectDependency");
-		}
+        public override void InjectDependency(object component)
+        {
+            throw new NotSupportedException("InjectDependency");
+        }
 
-		public override void Init()
-		{
-		}
+        public override void Init()
+        {
+        }
 
-		public override void Destroy()
-		{
-		}
-
-	}
+        public override void Destroy()
+        {
+        }
+    }
 }

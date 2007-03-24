@@ -21,78 +21,78 @@ using System.Text;
 
 namespace Seasar.Examples.Reference.S2Unit
 {
-	[Serializable]
-	public class Employee
-	{
-		private long empno;
-		private string ename;
-		private short deptno;
-		private string dname;
+    [Serializable]
+    public class Employee
+    {
+        private long _empno;
+        private string _ename;
+        private short _deptno;
+        private string _dname;
 
-		public Employee() { }
+        public Employee() { }
 
-		public Employee(long empno)
-		{
-			this.empno = empno;
-		}
+        public Employee(long empno)
+        {
+            _empno = empno;
+        }
 
-		public Employee(
-			long empno,
-			string ename,
-			short deptno,
-			string dname
-		)
-		{
-			this.empno = empno;
-			this.ename = ename;
-			this.deptno = deptno;
-			this.dname = dname;
-		}
+        public Employee(
+            long empno,
+            string ename,
+            short deptno,
+            string dname
+        )
+        {
+            _empno = empno;
+            _ename = ename;
+            _deptno = deptno;
+            _dname = dname;
+        }
 
-		public long Empno
-		{
-			get { return empno; }
-			set { empno = value; }
-		}
+        public long Empno
+        {
+            get { return _empno; }
+            set { _empno = value; }
+        }
 
-		public string Ename
-		{
-			get { return ename; }
-			set { ename = value; }
-		}
+        public string Ename
+        {
+            get { return _ename; }
+            set { _ename = value; }
+        }
 
-		public short Deptno
-		{
-			get { return deptno; }
-			set { deptno = value; }
-		}
+        public short Deptno
+        {
+            get { return _deptno; }
+            set { _deptno = value; }
+        }
 
-		public string Dname
-		{
-			get { return dname; }
-			set { dname = value; }
-		}
+        public string Dname
+        {
+            get { return _dname; }
+            set { _dname = value; }
+        }
 
-		public override bool Equals(object other)
-		{
-			if (!(other is Employee)) return false;
-			Employee castOther = (Employee) other;
-			return this.Empno == castOther.Empno;
-		}
+        public override bool Equals(object other)
+        {
+            if (!(other is Employee)) return false;
+            Employee castOther = (Employee) other;
+            return Empno == castOther.Empno;
+        }
 
-		public override int GetHashCode()
-		{
-			return (int) this.Empno;
-		}
+        public override int GetHashCode()
+        {
+            return (int) Empno;
+        }
 
-		public override string ToString()
-		{
-			StringBuilder buf = new StringBuilder();
-			buf.Append(empno).Append(", ");
-			buf.Append(ename).Append(", ");
-			buf.Append(deptno).Append(", ");
-			buf.Append(dname);
-			return buf.ToString();
-		}
-	}
+        public override string ToString()
+        {
+            StringBuilder buf = new StringBuilder();
+            buf.Append(_empno).Append(", ");
+            buf.Append(_ename).Append(", ");
+            buf.Append(_deptno).Append(", ");
+            buf.Append(_dname);
+            return buf.ToString();
+        }
+    }
 }

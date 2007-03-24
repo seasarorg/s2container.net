@@ -16,22 +16,17 @@
  */
 #endregion
 
-using System;
-
 namespace Seasar.Framework.Container.Assembler
 {
-	/// <summary>
-	/// DefaultPropertyAssembler ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public class DefaultPropertyAssembler : AbstractPropertyAssembler
-	{
-		public DefaultPropertyAssembler(IComponentDef componentDef)
-			: base(componentDef)
-		{
-		}
+    public class DefaultPropertyAssembler : AbstractPropertyAssembler
+    {
+        public DefaultPropertyAssembler(IComponentDef componentDef)
+            : base(componentDef)
+        {
+        }
 
-		public override void Assemble(object component)
-		{
-		}
-	}
+        public override void Assemble(object component)
+        {
+        }
+    }
 }

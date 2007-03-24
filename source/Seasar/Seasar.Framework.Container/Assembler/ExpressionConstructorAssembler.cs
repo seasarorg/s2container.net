@@ -21,34 +21,31 @@ using Seasar.Framework.Util;
 
 namespace Seasar.Framework.Container.Assembler
 {
-	/// <summary>
-	/// ExpressionConstructorAssembler ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public sealed class ExpressionConstructorAssembler : AbstractConstructorAssembler
-	{
-		public ExpressionConstructorAssembler(IComponentDef componentDef)
-			: base(componentDef)
-		{
-		}
+    public sealed class ExpressionConstructorAssembler : AbstractConstructorAssembler
+    {
+        public ExpressionConstructorAssembler(IComponentDef componentDef)
+            : base(componentDef)
+        {
+        }
 
-		public override object Assemble()
-		{
-			IComponentDef cd = this.ComponentDef;
-			IS2Container container = cd.Container;
-			string expression = cd.Expression;
-			Type componentType = cd.ComponentType;
-			object component = JScriptUtil.Evaluate(expression,container);
-			if(componentType != null)
-			{
-				if(component is DBNull || 
-					!componentType.IsAssignableFrom(component.GetType()))
-				{
-					throw new TypeUnmatchRuntimeException(componentType,
-						component != null ? component.GetType() : null);
-				}
-			}
-			return component;
-		}
+        public override object Assemble()
+        {
+            IComponentDef cd = ComponentDef;
+            IS2Container container = cd.Container;
+            string expression = cd.Expression;
+            Type componentType = cd.ComponentType;
+            object component = JScriptUtil.Evaluate(expression, container);
+            if (componentType != null)
+            {
+                if (component is DBNull ||
+                    !componentType.IsAssignableFrom(component.GetType()))
+                {
+                    throw new TypeUnmatchRuntimeException(componentType,
+                        component != null ? component.GetType() : null);
+                }
+            }
+            return component;
+        }
 
-	}
+    }
 }

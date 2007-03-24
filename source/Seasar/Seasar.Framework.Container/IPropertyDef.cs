@@ -16,18 +16,16 @@
  */
 #endregion
 
-using System;
-
 namespace Seasar.Framework.Container
 {
-	/// <summary>
-	/// プロパティを定義します。
-	/// </summary>
-	public interface IPropertyDef : IArgDef
-	{
-		/// <summary>
-		/// プロパティの名前
-		/// </summary>
-		string PropertyName{get;}
-	}
+    /// <summary>
+    /// プロパティを定義します。
+    /// </summary>
+    public interface IPropertyDef : IArgDef
+    {
+        /// <summary>
+        /// プロパティの名前
+        /// </summary>
+        string PropertyName { get; }
+    }
 }

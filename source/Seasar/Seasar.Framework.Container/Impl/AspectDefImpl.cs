@@ -16,56 +16,52 @@
  */
 #endregion
 
-using System;
 using Seasar.Framework.Aop;
 using Seasar.Framework.Aop.Impl;
 
 namespace Seasar.Framework.Container.Impl
 {
-	/// <summary>
-	/// Aspectを定義します
-	/// </summary>
-	public class AspectDefImpl : ArgDefImpl, IAspectDef
-	{
-		private IPointcut pointcut_;
+    /// <summary>
+    /// Aspectを定義します
+    /// </summary>
+    public class AspectDefImpl : ArgDefImpl, IAspectDef
+    {
+        private readonly IPointcut pointcut;
 
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		public AspectDefImpl()
-		{
-		}
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public AspectDefImpl()
+        {
+        }
 
-		public AspectDefImpl(IPointcut pointcut)
-		{
-			pointcut_ = pointcut;
-		}
+        public AspectDefImpl(IPointcut pointcut)
+        {
+            this.pointcut = pointcut;
+        }
 
-		public AspectDefImpl(IMethodInterceptor interceptor)
-		{
-			this.Value = interceptor;
-		}
+        public AspectDefImpl(IMethodInterceptor interceptor)
+        {
+            Value = interceptor;
+        }
 
-		public AspectDefImpl(IMethodInterceptor interceptor,IPointcut pointcut)
-		{
-			this.Value = interceptor;
-			pointcut_ = pointcut;
-		}
+        public AspectDefImpl(IMethodInterceptor interceptor, IPointcut pointcut)
+        {
+            Value = interceptor;
+            this.pointcut = pointcut;
+        }
 
-		#region AspectDef メンバ
+        #region AspectDef メンバ
 
-		public IAspect Aspect
-		{
-			get
-			{
-				
-				IMethodInterceptor interceptor = (IMethodInterceptor) this.Value;
-				return new AspectImpl(interceptor,pointcut_);
-			}
-		}
+        public IAspect Aspect
+        {
+            get
+            {
+                IMethodInterceptor interceptor = (IMethodInterceptor) Value;
+                return new AspectImpl(interceptor, pointcut);
+            }
+        }
 
-		#endregion
-
-
-	}
+        #endregion
+    }
 }

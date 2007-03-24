@@ -27,41 +27,38 @@ using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Extension.DataSets.Impl
 {
-	[TestFixture]
-	public class XlsWriterTest : S2TestCase
-	{
-		private const string PATH = "Seasar.Tests.Extension.DataSets.Impl.XlsReaderImplTest.xls";
+    [TestFixture]
+    public class XlsWriterTest : S2TestCase
+    {
+        private const string PATH = "Seasar.Tests.Extension.DataSets.Impl.XlsReaderImplTest.xls";
+        private string _path2;
+        private DataSet _dataSet;
+        private IDataWriter _writer;
 
-		private string path2_;
+        [SetUp]
+        public void SetUp()
+        {
+            using (Stream stream = ResourceUtil.GetResourceAsStream(PATH, Assembly.GetExecutingAssembly()))
+            {
+                _dataSet = new XlsReader(stream).Read();
+            }
+            _path2 = Path.Combine(Path.GetTempPath(), "XlsWriterImplTest.xls");
+            _writer = new XlsWriter(_path2);
+        }
 
-		private DataSet dataSet_;
+        [TearDown]
+        public void TearDown()
+        {
+            if (File.Exists(_path2))
+            {
+                File.Delete(_path2);
+            }
+        }
 
-		private IDataWriter writer_;
-
-		[SetUp]
-		public void SetUp() 
-		{
-			using (Stream stream = ResourceUtil.GetResourceAsStream(PATH, Assembly.GetExecutingAssembly()))  
-			{
-				dataSet_ = new XlsReader(stream).Read();
-			}
-			path2_ = Path.Combine(Path.GetTempPath(), "XlsWriterImplTest.xls");
-			writer_ = new XlsWriter(path2_);
-		}
-
-		[TearDown]
-		public void TearDown() 
-		{
-			if (File.Exists(path2_)) 
-			{
-				File.Delete(path2_);
-			}
-		}
-
-		[Test]
-		public void TestWrite() 
-		{
-			writer_.Write(dataSet_);
-		}
-	}
+        [Test]
+        public void TestWrite()
+        {
+            _writer.Write(_dataSet);
+        }
+    }
 }

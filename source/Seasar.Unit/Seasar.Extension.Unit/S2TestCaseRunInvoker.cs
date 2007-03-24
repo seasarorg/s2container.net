@@ -16,27 +16,26 @@
  */
 #endregion
 
-using System;
 using System.Collections;
 using MbUnit.Core.Invokers;
 
 namespace Seasar.Extension.Unit
 {
-	public class S2TestCaseRunInvoker : DecoratorRunInvoker
-	{
-		private S2TestCaseRunner runner;
-		private Tx tx;
+    public class S2TestCaseRunInvoker : DecoratorRunInvoker
+    {
+        private readonly S2TestCaseRunner _runner;
+        private readonly Tx _tx;
 
-		public S2TestCaseRunInvoker(IRunInvoker invoker, Tx tx)
-			: base(invoker)
-		{
-			this.tx = tx;
-			runner = new S2TestCaseRunner();
-		}
+        public S2TestCaseRunInvoker(IRunInvoker invoker, Tx tx)
+            : base(invoker)
+        {
+            _tx = tx;
+            _runner = new S2TestCaseRunner();
+        }
 
-		public override object Execute(object o, IList args)
-		{
-			return runner.Run(this.Invoker, o, args, tx);
-		}
-	}
+        public override object Execute(object o, IList args)
+        {
+            return _runner.Run(Invoker, o, args, _tx);
+        }
+    }
 }

@@ -20,19 +20,16 @@ using System;
 
 namespace Seasar.Examples.Reference.Lifecycle
 {
-	public class Lifecycle
-	{
+    public class Lifecycle
+    {
+        public void Destroy()
+        {
+            Console.WriteLine("destroy is called !!");
+        }
 
-		public Lifecycle() {}
-
-		public void Destroy() 
-		{
-			Console.WriteLine("destroy is called !!");
-		}
-
-		public void Init()
-		{
-			Console.WriteLine("Init is called !!");
-		}
-	}
+        public void Init()
+        {
+            Console.WriteLine("Init is called !!");
+        }
+    }
 }

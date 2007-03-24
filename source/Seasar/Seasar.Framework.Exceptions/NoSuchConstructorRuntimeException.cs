@@ -22,48 +22,44 @@ using Seasar.Framework.Util;
 
 namespace Seasar.Framework.Exceptions
 {
-	/// <summary>
-	/// コンストラクタが見つからない場合の実行時例外です。
-	/// </summary>
-	[Serializable]
-	public class NoSuchConstructorRuntimeException : SRuntimeException
-	{
-		private Type targetType_;
-		private Type[] argTypes_;
+    /// <summary>
+    /// コンストラクタが見つからない場合の実行時例外です。
+    /// </summary>
+    [Serializable]
+    public class NoSuchConstructorRuntimeException : SRuntimeException
+    {
+        private readonly Type _targetType;
+        private readonly Type[] _argTypes;
 
-		public NoSuchConstructorRuntimeException(
-			Type targetType,Type[] argTypes)
-			: base("ESSR0064",new object[] { targetType.FullName,
-											   MethodUtil.GetSignature(targetType.Name,argTypes)})
-		{
-			targetType_ = targetType;
-			argTypes_ = argTypes;
-		}
+        public NoSuchConstructorRuntimeException(Type targetType, Type[] argTypes)
+            : base("ESSR0064", new object[] { targetType.FullName, MethodUtil.GetSignature(targetType.Name, argTypes) })
+        {
+            _targetType = targetType;
+            _argTypes = argTypes;
+        }
 
-		public NoSuchConstructorRuntimeException(SerializationInfo info, StreamingContext context) 
-			: base( info, context )
-		{
-			this.targetType_ = info.GetValue("targetType_", typeof(Type)) as Type;
-			this.argTypes_ = info.GetValue("argTypes_", typeof(Type[])) as Type[];
-		}
+        public NoSuchConstructorRuntimeException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+            _targetType = info.GetValue("_targetType", typeof(Type)) as Type;
+            _argTypes = info.GetValue("_argTypes", typeof(Type[])) as Type[];
+        }
 
-		public override void GetObjectData( SerializationInfo info,
-			StreamingContext context )
-		{
-			info.AddValue("targetType_", this.targetType_, typeof(Type));
-			info.AddValue("argTypes_", this.argTypes_, typeof(Type[]));
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("_targetType", _targetType, typeof(Type));
+            info.AddValue("_argTypes", _argTypes, typeof(Type[]));
+            base.GetObjectData(info, context);
+        }
 
-			base.GetObjectData(info, context);
-		}
+        public Type TargetType
+        {
+            get { return _targetType; }
+        }
 
-		public Type TargetType
-		{
-			get { return targetType_; }
-		}
-
-		public Type[] ArgTypes
-		{
-			get { return argTypes_; }
-		}
-	}
+        public Type[] ArgTypes
+        {
+            get { return _argTypes; }
+        }
+    }
 }

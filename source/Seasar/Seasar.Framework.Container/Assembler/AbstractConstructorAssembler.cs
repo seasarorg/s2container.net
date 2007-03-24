@@ -23,33 +23,29 @@ using Seasar.Framework.Container.Util;
 
 namespace Seasar.Framework.Container.Assembler
 {
-	/// <summary>
-	/// AbstractConstructorAssembler の概要の説明です。
-	/// </summary>
-	public abstract class AbstractConstructorAssembler : AbstractAssembler,
-		IConstructorAssembler
-	{
-		public AbstractConstructorAssembler(IComponentDef componentDef)
-			: base(componentDef)
-		{
-		}
+    public abstract class AbstractConstructorAssembler : AbstractAssembler,
+        IConstructorAssembler
+    {
+        public AbstractConstructorAssembler(IComponentDef componentDef)
+            : base(componentDef)
+        {
+        }
 
-		protected object AssembleDefault()
-		{
-			Type type = this.ComponentDef.ComponentType;
-			ConstructorInfo constructor = ClassUtil.GetConstructorInfo(type,null);
-			object obj = AopProxyUtil.WeaveAspect(this.ComponentDef, constructor, new object[] { });
-			return obj;
-		}
+        protected object AssembleDefault()
+        {
+            Type type = ComponentDef.ComponentType;
+            ConstructorInfo constructor = ClassUtil.GetConstructorInfo(type, null);
+            object obj = AopProxyUtil.WeaveAspect(ComponentDef, constructor, new object[] { });
+            return obj;
+        }
 
-		#region ConstructorAssembler メンバ
+        #region ConstructorAssembler メンバ
 
-		public virtual object Assemble()
-		{
-			
-			return null;
-		}
+        public virtual object Assemble()
+        {
+            return null;
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

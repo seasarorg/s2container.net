@@ -17,178 +17,179 @@
 #endregion
 
 using System;
-using System.Reflection;
 using System.Collections;
-using System.Runtime.Remoting.Proxies;
+using System.Reflection;
 using System.Runtime.Remoting.Messaging;
+using System.Runtime.Remoting.Proxies;
 using Seasar.Framework.Aop.Impl;
 using Seasar.Framework.Util;
-using System.Runtime.Remoting;
 
 namespace Seasar.Framework.Aop.Proxy
 {
-	/// <summary>
-	/// AopProxy
-	/// </summary>
-	/// <remarks>
-	/// 透過的プロクシによってAOPを実現しています。
-	/// </remarks>
-	[Serializable]
-	public sealed class AopProxy : RealProxy
-	{
-		/// <summary>
-		/// 透過的プロクシを作成するインスタンス
-		/// </summary>
-		private object target_;
+    /// <summary>
+    /// AopProxy
+    /// </summary>
+    /// <remarks>
+    /// 透過的プロクシによってAOPを実現しています。
+    /// </remarks>
+    [Serializable]
+    public sealed class AopProxy : RealProxy
+    {
+        /// <summary>
+        /// 透過的プロクシを作成するインスタンス
+        /// </summary>
+        private object _target;
 
-		/// <summary>
-		/// 適用するAspect
-		/// </summary>
-		private IAspect[] aspects_;
+        /// <summary>
+        /// 適用するAspect
+        /// </summary>
+        private readonly IAspect[] _aspects;
 
-		/// <summary>
-		/// 透過的プロクシを作成する型
-		/// </summary>
-		private Type type_;
+        /// <summary>
+        /// 透過的プロクシを作成する型
+        /// </summary>
+        private readonly Type _type;
 
-		/// <summary>
-		/// メソッドとそのクラスのインスタンスが属するS2コンテナに関する情報
-		/// </summary>
-		private Hashtable parameters_;
+        /// <summary>
+        /// メソッドとそのクラスのインスタンスが属するS2コンテナに関する情報
+        /// </summary>
+        private readonly Hashtable _parameters;
 
-		public Type TargetType
-		{
-			get { return type_; }
-		}
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		/// <param name="type">Aspectされるターゲットの型のType</param>
-		/// <param name="aspects">適応するAspect</param>
-		/// <param name="parameters">パラメータ</param>
-		/// <param name="target">Aspectされるターゲット</param>
-		public AopProxy(Type type,IAspect[] aspects,Hashtable parameters, object target) : base(type) 
-		{
-			type_       = type;
-			target_     = target;
-			aspects_    = aspects;
-			parameters_ = parameters;
-		}
+        public Type TargetType
+        {
+            get { return _type; }
+        }
 
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		/// <param name="type">Aspectされるターゲットの型のType</param>
-		/// <param name="aspects">適応するAspect</param>
-		/// <param name="parameters">パラメータ</param>
-		public AopProxy(Type type,IAspect[] aspects,Hashtable parameters)
-			: this(type,aspects,parameters,null)
-		{
-		}
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="type">Aspectされるターゲットの型のType</param>
+        /// <param name="aspects">適応するAspect</param>
+        /// <param name="parameters">パラメータ</param>
+        /// <param name="target">Aspectされるターゲット</param>
+        public AopProxy(Type type, IAspect[] aspects, Hashtable parameters, object target)
+            : base(type)
+        {
+            _type = type;
+            _target = target;
+            _aspects = aspects;
+            _parameters = parameters;
+        }
 
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		/// <param name="type">Aspectされるターゲットの型のType</param>
-		/// <param name="aspects">適応するAspect</param>
-		public AopProxy(Type type,IAspect[] aspects)
-			: this(type,aspects,null)
-		{
-		}
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="type">Aspectされるターゲットの型のType</param>
+        /// <param name="aspects">適応するAspect</param>
+        /// <param name="parameters">パラメータ</param>
+        public AopProxy(Type type, IAspect[] aspects, Hashtable parameters)
+            : this(type, aspects, parameters, null)
+        {
+        }
 
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		/// <param name="type">Aspectされるターゲットの型のType</param>
-		public AopProxy(Type type)
-			: this(type,null)
-		{
-		}
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="type">Aspectされるターゲットの型のType</param>
+        /// <param name="aspects">適応するAspect</param>
+        public AopProxy(Type type, IAspect[] aspects)
+            : this(type, aspects, null)
+        {
+        }
 
-		/// <summary>
-		/// 透過的プロクシを返す
-		/// </summary>
-		/// <returns>透過的プロクシのインスタンス</returns>
-		public object Create()
-		{
-			return this.GetTransparentProxy();
-		}
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="type">Aspectされるターゲットの型のType</param>
+        public AopProxy(Type type)
+            : this(type, null)
+        {
+        }
 
-		/// <summary>
-		/// 透過的プロクシを返す
-		/// </summary>
-		/// <param name="argTypes">透過的プロクシの対象となるクラスのコンストラクタの引数の型のリスト</param>
-		/// <param name="args">透過的プロクシの対象となるクラスのコンストラクタの引数のリスト</param>
-		/// <returns>透過的プロクシのインスタンス</returns>
-		public object Create(Type[] argTypes,object[] args)
-		{
-			ConstructorInfo constructor = ClassUtil.GetConstructorInfo(type_,argTypes);
-			target_ = ConstructorUtil.NewInstance(constructor,args);
-			return this.GetTransparentProxy();
-		}
+        /// <summary>
+        /// 透過的プロクシを返す
+        /// </summary>
+        /// <returns>透過的プロクシのインスタンス</returns>
+        public object Create()
+        {
+            return GetTransparentProxy();
+        }
 
-		/// <summary>
-		/// 透過的プロクシを返す
-		/// </summary>
-		/// <param name="argTypes">透過的プロクシの対象となるクラスのコンストラクタの引数の型のリスト</param>
-		/// <param name="args">透過的プロクシの対象となるクラスのコンストラクタの引数のリスト</param>
-		/// <param name="targetType">透過的プロクシの対象となるクラスの型</param>
-		/// <returns>透過的プロクシのインスタンス</returns>
-		public object Create(Type[] argTypes,object[] args,Type targetType)
-		{
-			ConstructorInfo constructor = ClassUtil.GetConstructorInfo(targetType,argTypes);
-			target_ = ConstructorUtil.NewInstance(constructor,args);
-			return this.GetTransparentProxy();
-		}
+        /// <summary>
+        /// 透過的プロクシを返す
+        /// </summary>
+        /// <param name="argTypes">透過的プロクシの対象となるクラスのコンストラクタの引数の型のリスト</param>
+        /// <param name="args">透過的プロクシの対象となるクラスのコンストラクタの引数のリスト</param>
+        /// <returns>透過的プロクシのインスタンス</returns>
+        public object Create(Type[] argTypes, object[] args)
+        {
+            ConstructorInfo constructor = ClassUtil.GetConstructorInfo(_type, argTypes);
+            _target = ConstructorUtil.NewInstance(constructor, args);
+            return GetTransparentProxy();
+        }
 
-		#region RealProxy メンバ
+        /// <summary>
+        /// 透過的プロクシを返す
+        /// </summary>
+        /// <param name="argTypes">透過的プロクシの対象となるクラスのコンストラクタの引数の型のリスト</param>
+        /// <param name="args">透過的プロクシの対象となるクラスのコンストラクタの引数のリスト</param>
+        /// <param name="targetType">透過的プロクシの対象となるクラスの型</param>
+        /// <returns>透過的プロクシのインスタンス</returns>
+        public object Create(Type[] argTypes, object[] args, Type targetType)
+        {
+            ConstructorInfo constructor = ClassUtil.GetConstructorInfo(targetType, argTypes);
+            _target = ConstructorUtil.NewInstance(constructor, args);
+            return GetTransparentProxy();
+        }
 
-		/// <summary>
-		/// AopProxyを通したオブジェクトのメソッドが実行されるとこのメソッドが呼ばれます
-		/// </summary>
-		/// <param name="msg">IMessage</param>
-		/// <returns>IMessage</returns>
-		/// <seealso="System.Runtime.Remoting.Proxies">System.Runtime.Remoting.Proxies</seealso>
-		public override IMessage Invoke(IMessage msg) 
-		{
-			if(target_ == null)
-			{
-				if(!type_.IsInterface) target_ = Activator.CreateInstance(type_);
-				if(target_==null) target_ = new object();
-			}
+        #region RealProxy メンバ
 
-			IMethodMessage methodMessage = msg as IMethodMessage;
-			MethodBase method = methodMessage.MethodBase;
+        /// <summary>
+        /// AopProxyを通したオブジェクトのメソッドが実行されるとこのメソッドが呼ばれます
+        /// </summary>
+        /// <param name="msg">IMessage</param>
+        /// <returns>IMessage</returns>
+        /// <seealso="System.Runtime.Remoting.Proxies">System.Runtime.Remoting.Proxies</seealso>
+        public override IMessage Invoke(IMessage msg)
+        {
+            if (_target == null)
+            {
+                if (!_type.IsInterface) _target = Activator.CreateInstance(_type);
+                if (_target == null) _target = new object();
+            }
 
-			ArrayList interceptorList = new ArrayList();
+            IMethodMessage methodMessage = msg as IMethodMessage;
+            MethodBase method = methodMessage.MethodBase;
 
-			if(aspects_ != null)
-			{
-				// 定義されたAspectからInterceptorのリストの作成
-				foreach(IAspect aspect in aspects_)
-				{
-					IPointcut pointcut = aspect.Pointcut;
-					// IPointcutよりAdvice(Interceptor)を挿入するか確認
-					if(pointcut == null || pointcut.IsApplied(method)) 
-					{
-						// Aspectを適用する場合
-						interceptorList.Add(aspect.MethodInterceptor);
-					}
-				}
-			}
+            ArrayList interceptorList = new ArrayList();
 
-			Object ret = null;
+            if (_aspects != null)
+            {
+                // 定義されたAspectからInterceptorのリストの作成
+                foreach (IAspect aspect in _aspects)
+                {
+                    IPointcut pointcut = aspect.Pointcut;
+                    // IPointcutよりAdvice(Interceptor)を挿入するか確認
+                    if (pointcut == null || pointcut.IsApplied(method))
+                    {
+                        // Aspectを適用する場合
+                        interceptorList.Add(aspect.MethodInterceptor);
+                    }
+                }
+            }
 
-            object[] methodArgs = null;
+            object ret;
 
-			if(interceptorList.Count == 0)
-			{
+            object[] methodArgs;
+
+            if (interceptorList.Count == 0)
+            {
                 methodArgs = methodMessage.Args;
 
                 try
                 {
                     //Interceptorを挿入しない場合
-                    ret = method.Invoke(target_, methodArgs);
+                    ret = method.Invoke(_target, methodArgs);
                 }
                 catch (TargetInvocationException ex)
                 {
@@ -198,28 +199,28 @@ namespace Seasar.Framework.Aop.Proxy
                     // InnerExceptionをthrowする
                     throw ex.InnerException;
                 }
-			}
-			else
-			{
-				// Interceptorを挿入する場合
-				IMethodInterceptor[] interceptors = (IMethodInterceptor[])
-					interceptorList.ToArray(typeof(IMethodInterceptor));
+            }
+            else
+            {
+                // Interceptorを挿入する場合
+                IMethodInterceptor[] interceptors = (IMethodInterceptor[])
+                    interceptorList.ToArray(typeof(IMethodInterceptor));
 
-                IMethodInvocation invocation = new MethodInvocationImpl(target_,
-					method,methodMessage.Args,interceptors,parameters_);
+                IMethodInvocation invocation = new MethodInvocationImpl(_target,
+                    method, methodMessage.Args, interceptors, _parameters);
 
-				ret = interceptors[0].Invoke(invocation);
+                ret = interceptors[0].Invoke(invocation);
 
                 methodArgs = invocation.Arguments;
-			}
+            }
 
             IMethodReturnMessage mrm = new ReturnMessage(ret, methodArgs, methodArgs.Length,
-                methodMessage.LogicalCallContext, (IMethodCallMessage)msg);
-            
+                methodMessage.LogicalCallContext, (IMethodCallMessage) msg);
+
             return mrm;
-		}
+        }
 
-		#endregion
+        #endregion
 
-	}   // AopProxy
+    }
 }

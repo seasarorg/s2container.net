@@ -23,11 +23,10 @@ using Seasar.Framework.Util;
 
 namespace Seasar.Extension.Unit
 {
-    public class DictionaryReader : Seasar.Extension.DataSets.IDataReader
+    public class DictionaryReader : DataSets.IDataReader
     {
-        private DataSet dataSet_;
-
-        private DataTable table_;
+        private readonly DataSet _dataSet;
+        private readonly DataTable _table;
 
         public DictionaryReader()
             : this(null)
@@ -36,8 +35,8 @@ namespace Seasar.Extension.Unit
 
         public DictionaryReader(IDictionary dictionary)
         {
-            dataSet_ = new DataSet();
-            table_ = dataSet_.Tables.Add("Map");
+            _dataSet = new DataSet();
+            _table = _dataSet.Tables.Add("Map");
 
             if (dictionary != null)
             {
@@ -54,24 +53,24 @@ namespace Seasar.Extension.Unit
                 if (value != null)
                 {
                     Type type = PropertyUtil.GetPrimitiveType(value.GetType());
-                    table_.Columns.Add(key, type);
+                    _table.Columns.Add(key, type);
                 }
                 else
                 {
-                    table_.Columns.Add(key);
+                    _table.Columns.Add(key);
                 }
             }
         }
 
         protected virtual void SetupRow(IDictionary dictionary)
         {
-            DataRow row = table_.NewRow();
-            foreach (DataColumn column in table_.Columns)
+            DataRow row = _table.NewRow();
+            foreach (DataColumn column in _table.Columns)
             {
                 object value = dictionary[column.ColumnName];
                 row[column.ColumnName] = PropertyUtil.GetPrimitiveValue(value);
             }
-            table_.Rows.Add(row);
+            _table.Rows.Add(row);
             row.AcceptChanges();
         }
 
@@ -79,7 +78,7 @@ namespace Seasar.Extension.Unit
 
         public DataSet Read()
         {
-            return dataSet_;
+            return _dataSet;
         }
 
         #endregion

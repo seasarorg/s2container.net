@@ -25,8 +25,8 @@ using Nullables;
 namespace Seasar.Tests.Framework.Util
 {
     [TestFixture]
-	public class ConversionUtilTest
-	{
+    public class ConversionUtilTest
+    {
         [Test]
         public void TestConvertSqlTypesNullable_SqlBinary()
         {
@@ -34,8 +34,8 @@ namespace Seasar.Tests.Framework.Util
             Assert.IsTrue(ret.IsNull, "1");
             ret = (SqlBinary) ConversionUtil.ConvertSqlTypesNullable(null, typeof(SqlBinary));
             Assert.IsTrue(ret.IsNull, "2");
-            ret = (SqlBinary) ConversionUtil.ConvertSqlTypesNullable(new byte[] { 1, 2, 3}, typeof(SqlBinary));
-            Assert.AreEqual(new SqlBinary(new byte[] { 1, 2, 3}), ret, "3");
+            ret = (SqlBinary) ConversionUtil.ConvertSqlTypesNullable(new byte[] { 1, 2, 3 }, typeof(SqlBinary));
+            Assert.AreEqual(new SqlBinary(new byte[] { 1, 2, 3 }), ret, "3");
         }
 
         [Test]
@@ -136,7 +136,7 @@ namespace Seasar.Tests.Framework.Util
             ret = (SqlInt16) ConversionUtil.ConvertSqlTypesNullable(30140, typeof(SqlInt16));
             Assert.AreEqual(new SqlInt16(30140), ret, "3");
         }
-        
+
         [Test]
         public void TestConvertSqlTypesNullable_SqlByte()
         {
@@ -322,27 +322,27 @@ namespace Seasar.Tests.Framework.Util
         [Test]
         public void TestConvertNullable_Boolean()
         {
-            bool? ret = (bool?)ConversionUtil.ConvertNullable(
+            bool? ret = (bool?) ConversionUtil.ConvertNullable(
                 DBNull.Value, typeof(bool?));
             Assert.IsFalse(ret.HasValue, "1");
-            ret = (bool?)ConversionUtil.ConvertNullable(null, typeof(bool?));
+            ret = (bool?) ConversionUtil.ConvertNullable(null, typeof(bool?));
             Assert.IsFalse(ret.HasValue, "2");
-            ret = (bool?)ConversionUtil.ConvertNullable(true, typeof(bool?));
+            ret = (bool?) ConversionUtil.ConvertNullable(true, typeof(bool?));
             Assert.AreEqual(new bool?(true), ret, "3");
         }
 
         [Test]
         public void TestConvertNullable_Int32()
         {
-            int? ret = (int?)ConversionUtil.ConvertNullable(
+            int? ret = (int?) ConversionUtil.ConvertNullable(
                 DBNull.Value, typeof(int?));
             Assert.IsFalse(ret.HasValue, "1");
-            ret = (int?)ConversionUtil.ConvertNullable(null, typeof(int?));
+            ret = (int?) ConversionUtil.ConvertNullable(null, typeof(int?));
             Assert.IsFalse(ret.HasValue, "2");
-            ret = (int?)ConversionUtil.ConvertNullable(77, typeof(int?));
+            ret = (int?) ConversionUtil.ConvertNullable(77, typeof(int?));
             Assert.AreEqual(new int?(77), ret, "3");
         }
 
 #endif
-	}
+    }
 }

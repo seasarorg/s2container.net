@@ -20,18 +20,18 @@ using System;
 
 namespace Seasar.Examples.Reference.Namespaces.Impl
 {
-	public class HelloClientImpl : IHelloClient
-	{
-		private IHello hello;
+    public class HelloClientImpl : IHelloClient
+    {
+        private readonly IHello _hello;
 
-		public HelloClientImpl(IHello hello) 
-		{
-			this.hello = hello;
-		}
-		
-		public void ShowMessage()
-		{
-			Console.WriteLine(this.hello.Message);
-		}
-	}
+        public HelloClientImpl(IHello hello)
+        {
+            _hello = hello;
+        }
+
+        public void ShowMessage()
+        {
+            Console.WriteLine(_hello.Message);
+        }
+    }
 }

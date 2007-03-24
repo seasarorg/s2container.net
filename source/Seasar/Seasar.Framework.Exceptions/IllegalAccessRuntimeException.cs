@@ -21,41 +21,38 @@ using System.Runtime.Serialization;
 
 namespace Seasar.Framework.Exceptions
 {
-	/// <summary>
-	/// TargetException, ArgumentException, TargetParameterCountException,
-	/// MethodAccessExceptionをラップする実行時例外です。
-	/// メソッド・コンストラクタ・プロパティの呼び出しに関する例外です。
-	/// 呼び出される前に例外は発生します。
-	/// </summary>
-	[Serializable]
-	public class IllegalAccessRuntimeException : SRuntimeException
-	{
-		private Type targetType_;
+    /// <summary>
+    /// TargetException, ArgumentException, TargetParameterCountException,
+    /// MethodAccessExceptionをラップする実行時例外です。
+    /// メソッド・コンストラクタ・プロパティの呼び出しに関する例外です。
+    /// 呼び出される前に例外は発生します。
+    /// </summary>
+    [Serializable]
+    public class IllegalAccessRuntimeException : SRuntimeException
+    {
+        private readonly Type _targetType;
 
-		public IllegalAccessRuntimeException(Type targetType,Exception cause)
-			: base("ESSR0042",new object[] { targetType.FullName,cause},cause)
-		{
-			targetType_ = targetType;
-		}
+        public IllegalAccessRuntimeException(Type targetType, Exception cause)
+            : base("ESSR0042", new object[] { targetType.FullName, cause }, cause)
+        {
+            _targetType = targetType;
+        }
 
-		public IllegalAccessRuntimeException(SerializationInfo info, StreamingContext context) 
-			: base( info, context )
-		{
-			this.targetType_ = info.GetValue("targetType_", typeof(Type)) as Type;
-		}
+        public IllegalAccessRuntimeException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+            _targetType = info.GetValue("_targetType", typeof(Type)) as Type;
+        }
 
-		public override void GetObjectData( SerializationInfo info,
-			StreamingContext context )
-		{
-			info.AddValue("targetType_", this.targetType_, typeof(Type));
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("_targetType", _targetType, typeof(Type));
+            base.GetObjectData(info, context);
+        }
 
-			base.GetObjectData(info, context);
-		}
-
-		public Type TargetType
-		{
-			get { return targetType_; }
-		}
-
-	}
+        public Type TargetType
+        {
+            get { return _targetType; }
+        }
+    }
 }

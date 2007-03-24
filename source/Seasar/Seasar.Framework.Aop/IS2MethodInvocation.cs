@@ -20,22 +20,20 @@ using System;
 
 namespace Seasar.Framework.Aop
 {
-	/// <summary>
-	/// IMethodInvocationインターフェイスにS2独自の情報を追加したもの
-	/// </summary>
-	public interface IS2MethodInvocation : IMethodInvocation
-	{
+    /// <summary>
+    /// IMethodInvocationインターフェイスにS2独自の情報を追加したもの
+    /// </summary>
+    public interface IS2MethodInvocation : IMethodInvocation
+    {
+        /// <summary>
+        /// メソッドが属するクラスの型情報
+        /// </summary>
+        Type TargetType { get; }
 
-		/// <summary>
-		/// メソッドが属するクラスの型情報
-		/// </summary>
-		Type TargetType { get; }
-
-		/// <summary>
-		/// メソッドとそのクラスのインスタンスが属するS2コンテナに関する情報
-		/// </summary>
-		/// <param name="name">S2コンテナの情報の名前</param>
-		object GetParameter(string name);
-
-	}	// IS2MethodInvocation
+        /// <summary>
+        /// メソッドとそのクラスのインスタンスが属するS2コンテナに関する情報
+        /// </summary>
+        /// <param name="name">S2コンテナの情報の名前</param>
+        object GetParameter(string name);
+    }
 }

@@ -23,11 +23,10 @@ using Seasar.Framework.Util;
 
 namespace Seasar.Extension.Unit
 {
-    public class BeanReader : Seasar.Extension.DataSets.IDataReader
+    public class BeanReader : DataSets.IDataReader
     {
-        private DataSet dataSet_;
-
-        private DataTable table_;
+        private readonly DataSet _dataSet;
+        private readonly DataTable _table;
 
         protected BeanReader()
             : this(null)
@@ -36,8 +35,8 @@ namespace Seasar.Extension.Unit
 
         public BeanReader(object bean)
         {
-            dataSet_ = new DataSet();
-            table_ = dataSet_.Tables.Add("Bean");
+            _dataSet = new DataSet();
+            _table = _dataSet.Tables.Add("Bean");
 
             if (bean != null)
             {
@@ -52,19 +51,19 @@ namespace Seasar.Extension.Unit
             foreach (PropertyInfo pi in beanType.GetProperties())
             {
                 Type propertyType = PropertyUtil.GetPrimitiveType(pi.PropertyType);
-                table_.Columns.Add(pi.Name, propertyType);
+                _table.Columns.Add(pi.Name, propertyType);
             }
         }
 
         protected virtual void SetupRow(Type beanType, object bean)
         {
-            DataRow row = table_.NewRow();
+            DataRow row = _table.NewRow();
             foreach (PropertyInfo pi in beanType.GetProperties())
             {
                 object value = pi.GetValue(bean, null);
                 row[pi.Name] = PropertyUtil.GetPrimitiveValue(value);
             }
-            table_.Rows.Add(row);
+            _table.Rows.Add(row);
             row.AcceptChanges();
         }
 
@@ -72,7 +71,7 @@ namespace Seasar.Extension.Unit
 
         public DataSet Read()
         {
-            return dataSet_;
+            return _dataSet;
         }
 
         #endregion

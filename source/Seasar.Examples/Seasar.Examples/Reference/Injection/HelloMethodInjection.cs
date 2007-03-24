@@ -18,39 +18,36 @@
 
 using System;
 using System.Text;
-
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Factory;
 
 namespace Seasar.Examples.Reference.Injection
 {
-	public class HelloMethodInjection : IHello
-	{
-		private StringBuilder builder = new StringBuilder();
+    public class HelloMethodInjection : IHello
+    {
+        private readonly StringBuilder _builder = new StringBuilder();
 
-		public HelloMethodInjection() {}
-		
-		public void AddMessage(string message)
-		{
-			this.builder.Append(message);
-		}
+        public void AddMessage(string message)
+        {
+            _builder.Append(message);
+        }
 
-		public void ShowMessage()
-		{
-			Console.WriteLine(this.builder.ToString());
-		}
+        public void ShowMessage()
+        {
+            Console.WriteLine(_builder);
+        }
 
-	}
+    }
 
-	public class HelloMethodInjectionClient
-	{
-		private static readonly String PATH = "Seasar.Examples/Reference/Injection/HelloMethodInjection.dicon";
+    public class HelloMethodInjectionClient
+    {
+        private const string PATH = "Seasar.Examples/Reference/Injection/HelloMethodInjection.dicon";
 
-		public void Main() 
-		{
-			IS2Container container = S2ContainerFactory.Create(PATH);
-			IHello hello = (IHello) container.GetComponent(typeof(IHello));
-			hello.ShowMessage();
-		}
-	}
+        public void Main()
+        {
+            IS2Container container = S2ContainerFactory.Create(PATH);
+            IHello hello = (IHello) container.GetComponent(typeof(IHello));
+            hello.ShowMessage();
+        }
+    }
 }

@@ -16,18 +16,10 @@
  */
 #endregion
 
-using System;
-
 namespace Seasar.Extension.Tx
 {
-	/// <summary>
-	/// ITransactionStateHandler ‚ÌŠT—v‚Ìà–¾‚Å‚·B
-	/// </summary>
-	public interface ITransactionStateHandler
-	{
-		bool IsInTransaction
-		{
-			get;
-		}
-	}
+    public interface ITransactionStateHandler
+    {
+        bool IsInTransaction { get; }
+    }
 }

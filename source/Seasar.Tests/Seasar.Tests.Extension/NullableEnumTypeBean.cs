@@ -24,84 +24,84 @@ namespace Seasar.Tests.Extension
     [Serializable]
     public class NullableEnumTypeBean
     {
-        private long? id;
+        private long? _id;
 
         public long? Id
         {
-            get { return id; }
-            set { id = value; }
+            get { return _id; }
+            set { _id = value; }
         }
 
-        private Numbers? sbyteType;
+        private Numbers? _sbyteType;
 
         public Numbers? SbyteType
         {
-            get { return sbyteType; }
-            set { sbyteType = value; }
+            get { return _sbyteType; }
+            set { _sbyteType = value; }
         }
 
-        private Numbers? byteType;
+        private Numbers? _byteType;
 
         public Numbers? ByteType
         {
-            get { return byteType; }
-            set { byteType = value; }
+            get { return _byteType; }
+            set { _byteType = value; }
         }
 
-        private Numbers? int16Type;
+        private Numbers? _int16Type;
 
         public Numbers? Int16Type
         {
-            get { return int16Type; }
-            set { int16Type = value; }
+            get { return _int16Type; }
+            set { _int16Type = value; }
         }
 
-        private Numbers? int32Type;
+        private Numbers? _int32Type;
 
         public Numbers? Int32Type
         {
-            get { return int32Type; }
-            set { int32Type = value; }
+            get { return _int32Type; }
+            set { _int32Type = value; }
         }
 
-        private Numbers? int64Type;
+        private Numbers? _int64Type;
 
         public Numbers? Int64Type
         {
-            get { return int64Type; }
-            set { int64Type = value; }
+            get { return _int64Type; }
+            set { _int64Type = value; }
         }
 
-        private Numbers? decimalType;
+        private Numbers? _decimalType;
 
         public Numbers? DecimalType
         {
-            get { return decimalType; }
-            set { decimalType = value; }
+            get { return _decimalType; }
+            set { _decimalType = value; }
         }
 
-        private Numbers? singleType;
+        private Numbers? _singleType;
 
         public Numbers? SingleType
         {
-            get { return singleType; }
-            set { singleType = value; }
+            get { return _singleType; }
+            set { _singleType = value; }
         }
 
-        private Numbers? doubleType;
+        private Numbers? _doubleType;
 
         public Numbers? DoubleType
         {
-            get { return doubleType; }
-            set { doubleType = value; }
+            get { return _doubleType; }
+            set { _doubleType = value; }
         }
 
-        private Numbers? stringType;
+        private Numbers? _stringType;
 
         public Numbers? StringType
         {
-            get { return stringType; }
-            set { stringType = value; }
+            get { return _stringType; }
+            set { _stringType = value; }
         }
 
         public NullableEnumTypeBean()
@@ -121,16 +121,16 @@ namespace Seasar.Tests.Extension
             Numbers? stringType
             )
         {
-            this.id = id;
-            this.sbyteType = sbyteType;
-            this.byteType = byteType;
-            this.int16Type = int16Type;
-            this.int32Type = int32Type;
-            this.int64Type = int64Type;
-            this.decimalType = decimalType;
-            this.singleType = singleType;
-            this.doubleType = doubleType;
-            this.stringType = stringType;
+            _id = id;
+            _sbyteType = sbyteType;
+            _byteType = byteType;
+            _int16Type = int16Type;
+            _int32Type = int32Type;
+            _int64Type = int64Type;
+            _decimalType = decimalType;
+            singleType = singleType;
+            _doubleType = doubleType;
+            _stringType = stringType;
         }
 
         public override int GetHashCode()
@@ -141,16 +141,16 @@ namespace Seasar.Tests.Extension
         public override string ToString()
         {
             StringBuilder buf = new StringBuilder();
-            buf.Append(id).Append(", ");
-            buf.Append(sbyteType).Append(", ");
-            buf.Append(byteType).Append(", ");
-            buf.Append(int16Type).Append(", ");
-            buf.Append(int32Type).Append(", ");
-            buf.Append(int64Type).Append(", ");
-            buf.Append(decimalType).Append(", ");
-            buf.Append(singleType).Append(", ");
-            buf.Append(doubleType).Append(", ");
-            buf.Append(stringType);
+            buf.Append(_id).Append(", ");
+            buf.Append(_sbyteType).Append(", ");
+            buf.Append(_byteType).Append(", ");
+            buf.Append(_int16Type).Append(", ");
+            buf.Append(_int32Type).Append(", ");
+            buf.Append(_int64Type).Append(", ");
+            buf.Append(_decimalType).Append(", ");
+            buf.Append(_singleType).Append(", ");
+            buf.Append(_doubleType).Append(", ");
+            buf.Append(_stringType);
             return buf.ToString();
         }
     }

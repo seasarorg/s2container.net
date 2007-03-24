@@ -18,8 +18,8 @@
 
 namespace Seasar.Examples.Reference.Includes
 {
-	public interface IHelloClient
-	{
-		void ShowMessage();
-	}
+    public interface IHelloClient
+    {
+        void ShowMessage();
+    }
 }

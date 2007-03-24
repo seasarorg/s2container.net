@@ -16,32 +16,29 @@
  */
 #endregion
 
-using System;
 using Seasar.Framework.Container.Impl;
 using Seasar.Framework.Xml;
 using Seasar.Framework.Util;
 
 namespace Seasar.Framework.Container.Factory
 {
-	/// <summary>
-	/// MetaTagHandler ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public class MetaTagHandler : TagHandler
-	{
+    public class MetaTagHandler : TagHandler
+    {
+        public override void Start(TagHandlerContext context, IAttributes attributes)
+        {
+            string name = attributes["name"];
+            context.Push(new MetaDefImpl(name));
+        }
 
-		public override void Start(TagHandlerContext context, IAttributes attributes)
-		{
-			string name = attributes["name"];
-			context.Push(new MetaDefImpl(name));
-		}
-
-		public override void End(TagHandlerContext context, string body)
-		{
-			IMetaDef metaDef = (IMetaDef) context.Pop();
-			if(!StringUtil.IsEmpty(body)) metaDef.Expression = body;
-			IMetaDefAware metaDefAware = (IMetaDefAware) context.Peek();
-			metaDefAware.AddMetaDef(metaDef);
-		}
-
-	}
+        public override void End(TagHandlerContext context, string body)
+        {
+            IMetaDef metaDef = (IMetaDef) context.Pop();
+            if (!StringUtil.IsEmpty(body))
+            {
+                metaDef.Expression = body;
+            }
+            IMetaDefAware metaDefAware = (IMetaDefAware) context.Peek();
+            metaDefAware.AddMetaDef(metaDef);
+        }
+    }
 }

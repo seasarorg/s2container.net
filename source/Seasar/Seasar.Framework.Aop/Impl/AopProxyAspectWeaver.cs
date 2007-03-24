@@ -28,8 +28,8 @@ namespace Seasar.Framework.Aop.Impl
     /// <summary>
     /// AopProxyを用いてAspectを織り込む処理を持つクラス
     /// </summary>
-	public class AopProxyAspectWeaver : AbstractAspectWeaver
-	{
+    public class AopProxyAspectWeaver : AbstractAspectWeaver
+    {
         /// <summary>
         /// AopProxyを用いてAspectを織り込む
         /// </summary>
@@ -40,7 +40,7 @@ namespace Seasar.Framework.Aop.Impl
         public override object WeaveAspect(IComponentDef componentDef, ConstructorInfo constructor, object[] args)
         {
             object target;
-            
+
             if (componentDef.ComponentType.IsInterface)
             {
                 target = new object();
@@ -80,5 +80,5 @@ namespace Seasar.Framework.Aop.Impl
 
             return target;
         }
-	}
+    }
 }

@@ -16,32 +16,31 @@
  */
 #endregion
 
-using System;
 using System.Collections;
 using System.Text;
 
 namespace Seasar.Examples.Reference.ADO
 {
-	public sealed class DictionaryUtil
-	{
-		private DictionaryUtil()
-		{
-		}
+    public sealed class DictionaryUtil
+    {
+        private DictionaryUtil()
+        {
+        }
 
-		public static string ToDecorateString(IDictionary dictionary)
-		{
-			if (dictionary == null || dictionary.Count == 0)
-			{
-				return string.Empty;
-			}
+        public static string ToDecorateString(IDictionary dictionary)
+        {
+            if (dictionary == null || dictionary.Count == 0)
+            {
+                return string.Empty;
+            }
 
-			StringBuilder buf = new StringBuilder();
-			foreach (object key in dictionary.Keys)
-			{
-				buf.AppendFormat("{0}={1}, ", key, (dictionary[key] == null) ? "null" : dictionary[key]);
-			}
-			buf.Length -= 2;
-			return buf.ToString();
-		}
-	}
+            StringBuilder buf = new StringBuilder();
+            foreach (object key in dictionary.Keys)
+            {
+                buf.AppendFormat("{0}={1}, ", key, (dictionary[key] == null) ? "null" : dictionary[key]);
+            }
+            buf.Length -= 2;
+            return buf.ToString();
+        }
+    }
 }

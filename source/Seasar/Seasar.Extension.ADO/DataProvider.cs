@@ -16,46 +16,37 @@
  */
 #endregion
 
-using System;
-
 namespace Seasar.Extension.ADO
 {
-	/// <summary>
-	/// DataProvider ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public class DataProvider
-	{
-		private string connectionType_;
-		private string commandType_;
-		private string parameterType_;
-		private string dataAdapterType_;
+    public class DataProvider
+    {
+        private string connectionType;
+        private string commandType;
+        private string parameterType;
+        private string dataAdapterType;
 
-		public DataProvider()
-		{
-		}
+        public string ConnectionType
+        {
+            set { connectionType = value; }
+            get { return connectionType; }
+        }
 
-		public string ConnectionType
-		{
-			set { connectionType_ = value; }
-			get { return connectionType_; }
-		}
+        public string CommandType
+        {
+            set { commandType = value; }
+            get { return commandType; }
+        }
 
-		public string CommandType
-		{
-			set { commandType_ = value; }
-			get { return commandType_; }
-		}
+        public string ParameterType
+        {
+            set { parameterType = value; }
+            get { return parameterType; }
+        }
 
-		public string ParameterType
-		{
-			set { parameterType_ = value; }
-			get { return parameterType_; }
-		}
-
-		public string DataAdapterType
-		{
-			set { dataAdapterType_ = value; }
-			get { return dataAdapterType_; }
-		}
-	}
+        public string DataAdapterType
+        {
+            set { dataAdapterType = value; }
+            get { return dataAdapterType; }
+        }
+    }
 }

@@ -21,41 +21,37 @@ using System.Data;
 
 namespace Seasar.Extension.ADO.Types
 {
-	public class NullableBinaryType : NullableBaseType, IValueType
-	{
-		public NullableBinaryType()
-		{
-        }
-
+    public class NullableBinaryType : NullableBaseType, IValueType
+    {
         #region IValueType ÉÅÉìÉo
 
-		public override void BindValue(IDbCommand cmd, string columnName, object value)
+        public override void BindValue(IDbCommand cmd, string columnName, object value)
         {
             BindValue(cmd, columnName, value, DbType.Binary);
         }
 
         #endregion
 
-		protected override object GetValue(object value)
-		{
-			if (value == DBNull.Value)
-			{
-				return null;
-			}
-			if (value is byte)
-			{
-				return new Nullable<Byte>((byte) value);
-			}
-			else
-			{
-				byte[] bytes = (byte[]) value;
-				Nullable<Byte>[] nBytes = new Nullable<Byte>[bytes.Length];
-				for (int i = 0; i < bytes.Length; ++i)
-				{
-					nBytes[i] = new Nullable<Byte>(bytes[i]);
-				}
-				return nBytes;
-			}
-		}
+        protected override object GetValue(object value)
+        {
+            if (value == DBNull.Value)
+            {
+                return null;
+            }
+            if (value is byte)
+            {
+                return new Nullable<Byte>((byte) value);
+            }
+            else
+            {
+                byte[] bytes = (byte[]) value;
+                Nullable<Byte>[] nBytes = new Nullable<Byte>[bytes.Length];
+                for (int i = 0; i < bytes.Length; ++i)
+                {
+                    nBytes[i] = new Nullable<Byte>(bytes[i]);
+                }
+                return nBytes;
+            }
+        }
     }
 }

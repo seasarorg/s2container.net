@@ -22,169 +22,174 @@ using System.Collections;
 
 namespace Seasar.Framework.Xml
 {
-	/// <summary>
-	/// TagHandlerContext ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public sealed class TagHandlerContext
-	{
-		private StringBuilder body_ = null;
-		private StringBuilder characters_ = new StringBuilder();
-		private Stack bodyStack_ = new Stack();
-		private StringBuilder path_ = new StringBuilder();
-		private StringBuilder detailPath_ = new StringBuilder();
-		private string qName_ = "";
-		private Stack qNameStack_ = new Stack();
-		private object result_;
-		private Stack stack_ = new Stack();
-		private Hashtable pathCounts_ = new Hashtable();
-		private Hashtable parameters_ = new Hashtable();
+    public sealed class TagHandlerContext
+    {
+        private StringBuilder _body = null;
+        private StringBuilder _characters = new StringBuilder();
+        private readonly Stack _bodyStack = new Stack();
+        private readonly StringBuilder _path = new StringBuilder();
+        private readonly StringBuilder _detailPath = new StringBuilder();
+        private string _qName = string.Empty;
+        private readonly Stack _qNameStack = new Stack();
+        private object _result;
+        private readonly Stack _stack = new Stack();
+        private readonly Hashtable _pathCounts = new Hashtable();
+        private readonly Hashtable _parameters = new Hashtable();
 
-		public TagHandlerContext()
-		{
-		}
-
-		public void Push(object obj)
-		{
-			if(stack_.Count == 0) result_ = obj;
-			stack_.Push(obj);
-		}
-
-		public object Result
-		{
-			get { return result_; }
-		}
-
-		public object Pop()
-		{
-			return stack_.Pop();
-		}
-
-		public object Peek()
-		{
-			return stack_.Peek();
-		}
-
-		public object Peek(int n)
-		{
-			IEnumerator enu = stack_.GetEnumerator();
-			int index = stack_.Count - n - 1;
-			int i = 0;
-			while(enu.MoveNext())
-			{
-				if(index == i++) return enu.Current;
-			}
-			return null;
-		}
-
-		public object Peek(Type type)
-		{
-			IEnumerator enu = stack_.GetEnumerator();
-			while(enu.MoveNext())
-			{
-				object o = enu.Current;
-				if(type.IsInstanceOfType(o)) return o;
-			}
-			return null;
-		}
-
-		public object GetParameter(string name)
-		{
-			return parameters_[name];
-		}
-
-		public void AddParameter(string name,object parameter)
-		{
-			parameters_[name] = parameter;
-		}
-
-		public void StartElement(string qName)
-		{
-			bodyStack_.Push(body_);
-			body_ = new StringBuilder();
-			characters_ = new StringBuilder();
-			qNameStack_.Push(qName_);
-			qName_ = qName;
-			path_.Append("/");
-			path_.Append(qName);
-			int pathCount = this.IncrementPathCount();
-			detailPath_.Append("/");
-			detailPath_.Append(qName);
-			detailPath_.Append("[");
-			detailPath_.Append(pathCount);
-			detailPath_.Append("]");
-		}
-
-		public string Characters
-		{
-			get { return characters_.ToString().Trim(); }
-			set
-			{
-				body_.Append(value);
-				characters_.Append(value);
-			}
-		}
-
-		public string Body
-		{
-			get { return body_.ToString().Trim(); }
-		}
-
-		public bool IsCharactersEol
-		{
-			get
-			{
-				if(characters_.Length == 0) return false;
-				return characters_[characters_.Length - 1] == '\n';
-			}
-		}
-
-		public void ClearCharacters()
-		{
-			characters_ = new StringBuilder();
-		}
-
-		public void EndElement()
-		{
-			body_ = (StringBuilder) bodyStack_.Pop();
-			RemoveLastPath(path_);
-			RemoveLastPath(detailPath_);
-			qName_ = (string) qNameStack_.Pop();
-		}
-
-		private static void RemoveLastPath(StringBuilder path)
-		{
-			int last = path.ToString().LastIndexOf("/");
-			path.Remove(last,path.Length - last);
-		}
-
-		public string Path
-		{
-			get { return path_.ToString(); }
-		}
-
-		public string DetailPath
-		{
-			get { return detailPath_.ToString(); }
-		}
-
-		public string QName
-		{
-			get { return qName_; }
-		}
-
-		private int IncrementPathCount()
-		{
-			string path = this.Path;
-			int pathCount = 0;
-			
-            if(pathCounts_[path] != null)
+        public void Push(object obj)
+        {
+            if (_stack.Count == 0)
             {
-                pathCount = (int) pathCounts_[path];
+                _result = obj;
+            }
+            _stack.Push(obj);
+        }
+
+        public object Result
+        {
+            get { return _result; }
+        }
+
+        public object Pop()
+        {
+            return _stack.Pop();
+        }
+
+        public object Peek()
+        {
+            return _stack.Peek();
+        }
+
+        public object Peek(int n)
+        {
+            IEnumerator enu = _stack.GetEnumerator();
+            int index = _stack.Count - n - 1;
+            int i = 0;
+            while (enu.MoveNext())
+            {
+                if (index == i++)
+                {
+                    return enu.Current;
+                }
+            }
+            return null;
+        }
+
+        public object Peek(Type type)
+        {
+            IEnumerator enu = _stack.GetEnumerator();
+            while (enu.MoveNext())
+            {
+                object o = enu.Current;
+                if (type.IsInstanceOfType(o))
+                {
+                    return o;
+                }
+            }
+            return null;
+        }
+
+        public object GetParameter(string name)
+        {
+            return _parameters[name];
+        }
+
+        public void AddParameter(string name, object parameter)
+        {
+            _parameters[name] = parameter;
+        }
+
+        public void StartElement(string value)
+        {
+            _bodyStack.Push(_body);
+            _body = new StringBuilder();
+            _characters = new StringBuilder();
+            _qNameStack.Push(_qName);
+            _qName = value;
+            _path.Append("/");
+            _path.Append(value);
+            int pathCount = IncrementPathCount();
+            _detailPath.Append("/");
+            _detailPath.Append(value);
+            _detailPath.Append("[");
+            _detailPath.Append(pathCount);
+            _detailPath.Append("]");
+        }
+
+        public string Characters
+        {
+            get { return _characters.ToString().Trim(); }
+            set
+            {
+                _body.Append(value);
+                _characters.Append(value);
+            }
+        }
+
+        public string Body
+        {
+            get { return _body.ToString().Trim(); }
+        }
+
+        public bool IsCharactersEol
+        {
+            get
+            {
+                if (_characters.Length == 0)
+                {
+                    return false;
+                }
+                return _characters[_characters.Length - 1] == '\n';
+            }
+        }
+
+        public void ClearCharacters()
+        {
+            _characters = new StringBuilder();
+        }
+
+        public void EndElement()
+        {
+            _body = (StringBuilder) _bodyStack.Pop();
+            RemoveLastPath(_path);
+            RemoveLastPath(_detailPath);
+            _qName = (string) _qNameStack.Pop();
+        }
+
+        private static void RemoveLastPath(StringBuilder path)
+        {
+            int last = path.ToString().LastIndexOf("/");
+            path.Remove(last, path.Length - last);
+        }
+
+        public string Path
+        {
+            get { return _path.ToString(); }
+        }
+
+        public string DetailPath
+        {
+            get { return _detailPath.ToString(); }
+        }
+
+        public string QName
+        {
+            get { return _qName; }
+        }
+
+        private int IncrementPathCount()
+        {
+            string path = Path;
+            int pathCount = 0;
+
+            if (_pathCounts[path] != null)
+            {
+                pathCount = (int) _pathCounts[path];
             }
 
-			pathCount++;
-			pathCounts_[path] = pathCount;
-			return pathCount;
-		}
-	}
+            pathCount++;
+            _pathCounts[path] = pathCount;
+            return pathCount;
+        }
+    }
 }

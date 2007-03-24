@@ -20,79 +20,69 @@ using System;
 
 namespace Seasar.Framework.Aop.Impl
 {
-	/// <summary>
-	/// IAspectインターフェイスの実装
-	/// </summary>
-	[Serializable]
-	public class AspectImpl : IAspect
-	{
-		/// <summary>
-		/// Interceptor
-		/// </summary>
-		private IMethodInterceptor methodInterceptor_;
+    /// <summary>
+    /// IAspectインターフェイスの実装
+    /// </summary>
+    [Serializable]
+    public class AspectImpl : IAspect
+    {
+        /// <summary>
+        /// Interceptor
+        /// </summary>
+        private readonly IMethodInterceptor _methodInterceptor;
 
-		/// <summary>
-		/// Pointcut
-		/// </summary>
-		/// <remarks>
-		/// このフィールドがnullの場合はすべてのメソッドがInterceptされます。
-		/// </remarks>
-		private IPointcut pointcut_;
+        /// <summary>
+        /// Pointcut
+        /// </summary>
+        /// <remarks>
+        /// このフィールドがnullの場合はすべてのメソッドがInterceptされます。
+        /// </remarks>
+        private IPointcut _pointcut;
 
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		/// <param name="methodInterceptor">IMethodInterceptor</param>
-		/// <param name="pointcut">
-		/// IPointcut(nullでもよい。その場合すべてのメソッドがInterceptの対象となる)
-		/// </param>
-		public AspectImpl(IMethodInterceptor methodInterceptor,IPointcut pointcut)
-		{
-			methodInterceptor_ = methodInterceptor;
-			pointcut_          = pointcut;
-		}
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="methodInterceptor">IMethodInterceptor</param>
+        /// <param name="pointcut">
+        /// IPointcut(nullでもよい。その場合すべてのメソッドがInterceptの対象となる)
+        /// </param>
+        public AspectImpl(IMethodInterceptor methodInterceptor, IPointcut pointcut)
+        {
+            _methodInterceptor = methodInterceptor;
+            _pointcut = pointcut;
+        }
 
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		/// <remarks>
-		/// すべてのメソッドにInterceptする場合はこのコンストラクタをつかいます。
-		/// </remarks>
-		/// <param name="methodInterceptor">IMethodInterceptor</param>
-		public AspectImpl(IMethodInterceptor methodInterceptor)
-			: this(methodInterceptor,null)
-		{
-		}
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <remarks>
+        /// すべてのメソッドにInterceptする場合はこのコンストラクタをつかいます。
+        /// </remarks>
+        /// <param name="methodInterceptor">IMethodInterceptor</param>
+        public AspectImpl(IMethodInterceptor methodInterceptor)
+            : this(methodInterceptor, null)
+        {
+        }
 
-		#region IAspect メンバ
+        #region IAspect メンバ
 
-		/// <summary>
-		/// Advice(Interceptor)
-		/// </summary>
-		public IMethodInterceptor MethodInterceptor
-		{
-			get
-			{
-				return methodInterceptor_;
-			}
-		}
+        /// <summary>
+        /// Advice(Interceptor)
+        /// </summary>
+        public IMethodInterceptor MethodInterceptor
+        {
+            get { return _methodInterceptor; }
+        }
 
-		/// <summary>
-		/// Pointcut
-		/// </summary>
-		public IPointcut Pointcut
-		{
-			get
-			{
-				return pointcut_;
-			}
-			set
-			{
-				pointcut_ = value;
-			}
-		}
+        /// <summary>
+        /// Pointcut
+        /// </summary>
+        public IPointcut Pointcut
+        {
+            get { return _pointcut; }
+            set { _pointcut = value; }
+        }
 
-		#endregion
-
-	}	// AspectImpl 
+        #endregion
+    }
 }

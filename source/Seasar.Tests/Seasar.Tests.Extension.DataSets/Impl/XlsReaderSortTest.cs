@@ -27,36 +27,36 @@ using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Extension.DataSets.Impl
 {
-	[TestFixture]
-	public class XlsReaderSortTest : S2TestCase
-	{
-		private const string PATH = "Seasar.Tests.Extension.DataSets.Impl.XlsReaderImplSortTest.xls";
+    [TestFixture]
+    public class XlsReaderSortTest : S2TestCase
+    {
+        private const string PATH = "Seasar.Tests.Extension.DataSets.Impl.XlsReaderImplSortTest.xls";
 
-		private DataSet dataSet;
+        private DataSet dataSet;
 
-		[SetUp]
-		public void SetUp() 
-		{
-			using (Stream stream = ResourceUtil.GetResourceAsStream(PATH, Assembly.GetExecutingAssembly()))  
-			{
-				dataSet = new XlsReader(stream).Read();
-			}
-		}
+        [SetUp]
+        public void SetUp()
+        {
+            using (Stream stream = ResourceUtil.GetResourceAsStream(PATH, Assembly.GetExecutingAssembly()))
+            {
+                dataSet = new XlsReader(stream).Read();
+            }
+        }
 
-		[Test]
-		public void TestCreateTable() 
-		{
-			Assert.AreEqual(4, dataSet.Tables.Count, "1");
+        [Test]
+        public void TestCreateTable()
+        {
+            Assert.AreEqual(4, dataSet.Tables.Count, "1");
             Trace.WriteLine(ToStringUtil.ToString(dataSet));
         }
 
-		[Test]
-		public void TestSort() 
-		{
-			Assert.AreEqual(dataSet.Tables[0].TableName, "TEST_TABLE", "1");
-			Assert.AreEqual(dataSet.Tables[1].TableName, "SECOND_TABLE", "2");
-			Assert.AreEqual(dataSet.Tables[2].TableName, "‚ ", "3");
-			Assert.AreEqual(dataSet.Tables[3].TableName, "EMPTY_TABLE", "4");
-		}
-	}
+        [Test]
+        public void TestSort()
+        {
+            Assert.AreEqual(dataSet.Tables[0].TableName, "TEST_TABLE", "1");
+            Assert.AreEqual(dataSet.Tables[1].TableName, "SECOND_TABLE", "2");
+            Assert.AreEqual(dataSet.Tables[2].TableName, "‚ ", "3");
+            Assert.AreEqual(dataSet.Tables[3].TableName, "EMPTY_TABLE", "4");
+        }
+    }
 }

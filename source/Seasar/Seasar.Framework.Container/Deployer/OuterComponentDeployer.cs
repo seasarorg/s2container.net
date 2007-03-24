@@ -20,36 +20,36 @@ using System;
 
 namespace Seasar.Framework.Container.Deployer
 {
-	/// <summary>
-	/// OuterComponentDeployer ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public class OuterComponentDeployer : AbstractComponentDeployer
-	{
-		public OuterComponentDeployer(IComponentDef componentDef)
-			: base(componentDef)
-		{
-		}
+    public class OuterComponentDeployer : AbstractComponentDeployer
+    {
+        public OuterComponentDeployer(IComponentDef componentDef)
+            : base(componentDef)
+        {
+        }
 
-		public override object Deploy(Type receiveType)
-		{
-			throw new NotSupportedException("deploy");
-		}
+        public override object Deploy(Type receiveType)
+        {
+            throw new NotSupportedException("Deploy");
+        }
 
-		public override void InjectDependency(object outerComponent)
-		{
-			this.CheckComponentType(outerComponent);
-			this.PropertyAssembler.Assemble(outerComponent);
-			this.InitMethodAssembler.Assemble(outerComponent);
-		}
+        public override void InjectDependency(object outerComponent)
+        {
+            CheckComponentType(outerComponent);
+            PropertyAssembler.Assemble(outerComponent);
+            InitMethodAssembler.Assemble(outerComponent);
+        }
 
-		private void CheckComponentType(object outerComponent)
-		{
-			Type componentType = this.ComponentDef.ComponentType;
-			if(componentType == null) return;
-			if(!componentType.IsAssignableFrom(outerComponent.GetType()))
-				throw new TypeUnmatchRuntimeException(componentType,
-					outerComponent.GetType());
-		}
-
-	}
+        private void CheckComponentType(object outerComponent)
+        {
+            Type componentType = ComponentDef.ComponentType;
+            if (componentType == null)
+            {
+                return;
+            }
+            if (!componentType.IsAssignableFrom(outerComponent.GetType()))
+            {
+                throw new TypeUnmatchRuntimeException(componentType, outerComponent.GetType());
+            }
+        }
+    }
 }

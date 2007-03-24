@@ -20,67 +20,67 @@ using System;
 
 namespace Seasar.Framework.Util
 {
-	public sealed class DecimalConversionUtil
-	{
-		private DecimalConversionUtil()
-		{
-		}
+    public sealed class DecimalConversionUtil
+    {
+        private DecimalConversionUtil()
+        {
+        }
 
-		public static decimal ToDecimal(object o)
-		{
-			return ToDecimal(o, null);
-		}
+        public static decimal ToDecimal(object o)
+        {
+            return ToDecimal(o, null);
+        }
 
-		public static decimal ToDecimal(object o, string pattern)
-		{
-			if (o == null || o == DBNull.Value)
-			{
-				throw new ArgumentNullException("o");
-			}
-			else if (o is decimal)
-			{
-				return (decimal) o;
-			}
-			else if (o is bool)
-			{
-				return Convert.ToDecimal((bool) o);
-			}
-			else if (o is byte)
-			{
-				return Convert.ToDecimal((byte) o);
-			}
-			else if (o is string)
-			{
-				return Convert.ToDecimal((string) o);
-			}
-			else if (o is double)
-			{
-				return Convert.ToDecimal((double) o);
-			}
-			else if (o is int)
-			{
-				return Convert.ToDecimal((int) o);
-			}
-			else if (o is long)
-			{
-				return Convert.ToDecimal((long) o);
-			}
-			else if (o is short)
-			{
-				return Convert.ToDecimal((short) o);
-			}
-			else if (o is float)
-			{
-				return Convert.ToDecimal((float) o);
-			}
-			else if (o is DateTime)
-			{
-				return Convert.ToDecimal(((DateTime) o).Ticks);
-			}
-			else
-			{
-				return Convert.ToDecimal(o.ToString());
-			}
-		}
-	}
+        public static decimal ToDecimal(object o, string pattern)
+        {
+            if (o == null || o == DBNull.Value)
+            {
+                throw new ArgumentNullException("o");
+            }
+            else if (o is decimal)
+            {
+                return (decimal) o;
+            }
+            else if (o is bool)
+            {
+                return Convert.ToDecimal((bool) o);
+            }
+            else if (o is byte)
+            {
+                return Convert.ToDecimal((byte) o);
+            }
+            else if (o is string)
+            {
+                return Convert.ToDecimal((string) o);
+            }
+            else if (o is double)
+            {
+                return Convert.ToDecimal((double) o);
+            }
+            else if (o is int)
+            {
+                return Convert.ToDecimal((int) o);
+            }
+            else if (o is long)
+            {
+                return Convert.ToDecimal((long) o);
+            }
+            else if (o is short)
+            {
+                return Convert.ToDecimal((short) o);
+            }
+            else if (o is float)
+            {
+                return Convert.ToDecimal((float) o);
+            }
+            else if (o is DateTime)
+            {
+                return Convert.ToDecimal(((DateTime) o).Ticks);
+            }
+            else
+            {
+                return Convert.ToDecimal(o.ToString());
+            }
+        }
+    }
 }

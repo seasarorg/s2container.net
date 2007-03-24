@@ -30,313 +30,341 @@ using Seasar.Framework.Util;
 
 namespace Seasar.Framework.Unit
 {
-	public class S2FrameworkTestCaseRunner
-	{
-		private static Logger logger = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-		private S2FrameworkTestCaseBase fixture;
-		private MethodInfo method;
-		private IS2Container container;
-		private IList bindedFields;
-		private Hashtable errors;
+    public class S2FrameworkTestCaseRunner
+    {
+        private static readonly Logger _logger = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private S2FrameworkTestCaseBase _fixture;
+        private MethodInfo _method;
+        private IS2Container _container;
+        private IList _bindedFields;
+        private Hashtable _errors;
 
-		protected IS2Container Container
-		{
-			get { return container; }
-		}
+        protected IS2Container Container
+        {
+            get { return _container; }
+        }
 
-		public virtual object Run(IRunInvoker invoker, object o, IList args)
-		{
-			fixture = o as S2FrameworkTestCaseBase;
-			method = fixture.GetType().GetMethod(invoker.Name);
-			SetUpContainer();
-			fixture.Container = container;
-			try
-			{
-				try 
-				{
-					SetUpForEachTestMethod();
-					container.Init();
-					try
-					{
-						SetUpAfterContainerInit();
-						try
-						{
-							BindFields();
-							SetUpAfterBindFields();
-							try
-							{
-								BeginTransactionContext();
-								return invoker.Execute(o, args);
-							}
-							catch(Exception e)
-							{
-								ExceptionHandler(e);
-								throw e;
-							}
-							finally
-							{
-								EndTransactionContext();
-								TearDownBeforeUnbindFields();
-								UnbindFields();
-							}
-						}
-						catch(Exception e)
-						{
-							ExceptionHandler(e);
-							throw e;
-						}
-						finally
-						{
-							TearDownBeforeContainerDestroy();
-						}
-					}
-					catch(Exception e)
-					{
-						ExceptionHandler(e);
-						throw e;
-					}
-					finally
-					{
-						container.Destroy();
-					}
-				}
-				catch(Exception e)
-				{
-					ExceptionHandler(e);
-					throw e;
-				}
-				finally 
-				{
-					TearDownForEachTestMethod();
-				}
-			}
-			catch(Exception e)
-			{
-				ExceptionHandler(e);
-				throw e;
-			}
-			finally
-			{
-				for (int i = 0; i < 3; ++i)
-				{
-					GC.WaitForPendingFinalizers();
-					GC.Collect();
-				}
-				TearDownContainer();
-			}
-		}
+        public virtual object Run(IRunInvoker invoker, object o, IList args)
+        {
+            _fixture = o as S2FrameworkTestCaseBase;
+            _method = _fixture.GetType().GetMethod(invoker.Name);
+            SetUpContainer();
+            _fixture.Container = _container;
+            try
+            {
+                try
+                {
+                    SetUpForEachTestMethod();
+                    _container.Init();
+                    try
+                    {
+                        SetUpAfterContainerInit();
+                        try
+                        {
+                            BindFields();
+                            SetUpAfterBindFields();
+                            try
+                            {
+                                BeginTransactionContext();
+                                return invoker.Execute(o, args);
+                            }
+                            catch (Exception e)
+                            {
+                                ExceptionHandler(e);
+                                throw;
+                            }
+                            finally
+                            {
+                                EndTransactionContext();
+                                TearDownBeforeUnbindFields();
+                                UnbindFields();
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            ExceptionHandler(e);
+                            throw;
+                        }
+                        finally
+                        {
+                            TearDownBeforeContainerDestroy();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        ExceptionHandler(e);
+                        throw;
+                    }
+                    finally
+                    {
+                        _container.Destroy();
+                    }
+                }
+                catch (Exception e)
+                {
+                    ExceptionHandler(e);
+                    throw;
+                }
+                finally
+                {
+                    TearDownForEachTestMethod();
+                }
+            }
+            catch (Exception e)
+            {
+                ExceptionHandler(e);
+                throw;
+            }
+            finally
+            {
+                for (int i = 0; i < 3; ++i)
+                {
+                    GC.WaitForPendingFinalizers();
+                    GC.Collect();
+                }
+                TearDownContainer();
+            }
+        }
 
-		protected virtual void SetUpContainer()
-		{
-			SingletonS2ContainerFactory.Init();
-			container = SingletonS2ContainerFactory.Container;
-		}
+        protected virtual void SetUpContainer()
+        {
+            SingletonS2ContainerFactory.Init();
+            _container = SingletonS2ContainerFactory.Container;
+        }
 
-		protected virtual void TearDownContainer()
-		{
+        protected virtual void TearDownContainer()
+        {
             SingletonS2ContainerFactory.Destroy();
-			container = null;
-		}
-		
-		protected virtual void SetUpForEachTestMethod()
-		{
-			string targetName = GetTargetName();
-			if (targetName.Length > 0) 
-			{
-				MethodInfo setupMethod = fixture.GetType().GetMethod("SetUp" + targetName);
-				if (setupMethod != null)
-					MethodUtil.Invoke(setupMethod, fixture, null);
-			}
-		}
+            _container = null;
+        }
 
-		protected virtual void TearDownForEachTestMethod()
-		{
-			String targetName = GetTargetName();
-			if (targetName.Length > 0) 
-			{
-				MethodInfo tearDownMethod = fixture.GetType().GetMethod("TearDown" + targetName);
-				if (tearDownMethod != null)
-					MethodUtil.Invoke(tearDownMethod, fixture, null);
-			}
-		}
+        protected virtual void SetUpForEachTestMethod()
+        {
+            string targetName = GetTargetName();
+            if (targetName.Length > 0)
+            {
+                MethodInfo setupMethod = _fixture.GetType().GetMethod("SetUp" + targetName);
+                if (setupMethod != null)
+                {
+                    MethodUtil.Invoke(setupMethod, _fixture, null);
+                }
+            }
+        }
 
-		protected virtual void BeginTransactionContext()
-		{
-			
-		}
+        protected virtual void TearDownForEachTestMethod()
+        {
+            string targetName = GetTargetName();
+            if (targetName.Length > 0)
+            {
+                MethodInfo tearDownMethod = _fixture.GetType().GetMethod("TearDown" + targetName);
+                if (tearDownMethod != null)
+                {
+                    MethodUtil.Invoke(tearDownMethod, _fixture, null);
+                }
+            }
+        }
 
-		protected virtual void EndTransactionContext()
-		{
-			
-		}
+        protected virtual void BeginTransactionContext()
+        {
 
-		protected virtual void SetUpAfterContainerInit()
-		{
-		}
+        }
 
-		protected virtual void SetUpAfterBindFields()
-		{
-		}
+        protected virtual void EndTransactionContext()
+        {
 
-		protected virtual void TearDownBeforeUnbindFields()
-		{
-		}
+        }
 
-		protected virtual void TearDownBeforeContainerDestroy()
-		{
-		}
+        protected virtual void SetUpAfterContainerInit()
+        {
+        }
 
-		protected string GetTargetName()
-		{
-			string name = method.Name;
-			
-			if (name.ToLower().StartsWith("test"))
-				name = name.Substring(4);
-			
-			if (name.ToLower().EndsWith("test"))
-				name = name.Substring(0, name.Length - 4);
-			
-			return name;
-		}
+        protected virtual void SetUpAfterBindFields()
+        {
+        }
 
-		protected void BindFields()
-		{
-			bindedFields = new ArrayList();
-			for (Type type = fixture.GetType(); 
-				(type != typeof(S2FrameworkTestCaseBase) && type != typeof(S2TestCase) && type != null);
-				type = type.BaseType) {
-				
-				FieldInfo[] fields = type.GetFields(
-							BindingFlags.DeclaredOnly | 
-							BindingFlags.Public| 
-							BindingFlags.NonPublic | 
-							BindingFlags.Instance | 
-							BindingFlags.Static);
-				
-				for (int i = 0; i < fields.Length; ++i) {
-					BindField(fields[i]);
-				}
-			}
-		}
+        protected virtual void TearDownBeforeUnbindFields()
+        {
+        }
 
-		protected void BindField(FieldInfo fieldInfo)
-		{
-			if (IsAutoBindable(fieldInfo))
-			{
-				if (fieldInfo.FieldType.ToString() == "System.DateTime")
-				{
-					DateTime dateValue = (DateTime) fieldInfo.GetValue(fixture);
-					if (DateTime.MinValue != dateValue)
-						return;
-				}
-				else if (fieldInfo.GetValue(fixture) != null)
-				{
-					return;
-				}
-				string name = NormalizeName(fieldInfo.Name);
-				object component = null;
-				if (this.container.HasComponentDef(name))
-				{
-					Type componentType = this.container.GetComponentDef(name).ComponentType;
-					if (componentType == null)
-					{
-						component = this.container.GetComponent(name);
-						if (component != null)
-						{
-							componentType = component.GetType();
-						}
-					}
+        protected virtual void TearDownBeforeContainerDestroy()
+        {
+        }
 
-					if (componentType != null 
-								&& fieldInfo.FieldType.IsAssignableFrom(componentType))
-					{
-						if (component == null)
-						{
-							component = this.container.GetComponent(name);
-						}
-					}
-					else
-					{
-						component = null;
-					}
-				}
-				if (component == null
-					&& this.container.HasComponentDef(fieldInfo.FieldType))
-				{
-					component = this.container.GetComponent(fieldInfo.FieldType);
-				}
-				if (component != null) {
-					/// TODO 例外ラップとユーティリティにまとめる？
-					fieldInfo.SetValue(fixture, component);
-					bindedFields.Add(fieldInfo);
-				}
-			}
-		}
+        protected string GetTargetName()
+        {
+            string name = _method.Name;
 
-		protected String NormalizeName(String name)
-		{
-			return name.TrimEnd('_').TrimStart('_');
-		}
+            if (name.ToLower().StartsWith("test"))
+            {
+                name = name.Substring(4);
+            }
 
-		protected bool IsAutoBindable(FieldInfo fieldInfo)
-		{
-			return !fieldInfo.IsStatic && !fieldInfo.IsLiteral 
-						&& !fieldInfo.IsInitOnly; // && !fieldInfo.FieldType.IsValueType;
-		}
+            if (name.ToLower().EndsWith("test"))
+            {
+                name = name.Substring(0, name.Length - 4);
+            }
 
-		protected void UnbindFields()
-		{
-			for (int i = 0; i < bindedFields.Count; ++i) {
-				FieldInfo fieldInfo = (FieldInfo) bindedFields[i];
-				try
-				{
-					if (!fieldInfo.FieldType.IsValueType)
-					{
-						fieldInfo.SetValue(fixture, null);
-					}
-				}
-				catch (ArgumentException e)
-				{
-					Console.Error.WriteLine(e);
-				}
-				catch (FieldAccessException e)
-				{
-					Console.Error.WriteLine(e);
-				}
-			}
-		}
+            return name;
+        }
 
-		private void ExceptionHandler(Exception e)
-		{
-			if (errors == null)
-				errors = new Hashtable();
-			
-			if (!errors.ContainsKey(e.GetHashCode()))
-			{
-				object[] attrs = method.GetCustomAttributes(typeof(ExpectedExceptionAttribute), false);
-				foreach(ExpectedExceptionAttribute attribute in attrs)
-				{
-					if (IsMatchExpectedException(attribute.ExceptionType, e))
-						return;
-				}
+        protected void BindFields()
+        {
+            _bindedFields = new ArrayList();
+            for (Type type = _fixture.GetType();
+                (type != typeof(S2FrameworkTestCaseBase) && type != typeof(S2TestCase) && type != null);
+                type = type.BaseType)
+            {
 
-				if (logger.IsDebugEnabled)
-					logger.Debug(MessageFormatter.GetSimpleMessage("ESSR0017", new object[] { e }), e);
-				else
-					Console.Error.WriteLine(e);
-				
-				errors.Add(e.GetHashCode(), e);
-			}
-		}
+                FieldInfo[] fields = type.GetFields(
+                            BindingFlags.DeclaredOnly |
+                            BindingFlags.Public |
+                            BindingFlags.NonPublic |
+                            BindingFlags.Instance |
+                            BindingFlags.Static);
 
-		private bool IsMatchExpectedException(Type ExpectedExceptionType, Exception e)
-		{
-			if (ExpectedExceptionType == e.GetType())
-				return true;
-			else if (e.InnerException != null)
-				return IsMatchExpectedException(ExpectedExceptionType, e.InnerException);
-			else
-				return false;
-		}
-	}
+                for (int i = 0; i < fields.Length; ++i)
+                {
+                    BindField(fields[i]);
+                }
+            }
+        }
+
+        protected void BindField(FieldInfo fieldInfo)
+        {
+            if (IsAutoBindable(fieldInfo))
+            {
+                if (fieldInfo.FieldType.ToString() == "System.DateTime")
+                {
+                    DateTime dateValue = (DateTime) fieldInfo.GetValue(_fixture);
+                    if (DateTime.MinValue != dateValue)
+                    {
+                        return;
+                    }
+                }
+                else if (fieldInfo.GetValue(_fixture) != null)
+                {
+                    return;
+                }
+                string name = NormalizeName(fieldInfo.Name);
+                object component = null;
+                if (_container.HasComponentDef(name))
+                {
+                    Type componentType = _container.GetComponentDef(name).ComponentType;
+                    if (componentType == null)
+                    {
+                        component = _container.GetComponent(name);
+                        if (component != null)
+                        {
+                            componentType = component.GetType();
+                        }
+                    }
+
+                    if (componentType != null
+                                && fieldInfo.FieldType.IsAssignableFrom(componentType))
+                    {
+                        if (component == null)
+                        {
+                            component = _container.GetComponent(name);
+                        }
+                    }
+                    else
+                    {
+                        component = null;
+                    }
+                }
+                if (component == null
+                    && _container.HasComponentDef(fieldInfo.FieldType))
+                {
+                    component = _container.GetComponent(fieldInfo.FieldType);
+                }
+                if (component != null)
+                {
+                    /// TODO 例外ラップとユーティリティにまとめる？
+                    fieldInfo.SetValue(_fixture, component);
+                    _bindedFields.Add(fieldInfo);
+                }
+            }
+        }
+
+        protected string NormalizeName(string name)
+        {
+            return name.TrimEnd('_').TrimStart('_');
+        }
+
+        protected bool IsAutoBindable(FieldInfo fieldInfo)
+        {
+            return !fieldInfo.IsStatic && !fieldInfo.IsLiteral
+                        && !fieldInfo.IsInitOnly; // && !fieldInfo.FieldType.IsValueType;
+        }
+
+        protected void UnbindFields()
+        {
+            for (int i = 0; i < _bindedFields.Count; ++i)
+            {
+                FieldInfo fieldInfo = (FieldInfo) _bindedFields[i];
+                try
+                {
+                    if (!fieldInfo.FieldType.IsValueType)
+                    {
+                        fieldInfo.SetValue(_fixture, null);
+                    }
+                }
+                catch (ArgumentException e)
+                {
+                    Console.Error.WriteLine(e);
+                }
+                catch (FieldAccessException e)
+                {
+                    Console.Error.WriteLine(e);
+                }
+            }
+        }
+
+        private void ExceptionHandler(Exception e)
+        {
+            if (_errors == null)
+            {
+                _errors = new Hashtable();
+            }
+
+            if (!_errors.ContainsKey(e.GetHashCode()))
+            {
+                object[] attrs = _method.GetCustomAttributes(typeof(ExpectedExceptionAttribute), false);
+                foreach (ExpectedExceptionAttribute attribute in attrs)
+                {
+                    if (IsMatchExpectedException(attribute.ExceptionType, e))
+                    {
+                        return;
+                    }
+                }
+
+                if (_logger.IsDebugEnabled)
+                {
+                    _logger.Debug(MessageFormatter.GetSimpleMessage("ESSR0017", new object[] { e }), e);
+                }
+                else
+                {
+                    Console.Error.WriteLine(e);
+                }
+
+                _errors.Add(e.GetHashCode(), e);
+            }
+        }
+
+        private bool IsMatchExpectedException(Type ExpectedExceptionType, Exception e)
+        {
+            if (ExpectedExceptionType == e.GetType())
+            {
+                return true;
+            }
+            else if (e.InnerException != null)
+            {
+                return IsMatchExpectedException(ExpectedExceptionType, e.InnerException);
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
 }

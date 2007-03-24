@@ -18,8 +18,8 @@
 
 namespace Seasar.Extension.DataSets
 {
-	public sealed class DataSetConstants
-	{
-		public const string BASE64_FORMAT = "\\B\\:@";
-	}
+    public sealed class DataSetConstants
+    {
+        public const string BASE64_FORMAT = "\\B\\:@";
+    }
 }

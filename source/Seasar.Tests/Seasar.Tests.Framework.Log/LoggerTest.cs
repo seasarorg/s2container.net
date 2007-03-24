@@ -28,87 +28,83 @@ using log4net.Util;
 
 namespace Seasar.Tests.Framework.Log
 {
-	/// <summary>
-	/// LoggerTest ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	[TestFixture]
-	public class LoggerTest
-	{
-		private Logger _logger = Logger.GetLogger(typeof(LoggerTest));
+    [TestFixture]
+    public class LoggerTest
+    {
+        private readonly Logger _logger = Logger.GetLogger(typeof(LoggerTest));
 
-		static LoggerTest()
-		{
-			FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
-				Assembly.GetExecutingAssembly()) + ".config");
-			XmlConfigurator.Configure(LogManager.GetRepository(), info);
-		}
+        static LoggerTest()
+        {
+            FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
+                Assembly.GetExecutingAssembly()) + ".config");
+            XmlConfigurator.Configure(LogManager.GetRepository(), info);
+        }
 
-		[SetUp]
-		public void SetUp()
-		{
+        [SetUp]
+        public void SetUp()
+        {
+        }
 
-		}
+        [Test]
+        public void TestGetLogger()
+        {
+            Assert.AreEqual(_logger, Logger.GetLogger(this.GetType()));
+        }
 
-		[Test]
-		public void TestGetLogger()
-		{
-			Assert.AreEqual(_logger, Logger.GetLogger(this.GetType()));
-		}
+        [Test]
+        public void TestDebug()
+        {
+            _logger.Debug("debug");
+        }
 
-		[Test]
-		public void TestDebug()
-		{
-			_logger.Debug("debug");
-		}
+        [Test]
+        public void TestInfo()
+        {
+            _logger.Info("info");
+        }
 
-		[Test]
-		public void TestInfo()
-		{
-			_logger.Info("info");
-		}
+        [Test]
+        public void TestWarn()
+        {
+            _logger.Warn("warn");
+        }
 
-		[Test]
-		public void TestWarn()
-		{
-			_logger.Warn("warn");
-		}
+        [Test]
+        public void TestError()
+        {
+            _logger.Error("error");
+        }
 
-		[Test]
-		public void TestError()
-		{
-			_logger.Error("error");
-		}
+        [Test]
+        public void TestFatal()
+        {
+            _logger.Fatal("fatal");
+        }
 
-		[Test]
-		public void TestFatal()
-		{
-			_logger.Fatal("fatal");
-		}
+        [Test]
+        public void TestLog()
+        {
+            _logger.Log("ESSR0001", new object[] { "test" });
+        }
 
-		[Test]
-		public void TestLog()
-		{
-			_logger.Log("ESSR0001",new object[] {"test"});
-		}
-
-		[Test]
-		public void TestPerformance()
-		{
-			int num = 100;
-			long start = DateTime.Now.Ticks;
-			for(int i = 0; i < num; ++i)
-			{
-				Trace.WriteLine("test" + i);
-			}
-			long csout = DateTime.Now.Ticks - start;
-			start = DateTime.Now.Ticks;
-			for(int i = 0; i < num; ++i)
-			{
-				_logger.Fatal("test" + i);
-			}
-			long logger = DateTime.Now.Ticks - start;
-			Trace.WriteLine("Console:" + csout);
-			Trace.WriteLine("Logger:" + logger);
-		}
-	}
+        [Test]
+        public void TestPerformance()
+        {
+            int num = 100;
+            long start = DateTime.Now.Ticks;
+            for (int i = 0; i < num; ++i)
+            {
+                Trace.WriteLine("test" + i);
+            }
+            long csout = DateTime.Now.Ticks - start;
+            start = DateTime.Now.Ticks;
+            for (int i = 0; i < num; ++i)
+            {
+                _logger.Fatal("test" + i);
+            }
+            long loggerTicks = DateTime.Now.Ticks - start;
+            Trace.WriteLine("Console:" + csout);
+            Trace.WriteLine("Logger:" + loggerTicks);
+        }
+    }
 }

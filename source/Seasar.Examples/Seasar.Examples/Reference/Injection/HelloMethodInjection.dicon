@@ -1,13 +1,13 @@
-<?xml version="1.0" encoding="utf-8" ?> 
+<?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
 "http://www.seasar.org/dtd/components21.dtd">
 <components>
-	<component class="Seasar.Examples.Reference.Injection.HelloMethodInjection">
-		<initMethod name="AddMessage">
-			<arg>"Hello "</arg>
-		</initMethod>
-		<initMethod>self.AddMessage("World!")</initMethod>
-	</component>
+  <component class="Seasar.Examples.Reference.Injection.HelloMethodInjection">
+    <initMethod name="AddMessage">
+      <arg>"Hello "</arg>
+    </initMethod>
+    <initMethod>self.AddMessage("World!")</initMethod>
+  </component>
 
-	<component name="MethodInjection" class="Seasar.Examples.Reference.Injection.HelloMethodInjectionClient" />
+  <component name="MethodInjection" class="Seasar.Examples.Reference.Injection.HelloMethodInjectionClient" />
 </components>

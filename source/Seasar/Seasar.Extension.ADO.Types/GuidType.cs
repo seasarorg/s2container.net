@@ -21,36 +21,32 @@ using System.Data;
 
 namespace Seasar.Extension.ADO.Types
 {
-	public class GuidType : PrimitiveBaseType, IValueType
-	{
-		public GuidType()
-		{
-        }
-
+    public class GuidType : PrimitiveBaseType, IValueType
+    {
         #region IValueType ÉÅÉìÉo
 
-		public override void BindValue(IDbCommand cmd, string columnName, object value)
+        public override void BindValue(IDbCommand cmd, string columnName, object value)
         {
             BindValue(cmd, columnName, value, DbType.Guid);
         }
 
         #endregion
 
-		protected override object GetValue(object value)
-		{
-            if(value == DBNull.Value)
+        protected override object GetValue(object value)
+        {
+            if (value == DBNull.Value)
             {
                 return Guid.Empty;
             }
-            else if(value is Guid)
+            else if (value is Guid)
             {
                 return (Guid) value;
             }
-            else if(value is string)
+            else if (value is string)
             {
                 return new Guid((string) value);
             }
-            else if(value is byte[])
+            else if (value is byte[])
             {
                 return new Guid((byte[]) value);
             }

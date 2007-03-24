@@ -19,18 +19,10 @@
 #region using directives
 
 using System;
-using System.Diagnostics;
-using System.Text;
-using System.Reflection;
 using System.Collections;
-using System.Collections.Generic;
-
-using Seasar.Framework.Aop.Impl;
-using Seasar.Framework.Util;
-using Seasar.Framework.Aop.Interceptors;
-using Seasar.Framework.Container.Util;
-
+using System.Reflection;
 using Castle.DynamicProxy;
+using Seasar.Framework.Aop.Impl;
 
 #endregion
 
@@ -49,14 +41,15 @@ namespace Seasar.Framework.Aop.Proxy
     {
         #region fields
 
-        private ProxyGenerator generator;
-        private IAspect[] aspects;
-        private Hashtable interceptors = new Hashtable();
-        private Type type;
-        private Type enhancedType;
-        private Hashtable parameters;
+        private readonly ProxyGenerator _generator;
+        private readonly IAspect[] _aspects;
+        private readonly Hashtable _interceptors = new Hashtable();
+        private readonly Type _type;
+        private readonly Type _enhancedType;
+        private readonly Hashtable _parameters;
 
         #endregion
+
         #region constructors
 
         /// <summary>
@@ -98,20 +91,20 @@ namespace Seasar.Framework.Aop.Proxy
         /// <param name="target">Aspectが適用されるターゲット</param>
         public DynamicAopProxy(Type type, IAspect[] aspects, Hashtable parameters, object target)
         {
-            this.type = type;
-            this.aspects = aspects;
-            this.parameters = parameters;
-            this.generator = new ProxyGenerator();
+            _type = type;
+            _aspects = aspects;
+            _parameters = parameters;
+            _generator = new ProxyGenerator();
 
-            if (this.type.IsInterface)
+            if (_type.IsInterface)
             {
-                this.enhancedType = this.generator.ProxyBuilder.CreateInterfaceProxy(new Type[] { this.type }, target.GetType());
+                _enhancedType = _generator.ProxyBuilder.CreateInterfaceProxy(new Type[] { _type }, target.GetType());
             }
             else
             {
-                this.enhancedType = this.generator.ProxyBuilder.CreateClassProxy(this.type);
+                _enhancedType = _generator.ProxyBuilder.CreateClassProxy(_type);
             }
-            this.SetUpAspects();
+            SetUpAspects();
         }
 
         #endregion
@@ -124,10 +117,11 @@ namespace Seasar.Framework.Aop.Proxy
         /// <value>Type 拡張された型</value>
         public Type EnhancedType
         {
-            get { return this.enhancedType; }
+            get { return _enhancedType; }
         }
 
         #endregion
+
         #region public method
 
         /// <summary>
@@ -135,24 +129,24 @@ namespace Seasar.Framework.Aop.Proxy
         /// </summary>
         public object Create(object target)
         {
-            return Create(type, target);
+            return Create(_type, target);
         }
 
         public object Create(Type type, object target)
         {
             ArrayList args = new ArrayList();
             args.Add(this);
-            if (this.type.IsInterface)
+            if (_type.IsInterface)
             {
                 args.AddRange(new object[] { null });
             }
             if (type.IsInterface && target.GetType() != typeof(object))
             {
-                return this.generator.CreateProxy(type, this, target);
+                return _generator.CreateProxy(type, this, target);
             }
             else
             {
-                return Activator.CreateInstance(this.enhancedType, args.ToArray());
+                return Activator.CreateInstance(_enhancedType, args.ToArray());
             }
         }
 
@@ -166,8 +160,9 @@ namespace Seasar.Framework.Aop.Proxy
             ArrayList newArgs = new ArrayList();
             newArgs.Add(this);
             newArgs.AddRange(args);
-            return Activator.CreateInstance(this.enhancedType, newArgs.ToArray());
+            return Activator.CreateInstance(_enhancedType, newArgs.ToArray());
         }
+
         /// <summary>
         /// プロキシオブジェクトを生成します
         /// </summary>
@@ -176,13 +171,13 @@ namespace Seasar.Framework.Aop.Proxy
         /// <param name="targetType">ターゲットの型</param>
         public object Create(Type[] argTypes, object[] args, Type targetType)
         {
-            if (this.type.IsInterface)
+            if (_type.IsInterface)
             {
-                return this.generator.CreateProxy(targetType, this, args);
+                return _generator.CreateProxy(targetType, this, args);
             }
             else
             {
-                return this.generator.CreateClassProxy(targetType, this, args);
+                return _generator.CreateClassProxy(targetType, this, args);
             }
         }
 
@@ -192,14 +187,14 @@ namespace Seasar.Framework.Aop.Proxy
 
         public object Intercept(IInvocation invocation, params object[] args)
         {
-            object ret = null;
+            object ret;
             if ((invocation.Proxy == invocation.InvocationTarget ||
                 !(invocation.Method.IsVirtual && !invocation.Method.IsFinal)) &&
-                this.interceptors.ContainsKey(invocation.Method))
+                _interceptors.ContainsKey(invocation.Method))
             {
-                IMethodInterceptor[] interceptors = this.interceptors[invocation.Method] as IMethodInterceptor[];
+                IMethodInterceptor[] interceptors = _interceptors[invocation.Method] as IMethodInterceptor[];
                 IMethodInvocation mehotdInvocation =
-                   new DynamicProxyMethodInvocation(invocation.InvocationTarget, this.type, invocation, args, interceptors, parameters);
+                   new DynamicProxyMethodInvocation(invocation.InvocationTarget, _type, invocation, args, interceptors, _parameters);
                 ret = interceptors[0].Invoke(mehotdInvocation);
 
             }
@@ -219,15 +214,15 @@ namespace Seasar.Framework.Aop.Proxy
         /// </summary>
         private void SetUpAspects()
         {
-            if (this.aspects != null)
+            if (_aspects != null)
             {
-                MethodInfo[] methodInfos = this.type.GetMethods();
+                MethodInfo[] methodInfos = _type.GetMethods();
                 foreach (MethodInfo method in methodInfos)
                 {
-                    if (method.IsVirtual || this.type.IsInterface)
+                    if (method.IsVirtual || _type.IsInterface)
                     {
                         ArrayList interceptorList = new ArrayList();
-                        foreach (IAspect aspect in this.aspects)
+                        foreach (IAspect aspect in _aspects)
                         {
                             IPointcut pointcut = aspect.Pointcut;
                             if (pointcut == null || pointcut.IsApplied(method))
@@ -239,7 +234,7 @@ namespace Seasar.Framework.Aop.Proxy
                         {
                             IMethodInterceptor[] interceptors = (IMethodInterceptor[])
                             interceptorList.ToArray(typeof(IMethodInterceptor));
-                            this.interceptors.Add(method, interceptors);
+                            _interceptors.Add(method, interceptors);
                         }
                     }
                 }

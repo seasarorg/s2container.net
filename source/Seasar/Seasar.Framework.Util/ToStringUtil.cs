@@ -36,7 +36,7 @@ namespace Seasar.Framework.Util
                 return "null";
             }
 
-            string ret = null;
+            string ret;
             if (target is IDictionary)
             {
                 ret = ToString(target as IDictionary);
@@ -140,16 +140,16 @@ namespace Seasar.Framework.Util
             DataColumnCollection tableColumns = target.Columns;
             for (int ctrRow = 0; ctrRow < tableRows.Count; ctrRow++)
             {
-                DataRow row = tableRows[ctrRow] as DataRow;
+                DataRow row = tableRows[ctrRow];
                 buf.AppendFormat("Row #{0}-", ctrRow + 1);
                 buf.Append(Environment.NewLine);
                 object[] rowItems = row.ItemArray;
 
                 for (int ctrColumn = 0; ctrColumn < tableColumns.Count; ctrColumn++)
                 {
-                    DataColumn column = tableColumns[ctrColumn] as DataColumn;
+                    DataColumn column = tableColumns[ctrColumn];
                     buf.AppendFormat("\t{0}: {1}", column.ColumnName,
-                                        rowItems[ctrColumn].ToString());
+                                        rowItems[ctrColumn]);
                     buf.Append(Environment.NewLine);
                 }
             }

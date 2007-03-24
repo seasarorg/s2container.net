@@ -16,45 +16,42 @@
  */
 #endregion
 
-using System;
-
 using Seasar.Framework.Aop;
 
 namespace Seasar.Extension.Tx.Impl
 {
-	/// <summary>
-	/// LocalRequiresNewTxHandler ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public class LocalRequiresNewTxHandler : AbstractLocalTxHandler
-	{
+    public class LocalRequiresNewTxHandler : AbstractLocalTxHandler
+    {
+        public override object Handle(IMethodInvocation invocation, bool alreadyInTransaction)
+        {
+            using (ITransactionContext current = Context.Create())
+            {
+                ITransactionContext parent = Context.Current;
+                current.Parent = parent;
+                Context.Current = null;
+                current.Begin();
+                Context.Current = current;
 
-		public override object Handle(IMethodInvocation invocation, bool alreadyInTransaction)
-		{
-			using(ITransactionContext current = this.Context.Create())
-			{
-				ITransactionContext parent = this.Context.Current;
-				current.Parent = parent;
-				this.Context.Current = null;
-				current.Begin();
-				this.Context.Current = current;
-
-				try
-				{
-					object obj = invocation.Proceed();
-					current.Commit();
-					return obj;
-				}
-				catch
-				{
-					current.Rollback();
-					throw;
-				} 
-				finally
-				{
-					this.Context.Current = parent;
-					if(parent != null) this.Context.Current.Parent = null;
-				}
-			}
-		}
-	}
+                try
+                {
+                    object obj = invocation.Proceed();
+                    current.Commit();
+                    return obj;
+                }
+                catch
+                {
+                    current.Rollback();
+                    throw;
+                }
+                finally
+                {
+                    Context.Current = parent;
+                    if (parent != null)
+                    {
+                        Context.Current.Parent = null;
+                    }
+                }
+            }
+        }
+    }
 }

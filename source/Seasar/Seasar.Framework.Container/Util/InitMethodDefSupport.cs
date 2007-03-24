@@ -16,72 +16,61 @@
  */
 #endregion
 
-using System;
 using System.Collections;
 
 namespace Seasar.Framework.Container.Util
 {
-	/// <summary>
-	/// InitMethodDefSupport の概要の説明です。
-	/// </summary>
-	public sealed class InitMethodDefSupport
-	{
-		private IList methodDefs_ = ArrayList.Synchronized(new ArrayList());
-		private IS2Container container_;
+    public sealed class InitMethodDefSupport
+    {
+        private readonly IList _methodDefs = ArrayList.Synchronized(new ArrayList());
+        private IS2Container _container;
 
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		public InitMethodDefSupport()
-		{
-		}
+        /// <summary>
+        /// MethodDefを追加します。
+        /// </summary>
+        /// <param name="methodDef">MethodDef</param>
+        public void AddInitMethodDef(IInitMethodDef methodDef)
+        {
+            if (_container != null)
+            {
+                methodDef.Container = _container;
+            }
+            _methodDefs.Add(methodDef);
+        }
 
-		/// <summary>
-		/// MethodDefを追加します。
-		/// </summary>
-		/// <param name="methodDef">MethodDef</param>
-		public void AddInitMethodDef(IInitMethodDef methodDef)
-		{
-			if(container_ != null)
-			{
-				methodDef.Container = container_;
-			}
-			methodDefs_.Add(methodDef);
-		}
+        /// <summary>
+        /// IInitMethodDefの数
+        /// </summary>
+        public int InitMethodDefSize
+        {
+            get { return _methodDefs.Count; }
+        }
 
-		/// <summary>
-		/// IInitMethodDefの数
-		/// </summary>
-		public int InitMethodDefSize
-		{
-			get { return methodDefs_.Count; }
-		}
+        /// <summary>
+        /// 番号を指定してIInitMethodDefを取得します。
+        /// </summary>
+        /// <param name="index">IInitMethodDefの番号</param>
+        /// <returns>IInitMethodDef</returns>
+        public IInitMethodDef GetInitMethodDef(int index)
+        {
+            return (IInitMethodDef) _methodDefs[index];
+        }
 
-		/// <summary>
-		/// 番号を指定してIInitMethodDefを取得します。
-		/// </summary>
-		/// <param name="index">IInitMethodDefの番号</param>
-		/// <returns>IInitMethodDef</returns>
-		public IInitMethodDef GetInitMethodDef(int index)
-		{
-			return (IInitMethodDef) methodDefs_[index];
-		}
-
-		/// <summary>
-		/// S2Container
-		/// </summary>
-		public IS2Container Container
-		{
-			set
-			{
-				container_ = value;
-				IEnumerator enu = methodDefs_.GetEnumerator();
-				while(enu.MoveNext())
-				{
-					IInitMethodDef methodDef = (IInitMethodDef) enu.Current;
-					methodDef.Container = value;
-				}
-			}
-		}
-	}
+        /// <summary>
+        /// S2Container
+        /// </summary>
+        public IS2Container Container
+        {
+            set
+            {
+                _container = value;
+                IEnumerator enu = _methodDefs.GetEnumerator();
+                while (enu.MoveNext())
+                {
+                    IInitMethodDef methodDef = (IInitMethodDef) enu.Current;
+                    methodDef.Container = value;
+                }
+            }
+        }
+    }
 }

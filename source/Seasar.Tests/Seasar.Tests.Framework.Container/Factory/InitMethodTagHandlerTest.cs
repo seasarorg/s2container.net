@@ -16,7 +16,6 @@
  */
 #endregion
 
-using System;
 using System.Collections;
 using MbUnit.Framework;
 using Seasar.Framework.Container;
@@ -24,39 +23,36 @@ using Seasar.Framework.Container.Factory;
 
 namespace Seasar.Tests.Framework.Container.Factory
 {
-	/// <summary>
-	/// InitMethodTagHandlerTest ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	[TestFixture]
-	public class InitMethodTagHandlerTest
-	{
-		private const string PATH 
+    [TestFixture]
+    public class InitMethodTagHandlerTest
+    {
+        private const string PATH
             = "Seasar/Tests/Framework/Container/Factory/InitMethodTagHandlerTest.dicon";
 
-		[Test]
-		public void TestArg()
-		{
-			IS2Container container = S2ContainerFactory.Create(PATH);
-			Hashtable aaa = (Hashtable) container.GetComponent("aaa");
-			Assert.AreEqual(111, aaa["aaa"]);
-			Assert.AreEqual(222, aaa["bbb"]);
-			Bbb bbb = (Bbb) container.GetComponent("bbb");
-			Assert.AreEqual(false, bbb.IsEmpty);
-		}
+        [Test]
+        public void TestArg()
+        {
+            IS2Container container = S2ContainerFactory.Create(PATH);
+            Hashtable aaa = (Hashtable) container.GetComponent("aaa");
+            Assert.AreEqual(111, aaa["aaa"]);
+            Assert.AreEqual(222, aaa["bbb"]);
+            Bbb bbb = (Bbb) container.GetComponent("bbb");
+            Assert.AreEqual(false, bbb.IsEmpty);
+        }
 
-		public class Bbb
-		{
-			private IList value_;
+        public class Bbb
+        {
+            private IList _value;
 
-			public void Value(IList value)
-			{
-				value_ = value;
-			}
+            public void Value(IList value)
+            {
+                _value = value;
+            }
 
-			public bool IsEmpty
-			{
-				get { return value_ == null; }
-			}
-		}
-	}
+            public bool IsEmpty
+            {
+                get { return _value == null; }
+            }
+        }
+    }
 }

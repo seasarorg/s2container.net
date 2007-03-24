@@ -17,49 +17,49 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
-using System.Text;
 using MbUnit.Framework;
 using Seasar.Framework.Aop;
 using Seasar.Framework.Aop.Impl;
-using Seasar.Framework.Aop.Proxy;
 using Seasar.Framework.Aop.Interceptors;
+using Seasar.Framework.Aop.Proxy;
+using Seasar.Framework.Log;
 
 namespace Seasar.Tests.Framework.Aop.Interceptors
 {
     [TestFixture]
-	public class InterceptorChainTest
-	{
-        private InterceptorChain target = null;
+    public class InterceptorChainTest
+    {
+        private InterceptorChain _target = null;
 
-        public static object CreateProxy(IMethodInterceptor interceptor, Type proxyType) {
+        public static object CreateProxy(IMethodInterceptor interceptor, Type proxyType)
+        {
             IAspect aspect = new AspectImpl(interceptor, null);
             return new AopProxy(proxyType, new IAspect[] { aspect }).GetTransparentProxy();
         }
 
         [SetUp]
-        public void SetUp() {
-            target = new InterceptorChain();
+        public void SetUp()
+        {
+            _target = new InterceptorChain();
             IMethodInterceptor interceptor1 = new TestInterceptor("_A");
             IMethodInterceptor interceptor2 = new TestInterceptor("_B");
             IMethodInterceptor interceptor3 = new MockInterceptor(TestMessage4InterceptorChain.ECHO);
-            target.Add(interceptor1);
-            target.Add(interceptor2);
-            target.Add(interceptor3);
+            _target.Add(interceptor1);
+            _target.Add(interceptor2);
+            _target.Add(interceptor3);
         }
 
         [Test]
-        public void TestInvoke() {
-            GoodMorning gm = CreateProxy(target, typeof(GoodMorning)) as GoodMorning;
+        public void TestInvoke()
+        {
+            GoodMorning gm = CreateProxy(_target, typeof(GoodMorning)) as GoodMorning;
             string result = gm.Greeting();
             Trace.WriteLine(result);
             Assert.AreEqual(TestMessage4InterceptorChain.ECHO, result);
         }
-
-        
-	}
+    }
 
     public class TestMessage4InterceptorChain
     {
@@ -76,15 +76,16 @@ namespace Seasar.Tests.Framework.Aop.Interceptors
     {
         #region IMethodInterceptor ƒNƒ‰ƒX
 
-        private readonly log4net.ILog _log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private string _id = "";
+        private string _id = string.Empty;
 
-        public TestInterceptor(string id) {
+        public TestInterceptor(string id)
+        {
             _id = id;
         }
 
-        public override object Invoke(IMethodInvocation invocation) {
-            Trace.WriteLine(string.Format("{0} is called.", this.ToString() + _id));
+        public override object Invoke(IMethodInvocation invocation)
+        {
+            Trace.WriteLine(string.Format("{0} is called.", ToString() + _id));
             return invocation.Proceed();
         }
 

@@ -26,162 +26,162 @@ using Seasar.Framework.Container.Impl;
 
 namespace Seasar.Tests.Framework.Container.Deployer
 {
-	[TestFixture]
-	public class RequestComponentDeployerTest
-	{
-		private IS2Container container;
+    [TestFixture]
+    public class RequestComponentDeployerTest
+    {
+        private IS2Container _container;
 
-		[SetUp]
-		public void SetUp()
-		{
-			HttpRequest request = new HttpRequest("hello.html", "http://localhost/hello.html", "");
-			HttpResponse response = new HttpResponse(null);
-			HttpContext.Current = new HttpContext(request, response);
-			container = new S2ContainerImpl();
-			container.HttpContext = HttpContext.Current;
-		}
-
-		[Test]
-		public void TestDeployAutoAutoConstructor()
-		{
-			IComponentDef cd = new ComponentDefImpl(typeof(Foo), "foo");
-			container.Register(cd);
-			IComponentDeployer deployer = new RequestComponentDeployer(cd);
-			Foo foo = (Foo) deployer.Deploy(typeof(Foo));
-			Assert.AreSame(foo, HttpContext.Current.Items["foo"]);
-			Assert.AreSame(foo, deployer.Deploy(typeof(Foo)));
-		}
-
-		[Test]
-		public void TestDeployAspect1()
-		{
-			container = new S2ContainerImpl();
-			ComponentDefImpl cd = new ComponentDefImpl(typeof(CulcImpl1));
-
-			IAspectDef ad = new AspectDefImpl();
-			ad.Expression = "plusOne";
-			ad.Container = container;
-			cd.AddAspeceDef(ad);
-			ComponentDefImpl plusOneCd = new ComponentDefImpl(typeof(PlusOneInterceptor), "plusOne");
-			container.Register(plusOneCd);
-			container.Register(cd);
-
-			IComponentDeployer deployer = new RequestComponentDeployer(cd);
-			ICulc culc = (ICulc) deployer.Deploy(typeof(ICulc));
-            PlusOneInterceptor.Count = 0;
-			Assert.AreEqual(1, culc.Count());
-		}
-
-		[Test]
-		public void TestDeployAspect2()
-		{
-			container = new S2ContainerImpl();
-			ComponentDefImpl cd = new ComponentDefImpl(typeof(CulcImpl2));
-
-			IAspectDef ad = new AspectDefImpl();
-			ad.Expression = "plusOne";
-			ad.Container = container;
-			cd.AddAspeceDef(ad);
-			ComponentDefImpl plusOneCd = new ComponentDefImpl(typeof(PlusOneInterceptor), "plusOne");
-			container.Register(plusOneCd);
-			container.Register(cd);
-
-			IComponentDeployer deployer = new RequestComponentDeployer(cd);
-			CulcImpl2 culc = (CulcImpl2) deployer.Deploy(typeof(CulcImpl2));
-			PlusOneInterceptor.Count = 0;
-			Assert.AreEqual(1, culc.Count());
-		}
-
-		[Test]
-		public void TestDeployAspect3()
-		{
-			container = new S2ContainerImpl();
-			ComponentDefImpl cd = new ComponentDefImpl(typeof(CulcImpl2));
-
-			IAspectDef ad = new AspectDefImpl();
-			ad.Expression = "plusOne";
-			ad.Container = container;
-
-			IAspectDef ad2 = new AspectDefImpl();
-			ad2.Expression = "plusOne";
-			ad2.Container = container;
-
-			cd.AddAspeceDef(ad);
-			cd.AddAspeceDef(ad2);
-			ComponentDefImpl plusOneCd = new ComponentDefImpl(typeof(PlusOneInterceptor), "plusOne");
-			container.Register(plusOneCd);
-			container.Register(cd);
-
-			IComponentDeployer deployer = new RequestComponentDeployer(cd);
-			CulcImpl2 culc = (CulcImpl2) deployer.Deploy(typeof(CulcImpl2));
-			PlusOneInterceptor.Count = 0;
-			Assert.AreEqual(2, culc.Count());
-		}
+        [SetUp]
+        public void SetUp()
+        {
+            HttpRequest request = new HttpRequest("hello.html", "http://localhost/hello.html", string.Empty);
+            HttpResponse response = new HttpResponse(null);
+            HttpContext.Current = new HttpContext(request, response);
+            _container = new S2ContainerImpl();
+            _container.HttpContext = HttpContext.Current;
+        }
 
         [Test]
-        public void TestDeployAspect4()
+        public void TestDeployAutoAutoConstructor()
         {
-            container = new S2ContainerImpl();
+            IComponentDef cd = new ComponentDefImpl(typeof(Foo), "foo");
+            _container.Register(cd);
+            IComponentDeployer deployer = new RequestComponentDeployer(cd);
+            Foo foo = (Foo) deployer.Deploy(typeof(Foo));
+            Assert.AreSame(foo, HttpContext.Current.Items["foo"]);
+            Assert.AreSame(foo, deployer.Deploy(typeof(Foo)));
+        }
+
+        [Test]
+        public void TestDeployAspect1()
+        {
+            _container = new S2ContainerImpl();
             ComponentDefImpl cd = new ComponentDefImpl(typeof(CulcImpl1));
 
             IAspectDef ad = new AspectDefImpl();
             ad.Expression = "plusOne";
-            ad.Container = container;
+            ad.Container = _container;
             cd.AddAspeceDef(ad);
             ComponentDefImpl plusOneCd = new ComponentDefImpl(typeof(PlusOneInterceptor), "plusOne");
-            container.Register(plusOneCd);
-            container.Register(cd);
+            _container.Register(plusOneCd);
+            _container.Register(cd);
 
             IComponentDeployer deployer = new RequestComponentDeployer(cd);
-            ICulc culc = (ICulc)deployer.Deploy(typeof(ICulc));
+            ICulc culc = (ICulc) deployer.Deploy(typeof(ICulc));
+            PlusOneInterceptor.Count = 0;
+            Assert.AreEqual(1, culc.Count());
+        }
+
+        [Test]
+        public void TestDeployAspect2()
+        {
+            _container = new S2ContainerImpl();
+            ComponentDefImpl cd = new ComponentDefImpl(typeof(CulcImpl2));
+
+            IAspectDef ad = new AspectDefImpl();
+            ad.Expression = "plusOne";
+            ad.Container = _container;
+            cd.AddAspeceDef(ad);
+            ComponentDefImpl plusOneCd = new ComponentDefImpl(typeof(PlusOneInterceptor), "plusOne");
+            _container.Register(plusOneCd);
+            _container.Register(cd);
+
+            IComponentDeployer deployer = new RequestComponentDeployer(cd);
+            CulcImpl2 culc = (CulcImpl2) deployer.Deploy(typeof(CulcImpl2));
+            PlusOneInterceptor.Count = 0;
+            Assert.AreEqual(1, culc.Count());
+        }
+
+        [Test]
+        public void TestDeployAspect3()
+        {
+            _container = new S2ContainerImpl();
+            ComponentDefImpl cd = new ComponentDefImpl(typeof(CulcImpl2));
+
+            IAspectDef ad = new AspectDefImpl();
+            ad.Expression = "plusOne";
+            ad.Container = _container;
+
+            IAspectDef ad2 = new AspectDefImpl();
+            ad2.Expression = "plusOne";
+            ad2.Container = _container;
+
+            cd.AddAspeceDef(ad);
+            cd.AddAspeceDef(ad2);
+            ComponentDefImpl plusOneCd = new ComponentDefImpl(typeof(PlusOneInterceptor), "plusOne");
+            _container.Register(plusOneCd);
+            _container.Register(cd);
+
+            IComponentDeployer deployer = new RequestComponentDeployer(cd);
+            CulcImpl2 culc = (CulcImpl2) deployer.Deploy(typeof(CulcImpl2));
+            PlusOneInterceptor.Count = 0;
+            Assert.AreEqual(2, culc.Count());
+        }
+
+        [Test]
+        public void TestDeployAspect4()
+        {
+            _container = new S2ContainerImpl();
+            ComponentDefImpl cd = new ComponentDefImpl(typeof(CulcImpl1));
+
+            IAspectDef ad = new AspectDefImpl();
+            ad.Expression = "plusOne";
+            ad.Container = _container;
+            cd.AddAspeceDef(ad);
+            ComponentDefImpl plusOneCd = new ComponentDefImpl(typeof(PlusOneInterceptor), "plusOne");
+            _container.Register(plusOneCd);
+            _container.Register(cd);
+
+            IComponentDeployer deployer = new RequestComponentDeployer(cd);
+            ICulc culc = (ICulc) deployer.Deploy(typeof(ICulc));
             PlusOneInterceptor.Count = 0;
             Assert.AreEqual(1, culc.Count());
 
-            ICulc culc2 = (ICulc)deployer.Deploy(typeof(ICulc));
+            ICulc culc2 = (ICulc) deployer.Deploy(typeof(ICulc));
             Assert.AreEqual(2, culc2.Count());
         }
 
-		public class Foo
-		{
-			private string message_;
+        public class Foo
+        {
+            private string _message;
 
-			public string Message
-			{
-				set { message_ = value; }
-				get { return message_; }
-			}
-		}
+            public string Message
+            {
+                set { _message = value; }
+                get { return _message; }
+            }
+        }
 
-		public class PlusOneInterceptor : IMethodInterceptor
-		{
-			public static int Count = 0;
-			public object Invoke(IMethodInvocation invocation)
-			{
-				++Count;
-				invocation.Proceed();
-				return Count;
-			}
-		}
+        public class PlusOneInterceptor : IMethodInterceptor
+        {
+            public static int Count = 0;
+            public object Invoke(IMethodInvocation invocation)
+            {
+                ++Count;
+                invocation.Proceed();
+                return Count;
+            }
+        }
 
-		public interface ICulc
-		{
-			int Count();
-		}
+        public interface ICulc
+        {
+            int Count();
+        }
 
-		public class CulcImpl1 : ICulc
-		{
-			public int Count()
-			{
-				return 0;
-			}
-		}
+        public class CulcImpl1 : ICulc
+        {
+            public int Count()
+            {
+                return 0;
+            }
+        }
 
-		public class CulcImpl2 : MarshalByRefObject, ICulc
-		{
-			public int Count()
-			{
-				return 0;
-			}
-		}
-	}
+        public class CulcImpl2 : MarshalByRefObject, ICulc
+        {
+            public int Count()
+            {
+                return 0;
+            }
+        }
+    }
 }

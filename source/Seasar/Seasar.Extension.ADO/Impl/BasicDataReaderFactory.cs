@@ -16,17 +16,14 @@
  */
 #endregion
 
-using System;
 using System.Data;
-using Seasar.Extension.ADO;
-using Seasar.Framework.Util;
 
 namespace Seasar.Extension.ADO.Impl
 {
     public class BasicDataReaderFactory : IDataReaderFactory
     {
         public readonly static IDataReaderFactory INSTANCE = new BasicDataReaderFactory(BasicCommandFactory.INSTANCE);
-        private ICommandFactory commandFactory;
+        private ICommandFactory _commandFactory;
 
         public BasicDataReaderFactory()
         {
@@ -39,8 +36,8 @@ namespace Seasar.Extension.ADO.Impl
 
         public ICommandFactory CommandFactory
         {
-            get { return commandFactory; }
-            set { commandFactory = value; }
+            get { return _commandFactory; }
+            set { _commandFactory = value; }
         }
 
         #region IDataReaderFactory ÉÅÉìÉo

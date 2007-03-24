@@ -18,35 +18,36 @@
 
 using System;
 using System.Runtime.InteropServices;
-
 using HWND = System.IntPtr;
 
 namespace Seasar.Extension.UI
 {
-	/// <summary>
-	/// Win32 API を使用する為のファサードクラス
-	/// </summary>
-	public class Win32
-	{
-		private Win32() {}
-		
-		// see. WINUSER.H
-		public const int WM_USER    = 0x0400;
-		public const int WM_PAINT   = 0x000F;
-		public const int WM_HSCROLL = 0x0114;
-		public const int WM_VSCROLL = 0x0115;
+    /// <summary>
+    /// Win32 API を使用する為のファサードクラス
+    /// </summary>
+    public class Win32
+    {
+        private Win32() { }
 
-		public const int EM_GETSCROLLPOS = (WM_USER + 221);
-		public const int EM_SETSCROLLPOS = (WM_USER + 222);
+        // see. WINUSER.H
+        public const int WM_USER = 0x0400;
+        public const int WM_PAINT = 0x000F;
+        public const int WM_HSCROLL = 0x0114;
+        public const int WM_VSCROLL = 0x0115;
 
-		[StructLayout(LayoutKind.Sequential)]
-		public struct POINT 
-		{
-			public int x;
-			public int y;
-		}
+        public const int EM_GETSCROLLPOS = (WM_USER + 221);
+        public const int EM_SETSCROLLPOS = (WM_USER + 222);
 
-		[DllImport("user32")] public static extern int SendMessage(HWND hwnd, int wMsg, int wParam, IntPtr lParam);
-		[DllImport("user32")] public static extern int PostMessage(HWND hwnd, int wMsg, int wParam, int lParam);
-	}
+        [StructLayout(LayoutKind.Sequential)]
+        public struct POINT
+        {
+            public int x;
+            public int y;
+        }
+
+        [DllImport("user32")]
+        public static extern int SendMessage(HWND hwnd, int wMsg, int wParam, IntPtr lParam);
+        [DllImport("user32")]
+        public static extern int PostMessage(HWND hwnd, int wMsg, int wParam, int lParam);
+    }
 }

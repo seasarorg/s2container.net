@@ -16,34 +16,29 @@
  */
 #endregion
 
-using System;
+using MbUnit.Framework;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Factory;
-using MbUnit.Framework;
 
 namespace Seasar.Tests.Framework.Container.Factory
 {
-
-	/// <summary>
-	/// MetaTagHandlerTest ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	[TestFixture]
-	public class MetaTagHandlerTest
-	{
-		private const string PATH 
+    [TestFixture]
+    public class MetaTagHandlerTest
+    {
+        private const string PATH
             = "Seasar/Tests/Framework/Container/Factory/MetaTagHandlerTest.dicon";
 
-		[Test]
-		public void TestMeta()
-		{
-			IS2Container container = S2ContainerFactory.Create(PATH);
-			Assert.AreEqual(1, container.MetaDefSize);
-			IMetaDef md = container.GetMetaDef("aaa");
-			Assert.AreEqual("111", md.Value);
-			Assert.IsNotNull(md.Container);
-			Assert.AreEqual(1, md.MetaDefSize);
-			IMetaDef md2 = md.GetMetaDef(0);
-			Assert.AreEqual("222", md2.Value);
-		}
-	}
+        [Test]
+        public void TestMeta()
+        {
+            IS2Container container = S2ContainerFactory.Create(PATH);
+            Assert.AreEqual(1, container.MetaDefSize);
+            IMetaDef md = container.GetMetaDef("aaa");
+            Assert.AreEqual("111", md.Value);
+            Assert.IsNotNull(md.Container);
+            Assert.AreEqual(1, md.MetaDefSize);
+            IMetaDef md2 = md.GetMetaDef(0);
+            Assert.AreEqual("222", md2.Value);
+        }
+    }
 }

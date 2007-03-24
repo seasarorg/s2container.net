@@ -23,53 +23,53 @@ using Seasar.Extension.ADO;
 
 namespace Seasar.Framework.Util
 {
-	public sealed class DataTableUtil
-	{
-		private DataTableUtil()
-		{
-		}
+    public sealed class DataTableUtil
+    {
+        private DataTableUtil()
+        {
+        }
 
-		public static bool IsPrimaryKey(DataTable table, DataColumn column) 
-		{
-			return Array.IndexOf(table.PrimaryKey, column) != -1;
-		}
+        public static bool IsPrimaryKey(DataTable table, DataColumn column)
+        {
+            return Array.IndexOf(table.PrimaryKey, column) != -1;
+        }
 
-		public static void SetupMetaData(IDatabaseMetaData dbMetaData, DataTable table) 
-		{
-			IList primaryKeySet = dbMetaData.GetPrimaryKeySet(table.TableName);
-			IList columnSet = dbMetaData.GetColumnSet(table.TableName);
-			ArrayList primaryKeyList = new ArrayList();
-			foreach (DataColumn column in table.Columns) 
-			{
-				if (primaryKeySet.Contains(column.ColumnName)) 
-				{
-					primaryKeyList.Add(column);
-				}
+        public static void SetupMetaData(IDatabaseMetaData dbMetaData, DataTable table)
+        {
+            IList primaryKeySet = dbMetaData.GetPrimaryKeySet(table.TableName);
+            IList columnSet = dbMetaData.GetColumnSet(table.TableName);
+            ArrayList primaryKeyList = new ArrayList();
+            foreach (DataColumn column in table.Columns)
+            {
+                if (primaryKeySet.Contains(column.ColumnName))
+                {
+                    primaryKeyList.Add(column);
+                }
 
-				if (columnSet.Contains(column.ColumnName)) 
-				{
-					column.ReadOnly = false;
-				}
-				else 
-				{
-					column.ReadOnly = true;
-				}
-			}
+                if (columnSet.Contains(column.ColumnName))
+                {
+                    column.ReadOnly = false;
+                }
+                else
+                {
+                    column.ReadOnly = true;
+                }
+            }
 
-			table.BeginLoadData();
-			table.PrimaryKey = (DataColumn[]) primaryKeyList.ToArray(typeof(DataColumn));
-			table.EndLoadData();
-		}
+            table.BeginLoadData();
+            table.PrimaryKey = (DataColumn[]) primaryKeyList.ToArray(typeof(DataColumn));
+            table.EndLoadData();
+        }
 
-		public static DataColumn GetColumn(DataTable table, string columnName)
-		{
-			DataColumn column = table.Columns[columnName];
-			if (column == null)
-			{
-				string name = columnName.Replace("_", "");
-				column = table.Columns[name];
-			}
-			return column;
-		}
-	}
+        public static DataColumn GetColumn(DataTable table, string columnName)
+        {
+            DataColumn column = table.Columns[columnName];
+            if (column == null)
+            {
+                string name = columnName.Replace("_", string.Empty);
+                column = table.Columns[name];
+            }
+            return column;
+        }
+    }
 }

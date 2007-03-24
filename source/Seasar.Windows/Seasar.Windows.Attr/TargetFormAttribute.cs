@@ -39,18 +39,18 @@ namespace Seasar.Windows.Attr
         /// <summary>
         /// WindowsFormクラス
         /// </summary>
-        private Type type_;
+        private readonly Type _type;
 
         /// <summary>
         /// Window表示モードタイプ
         /// </summary>
-        private ModalType mode_ = ModalType.Modaless;
+        private readonly ModalType _mode = ModalType.Modaless;
 
 
         /// <summary>
         /// 返り値用プロパティ名
         /// </summary>
-        private string returnPropertyName_;
+        private string _returnPropertyName;
 
         /// <summary>
         /// コンストラクタ
@@ -60,9 +60,9 @@ namespace Seasar.Windows.Attr
         /// <param name="returnPropetyName">返り値用プロパティ名</param>
         public TargetFormAttribute(Type type, ModalType mode, string returnPropetyName)
         {
-            type_ = type;
-            mode_ = mode;
-            returnPropertyName_ = returnPropetyName;
+            _type = type;
+            _mode = mode;
+            _returnPropertyName = returnPropetyName;
         }
 
         /// <summary>
@@ -72,9 +72,9 @@ namespace Seasar.Windows.Attr
         /// <param name="mode">Window表示モード</param>
         public TargetFormAttribute(Type type, ModalType mode)
         {
-            type_ = type;
-            mode_ = mode;
-            returnPropertyName_ = "";
+            _type = type;
+            _mode = mode;
+            _returnPropertyName = string.Empty;
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Seasar.Windows.Attr
         /// </summary>
         public Type FormType
         {
-            get { return type_; }
+            get { return _type; }
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace Seasar.Windows.Attr
         /// </summary>
         public ModalType Mode
         {
-            get { return mode_; }
+            get { return _mode; }
         }
 
         /// <summary>
@@ -98,8 +98,8 @@ namespace Seasar.Windows.Attr
         /// </summary>
         public string ReturnPropertyName
         {
-            get { return returnPropertyName_; }
-            set { returnPropertyName_ = value; }
+            get { return _returnPropertyName; }
+            set { _returnPropertyName = value; }
         }
     }
 }

@@ -18,48 +18,40 @@
 
 using System;
 using System.Data;
-
 using Seasar.Extension.Tx;
 
 namespace Seasar.Tests.Extension.Tx.Impl
 {
-	public interface ILocalTxTest
-	{
-		bool IsInTransaction();
-		IDbConnection GetConnection();
-		void throwException();
-	}
+    public interface ILocalTxTest
+    {
+        bool IsInTransaction();
+        IDbConnection GetConnection();
+        void throwException();
+    }
 
-	public class LocalTxTest : ILocalTxTest
-	{
-		private ITransactionContext context;
+    public class LocalTxTest : ILocalTxTest
+    {
+        private ITransactionContext _context;
 
-		public bool IsInTransaction()
-		{
-			return context.Current.IsInTransaction;
-		}
+        public bool IsInTransaction()
+        {
+            return _context.Current.IsInTransaction;
+        }
 
-		public IDbConnection GetConnection()
-		{
-			return context.Current.Connection;
-		}
+        public IDbConnection GetConnection()
+        {
+            return _context.Current.Connection;
+        }
 
-		public void throwException()
-		{
-			throw new NotSupportedException();
-		}
+        public void throwException()
+        {
+            throw new NotSupportedException();
+        }
 
-		public ITransactionContext TC
-		{
-			get
-			{
-				return this.context;
-			}
-			set
-			{
-				this.context = value;
-			}
-		}
-
-	}
+        public ITransactionContext TC
+        {
+            get { return _context; }
+            set { _context = value; }
+        }
+    }
 }

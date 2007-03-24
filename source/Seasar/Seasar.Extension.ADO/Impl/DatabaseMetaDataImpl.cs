@@ -19,53 +19,50 @@
 using System;
 using System.Collections;
 using System.Data;
-using System.Data.Common;
-using Seasar.Extension.ADO;
 using Seasar.Framework.Util;
-using Seasar.Framework.Exceptions;
 
 namespace Seasar.Extension.ADO.Impl
 {
     public class DatabaseMetaDataImpl : IDatabaseMetaData
     {
 #if NET_1_1
-        private IDictionary primaryKeys = new Hashtable(
+        private IDictionary _primaryKeys = new Hashtable(
             new CaseInsensitiveHashCodeProvider(), new CaseInsensitiveComparer());
-        private IDictionary columns = new Hashtable(
+        private IDictionary _columns = new Hashtable(
             new CaseInsensitiveHashCodeProvider(), new CaseInsensitiveComparer());
-        private IDictionary autoIncrementColumns = new Hashtable(
+        private IDictionary _autoIncrementColumns = new Hashtable(
             new CaseInsensitiveHashCodeProvider(), new CaseInsensitiveComparer());
 #else
-        private IDictionary primaryKeys = new Hashtable(StringComparer.CurrentCultureIgnoreCase);
-        private IDictionary columns = new Hashtable(StringComparer.CurrentCultureIgnoreCase);
-        private IDictionary autoIncrementColumns = new Hashtable(StringComparer.CurrentCultureIgnoreCase);
+        private readonly IDictionary _primaryKeys = new Hashtable(StringComparer.CurrentCultureIgnoreCase);
+        private readonly IDictionary _columns = new Hashtable(StringComparer.CurrentCultureIgnoreCase);
+        private readonly IDictionary _autoIncrementColumns = new Hashtable(StringComparer.CurrentCultureIgnoreCase);
 #endif
 
-        private IDataSource dataSource;
+        private readonly IDataSource _dataSource;
 
         public DatabaseMetaDataImpl(IDataSource dataSource)
         {
-            this.dataSource = dataSource;
+            _dataSource = dataSource;
         }
 
         #region IDatabaseMetaData メンバ
 
-        public System.Collections.IList GetPrimaryKeySet(string tableName)
+        public IList GetPrimaryKeySet(string tableName)
         {
-            if(!this.primaryKeys.Contains(tableName)) CreateTableMetaData(tableName);
-            return (IList) primaryKeys[tableName];
+            if(!_primaryKeys.Contains(tableName)) CreateTableMetaData(tableName);
+            return (IList) _primaryKeys[tableName];
         }
 
         public IList GetColumnSet(string tableName)
         {
-            if(!this.columns.Contains(tableName)) CreateTableMetaData(tableName);
-            return (IList) columns[tableName];
+            if(!_columns.Contains(tableName)) CreateTableMetaData(tableName);
+            return (IList) _columns[tableName];
         }
 
         public IList GetAutoIncrementColumnSet(string tableName)
         {
-            if (!this.autoIncrementColumns.Contains(tableName)) CreateTableMetaData(tableName);
-            return (IList) autoIncrementColumns[tableName];
+            if (!_autoIncrementColumns.Contains(tableName)) CreateTableMetaData(tableName);
+            return (IList) _autoIncrementColumns[tableName];
         }
 
         #endregion
@@ -79,20 +76,20 @@ namespace Seasar.Extension.ADO.Impl
             lock(this)
             {
                 // IDbConnectionを取得する
-                IDbConnection cn = DataSourceUtil.GetConnection(dataSource);
+                IDbConnection cn = DataSourceUtil.GetConnection(_dataSource);
                 try
                 {
                     // テーブル定義情報を取得するためのSQLを作成する
                     string sql = "SELECT * FROM " + tableName;
 
                     // IDbCommandを取得する
-                    IDbCommand cmd = dataSource.GetCommand(sql, cn);
+                    IDbCommand cmd = _dataSource.GetCommand(sql, cn);
 
                     // Transactionの処理を行う
-                    DataSourceUtil.SetTransaction(dataSource, cmd);
+                    DataSourceUtil.SetTransaction(_dataSource, cmd);
 
                     // IDataAdapterを取得する
-                    IDataAdapter adapter = dataSource.GetDataAdapter(cmd);
+                    IDataAdapter adapter = _dataSource.GetDataAdapter(cmd);
 
                     // テーブル定義
                     DataTable[] metaDataTables;
@@ -108,18 +105,18 @@ namespace Seasar.Extension.ADO.Impl
                     }
 
                     // テーブル定義情報からプライマリキーを取得する
-                    primaryKeys[tableName] = GetPrimaryKeySet(metaDataTables[0].PrimaryKey);
+                    _primaryKeys[tableName] = GetPrimaryKeySet(metaDataTables[0].PrimaryKey);
 
                     // テーブル定義情報からカラムを取得する
-                    columns[tableName] = GetColumnSet(metaDataTables[0].Columns);
+                    _columns[tableName] = GetColumnSet(metaDataTables[0].Columns);
 
                     // テーブル定義情報からAutoIncrementカラムを取得する
-                    autoIncrementColumns[tableName] = GetAutoIncrementColumnSet(metaDataTables[0].Columns);
+                    _autoIncrementColumns[tableName] = GetAutoIncrementColumnSet(metaDataTables[0].Columns);
                 }
                 finally
                 {
                     // IDbConnectionのClose処理を行う
-                    DataSourceUtil.CloseConnection(dataSource, cn);
+                    DataSourceUtil.CloseConnection(_dataSource, cn);
                 }
             }
         }

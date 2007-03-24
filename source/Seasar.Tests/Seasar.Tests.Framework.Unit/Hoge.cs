@@ -20,37 +20,38 @@ using System;
 
 namespace Seasar.Tests.Framework.Unit
 {
-	public class Hoge : MarshalByRefObject
-	{
-		private string aaa;
+    public class Hoge : MarshalByRefObject
+    {
+        private string _aaa;
 
-		public string GetAaa() 
-		{
-			return aaa;
-		}
+        public string GetAaa()
+        {
+            return _aaa;
+        }
 
-		public void SetAaa(string aaa) 
-		{
-			this.aaa = aaa;
-		}
-	
-		public string Greeting2()
-		{
-			return "Hello2";
-		}
+        public void SetAaa(string aaa)
+        {
+            _aaa = aaa;
+        }
 
-		public string Greeting()
-		{
-			return "Hello";
-		}
+        public string Greeting2()
+        {
+            return "Hello2";
+        }
 
-		public string GetGreeting()
-		{
-			return "GetHello";
-		}
-		public string GetGreetingEx()
-		{
-			return "GetHelloEx";
-		}
-	}
+        public string Greeting()
+        {
+            return "Hello";
+        }
+
+        public string GetGreeting()
+        {
+            return "GetHello";
+        }
+
+        public string GetGreetingEx()
+        {
+            return "GetHelloEx";
+        }
+    }
 }

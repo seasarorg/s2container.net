@@ -23,35 +23,32 @@ using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Framework.Util
 {
-	/// <summary>
-	/// ConstructorUtilTest ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	[TestFixture]
-	public class ConstructorUtilTest
-	{
-		[Test]
-		public void TestNewInstance()
-		{
-			ConstructorInfo constructor = ClassUtil.GetConstructorInfo(
-				typeof(A), new Type[] { typeof(string) });
-			A a = (A) ConstructorUtil.NewInstance(constructor,
-				new object[] { "aaa" });
-			Assert.AreEqual("aaa", a.Hoge);
-		}
+    [TestFixture]
+    public class ConstructorUtilTest
+    {
+        [Test]
+        public void TestNewInstance()
+        {
+            ConstructorInfo constructor = ClassUtil.GetConstructorInfo(
+                typeof(A), new Type[] { typeof(string) });
+            A a = (A) ConstructorUtil.NewInstance(constructor,
+                new object[] { "aaa" });
+            Assert.AreEqual("aaa", a.Hoge);
+        }
 
-		public class A
-		{
-			private string hoge_;
+        public class A
+        {
+            private readonly string _hoge;
 
-			public A(string hoge)
-			{
-				hoge_ = hoge;
-			}
+            public A(string hoge)
+            {
+                _hoge = hoge;
+            }
 
-			public string Hoge
-			{
-				get { return hoge_; }
-			}
-		}
-	}
+            public string Hoge
+            {
+                get { return _hoge; }
+            }
+        }
+    }
 }

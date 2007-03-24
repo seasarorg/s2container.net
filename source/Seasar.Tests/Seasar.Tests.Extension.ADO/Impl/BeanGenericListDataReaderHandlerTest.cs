@@ -16,7 +16,6 @@
  */
 #endregion
 
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
@@ -46,7 +45,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
             IDbConnection con = Connection;
             IDbCommand cmd = con.CreateCommand();
             cmd.CommandText = sql;
-            IList<Employee> ret = null;
+            IList<Employee> ret;
             DataSourceUtil.SetTransaction(DataSource, cmd);
             IDataReader reader = cmd.ExecuteReader();
             try

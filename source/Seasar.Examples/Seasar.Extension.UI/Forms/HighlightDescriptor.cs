@@ -21,69 +21,69 @@ using System.Drawing;
 
 namespace Seasar.Extension.UI.Forms
 {
-	public class HighlightDescriptor
-	{
-		public HighlightDescriptor(string token, Color color, Font font, DescriptorType descriptorType, DescriptorRecognition dr)
-		{
-			if (descriptorType == DescriptorType.ToCloseToken)
-			{
-				throw new ArgumentException("You may not choose ToCloseToken DescriptorType without specifing an end token.");
-			}
-			Color = color;
-			Font = font;
-			Token = token;
-			DescriptorType = descriptorType;
-			DescriptorRecognition = dr;
-			CloseToken = null;
-		}
-		public HighlightDescriptor(string token, string closeToken, Color color, Font font, DescriptorType descriptorType, DescriptorRecognition dr)
-		{
-			Color = color;
-			Font = font;
-			Token = token;
-			DescriptorType = descriptorType;
-			CloseToken = closeToken;
-			DescriptorRecognition = dr;
-		}
-		public readonly Color Color;
-		public readonly Font Font;
-		public readonly string Token;
-		public readonly string CloseToken;
-		public readonly DescriptorType DescriptorType;
-		public readonly DescriptorRecognition DescriptorRecognition; 
-	}
+    public class HighlightDescriptor
+    {
+        public HighlightDescriptor(string token, Color color, Font font, DescriptorType descriptorType, DescriptorRecognition dr)
+        {
+            if (descriptorType == DescriptorType.ToCloseToken)
+            {
+                throw new ArgumentException("You may not choose ToCloseToken DescriptorType without specifing an end token.");
+            }
+            Color = color;
+            Font = font;
+            Token = token;
+            DescriptorType = descriptorType;
+            DescriptorRecognition = dr;
+            CloseToken = null;
+        }
 
-	
-	public enum DescriptorType
-	{
-		/// <summary>
-		/// Causes the highlighting of a single word
-		/// </summary>
-		Word,
-		/// <summary>
-		/// Causes the entire line from this point on the be highlighted, regardless of other tokens
-		/// </summary>
-		ToEOL,
-		/// <summary>
-		/// Highlights all text until the end token;
-		/// </summary>
-		ToCloseToken
-	}
+        public HighlightDescriptor(string token, string closeToken, Color color, Font font, DescriptorType descriptorType, DescriptorRecognition dr)
+        {
+            Color = color;
+            Font = font;
+            Token = token;
+            DescriptorType = descriptorType;
+            CloseToken = closeToken;
+            DescriptorRecognition = dr;
+        }
 
-	public enum DescriptorRecognition
-	{
-		/// <summary>
-		/// Only if the whole token is equal to the word
-		/// </summary>
-		WholeWord,
-		/// <summary>
-		/// If the word starts with the token
-		/// </summary>
-		StartsWith,
-		/// <summary>
-		/// If the word contains the Token
-		/// </summary>
-		Contains
-	}
+        public readonly Color Color;
+        public readonly Font Font;
+        public readonly string Token;
+        public readonly string CloseToken;
+        public readonly DescriptorType DescriptorType;
+        public readonly DescriptorRecognition DescriptorRecognition;
+    }
 
+    public enum DescriptorType
+    {
+        /// <summary>
+        /// Causes the highlighting of a single word
+        /// </summary>
+        Word,
+        /// <summary>
+        /// Causes the entire line from this point on the be highlighted, regardless of other tokens
+        /// </summary>
+        ToEOL,
+        /// <summary>
+        /// Highlights all text until the end token;
+        /// </summary>
+        ToCloseToken
+    }
+
+    public enum DescriptorRecognition
+    {
+        /// <summary>
+        /// Only if the whole token is equal to the word
+        /// </summary>
+        WholeWord,
+        /// <summary>
+        /// If the word starts with the token
+        /// </summary>
+        StartsWith,
+        /// <summary>
+        /// If the word contains the Token
+        /// </summary>
+        Contains
+    }
 }

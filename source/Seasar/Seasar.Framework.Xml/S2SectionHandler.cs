@@ -16,7 +16,6 @@
  */
 #endregion
 
-using System;
 using System.Configuration;
 using System.Xml;
 using System.Xml.Serialization;
@@ -24,36 +23,30 @@ using Seasar.Framework.Container;
 
 namespace Seasar.Framework.Xml
 {
-	/// <summary>
-	/// S2.NETの構成セクションハンドラクラスです。
-	/// </summary>
-	public class S2SectionHandler : IConfigurationSectionHandler
-	{
-		public S2SectionHandler()
-		{
-		}
-
-		public static S2Section GetS2Section()
-		{
+    /// <summary>
+    /// S2Container.NETの構成セクションハンドラクラスです。
+    /// </summary>
+    public class S2SectionHandler : IConfigurationSectionHandler
+    {
+        public static S2Section GetS2Section()
+        {
 #if NET_1_1
             return (S2Section) ConfigurationSettings.GetConfig(
                 ContainerConstants.SEASAR_CONFIG);
 #else
-			return (S2Section) ConfigurationManager.GetSection(
-				ContainerConstants.SEASAR_CONFIG);
+            return (S2Section) ConfigurationManager.GetSection(
+                ContainerConstants.SEASAR_CONFIG);
 #endif
-		}
+        }
 
-		#region IConfigurationSectionHandler メンバ
+        #region IConfigurationSectionHandler メンバ
 
-		public object Create(object parent, object configContext,
-			System.Xml.XmlNode section)
-		{
-			XmlSerializer serializer = new XmlSerializer(typeof(S2Section));
-			return serializer.Deserialize(new XmlNodeReader(section));
-		}
+        public object Create(object parent, object configContext, XmlNode section)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(S2Section));
+            return serializer.Deserialize(new XmlNodeReader(section));
+        }
 
-		#endregion
-
-	}
+        #endregion
+    }
 }

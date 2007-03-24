@@ -22,47 +22,42 @@ using Seasar.Framework.Exceptions;
 
 namespace Seasar.Framework.Container
 {
-	/// <summary>
-	/// IllegalMethodRuntimeException ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	[Serializable]
-	public class IllegalMethodRuntimeException : SRuntimeException
-	{
-		private Type componentType_;
-		private string methodName_;
+    [Serializable]
+    public class IllegalMethodRuntimeException : SRuntimeException
+    {
+        private readonly Type _componentType;
+        private readonly string _methodName;
 
-		public IllegalMethodRuntimeException(
-			Type componentType,string methodName,Exception cause)
+        public IllegalMethodRuntimeException(
+            Type componentType, string methodName, Exception cause)
             : base("ESSR0060", new object[] { componentType.FullName, methodName, cause }, cause)
-		{
-			componentType_ = componentType;
-			methodName_ = methodName;
-		}
+        {
+            _componentType = componentType;
+            _methodName = methodName;
+        }
 
-		public IllegalMethodRuntimeException(SerializationInfo info, StreamingContext context) 
-			: base( info, context )
-		{
-			this.componentType_ = info.GetValue("componentType_", typeof(Type)) as Type;
-			this.methodName_ = info.GetString("methodName_");
-		}
+        public IllegalMethodRuntimeException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+            _componentType = info.GetValue("_componentType", typeof(Type)) as Type;
+            _methodName = info.GetString("_methodName");
+        }
 
-		public override void GetObjectData( SerializationInfo info,
-			StreamingContext context )
-		{
-			info.AddValue("componentType_", this.componentType_, typeof(Type));
-			info.AddValue("methodName_", this.methodName_, typeof(String));
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("_componentType", _componentType, typeof(Type));
+            info.AddValue("_methodName", _methodName, typeof(string));
+            base.GetObjectData(info, context);
+        }
 
-			base.GetObjectData(info, context);
-		}
+        public Type ComponentType
+        {
+            get { return _componentType; }
+        }
 
-		public Type ComponentType
-		{
-			get { return componentType_; }
-		}
-
-		public string MethodName
-		{
-			get { return methodName_; }
-		}
-	}
+        public string MethodName
+        {
+            get { return _methodName; }
+        }
+    }
 }

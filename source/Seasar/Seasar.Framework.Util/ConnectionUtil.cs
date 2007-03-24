@@ -25,7 +25,7 @@ namespace Seasar.Framework.Util
 {
     public sealed class ConnectionUtil
     {
-        private static readonly Logger logger = Logger.GetLogger(typeof(ConnectionUtil));
+        private static readonly Logger _logger = Logger.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private ConnectionUtil()
         {
@@ -33,13 +33,13 @@ namespace Seasar.Framework.Util
 
         public static void Close(IDbConnection connection)
         {
-            if(connection == null) return;
+            if (connection == null) return;
             try
             {
                 connection.Close();
-                logger.Log("DSSR0002", null);
+                _logger.Log("DSSR0002", null);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new SQLRuntimeException(ex);
             }
@@ -53,7 +53,7 @@ namespace Seasar.Framework.Util
                 cmd.CommandText = sql;
                 return cmd;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new SQLRuntimeException(ex);
             }

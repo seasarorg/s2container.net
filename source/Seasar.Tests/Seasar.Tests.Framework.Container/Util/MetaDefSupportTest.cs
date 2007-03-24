@@ -16,7 +16,6 @@
  */
 #endregion
 
-using System;
 using MbUnit.Framework;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Impl;
@@ -24,21 +23,18 @@ using Seasar.Framework.Container.Util;
 
 namespace Seasar.Tests.Framework.Container.Util
 {
-	/// <summary>
-	/// MetaDefSupportTest ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	[TestFixture]
-	public class MetaDefSupportTest
-	{
-		[Test]
-		public void TestGetMetaDefs()
-		{
-			MetaDefSupport support = new MetaDefSupport();
-			support.AddMetaDef(new MetaDefImpl("aaa"));
-			support.AddMetaDef(new MetaDefImpl("bbb"));
-			support.AddMetaDef(new MetaDefImpl("aaa"));
-			IMetaDef[] metaDefs = support.GetMetaDefs("aaa");
-			Assert.AreEqual(2, metaDefs.Length);
-		}
-	}
+    [TestFixture]
+    public class MetaDefSupportTest
+    {
+        [Test]
+        public void TestGetMetaDefs()
+        {
+            MetaDefSupport support = new MetaDefSupport();
+            support.AddMetaDef(new MetaDefImpl("aaa"));
+            support.AddMetaDef(new MetaDefImpl("bbb"));
+            support.AddMetaDef(new MetaDefImpl("aaa"));
+            IMetaDef[] metaDefs = support.GetMetaDefs("aaa");
+            Assert.AreEqual(2, metaDefs.Length);
+        }
+    }
 }

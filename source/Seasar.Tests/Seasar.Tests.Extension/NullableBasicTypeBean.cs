@@ -24,100 +24,100 @@ namespace Seasar.Tests.Extension
     [Serializable]
     public class NullableBasicTypeBean
     {
-        private long? id;
+        private long? _id;
 
         public long? Id
         {
-            get { return id; }
-            set { id = value; }
+            get { return _id; }
+            set { _id = value; }
         }
 
-        private bool? boolType;
+        private bool? _boolType;
 
         public bool? BoolType
         {
-            get { return boolType; }
-            set { boolType = value; }
+            get { return _boolType; }
+            set { _boolType = value; }
         }
 
-        private sbyte? sbyteType;
+        private sbyte? _sbyteType;
 
         public sbyte? SbyteType
         {
-            get { return sbyteType; }
-            set { sbyteType = value; }
+            get { return _sbyteType; }
+            set { _sbyteType = value; }
         }
 
-        private byte? byteType;
+        private byte? _byteType;
 
         public byte? ByteType
         {
-            get { return byteType; }
-            set { byteType = value; }
+            get { return _byteType; }
+            set { _byteType = value; }
         }
 
-        private short? int16Type;
+        private short? _int16Type;
 
         public short? Int16Type
         {
-            get { return int16Type; }
-            set { int16Type = value; }
+            get { return _int16Type; }
+            set { _int16Type = value; }
         }
 
-        private int? int32Type;
+        private int? _int32Type;
 
         public int? Int32Type
         {
-            get { return int32Type; }
-            set { int32Type = value; }
+            get { return _int32Type; }
+            set { _int32Type = value; }
         }
 
-        private long? int64Type;
+        private long? _int64Type;
 
         public long? Int64Type
         {
-            get { return int64Type; }
-            set { int64Type = value; }
+            get { return _int64Type; }
+            set { _int64Type = value; }
         }
 
-        private decimal? decimalType;
+        private decimal? _decimalType;
 
         public decimal? DecimalType
         {
-            get { return decimalType; }
-            set { decimalType = value; }
+            get { return _decimalType; }
+            set { _decimalType = value; }
         }
 
-        private float? singleType;
+        private float? _singleType;
 
         public float? SingleType
         {
-            get { return singleType; }
-            set { singleType = value; }
+            get { return _singleType; }
+            set { _singleType = value; }
         }
 
-        private double? doubleType;
+        private double? _doubleType;
 
         public double? DoubleType
         {
-            get { return doubleType; }
-            set { doubleType = value; }
+            get { return _doubleType; }
+            set { _doubleType = value; }
         }
 
-        private string stringType;
+        private string _stringType;
 
         public string StringType
         {
-            get { return stringType; }
-            set { stringType = value; }
+            get { return _stringType; }
+            set { _stringType = value; }
         }
 
-        private DateTime? dateTimeType;
+        private DateTime? _dateTimeType;
 
         public DateTime? DateTimeType
         {
-            get { return dateTimeType; }
-            set { dateTimeType = value; }
+            get { return _dateTimeType; }
+            set { _dateTimeType = value; }
         }
 
         public NullableBasicTypeBean()
@@ -139,40 +139,40 @@ namespace Seasar.Tests.Extension
             DateTime? dateTimeType
             )
         {
-            this.id = id;
-            this.boolType = boolType;
-            this.sbyteType = sbyteType;
-            this.byteType = byteType;
-            this.int16Type = int16Type;
-            this.int32Type = int32Type;
-            this.int64Type = int64Type;
-            this.decimalType = decimalType;
-            this.singleType = singleType;
-            this.doubleType = doubleType;
-            this.stringType = stringType;
-            this.dateTimeType = dateTimeType;
+            _id = id;
+            _boolType = boolType;
+            _sbyteType = sbyteType;
+            _byteType = byteType;
+            _int16Type = int16Type;
+            _int32Type = int32Type;
+            _int64Type = int64Type;
+            _decimalType = decimalType;
+            _singleType = singleType;
+            _doubleType = doubleType;
+            _stringType = stringType;
+            _dateTimeType = dateTimeType;
         }
 
         public override int GetHashCode()
         {
-            return (int) this.Id;
+            return (int) Id;
         }
 
         public override string ToString()
         {
             StringBuilder buf = new StringBuilder();
-            buf.Append(id).Append(", ");
-            buf.Append(boolType).Append(", ");
-            buf.Append(sbyteType).Append(", ");
-            buf.Append(byteType).Append(", ");
-            buf.Append(int16Type).Append(", ");
-            buf.Append(int32Type).Append(", ");
-            buf.Append(int64Type).Append(", ");
-            buf.Append(decimalType).Append(", ");
-            buf.Append(singleType).Append(", ");
-            buf.Append(doubleType).Append(", ");
-            buf.Append(stringType).Append(", ");
-            buf.Append(dateTimeType);
+            buf.Append(_id).Append(", ");
+            buf.Append(_boolType).Append(", ");
+            buf.Append(_sbyteType).Append(", ");
+            buf.Append(_byteType).Append(", ");
+            buf.Append(_int16Type).Append(", ");
+            buf.Append(_int32Type).Append(", ");
+            buf.Append(_int64Type).Append(", ");
+            buf.Append(_decimalType).Append(", ");
+            buf.Append(_singleType).Append(", ");
+            buf.Append(_doubleType).Append(", ");
+            buf.Append(_stringType).Append(", ");
+            buf.Append(_dateTimeType);
             return buf.ToString();
         }
     }

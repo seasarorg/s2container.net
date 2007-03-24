@@ -18,30 +18,28 @@
 
 using System.Data;
 using Seasar.Extension.ADO;
-using Seasar.Extension.ADO.Types;
 
 namespace Seasar.Extension.DataSets.Impl
 {
     public class SqlReloadReader : IDataReader
     {
-        private IDataSource dataSource_;
-
-        private DataSet dataSet_;
+        private readonly IDataSource _dataSource;
+        private readonly DataSet _dataSet;
 
         public SqlReloadReader(IDataSource dataSource, DataSet dataSet)
         {
-            dataSource_ = dataSource;
-            dataSet_ = dataSet;
+            _dataSource = dataSource;
+            _dataSet = dataSet;
         }
 
         public IDataSource DataSource
         {
-            get { return dataSource_; }
+            get { return _dataSource; }
         }
 
         public DataSet DataSet
         {
-            get { return DataSet; }
+            get { return _dataSet; }
         }
 
         #region IDataReader ÉÅÉìÉo
@@ -49,9 +47,9 @@ namespace Seasar.Extension.DataSets.Impl
         public virtual DataSet Read()
         {
             DataSet newDataSet = new DataSet();
-            foreach (DataTable table in dataSet_.Tables)
+            foreach (DataTable table in _dataSet.Tables)
             {
-                ITableReader reader = new SqlReloadTableReader(dataSource_, table);
+                ITableReader reader = new SqlReloadTableReader(_dataSource, table);
                 newDataSet.Tables.Add(reader.Read());
             }
             return newDataSet;

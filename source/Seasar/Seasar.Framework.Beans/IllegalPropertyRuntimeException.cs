@@ -22,49 +22,42 @@ using Seasar.Framework.Exceptions;
 
 namespace Seasar.Framework.Beans
 {
-	/// <summary>
-	/// IllegalPropertyRuntimeException ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	[Serializable]
-	public class IllegalPropertyRuntimeException : SRuntimeException
-	{
-		private Type componentType_;
-		private string propertyName_;
+    [Serializable]
+    public class IllegalPropertyRuntimeException : SRuntimeException
+    {
+        private readonly Type _componentType;
+        private readonly string _propertyName;
 
-		public IllegalPropertyRuntimeException(
-			Type componentType, string propertyName,Exception cause)
-			: base("ESSR0059",new object[] {componentType.FullName,propertyName,cause},
-			cause)
-		{
-			componentType_ = componentType;
-			propertyName_ = propertyName;
-		}
+        public IllegalPropertyRuntimeException(
+            Type componentType, string propertyName, Exception cause)
+            : base("ESSR0059", new object[] { componentType.FullName, propertyName, cause }, cause)
+        {
+            _componentType = componentType;
+            _propertyName = propertyName;
+        }
 
-		public IllegalPropertyRuntimeException(SerializationInfo info, StreamingContext context) 
-			: base( info, context )
-		{
-			
-			this.componentType_ = info.GetValue("componentType_", typeof(Type)) as Type;
-			this.propertyName_ = info.GetString("propertyName_");
-		}
+        public IllegalPropertyRuntimeException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+            _componentType = info.GetValue("_componentType", typeof(Type)) as Type;
+            _propertyName = info.GetString("_propertyName");
+        }
 
-		public override void GetObjectData( SerializationInfo info,
-			StreamingContext context )
-		{
-			info.AddValue("componentType_", this.componentType_, typeof(Type));
-			info.AddValue("propertyName_", this.propertyName_, typeof(string));
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("_componentType", _componentType, typeof(Type));
+            info.AddValue("_propertyName", _propertyName, typeof(string));
+            base.GetObjectData(info, context);
+        }
 
-			base.GetObjectData(info, context);
-		}
+        public Type ComponentType
+        {
+            get { return _componentType; }
+        }
 
-		public Type ComponentType
-		{
-			get { return componentType_; }
-		}
-
-		public string PropertyName
-		{
-			get { return propertyName_; }
-		}
-	}
+        public string PropertyName
+        {
+            get { return _propertyName; }
+        }
+    }
 }

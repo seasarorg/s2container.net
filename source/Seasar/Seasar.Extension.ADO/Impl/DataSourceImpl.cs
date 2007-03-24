@@ -20,157 +20,153 @@ using System;
 using System.Data;
 using System.Reflection;
 using Seasar.Framework.Util;
-using Seasar.Extension.ADO.Types;
 
 namespace Seasar.Extension.ADO.Impl
 {
-	/// <summary>
-	/// DataSourceImpl の概要の説明です。
-	/// </summary>
-	public class DataSourceImpl : IDataSource
-	{
-		private DataProvider provider_;
-		private string connectionString_;
+    public class DataSourceImpl : IDataSource
+    {
+        private DataProvider _provider;
+        private string _connectionString;
 
-		public DataSourceImpl()
-		{
-		}
+        public DataSourceImpl()
+        {
+        }
 
-		public DataSourceImpl(DataProvider provider, string connectionString)
-		{
-			provider_ = provider;
-			connectionString_ = connectionString;
-		}
+        public DataSourceImpl(DataProvider provider, string connectionString)
+        {
+            _provider = provider;
+            _connectionString = connectionString;
+        }
 
-		public DataProvider DataProvider
-		{
-			set { provider_ = value; }
-			get { return provider_; }
-		}
+        public DataProvider DataProvider
+        {
+            set { _provider = value; }
+            get { return _provider; }
+        }
 
-		public string ConnectionString
-		{
-			set { connectionString_ = value; }
-			get { return connectionString_; }
-		}
+        public string ConnectionString
+        {
+            set { _connectionString = value; }
+            get { return _connectionString; }
+        }
 
-		#region IDataSource メンバ
+        #region IDataSource メンバ
 
-		public System.Data.IDbConnection GetConnection()
-		{
-			IDbConnection cn = (IDbConnection) ClassUtil.NewInstance(ForName(provider_.ConnectionType));
-			cn.ConnectionString = connectionString_;
-			return cn;
-		}
+        public IDbConnection GetConnection()
+        {
+            IDbConnection cn = (IDbConnection) ClassUtil.NewInstance(ForName(_provider.ConnectionType));
+            cn.ConnectionString = _connectionString;
+            return cn;
+        }
 
-		public System.Data.IDbCommand GetCommand()
-		{
-			return (IDbCommand) ClassUtil.NewInstance(ForName(provider_.CommandType));
-		}
+        public IDbCommand GetCommand()
+        {
+            return (IDbCommand) ClassUtil.NewInstance(ForName(_provider.CommandType));
+        }
 
-		public System.Data.IDbCommand GetCommand(string cmdText)
-		{
-			IDbCommand cmd = this.GetCommand();
-			cmd.CommandText = cmdText;
-			return cmd;
-		}
+        public IDbCommand GetCommand(string cmdText)
+        {
+            IDbCommand cmd = GetCommand();
+            cmd.CommandText = cmdText;
+            return cmd;
+        }
 
-		public System.Data.IDbCommand GetCommand(string cmdText, System.Data.IDbConnection connection)
-		{
-			IDbCommand cmd = this.GetCommand(cmdText);
-			cmd.Connection = connection;
-			return cmd;
-		}
+        public IDbCommand GetCommand(string cmdText, IDbConnection connection)
+        {
+            IDbCommand cmd = GetCommand(cmdText);
+            cmd.Connection = connection;
+            return cmd;
+        }
 
-		public System.Data.IDbCommand GetCommand(string cmdText, 
-			System.Data.IDbConnection connection, System.Data.IDbTransaction transaction)
-		{
-			IDbCommand cmd = this.GetCommand(cmdText, connection);
-			cmd.Transaction = transaction;
-			return cmd;
-		}
+        public IDbCommand GetCommand(string cmdText,
+            IDbConnection connection, IDbTransaction transaction)
+        {
+            IDbCommand cmd = GetCommand(cmdText, connection);
+            cmd.Transaction = transaction;
+            return cmd;
+        }
 
-		public System.Data.IDataParameter GetParameter()
-		{
-			return (IDataParameter) ClassUtil.NewInstance(ForName(provider_.ParameterType));
-		}
+        public IDataParameter GetParameter()
+        {
+            return (IDataParameter) ClassUtil.NewInstance(ForName(_provider.ParameterType));
+        }
 
-		public System.Data.IDataParameter GetParameter(string name, System.Data.DbType dataType)
-		{
-			IDataParameter param = this.GetParameter();
-			param.ParameterName = name;
-			param.DbType = dataType;
-			return param;
-		}
+        public IDataParameter GetParameter(string name, DbType dataType)
+        {
+            IDataParameter param = GetParameter();
+            param.ParameterName = name;
+            param.DbType = dataType;
+            return param;
+        }
 
-		public System.Data.IDataParameter GetParameter(string name, object value)
-		{
-			IDataParameter param = this.GetParameter();
-			param.ParameterName = name;
-			if(value == null)
-			{
-				param.Value = DBNull.Value;
-			}
-			else
-			{
-				param.Value = value;
-			}
-			return param;
-		}
+        public IDataParameter GetParameter(string name, object value)
+        {
+            IDataParameter param = GetParameter();
+            param.ParameterName = name;
+            if (value == null)
+            {
+                param.Value = DBNull.Value;
+            }
+            else
+            {
+                param.Value = value;
+            }
+            return param;
+        }
 
-		public System.Data.IDataParameter GetParameter(string name, System.Data.DbType dataType, int size)
-		{
-			Type[] argTypes = new Type[] { typeof(string), typeof(DbType), typeof(int) };
-			ConstructorInfo constructor = ClassUtil.GetConstructorInfo(ForName(provider_.ParameterType),argTypes);
-			return (IDataParameter) ConstructorUtil.NewInstance(constructor,
-				new object[] { name, dataType, size });
-		}
+        public IDataParameter GetParameter(string name, DbType dataType, int size)
+        {
+            Type[] argTypes = new Type[] { typeof(string), typeof(DbType), typeof(int) };
+            ConstructorInfo constructor = ClassUtil.GetConstructorInfo(ForName(_provider.ParameterType), argTypes);
+            return (IDataParameter) ConstructorUtil.NewInstance(constructor,
+                new object[] { name, dataType, size });
+        }
 
-		public System.Data.IDataParameter GetParameter(string name, System.Data.DbType dataType, int size, string srcColumn)
-		{
-			IDataParameter param = this.GetParameter(name, dataType, size);
-			param.SourceColumn = srcColumn;
-			return param;
-		}
+        public IDataParameter GetParameter(string name, DbType dataType, int size, string srcColumn)
+        {
+            IDataParameter param = GetParameter(name, dataType, size);
+            param.SourceColumn = srcColumn;
+            return param;
+        }
 
-		public IDataAdapter GetDataAdapter()
-		{
-			return (IDataAdapter) ClassUtil.NewInstance(ForName(provider_.DataAdapterType));
-		}
+        public IDataAdapter GetDataAdapter()
+        {
+            return (IDataAdapter) ClassUtil.NewInstance(ForName(_provider.DataAdapterType));
+        }
 
-		public IDataAdapter GetDataAdapter(IDbCommand selectCommand)
-		{
-			Type[] argTypes = new Type[] { ForName(provider_.CommandType) };
-			ConstructorInfo constructor = ClassUtil.GetConstructorInfo(ForName(provider_.DataAdapterType), argTypes);
-			return (IDataAdapter) ConstructorUtil.NewInstance(constructor, new object[] { selectCommand });
-		}
-		
-		public IDataAdapter GetDataAdapter(string selectCommandText, string selectConnectionString)
-		{
-			Type[] argTypes = new Type[] { typeof(string), typeof(string) };
-			ConstructorInfo constructor = ClassUtil.GetConstructorInfo(ForName(provider_.DataAdapterType), argTypes);
-			return (IDataAdapter) ConstructorUtil.NewInstance(constructor,
-				new object[] { selectCommandText, selectConnectionString });
-		}
+        public IDataAdapter GetDataAdapter(IDbCommand selectCommand)
+        {
+            Type[] argTypes = new Type[] { ForName(_provider.CommandType) };
+            ConstructorInfo constructor = ClassUtil.GetConstructorInfo(ForName(_provider.DataAdapterType), argTypes);
+            return (IDataAdapter) ConstructorUtil.NewInstance(constructor, new object[] { selectCommand });
+        }
 
-		public IDataAdapter GetDataAdapter(string selectCommandText, IDbConnection selectConnection)
-		{
-			Type[] argTypes = new Type[] { typeof(string), ForName(provider_.ConnectionType) };
-			ConstructorInfo constructor = ClassUtil.GetConstructorInfo(ForName(provider_.DataAdapterType), argTypes);
-			return (IDataAdapter) ConstructorUtil.NewInstance(constructor,
-				new object[] { selectCommandText, selectConnection });
-		}
+        public IDataAdapter GetDataAdapter(string selectCommandText, string selectConnectionString)
+        {
+            Type[] argTypes = new Type[] { typeof(string), typeof(string) };
+            ConstructorInfo constructor = ClassUtil.GetConstructorInfo(ForName(_provider.DataAdapterType), argTypes);
+            return (IDataAdapter) ConstructorUtil.NewInstance(constructor,
+                new object[] { selectCommandText, selectConnectionString });
+        }
+
+        public IDataAdapter GetDataAdapter(string selectCommandText, IDbConnection selectConnection)
+        {
+            Type[] argTypes = new Type[] { typeof(string), ForName(_provider.ConnectionType) };
+            ConstructorInfo constructor = ClassUtil.GetConstructorInfo(ForName(_provider.DataAdapterType), argTypes);
+            return (IDataAdapter) ConstructorUtil.NewInstance(constructor,
+                new object[] { selectCommandText, selectConnection });
+        }
 
         public virtual IDbTransaction GetTransaction()
         {
             throw new NotSupportedException("GetTransaction");
         }
 
-		#endregion
+        #endregion
 
-		private static Type ForName(string name)
-		{
-			return ClassUtil.ForName(name, AppDomain.CurrentDomain.GetAssemblies());
-		}
-	}
+        private static Type ForName(string name)
+        {
+            return ClassUtil.ForName(name, AppDomain.CurrentDomain.GetAssemblies());
+        }
+    }
 }

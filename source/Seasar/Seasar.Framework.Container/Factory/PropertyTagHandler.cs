@@ -16,35 +16,34 @@
  */
 #endregion
 
-using System;
 using Seasar.Framework.Container.Impl;
 using Seasar.Framework.Util;
 using Seasar.Framework.Xml;
 
 namespace Seasar.Framework.Container.Factory
 {
-	/// <summary>
-	/// PropertyTagHandler ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public class PropertyTagHandler : TagHandler
-	{
+    public class PropertyTagHandler : TagHandler
+    {
+        public override void Start(TagHandlerContext context, IAttributes attributes)
+        {
+            string name = attributes["name"];
+            if (name == null)
+            {
+                throw new TagAttributeNotDefinedRuntimeException(
+                    "property", "name");
+            }
+            context.Push(new PropertyDefImpl(name));
+        }
 
-		public override void Start(TagHandlerContext context, IAttributes attributes)
-		{
-			string name = attributes["name"];
-			if(name == null)
-				throw new TagAttributeNotDefinedRuntimeException(
-					"property","name");
-			context.Push(new PropertyDefImpl(name));
-		}
-
-		public override void End(TagHandlerContext context, string body)
-		{
-			IPropertyDef propertyDef = (IPropertyDef) context.Pop();
-			if(!StringUtil.IsEmpty(body)) propertyDef.Expression = body;
-			IComponentDef componentDef = (IComponentDef) context.Peek();
-			componentDef.AddPropertyDef(propertyDef);
-		}
-
-	}
+        public override void End(TagHandlerContext context, string body)
+        {
+            IPropertyDef propertyDef = (IPropertyDef) context.Pop();
+            if (!StringUtil.IsEmpty(body))
+            {
+                propertyDef.Expression = body;
+            }
+            IComponentDef componentDef = (IComponentDef) context.Peek();
+            componentDef.AddPropertyDef(propertyDef);
+        }
+    }
 }

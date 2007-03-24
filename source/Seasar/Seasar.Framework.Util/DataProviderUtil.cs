@@ -22,9 +22,6 @@ using System.Data;
 
 namespace Seasar.Framework.Util
 {
-    /// <summary>
-    /// DataProviderUtil
-    /// </summary>
     public sealed class DataProviderUtil
     {
         /// <summary>
@@ -34,39 +31,39 @@ namespace Seasar.Framework.Util
         {
         }
 
-		/// <summary>
-		/// バインド変数タイプを取得する
-		/// </summary>
-		/// <param name="cmd">コマンドオブジェクト</param>
-		/// <returns>バインド変数タイプ</returns>
-		public static BindVariableType GetBindVariableType(IDbCommand cmd)
-		{
-			string name = cmd.GetType().Name;
-			if ("SqlCommand".Equals(name) ||
-				"DB2Command".Equals(name))
-			{
-				return BindVariableType.AtmarkWithParam;
-			}
-			else if ("OracleCommand".Equals(name))
-			{
-				return BindVariableType.ColonWithParam;
-			}
-			else if ("MySqlCommand".Equals(name))
-			{
-				return BindVariableType.QuestionWithParam;
-			}
-			else if ("NpgsqlCommand".Equals(name))
-			{
-				return BindVariableType.ColonWithParamToLower;
-			}
-			else if ("FbCommand".Equals(name))
-			{
-				return BindVariableType.Question;
-			}
-			else
-			{
-				return BindVariableType.Question;
-			}
-		}
-	}
+        /// <summary>
+        /// バインド変数タイプを取得する
+        /// </summary>
+        /// <param name="cmd">コマンドオブジェクト</param>
+        /// <returns>バインド変数タイプ</returns>
+        public static BindVariableType GetBindVariableType(IDbCommand cmd)
+        {
+            string name = cmd.GetType().Name;
+            if ("SqlCommand".Equals(name) ||
+                "DB2Command".Equals(name))
+            {
+                return BindVariableType.AtmarkWithParam;
+            }
+            else if ("OracleCommand".Equals(name))
+            {
+                return BindVariableType.ColonWithParam;
+            }
+            else if ("MySqlCommand".Equals(name))
+            {
+                return BindVariableType.QuestionWithParam;
+            }
+            else if ("NpgsqlCommand".Equals(name))
+            {
+                return BindVariableType.ColonWithParamToLower;
+            }
+            else if ("FbCommand".Equals(name))
+            {
+                return BindVariableType.Question;
+            }
+            else
+            {
+                return BindVariableType.Question;
+            }
+        }
+    }
 }

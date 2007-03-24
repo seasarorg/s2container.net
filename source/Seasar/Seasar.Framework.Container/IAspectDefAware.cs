@@ -16,31 +16,29 @@
  */
 #endregion
 
-using System;
-
 namespace Seasar.Framework.Container
 {
-	/// <summary>
-	/// IAspectDefの設定が可能になります。
-	/// </summary>
-	public interface IAspectDefAware
-	{
-		/// <summary>
-		/// IAspectDefを追加します。
-		/// </summary>
-		/// <param name="aspectDef">IAspectDef</param>
-		void AddAspeceDef(IAspectDef aspectDef);
+    /// <summary>
+    /// IAspectDefの設定が可能になります。
+    /// </summary>
+    public interface IAspectDefAware
+    {
+        /// <summary>
+        /// IAspectDefを追加します。
+        /// </summary>
+        /// <param name="aspectDef">IAspectDef</param>
+        void AddAspeceDef(IAspectDef aspectDef);
 
-		/// <summary>
-		/// IAspectDefの数
-		/// </summary>
-		int AspectDefSize{get;}
+        /// <summary>
+        /// IAspectDefの数
+        /// </summary>
+        int AspectDefSize { get; }
 
-		/// <summary>
-		/// 番号を指定してIAspectDefを取得します。
-		/// </summary>
-		/// <param name="index">IAspectDefの番号</param>
-		/// <returns>IAspectDef</returns>
-		IAspectDef GetAspectDef(int index);
-	}
+        /// <summary>
+        /// 番号を指定してIAspectDefを取得します。
+        /// </summary>
+        /// <param name="index">IAspectDefの番号</param>
+        /// <returns>IAspectDef</returns>
+        IAspectDef GetAspectDef(int index);
+    }
 }

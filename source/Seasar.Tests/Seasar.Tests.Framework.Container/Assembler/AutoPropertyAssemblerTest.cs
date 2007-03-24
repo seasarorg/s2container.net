@@ -25,12 +25,9 @@ using System.Windows.Forms;
 
 namespace Seasar.Tests.Framework.Container.Assembler
 {
-	/// <summary>
-	/// AutoPropertyAssemblerのテストクラス
-	/// </summary>
-	[TestFixture]
-	public class AutoPropertyAssemblerTest
-	{
+    [TestFixture]
+    public class AutoPropertyAssemblerTest
+    {
         public AutoPropertyAssemblerTest()
         {
             System.IO.FileInfo info = new System.IO.FileInfo(
@@ -42,67 +39,67 @@ namespace Seasar.Tests.Framework.Container.Assembler
                log4net.LogManager.GetRepository(), info);
         }
 
-		[Test]
-		public void TestAssemble()
-		{
-			IS2Container container = new S2ContainerImpl();
-			ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
-			container.Register(cd);
-			container.Register(typeof(B));
-			IPropertyAssembler assembler = new AutoPropertyAssembler(cd);
-			A a = new A();
-			assembler.Assemble(a);
-			Assert.AreEqual("B",a.HogeName);
-		}
+        [Test]
+        public void TestAssemble()
+        {
+            IS2Container container = new S2ContainerImpl();
+            ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+            container.Register(cd);
+            container.Register(typeof(B));
+            IPropertyAssembler assembler = new AutoPropertyAssembler(cd);
+            A a = new A();
+            assembler.Assemble(a);
+            Assert.AreEqual("B", a.HogeName);
+        }
 
-		[Test]
-		public void TestAssemble2()
-		{
-			IS2Container container = new S2ContainerImpl();
-			ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
-			cd.AddPropertyDef(new PropertyDefImpl("Message","aaa"));
-			container.Register(cd);
-			container.Register(typeof(B));
-			IPropertyAssembler assembler = new AutoPropertyAssembler(cd);
-			A a = new A();
-			assembler.Assemble(a);
-			Assert.AreEqual("B",a.HogeName);
-			Assert.AreEqual("aaa",a.Message);
-		}
+        [Test]
+        public void TestAssemble2()
+        {
+            IS2Container container = new S2ContainerImpl();
+            ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+            cd.AddPropertyDef(new PropertyDefImpl("Message", "aaa"));
+            container.Register(cd);
+            container.Register(typeof(B));
+            IPropertyAssembler assembler = new AutoPropertyAssembler(cd);
+            A a = new A();
+            assembler.Assemble(a);
+            Assert.AreEqual("B", a.HogeName);
+            Assert.AreEqual("aaa", a.Message);
+        }
 
-		[Test]
-		public void TestAssembleNotInterface()
-		{
-			IS2Container container = new S2ContainerImpl();
-			ComponentDefImpl cd = new ComponentDefImpl(typeof(DateTime));
-			container.Register(cd);
-			IPropertyAssembler assembler = new AutoPropertyAssembler(cd);
-			DateTime d = new DateTime();
-			assembler.Assemble(d);
-		}
+        [Test]
+        public void TestAssembleNotInterface()
+        {
+            IS2Container container = new S2ContainerImpl();
+            ComponentDefImpl cd = new ComponentDefImpl(typeof(DateTime));
+            container.Register(cd);
+            IPropertyAssembler assembler = new AutoPropertyAssembler(cd);
+            DateTime d = new DateTime();
+            assembler.Assemble(d);
+        }
 
-		[Test]
-		public void TestSkipIllegalProperty()
-		{
-			IS2Container container = new S2ContainerImpl();
-			ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
-			container.Register(cd);
-			IPropertyAssembler assembler = new AutoPropertyAssembler(cd);
-			A a = new A();
-			assembler.Assemble(a);
-		}
+        [Test]
+        public void TestSkipIllegalProperty()
+        {
+            IS2Container container = new S2ContainerImpl();
+            ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+            container.Register(cd);
+            IPropertyAssembler assembler = new AutoPropertyAssembler(cd);
+            A a = new A();
+            assembler.Assemble(a);
+        }
 
-		[Test]
-		public void TestSkipWarning()
-		{
-			IS2Container container = new S2ContainerImpl();
-			ComponentDefImpl cd = new ComponentDefImpl(typeof(A2));
-			container.Register(cd);
-			IPropertyAssembler assembler = new AutoPropertyAssembler(cd);
-			A2 a2 = new A2();
-			assembler.Assemble(a2);
-			Assert.AreEqual("B",a2.HogeName);
-		}
+        [Test]
+        public void TestSkipWarning()
+        {
+            IS2Container container = new S2ContainerImpl();
+            ComponentDefImpl cd = new ComponentDefImpl(typeof(A2));
+            container.Register(cd);
+            IPropertyAssembler assembler = new AutoPropertyAssembler(cd);
+            A2 a2 = new A2();
+            assembler.Assemble(a2);
+            Assert.AreEqual("B", a2.HogeName);
+        }
 
         [Test]
         public void TestAssemble_FormのAcceptButtonが自動バインディングされないことを確認()
@@ -118,90 +115,74 @@ namespace Seasar.Tests.Framework.Container.Assembler
             Assert.IsNull(testForm.AcceptButton);
             Assert.IsNull(testForm.CancelButton);
         }
-		
-		public interface IFoo
-		{
-			string HogeName{ get; }
-		}
 
-		public class A : IFoo
-		{
-			private IHoge hoge_;
-			private string message_;
-			
-			public A()
-			{
-			}
+        public interface IFoo
+        {
+            string HogeName { get; }
+        }
 
-			public IHoge Hoge
-			{
-				get { return hoge_; }
-				set { hoge_ = value; }
-			}
+        public class A : IFoo
+        {
+            private IHoge _hoge;
+            private string _message;
 
-			public string Message
-			{
-				get { return message_; }
-				set { message_ = value; }
-			}
+            public IHoge Hoge
+            {
+                get { return _hoge; }
+                set { _hoge = value; }
+            }
 
-			public string HogeName
-			{
-				get
-				{
-					return hoge_.Name;
-				}
-			}
-		}
+            public string Message
+            {
+                get { return _message; }
+                set { _message = value; }
+            }
 
-		public class A2 : IFoo
-		{
-			private IHoge hoge_ = new B();
+            public string HogeName
+            {
+                get { return _hoge.Name; }
+            }
+        }
 
-			public IHoge Hoge
-			{
-				get { return hoge_; }
-				set { hoge_ = value; }
-			}
-			public string HogeName
-			{
-				get
-				{
-					return hoge_.Name;
-				}
-			}
-		}
+        public class A2 : IFoo
+        {
+            private IHoge _hoge = new B();
 
-		public interface IHoge
-		{
-			string Name { get; }
-		}
+            public IHoge Hoge
+            {
+                get { return _hoge; }
+                set { _hoge = value; }
+            }
 
-		public class B : IHoge
-		{
-			public string Name
-			{
-				get
-				{
-					return "B";
-				}
-			}
-		}
+            public string HogeName
+            {
+                get { return _hoge.Name; }
+            }
+        }
 
-		public class C : IHoge
-		{
-			public string Name
-			{
-				get
-				{
-					return "C";
-				}
-			}
-		}
+        public interface IHoge
+        {
+            string Name { get; }
+        }
+
+        public class B : IHoge
+        {
+            public string Name
+            {
+                get { return "B"; }
+            }
+        }
+
+        public class C : IHoge
+        {
+            public string Name
+            {
+                get { return "C"; }
+            }
+        }
 
         class TestForm : Form
         {
         }
-
-	}
+    }
 }

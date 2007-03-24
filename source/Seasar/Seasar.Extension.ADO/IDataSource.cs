@@ -16,34 +16,30 @@
  */
 #endregion
 
-using System;
 using System.Data;
 
 namespace Seasar.Extension.ADO
 {
-	/// <summary>
-	/// IDataSource ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public interface IDataSource
-	{
-		IDbConnection GetConnection();
-		
-		IDbCommand GetCommand();
-		IDbCommand GetCommand(string cmdText);
-		IDbCommand GetCommand(string cmdText, IDbConnection connection);
-		IDbCommand GetCommand(string cmdText, IDbConnection connection, IDbTransaction transaction);
-		
-		IDataParameter GetParameter();
-		IDataParameter GetParameter(string name, DbType dataType);
-		IDataParameter GetParameter(string name, object value);
-		IDataParameter GetParameter(string name, DbType dataType, int size);
-		IDataParameter GetParameter(string name, DbType dataType, int size, string srcColumn);
+    public interface IDataSource
+    {
+        IDbConnection GetConnection();
 
-		IDataAdapter GetDataAdapter();
-		IDataAdapter GetDataAdapter(IDbCommand selectCommand);
-		IDataAdapter GetDataAdapter(string selectCommandText, string selectConnectionString);
-		IDataAdapter GetDataAdapter(string selectCommandText, IDbConnection selectConnection);
+        IDbCommand GetCommand();
+        IDbCommand GetCommand(string cmdText);
+        IDbCommand GetCommand(string cmdText, IDbConnection connection);
+        IDbCommand GetCommand(string cmdText, IDbConnection connection, IDbTransaction transaction);
+
+        IDataParameter GetParameter();
+        IDataParameter GetParameter(string name, DbType dataType);
+        IDataParameter GetParameter(string name, object value);
+        IDataParameter GetParameter(string name, DbType dataType, int size);
+        IDataParameter GetParameter(string name, DbType dataType, int size, string srcColumn);
+
+        IDataAdapter GetDataAdapter();
+        IDataAdapter GetDataAdapter(IDbCommand selectCommand);
+        IDataAdapter GetDataAdapter(string selectCommandText, string selectConnectionString);
+        IDataAdapter GetDataAdapter(string selectCommandText, IDbConnection selectConnection);
 
         IDbTransaction GetTransaction();
-	}
+    }
 }

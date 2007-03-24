@@ -21,20 +21,20 @@ using System.Reflection;
 
 namespace Seasar.Framework.Util
 {
-	public sealed class ParameterUtil
-	{
-		private ParameterUtil()
-		{
-		}
+    public sealed class ParameterUtil
+    {
+        private ParameterUtil()
+        {
+        }
 
-		public static Type[] GetParameterTypes(ParameterInfo[] parameters)
-		{
-			Type[] type = new Type[parameters.Length];
-			for(int i = 0; i < parameters.Length; ++i)
-			{
-				type[i] = parameters[i].ParameterType;
-			}
-			return type;
-		}
-	}
+        public static Type[] GetParameterTypes(ParameterInfo[] parameters)
+        {
+            Type[] type = new Type[parameters.Length];
+            for (int i = 0; i < parameters.Length; ++i)
+            {
+                type[i] = parameters[i].ParameterType;
+            }
+            return type;
+        }
+    }
 }

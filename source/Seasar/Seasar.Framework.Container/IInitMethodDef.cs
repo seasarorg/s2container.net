@@ -16,15 +16,12 @@
  */
 #endregion
 
-using System;
-
 namespace Seasar.Framework.Container
 {
-	/// <summary>
-	/// 初期化メソッドを定義します。
-	/// </summary>
-	public interface IInitMethodDef : IMethodDef
-	{
-		
-	}
+    /// <summary>
+    /// 初期化メソッドを定義します。
+    /// </summary>
+    public interface IInitMethodDef : IMethodDef
+    {
+    }
 }

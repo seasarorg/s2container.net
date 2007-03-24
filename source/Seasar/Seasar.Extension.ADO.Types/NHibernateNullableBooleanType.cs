@@ -24,10 +24,6 @@ namespace Seasar.Extension.ADO.Types
 {
     public class NHibernateNullableBooleanType : NHibernateNullableBaseType, IValueType
     {
-        public NHibernateNullableBooleanType()
-        {
-        }
-
         #region IValueType ƒƒ“ƒo
 
         public override void BindValue(IDbCommand cmd, string columnName, object value)

@@ -16,109 +16,81 @@
  */
 #endregion
 
-using System;
 using Seasar.Framework.Container.Util;
 
 namespace Seasar.Framework.Container.Impl
 {
-	/// <summary>
-	/// MethodDefImpl の概要の説明です。
-	/// </summary>
-	public class MethodDefImpl : IMethodDef
-	{
-		private string methodName_;
-		private ArgDefSupport argDefSupport_ = new ArgDefSupport();
-		private IS2Container container_;
-		private string expression_;
+    public class MethodDefImpl : IMethodDef
+    {
+        private readonly string _methodName;
+        private readonly ArgDefSupport _argDefSupport = new ArgDefSupport();
+        private IS2Container _container;
+        private string _expression;
 
-		public MethodDefImpl()
-		{
-		}
+        public MethodDefImpl()
+        {
+        }
 
-		public MethodDefImpl(string methodName)
-		{
-			methodName_ = methodName;
-		}
+        public MethodDefImpl(string methodName)
+        {
+            _methodName = methodName;
+        }
 
-		#region MethodDef メンバ
+        #region MethodDef メンバ
 
-		public string MethodName
-		{
-			get
-			{
-				
-				return methodName_;
-			}
-		}
+        public string MethodName
+        {
+            get { return _methodName; }
+        }
 
-		public object[] Args
-		{
-			get
-			{
-				
-				object[] args = new object[this.ArgDefSize];
-				for(int i = 0; i < this.ArgDefSize; ++i)
-				{
-					args[i] = this.GetArgDef(i).Value;
-				}
-				return args;
-			}
-		}
+        public object[] Args
+        {
+            get
+            {
+                object[] args = new object[ArgDefSize];
+                for (int i = 0; i < ArgDefSize; ++i)
+                {
+                    args[i] = GetArgDef(i).Value;
+                }
+                return args;
+            }
+        }
 
-		public IS2Container Container
-		{
-			get
-			{
-				
-				return container_;
-			}
-			set
-			{
-				
-				container_ = value;
-				argDefSupport_.Container = value;
-			}
-		}
+        public IS2Container Container
+        {
+            get { return _container; }
+            set
+            {
+                _container = value;
+                _argDefSupport.Container = value;
+            }
+        }
 
-		public string Expression
-		{
-			get
-			{
-				
-				return expression_;
-			}
-			set
-			{
-				
-				expression_ = value;
-			}
-		}
+        public string Expression
+        {
+            get { return _expression; }
+            set { _expression = value; }
+        }
 
-		#endregion
+        #endregion
 
-		#region IArgDefAware メンバ
+        #region IArgDefAware メンバ
 
-		public void AddArgDef(IArgDef argDef)
-		{
-			
-			argDefSupport_.AddArgDef(argDef);
-		}
+        public void AddArgDef(IArgDef argDef)
+        {
+            _argDefSupport.AddArgDef(argDef);
+        }
 
-		public int ArgDefSize
-		{
-			get
-			{
-				
-				return argDefSupport_.ArgDefSize;
-			}
-		}
+        public int ArgDefSize
+        {
+            get { return _argDefSupport.ArgDefSize; }
+        }
 
-		public IArgDef GetArgDef(int index)
-		{
-			
-			return argDefSupport_.GetArgDef(index);
-		}
+        public IArgDef GetArgDef(int index)
+        {
+            return _argDefSupport.GetArgDef(index);
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

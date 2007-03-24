@@ -21,37 +21,35 @@ using System.Runtime.Serialization;
 
 namespace Seasar.Framework.Exceptions
 {
-	/// <summary>
-	/// Microsoft.JScript.Eval.JScriptEvaluateで発生する実行時例外です。
-	/// </summary>
-	[Serializable]
-	public sealed class JScriptEvaluateRuntimeException : SRuntimeException
-	{
-		private string expression_;
+    /// <summary>
+    /// Microsoft.JScript.Eval.JScriptEvaluateで発生する実行時例外です。
+    /// </summary>
+    [Serializable]
+    public sealed class JScriptEvaluateRuntimeException : SRuntimeException
+    {
+        private readonly string _expression;
 
-		public JScriptEvaluateRuntimeException(string expression,Exception cause)
-			: base("ESSR0073",new object[] {expression,cause},cause)
-		{
-			expression_ = expression;
-		}
+        public JScriptEvaluateRuntimeException(string expression, Exception cause)
+            : base("ESSR0073", new object[] { expression, cause }, cause)
+        {
+            _expression = expression;
+        }
 
-		public JScriptEvaluateRuntimeException(SerializationInfo info, StreamingContext context) 
-			: base( info, context )
-		{
-			this.expression_ = info.GetString("expression_");
-		}
+        public JScriptEvaluateRuntimeException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+            _expression = info.GetString("_expression");
+        }
 
-		public override void GetObjectData( SerializationInfo info,
-			StreamingContext context )
-		{
-			info.AddValue("expression_", this.expression_, typeof(String));
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("_expression", _expression, typeof(string));
+            base.GetObjectData(info, context);
+        }
 
-			base.GetObjectData(info, context);
-		}
-
-		public string Expression
-		{
-			get { return expression_; }
-		}
-	}
+        public string Expression
+        {
+            get { return _expression; }
+        }
+    }
 }

@@ -27,213 +27,208 @@ using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Framework.Xml
 {
-	/// <summary>
-	/// XmlHandlerTest ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	[TestFixture]
-	public class XmlHandlerTest
-	{
-		private const string XML_FILE_NAME = 
-			"Seasar.Tests.Framework.Xml.test1.xml";
+    [TestFixture]
+    public class XmlHandlerTest
+    {
+        private const string XML_FILE_NAME = "Seasar.Tests.Framework.Xml.test1.xml";
+        private TagHandlerRule _rule;
+        private Assembly _asm;
 
-		private TagHandlerRule rule_;
-		private Assembly asm_;
+        [SetUp]
+        public void SetUp()
+        {
+            _rule = new TagHandlerRule();
+            _asm = Assembly.GetExecutingAssembly();
+        }
 
-		[SetUp]
-		public void SetUp()
-		{
-			rule_ = new TagHandlerRule();
-			asm_ = Assembly.GetExecutingAssembly();
-		}
+        [Test]
+        public void TestStart()
+        {
+            _rule["/tag1"] = new TagHandler1();
+            XmlHandler handler = new XmlHandler(_rule);
+            XmlHandlerParser parser = new XmlHandlerParser(handler);
+            StreamReader stream = null;
+            try
+            {
+                stream = ResourceUtil.GetResourceAsStreamReader(XML_FILE_NAME, _asm);
+                Assert.AreEqual("aaa", parser.Parse(stream));
+            }
+            finally
+            {
+                if (stream != null) stream.Close();
+            }
+        }
 
-		[Test]
-		public void TestStart()
-		{
-			rule_["/tag1"] = new TagHandler1();
-			XmlHandler handler = new XmlHandler(rule_);
-			XmlHandlerParser parser = new XmlHandlerParser(handler);
-			StreamReader stream = null;
-			try
-			{
-				stream = ResourceUtil.GetResourceAsStreamReader(XML_FILE_NAME,asm_);
-				Assert.AreEqual("aaa", parser.Parse(stream));
-			}
-			finally
-			{
-				if(stream != null) stream.Close();
-			}
-		}
+        public class TagHandler1 : TagHandler
+        {
+            public override void Start(TagHandlerContext ctx,
+                IAttributes attributes)
+            {
+                ctx.Push(attributes["attr1"]);
+            }
+        }
 
-		public class TagHandler1 : TagHandler
-		{
-			public override void Start(TagHandlerContext ctx,
-				IAttributes attributes)
-			{
-				ctx.Push(attributes["attr1"]);
-			}
-		}
+        [Test]
+        public void TestAppendBody()
+        {
+            StringBuilder buf = new StringBuilder();
+            TagHandler2 th2 = new TagHandler2();
+            th2.Buf = buf;
+            _rule["/tag1"] = th2;
+            XmlHandler handler = new XmlHandler(_rule);
+            XmlHandlerParser parser = new XmlHandlerParser(handler);
+            StreamReader stream = null;
+            try
+            {
+                stream = ResourceUtil.GetResourceAsStreamReader(XML_FILE_NAME, _asm);
+                parser.Parse(stream);
+            }
+            finally
+            {
+                if (stream != null) stream.Close();
+            }
+            Trace.WriteLine(buf);
+            Assert.AreEqual("[111 222][333]", buf.ToString());
+        }
 
-		[Test]
-		public void TestAppendBody()
-		{
-			StringBuilder buf = new StringBuilder();
-			TagHandler2 th2 = new TagHandler2();
-			th2.Buf = buf;
-			rule_["/tag1"] = th2;
-			XmlHandler handler = new XmlHandler(rule_);
-			XmlHandlerParser parser = new XmlHandlerParser(handler);
-			StreamReader stream = null;
-			try
-			{
-				stream = ResourceUtil.GetResourceAsStreamReader(XML_FILE_NAME,asm_);
-				parser.Parse(stream);
-			}
-			finally
-			{
-				if(stream != null) stream.Close();
-			}
-			Trace.WriteLine(buf);
-			Assert.AreEqual("[111 222][333]", buf.ToString());
-		}
+        public class TagHandler2 : TagHandler
+        {
+            private StringBuilder buf_;
 
-		public class TagHandler2 : TagHandler
-		{
-			private StringBuilder buf_;
+            public override void AppendBody(TagHandlerContext context, string body)
+            {
+                buf_.Append("[" + body + "]");
+            }
 
-			public override void AppendBody(TagHandlerContext context, string body)
-			{
-				buf_.Append("[" + body + "]");
-			}
+            public StringBuilder Buf
+            {
+                set { buf_ = value; }
+            }
+        }
 
-			public StringBuilder Buf
-			{
-				set { buf_ = value; }
-			}
-		}
+        [Test]
+        public void TestAppendBody2()
+        {
+            StringBuilder buf = new StringBuilder();
+            TagHandler2 th2 = new TagHandler2();
+            th2.Buf = buf;
+            _rule["tag1"] = th2;
+            XmlHandler handler = new XmlHandler(_rule);
+            XmlHandlerParser parser = new XmlHandlerParser(handler);
+            StreamReader stream = null;
+            try
+            {
+                stream = ResourceUtil.GetResourceAsStreamReader(XML_FILE_NAME, _asm);
+                parser.Parse(stream);
+            }
+            finally
+            {
+                if (stream != null) stream.Close();
+            }
+            Trace.WriteLine(buf);
+            Assert.AreEqual("[111 222][333]", buf.ToString());
+        }
 
-		[Test]
-		public void TestAppendBody2()
-		{
-			StringBuilder buf = new StringBuilder();
-			TagHandler2 th2 = new TagHandler2();
-			th2.Buf = buf;
-			rule_["tag1"] = th2;
-			XmlHandler handler = new XmlHandler(rule_);
-			XmlHandlerParser parser = new XmlHandlerParser(handler);
-			StreamReader stream = null;
-			try
-			{
-				stream = ResourceUtil.GetResourceAsStreamReader(XML_FILE_NAME,asm_);
-				parser.Parse(stream);
-			}
-			finally
-			{
-				if(stream != null) stream.Close();
-			}
-			Trace.WriteLine(buf);
-			Assert.AreEqual("[111 222][333]", buf.ToString());
-		}
+        [Test]
+        public void TestAppendBody3()
+        {
+            StringBuilder buf = new StringBuilder();
+            TagHandler2 th2 = new TagHandler2();
+            th2.Buf = buf;
+            _rule["/tag1/tag3/tag4"] = th2;
+            XmlHandler handler = new XmlHandler(_rule);
+            XmlHandlerParser parser = new XmlHandlerParser(handler);
+            StreamReader stream = null;
+            try
+            {
+                stream = ResourceUtil.GetResourceAsStreamReader(XML_FILE_NAME, _asm);
+                parser.Parse(stream);
+            }
+            finally
+            {
+                if (stream != null) stream.Close();
+            }
+            Trace.WriteLine(buf);
+            Assert.AreEqual("[eee]", buf.ToString());
+        }
 
-		[Test]
-		public void TestAppendBody3()
-		{
-			StringBuilder buf = new StringBuilder();
-			TagHandler2 th2 = new TagHandler2();
-			th2.Buf = buf;
-			rule_["/tag1/tag3/tag4"] = th2;
-			XmlHandler handler = new XmlHandler(rule_);
-			XmlHandlerParser parser = new XmlHandlerParser(handler);
-			StreamReader stream = null;
-			try
-			{
-				stream = ResourceUtil.GetResourceAsStreamReader(XML_FILE_NAME,asm_);
-				parser.Parse(stream);
-			}
-			finally
-			{
-				if(stream != null) stream.Close();
-			}
-			Trace.WriteLine(buf);
-			Assert.AreEqual("[eee]", buf.ToString());
-		}
+        [Test]
+        public void TestEnd()
+        {
+            _rule["/tag1/tag2"] = new TagHandler3();
+            XmlHandler handler = new XmlHandler(_rule);
+            XmlHandlerParser parser = new XmlHandlerParser(handler);
+            object result = parser.Parse(XML_FILE_NAME);
+            Assert.AreEqual("c c", result);
+        }
 
-		[Test]
-		public void TestEnd()
-		{
-			rule_["/tag1/tag2"] = new TagHandler3();
-			XmlHandler handler = new XmlHandler(rule_);
-			XmlHandlerParser parser = new XmlHandlerParser(handler);
-			object result = parser.Parse(XML_FILE_NAME);
-			Assert.AreEqual("c c", result);
-		}
+        public class TagHandler3 : TagHandler
+        {
+            public override void End(TagHandlerContext context, string body)
+            {
+                context.Push(body);
+            }
+        }
 
-		public class TagHandler3 : TagHandler
-		{
-			public override void End(TagHandlerContext context, string body)
-			{
-				context.Push(body);
-			}
-		}
+        [Test]
+        public void TestException()
+        {
+            _rule["/tag1/tag3"] = new TagHandler4();
+            XmlHandler handler = new XmlHandler(_rule);
+            XmlHandlerParser parser = new XmlHandlerParser(handler);
+            StreamReader stream = ResourceUtil.GetResourceAsStreamReader(XML_FILE_NAME, _asm);
+            try
+            {
+                parser.Parse(stream);
+                Assert.Fail();
+            }
+            catch (ApplicationException ex)
+            {
+                Trace.WriteLine(ex);
+            }
+            finally
+            {
+                stream.Close();
+            }
+        }
 
-		[Test]
-		public void TestException()
-		{
-			rule_["/tag1/tag3"] = new TagHandler4();
-			XmlHandler handler = new XmlHandler(rule_);
-			XmlHandlerParser parser = new XmlHandlerParser(handler);
-			StreamReader stream = ResourceUtil.GetResourceAsStreamReader(XML_FILE_NAME,asm_);
-			try
-			{
-				parser.Parse(stream);
-				Assert.Fail();
-			}
-			catch(ApplicationException ex)
-			{
-				Trace.WriteLine(ex);
-			}
-			finally
-			{
-				stream.Close();
-			}
-		}
+        public class TagHandler4 : TagHandler
+        {
+            public override void Start(TagHandlerContext context, IAttributes attributes)
+            {
+                throw new ApplicationException("testException");
+            }
+        }
 
-		public class TagHandler4 : TagHandler
-		{
-			public override void Start(TagHandlerContext context, IAttributes attributes)
-			{
-				throw new ApplicationException("testException");
-			}
-		}
+        [Test]
+        public void TestTagMatching()
+        {
+            TagHandler th = new TagHandler5();
+            _rule["tag1"] = th;
+            _rule["tag2"] = th;
+            _rule["tag3"] = th;
+            _rule["tag4"] = th;
+            _rule["tag5"] = th;
+            Trace.WriteLine("tagMatching");
+            XmlHandler handler = new XmlHandler(_rule);
+            XmlHandlerParser parser = new XmlHandlerParser(handler);
+            StreamReader stream = ResourceUtil.GetResourceAsStreamReader(XML_FILE_NAME, _asm);
+            try
+            {
+                parser.Parse(stream);
+            }
+            finally
+            {
+                stream.Close();
+            }
+        }
 
-		[Test]
-		public void TestTagMatching()
-		{
-			TagHandler th = new TagHandler5();
-			rule_["tag1"] = th;
-			rule_["tag2"] = th;
-			rule_["tag3"] = th;
-			rule_["tag4"] = th;
-			rule_["tag5"] = th;
-			Trace.WriteLine("tagMatching");
-			XmlHandler handler = new XmlHandler(rule_);
-			XmlHandlerParser parser = new XmlHandlerParser(handler);
-			StreamReader stream = ResourceUtil.GetResourceAsStreamReader(XML_FILE_NAME,asm_);
-			try
-			{
-				parser.Parse(stream);
-			}
-			finally
-			{
-				stream.Close();
-			}
-		}
-
-		public class TagHandler5 : TagHandler
-		{
-			public override void Start(TagHandlerContext context, IAttributes attributes)
-			{
-				Trace.WriteLine(context.DetailPath);
-			}
-		}
-	}
+        public class TagHandler5 : TagHandler
+        {
+            public override void Start(TagHandlerContext context, IAttributes attributes)
+            {
+                Trace.WriteLine(context.DetailPath);
+            }
+        }
+    }
 }

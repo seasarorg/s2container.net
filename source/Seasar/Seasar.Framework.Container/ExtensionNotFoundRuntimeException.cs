@@ -22,37 +22,35 @@ using Seasar.Framework.Exceptions;
 
 namespace Seasar.Framework.Container
 {
-	/// <summary>
-	/// 拡張子が見つからなかったときの実行時例外
-	/// </summary>
-	[Serializable]
-	public class ExtensionNotFoundRuntimeException : SRuntimeException
-	{
-		private string path_;
+    /// <summary>
+    /// 拡張子が見つからなかったときの実行時例外
+    /// </summary>
+    [Serializable]
+    public class ExtensionNotFoundRuntimeException : SRuntimeException
+    {
+        private readonly string path;
 
-		public ExtensionNotFoundRuntimeException(string path)
-			: base("ESSR0074",new object[] {path})
-		{
-			path_ = path;
-		}
+        public ExtensionNotFoundRuntimeException(string path)
+            : base("ESSR0074", new object[] { path })
+        {
+            this.path = path;
+        }
 
-		public ExtensionNotFoundRuntimeException(SerializationInfo info, StreamingContext context) 
-			: base( info, context )
-		{
-			this.path_ = info.GetString("path_");
-		}
+        public ExtensionNotFoundRuntimeException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+            path = info.GetString("path");
+        }
 
-		public override void GetObjectData( SerializationInfo info,
-			StreamingContext context )
-		{
-			info.AddValue("path_", this.path_, typeof(String));
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("path", path, typeof(string));
+            base.GetObjectData(info, context);
+        }
 
-			base.GetObjectData(info, context);
-		}
-
-		public string Path
-		{
-			get { return path_; }
-		}
-	}
+        public string Path
+        {
+            get { return path; }
+        }
+    }
 }

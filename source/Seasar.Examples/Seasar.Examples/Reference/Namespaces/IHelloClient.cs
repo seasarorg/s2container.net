@@ -18,8 +18,8 @@
 
 namespace Seasar.Examples.Reference.Namespaces
 {
-	public interface IHelloClient
-	{
-		void ShowMessage();
-	}
+    public interface IHelloClient
+    {
+        void ShowMessage();
+    }
 }

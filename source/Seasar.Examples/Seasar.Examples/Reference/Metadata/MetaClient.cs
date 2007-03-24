@@ -17,24 +17,23 @@
 #endregion
 
 using System;
-
 using Seasar.Framework.Container;
 
 namespace Seasar.Examples.Reference.Metadata
 {
-	public class MetaClient
-	{
-		private IS2Container container;
+    public class MetaClient
+    {
+        private readonly IS2Container container;
 
-		public MetaClient(IS2Container container) 
-		{
-			this.container = container;
-		}
+        public MetaClient(IS2Container container)
+        {
+            this.container = container;
+        }
 
-		public void Main()
-		{
-			IMetaDef meta = this.container.GetMetaDef("aaa");
-			Console.WriteLine("Meta name [" + meta.Name + "] / Meta value [" + meta.Value + "]");
-		}
-	}
+        public void Main()
+        {
+            IMetaDef meta = container.GetMetaDef("aaa");
+            Console.WriteLine("Meta name [" + meta.Name + "] / Meta value [" + meta.Value + "]");
+        }
+    }
 }

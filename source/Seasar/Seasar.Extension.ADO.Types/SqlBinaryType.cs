@@ -22,31 +22,27 @@ using System.Data.SqlTypes;
 
 namespace Seasar.Extension.ADO.Types
 {
-	public class SqlBinaryType : SqlBaseType, IValueType
-	{
-		public SqlBinaryType()
-		{
-        }
-
+    public class SqlBinaryType : SqlBaseType, IValueType
+    {
         #region IValueType ÉÅÉìÉo
 
-		public override void BindValue(IDbCommand cmd, string columnName, object value)
+        public override void BindValue(IDbCommand cmd, string columnName, object value)
         {
-			BindValue(cmd, columnName, value, DbType.Binary);
+            BindValue(cmd, columnName, value, DbType.Binary);
         }
 
         #endregion
 
-		protected override object GetValue(object value)
-		{
-			if (value == DBNull.Value)
-			{
-				return SqlBinary.Null;
-			}
-			else
-			{
-				return new SqlBinary((byte[]) value);
-			}
-		}
+        protected override object GetValue(object value)
+        {
+            if (value == DBNull.Value)
+            {
+                return SqlBinary.Null;
+            }
+            else
+            {
+                return new SqlBinary((byte[]) value);
+            }
+        }
     }
 }

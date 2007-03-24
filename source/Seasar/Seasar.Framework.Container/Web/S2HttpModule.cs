@@ -22,48 +22,40 @@ using Seasar.Framework.Container.Factory;
 
 namespace Seasar.Framework.Container.Web
 {
-	/// <summary>
-	/// S2HttpModule の概要の説明です。
-	/// </summary>
-	public class S2HttpModule : IHttpModule
-	{
+    public class S2HttpModule : IHttpModule
+    {
+        #region IHttpModule メンバ
 
-		public S2HttpModule()
-		{
-		}
+        public void Init(HttpApplication context)
+        {
+            context.AcquireRequestState += new EventHandler(context_AcquireRequestState);
+            context.ReleaseRequestState += new EventHandler(context_ReleaseRequestState);
+        }
 
-		#region IHttpModule メンバ
+        public void Dispose()
+        {
+        }
 
-		public void Init(HttpApplication context)
-		{
-			context.AcquireRequestState += new EventHandler(context_AcquireRequestState);
-			context.ReleaseRequestState += new EventHandler(context_ReleaseRequestState);
-		}
+        #endregion
 
-		public void Dispose()
-		{
-		}
+        private void context_AcquireRequestState(object sender, EventArgs e)
+        {
+            HttpApplication ha = (HttpApplication) sender;
+            IHttpHandler handler = ha.Context.Handler;
 
-		#endregion
+            IS2Container container = SingletonS2ContainerFactory.Container;
+            container.HttpContext = HttpContext.Current;
+            string componentName = ha.Request.Path;
+            if (container.HasComponentDef(componentName))
+            {
+                container.InjectDependency(handler, componentName);
+            }
+        }
 
-		private void context_AcquireRequestState(object sender, EventArgs e)
-		{
-			HttpApplication ha = (HttpApplication) sender;
-			IHttpHandler handler = ha.Context.Handler;
-			
-			IS2Container container = SingletonS2ContainerFactory.Container;
-			container.HttpContext = HttpContext.Current;
-			string componentName = ha.Request.Path;
-			if(container.HasComponentDef(componentName))
-			{
-				container.InjectDependency(handler, componentName);
-			}
-		}
-
-		private void context_ReleaseRequestState(object sender, EventArgs e)
-		{
-			IS2Container container = SingletonS2ContainerFactory.Container;
-			container.HttpContext = null;
-		}
-	}
+        private void context_ReleaseRequestState(object sender, EventArgs e)
+        {
+            IS2Container container = SingletonS2ContainerFactory.Container;
+            container.HttpContext = null;
+        }
+    }
 }

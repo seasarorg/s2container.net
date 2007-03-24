@@ -22,37 +22,35 @@ using Seasar.Framework.Exceptions;
 
 namespace Seasar.Framework.Container
 {
-	/// <summary>
-	/// コンポーネントのコンストラクタ引数の設定に失敗したときの実行時例外
-	/// </summary>
-	[Serializable]
-	public class IllegalConstructorRuntimeException : SRuntimeException
-	{
-		private Type componentType_;
+    /// <summary>
+    /// コンポーネントのコンストラクタ引数の設定に失敗したときの実行時例外
+    /// </summary>
+    [Serializable]
+    public class IllegalConstructorRuntimeException : SRuntimeException
+    {
+        private readonly Type _componentType;
 
-		public IllegalConstructorRuntimeException(Type componentType,Exception cause)
-			: base("ESSR0058",new object[] {componentType.FullName,cause},cause)
-		{
-			componentType_ = componentType;
-		}
+        public IllegalConstructorRuntimeException(Type componentType, Exception cause)
+            : base("ESSR0058", new object[] { componentType.FullName, cause }, cause)
+        {
+            _componentType = componentType;
+        }
 
-		public IllegalConstructorRuntimeException(SerializationInfo info, StreamingContext context) 
-			: base( info, context )
-		{
-			this.componentType_ = info.GetValue("componentType_", typeof(Type)) as Type;
-		}
+        public IllegalConstructorRuntimeException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+            _componentType = info.GetValue("_componentType", typeof(Type)) as Type;
+        }
 
-		public override void GetObjectData( SerializationInfo info,
-			StreamingContext context )
-		{
-			info.AddValue("componentType_", this.componentType_, typeof(Type));
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("_componentType", _componentType, typeof(Type));
+            base.GetObjectData(info, context);
+        }
 
-			base.GetObjectData(info, context);
-		}
-
-		public Type ComponentType
-		{
-			get { return componentType_; }
-		}
-	}
+        public Type ComponentType
+        {
+            get { return _componentType; }
+        }
+    }
 }

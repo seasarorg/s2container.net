@@ -16,53 +16,44 @@
  */
 #endregion
 
-using System;
-
 namespace Seasar.Framework.Container.Impl
 {
-	/// <summary>
-	/// S2ContainerComponentDef の概要の説明です。
-	/// </summary>
-	public class S2ContainerComponentDef : SimpleComponentDef
-	{
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		/// <param name="container">S2Container</param>
-		/// <param name="name"></param>
-		public S2ContainerComponentDef(IS2Container container,string name) 
-			: base(container,name)
-		{
-		}
+    public class S2ContainerComponentDef : SimpleComponentDef
+    {
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="container">S2Container</param>
+        /// <param name="name"></param>
+        public S2ContainerComponentDef(IS2Container container, string name)
+            : base(container, name)
+        {
+        }
 
-		/// <summary>
-		/// S2Container
-		/// </summary>
-		public new IS2Container Container
-		{
-			get
-			{
-				return (IS2Container) base.GetComponent();
-			}
-		}
+        /// <summary>
+        /// S2Container
+        /// </summary>
+        public new IS2Container Container
+        {
+            get { return (IS2Container) base.GetComponent(); }
+        }
 
-		/// <summary>
-		/// コンポーネント
-		/// </summary>
-		public override object GetComponent()
-		{
-			return this.Container;
-		}
+        /// <summary>
+        /// コンポーネント
+        /// </summary>
+        public override object GetComponent()
+        {
+            return Container;
+        }
 
-		public new void Init()
-		{
-			this.Container.Init();
-		}
+        public new void Init()
+        {
+            Container.Init();
+        }
 
-
-		public new void Destroy()
-		{
-			this.Container.Destroy();
-		}
-	}
+        public new void Destroy()
+        {
+            Container.Destroy();
+        }
+    }
 }

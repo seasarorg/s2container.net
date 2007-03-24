@@ -16,60 +16,43 @@
  */
 #endregion
 
-using System;
 using System.Collections;
 
 namespace Seasar.Framework.Xml.Impl
 {
-	/// <summary>
-	/// AttributesImpl の概要の説明です。
-	/// </summary>
-	public class AttributesImpl : IAttributes
-	{
-		private Hashtable values_ = new Hashtable();
-		private IList qNames_ = new ArrayList();
+    public class AttributesImpl : IAttributes
+    {
+        private readonly Hashtable _values = new Hashtable();
+        private readonly IList _qNames = new ArrayList();
 
-		public AttributesImpl()
-		{
-		}
+        public void AddAttribute(string qName, string value)
+        {
+            _qNames.Add(qName);
+            _values[qName] = value;
+        }
 
-		public void AddAttribute(string qName, string value)
-		{
-			qNames_.Add(qName);
-			values_[qName] = value;
-		}
+        #region IAttributes メンバ
 
-		#region IAttributes メンバ
+        public string this[string qName]
+        {
+            get { return (string) _values[qName]; }
+        }
 
-		public string this[string qName]
-		{
-			get
-			{
-				return (string) values_[qName];
-			}
-		}
+        string IAttributes.this[int index]
+        {
+            get { return (string) _values[_qNames[index]]; }
+        }
 
-		string Seasar.Framework.Xml.IAttributes.this[int index]
-		{
-			get
-			{
-				return (string) values_[qNames_[index]];
-			}
-		}
+        public int Count
+        {
+            get { return _qNames.Count; }
+        }
 
-		public int Count
-		{
-			get
-			{
-				return qNames_.Count;
-			}
-		}
+        public string GetQName(int index)
+        {
+            return (string) _qNames[index];
+        }
 
-		public string GetQName(int index)
-		{
-			return (string) qNames_[index];
-		}
-
-		#endregion
-	}
+        #endregion
+    }
 }

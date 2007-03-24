@@ -16,15 +16,10 @@
  */
 #endregion
 
-using System;
-
 namespace Seasar.Framework.Container.Assembler
 {
-	/// <summary>
-	/// MethodAssembler ‚ÌŠT—v‚Ìà–¾‚Å‚·B
-	/// </summary>
-	public interface IMethodAssembler
-	{
-		void Assemble(object component);
-	}
+    public interface IMethodAssembler
+    {
+        void Assemble(object component);
+    }
 }

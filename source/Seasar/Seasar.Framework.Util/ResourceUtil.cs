@@ -22,62 +22,68 @@ using System.Reflection;
 
 namespace Seasar.Framework.Util
 {
-	public sealed class ResourceUtil
-	{
-		private ResourceUtil()
-		{
-		}
+    public sealed class ResourceUtil
+    {
+        private ResourceUtil()
+        {
+        }
 
-		public static string GetExtension(string path)
-		{
-			int extPos = path.LastIndexOf(".");
-			if(extPos >= 0)
-			{
-				return path.Substring(extPos + 1);
-			}
-			else
-			{
-				return null;
-			}
-		}
+        public static string GetExtension(string path)
+        {
+            int extPos = path.LastIndexOf(".");
+            if (extPos >= 0)
+            {
+                return path.Substring(extPos + 1);
+            }
+            else
+            {
+                return null;
+            }
+        }
 
-		public static string GetResourcePath(string path, string extension)
-		{
-			if(extension == null) return path;
-			if(path.EndsWith(extension)) return path;
-			extension = "." + extension;
-			return path.Replace(Path.DirectorySeparatorChar,'.') + extension;
-		}
+        public static string GetResourcePath(string path, string extension)
+        {
+            if (extension == null)
+            {
+                return path;
+            }
+            if (path.EndsWith(extension))
+            {
+                return path;
+            }
+            extension = "." + extension;
+            return path.Replace(Path.DirectorySeparatorChar, '.') + extension;
+        }
 
-		public static StreamReader GetResourceAsStreamReader(string path)
-		{
-			return GetResourceAsStreamReader(path,Assembly.GetEntryAssembly());
-		}
+        public static StreamReader GetResourceAsStreamReader(string path)
+        {
+            return GetResourceAsStreamReader(path, Assembly.GetEntryAssembly());
+        }
 
-		public static StreamReader GetResourceAsStreamReader(string path, string extension)
-		{
-			return GetResourceAsStreamReader(GetResourcePath(path, extension), Assembly.GetEntryAssembly());
-		}
+        public static StreamReader GetResourceAsStreamReader(string path, string extension)
+        {
+            return GetResourceAsStreamReader(GetResourcePath(path, extension), Assembly.GetEntryAssembly());
+        }
 
         public static StreamReader GetResourceAsStreamReaderNoException(string path, string extension)
         {
             return GetResourceAsStreamReaderNoException(GetResourcePath(path, extension), Assembly.GetEntryAssembly());
         }
 
-		public static StreamReader GetResourceAsStreamReader(string path, string extension, Assembly assembly)
-		{
-			return GetResourceAsStreamReader(GetResourcePath(path, extension), assembly);
-		}
+        public static StreamReader GetResourceAsStreamReader(string path, string extension, Assembly assembly)
+        {
+            return GetResourceAsStreamReader(GetResourcePath(path, extension), assembly);
+        }
 
         public static StreamReader GetResourceAsStreamReaderNoException(string path, string extension, Assembly assembly)
         {
             return GetResourceAsStreamReaderNoException(GetResourcePath(path, extension), assembly);
         }
 
-		public static StreamReader GetResourceAsStreamReader(string path, Assembly assembly)
-		{
-			return new StreamReader(GetResourceAsStream(path, assembly));
-		}
+        public static StreamReader GetResourceAsStreamReader(string path, Assembly assembly)
+        {
+            return new StreamReader(GetResourceAsStream(path, assembly));
+        }
 
         public static StreamReader GetResourceAsStreamReaderNoException(string path, Assembly assembly)
         {
@@ -85,20 +91,22 @@ namespace Seasar.Framework.Util
             return stream == null ? null : new StreamReader(stream);
         }
 
-		public static Stream GetResourceAsStream(string path, Assembly assembly)
-		{
-			if(assembly == null) throw new ArgumentNullException("assembly");
-			
-			Stream stream = GetResourceNoException(path, assembly);
-			if(stream != null)
-			{
-				return stream;
-			}
-			else
-			{
-				throw new ResourceNotFoundRuntimeException(path);
-			}
-		}
+        public static Stream GetResourceAsStream(string path, Assembly assembly)
+        {
+            if (assembly == null)
+            {
+                throw new ArgumentNullException("assembly");
+            }
+            Stream stream = GetResourceNoException(path, assembly);
+            if (stream != null)
+            {
+                return stream;
+            }
+            else
+            {
+                throw new ResourceNotFoundRuntimeException(path);
+            }
+        }
 
         /// <summary>
         /// リソースを取得する。リソースが見つからなくても例外は発生しない。
@@ -107,8 +115,8 @@ namespace Seasar.Framework.Util
         /// <param name="asm">リソースが含まれるアセンブリ</param>
         /// <returns>リソースのStream</returns>
         /// <remarks>asmがnullもしくは動的アセンブリの場合はnullを返す</remarks>
-		public static Stream GetResourceNoException(string path, Assembly asm)
-		{
+        public static Stream GetResourceNoException(string path, Assembly asm)
+        {
             // asmがnullの場合はnullを返す
             if (asm == null)
             {
@@ -121,14 +129,14 @@ namespace Seasar.Framework.Util
                 return null;
             }
 
-			Stream stream = asm.GetManifestResourceStream(path);
+            Stream stream = asm.GetManifestResourceStream(path);
 
-			return stream;
-		}
+            return stream;
+        }
 
-		public static bool IsExist(string path, Assembly asm)
-		{
-			return GetResourceNoException(path, asm) != null;
-		}
-	}
+        public static bool IsExist(string path, Assembly asm)
+        {
+            return GetResourceNoException(path, asm) != null;
+        }
+    }
 }

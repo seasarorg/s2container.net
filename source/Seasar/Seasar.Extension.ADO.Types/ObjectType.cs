@@ -23,38 +23,34 @@ namespace Seasar.Extension.ADO.Types
 {
     public class ObjectType : BaseValueType, IValueType
     {
-        public ObjectType()
-        {
-        }
-
         #region IValueType ÉÅÉìÉo
 
-		public override void BindValue(IDbCommand cmd, string columnName, object value)
+        public override void BindValue(IDbCommand cmd, string columnName, object value)
         {
-			if (value == DBNull.Value || value == null)
-			{
-				BindValue(cmd, columnName, value, DbType.String);
-			}
-			else
-			{
-				BindValue(cmd, columnName, value, DbType.Object);
-			}
+            if (value == DBNull.Value || value == null)
+            {
+                BindValue(cmd, columnName, value, DbType.String);
+            }
+            else
+            {
+                BindValue(cmd, columnName, value, DbType.Object);
+            }
         }
 
         #endregion
 
-		protected override object GetBindValue(object value)
-		{
-			if (value == null)
-			{
-				return DBNull.Value;
-			}
-			return value;
-		}
+        protected override object GetBindValue(object value)
+        {
+            if (value == null)
+            {
+                return DBNull.Value;
+            }
+            return value;
+        }
 
-		protected override object GetValue(object value)
-		{
-            if(value == DBNull.Value)
+        protected override object GetValue(object value)
+        {
+            if (value == DBNull.Value)
             {
                 return null;
             }

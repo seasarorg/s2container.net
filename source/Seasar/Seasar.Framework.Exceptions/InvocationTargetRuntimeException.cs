@@ -22,39 +22,36 @@ using System.Runtime.Serialization;
 
 namespace Seasar.Framework.Exceptions
 {
-	/// <summary>
-	/// TargetInvocationExceptionをラップする実行時例外です。
-	/// </summary>
-	[Serializable]
-	public class InvocationTargetRuntimeException : SRuntimeException
-	{
-		private Type targetType_;
+    /// <summary>
+    /// TargetInvocationExceptionをラップする実行時例外です。
+    /// </summary>
+    [Serializable]
+    public class InvocationTargetRuntimeException : SRuntimeException
+    {
+        private readonly Type _targetType;
 
-		public InvocationTargetRuntimeException(
-			Type targetType,TargetInvocationException cause)
-			: base("ESSR0043",new object[] { targetType.FullName,cause.GetBaseException() })
+        public InvocationTargetRuntimeException(
+            Type targetType, TargetInvocationException cause)
+            : base("ESSR0043", new object[] { targetType.FullName, cause.GetBaseException() })
+        {
+            _targetType = targetType;
+        }
 
-		{
-			targetType_ = targetType;
-		}
+        public InvocationTargetRuntimeException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+            _targetType = info.GetValue("_targetType", typeof(Type)) as Type;
+        }
 
-		public InvocationTargetRuntimeException(SerializationInfo info, StreamingContext context) 
-			: base( info, context )
-		{
-			this.targetType_ = info.GetValue("targetType_", typeof(Type)) as Type;
-		}
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("_targetType", _targetType, typeof(Type));
+            base.GetObjectData(info, context);
+        }
 
-		public override void GetObjectData( SerializationInfo info,
-			StreamingContext context )
-		{
-			info.AddValue("targetType_", this.targetType_, typeof(Type));
-
-			base.GetObjectData(info, context);
-		}
-
-		public Type TargetType
-		{
-			get { return targetType_; }
-		}
-	}
+        public Type TargetType
+        {
+            get { return _targetType; }
+        }
+    }
 }

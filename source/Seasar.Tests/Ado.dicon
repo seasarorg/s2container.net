@@ -42,7 +42,7 @@
     <property name="ConnectionString">"Driver={SQL Server};Server=127.0.0.1\\SQLEXPRESS;Trusted_Connection=Yes;Database=s2dotnetdemo;"</property>
   </component>
   -->
-  
+
   <!-- MySQL Connector Net を使用する場合に必要です。 -->
   <!--
   <component name="MySql" class="Seasar.Extension.ADO.DataProvider">
@@ -98,7 +98,7 @@
     <property name="ConnectionString">"Database=S2DEMO;UID=S2DEMOUSER;PWD=S2DEMOUSER"</property>
   </component>
   -->
-  
+
   <!-- Npgsql .NET Data Provider を使用する場合に必要です。 -->
   <!--
   <component name="Npgsql" class="Seasar.Extension.ADO.DataProvider">

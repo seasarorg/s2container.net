@@ -17,23 +17,22 @@
 #endregion
 
 using Seasar.Extension.ADO;
-using Seasar.Extension.ADO.Impl;
 
 namespace Seasar.Examples.Reference.S2Unit
 {
-	public class EmployeeDao : IEmployeeDao
-	{
-		private ISelectHandler getEmployeeHandler_;
+    public class EmployeeDao : IEmployeeDao
+    {
+        private ISelectHandler _getEmployeeHandler;
 
-		public ISelectHandler GetEmployeeHandler
-		{
-			get { return getEmployeeHandler_; }
-			set { getEmployeeHandler_ = value; }
-		}
+        public ISelectHandler GetEmployeeHandler
+        {
+            get { return _getEmployeeHandler; }
+            set { _getEmployeeHandler = value; }
+        }
 
-		public Employee GetEmployee(long empno)
-		{
-			return (Employee) getEmployeeHandler_.Execute(new object[] { empno });
-		}
-	}
+        public Employee GetEmployee(long empno)
+        {
+            return (Employee) _getEmployeeHandler.Execute(new object[] { empno });
+        }
+    }
 }

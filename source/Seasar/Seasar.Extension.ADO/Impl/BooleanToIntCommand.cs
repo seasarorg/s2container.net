@@ -22,7 +22,7 @@ namespace Seasar.Extension.ADO.Impl
 {
     public class BooleanToIntCommand : DbCommandWrapper
     {
-        private BooleanToIntParameterCollection parameters = new BooleanToIntParameterCollection();
+        private readonly BooleanToIntParameterCollection _parameters = new BooleanToIntParameterCollection();
 
         public BooleanToIntCommand(IDbCommand original)
             : base(original)
@@ -61,13 +61,13 @@ namespace Seasar.Extension.ADO.Impl
         public override void Dispose()
         {
             base.Dispose();
-            parameters.Clear();
+            _parameters.Clear();
         }
 
         private void SetParameters()
         {
             base.Parameters.Clear();
-            foreach (BooleanToIntParameter p in parameters)
+            foreach (BooleanToIntParameter p in _parameters)
             {
                 base.Parameters.Add(p.Original);
             }

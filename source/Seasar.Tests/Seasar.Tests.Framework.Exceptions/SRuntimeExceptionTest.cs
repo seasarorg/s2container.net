@@ -23,31 +23,28 @@ using Seasar.Framework.Exceptions;
 
 namespace Seasar.Tests.Framework.Exceptions
 {
-	/// <summary>
-	/// SRuntimeExceptionTest ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	[TestFixture]
-	public class SRuntimeExceptionTest
-	{
-		[Test]
-		public void TestSRuntimeException()
-		{
-			SRuntimeException ex = new SRuntimeException("ESSR0001", new object[] { "hoge" });
-			Assert.AreEqual("ESSR0001", ex.MessageCode);
-			Assert.AreEqual(1, ex.Args.Length);
-			Assert.AreEqual("hoge", ex.Args[0]);
-			Trace.WriteLine(ex.Message);
-		}
+    [TestFixture]
+    public class SRuntimeExceptionTest
+    {
+        [Test]
+        public void TestSRuntimeException()
+        {
+            SRuntimeException ex = new SRuntimeException("ESSR0001", new object[] { "hoge" });
+            Assert.AreEqual("ESSR0001", ex.MessageCode);
+            Assert.AreEqual(1, ex.Args.Length);
+            Assert.AreEqual("hoge", ex.Args[0]);
+            Trace.WriteLine(ex.Message);
+        }
 
-		[Test]
-		public void TestGetCause()
-		{
-			Exception ex = new NullReferenceException("test");
-			SRuntimeException sre = new SRuntimeException("ESSR0017",
-				new object[] { ex }, ex);
-			Assert.AreEqual(ex, sre.InnerException);
-			Trace.WriteLine(sre.Message);
-			Trace.WriteLine(sre.StackTrace);
-		}
-	}
+        [Test]
+        public void TestGetCause()
+        {
+            Exception ex = new NullReferenceException("test");
+            SRuntimeException sre = new SRuntimeException("ESSR0017",
+                new object[] { ex }, ex);
+            Assert.AreEqual(ex, sre.InnerException);
+            Trace.WriteLine(sre.Message);
+            Trace.WriteLine(sre.StackTrace);
+        }
+    }
 }

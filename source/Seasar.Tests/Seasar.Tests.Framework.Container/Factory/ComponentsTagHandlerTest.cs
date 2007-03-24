@@ -16,50 +16,46 @@
  */
 #endregion
 
-using System;
+using MbUnit.Framework;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Factory;
-using MbUnit.Framework;
 
 namespace Seasar.Tests.Framework.Container.Factory
 {
-	/// <summary>
-	/// ComponentsTagHandlerTest ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	[TestFixture]
-	public class ComponentsTagHandlerTest
-	{
-		private const string PATH 
+    [TestFixture]
+    public class ComponentsTagHandlerTest
+    {
+        private const string PATH
             = "Seasar/Tests/Framework/Container/Factory/ComponentsTagHandlerTest.dicon";
 
-		[Test]
-		public void TestComponent()
-		{
-			IS2Container container = S2ContainerFactory.Create(PATH);
-			Assert.AreEqual("aaa", container.Namespace);
-			Assert.AreEqual(0, ((A) container.GetComponent("aaa.bbb")).Time);
-			Assert.AreEqual(0, ((A) container.GetComponent("bbb")).Time);
-			Assert.AreEqual(PATH, container.Path);
-		}
+        [Test]
+        public void TestComponent()
+        {
+            IS2Container container = S2ContainerFactory.Create(PATH);
+            Assert.AreEqual("aaa", container.Namespace);
+            Assert.AreEqual(0, ((A) container.GetComponent("aaa.bbb")).Time);
+            Assert.AreEqual(0, ((A) container.GetComponent("bbb")).Time);
+            Assert.AreEqual(PATH, container.Path);
+        }
 
-		public class A
-		{
-			private long time_;
+        public class A
+        {
+            private long _time;
 
-			public A()
-			{
-			}
+            public A()
+            {
+            }
 
-			public A(long time)
-			{
-				time_ = time;
-			}
+            public A(long time)
+            {
+                _time = time;
+            }
 
-			public long Time
-			{
-				get { return time_; }
-				set { time_ = value; }
-			}
-		}
-	}
+            public long Time
+            {
+                get { return _time; }
+                set { _time = value; }
+            }
+        }
+    }
 }

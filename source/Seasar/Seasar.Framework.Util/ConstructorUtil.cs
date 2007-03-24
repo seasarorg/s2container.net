@@ -22,34 +22,34 @@ using Seasar.Framework.Exceptions;
 
 namespace Seasar.Framework.Util
 {
-	public sealed class ConstructorUtil
-	{
-		private ConstructorUtil()
-		{
-		}
+    public sealed class ConstructorUtil
+    {
+        private ConstructorUtil()
+        {
+        }
 
-		public static object NewInstance(ConstructorInfo constructor,object[] args)
-		{
-			try
-			{
-				return constructor.Invoke(args);
-			}
-			catch(MethodAccessException ex)
-			{
-				throw new IllegalAccessRuntimeException(constructor.DeclaringType,ex);
-			}
-			catch(ArgumentException ex)
-			{
-				throw new IllegalAccessRuntimeException(constructor.DeclaringType,ex);
-			}
-			catch(TargetInvocationException ex)
-			{
-				throw new InvocationTargetRuntimeException(constructor.DeclaringType,ex);
-			}
-			catch(TargetParameterCountException ex)
-			{
-				throw new IllegalAccessRuntimeException(constructor.DeclaringType,ex);
-			}
-		}
-	}
+        public static object NewInstance(ConstructorInfo constructor, object[] args)
+        {
+            try
+            {
+                return constructor.Invoke(args);
+            }
+            catch (MethodAccessException ex)
+            {
+                throw new IllegalAccessRuntimeException(constructor.DeclaringType, ex);
+            }
+            catch (ArgumentException ex)
+            {
+                throw new IllegalAccessRuntimeException(constructor.DeclaringType, ex);
+            }
+            catch (TargetInvocationException ex)
+            {
+                throw new InvocationTargetRuntimeException(constructor.DeclaringType, ex);
+            }
+            catch (TargetParameterCountException ex)
+            {
+                throw new IllegalAccessRuntimeException(constructor.DeclaringType, ex);
+            }
+        }
+    }
 }

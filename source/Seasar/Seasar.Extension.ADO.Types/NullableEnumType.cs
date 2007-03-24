@@ -23,25 +23,25 @@ namespace Seasar.Extension.ADO.Types
 {
     public class NullableEnumType : NullableBaseType
     {
-        private Type enumType;
-        private Type underlyingType;
-        private IValueType underlyingValueType;
+        private readonly Type _enumType;
+        private readonly Type _underlyingType;
+        private readonly IValueType _underlyingValueType;
 
         public NullableEnumType(Type enumType)
         {
-            this.enumType = enumType;
-            this.underlyingType = Enum.GetUnderlyingType(this.enumType);
-            this.underlyingValueType = ValueTypes.GetValueType(this.underlyingType);
+            _enumType = enumType;
+            _underlyingType = Enum.GetUnderlyingType(_enumType);
+            _underlyingValueType = ValueTypes.GetValueType(_underlyingType);
         }
 
         public override object GetValue(IDataReader reader, int index)
         {
-            return GetValue(this.underlyingValueType.GetValue(reader, index));
+            return GetValue(_underlyingValueType.GetValue(reader, index));
         }
 
         public override object GetValue(IDataReader reader, string columnName)
         {
-            return GetValue(this.underlyingValueType.GetValue(reader, columnName));
+            return GetValue(_underlyingValueType.GetValue(reader, columnName));
         }
 
         public override void BindValue(
@@ -51,10 +51,10 @@ namespace Seasar.Extension.ADO.Types
 
             if (value != null)
             {
-                convertedValue = Convert.ChangeType(value, this.underlyingType);
+                convertedValue = Convert.ChangeType(value, _underlyingType);
             }
 
-            this.underlyingValueType.BindValue(cmd, columnName, convertedValue);
+            _underlyingValueType.BindValue(cmd, columnName, convertedValue);
         }
 
         protected override object GetBindValue(object value)
@@ -64,7 +64,7 @@ namespace Seasar.Extension.ADO.Types
                 return DBNull.Value;
             }
 
-            return Convert.ChangeType(value, this.underlyingType);
+            return Convert.ChangeType(value, _underlyingType);
         }
 
         protected override object GetValue(object value)
@@ -79,7 +79,7 @@ namespace Seasar.Extension.ADO.Types
             }
             else
             {
-                return Enum.ToObject(this.enumType, value);
+                return Enum.ToObject(_enumType, value);
             }
         }
     }

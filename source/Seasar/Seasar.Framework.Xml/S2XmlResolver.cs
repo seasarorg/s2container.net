@@ -25,49 +25,40 @@ using Seasar.Framework.Util;
 
 namespace Seasar.Framework.Xml
 {
-	/// <summary>
-	/// S2XmlResolver ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public class S2XmlResolver : XmlResolver
-	{
-		public const string PUBLIC_ID = "-/SEASAR/DTD S2Container/EN";
-		public const string PUBLIC_ID21 = "-/SEASAR2.1/DTD S2Container/EN";
+    public class S2XmlResolver : XmlResolver
+    {
+        public const string PUBLIC_ID = "-/SEASAR/DTD S2Container/EN";
+        public const string PUBLIC_ID21 = "-/SEASAR2.1/DTD S2Container/EN";
 
-		public const string COMPONENTS_URI = "http://www.seasar.org/dtd/components.dtd";
-		public const string COMPONENTS_URI21 = "http://www.seasar.org/dtd/components21.dtd";
+        public const string COMPONENTS_URI = "http://www.seasar.org/dtd/components.dtd";
+        public const string COMPONENTS_URI21 = "http://www.seasar.org/dtd/components21.dtd";
 
-		public const string COMPONENTS_PATH = "components.dtd";
-		public const string COMPONENTS_PATH21 = "components21.dtd";
+        public const string COMPONENTS_PATH = "components.dtd";
+        public const string COMPONENTS_PATH21 = "components21.dtd";
 
-		public S2XmlResolver()
-		{
-		}
-
-		public override object GetEntity(Uri absoluteUri, string role, Type ofObjectToReturn)
-		{
-			Stream stream = null;
+        public override object GetEntity(Uri absoluteUri, string role, Type ofObjectToReturn)
+        {
+            Stream stream = null;
 
             string uri = HttpUtility.UrlDecode(absoluteUri.AbsoluteUri);
 
-			if(uri.EndsWith(PUBLIC_ID) || COMPONENTS_URI.Equals(uri))
-			{
-				stream = ResourceUtil.GetResourceAsStream(COMPONENTS_PATH, Assembly.GetExecutingAssembly());
-			}
-			else if(uri.EndsWith(PUBLIC_ID21) || COMPONENTS_URI21.Equals(uri))
-			{
-				stream = ResourceUtil.GetResourceAsStream(COMPONENTS_PATH21, Assembly.GetExecutingAssembly());
-			}
-			
-			return stream;
-		}
+            if (uri.EndsWith(PUBLIC_ID) || COMPONENTS_URI.Equals(uri))
+            {
+                stream = ResourceUtil.GetResourceAsStream(COMPONENTS_PATH, Assembly.GetExecutingAssembly());
+            }
+            else if (uri.EndsWith(PUBLIC_ID21) || COMPONENTS_URI21.Equals(uri))
+            {
+                stream = ResourceUtil.GetResourceAsStream(COMPONENTS_PATH21, Assembly.GetExecutingAssembly());
+            }
 
-		public override System.Net.ICredentials Credentials
-		{
-			set
-			{
-			}
-		}
+            return stream;
+        }
 
-
-	}
+        public override System.Net.ICredentials Credentials
+        {
+            set
+            {
+            }
+        }
+    }
 }

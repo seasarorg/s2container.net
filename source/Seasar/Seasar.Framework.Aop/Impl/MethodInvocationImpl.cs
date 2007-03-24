@@ -23,116 +23,117 @@ using Seasar.Framework.Util;
 
 namespace Seasar.Framework.Aop.Impl
 {
-	/// <summary>
-	/// IS2MethodInvocationインターフェイスの実装
-	/// </summary>
-	public class MethodInvocationImpl : IS2MethodInvocation
-	{
-		/// <summary>
-		/// 呼び出されるメソッドが属するインスタンス
-		/// </summary>
-		private object target_;
+    /// <summary>
+    /// IS2MethodInvocationインターフェイスの実装
+    /// </summary>
+    public class MethodInvocationImpl : IS2MethodInvocation
+    {
+        /// <summary>
+        /// 呼び出されるメソッドが属するインスタンス
+        /// </summary>
+        private readonly object _target;
 
-		/// <summary>
-		/// 呼び出されるメソッド
-		/// </summary>
-		private MethodBase method_;
+        /// <summary>
+        /// 呼び出されるメソッド
+        /// </summary>
+        private readonly MethodBase _method;
 
-		/// <summary>
-		/// メソッドをInterceptするInterceptorの配列
-		/// </summary>
-		private IMethodInterceptor[] interceptors_;
+        /// <summary>
+        /// メソッドをInterceptするInterceptorの配列
+        /// </summary>
+        private readonly IMethodInterceptor[] _interceptors;
 
-		/// <summary>
-		/// 処理されているInterceptorの再帰レベル
-		/// </summary>
-		private int interceptorsIndex_ = 1;
+        /// <summary>
+        /// 処理されているInterceptorの再帰レベル
+        /// </summary>
+        private int _interceptorsIndex = 1;
 
-		/// <summary>
-		/// メソッドの引数
-		/// </summary>
-		private object[] arguments_;
+        /// <summary>
+        /// メソッドの引数
+        /// </summary>
+        private readonly object[] _arguments;
 
-		/// <summary>
-		/// メソッドとそのクラスのインスタンスが属するS2コンテナに関する情報
-		/// </summary>
-		private Hashtable parameters_;
+        /// <summary>
+        /// メソッドとそのクラスのインスタンスが属するS2コンテナに関する情報
+        /// </summary>
+        private readonly Hashtable _parameters;
 
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		/// <param name="target">Interceptされるオブジェクト</param>
-		/// <param name="method">InterceptされるメソッドのMethodBase</param>
-		/// <param name="interceptors">メソッドのInterceptするInterceptor</param>
-		/// <param name="parameters">Interceptされるメソッドとそのクラスのインスタンスが属するS2コンテナに関する情報</param>
-		public MethodInvocationImpl(object target,MethodBase method,
-			object[] arguments,IMethodInterceptor[] interceptors,Hashtable parameters)
-		{
-			if(target==null) throw new NullReferenceException("target");
-			if(method==null) throw new NullReferenceException("method");
-			if(interceptors==null) throw new NullReferenceException("interceptors");
-			target_       = target;
-			method_       = method;
-			arguments_    = arguments;
-			interceptors_ = interceptors;
-			parameters_   = parameters;
-		}
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="target">Interceptされるオブジェクト</param>
+        /// <param name="method">InterceptされるメソッドのMethodBase</param>
+        /// <param name="arguments">引数</param>
+        /// <param name="interceptors">メソッドのInterceptするInterceptor</param>
+        /// <param name="parameters">Interceptされるメソッドとそのクラスのインスタンスが属するS2コンテナに関する情報</param>
+        public MethodInvocationImpl(object target, MethodBase method,
+            object[] arguments, IMethodInterceptor[] interceptors, Hashtable parameters)
+        {
+            if (target == null)
+            {
+                throw new NullReferenceException("target");
+            }
+            if (method == null)
+            {
+                throw new NullReferenceException("method");
+            }
+            if (interceptors == null)
+            {
+                throw new NullReferenceException("interceptors");
+            }
+            _target = target;
+            _method = method;
+            _arguments = arguments;
+            _interceptors = interceptors;
+            _parameters = parameters;
+        }
 
-		#region IMethodInvocation メンバ
+        #region IMethodInvocation メンバ
 
-		/// <summary>
-		/// InterceptされるメソッドのMethod
-		/// </summary>
-		public MethodBase Method
-		{
-			get
-			{
-				return method_;
-			}
-		}
+        /// <summary>
+        /// InterceptされるメソッドのMethod
+        /// </summary>
+        public MethodBase Method
+        {
+            get { return _method; }
+        }
 
-		/// <summary>
-		/// Interceptされるオブジェクト
-		/// </summary>
-		public Object Target
-		{
-			get
-			{
-				return target_;
-			}
-		}
+        /// <summary>
+        /// Interceptされるオブジェクト
+        /// </summary>
+        public object Target
+        {
+            get { return _target; }
+        }
 
-		/// <summary>
-		/// Interceptされるメソッドの引数
-		/// </summary>
-		public Object[] Arguments
-		{
-			get
-			{
-				return arguments_;
-			}
-		}
+        /// <summary>
+        /// Interceptされるメソッドの引数
+        /// </summary>
+        public object[] Arguments
+        {
+            get { return _arguments; }
+        }
 
-		/// <summary>
-		/// メソッドの呼び出し
-		/// </summary>
-		/// <remarks>
-		/// 他にチェーンされているInterceptorがあれば、Interceptorを呼び出します（再帰的に呼び出される）。
-		/// 他にチェーンされているInterceptorが無ければ、Interceptされているメソッドを実行します。
-		/// <remarks>
-		/// <returns>Interceptされたメソッドの戻り値</returns>
-		public Object Proceed()
-		{
-			while(interceptorsIndex_ < interceptors_.Length)
-			{
-				// 他にInterceptorがあれば、Interceptorを呼び出す
-				return interceptors_[interceptorsIndex_++].Invoke(this);
-			}
+        /// <summary>
+        /// メソッドの呼び出し
+        /// </summary>
+        /// <remarks>
+        /// 他にチェーンされているInterceptorがあれば、Interceptorを呼び出します（再帰的に呼び出される）。
+        /// 他にチェーンされているInterceptorが無ければ、Interceptされているメソッドを実行します。
+        /// <remarks>
+        /// <returns>Interceptされたメソッドの戻り値</returns>
+        public object Proceed()
+        {
+            while (_interceptorsIndex < _interceptors.Length)
+            {
+                // 他にInterceptorがあれば、Interceptorを呼び出す
+                return _interceptors[_interceptorsIndex++].Invoke(this);
+            }
 
             try
             {
                 // Interceptされたメソッドを実行する
-                return method_.Invoke(target_, arguments_);
+                return _method.Invoke(_target, _arguments);
             }
             catch (TargetInvocationException ex)
             {
@@ -142,28 +143,28 @@ namespace Seasar.Framework.Aop.Impl
                 // InnerExceptionをthrowする
                 throw ex.InnerException;
             }
-		}
+        }
 
-		#endregion
+        #endregion
 
-		#region IS2MethodInvocation メンバ
+        #region IS2MethodInvocation メンバ
 
-		/// <summary>
-		/// メソッドが属するクラスの型情報
-		/// </summary>
-		public Type TargetType
-		{
-			get { return target_.GetType(); }
-		}
+        /// <summary>
+        /// メソッドが属するクラスの型情報
+        /// </summary>
+        public Type TargetType
+        {
+            get { return _target.GetType(); }
+        }
 
-		/// <summary>
-		/// メソッドとそのクラスのインスタンスが属するS2コンテナに関する情報
-		/// </summary>
-		public object GetParameter(string name)
-		{
-			return parameters_[name];
-		}
+        /// <summary>
+        /// メソッドとそのクラスのインスタンスが属するS2コンテナに関する情報
+        /// </summary>
+        public object GetParameter(string name)
+        {
+            return _parameters[name];
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

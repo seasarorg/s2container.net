@@ -16,18 +16,15 @@
  */
 #endregion
 
-using System;
-
 using Seasar.Framework.Aop;
-
 
 namespace Seasar.Extension.Tx
 {
-	/// <summary>
-	/// トランザクションの実処理を担うクラスが実装するべき処理を規定します。
-	/// </summary>
-	public interface ITransactionHandler
-	{
-		object Handle(IMethodInvocation invocation, bool alreadyInTransaction);
-	}
+    /// <summary>
+    /// トランザクションの実処理を担うクラスが実装するべき処理を規定します。
+    /// </summary>
+    public interface ITransactionHandler
+    {
+        object Handle(IMethodInvocation invocation, bool alreadyInTransaction);
+    }
 }

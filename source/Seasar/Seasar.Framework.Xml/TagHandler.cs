@@ -20,23 +20,19 @@ using System;
 
 namespace Seasar.Framework.Xml
 {
-	/// <summary>
-	/// TagHandler ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	[Serializable]
-	public class TagHandler
-	{
+    [Serializable]
+    public class TagHandler
+    {
+        public virtual void Start(TagHandlerContext context, IAttributes attributes)
+        {
+        }
 
-		public virtual void Start(TagHandlerContext context,IAttributes attributes)
-		{
-		}
+        public virtual void End(TagHandlerContext context, string body)
+        {
+        }
 
-		public virtual void End(TagHandlerContext context,string body)
-		{
-		}
-
-		public virtual void AppendBody(TagHandlerContext context,string body)
-		{
-		}
-	}
+        public virtual void AppendBody(TagHandlerContext context, string body)
+        {
+        }
+    }
 }

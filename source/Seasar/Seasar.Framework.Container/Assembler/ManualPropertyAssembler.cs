@@ -22,37 +22,37 @@ using Seasar.Framework.Beans;
 
 namespace Seasar.Framework.Container.Assembler
 {
-	/// <summary>
-	/// ManualPropertyAssembler ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public class ManualPropertyAssembler : AbstractPropertyAssembler
-	{
-		public ManualPropertyAssembler(IComponentDef componentDef)
-			: base(componentDef)
-		{
-		}
+    public class ManualPropertyAssembler : AbstractPropertyAssembler
+    {
+        public ManualPropertyAssembler(IComponentDef componentDef)
+            : base(componentDef)
+        {
+        }
 
-		public override void Assemble(object component)
-		{
-			Type type = component.GetType();
-            IS2Container container = this.ComponentDef.Container;
-			int size = this.ComponentDef.PropertyDefSize;
-			for(int i = 0; i < size; ++i)
-			{
-				IPropertyDef propDef = this.ComponentDef.GetPropertyDef(i);
-				PropertyInfo propInfo = type.GetProperty(propDef.PropertyName);
-				if(propInfo == null)
-					throw new PropertyNotFoundRuntimeException(component.GetType(),
-						propDef.PropertyName);
-				propDef.ArgType = propInfo.PropertyType;
+        public override void Assemble(object component)
+        {
+            Type type = component.GetType();
+            int size = ComponentDef.PropertyDefSize;
+            for (int i = 0; i < size; ++i)
+            {
+                IPropertyDef propDef = ComponentDef.GetPropertyDef(i);
+                PropertyInfo propInfo = type.GetProperty(propDef.PropertyName);
+                if (propInfo == null)
+                {
+                    throw new PropertyNotFoundRuntimeException(component.GetType(),
+                        propDef.PropertyName);
+                }
+                propDef.ArgType = propInfo.PropertyType;
 
-                object value = this.GetComponentByReceiveType(propInfo.PropertyType, propDef.Expression);
-                
-                if(value == null) value = this.GetValue(propDef, component);
-                
-				this.SetValue(propInfo,component,value);
-			}
-		}
+                object value = GetComponentByReceiveType(propInfo.PropertyType, propDef.Expression);
 
-	}
+                if (value == null)
+                {
+                    value = GetValue(propDef, component);
+                }
+
+                SetValue(propInfo, component, value);
+            }
+        }
+    }
 }

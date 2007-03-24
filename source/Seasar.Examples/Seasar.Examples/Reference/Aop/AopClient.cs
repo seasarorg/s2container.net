@@ -20,30 +20,31 @@ using System;
 
 namespace Seasar.Examples.Reference.Aop
 {
-	public interface IHello
-	{
-		void ShowMessage();
-	}
+    public interface IHello
+    {
+        void ShowMessage();
+    }
 
-	public class IHelloImpl : IHello
-	{
-		public void ShowMessage() 
-		{
-			Console.WriteLine("Hello World !!");
-		}
-	}
+    public class IHelloImpl : IHello
+    {
+        public void ShowMessage()
+        {
+            Console.WriteLine("Hello World !!");
+        }
+    }
 
-	public class AopClient
-	{
-		private IHello hello;
+    public class AopClient
+    {
+        private IHello hello;
 
-		public AopClient(IHello hello) {
-			this.hello = hello;
-		}
+        public AopClient(IHello hello)
+        {
+            this.hello = hello;
+        }
 
-		public void Main()
-		{
-			hello.ShowMessage();
-		}
-	}
+        public void Main()
+        {
+            hello.ShowMessage();
+        }
+    }
 }

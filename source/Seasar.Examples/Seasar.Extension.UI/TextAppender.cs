@@ -22,62 +22,63 @@ using System.Windows.Forms;
 
 namespace Seasar.Extension.UI
 {
-	/// <summary>
-	/// テキストボックスに、文字列ストリームを流し込む為のクラスです。
-	/// </summary>
-	public class TextAppender : StringWriter
-	{
-		private delegate void WriteEventHandler(String s);
+    /// <summary>
+    /// テキストボックスに、文字列ストリームを流し込む為のクラスです。
+    /// </summary>
+    public class TextAppender : StringWriter
+    {
+        private delegate void WriteEventHandler(string s);
 
-		private TextBoxBase textBox;
-		private WriteEventHandler WriteEvent;
+        private readonly TextBoxBase textBox;
+        private WriteEventHandler WriteEvent;
 
-		public TextAppender(TextBoxBase textBox)
-		{
-			this.textBox = textBox;
-			this.textBox.HandleCreated += new EventHandler(OnHandleCreated);
-			this.textBox.HandleDestroyed += new EventHandler(OnHandleDestroyed);
+        public TextAppender(TextBoxBase textBox)
+        {
+            this.textBox = textBox;
+            this.textBox.HandleCreated += new EventHandler(OnHandleCreated);
+            this.textBox.HandleDestroyed += new EventHandler(OnHandleDestroyed);
 
-			this.WriteEvent = new WriteEventHandler(BufferText);
-		}
+            WriteEvent = new WriteEventHandler(BufferText);
+        }
 
-		private void OnHandleCreated(object sender, EventArgs e)
-		{
-			this.textBox.AppendText(base.ToString()); // 既にバッファリングされている文字列を書き込む。
-			this.WriteEvent = new WriteEventHandler(AppendText);
-		}
+        private void OnHandleCreated(object sender, EventArgs e)
+        {
+            textBox.AppendText(base.ToString()); // 既にバッファリングされている文字列を書き込む。
+            WriteEvent = new WriteEventHandler(AppendText);
+        }
 
-		private void OnHandleDestroyed(object sender, EventArgs e)
-		{
-			this.WriteEvent = new WriteEventHandler(DoNothing);
-		}
+        private void OnHandleDestroyed(object sender, EventArgs e)
+        {
+            WriteEvent = new WriteEventHandler(DoNothing);
+        }
 
-		public override void Write(String s)
-		{
-			this.WriteEvent(s);
-		}
+        public override void Write(string s)
+        {
+            WriteEvent(s);
+        }
 
-		private void BufferText(string s)
-		{
-			base.Write(s);
-		}
+        private void BufferText(string s)
+        {
+            base.Write(s);
+        }
 
-		private void AppendText(string s)
-		{
-			this.textBox.AppendText(s);
-		}
+        private void AppendText(string s)
+        {
+            textBox.AppendText(s);
+        }
 
-		private void DoNothing(string s)
-		{
-		}
-		public override void WriteLine(string s)
-		{
-			Write(s + base.NewLine);
-		}
+        private void DoNothing(string s)
+        {
+        }
 
-		public override void Write(char c)
-		{
-			Write(c.ToString());
-		}
-	}
+        public override void WriteLine(string s)
+        {
+            Write(s + base.NewLine);
+        }
+
+        public override void Write(char c)
+        {
+            Write(c.ToString());
+        }
+    }
 }

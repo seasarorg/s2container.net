@@ -24,118 +24,110 @@ using Seasar.Framework.Aop.Impl;
 
 namespace Seasar.Tests.Framework.Aop.Impl
 {
-	/// <summary>
-	/// PointcutImplTest ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	[TestFixture]
-	public class PointcutImplTest
-	{
-		public PointcutImplTest()
-		{
-		}
+    [TestFixture]
+    public class PointcutImplTest
+    {
+        [Test]
+        public void TestGetMethodNames()
+        {
+            PointcutImpl pointcut = new PointcutImpl(typeof(Hello2Impl));
+            string[] methodNames = pointcut.MethodNames;
+            Assert.AreEqual(2, methodNames.Length);
+            foreach (string methodName in methodNames)
+            {
+                Trace.WriteLine(methodName);
+            }
+        }
 
-		[Test]
-		public void TestGetMethodNames()
-		{
-			PointcutImpl pointcut = new PointcutImpl(typeof(Hello2Impl));
-			string[] methodNames = pointcut.MethodNames;
-			Assert.AreEqual(2,methodNames.Length);
-			foreach(string methodName in methodNames)
-			{
-				Trace.WriteLine(methodName);
-			}
-		}
+        [Test]
+        public void TestGetMethodNames2()
+        {
+            PointcutImpl pointcut = new PointcutImpl(typeof(Hello2));
+            string[] methodNames = pointcut.MethodNames;
+            Assert.AreEqual(2, methodNames.Length);
+            foreach (string methodName in methodNames)
+            {
+                Trace.WriteLine(methodName);
+            }
+        }
 
-		[Test]
-		public void TestGetMethodNames2()
-		{
-			PointcutImpl pointcut = new PointcutImpl(typeof(Hello2));
-			string[] methodNames = pointcut.MethodNames;
-			Assert.AreEqual(2,methodNames.Length);
-			foreach(string methodName in methodNames)
-			{
-				Trace.WriteLine(methodName);
-			}
-		}
+        [Test]
+        public void TestGetMethodNames3()
+        {
+            PointcutImpl pointcut = new PointcutImpl(typeof(Hello2Impl2));
+            string[] methodNames = pointcut.MethodNames;
+            Assert.AreEqual(2, methodNames.Length);
+            foreach (string methodName in methodNames)
+            {
+                Trace.WriteLine(methodName);
+            }
+        }
 
-		[Test]
-		public void TestGetMethodNames3()
-		{
-			PointcutImpl pointcut = new PointcutImpl(typeof(Hello2Impl2));
-			string[] methodNames = pointcut.MethodNames;
-			Assert.AreEqual(2,methodNames.Length);
-			foreach(string methodName in methodNames)
-			{
-				Trace.WriteLine(methodName);
-			}	
-		}
+        [Test]
+        public void TestRegex()
+        {
+            PointcutImpl pointcut = new PointcutImpl(new string[] { "Greeting.*" });
+            Assert.AreEqual(true, pointcut.IsApplied("Greeting"), "1");
+            Assert.AreEqual(true, pointcut.IsApplied("Greeting2"), "2");
+            Assert.AreEqual(false, pointcut.IsApplied("TestGreetingAAA"), "3");
+            Assert.AreEqual(false, pointcut.IsApplied("TestGreeting"), "4");
+            Assert.AreEqual(false, pointcut.IsApplied("TestRegex"), "5");
+        }
 
-		[Test]
-		public void TestRegex()
-		{
-			PointcutImpl pointcut = new PointcutImpl(new string[] { "Greeting.*" });
-			Assert.AreEqual(true, pointcut.IsApplied("Greeting"), "1");
-			Assert.AreEqual(true, pointcut.IsApplied("Greeting2"), "2");
-			Assert.AreEqual(false, pointcut.IsApplied("TestGreetingAAA"), "3");
-			Assert.AreEqual(false, pointcut.IsApplied("TestGreeting"), "4");
-			Assert.AreEqual(false, pointcut.IsApplied("TestRegex"), "5");
-		}
-		
-		[Test]
-		public void testRegex2() 
-		{
-			PointcutImpl pointcut = new PointcutImpl(new String[] { "Find" });
-			Assert.AreEqual(false, pointcut.IsApplied("GetFindEx"), "1");
-			Assert.AreEqual(false, pointcut.IsApplied("FindAll"), "2");
-			Assert.AreEqual(true, pointcut.IsApplied("Find"), "3");
-		}
+        [Test]
+        public void testRegex2()
+        {
+            PointcutImpl pointcut = new PointcutImpl(new String[] { "Find" });
+            Assert.AreEqual(false, pointcut.IsApplied("GetFindEx"), "1");
+            Assert.AreEqual(false, pointcut.IsApplied("FindAll"), "2");
+            Assert.AreEqual(true, pointcut.IsApplied("Find"), "3");
+        }
 
-		public interface Hello
-		{
-			string Greeting();
-		}
+        public interface Hello
+        {
+            string Greeting();
+        }
 
-		public class HelloImpl : Hello
-		{
-			public string Greeting()
-			{
-				return "Hello";
-			}
-		}
+        public class HelloImpl : Hello
+        {
+            public string Greeting()
+            {
+                return "Hello";
+            }
+        }
 
-		public class HelloInterceptor : IMethodInterceptor
-		{
-			public object Invoke(IMethodInvocation invocation)
-			{
-				return "Hello";
-			}
-		}
+        public class HelloInterceptor : IMethodInterceptor
+        {
+            public object Invoke(IMethodInvocation invocation)
+            {
+                return "Hello";
+            }
+        }
 
-		public interface Hello2 : Hello
-		{
-			string Greeting2();
-		}
+        public interface Hello2 : Hello
+        {
+            string Greeting2();
+        }
 
-		public class Hello2Impl : HelloImpl,Hello2
-		{
-			public string Greeting2()
-			{
-				return "Hello2";
-			}
-		}
+        public class Hello2Impl : HelloImpl, Hello2
+        {
+            public string Greeting2()
+            {
+                return "Hello2";
+            }
+        }
 
-		public class Hello2Impl2 : Hello2
-		{
-			public string Greeting2()
-			{
-				return "Hello2";
-			}
+        public class Hello2Impl2 : Hello2
+        {
+            public string Greeting2()
+            {
+                return "Hello2";
+            }
 
-			public string Greeting()
-			{
-				return "Hello";
-			}
-		}
-
-	}
+            public string Greeting()
+            {
+                return "Hello";
+            }
+        }
+    }
 }

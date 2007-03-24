@@ -16,41 +16,33 @@
  */
 #endregion
 
-using System;
-
 using Seasar.Framework.Aop;
 using Seasar.Framework.Aop.Interceptors;
 
 namespace Seasar.Extension.Tx
 {
-	/// <summary>
-	/// トランザクション処理を行うInterceptor
-	/// </summary>
-	public class TransactionInterceptor : AbstractInterceptor
-	{
-		private ITransactionHandler transactionhandler;
-		private ITransactionStateHandler tansactionstatehandler;
+    /// <summary>
+    /// トランザクション処理を行うInterceptor
+    /// </summary>
+    public class TransactionInterceptor : AbstractInterceptor
+    {
+        private readonly ITransactionHandler transactionhandler;
+        private ITransactionStateHandler tansactionstatehandler;
 
-		public TransactionInterceptor(ITransactionHandler transactionhandler) 
-		{
-			this.transactionhandler = transactionhandler;
-		}
+        public TransactionInterceptor(ITransactionHandler transactionhandler)
+        {
+            this.transactionhandler = transactionhandler;
+        }
 
-		public override object Invoke(IMethodInvocation invocation)
-		{
-			return transactionhandler.Handle(invocation, this.TransactionStateHandler.IsInTransaction);
-		}
+        public override object Invoke(IMethodInvocation invocation)
+        {
+            return transactionhandler.Handle(invocation, TransactionStateHandler.IsInTransaction);
+        }
 
-		public ITransactionStateHandler TransactionStateHandler
-		{
-			get
-			{
-				return this.tansactionstatehandler;
-			}
-			set
-			{
-				this.tansactionstatehandler = value;
-			}
-		}
-	}
+        public ITransactionStateHandler TransactionStateHandler
+        {
+            get { return tansactionstatehandler; }
+            set { tansactionstatehandler = value; }
+        }
+    }
 }

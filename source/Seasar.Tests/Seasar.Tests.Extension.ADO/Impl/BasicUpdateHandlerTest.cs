@@ -24,7 +24,6 @@ using log4net.Config;
 using log4net.Util;
 using MbUnit.Framework;
 using Nullables;
-using Seasar.Extension.ADO;
 using Seasar.Extension.ADO.Impl;
 using Seasar.Extension.Unit;
 

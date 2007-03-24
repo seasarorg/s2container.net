@@ -20,37 +20,34 @@ using System;
 
 namespace Seasar.Examples.Reference.Namespaces
 {
-	public class Namespaces
-	{
-		private IHelloClient bbb;
-		private IHelloClient ccc;
+    public class Namespaces
+    {
+        private IHelloClient _bbb;
+        private IHelloClient _ccc;
 
-		public Namespaces() {}
+        public IHelloClient Bbb
+        {
+            get { return _bbb; }
+            set { _bbb = value; }
+        }
 
-		public IHelloClient Bbb
-		{
-			get { return this.bbb; }
-			set { this.bbb = value; }
-		}
+        public IHelloClient Ccc
+        {
+            get { return _ccc; }
+            set { _ccc = value; }
+        }
 
-		public IHelloClient Ccc
-		{
-			get { return this.ccc; }
-			set { this.ccc = value; }
-		}
+        public void Main()
+        {
+            Console.WriteLine("bbbの実行結果");
+            _bbb.ShowMessage();
+            Console.WriteLine(" ------------------------- ");
+            Console.WriteLine();
 
-		public void Main()
-		{
-			Console.WriteLine("bbbの実行結果");
-			bbb.ShowMessage();
-			Console.WriteLine(" ------------------------- ");
-			Console.WriteLine();
-			
-			Console.WriteLine("cccの実行結果");
-			ccc.ShowMessage();
-			Console.WriteLine(" ------------------------- ");
-			Console.WriteLine();
-
-		}
-	}
+            Console.WriteLine("cccの実行結果");
+            _ccc.ShowMessage();
+            Console.WriteLine(" ------------------------- ");
+            Console.WriteLine();
+        }
+    }
 }

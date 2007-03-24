@@ -24,8 +24,8 @@ namespace Seasar.Framework.Util
     /// <summary>
     /// 例外に関するUtilクラス
     /// </summary>
-	public sealed class ExceptionUtil
-	{
+    public sealed class ExceptionUtil
+    {
         private ExceptionUtil()
         {
         }
@@ -41,12 +41,12 @@ namespace Seasar.Framework.Util
         public static void SaveStackTraceToRemoteStackTraceString(Exception ex)
         {
             // _remoteStackTraceStringのFieldInfo
-            FieldInfo remoteStackTraceString = 
+            FieldInfo remoteStackTraceString =
                 typeof(Exception).GetField("_remoteStackTraceString"
                 , BindingFlags.Instance | BindingFlags.NonPublic);
 
             // _remoteStackTraceStringにInnerExceptionのStackTraceをセットする
             remoteStackTraceString.SetValue(ex, ex.StackTrace + Environment.NewLine);
         }
-	}
+    }
 }

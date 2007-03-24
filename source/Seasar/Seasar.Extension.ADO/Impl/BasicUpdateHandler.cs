@@ -26,7 +26,7 @@ namespace Seasar.Extension.ADO.Impl
 {
     public class BasicUpdateHandler : BasicHandler, IUpdateHandler
     {
-        private static Logger logger = Logger.GetLogger(typeof(BasicUpdateHandler));
+        private static readonly Logger _logger = Logger.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public BasicUpdateHandler()
         {
@@ -52,9 +52,9 @@ namespace Seasar.Extension.ADO.Impl
 
         public virtual int Execute(object[] args, Type[] argTypes)
         {
-            if (logger.IsDebugEnabled)
+            if (_logger.IsDebugEnabled)
             {
-                logger.Debug(GetCompleteSql(args));
+                _logger.Debug(GetCompleteSql(args));
             }
             IDbConnection connection = Connection;
             try
@@ -63,7 +63,7 @@ namespace Seasar.Extension.ADO.Impl
             }
             finally
             {
-                DataSourceUtil.CloseConnection(this.DataSource, connection);
+                DataSourceUtil.CloseConnection(DataSource, connection);
             }
         }
 
@@ -76,11 +76,11 @@ namespace Seasar.Extension.ADO.Impl
 
         protected virtual int Execute(IDbConnection connection, object[] args, Type[] argTypes)
         {
-            IDbCommand cmd = this.Command(connection);
+            IDbCommand cmd = Command(connection);
             try
             {
                 BindArgs(cmd, args, argTypes);
-                return CommandFactory.ExecuteNonQuery(this.DataSource, cmd);
+                return CommandFactory.ExecuteNonQuery(DataSource, cmd);
             }
             finally
             {

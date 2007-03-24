@@ -19,36 +19,35 @@
 using System.Data;
 using MbUnit.Core.Cons;
 using MbUnit.Framework;
-using Seasar.Extension.DataSets.Impl;
 using Seasar.Extension.Unit;
 
 namespace Seasar.Examples.Reference.S2Unit
 {
-	[TestFixture]
-	public class EmployeeDaoTest : S2TestCase
-	{
-		private IEmployeeDao dao_ = null;
+    [TestFixture]
+    public class EmployeeDaoTest : S2TestCase
+    {
+        private readonly IEmployeeDao _dao = null;
 
-		public void SetUpGetEmployee()
-		{
-			Include("Seasar.Examples/Reference/S2Unit/EmployeeDao.dicon");
-		}
+        public void SetUpGetEmployee()
+        {
+            Include("Seasar.Examples/Reference/S2Unit/EmployeeDao.dicon");
+        }
 
-		[Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
-		public void GetEmployee()
-		{
-			ReadXlsWriteDb("Seasar.Examples/Reference/S2Unit/GetEmployeePrepare.xls");
-			Employee emp = dao_.GetEmployee(9900);
-			DataSet expected = ReadXls("Seasar.Examples/Reference/S2Unit/GetEmployeeExpected.xls");
-			S2Assert.AreEqual(expected, emp, "1");
-		}
+        [Test, S2(Extension.Unit.Tx.Rollback)]
+        public void GetEmployee()
+        {
+            ReadXlsWriteDb("Seasar.Examples/Reference/S2Unit/GetEmployeePrepare.xls");
+            Employee emp = _dao.GetEmployee(9900);
+            DataSet expected = ReadXls("Seasar.Examples/Reference/S2Unit/GetEmployeeExpected.xls");
+            S2Assert.AreEqual(expected, emp, "1");
+        }
 
-		public void Main()
-		{
-			using (MainClass mc = new MainClass())
-			{
-				mc.Main(new string[] { "Seasar.Examples.exe" });
-			}
-		}
-	}
+        public void Main()
+        {
+            using (MainClass mc = new MainClass())
+            {
+                mc.Main(new string[] { "Seasar.Examples.exe" });
+            }
+        }
+    }
 }

@@ -16,31 +16,29 @@
  */
 #endregion
 
-using System;
-
 namespace Seasar.Framework.Container
 {
-	/// <summary>
-	/// IInitMethodDefの設定が可能になります。
-	/// </summary>
-	public interface IInitMethodDefAware
-	{
-		/// <summary>
-		/// IInitMethodDefを追加します。
-		/// </summary>
-		/// <param name="methodDef">IInitMethodDef</param>
-		void AddInitMethodDef(IInitMethodDef methodDef);
+    /// <summary>
+    /// IInitMethodDefの設定が可能になります。
+    /// </summary>
+    public interface IInitMethodDefAware
+    {
+        /// <summary>
+        /// IInitMethodDefを追加します。
+        /// </summary>
+        /// <param name="methodDef">IInitMethodDef</param>
+        void AddInitMethodDef(IInitMethodDef methodDef);
 
-		/// <summary>
-		/// IInitMethodDefの数
-		/// </summary>
-		int InitMethodDefSize{get;}
+        /// <summary>
+        /// IInitMethodDefの数
+        /// </summary>
+        int InitMethodDefSize { get; }
 
-		/// <summary>
-		/// 番号を指定してIInitMethodDefを取得します。
-		/// </summary>
-		/// <param name="index">IInitMethodDefの番号</param>
-		/// <returns>IInitMethodDef</returns>
-		IInitMethodDef GetInitMethodDef(int index);
-	}
+        /// <summary>
+        /// 番号を指定してIInitMethodDefを取得します。
+        /// </summary>
+        /// <param name="index">IInitMethodDefの番号</param>
+        /// <returns>IInitMethodDef</returns>
+        IInitMethodDef GetInitMethodDef(int index);
+    }
 }

@@ -31,7 +31,7 @@ namespace Seasar.Extension.ADO.Impl
     {
         public static readonly ICommandFactory INSTANCE = new BasicCommandFactory();
 
-        private readonly IDbParameterParser parser;
+        private readonly IDbParameterParser _parser;
 
         private string sqlLogDateFormat = "yyyy-MM-dd";
 
@@ -46,7 +46,7 @@ namespace Seasar.Extension.ADO.Impl
 
         public BasicCommandFactory(IDbParameterParser dbParameterParser)
         {
-            this.parser = dbParameterParser;
+            _parser = dbParameterParser;
         }
 
         public string SqlLogDateFormat
@@ -73,16 +73,16 @@ namespace Seasar.Extension.ADO.Impl
         {
             IDbCommand cmd = con.CreateCommand();
             cmd.CommandText = ChangeSignSql(cmd, sql);
-            if (this.commandTimeout > -1)
+            if (commandTimeout > -1)
             {
-                cmd.CommandTimeout = this.commandTimeout;
+                cmd.CommandTimeout = commandTimeout;
             }
             return cmd;
         }
 
         public string GetCompleteSql(string sql, object[] args)
         {
-            MatchCollection sqlParameters = parser.Parse(sql);
+            _parser.Parse(sql);
             return ReplaceSql(sql, args);
         }
 
@@ -105,7 +105,7 @@ namespace Seasar.Extension.ADO.Impl
 
         protected string ChangeSignSql(IDbCommand cmd, string original)
         {
-            string ret = null;
+            string ret;
             switch (DataProviderUtil.GetBindVariableType(cmd))
             {
                 case BindVariableType.AtmarkWithParam:
@@ -136,7 +136,7 @@ namespace Seasar.Extension.ADO.Impl
             StringBuilder text = new StringBuilder(sql);
             for (int startIndex = 0, parameterIndex = 0; ; ++parameterIndex)
             {
-                Match match = parser.Match(text.ToString(), startIndex);
+                Match match = _parser.Match(text.ToString(), startIndex);
                 if (!match.Success)
                 {
                     break;
@@ -158,7 +158,7 @@ namespace Seasar.Extension.ADO.Impl
             StringBuilder text = new StringBuilder(sql);
             for (int startIndex = 0; ; )
             {
-                Match match = parser.Match(text.ToString(), startIndex);
+                Match match = _parser.Match(text.ToString(), startIndex);
                 if (!match.Success)
                 {
                     break;
@@ -174,7 +174,7 @@ namespace Seasar.Extension.ADO.Impl
             StringBuilder text = new StringBuilder(sql);
             for (int startIndex = 0, argsIndex = 0; argsIndex < args.Length; ++argsIndex)
             {
-                Match match = parser.Match(text.ToString(), startIndex);
+                Match match = _parser.Match(text.ToString(), startIndex);
                 if (!match.Success)
                 {
                     break;

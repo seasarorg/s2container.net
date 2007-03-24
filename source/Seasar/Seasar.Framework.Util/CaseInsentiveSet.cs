@@ -16,17 +16,12 @@
  */
 #endregion
 
-using System;
 using System.Collections;
 
 namespace Seasar.Framework.Util
 {
     public class CaseInsentiveSet : CollectionBase, IList
     {
-        public CaseInsentiveSet()
-        {
-        }
-
         bool IList.Contains(object value)
         {
             return Contains(value);
@@ -34,10 +29,14 @@ namespace Seasar.Framework.Util
 
         int IList.Add(object value)
         {
-            if(Contains(value))
+            if (Contains(value))
+            {
                 return -1;
+            }
             else
+            {
                 return InnerList.Add(value);
+            }
         }
 
         private bool Contains(object value)

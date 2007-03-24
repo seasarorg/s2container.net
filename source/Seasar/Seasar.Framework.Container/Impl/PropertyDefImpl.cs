@@ -16,49 +16,39 @@
  */
 #endregion
 
-using System;
-
 namespace Seasar.Framework.Container.Impl
 {
-	/// <summary>
-	/// PropertyDefImpl の概要の説明です。
-	/// </summary>
-	public class PropertyDefImpl : ArgDefImpl, IPropertyDef
-	{
-		private string propertyName_;
+    public class PropertyDefImpl : ArgDefImpl, IPropertyDef
+    {
+        private readonly string _propertyName;
 
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		/// <param name="propertyName"></param>
-		public PropertyDefImpl(string propertyName)
-		{
-			propertyName_ = propertyName;
-		}
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="propertyName"></param>
+        public PropertyDefImpl(string propertyName)
+        {
+            _propertyName = propertyName;
+        }
 
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		/// <param name="propertyName"></param>
-		/// <param name="value"></param>
-		public PropertyDefImpl(string propertyName,object value) : base(value)
-		{
-			propertyName_ = propertyName;
-		}
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="propertyName"></param>
+        /// <param name="value"></param>
+        public PropertyDefImpl(string propertyName, object value)
+            : base(value)
+        {
+            _propertyName = propertyName;
+        }
 
+        #region PropertyDef メンバ
 
-		#region PropertyDef メンバ
+        public string PropertyName
+        {
+            get { return _propertyName; }
+        }
 
-		public string PropertyName
-		{
-			get
-			{
-				
-				return propertyName_;
-			}
-		}
-
-		#endregion
-
-	}
+        #endregion
+    }
 }

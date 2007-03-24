@@ -16,9 +16,7 @@
  */
 #endregion
 
-using System;
 using System.Collections;
-using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -26,7 +24,6 @@ using log4net;
 using log4net.Config;
 using log4net.Util;
 using MbUnit.Framework;
-using Seasar.Extension.ADO;
 using Seasar.Extension.ADO.Impl;
 using Seasar.Extension.Unit;
 using Seasar.Framework.Util;

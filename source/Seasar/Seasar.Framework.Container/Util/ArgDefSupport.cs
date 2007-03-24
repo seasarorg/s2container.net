@@ -16,75 +16,64 @@
  */
 #endregion
 
-using System;
 using System.Collections;
 
 namespace Seasar.Framework.Container.Util
 {
-	/// <summary>
-	/// IArgDefの設定をサポートします。
-	/// </summary>
-	public class ArgDefSupport
-	{
-		private IList argDefs_ = ArrayList.Synchronized(new ArrayList());
-		private IS2Container container_;
+    /// <summary>
+    /// IArgDefの設定をサポートします。
+    /// </summary>
+    public class ArgDefSupport
+    {
+        private readonly IList _argDefs = ArrayList.Synchronized(new ArrayList());
+        private IS2Container _container;
 
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		public ArgDefSupport()
-		{
-		}
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="argDef">IArgDef</param>
+        public void AddArgDef(IArgDef argDef)
+        {
+            if (_container != null)
+            {
+                argDef.Container = _container;
+            }
+            _argDefs.Add(argDef);
+        }
 
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		/// <param name="argDef">IArgDef</param>
-		public void AddArgDef(IArgDef argDef)
-		{
-			if(container_ != null)
-			{
-				argDef.Container = container_;
-			}
-			argDefs_.Add(argDef);
-		}
+        /// <summary>
+        /// IArgDefの数
+        /// </summary>
+        public int ArgDefSize
+        {
+            get { return _argDefs.Count; }
+        }
 
-		/// <summary>
-		/// IArgDefの数
-		/// </summary>
-		public int ArgDefSize
-		{
-			get
-			{
-				return argDefs_.Count;
-			}
-		}
+        /// <summary>
+        /// 番号を指定してIArgDefを取得します。
+        /// </summary>
+        /// <param name="index">番号</param>
+        /// <returns>IArgDef</returns>
+        public IArgDef GetArgDef(int index)
+        {
+            return (IArgDef) _argDefs[index];
+        }
 
-		/// <summary>
-		/// 番号を指定してIArgDefを取得します。
-		/// </summary>
-		/// <param name="index">番号</param>
-		/// <returns>IArgDef</returns>
-		public IArgDef GetArgDef(int index)
-		{
-			return (IArgDef) argDefs_[index];
-		}
-
-		/// <summary>
-		/// S2Container
-		/// </summary>
-		public IS2Container Container
-		{
-			set
-			{
-				container_ = value;
-				IEnumerator enu = argDefs_.GetEnumerator();
-				while(enu.MoveNext())
-				{
-					IArgDef argDef = (IArgDef)enu.Current;
-					argDef.Container = value;
-				}
-			}
-		}
-	}
+        /// <summary>
+        /// S2Container
+        /// </summary>
+        public IS2Container Container
+        {
+            set
+            {
+                _container = value;
+                IEnumerator enu = _argDefs.GetEnumerator();
+                while (enu.MoveNext())
+                {
+                    IArgDef argDef = (IArgDef) enu.Current;
+                    argDef.Container = value;
+                }
+            }
+        }
+    }
 }

@@ -16,15 +16,10 @@
  */
 #endregion
 
-using System;
-
 namespace Seasar.Framework.Container.Assembler
 {
-	/// <summary>
-	/// ConstructorAssembler ‚ÌŠT—v‚Ìà–¾‚Å‚·B
-	/// </summary>
-	public interface IConstructorAssembler
-	{
-		object Assemble();
-	}
+    public interface IConstructorAssembler
+    {
+        object Assemble();
+    }
 }

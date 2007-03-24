@@ -16,26 +16,21 @@
  */
 #endregion
 
-using System;
-using System.Data;
 using System.IO;
 using System.Reflection;
 using System.Transactions;
-
 using log4net;
 using log4net.Config;
 using log4net.Util;
-
 using MbUnit.Framework;
-
 using Seasar.Framework.Container.Factory;
 using Seasar.Framework.Unit;
 
 namespace Seasar.Tests.Extension.Tx.Impl
 {
     [TestFixture]
-	public class RequiredInterceptorTest : S2FrameworkTestCaseBase
-	{
+    public class RequiredInterceptorTest : S2FrameworkTestCaseBase
+    {
         private ITxTest txTest;
 
         public ITxTest TxTest
@@ -51,13 +46,13 @@ namespace Seasar.Tests.Extension.Tx.Impl
             XmlConfigurator.Configure(LogManager.GetRepository(), info);
             base.Container = S2ContainerFactory.Create(base.ConvertPath("RequiredInterceptorTest.dicon"));
             base.Container.Init();
-            this.TxTest = base.GetComponent(typeof(ITxTest)) as ITxTest;
+            TxTest = base.GetComponent(typeof(ITxTest)) as ITxTest;
         }
 
         [Test]
         public void StartTx()
         {
-            Assert.AreEqual(true, this.TxTest.IsInTransaction());
+            Assert.AreEqual(true, TxTest.IsInTransaction());
         }
 
         [Test]
@@ -66,7 +61,7 @@ namespace Seasar.Tests.Extension.Tx.Impl
             using (TransactionScope scope = new TransactionScope())
             {
                 Transaction tx = Transaction.Current;
-                Assert.AreEqual(tx.TransactionInformation.LocalIdentifier,TxTest.TxId);
+                Assert.AreEqual(tx.TransactionInformation.LocalIdentifier, TxTest.TxId);
             }
         }
 
@@ -75,7 +70,7 @@ namespace Seasar.Tests.Extension.Tx.Impl
         {
             try
             {
-                this.TxTest.throwException();
+                TxTest.throwException();
                 Assert.Fail();
             }
             catch (TxException e)
@@ -83,7 +78,7 @@ namespace Seasar.Tests.Extension.Tx.Impl
                 Assert.IsTrue(e.WasInTx);
             }
         }
-    
+
         [Test]
         public void ThrowExceptionInTx()
         {
@@ -92,7 +87,7 @@ namespace Seasar.Tests.Extension.Tx.Impl
                 Transaction tx = Transaction.Current;
                 try
                 {
-                    this.TxTest.throwException();
+                    TxTest.throwException();
                     Assert.Fail();
                 }
                 catch (TxException e)
@@ -103,7 +98,6 @@ namespace Seasar.Tests.Extension.Tx.Impl
 
                 Assert.IsTrue(tx.TransactionInformation.Status == TransactionStatus.Aborted);
             }
-
         }
     }
 }

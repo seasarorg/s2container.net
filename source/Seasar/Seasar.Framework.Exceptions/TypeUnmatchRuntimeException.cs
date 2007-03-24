@@ -22,52 +22,41 @@ using Seasar.Framework.Exceptions;
 
 namespace Seasar.Framework.Container
 {
-	/// <summary>
-	/// TypeUnmatchRuntimeException ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	[Serializable]
-	public class TypeUnmatchRuntimeException : SRuntimeException
-	{
-		private Type componentType_;
-		private Type realComponentType_;
+    [Serializable]
+    public class TypeUnmatchRuntimeException : SRuntimeException
+    {
+        private readonly Type _componentType;
+        private readonly Type _realComponentType;
 
-		public TypeUnmatchRuntimeException(
-			Type componentType,Type realComponentType)
-			: base("ESSR0069",new object[] 
-			{
-				componentType.FullName,
-				realComponentType.FullName != null ? 
-				realComponentType.FullName : "null"
-			})
-		{
-			componentType_ = componentType;
-			realComponentType_ = realComponentType;
-		}
+        public TypeUnmatchRuntimeException(Type componentType, Type realComponentType)
+            : base("ESSR0069", new object[] { componentType.FullName, realComponentType.FullName != null ? realComponentType.FullName : "null" })
+        {
+            _componentType = componentType;
+            _realComponentType = realComponentType;
+        }
 
-		public TypeUnmatchRuntimeException(SerializationInfo info, StreamingContext context) 
-			: base( info, context )
-		{
-			this.componentType_ = info.GetValue("componentType_", typeof(Type)) as Type;
-			this.realComponentType_ = info.GetValue("realComponentType_", typeof(Type)) as Type;
-		}
+        public TypeUnmatchRuntimeException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+            _componentType = info.GetValue("_componentType", typeof(Type)) as Type;
+            _realComponentType = info.GetValue("_realComponentType", typeof(Type)) as Type;
+        }
 
-		public override void GetObjectData( SerializationInfo info,
-			StreamingContext context )
-		{
-			info.AddValue("componentType_", this.componentType_, typeof(Type));
-			info.AddValue("realComponentType_", this.realComponentType_, typeof(Type));
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("_componentType", _componentType, typeof(Type));
+            info.AddValue("_realComponentType", _realComponentType, typeof(Type));
+            base.GetObjectData(info, context);
+        }
 
-			base.GetObjectData(info, context);
-		}
+        public Type ComponentType
+        {
+            get { return _componentType; }
+        }
 
-		public Type ComponentType
-		{
-			get { return componentType_; }
-		}
-
-		public Type RealComponentType
-		{
-			get { return realComponentType_; }
-		}
-	}
+        public Type RealComponentType
+        {
+            get { return _realComponentType; }
+        }
+    }
 }

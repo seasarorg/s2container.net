@@ -16,15 +16,12 @@
  */
 #endregion
 
-using System;
-
 namespace Seasar.Framework.Container
 {
-	/// <summary>
-	/// 終了メソッドを定義します。
-	/// </summary>
-	public interface IDestroyMethodDef : IMethodDef
-	{
-		
-	}
+    /// <summary>
+    /// 終了メソッドを定義します。
+    /// </summary>
+    public interface IDestroyMethodDef : IMethodDef
+    {
+    }
 }

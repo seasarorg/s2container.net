@@ -18,43 +18,38 @@
 
 using System;
 using System.Data;
-using Seasar.Extension.ADO;
 using Seasar.Framework.Util;
 
 namespace Seasar.Extension.DataSets.Types
 {
-	public class DecimalType : ObjectType, IColumnType
-	{
-		public DecimalType()
-		{
-		}
+    public class DecimalType : ObjectType, IColumnType
+    {
+        #region IColumnType ÉÅÉìÉo
 
-		#region IColumnType ÉÅÉìÉo
+        public override object Convert(object value, string formatPattern)
+        {
+            if (IsNullable(value))
+            {
+                return DBNull.Value;
+            }
+            return DecimalConversionUtil.ToDecimal(value);
+        }
 
-		public override object Convert(object value, string formatPattern)
-		{
-			if (IsNullable(value))
-			{
-				return DBNull.Value;
-			}
-			return DecimalConversionUtil.ToDecimal(value);
-		}
+        public override string ToDbTypeString()
+        {
+            return "NUMBER";
+        }
 
-		public override string ToDbTypeString()
-		{
-			return "NUMBER";
-		}
+        public override DbType GetDbType()
+        {
+            return DbType.Decimal;
+        }
 
-		public override DbType GetDbType()
-		{
-			return DbType.Decimal;
-		}
+        public override Type GetColumnType()
+        {
+            return typeof(Decimal);
+        }
 
-		public override Type GetColumnType()
-		{
-			return typeof(Decimal);
-		}
-
-		#endregion
-	}
+        #endregion
+    }
 }

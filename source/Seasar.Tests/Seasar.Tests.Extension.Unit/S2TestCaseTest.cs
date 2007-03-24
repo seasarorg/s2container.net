@@ -34,7 +34,7 @@ namespace Seasar.Tests.Extension.Unit
     [TestFixture]
     public class S2TestCaseTest : S2TestCase
     {
-        private static Logger logger = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly Logger _logger = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private const String PATH = "Ado.dicon";
 
         static S2TestCaseTest()
@@ -52,7 +52,7 @@ namespace Seasar.Tests.Extension.Unit
         [Test, S2(Seasar.Extension.Unit.Tx.NotSupported)]
         public void NotSupported()
         {
-            logger.Debug("NotSupported test");
+            _logger.Debug("NotSupported test");
         }
 
         public void SetUpNotSupported2()
@@ -63,7 +63,7 @@ namespace Seasar.Tests.Extension.Unit
         [Test, S2]
         public void NotSupported2()
         {
-            logger.Debug("NotSupported2 test");
+            _logger.Debug("NotSupported2 test");
         }
 
         public void SetUpRollback()
@@ -74,7 +74,7 @@ namespace Seasar.Tests.Extension.Unit
         [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
         public void Rollback()
         {
-            logger.Debug("Rollback test");
+            _logger.Debug("Rollback test");
         }
 
         public void SetUpCommit()
@@ -85,7 +85,7 @@ namespace Seasar.Tests.Extension.Unit
         [Test, S2(Seasar.Extension.Unit.Tx.Commit)]
         public void Commit()
         {
-            logger.Debug("Commit test");
+            _logger.Debug("Commit test");
         }
 
         public void SetUpReadXlsTx()

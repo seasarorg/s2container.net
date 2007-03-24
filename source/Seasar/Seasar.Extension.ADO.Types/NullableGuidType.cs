@@ -21,43 +21,39 @@ using System.Data;
 
 namespace Seasar.Extension.ADO.Types
 {
-	public class NullableGuidType : NullableBaseType, IValueType
-	{
-		public NullableGuidType()
-		{
-        }
-
+    public class NullableGuidType : NullableBaseType, IValueType
+    {
         #region IValueType ÉÅÉìÉo
 
-		public override void BindValue(IDbCommand cmd, string columnName, object value)
+        public override void BindValue(IDbCommand cmd, string columnName, object value)
         {
             BindValue(cmd, columnName, value, DbType.Guid);
         }
 
         #endregion
 
-		protected override object GetValue(object value)
-		{
-			if (value == DBNull.Value)
-			{
-				return null;
-			}
-			else if (value is Guid)
-			{
-				return new Nullable<Guid>((Guid) value);
-			}
-			else if (value is string)
-			{
-				return new Nullable<Guid>(new Guid((string) value));
-			}
-			else if (value is byte[])
-			{
-				return new Nullable<Guid>(new Guid((byte[]) value));
-			}
-			else
-			{
-				return new Guid(value.ToString());
-			}
+        protected override object GetValue(object value)
+        {
+            if (value == DBNull.Value)
+            {
+                return null;
+            }
+            else if (value is Guid)
+            {
+                return new Nullable<Guid>((Guid) value);
+            }
+            else if (value is string)
+            {
+                return new Nullable<Guid>(new Guid((string) value));
+            }
+            else if (value is byte[])
+            {
+                return new Nullable<Guid>(new Guid((byte[]) value));
+            }
+            else
+            {
+                return new Guid(value.ToString());
+            }
         }
     }
 }

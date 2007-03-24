@@ -22,35 +22,31 @@ using Nullables;
 
 namespace Seasar.Extension.ADO.Types
 {
-	public class NHibernateNullableDecimalType : NHibernateNullableBaseType, IValueType
+    public class NHibernateNullableDecimalType : NHibernateNullableBaseType, IValueType
     {
-		public NHibernateNullableDecimalType()
-        {
-        }
-
         #region IValueType ÉÅÉìÉo
 
-		public override void BindValue(IDbCommand cmd, string columnName, object value)
+        public override void BindValue(IDbCommand cmd, string columnName, object value)
         {
             BindValue(cmd, columnName, value, DbType.Decimal);
         }
 
         #endregion
 
-		protected override object GetValue(object value)
-		{
-			if (value == DBNull.Value)
-			{
-				return null;
-			}
-			else if (value is decimal)
-			{
-				return new NullableDecimal((decimal) value);
-			}
-			else
-			{
-				return NullableDecimal.Parse(value.ToString());
-			}
-		}
+        protected override object GetValue(object value)
+        {
+            if (value == DBNull.Value)
+            {
+                return null;
+            }
+            else if (value is decimal)
+            {
+                return new NullableDecimal((decimal) value);
+            }
+            else
+            {
+                return NullableDecimal.Parse(value.ToString());
+            }
+        }
     }
 }

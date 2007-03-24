@@ -16,26 +16,22 @@
  */
 #endregion
 
-using System;
 using System.Collections;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Factory;
 
 namespace Seasar.Examples.Reference.Aop
 {
-	public class AopTraceClient
-	{
-		private const string PATH = "Seasar.Examples/Reference/Aop/Trace.dicon";
+    public class AopTraceClient
+    {
+        private const string PATH = "Seasar.Examples/Reference/Aop/Trace.dicon";
 
-		public void Main()
-		{
-			IS2Container container = S2ContainerFactory.Create(PATH);
-			IList list = (IList) container.GetComponent(typeof(IList));
-			int count = list.Count;
-
-			IDictionary dictionary = (IDictionary) container.GetComponent(typeof(IDictionary));
-			dictionary.Add("aaa", "bbb");
-			dictionary.GetHashCode();
-		}
-	}
+        public void Main()
+        {
+            IS2Container container = S2ContainerFactory.Create(PATH);
+            IDictionary dictionary = (IDictionary) container.GetComponent(typeof(IDictionary));
+            dictionary.Add("aaa", "bbb");
+            dictionary.GetHashCode();
+        }
+    }
 }

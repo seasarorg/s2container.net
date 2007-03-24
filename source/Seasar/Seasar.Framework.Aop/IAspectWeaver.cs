@@ -16,7 +16,6 @@
  */
 #endregion
 
-using System;
 using Seasar.Framework.Container;
 using System.Reflection;
 
