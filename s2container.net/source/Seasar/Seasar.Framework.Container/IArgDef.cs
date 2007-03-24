@@ -20,35 +20,34 @@ using System;
 
 namespace Seasar.Framework.Container
 {
-	/// <summary>
-	/// 引数を定義します。
-	/// </summary>
-	public interface IArgDef : IMetaDefAware
-	{
-		/// <summary>
-		/// 値
-		/// </summary>
-		object Value{get;}
+    /// <summary>
+    /// 引数を定義します。
+    /// </summary>
+    public interface IArgDef : IMetaDefAware
+    {
+        /// <summary>
+        /// 値
+        /// </summary>
+        object Value { get; }
 
-		/// <summary>
-		/// S2Container
-		/// </summary>
-		IS2Container Container{set;get;}
+        /// <summary>
+        /// S2Container
+        /// </summary>
+        IS2Container Container { set; get; }
 
-		/// <summary>
-		/// Expression
-		/// </summary>
-		string Expression{set;get;}
+        /// <summary>
+        /// Expression
+        /// </summary>
+        string Expression { set; get; }
 
-		/// <summary>
-		/// 子IComponentDef
-		/// </summary>
-		IComponentDef ChildComponentDef{set;}
+        /// <summary>
+        /// 子IComponentDef
+        /// </summary>
+        IComponentDef ChildComponentDef { set; }
 
-		/// <summary>
-		/// 引数のType
-		/// </summary>
-		Type ArgType { set;get; }
-
-	}
+        /// <summary>
+        /// 引数のType
+        /// </summary>
+        Type ArgType { set;get; }
+    }
 }

@@ -22,35 +22,31 @@ using System.Data;
 
 namespace Seasar.Extension.ADO.Impl
 {
-	public abstract class AbstractDictionaryDataReaderHandler : IDataReaderHandler
-	{
-		public AbstractDictionaryDataReaderHandler()
-		{
-		}
-
-		protected IDictionary CreateRow(IDataReader reader, IPropertyType[] propertyTypes) 
-		{
+    public abstract class AbstractDictionaryDataReaderHandler : IDataReaderHandler
+    {
+        protected IDictionary CreateRow(IDataReader reader, IPropertyType[] propertyTypes)
+        {
 #if NET_1_1
             IDictionary row = new Hashtable(
                 new CaseInsensitiveHashCodeProvider(), new CaseInsensitiveComparer());
 #else
-			IDictionary row = new Hashtable(StringComparer.CurrentCultureIgnoreCase);
+            IDictionary row = new Hashtable(StringComparer.CurrentCultureIgnoreCase);
 #endif
-			for (int i = 0; i < propertyTypes.Length; ++i) 
-			{
-				object value = propertyTypes[i].ValueType.GetValue(
-					reader,
-					i
-					);
-				row.Add(propertyTypes[i].PropertyName, value);
-			}
-			return row;
-		}
+            for (int i = 0; i < propertyTypes.Length; ++i)
+            {
+                object value = propertyTypes[i].ValueType.GetValue(
+                    reader,
+                    i
+                    );
+                row.Add(propertyTypes[i].PropertyName, value);
+            }
+            return row;
+        }
 
-		#region IDataReaderHandler ƒƒ“ƒo
+        #region IDataReaderHandler ƒƒ“ƒo
 
-		public abstract object Handle(IDataReader dataReader);
+        public abstract object Handle(IDataReader dataReader);
 
-		#endregion
-	}
+        #endregion
+    }
 }

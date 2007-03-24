@@ -25,24 +25,9 @@ namespace Seasar.Framework.Exceptions
     /// RDBMSが警告またはエラーを返したときにスローされる例外
     /// </summary>
     [Serializable]
-	public class SQLRuntimeException : SRuntimeException
+    public class SQLRuntimeException : SRuntimeException
     {
-        private string _sql;
-
-        /// <summary>
-        /// 例外の原因となったSQLを設定もしくは取得する
-        /// </summary>
-        public string Sql
-        {
-            set
-            {
-                _sql = value;
-            }
-            get
-            {
-                return _sql;
-            }
-        }
+        private readonly string _sql;
 
         /// <summary>
         /// SQLRuntimeExceptionクラスの新しいインスタンスを初期化し、原因となった例外を設定する
@@ -57,7 +42,7 @@ namespace Seasar.Framework.Exceptions
         /// SQLRuntimeExceptionクラスの新しいインスタンスを初期化し、原因となった例外とSQLを設定する
         /// </summary>
         /// <param name="cause">原因となった例外</param>
-        /// <param name="targetSql">原因となったSQL</param>
+        /// <param name="sql">原因となったSQL</param>
         public SQLRuntimeException(Exception cause, string sql)
             : this(cause)
         {
@@ -69,10 +54,24 @@ namespace Seasar.Framework.Exceptions
         /// </summary>
         /// <param name="info">シリアル化されたオブジェクト データを保持するオブジェクト</param>
         /// <param name="context">転送元または転送先に関するコンテキスト情報</param>
-		public SQLRuntimeException(SerializationInfo info, StreamingContext context) 
-			: base( info, context )
-		{
-		}
+        public SQLRuntimeException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+            _sql = info.GetString("_sql");
+        }
 
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("_sql", _sql, typeof(string));
+            base.GetObjectData(info, context);
+        }
+
+        /// <summary>
+        /// 例外の原因となったSQLを設定もしくは取得する
+        /// </summary>
+        public string Sql
+        {
+            get { return _sql; }
+        }
     }
 }

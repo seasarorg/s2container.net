@@ -25,155 +25,122 @@ using Seasar.Framework.Util;
 
 namespace Seasar.Extension.Tx.Impl
 {
-	/// <summary>
-	/// TransactionContext の概要の説明です。
-	/// </summary>
-	public class TransactionContext : ITransactionContext, ITransactionStateHandler
-	{
-		private static Logger logger = Logger.GetLogger(typeof(TransactionContext));
-		private LocalDataStoreSlot slot;
+    public class TransactionContext : ITransactionContext, ITransactionStateHandler
+    {
+        private static readonly Logger _logger = Logger.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private readonly LocalDataStoreSlot _slot;
+        private IDataSource _dataSource;
+        private IsolationLevel _isolationLevel = IsolationLevel.ReadCommitted;
+        private ITransactionContext _parent;
+        private IDbConnection _connection;
+        private IDbTransaction _transaction;
 
-		private IDataSource dataSource;
-		private IsolationLevel isolationLevel = IsolationLevel.ReadCommitted;
+        public TransactionContext()
+        {
+            _slot = Thread.AllocateDataSlot();
+        }
 
-		private ITransactionContext parent;
-		private IDbConnection connection;
-		private IDbTransaction transaction;
+        private TransactionContext(LocalDataStoreSlot slot)
+        {
+            _slot = slot;
+        }
 
-		public TransactionContext()
-		{
-			slot = Thread.AllocateDataSlot();
-		}
+        public void OpenConnection()
+        {
+            _connection = DataSourceUtil.GetConnection(_dataSource);
+        }
 
-		private TransactionContext(LocalDataStoreSlot slot)
-		{
-			this.slot = slot;
-		}
+        public void Begin()
+        {
+            OpenConnection();
+            _transaction = Connection.BeginTransaction(IsolationLevel);
+            _logger.Log("DSSR0003", null);
+        }
 
-		public void OpenConnection()
-		{
-            connection = DataSourceUtil.GetConnection(this.DataSouce);
-		}
+        public void Commit()
+        {
+            _transaction.Commit();
+            _transaction.Dispose();
+            _transaction = null;
+            _logger.Log("DSSR0004", null);
+        }
 
-		public void Begin()
-		{
-			OpenConnection();
-			this.transaction = this.Connection.BeginTransaction(this.IsolationLevel);
-			logger.Log("DSSR0003", null);
-		}
+        public void Rollback()
+        {
+            _transaction.Rollback();
+            _transaction.Dispose();
+            _transaction = null;
+            _logger.Log("DSSR0005", null);
+        }
 
-		public void Commit()
-		{
-			this.transaction.Commit();
-			this.transaction.Dispose();
-			this.transaction = null;
-			logger.Log("DSSR0004", null);
-		}
+        public ITransactionContext Create()
+        {
+            TransactionContext ctx = new TransactionContext(_slot);
+            ctx._dataSource = _dataSource;
+            ctx._isolationLevel = _isolationLevel;
+            return ctx;
+        }
 
-		public void Rollback()
-		{
-			this.transaction.Rollback();
-			this.transaction.Dispose();
-			this.transaction = null;
-			logger.Log("DSSR0005", null);
-		}
+        public ITransactionContext Current
+        {
+            get { return (Thread.GetData(_slot) as TransactionContext); }
+            set { Thread.SetData(_slot, value); }
+        }
 
-		public ITransactionContext Create()
-		{
-			TransactionContext ctx = new TransactionContext(this.slot);
-			ctx.dataSource = this.dataSource;
-            ctx.isolationLevel = this.isolationLevel;
-			return ctx;
-		}
+        public ITransactionContext Parent
+        {
+            get { return _parent; }
+            set { _parent = value; }
+        }
 
-		public ITransactionContext Current
-		{
-			get
-			{
-				return (Thread.GetData(slot) as TransactionContext);
-			}
-			set 
-			{
-				Thread.SetData(slot, value);
-			}
-		}
+        public IDbConnection Connection
+        {
+            get { return _connection; }
+        }
 
-		public ITransactionContext Parent
-		{
-			get 
-			{
-				return this.parent;
-			}
+        public bool IsInTransaction
+        {
+            get
+            {
+                TransactionContext cur = Current as TransactionContext;
+                return cur == null ? false : cur._transaction != null;
+            }
+        }
+        public IDataSource DataSouce
+        {
+            get { return _dataSource; }
+            set { _dataSource = value; }
+        }
 
-			set
-			{
-				this.parent = value;
-			}
-		}
-
-		public IDbConnection Connection
-		{
-			get
-			{
-				return this.connection;
-			}
-		}
-
-		public bool IsInTransaction
-		{
-			get
-			{
-				TransactionContext cur = this.Current as TransactionContext;
-				return cur == null ? false : cur.transaction != null;
-			}
-		}
-		public IDataSource DataSouce
-		{
-			get
-			{
-				return this.dataSource;
-			}
-			set
-			{
-				this.dataSource = value;
-			}
-		}
-
-		public IsolationLevel IsolationLevel
-		{
-			get
-			{
-				return this.isolationLevel;
-			}
-			set
-			{
-				this.isolationLevel = value;
-			}
-		}
+        public IsolationLevel IsolationLevel
+        {
+            get { return _isolationLevel; }
+            set { _isolationLevel = value; }
+        }
 
         public IDbTransaction Transaction
         {
-            get { return this.transaction; }
+            get { return _transaction; }
         }
 
-		#region IDisposable メンバ
+        #region IDisposable メンバ
 
-		public void Dispose()
-		{
-			this.transaction = null;
-			try 
-			{
-                ConnectionUtil.Close(this.Connection);
-			} 
-			finally
-			{
-				if(this.connection != null)
-				{
-					this.Connection.Dispose();
-				}
-			}
-		}
+        public void Dispose()
+        {
+            _transaction = null;
+            try
+            {
+                ConnectionUtil.Close(Connection);
+            }
+            finally
+            {
+                if (_connection != null)
+                {
+                    Connection.Dispose();
+                }
+            }
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

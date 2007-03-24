@@ -27,223 +27,220 @@ using Seasar.Framework.Container.Impl;
 
 namespace Seasar.Tests.Framework.Container.Deployer
 {
-	/// <summary>
-	/// PrototypeComponentDeployerTest ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	[TestFixture]
-	public class PrototypeComponentDeployerTest
-	{
-		[Test]
-		public void TestDeployAutoAutoConstructor()
-		{
-			IS2Container container = new S2ContainerImpl();
-			ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
-			container.Register(cd);
-			container.Register(typeof(B));
-			IComponentDeployer deployer = new PrototypeComponentDeployer(cd);
-			A a = (A) deployer.Deploy(typeof(A));
-			Assert.AreEqual("B", a.HogeName);
-			Assert.AreEqual(false, a == deployer.Deploy(typeof(A)));
-		}
+    [TestFixture]
+    public class PrototypeComponentDeployerTest
+    {
+        [Test]
+        public void TestDeployAutoAutoConstructor()
+        {
+            IS2Container container = new S2ContainerImpl();
+            ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+            container.Register(cd);
+            container.Register(typeof(B));
+            IComponentDeployer deployer = new PrototypeComponentDeployer(cd);
+            A a = (A) deployer.Deploy(typeof(A));
+            Assert.AreEqual("B", a.HogeName);
+            Assert.AreEqual(false, a == deployer.Deploy(typeof(A)));
+        }
 
-		[Test]
-		public void TestCyclicReference()
-		{
-			IS2Container container = new S2ContainerImpl();
-			ComponentDefImpl cd = new ComponentDefImpl(typeof(A2));
-			ComponentDefImpl cd2 = new ComponentDefImpl(typeof(C));
-			container.Register(cd);
-			container.Register(cd2);
-			IComponentDeployer deployer = new PrototypeComponentDeployer(cd);
-			IComponentDeployer deployer2 = new PrototypeComponentDeployer(cd2);
-			A2 a2 = (A2) deployer.Deploy(typeof(A2));
-			C c = (C) deployer2.Deploy(typeof(C));
-			Assert.AreEqual("C", a2.HogeName);
-			Assert.AreEqual("C", c.HogeName);
-		}
+        [Test]
+        public void TestCyclicReference()
+        {
+            IS2Container container = new S2ContainerImpl();
+            ComponentDefImpl cd = new ComponentDefImpl(typeof(A2));
+            ComponentDefImpl cd2 = new ComponentDefImpl(typeof(C));
+            container.Register(cd);
+            container.Register(cd2);
+            IComponentDeployer deployer = new PrototypeComponentDeployer(cd);
+            IComponentDeployer deployer2 = new PrototypeComponentDeployer(cd2);
+            A2 a2 = (A2) deployer.Deploy(typeof(A2));
+            C c = (C) deployer2.Deploy(typeof(C));
+            Assert.AreEqual("C", a2.HogeName);
+            Assert.AreEqual("C", c.HogeName);
+        }
 
-		[Test]
-		public void TestInjectDependency()
-		{
-			IS2Container container = new S2ContainerImpl();
-			ComponentDefImpl cd = new ComponentDefImpl();
-			container.Register(cd);
-			IComponentDeployer deployer = new PrototypeComponentDeployer(cd);
-			try
-			{
-				deployer.InjectDependency(new Hashtable());
-				Assert.Fail();
-			}
-			catch(NotSupportedException ex)
-			{
-				Trace.WriteLine(ex);
-			}
-		}
+        [Test]
+        public void TestInjectDependency()
+        {
+            IS2Container container = new S2ContainerImpl();
+            ComponentDefImpl cd = new ComponentDefImpl();
+            container.Register(cd);
+            IComponentDeployer deployer = new PrototypeComponentDeployer(cd);
+            try
+            {
+                deployer.InjectDependency(new Hashtable());
+                Assert.Fail();
+            }
+            catch (NotSupportedException ex)
+            {
+                Trace.WriteLine(ex);
+            }
+        }
 
-		[Test]
-		public void TestDeployAspect1()
-		{
-			IS2Container container = new S2ContainerImpl();
-			ComponentDefImpl cd = new ComponentDefImpl(typeof(CulcImpl1));
+        [Test]
+        public void TestDeployAspect1()
+        {
+            IS2Container container = new S2ContainerImpl();
+            ComponentDefImpl cd = new ComponentDefImpl(typeof(CulcImpl1));
 
-			IAspectDef ad = new AspectDefImpl();
-			ad.Expression = "plusOne";
-			ad.Container = container;
-			cd.AddAspeceDef(ad);
-			ComponentDefImpl plusOneCd = new ComponentDefImpl(typeof(PlusOneInterceptor), "plusOne");
-			container.Register(plusOneCd);
-			container.Register(cd);
+            IAspectDef ad = new AspectDefImpl();
+            ad.Expression = "plusOne";
+            ad.Container = container;
+            cd.AddAspeceDef(ad);
+            ComponentDefImpl plusOneCd = new ComponentDefImpl(typeof(PlusOneInterceptor), "plusOne");
+            container.Register(plusOneCd);
+            container.Register(cd);
 
-			IComponentDeployer deployer = new PrototypeComponentDeployer(cd);
-			ICulc culc = (ICulc) deployer.Deploy(typeof(ICulc));
+            IComponentDeployer deployer = new PrototypeComponentDeployer(cd);
+            ICulc culc = (ICulc) deployer.Deploy(typeof(ICulc));
             PlusOneInterceptor.Count = 0;
-			Assert.AreEqual(1, culc.Count());
-		}
+            Assert.AreEqual(1, culc.Count());
+        }
 
-		[Test]
-		public void TestDeployAspect2()
-		{
-			IS2Container container = new S2ContainerImpl();
-			ComponentDefImpl cd = new ComponentDefImpl(typeof(CulcImpl2));
+        [Test]
+        public void TestDeployAspect2()
+        {
+            IS2Container container = new S2ContainerImpl();
+            ComponentDefImpl cd = new ComponentDefImpl(typeof(CulcImpl2));
 
-			IAspectDef ad = new AspectDefImpl();
-			ad.Expression = "plusOne";
-			ad.Container = container;
-			cd.AddAspeceDef(ad);
-			ComponentDefImpl plusOneCd = new ComponentDefImpl(typeof(PlusOneInterceptor), "plusOne");
-			container.Register(plusOneCd);
-			container.Register(cd);
+            IAspectDef ad = new AspectDefImpl();
+            ad.Expression = "plusOne";
+            ad.Container = container;
+            cd.AddAspeceDef(ad);
+            ComponentDefImpl plusOneCd = new ComponentDefImpl(typeof(PlusOneInterceptor), "plusOne");
+            container.Register(plusOneCd);
+            container.Register(cd);
 
-			IComponentDeployer deployer = new PrototypeComponentDeployer(cd);
-			CulcImpl2 culc = (CulcImpl2) deployer.Deploy(typeof(CulcImpl2));
-			PlusOneInterceptor.Count = 0;
-			Assert.AreEqual(1, culc.Count());
-		}
+            IComponentDeployer deployer = new PrototypeComponentDeployer(cd);
+            CulcImpl2 culc = (CulcImpl2) deployer.Deploy(typeof(CulcImpl2));
+            PlusOneInterceptor.Count = 0;
+            Assert.AreEqual(1, culc.Count());
+        }
 
-		[Test]
-		public void TestDeployAspect3()
-		{
-			IS2Container container = new S2ContainerImpl();
-			ComponentDefImpl cd = new ComponentDefImpl(typeof(CulcImpl2));
+        [Test]
+        public void TestDeployAspect3()
+        {
+            IS2Container container = new S2ContainerImpl();
+            ComponentDefImpl cd = new ComponentDefImpl(typeof(CulcImpl2));
 
-			IAspectDef ad = new AspectDefImpl();
-			ad.Expression = "plusOne";
-			ad.Container = container;
+            IAspectDef ad = new AspectDefImpl();
+            ad.Expression = "plusOne";
+            ad.Container = container;
 
-			IAspectDef ad2 = new AspectDefImpl();
-			ad2.Expression = "plusOne";
-			ad2.Container = container;
+            IAspectDef ad2 = new AspectDefImpl();
+            ad2.Expression = "plusOne";
+            ad2.Container = container;
 
-			cd.AddAspeceDef(ad);
-			cd.AddAspeceDef(ad2);
-			ComponentDefImpl plusOneCd = new ComponentDefImpl(typeof(PlusOneInterceptor), "plusOne");
-			container.Register(plusOneCd);
-			container.Register(cd);
+            cd.AddAspeceDef(ad);
+            cd.AddAspeceDef(ad2);
+            ComponentDefImpl plusOneCd = new ComponentDefImpl(typeof(PlusOneInterceptor), "plusOne");
+            container.Register(plusOneCd);
+            container.Register(cd);
 
-			IComponentDeployer deployer = new PrototypeComponentDeployer(cd);
-			CulcImpl2 culc = (CulcImpl2) deployer.Deploy(typeof(CulcImpl2));
-			PlusOneInterceptor.Count = 0;
-			Assert.AreEqual(2, culc.Count());
-		}
+            IComponentDeployer deployer = new PrototypeComponentDeployer(cd);
+            CulcImpl2 culc = (CulcImpl2) deployer.Deploy(typeof(CulcImpl2));
+            PlusOneInterceptor.Count = 0;
+            Assert.AreEqual(2, culc.Count());
+        }
 
-		public class PlusOneInterceptor : IMethodInterceptor
-		{
-			public static int Count = 0;
-			public object Invoke(IMethodInvocation invocation)
-			{
-				++Count;
-				invocation.Proceed();
-				return Count;
-			}
-		}
+        public class PlusOneInterceptor : IMethodInterceptor
+        {
+            public static int Count = 0;
+            public object Invoke(IMethodInvocation invocation)
+            {
+                ++Count;
+                invocation.Proceed();
+                return Count;
+            }
+        }
 
-		public interface ICulc
-		{
-			int Count();
-		}
+        public interface ICulc
+        {
+            int Count();
+        }
 
-		public class CulcImpl1 : ICulc
-		{
-			public int Count()
-			{
-				return 0;
-			}
-		}
+        public class CulcImpl1 : ICulc
+        {
+            public int Count()
+            {
+                return 0;
+            }
+        }
 
-		public class CulcImpl2 : MarshalByRefObject, ICulc
-		{
-			public int Count()
-			{
-				return 0;
-			}
-		}
+        public class CulcImpl2 : MarshalByRefObject, ICulc
+        {
+            public int Count()
+            {
+                return 0;
+            }
+        }
 
-		public interface IFoo
-		{
-			string HogeName { get; }
-		}
+        public interface IFoo
+        {
+            string HogeName { get; }
+        }
 
-		public class A
-		{
-			private IHoge hoge_;
+        public class A
+        {
+            private readonly IHoge _hoge;
 
-			public A(IHoge hoge)
-			{
-				hoge_ = hoge;
-			}
+            public A(IHoge hoge)
+            {
+                _hoge = hoge;
+            }
 
-			public string HogeName
-			{
-				get { return hoge_.Name; }
-			}
-		}
+            public string HogeName
+            {
+                get { return _hoge.Name; }
+            }
+        }
 
-		public class A2 : IFoo
-		{
-			private IHoge hoge_;
+        public class A2 : IFoo
+        {
+            private IHoge _hoge;
 
-			public IHoge Hoge
-			{
-				set { hoge_ = value; }
-			}
+            public IHoge Hoge
+            {
+                set { _hoge = value; }
+            }
 
-			public string HogeName
-			{
-				get { return hoge_.Name; }
-			}
-		}
+            public string HogeName
+            {
+                get { return _hoge.Name; }
+            }
+        }
 
-		public interface IHoge
-		{
-			string Name { get; }
-		}
+        public interface IHoge
+        {
+            string Name { get; }
+        }
 
-		public class B : IHoge
-		{
-			public string Name
-			{
-				get { return "B"; }
-			}
-		}
+        public class B : IHoge
+        {
+            public string Name
+            {
+                get { return "B"; }
+            }
+        }
 
-		public class C : IHoge
-		{
-			private IFoo foo_;
+        public class C : IHoge
+        {
+            private IFoo _foo;
 
-			public IFoo Foo
-			{
-				set { foo_ = value; }
-			}
+            public IFoo Foo
+            {
+                set { _foo = value; }
+            }
 
-			public string Name
-			{
-				get { return "C"; }
-			}
+            public string Name
+            {
+                get { return "C"; }
+            }
 
-			public string HogeName
-			{
-				get { return foo_.HogeName; }
-			}
-		}
-	}
+            public string HogeName
+            {
+                get { return _foo.HogeName; }
+            }
+        }
+    }
 }

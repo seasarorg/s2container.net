@@ -20,53 +20,46 @@ using System;
 
 namespace Seasar.Examples.Reference.Includes
 {
-	/// <summary>
-	/// HelloClientInvoker の概要の説明です。
-	/// </summary>
-	public class HelloClientInvoker
-	{
-		private IHelloClient root;
-		private IHelloClient aaa;
-		private IHelloClient bbb;
+    public class HelloClientInvoker
+    {
+        private IHelloClient _root;
+        private IHelloClient _aaa;
+        private IHelloClient _bbb;
 
-		public HelloClientInvoker()
-		{
-		}
+        public IHelloClient Root
+        {
+            get { return _root; }
+            set { _root = value; }
+        }
 
-		public IHelloClient Root
-		{
-			get { return this.root; }
-			set { this.root = value; }
-		}
+        public IHelloClient Aaa
+        {
+            get { return _aaa; }
+            set { _aaa = value; }
+        }
 
-		public IHelloClient Aaa
-		{
-			get { return this.aaa; }
-			set { this.aaa = value; }
-		}
-		
-		public IHelloClient Bbb
-		{
-			get { return this.bbb; }
-			set { this.bbb = value; }
-		}
+        public IHelloClient Bbb
+        {
+            get { return _bbb; }
+            set { _bbb = value; }
+        }
 
-		public void Main()
-		{
-			Console.WriteLine("rootの実行結果");
-			Root.ShowMessage();
-			Console.WriteLine(" ------------------------- ");
-			Console.WriteLine();
+        public void Main()
+        {
+            Console.WriteLine("rootの実行結果");
+            Root.ShowMessage();
+            Console.WriteLine(" ------------------------- ");
+            Console.WriteLine();
 
-			Console.WriteLine("aaaの実行結果");
-			Aaa.ShowMessage();
-			Console.WriteLine(" ------------------------- ");
-			Console.WriteLine();
-			
-			Console.WriteLine("bbbの実行結果");
-			Bbb.ShowMessage();
-			Console.WriteLine(" ------------------------- ");
-			Console.WriteLine();
-		}
-	}
+            Console.WriteLine("aaaの実行結果");
+            Aaa.ShowMessage();
+            Console.WriteLine(" ------------------------- ");
+            Console.WriteLine();
+
+            Console.WriteLine("bbbの実行結果");
+            Bbb.ShowMessage();
+            Console.WriteLine(" ------------------------- ");
+            Console.WriteLine();
+        }
+    }
 }

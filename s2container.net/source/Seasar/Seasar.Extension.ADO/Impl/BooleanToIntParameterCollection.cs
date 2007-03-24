@@ -18,15 +18,14 @@
 
 using System;
 using System.Collections;
-using System.Data;
 using System.ComponentModel;
-using System.Data.Common;
+using System.Data;
 
 namespace Seasar.Extension.ADO.Impl
 {
-    public class BooleanToIntParameterCollection : MarshalByRefObject, IDataParameterCollection, IList, ICollection, IEnumerable
+    public class BooleanToIntParameterCollection : MarshalByRefObject, IDataParameterCollection
     {
-        private ArrayList list = new ArrayList();
+        private readonly ArrayList _list = new ArrayList();
 
         internal BooleanToIntParameterCollection()
         {
@@ -36,15 +35,15 @@ namespace Seasar.Extension.ADO.Impl
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int Count
         {
-            get { return list.Count; }
+            get { return _list.Count; }
         }
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public BooleanToIntParameter this[int index]
         {
-            get { return (BooleanToIntParameter) list[index]; }
-            set { list[index] = value; }
+            get { return (BooleanToIntParameter) _list[index]; }
+            set { _list[index] = value; }
         }
 
         [Browsable(false)]
@@ -53,7 +52,7 @@ namespace Seasar.Extension.ADO.Impl
         {
             get
             {
-                foreach (BooleanToIntParameter p in list)
+                foreach (BooleanToIntParameter p in _list)
                 {
                     if (p.ParameterName.Equals(parameterName))
                     {
@@ -75,7 +74,7 @@ namespace Seasar.Extension.ADO.Impl
 
         int ICollection.Count
         {
-            get { return list.Count; }
+            get { return _list.Count; }
         }
 
         bool IList.IsFixedSize
@@ -90,18 +89,18 @@ namespace Seasar.Extension.ADO.Impl
 
         bool ICollection.IsSynchronized
         {
-            get { return list.IsSynchronized; }
+            get { return _list.IsSynchronized; }
         }
 
         object ICollection.SyncRoot
         {
-            get { return list.SyncRoot; }
+            get { return _list.SyncRoot; }
         }
 
         object IList.this[int index]
         {
-            get { return list[index]; }
-            set { list[index] = value; }
+            get { return _list[index]; }
+            set { _list[index] = value; }
         }
 
         object IDataParameterCollection.this[string name]
@@ -130,7 +129,7 @@ namespace Seasar.Extension.ADO.Impl
 
         public BooleanToIntParameter Add(BooleanToIntParameter parameter)
         {
-            list.Add(parameter);
+            _list.Add(parameter);
             return parameter;
         }
 
@@ -140,25 +139,25 @@ namespace Seasar.Extension.ADO.Impl
             {
                 throw new InvalidCastException();
             }
-            list.Add(value);
-            return list.IndexOf(value);
+            _list.Add(value);
+            return _list.IndexOf(value);
         }
 
         void IList.Clear()
         {
-            list.Clear();
+            _list.Clear();
         }
 
         bool IList.Contains(object value)
         {
-            return list.Contains(value);
+            return _list.Contains(value);
         }
 
         bool IDataParameterCollection.Contains(string value)
         {
-            for (int i = 0; i < list.Count; i++)
+            for (int i = 0; i < _list.Count; i++)
             {
-                IDataParameter parameter = (IDataParameter) list[i];
+                IDataParameter parameter = (IDataParameter) _list[i];
                 if (parameter.ParameterName == value)
                 {
                     return true;
@@ -170,47 +169,47 @@ namespace Seasar.Extension.ADO.Impl
 
         void ICollection.CopyTo(Array array, int index)
         {
-            ((BooleanToIntParameter[]) (list.ToArray())).CopyTo(array, index);
+            ((BooleanToIntParameter[]) (_list.ToArray())).CopyTo(array, index);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return list.GetEnumerator();
+            return _list.GetEnumerator();
         }
 
         int IList.IndexOf(object value)
         {
-            return list.IndexOf(value);
+            return _list.IndexOf(value);
         }
 
         int IDataParameterCollection.IndexOf(string name)
         {
-            return list.IndexOf(((IDataParameterCollection) this)[name]);
+            return _list.IndexOf(((IDataParameterCollection) this)[name]);
         }
 
         void IList.Insert(int index, object value)
         {
-            list.Insert(index, value);
+            _list.Insert(index, value);
         }
 
         void IList.Remove(object value)
         {
-            list.Remove(value);
+            _list.Remove(value);
         }
 
         void IList.RemoveAt(int index)
         {
-            list.Remove((object) list[index]);
+            _list.Remove(_list[index]);
         }
 
         void IDataParameterCollection.RemoveAt(string name)
         {
-            list.Remove(((IDataParameterCollection) this)[name]);
+            _list.Remove(((IDataParameterCollection) this)[name]);
         }
 
         public void Clear()
         {
-            list.Clear();
+            _list.Clear();
         }
 
         public bool Contains(object value)
@@ -224,12 +223,12 @@ namespace Seasar.Extension.ADO.Impl
 
         public void CopyTo(Array array, int index)
         {
-            list.CopyTo(array, index);
+            _list.CopyTo(array, index);
         }
 
         public IEnumerator GetEnumerator()
         {
-            return list.GetEnumerator();
+            return _list.GetEnumerator();
         }
 
         public int IndexOf(object value)
@@ -255,17 +254,17 @@ namespace Seasar.Extension.ADO.Impl
 
         public void Insert(int index, object value)
         {
-            list.Insert(index, value);
+            _list.Insert(index, value);
         }
 
         public void Remove(object value)
         {
-            list.Remove(value);
+            _list.Remove(value);
         }
 
         public void RemoveAt(int index)
         {
-            list.RemoveAt(index);
+            _list.RemoveAt(index);
         }
 
         public void RemoveAt(string parameterName)

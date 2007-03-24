@@ -1,11 +1,11 @@
-﻿<?xml version="1.0" encoding="utf-8" ?> 
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
 "http://www.seasar.org/dtd/components21.dtd">
 <components>
-	<component name="traceInterceptor" class="Seasar.Framework.Aop.Interceptors.TraceInterceptor"/>
-	
-	<component class="Seasar.Examples.Reference.Aop.IHelloImpl" >
-		<aspect>traceInterceptor</aspect>
-	</component>
-	<component name="Aop" class="Seasar.Examples.Reference.Aop.AopClient"/>
+  <component name="traceInterceptor" class="Seasar.Framework.Aop.Interceptors.TraceInterceptor"/>
+
+  <component class="Seasar.Examples.Reference.Aop.IHelloImpl" >
+    <aspect>traceInterceptor</aspect>
+  </component>
+  <component name="Aop" class="Seasar.Examples.Reference.Aop.AopClient"/>
 </components>

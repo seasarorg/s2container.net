@@ -22,35 +22,31 @@ using Nullables;
 
 namespace Seasar.Extension.ADO.Types
 {
-	public class NHibernateNullableDoubleType : NHibernateNullableBaseType, IValueType
+    public class NHibernateNullableDoubleType : NHibernateNullableBaseType, IValueType
     {
-		public NHibernateNullableDoubleType()
-        {
-        }
-
         #region IValueType ÉÅÉìÉo
 
-		public override void BindValue(IDbCommand cmd, string columnName, object value)
+        public override void BindValue(IDbCommand cmd, string columnName, object value)
         {
             BindValue(cmd, columnName, value, DbType.Double);
         }
 
         #endregion
 
-		protected override object GetValue(object value)
-		{
-			if (value == DBNull.Value)
-			{
-				return null;
-			}
-			else if (value is double)
-			{
-				return new NullableDouble((double) value);
-			}
-			else
-			{
-				return NullableDouble.Parse(value.ToString());
-			}
-		}
+        protected override object GetValue(object value)
+        {
+            if (value == DBNull.Value)
+            {
+                return null;
+            }
+            else if (value is double)
+            {
+                return new NullableDouble((double) value);
+            }
+            else
+            {
+                return NullableDouble.Parse(value.ToString());
+            }
+        }
     }
 }

@@ -16,72 +16,61 @@
  */
 #endregion
 
-using System;
 using System.Collections;
 
 namespace Seasar.Framework.Container.Util
 {
-	/// <summary>
-	/// DestroyMethodDefSupport の概要の説明です。
-	/// </summary>
-	public sealed class DestroyMethodDefSupport
-	{
-		private IList methodDefs_ = ArrayList.Synchronized(new ArrayList());
-		private IS2Container container_;
+    public sealed class DestroyMethodDefSupport
+    {
+        private readonly IList _methodDefs = ArrayList.Synchronized(new ArrayList());
+        private IS2Container _container;
 
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		public DestroyMethodDefSupport()
-		{
-		}
+        /// <summary>
+        /// DestroyMethodDefを追加します。
+        /// </summary>
+        /// <param name="methodDef">MethodDef</param>
+        public void AddDestroyMethodDef(IDestroyMethodDef methodDef)
+        {
+            if (_container != null)
+            {
+                methodDef.Container = _container;
+            }
+            _methodDefs.Add(methodDef);
+        }
 
-		/// <summary>
-		/// DestroyMethodDefを追加します。
-		/// </summary>
-		/// <param name="methodDef">MethodDef</param>
-		public void AddDestroyMethodDef(IDestroyMethodDef methodDef)
-		{
-			if(container_ != null)
-			{
-				methodDef.Container = container_;
-			}
-			methodDefs_.Add(methodDef);
-		}
+        /// <summary>
+        /// DestroyMethodDefの数
+        /// </summary>
+        public int DestroyMethodDefSize
+        {
+            get { return _methodDefs.Count; }
+        }
 
-		/// <summary>
-		/// DestroyMethodDefの数
-		/// </summary>
-		public int DestroyMethodDefSize
-		{
-			get { return methodDefs_.Count; }
-		}
+        /// <summary>
+        /// 番号を指定してIDestroyMethodDefを取得します。
+        /// </summary>
+        /// <param name="index">IDestroyMethodDefの番号</param>
+        /// <returns>IDestroyMethodDef</returns>
+        public IDestroyMethodDef GetDestroyMethodDef(int index)
+        {
+            return (IDestroyMethodDef) _methodDefs[index];
+        }
 
-		/// <summary>
-		/// 番号を指定してIDestroyMethodDefを取得します。
-		/// </summary>
-		/// <param name="index">IDestroyMethodDefの番号</param>
-		/// <returns>IDestroyMethodDef</returns>
-		public IDestroyMethodDef GetDestroyMethodDef(int index)
-		{
-			return (IDestroyMethodDef) methodDefs_[index];
-		}
-
-		/// <summary>
-		/// S2Container
-		/// </summary>
-		public IS2Container Container
-		{
-			set
-			{
-				container_ = value;
-				IEnumerator enu = methodDefs_.GetEnumerator();
-				while(enu.MoveNext())
-				{
-					IDestroyMethodDef methodDef = (IDestroyMethodDef) enu.Current;
-					methodDef.Container = value;
-				}
-			}
-		}
-	}
+        /// <summary>
+        /// S2Container
+        /// </summary>
+        public IS2Container Container
+        {
+            set
+            {
+                _container = value;
+                IEnumerator enu = _methodDefs.GetEnumerator();
+                while (enu.MoveNext())
+                {
+                    IDestroyMethodDef methodDef = (IDestroyMethodDef) enu.Current;
+                    methodDef.Container = value;
+                }
+            }
+        }
+    }
 }

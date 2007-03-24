@@ -24,87 +24,82 @@ using Seasar.Framework.Container.Impl;
 
 namespace Seasar.Tests.Framework.Container.Impl
 {
-	/// <summary>
-	/// AspectDefImplTest ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	[TestFixture]
-	public class AspectDefImplTest
-	{
+    [TestFixture]
+    public class AspectDefImplTest
+    {
+        [Test]
+        public void TestSetExpression()
+        {
+            IS2Container container = new S2ContainerImpl();
+            IAspectDef ad = new AspectDefImpl();
+            ad.Expression = "traceAdvice";
+            ad.Container = container;
+            ComponentDefImpl cd = new ComponentDefImpl(typeof(TraceInterceptor), "traceAdvice");
+            container.Register(cd);
+            Assert.AreEqual(typeof(TraceInterceptor), ad.Aspect.MethodInterceptor.GetType());
+        }
 
-		[Test]
-		public void TestSetExpression()
-		{
-			IS2Container container = new S2ContainerImpl();
-			IAspectDef ad = new AspectDefImpl();
-			ad.Expression = "traceAdvice";
-			ad.Container = container;
-			ComponentDefImpl cd = new ComponentDefImpl(typeof(TraceInterceptor), "traceAdvice");
-			container.Register(cd);
-			Assert.AreEqual(typeof(TraceInterceptor), ad.Aspect.MethodInterceptor.GetType());
-		}
+        public class A
+        {
+            private readonly IHoge _hoge;
 
-		public class A
-		{
-			private IHoge hoge_;
+            public A(IHoge hoge)
+            {
+                _hoge = hoge;
+            }
 
-			public A(IHoge hoge)
-			{
-				hoge_ = hoge;
-			}
+            public string HogeName
+            {
+                get { return _hoge.Name; }
+            }
+        }
 
-			public string HogeName
-			{
-				get { return hoge_.Name; }
-			}
-		}
+        public class A2
+        {
+            private IHoge _hoge;
 
-		public class A2
-		{
-			private IHoge hoge_;
+            public IHoge Hoge
+            {
+                set { _hoge = value; }
+            }
 
-			public IHoge Hoge
-			{
-				set { hoge_ = value; }
-			}
+            public string HogeName
+            {
+                get { return _hoge.Name; }
+            }
+        }
 
-			public string HogeName
-			{
-				get { return hoge_.Name; }
-			}
-		}
+        public interface IHoge
+        {
+            string Name { get; }
+        }
 
-		public interface IHoge
-		{
-			string Name { get; }
-		}
+        public class B : IHoge
+        {
+            public string Name
+            {
+                get { return "B"; }
+            }
+        }
 
-		public class B : IHoge
-		{
-			public string Name
-			{
-				get { return "B"; }
-			}
-		}
+        public class C : IHoge
+        {
+            private A2 _a2;
 
-		public class C : IHoge
-		{
-			private A2 a2_;
+            public A2 A2
+            {
+                set { _a2 = value; }
+            }
 
-			public A2 A2
-			{
-				set { a2_ = value; }
-			}
+            public string Name
+            {
+                get { return "C"; }
+            }
 
-			public string Name
-			{
-				get { return "C"; }
-			}
-
-			public string HogeName
-			{
-				get { return a2_.HogeName; }
-			}
-		}
-	}
-
+            public string HogeName
+            {
+                get { return _a2.HogeName; }
+            }
+        }
+    }
 }

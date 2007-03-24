@@ -16,37 +16,30 @@
  */
 #endregion
 
-using System;
-using System.Collections;
-
 using Seasar.Extension.UI;
 
 namespace Seasar.Examples
 {
-	/// <summary>
-	/// Examples Explorerで表示する為のデモアプリ
-	/// </summary>
-	public interface IExamplesHandler
-	{
-		/// <summary>
-		/// デモを実行します。
-		/// </summary>
-		void Main(ExamplesContext context);
-		
-		/// <summary>
-		/// 当該デモアプリの設定ファイルを出力します。
-		/// </summary>
-		void AppendDicon(TextAppender appender);
+    /// <summary>
+    /// Examples Explorerで表示する為のデモアプリ
+    /// </summary>
+    public interface IExamplesHandler
+    {
+        /// <summary>
+        /// デモを実行します。
+        /// </summary>
+        void Main(ExamplesContext context);
 
-		/// <summary>
-		/// 当該デモアプリのソースコードを出力します。
-		/// </summary>
-		void AppendCode(TextAppender appender);
+        /// <summary>
+        /// 当該デモアプリの設定ファイルを出力します。
+        /// </summary>
+        void AppendDicon(TextAppender appender);
 
-		String Title
-		{
-			get;
-		}
-		
-	}
+        /// <summary>
+        /// 当該デモアプリのソースコードを出力します。
+        /// </summary>
+        void AppendCode(TextAppender appender);
+
+        string Title { get;        }
+    }
 }

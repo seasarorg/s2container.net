@@ -20,18 +20,18 @@ using System;
 
 namespace Seasar.Examples.Reference.Aop
 {
-	public class HeavyProcess : MarshalByRefObject
-	{
-		public void Heavy()
-		{
-			try
-			{
-				System.Threading.Thread.Sleep(5000);
-			}
-			catch(Exception ex)
-			{
-				Console.WriteLine(ex.StackTrace);
-			}
-		}
-	}
+    public class HeavyProcess : MarshalByRefObject
+    {
+        public void Heavy()
+        {
+            try
+            {
+                System.Threading.Thread.Sleep(5000);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.StackTrace);
+            }
+        }
+    }
 }

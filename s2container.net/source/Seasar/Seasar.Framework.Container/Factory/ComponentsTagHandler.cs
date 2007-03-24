@@ -16,31 +16,31 @@
  */
 #endregion
 
-using System;
 using Seasar.Framework.Xml;
 using Seasar.Framework.Util;
 using Seasar.Framework.Container.Impl;
 
 namespace Seasar.Framework.Container.Factory
 {
-	/// <summary>
-	/// ComponentsTagHandler ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public class ComponentsTagHandler : TagHandler
-	{
-
-		public override void Start(TagHandlerContext context, IAttributes attributes)
-		{
-			IS2Container container = null;
-			container = new S2ContainerImpl();
-			string path = (string) context.GetParameter("path");
-			container.Path = path;
-			string ns = attributes["namespace"];
-			if(!StringUtil.IsEmpty(ns)) container.Namespace = ns;
-			IS2Container parent = (IS2Container) context.GetParameter("parent");
-			if(parent != null) container.Root = parent.Root;
-			context.Push(container);
-		}
-
-	}
+    public class ComponentsTagHandler : TagHandler
+    {
+        public override void Start(TagHandlerContext context, IAttributes attributes)
+        {
+            IS2Container container;
+            container = new S2ContainerImpl();
+            string path = (string) context.GetParameter("path");
+            container.Path = path;
+            string ns = attributes["namespace"];
+            if (!StringUtil.IsEmpty(ns))
+            {
+                container.Namespace = ns;
+            }
+            IS2Container parent = (IS2Container) context.GetParameter("parent");
+            if (parent != null)
+            {
+                container.Root = parent.Root;
+            }
+            context.Push(container);
+        }
+    }
 }

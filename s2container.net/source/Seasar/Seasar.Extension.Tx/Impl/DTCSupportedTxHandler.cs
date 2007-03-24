@@ -16,27 +16,22 @@
  */
 #endregion
 
-using System;
 using System.EnterpriseServices;
-
 using Seasar.Framework.Aop;
 
 namespace Seasar.Extension.Tx.Impl
 {
-	/// <summary>
-	/// SupportedTxHandler の概要の説明です。
-	/// </summary>
-	[Transaction(TransactionOption.Supported)]
-	public class DTCSupportedTxHandler : AbstractDTCTransactionHandler
-	{
-		#region ITransactionHandler メンバ
+    [Transaction(TransactionOption.Supported)]
+    public class DTCSupportedTxHandler : AbstractDTCTransactionHandler
+    {
+        #region ITransactionHandler メンバ
 
-		[AutoComplete]
-		public override object Handle(IMethodInvocation invocation, bool alreadyInTransaction)
-		{
-			return invocation.Proceed();
-		}
+        [AutoComplete]
+        public override object Handle(IMethodInvocation invocation, bool alreadyInTransaction)
+        {
+            return invocation.Proceed();
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

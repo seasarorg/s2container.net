@@ -16,75 +16,74 @@
  */
 #endregion
 
-using System;
 using Seasar.Framework.Exceptions;
 using Seasar.Framework.Util;
 using Seasar.Framework.Xml;
 
 namespace Seasar.Framework.Container.Factory
 {
-	/// <summary>
-	/// SingletonS2ContainerFactory ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	
 #if NET_1_1
     public class SingletonS2ContainerFactory
 #else
     public static class SingletonS2ContainerFactory
 #endif
-	{
-		private static string configPath_ = "app.dicon";
-		private static IS2Container container_;
+    {
+        private static string _configPath = "app.dicon";
+        private static IS2Container _container;
 
         static SingletonS2ContainerFactory()
         {
             S2Section config = S2SectionHandler.GetS2Section();
             if (config != null)
             {
-                string configPath = config.ConfigPath;
-                if (!StringUtil.IsEmpty(configPath)) configPath_ = configPath;
+                string s = config.ConfigPath;
+                if (!StringUtil.IsEmpty(s))
+                {
+                    _configPath = s;
+                }
             }
         }
 
-		public static string ConfigPath
-		{
-			set { configPath_ = value; }
-			get { return configPath_; }
-		}
+        public static string ConfigPath
+        {
+            set { _configPath = value; }
+            get { return _configPath; }
+        }
 
-		public static void Init()
-		{
-			container_ = S2ContainerFactory.Create(configPath_);
-			container_.Init();
-		}
+        public static void Init()
+        {
+            _container = S2ContainerFactory.Create(_configPath);
+            _container.Init();
+        }
 
-		public static void Destroy()
-		{
-			if (container_ != null)
-			{
-				container_.Destroy();
-				container_ = null;
-			}
-		}
+        public static void Destroy()
+        {
+            if (_container != null)
+            {
+                _container.Destroy();
+                _container = null;
+            }
+        }
 
-		public static IS2Container Container
-		{
-			get 
-			{
-				if(container_ == null)
-					throw new EmptyRuntimeException("S2Container");
-				return container_;
-			}
-			set
-			{
-				container_ = value;
-			}
-		}
+        public static IS2Container Container
+        {
+            get
+            {
+                if (_container == null)
+                {
+                    throw new EmptyRuntimeException("S2Container");
+                }
+                return _container;
+            }
+            set
+            {
+                _container = value;
+            }
+        }
 
-		public static bool HasContainer
-		{
-			get { return container_ != null; }
-		}
-
-	}
+        public static bool HasContainer
+        {
+            get { return _container != null; }
+        }
+    }
 }

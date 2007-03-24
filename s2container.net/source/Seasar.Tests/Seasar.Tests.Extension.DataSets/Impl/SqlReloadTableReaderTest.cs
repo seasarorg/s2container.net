@@ -25,31 +25,31 @@ using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Extension.DataSets.Impl
 {
-	[TestFixture]
-	public class SqlReloadTableReaderTest : S2TestCase
-	{
-		private const string PATH = "Ado.dicon";
+    [TestFixture]
+    public class SqlReloadTableReaderTest : S2TestCase
+    {
+        private const string PATH = "Ado.dicon";
 
-		public void SetUpRead() 
-		{
-			Include(PATH);
-		}
+        public void SetUpRead()
+        {
+            Include(PATH);
+        }
 
         [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
-		public void Read() 
-		{
-			DataTable table = new DataTable("emp");
-			table.Columns.Add("empno", typeof(int));
-			table.Columns.Add("ename", typeof(string));
-			DataRow row = table.NewRow();
-			row["empno"] = 7788;
-			row["ename"] = "SCOTT";
-			table.Rows.Add(row);
-			SqlReloadTableReader reader = new SqlReloadTableReader(DataSource, table);
-			DataTable ret = reader.Read();
+        public void Read()
+        {
+            DataTable table = new DataTable("emp");
+            table.Columns.Add("empno", typeof(int));
+            table.Columns.Add("ename", typeof(string));
+            DataRow row = table.NewRow();
+            row["empno"] = 7788;
+            row["ename"] = "SCOTT";
+            table.Rows.Add(row);
+            SqlReloadTableReader reader = new SqlReloadTableReader(DataSource, table);
+            DataTable ret = reader.Read();
             Trace.WriteLine(ToStringUtil.ToString(ret));
-			S2Assert.AreEqual(table, ret, "1");
-			Assert.AreEqual(DataRowState.Unchanged, ret.Rows[0].RowState, "2");
-		}
-	}
+            S2Assert.AreEqual(table, ret, "1");
+            Assert.AreEqual(DataRowState.Unchanged, ret.Rows[0].RowState, "2");
+        }
+    }
 }

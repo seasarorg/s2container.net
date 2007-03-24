@@ -16,31 +16,25 @@
  */
 #endregion
 
-using System;
 using Seasar.Framework.Container.Impl;
 using Seasar.Framework.Xml;
 
 namespace Seasar.Framework.Container.Factory
 {
-	/// <summary>
-	/// InitMethodTagHandler ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public class InitMethodTagHandler : MethodTagHandler
-	{
+    public class InitMethodTagHandler : MethodTagHandler
+    {
+        public override void Start(TagHandlerContext context, IAttributes attributes)
+        {
+            string name = attributes["name"];
+            context.Push(new InitMethodDefImpl(name));
+        }
 
-		public override void Start(TagHandlerContext context, IAttributes attributes)
-		{
-			string name = attributes["name"];
-			context.Push(new InitMethodDefImpl(name));
-		}
-
-		public override void End(TagHandlerContext context, string body)
-		{
-			IInitMethodDef methodDef = (IInitMethodDef) context.Pop();
-			this.ProcessExpression(methodDef,body,"initMethod");
-			IComponentDef componentDef = (IComponentDef) context.Peek();
-			componentDef.AddInitMethodDef(methodDef);
-		}
-
-	}
+        public override void End(TagHandlerContext context, string body)
+        {
+            IInitMethodDef methodDef = (IInitMethodDef) context.Pop();
+            ProcessExpression(methodDef, body, "initMethod");
+            IComponentDef componentDef = (IComponentDef) context.Peek();
+            componentDef.AddInitMethodDef(methodDef);
+        }
+    }
 }

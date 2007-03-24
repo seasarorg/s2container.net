@@ -22,37 +22,32 @@ using Seasar.Framework.Exceptions;
 
 namespace Seasar.Framework.Container
 {
-	/// <summary>
-	/// ComponentNotFoundRuntimeException ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	[Serializable]
-	public class ComponentNotFoundRuntimeException : SRuntimeException
-	{
-		private object componentKey_;
+    [Serializable]
+    public class ComponentNotFoundRuntimeException : SRuntimeException
+    {
+        private readonly object _componentKey;
 
-		public ComponentNotFoundRuntimeException(object componentKey)
-			: base("ESSR0046",new object[] { componentKey})
-		{
-			componentKey_ = componentKey;
-		}
+        public ComponentNotFoundRuntimeException(object componentKey)
+            : base("ESSR0046", new object[] { componentKey })
+        {
+            _componentKey = componentKey;
+        }
 
-		public ComponentNotFoundRuntimeException(SerializationInfo info, StreamingContext context) 
-			: base( info, context )
-		{
-			this.componentKey_ = info.GetValue("componentKey_",typeof(object));
-		}
+        public ComponentNotFoundRuntimeException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+            _componentKey = info.GetValue("_componentKey", typeof(object));
+        }
 
-		public override void GetObjectData( SerializationInfo info,
-			StreamingContext context )
-		{
-			info.AddValue("componentKey_", this.componentKey_, typeof(object));
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("_componentKey", _componentKey, typeof(object));
+            base.GetObjectData(info, context);
+        }
 
-			base.GetObjectData(info, context);
-		}
-
-		public object ComponentKey
-		{
-			get { return componentKey_; }
-		}
-	}
+        public object ComponentKey
+        {
+            get { return _componentKey; }
+        }
+    }
 }

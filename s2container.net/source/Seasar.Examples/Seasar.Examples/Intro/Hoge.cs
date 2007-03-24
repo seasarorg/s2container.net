@@ -17,34 +17,33 @@
 #endregion
 
 using System;
-
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Factory;
 
 namespace Seasar.Examples.Intro
 {
-	public interface Hoge 
-	{
-		void ShowMessage();
-	}
+    public interface Hoge
+    {
+        void ShowMessage();
+    }
 
-	public class HogeImpl : Hoge 
-	{
-		public void ShowMessage() 
-		{
-			Console.WriteLine("Hello World!");
-		}
-	}
+    public class HogeImpl : Hoge
+    {
+        public void ShowMessage()
+        {
+            Console.WriteLine("Hello World!");
+        }
+    }
 
-	public class HelloClient
-	{
-		private static readonly String PATH = "Seasar.Examples/Intro/Hello.dicon";
+    public class HelloClient
+    {
+        private const string PATH = "Seasar.Examples/Intro/Hello.dicon";
 
-		public void Main()
-		{
-			IS2Container container = S2ContainerFactory.Create(PATH);
-			Hoge hoge = (Hoge) container.GetComponent(typeof(Hoge));
-			hoge.ShowMessage();
-		}
-	}
+        public void Main()
+        {
+            IS2Container container = S2ContainerFactory.Create(PATH);
+            Hoge hoge = (Hoge) container.GetComponent(typeof(Hoge));
+            hoge.ShowMessage();
+        }
+    }
 }

@@ -32,175 +32,171 @@ using Seasar.Framework.Aop.Proxy;
 using Seasar.Framework.Container;
 using Seasar.Framework.Log;
 
-
 namespace Seasar.Tests.Framework.Unit
 {
-	/// <summary>
-	/// FrameworkTestCaseTest の概要の説明です。
-	/// </summary>
-	[TestFixture]
-	public class S2TestCaseBaseTest : S2TestCase
-	{
-		private static Logger logger = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-		private const String PATH = "S2FrameworkTestCaseTest_ado.dicon";
-		private bool testAaaSetUpInvoked = false;
-		private string _ccc = null;
-		private Hashtable bbb_ = null;
-		private DateTime ddd_ = new DateTime();
-		private IList list1_ = null;
-		private Hoge hoge_ = null;
+    [TestFixture]
+    public class S2TestCaseBaseTest : S2TestCase
+    {
+        private static readonly Logger _logger = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private const String PATH = "S2FrameworkTestCaseTest_ado.dicon";
+        private bool _testAaaSetUpInvoked = false;
+        private string _ccc = null;
+        private Hashtable _bbb = null;
+        private DateTime _ddd = new DateTime();
+        private IList _list1 = null;
+        private Hoge _hoge = null;
 
-		static S2TestCaseBaseTest()
-		{
-			FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
-				Assembly.GetExecutingAssembly()) + ".config");
-			XmlConfigurator.Configure(LogManager.GetRepository(), info);
-		}
+        static S2TestCaseBaseTest()
+        {
+            FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
+                Assembly.GetExecutingAssembly()) + ".config");
+            XmlConfigurator.Configure(LogManager.GetRepository(), info);
+        }
 
-		[Test, S2]
-		public void TestContainer()
-		{
-			Assert.IsNotNull(this.Container, "コンテナが取得できるはず");
-		}
+        [Test, S2]
+        public void TestContainer()
+        {
+            Assert.IsNotNull(this.Container, "コンテナが取得できるはず");
+        }
 
-		[SetUp]
-		public void SetUp() 
-		{
-			logger.Debug("SetUp");
-		}
-		[Test]
-		public void TestStandard() 
-		{
-			logger.Debug("TestStandard");
-		}
+        [SetUp]
+        public void SetUp()
+        {
+            _logger.Debug("SetUp");
+        }
 
-		[TearDown]
-		public void TearDown() 
-		{
-			logger.Debug("TearDown");
-		}		
+        [Test]
+        public void TestStandard()
+        {
+            _logger.Debug("TestStandard");
+        }
 
-		public void SetUpAaa() 
-		{
-			logger.Debug("SetUpAaa");
-			testAaaSetUpInvoked = true;
-		}
-		[Test, S2]
-		public void TestAaa() 
-		{
-			Assert.IsTrue(testAaaSetUpInvoked, "1");
-		}
+        [TearDown]
+        public void TearDown()
+        {
+            _logger.Debug("TearDown");
+        }
 
-		public void TearDownAaa() 
-		{
-			logger.Debug("tearDownAaa");
-		}
-	
-		public void SetUpBbbTx() 
-		{
-			logger.Debug("setUpBbbTx");
-			Include(PATH);
-		}
+        public void SetUpAaa()
+        {
+            _logger.Debug("SetUpAaa");
+            _testAaaSetUpInvoked = true;
+        }
+        [Test, S2]
+        public void TestAaa()
+        {
+            Assert.IsTrue(_testAaaSetUpInvoked, "1");
+        }
 
-		[Test, S2]
-		public void TestBbbTx() 
-		{
-			logger.Debug("testBbbTx");
-		}
-	
-		public void SetUpBindField() 
-		{
-			Include(PATH);
-			Register(typeof(Hashtable));
-			Hashtable s = this.Container.GetComponent(typeof(Hashtable)) as Hashtable;
-			s.Add("1", "hoge");
-		}
+        public void TearDownAaa()
+        {
+            _logger.Debug("tearDownAaa");
+        }
 
-		[Test, S2]
-		public void TestBindField() 
-		{
-			Assert.IsNotNull(bbb_, "2");
-			Assert.IsTrue(bbb_.Count == 1, "3");
-		}
-	
-		public void SetUpBindField2() 
-		{
-			Include("Seasar/Tests/Framework/Unit/bbb.dicon");
-		}
-		
-		[Test, S2]
-		public void TestBindField2() 
-		{
-			Assert.IsNotNull(bbb_, "1");
-            Assert.AreEqual(new DateTime(2006, 4, 1), ddd_, "2");
+        public void SetUpBbbTx()
+        {
+            _logger.Debug("setUpBbbTx");
+            Include(PATH);
+        }
+
+        [Test, S2]
+        public void TestBbbTx()
+        {
+            _logger.Debug("testBbbTx");
+        }
+
+        public void SetUpBindField()
+        {
+            Include(PATH);
+            Register(typeof(Hashtable));
+            Hashtable s = this.Container.GetComponent(typeof(Hashtable)) as Hashtable;
+            s.Add("1", "hoge");
+        }
+
+        [Test, S2]
+        public void TestBindField()
+        {
+            Assert.IsNotNull(_bbb, "2");
+            Assert.IsTrue(_bbb.Count == 1, "3");
+        }
+
+        public void SetUpBindField2()
+        {
+            Include("Seasar/Tests/Framework/Unit/bbb.dicon");
+        }
+
+        [Test, S2]
+        public void TestBindField2()
+        {
+            Assert.IsNotNull(_bbb, "1");
+            Assert.AreEqual(new DateTime(2006, 4, 1), _ddd, "2");
             Assert.AreEqual("hoge", _ccc, "3");
-		}
-   
-		public void SetUpBindField3() 
-		{
-			Include("ccc.dicon");
-		}
-    
-		[Test, S2]
-		public void TestBindField3() 
-		{
-			Assert.IsNotNull(list1_, "1");
-		}
-		
-		[Test, S2]
-		[ExpectedException(typeof(TooManyRegistrationRuntimeException))]
-		public void TestInclude() 
-		{
-			Include("aaa.dicon");
-			GetComponent(typeof(DateTime));
-		}
-	
-		public void SetUpIsAssignableFrom() 
-		{
-			Include("bbb.dicon");
-		}
+        }
 
-		[Test, S2]
-		public void TestIsAssignableFrom() 
-		{
-			Assert.AreEqual(_ccc, "hoge","1");
-		}
-		
-		public void SetUpPointcut() 
-		{
-			Include("ddd.dicon");
-		}
+        public void SetUpBindField3()
+        {
+            Include("ccc.dicon");
+        }
 
-		[Test, S2]
-		public void TestPointcut() 
-		{
-			AopProxy aopProxy = RemotingServices.GetRealProxy(hoge_) as AopProxy;
-			
-			FieldInfo fieldInfo = aopProxy.GetType()
-				.GetField("aspects_", BindingFlags.NonPublic | BindingFlags.Instance);
-			
-			IAspect[] aspects = fieldInfo.GetValue(aopProxy) as IAspect[];
-			
-			PointcutImpl pointcut = aspects[0].Pointcut as PointcutImpl;
-			
-			Assert.AreEqual(pointcut.IsApplied("GetAaa"), false, "1");
-			Assert.AreEqual(pointcut.IsApplied("GetGreeting"), false, "2");
-			Assert.AreEqual(pointcut.IsApplied("Greeting"), true, "3");
-			Assert.AreEqual(pointcut.IsApplied("Greeting2"), true, "4");
-			Assert.AreEqual(pointcut.IsApplied("GetGreetingEx"), false, "5");
+        [Test, S2]
+        public void TestBindField3()
+        {
+            Assert.IsNotNull(_list1, "1");
+        }
 
-			hoge_.GetAaa();
-			hoge_.GetGreeting();
-			hoge_.Greeting();
-			hoge_.Greeting2();
-			hoge_.GetGreetingEx();
-		}
+        [Test, S2]
+        [ExpectedException(typeof(TooManyRegistrationRuntimeException))]
+        public void TestInclude()
+        {
+            Include("aaa.dicon");
+            GetComponent(typeof(DateTime));
+        }
 
-		[Test, S2]
-		public void TestEmptyComponent() 
-		{
-			Include("empty.dicon");
-		}
-	}
+        public void SetUpIsAssignableFrom()
+        {
+            Include("bbb.dicon");
+        }
 
+        [Test, S2]
+        public void TestIsAssignableFrom()
+        {
+            Assert.AreEqual(_ccc, "hoge", "1");
+        }
+
+        public void SetUpPointcut()
+        {
+            Include("ddd.dicon");
+        }
+
+        [Test, S2]
+        public void TestPointcut()
+        {
+            AopProxy aopProxy = RemotingServices.GetRealProxy(_hoge) as AopProxy;
+
+            FieldInfo fieldInfo = aopProxy.GetType()
+                .GetField("_aspects", BindingFlags.NonPublic | BindingFlags.Instance);
+
+            IAspect[] aspects = fieldInfo.GetValue(aopProxy) as IAspect[];
+
+            PointcutImpl pointcut = aspects[0].Pointcut as PointcutImpl;
+
+            Assert.AreEqual(pointcut.IsApplied("GetAaa"), false, "1");
+            Assert.AreEqual(pointcut.IsApplied("GetGreeting"), false, "2");
+            Assert.AreEqual(pointcut.IsApplied("Greeting"), true, "3");
+            Assert.AreEqual(pointcut.IsApplied("Greeting2"), true, "4");
+            Assert.AreEqual(pointcut.IsApplied("GetGreetingEx"), false, "5");
+
+            _hoge.GetAaa();
+            _hoge.GetGreeting();
+            _hoge.Greeting();
+            _hoge.Greeting2();
+            _hoge.GetGreetingEx();
+        }
+
+        [Test, S2]
+        public void TestEmptyComponent()
+        {
+            Include("empty.dicon");
+        }
+    }
 }

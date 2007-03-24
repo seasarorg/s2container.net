@@ -22,17 +22,13 @@ namespace Seasar.Extension.ADO.Types
 {
     public abstract class NullableBaseType : BaseValueType
     {
-		public NullableBaseType()
+        protected override object GetBindValue(object value)
         {
+            if (value == null)
+            {
+                return DBNull.Value;
+            }
+            return value;
         }
-
-		protected override object GetBindValue(object value)
-		{
-			if (value == null)
-			{
-				return DBNull.Value;
-			}
-			return value;
-		}
     }
 }

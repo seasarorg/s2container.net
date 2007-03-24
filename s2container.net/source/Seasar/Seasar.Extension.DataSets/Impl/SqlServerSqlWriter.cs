@@ -18,8 +18,6 @@
 
 using System.Data;
 using Seasar.Extension.ADO;
-using Seasar.Extension.DataSets;
-using Seasar.Extension.DataSets.Impl;
 
 namespace Seasar.Extension.DataSets.Impl
 {

@@ -16,44 +16,34 @@
  */
 #endregion
 
-using System;
-
 namespace Seasar.Framework.Container.Impl
 {
-	/// <summary>
-	/// MetaDefImpl の概要の説明です。
-	/// </summary>
-	public class MetaDefImpl : ArgDefImpl, IMetaDef
-	{
-		private string name_;
+    public class MetaDefImpl : ArgDefImpl, IMetaDef
+    {
+        private readonly string name;
 
-		public MetaDefImpl()
-		{
-		}
+        public MetaDefImpl()
+        {
+        }
 
-		public MetaDefImpl(string name)
-		{
-			name_ = name;
-		}
+        public MetaDefImpl(string name)
+        {
+            this.name = name;
+        }
 
-		public MetaDefImpl(string name,object value)
-		{
-			base.Value = value;
-			name_ = name;
-		}
+        public MetaDefImpl(string name, object value)
+        {
+            base.Value = value;
+            this.name = name;
+        }
 
-		#region MetaDef メンバ
+        #region MetaDef メンバ
 
-		public string Name
-		{
-			get
-			{
-				
-				return name_;
-			}
-		}
+        public string Name
+        {
+            get { return name; }
+        }
 
-		#endregion
-
-	}
+        #endregion
+    }
 }

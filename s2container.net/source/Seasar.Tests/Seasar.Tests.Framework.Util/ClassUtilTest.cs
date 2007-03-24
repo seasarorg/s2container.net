@@ -25,66 +25,66 @@ using Seasar.Framework.Exceptions;
 
 namespace Seasar.Tests.Framework.Util
 {
-	[TestFixture]
-	public class ClassUtilTest
-	{
-		[Test]
-		public void TestGetConstructorInfo()
-		{
-			try
-			{
-				ConstructorInfo constructor = ClassUtil.GetConstructorInfo(
-					typeof(A),Type.EmptyTypes);
-				Assert.Fail();
-			}
-			catch(NoSuchConstructorRuntimeException ex)
-			{
-				Trace.WriteLine(ex.Message);
-			}
-			Type[] types = new Type[] { typeof(string) };
-			ConstructorInfo constructor2 = ClassUtil.GetConstructorInfo(
-				typeof(A), types);
-			Assert.IsNotNull(constructor2);
-		}
+    [TestFixture]
+    public class ClassUtilTest
+    {
+        [Test]
+        public void TestGetConstructorInfo()
+        {
+            try
+            {
+                ConstructorInfo constructor = ClassUtil.GetConstructorInfo(
+                    typeof(A), Type.EmptyTypes);
+                Assert.Fail();
+            }
+            catch (NoSuchConstructorRuntimeException ex)
+            {
+                Trace.WriteLine(ex.Message);
+            }
+            Type[] types = new Type[] { typeof(string) };
+            ConstructorInfo constructor2 = ClassUtil.GetConstructorInfo(
+                typeof(A), types);
+            Assert.IsNotNull(constructor2);
+        }
 
-		[Test]
-		public void TestForName()
-		{
-			Assembly asm = Assembly.GetExecutingAssembly();
-			Assert.AreEqual(typeof(A), ClassUtil.ForName(
-				"Seasar.Tests.Framework.Util.ClassUtilTest+A",
-				new Assembly[] {asm}));
-		}
+        [Test]
+        public void TestForName()
+        {
+            Assembly asm = Assembly.GetExecutingAssembly();
+            Assert.AreEqual(typeof(A), ClassUtil.ForName(
+                "Seasar.Tests.Framework.Util.ClassUtilTest+A",
+                new Assembly[] { asm }));
+        }
 
-		[Test]
-		public void TestNewInstance()
-		{
-			Assert.IsNotNull(ClassUtil.NewInstance(typeof(B)));
-		}
+        [Test]
+        public void TestNewInstance()
+        {
+            Assert.IsNotNull(ClassUtil.NewInstance(typeof(B)));
+        }
 
-		[Test]
-		public void TestNewInstance2()
-		{
-			Assert.IsNotNull(ClassUtil.NewInstance(
-				"Seasar.Tests.Framework.Util.ClassUtilTest+B",
-				"Seasar.Tests.dll"));
-		}
+        [Test]
+        public void TestNewInstance2()
+        {
+            Assert.IsNotNull(ClassUtil.NewInstance(
+                "Seasar.Tests.Framework.Util.ClassUtilTest+B",
+                "Seasar.Tests.dll"));
+        }
 
-		public class A
-		{
-			private string abc_;
+        public class A
+        {
+            private string _abc;
 
-			public A(string abc)
-			{
-				abc_ = abc;
-			}
-		}
+            public A(string abc)
+            {
+                _abc = abc;
+            }
+        }
 
-		public class B
-		{
-			public B()
-			{
-			}
-		}
-	}
+        public class B
+        {
+            public B()
+            {
+            }
+        }
+    }
 }

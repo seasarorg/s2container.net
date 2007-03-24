@@ -22,47 +22,43 @@ using System.Data.SqlTypes;
 
 namespace Seasar.Extension.ADO.Types
 {
-	public class SqlDecimalType : SqlBaseType, IValueType
+    public class SqlDecimalType : SqlBaseType, IValueType
     {
-		public SqlDecimalType()
-        {
-        }
-
         #region IValueType ÉÅÉìÉo
 
-		public override void BindValue(IDbCommand cmd, string columnName, object value)
+        public override void BindValue(IDbCommand cmd, string columnName, object value)
         {
             BindValue(cmd, columnName, value, DbType.Decimal);
         }
 
         #endregion
 
-		protected override object GetValue(object value)
-		{
-			if (value == DBNull.Value)
-			{
-				return SqlDecimal.Null;
-			}
-			else if (value is decimal)
-			{
-				return new SqlDecimal((decimal) value);
-			}
-			else if (value is int)
-			{
-				return new SqlDecimal((int) value);
-			}
-			else if (value is long)
-			{
-				return new SqlDecimal((long) value);
-			}
-			else if (value is double)
-			{
-				return new SqlDecimal((double) value);
-			}
-			else
-			{
-				return SqlDecimal.Parse(value.ToString());
-			}
-		}
+        protected override object GetValue(object value)
+        {
+            if (value == DBNull.Value)
+            {
+                return SqlDecimal.Null;
+            }
+            else if (value is decimal)
+            {
+                return new SqlDecimal((decimal) value);
+            }
+            else if (value is int)
+            {
+                return new SqlDecimal((int) value);
+            }
+            else if (value is long)
+            {
+                return new SqlDecimal((long) value);
+            }
+            else if (value is double)
+            {
+                return new SqlDecimal((double) value);
+            }
+            else
+            {
+                return SqlDecimal.Parse(value.ToString());
+            }
+        }
     }
 }

@@ -22,43 +22,41 @@ using Seasar.Framework.Exceptions;
 
 namespace Seasar.Framework.Container.Factory
 {
-	[Serializable]
-	public class TagAttributeNotDefinedRuntimeException : SRuntimeException
-	{
-		private string tagName_;
-		private string attributeName_;
+    [Serializable]
+    public class TagAttributeNotDefinedRuntimeException : SRuntimeException
+    {
+        private readonly string _tagName;
+        private readonly string _attributeName;
 
-		public TagAttributeNotDefinedRuntimeException(string tagName,string attributeName)
-			: base("ESSR0056",new object[] {tagName,attributeName})
-		{
-			tagName_ = tagName;
-			attributeName_ = attributeName;
-		}
+        public TagAttributeNotDefinedRuntimeException(string tagName, string attributeName)
+            : base("ESSR0056", new object[] { tagName, attributeName })
+        {
+            _tagName = tagName;
+            _attributeName = attributeName;
+        }
 
-		public TagAttributeNotDefinedRuntimeException(SerializationInfo info, StreamingContext context) 
-			: base( info, context )
-		{
-			this.tagName_ = info.GetString("tagName_");
-			this.attributeName_ = info.GetString("attributeName_");
-		}
+        public TagAttributeNotDefinedRuntimeException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+            _tagName = info.GetString("_tagName");
+            _attributeName = info.GetString("_attributeName");
+        }
 
-		public override void GetObjectData( SerializationInfo info,
-			StreamingContext context )
-		{
-			info.AddValue("tagName_", this.tagName_, typeof(String));
-			info.AddValue("attributeName_", this.attributeName_, typeof(String));
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("_tagName", _tagName, typeof(string));
+            info.AddValue("_attributeName", _attributeName, typeof(string));
+            base.GetObjectData(info, context);
+        }
 
-			base.GetObjectData(info, context);
-		}
+        public string TagName
+        {
+            get { return _tagName; }
+        }
 
-		public string TagName
-		{
-			get { return tagName_; }
-		}
-
-		public string AttributeName
-		{
-			get { return attributeName_; }
-		}
-	}
+        public string AttributeName
+        {
+            get { return _attributeName; }
+        }
+    }
 }

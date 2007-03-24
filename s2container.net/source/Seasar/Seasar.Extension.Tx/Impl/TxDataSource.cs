@@ -16,59 +16,49 @@
  */
 #endregion
 
-using System;
 using System.Data;
-
 using Seasar.Extension.ADO;
 using Seasar.Extension.ADO.Impl;
 
 namespace Seasar.Extension.Tx.Impl
 {
-	/// <summary>
-	/// TxDataSource ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public class TxDataSource : DataSourceImpl, IDataSource
-	{
-		private ITransactionContext context;
+    public class TxDataSource : DataSourceImpl, IDataSource
+    {
+        private ITransactionContext _context;
 
-		public TxDataSource() : base()
-		{
-		}
+        public TxDataSource()
+        {
+        }
 
-		public TxDataSource(DataProvider provider, string connectionString) : base(provider, connectionString)
-		{
-		}
+        public TxDataSource(DataProvider provider, string connectionString)
+            : base(provider, connectionString)
+        {
+        }
 
-		public new IDbConnection GetConnection()
-		{
-			IDbConnection con = null;
-			ITransactionContext tc = this.Context.Current;
-			if(tc != null && tc.Connection != null)
-			{
-				con = tc.Connection;
-			} 
-			else 
-			{
-				con = base.GetConnection();
-			}
-			return con;
-		}
+        public new IDbConnection GetConnection()
+        {
+            IDbConnection con;
+            ITransactionContext tc = Context.Current;
+            if (tc != null && tc.Connection != null)
+            {
+                con = tc.Connection;
+            }
+            else
+            {
+                con = base.GetConnection();
+            }
+            return con;
+        }
 
-		public ITransactionContext Context
-		{
-			get
-			{
-				return this.context;
-			}
-			set
-			{
-				this.context = value;
-			}
-		}
+        public ITransactionContext Context
+        {
+            get { return _context; }
+            set { _context = value; }
+        }
 
         public override IDbTransaction GetTransaction()
         {
-            return this.context.Current.Transaction;
+            return _context.Current.Transaction;
         }
-	}
+    }
 }

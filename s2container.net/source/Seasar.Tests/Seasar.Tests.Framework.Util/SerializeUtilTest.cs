@@ -16,23 +16,22 @@
  */
 #endregion
 
-using System;
 using MbUnit.Framework;
 using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Framework.Util
 {
-	[TestFixture]
-	public class SerializeUtilTest
-	{
-		[Test]
-		public void TestSerialize()
-		{
-			string[] a = new string[] { "1", "2" };
-			string[] b = (string[]) SerializeUtil.Serialize(a);
-			Assert.AreEqual(a.Length, b.Length);
-			Assert.AreEqual("1", b[0]);
-			Assert.AreEqual("2", b[1]);
-		}
-	}
+    [TestFixture]
+    public class SerializeUtilTest
+    {
+        [Test]
+        public void TestSerialize()
+        {
+            string[] a = new string[] { "1", "2" };
+            string[] b = (string[]) SerializeUtil.Serialize(a);
+            Assert.AreEqual(a.Length, b.Length);
+            Assert.AreEqual("1", b[0]);
+            Assert.AreEqual("2", b[1]);
+        }
+    }
 }

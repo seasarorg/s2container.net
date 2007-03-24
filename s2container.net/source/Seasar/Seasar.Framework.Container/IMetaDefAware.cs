@@ -16,45 +16,43 @@
  */
 #endregion
 
-using System;
-
 namespace Seasar.Framework.Container
 {
-	/// <summary>
-	/// IMetaDefの設定が可能になります。
-	/// </summary>
-	public interface IMetaDefAware
-	{
-		/// <summary>
-		/// IMetaDefを追加します。
-		/// </summary>
-		/// <param name="metaDef">IMetaDef</param>
-		void AddMetaDef(IMetaDef metaDef);
+    /// <summary>
+    /// IMetaDefの設定が可能になります。
+    /// </summary>
+    public interface IMetaDefAware
+    {
+        /// <summary>
+        /// IMetaDefを追加します。
+        /// </summary>
+        /// <param name="metaDef">IMetaDef</param>
+        void AddMetaDef(IMetaDef metaDef);
 
-		/// <summary>
-		/// IMetaDefの数
-		/// </summary>
-		int MetaDefSize{get;}
+        /// <summary>
+        /// IMetaDefの数
+        /// </summary>
+        int MetaDefSize { get;}
 
-		/// <summary>
-		/// 番号を指定してIMetaDefを取得します。
-		/// </summary>
-		/// <param name="index">IMetaDefの番号</param>
-		/// <returns>IMetaDef</returns>
-		IMetaDef GetMetaDef(int index);
+        /// <summary>
+        /// 番号を指定してIMetaDefを取得します。
+        /// </summary>
+        /// <param name="index">IMetaDefの番号</param>
+        /// <returns>IMetaDef</returns>
+        IMetaDef GetMetaDef(int index);
 
-		/// <summary>
-		/// 名前を指定してIMetaDefを取得します。
-		/// </summary>
-		/// <param name="name">IMetaDefの名前</param>
-		/// <returns>IMetaDef</returns>
-		IMetaDef GetMetaDef(string name);
+        /// <summary>
+        /// 名前を指定してIMetaDefを取得します。
+        /// </summary>
+        /// <param name="name">IMetaDefの名前</param>
+        /// <returns>IMetaDef</returns>
+        IMetaDef GetMetaDef(string name);
 
-		/// <summary>
-		/// 名前を指定してIMetaDefの配列を取得します。
-		/// </summary>
-		/// <param name="name">IMetaDefの名前</param>
-		/// <returns>IMetaDefの配列</returns>
-		IMetaDef[] GetMetaDefs(string name);
-	}
+        /// <summary>
+        /// 名前を指定してIMetaDefの配列を取得します。
+        /// </summary>
+        /// <param name="name">IMetaDefの名前</param>
+        /// <returns>IMetaDefの配列</returns>
+        IMetaDef[] GetMetaDefs(string name);
+    }
 }

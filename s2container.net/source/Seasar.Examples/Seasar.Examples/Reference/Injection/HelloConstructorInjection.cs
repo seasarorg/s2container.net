@@ -17,42 +17,41 @@
 #endregion
 
 using System;
-
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Factory;
 
 namespace Seasar.Examples.Reference.Injection
 {
-	public class HelloConstructorInjection : IHello
-	{
-		private string message;
+    public class HelloConstructorInjection : IHello
+    {
+        private readonly string _message;
 
-		public HelloConstructorInjection(string message)
-		{
-			this.message = message;
-		}
+        public HelloConstructorInjection(string message)
+        {
+            _message = message;
+        }
 
-		public void ShowMessage()
-		{
-			Console.WriteLine(this.message);
-		}
+        public void ShowMessage()
+        {
+            Console.WriteLine(_message);
+        }
 
-	}
+    }
 
-	public class HelloConstructorInjectionClient
-	{
-		private static readonly String PATH = "Seasar.Examples/Reference/Injection/HelloConstructorInjection.dicon";
+    public class HelloConstructorInjectionClient
+    {
+        private const string PATH = "Seasar.Examples/Reference/Injection/HelloConstructorInjection.dicon";
 
-		public void Main() 
-		{
-			// 型を指定してコンポーネントを取得する場合
-			IS2Container container = S2ContainerFactory.Create(PATH);
-			IHello hello = (IHello) container.GetComponent(typeof(IHello));
-			hello.ShowMessage();
+        public void Main()
+        {
+            // 型を指定してコンポーネントを取得する場合
+            IS2Container container = S2ContainerFactory.Create(PATH);
+            IHello hello = (IHello) container.GetComponent(typeof(IHello));
+            hello.ShowMessage();
 
-			// 名前を指定してコンポーネントを取得する場合
-			IHello hello2 = (IHello) container.GetComponent("hello");
-			hello2.ShowMessage();
-		}
-	}
+            // 名前を指定してコンポーネントを取得する場合
+            IHello hello2 = (IHello) container.GetComponent("hello");
+            hello2.ShowMessage();
+        }
+    }
 }

@@ -3,12 +3,11 @@
 "http://www.seasar.org/dtd/components.dtd">
 <components >
 
-	<component name="hoge" class="Seasar.Tests.Framework.Unit.Hoge">
-		<aspect pointcut="Greeting.*">
-			<component 
-				class="Seasar.Framework.Aop.Interceptors.TraceInterceptor">
-			</component>
-		</aspect>
-	</component>
+  <component name="hoge" class="Seasar.Tests.Framework.Unit.Hoge">
+    <aspect pointcut="Greeting.*">
+      <component class="Seasar.Framework.Aop.Interceptors.TraceInterceptor">
+      </component>
+    </aspect>
+  </component>
 
 </components>

@@ -23,40 +23,37 @@ using Seasar.Framework.Container;
 
 namespace Seasar.Framework.Aop.Interceptors
 {
-	/// <summary>
-	/// Interceptorを作成する場合は、このクラスを継承します
-	/// </summary>
-	[Serializable]
-	public abstract class AbstractInterceptor : IMethodInterceptor
-	{
-		const long serialVersionUID = 0L;
+    /// <summary>
+    /// Interceptorを作成する場合は、このクラスを継承します
+    /// </summary>
+    [Serializable]
+    public abstract class AbstractInterceptor : IMethodInterceptor
+    {
+        public object CreateProxy(Type proxyType)
+        {
+            IAspect aspect = new AspectImpl(this, new PointcutImpl(
+                new string[] { ".*" }));
+            return new AopProxy(proxyType,
+                new IAspect[] { aspect }).GetTransparentProxy();
+        }
 
-		public object CreateProxy(Type proxyType)
-		{
-			IAspect aspect = new AspectImpl(this, new PointcutImpl(
-				new string[] { ".*" } ));
-			return new AopProxy(proxyType,
-				new IAspect[] { aspect }).GetTransparentProxy();
-		}
-
-		protected IComponentDef GetComponentDef(IMethodInvocation invocation)
-		{
-			if(invocation is IS2MethodInvocation)
-			{
-				IS2MethodInvocation impl = (IS2MethodInvocation) invocation;
-				return (IComponentDef) impl.GetParameter(ContainerConstants.COMPONENT_DEF_NAME);
-			}
-			return null;
-		}
+        protected IComponentDef GetComponentDef(IMethodInvocation invocation)
+        {
+            if (invocation is IS2MethodInvocation)
+            {
+                IS2MethodInvocation impl = (IS2MethodInvocation) invocation;
+                return (IComponentDef) impl.GetParameter(ContainerConstants.COMPONENT_DEF_NAME);
+            }
+            return null;
+        }
 
         #region IMethodInterceptor インターフェイス
 
-		public virtual object Invoke(IMethodInvocation invocation)
-		{
-			return invocation.Proceed();
-		}
+        public virtual object Invoke(IMethodInvocation invocation)
+        {
+            return invocation.Proceed();
+        }
 
         #endregion
-
-	}
+    }
 }

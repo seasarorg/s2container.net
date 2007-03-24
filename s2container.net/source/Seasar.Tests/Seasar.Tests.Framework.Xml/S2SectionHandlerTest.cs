@@ -16,33 +16,29 @@
  */
 #endregion
 
-using System;
 using MbUnit.Framework;
 using Seasar.Framework.Xml;
 
 namespace Seasar.Tests.Framework.Xml
 {
-	/// <summary>
-	/// S2SectionHandlerTest ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	[TestFixture]
-	public class S2SectionHandlerTest
-	{
-		[Test]
-		public void Test()
-		{
-			S2Section section = S2SectionHandler.GetS2Section();
+    [TestFixture]
+    public class S2SectionHandlerTest
+    {
+        [Test]
+        public void Test()
+        {
+            S2Section section = S2SectionHandler.GetS2Section();
 
-			Assert.AreEqual("test.dicon", section.ConfigPath);
+            Assert.AreEqual("test.dicon", section.ConfigPath);
 
 #if NET_1_1
             Assert.AreEqual(2, section.Assemblys.Count);
 #else
-			Assert.AreEqual(3, section.Assemblys.Count);
+            Assert.AreEqual(3, section.Assemblys.Count);
 #endif
 
-			Assert.AreEqual("Seasar.Tests", (string) section.Assemblys[0]);
-			Assert.AreEqual("Seasar", (string) section.Assemblys[1]);
-		}
-	}
+            Assert.AreEqual("Seasar.Tests", (string) section.Assemblys[0]);
+            Assert.AreEqual("Seasar", (string) section.Assemblys[1]);
+        }
+    }
 }

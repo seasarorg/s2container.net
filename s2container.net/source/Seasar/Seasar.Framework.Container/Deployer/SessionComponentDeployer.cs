@@ -18,34 +18,30 @@
 
 using System;
 using System.Web.SessionState;
-using Seasar.Framework.Container.Util;
 using Seasar.Framework.Exceptions;
 
 namespace Seasar.Framework.Container.Deployer
 {
-	/// <summary>
-	/// SessionComponentDeployer ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public class SessionComponentDeployer : AbstractComponentDeployer
-	{
-		public SessionComponentDeployer(IComponentDef componentDef)
-			: base(componentDef)
-		{
-		}
+    public class SessionComponentDeployer : AbstractComponentDeployer
+    {
+        public SessionComponentDeployer(IComponentDef componentDef)
+            : base(componentDef)
+        {
+        }
 
-		public override object Deploy(Type receiveType)
-		{
-			IComponentDef cd = this.ComponentDef;
-			HttpSessionState session = cd.Container.Root.Session;
-			if(session == null)
-			{
-				throw new EmptyRuntimeException("session");
-			}
-			string componentName = cd.ComponentName;
-			if(componentName == null)
-			{
-				throw new EmptyRuntimeException("componentName");
-			}
+        public override object Deploy(Type receiveType)
+        {
+            IComponentDef cd = ComponentDef;
+            HttpSessionState session = cd.Container.Root.Session;
+            if (session == null)
+            {
+                throw new EmptyRuntimeException("session");
+            }
+            string componentName = cd.ComponentName;
+            if (componentName == null)
+            {
+                throw new EmptyRuntimeException("componentName");
+            }
 
             object component = session[componentName];
 
@@ -54,7 +50,7 @@ namespace Seasar.Framework.Container.Deployer
                 return component;
             }
 
-            component = this.ConstructorAssembler.Assemble();
+            component = ConstructorAssembler.Assemble();
 
             object proxy = GetProxy(receiveType);
 
@@ -67,8 +63,8 @@ namespace Seasar.Framework.Container.Deployer
                 session[componentName] = proxy;
             }
 
-            this.PropertyAssembler.Assemble(component);
-            this.InitMethodAssembler.Assemble(component);
+            PropertyAssembler.Assemble(component);
+            InitMethodAssembler.Assemble(component);
 
             if (proxy == null)
             {
@@ -78,23 +74,19 @@ namespace Seasar.Framework.Container.Deployer
             {
                 return proxy;
             }
-		}
+        }
 
-		public override void InjectDependency(object outerComponent)
-		{
-			throw new NotSupportedException("InjectDependency");
-		}
+        public override void InjectDependency(object outerComponent)
+        {
+            throw new NotSupportedException("InjectDependency");
+        }
 
-		public override void Init()
-		{
-		}
+        public override void Init()
+        {
+        }
 
-		public override void Destroy()
-		{
-		}
-
-
-
-
-	}
+        public override void Destroy()
+        {
+        }
+    }
 }

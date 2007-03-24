@@ -23,20 +23,17 @@ using Seasar.Framework.Container.Factory;
 
 namespace Seasar.Tests.Framework.Container.Impl
 {
-	/// <summary>
-	/// NestIncludeTest ‚ÌŠT—v‚Ìà–¾‚Å‚·B
-	/// </summary>
-	[TestFixture]
-	public class NestIncludeTest
-	{
-		private const string PATH = "Seasar/Tests/Framework/Container/Impl/test3.dicon";
+    [TestFixture]
+    public class NestIncludeTest
+    {
+        private const string PATH = "Seasar/Tests/Framework/Container/Impl/test3.dicon";
 
-		[Test]
-		public void TestInclude()
-		{
-			IS2Container container = S2ContainerFactory.Create(PATH);
-			container.Init();
-			container.Destroy();
-		}
-	}
+        [Test]
+        public void TestInclude()
+        {
+            IS2Container container = S2ContainerFactory.Create(PATH);
+            container.Init();
+            container.Destroy();
+        }
+    }
 }

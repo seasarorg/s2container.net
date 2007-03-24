@@ -23,24 +23,24 @@ using Seasar.Framework.Container.Factory;
 
 namespace Seasar.Examples.Reference.ADO
 {
-	public class UpdateClient
-	{
-		private const string PATH = "Seasar.Examples/Reference/ADO/Update.dicon";
+    public class UpdateClient
+    {
+        private const string PATH = "Seasar.Examples/Reference/ADO/Update.dicon";
 
-		public void Main()
-		{
-			IS2Container container = S2ContainerFactory.Create(PATH);
-			container.Init();
-			try
-			{
-				IUpdateHandler handler = (IUpdateHandler) container.GetComponent("UpdateHandler");
-				int result = (int) handler.Execute(new object[] { "SCOTT", 7788 });
-				Console.Out.WriteLine(result);
-			}
-			finally
-			{
-				container.Destroy();
-			}
-		}
-	}
+        public void Main()
+        {
+            IS2Container container = S2ContainerFactory.Create(PATH);
+            container.Init();
+            try
+            {
+                IUpdateHandler handler = (IUpdateHandler) container.GetComponent("UpdateHandler");
+                int result = handler.Execute(new object[] { "SCOTT", 7788 });
+                Console.Out.WriteLine(result);
+            }
+            finally
+            {
+                container.Destroy();
+            }
+        }
+    }
 }

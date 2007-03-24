@@ -20,25 +20,22 @@ using System;
 
 namespace Seasar.Framework.Container.Assembler
 {
-	/// <summary>
-	/// DefaultDestroyMethodAssembler ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public class DefaultDestroyMethodAssembler : AbstractMethodAssembler
-	{
-		public DefaultDestroyMethodAssembler(IComponentDef componentDef)
-			: base(componentDef)
-		{
-		}
+    public class DefaultDestroyMethodAssembler : AbstractMethodAssembler
+    {
+        public DefaultDestroyMethodAssembler(IComponentDef componentDef)
+            : base(componentDef)
+        {
+        }
 
-		public override void Assemble(object component)
-		{
-			Type type = component.GetType();
-			int size = this.ComponentDef.DestroyMethodDefSize;
-			for(int i = 0; i < size; ++i)
-			{
-				IMethodDef methodDef = this.ComponentDef.GetDestroyMethodDef(i);
-				this.Invoke(type,component,methodDef);
-			}
-		}
-	}
+        public override void Assemble(object component)
+        {
+            Type type = component.GetType();
+            int size = ComponentDef.DestroyMethodDefSize;
+            for (int i = 0; i < size; ++i)
+            {
+                IMethodDef methodDef = ComponentDef.GetDestroyMethodDef(i);
+                Invoke(type, component, methodDef);
+            }
+        }
+    }
 }

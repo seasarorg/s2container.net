@@ -23,70 +23,63 @@ using Seasar.Framework.Util;
 
 namespace Seasar.Framework.Beans
 {
-	/// <summary>
-	/// MethodNotFoundRuntimeException ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	[Serializable]
-	public class MethodNotFoundRuntimeException : SRuntimeException
-	{
-		private Type targetType_;
-		private string methodName_;
-		private Type[] methodArgTypes_;
+    [Serializable]
+    public class MethodNotFoundRuntimeException : SRuntimeException
+    {
+        private readonly Type _targetType;
+        private readonly string _methodName;
+        private readonly Type[] _methodArgTypes;
 
-		public MethodNotFoundRuntimeException(
-			Type targetType,string methodName,object[] methodArgs)
-			: base("ESSR0049",new object[] {
-											   targetType.FullName,
-											   MethodUtil.GetSignature(methodName,methodArgs) } )
-		{
-			targetType_ = targetType;
-			methodName_ = methodName;
-			if(methodArgs != null) methodArgTypes_ = Type.GetTypeArray(methodArgs);
-		}
+        public MethodNotFoundRuntimeException(
+            Type targetType, string methodName, object[] methodArgs)
+            : base("ESSR0049", new object[] { targetType.FullName, MethodUtil.GetSignature(methodName,methodArgs) })
+        {
+            _targetType = targetType;
+            _methodName = methodName;
+            if (methodArgs != null)
+            {
+                _methodArgTypes = Type.GetTypeArray(methodArgs);
+            }
+        }
 
-		public MethodNotFoundRuntimeException(
-			Type targetType,string methodName,Type[] methodArgTypes)
-			: base("ESSR0049",new object[] {
-											   targetType.FullName,
-											   MethodUtil.GetSignature(methodName,methodArgTypes)})
-		{
-			targetType_ = targetType;
-			methodName_ = methodName;
-			methodArgTypes_ = methodArgTypes;
-		}
+        public MethodNotFoundRuntimeException(
+            Type targetType, string methodName, Type[] methodArgTypes)
+            : base("ESSR0049", new object[] { targetType.FullName, MethodUtil.GetSignature(methodName,methodArgTypes)})
+        {
+            _targetType = targetType;
+            _methodName = methodName;
+            _methodArgTypes = methodArgTypes;
+        }
 
-		public MethodNotFoundRuntimeException(SerializationInfo info, StreamingContext context) 
-			: base( info, context )
-		{
-			this.targetType_ = info.GetValue("targetType_", typeof(Type)) as Type;
-			this.methodName_ = info.GetString("methodName_");
-			this.methodArgTypes_ = info.GetValue("methodArgTypes_", typeof(Type[])) as Type[];
+        public MethodNotFoundRuntimeException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+            _targetType = info.GetValue("_targetType", typeof(Type)) as Type;
+            _methodName = info.GetString("_methodName");
+            _methodArgTypes = info.GetValue("_methodArgTypes", typeof(Type[])) as Type[];
+        }
 
-		}
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("_targetType", _targetType, typeof(Type));
+            info.AddValue("_methodName", _methodName, typeof(string));
+            info.AddValue("_methodArgTypes", _methodArgTypes, typeof(Type[]));
+            base.GetObjectData(info, context);
+        }
 
-		public override void GetObjectData( SerializationInfo info,
-			StreamingContext context )
-		{
-			info.AddValue("targetType_", this.targetType_, typeof(Type));
-			info.AddValue("methodName_", this.methodName_, typeof(String));
-			info.AddValue("methodArgTypes_", this.methodArgTypes_, typeof(Type[]));
+        public Type TargetType
+        {
+            get { return _targetType; }
+        }
 
-			base.GetObjectData(info, context);
-		}
+        public string MethodName
+        {
+            get { return _methodName; }
+        }
 
-		public Type TargetType
-		{
-			get { return targetType_; }
-		}
-
-		public string MethodName
-		{
-			get { return methodName_; }
-		}
-
-		public Type[] MethodArgTypes
-		{
-			get { return methodArgTypes_; }
-		}
-	}
+        public Type[] MethodArgTypes
+        {
+            get { return _methodArgTypes; }
+        }
+    }
 }

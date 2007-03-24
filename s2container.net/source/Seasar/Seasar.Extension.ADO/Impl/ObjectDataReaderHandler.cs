@@ -16,20 +16,15 @@
  */
 #endregion
 
-using System;
 using System.Data;
 
 namespace Seasar.Extension.ADO.Impl
 {
     public class ObjectDataReaderHandler : IDataReaderHandler
     {
-        public ObjectDataReaderHandler()
-        {
-        }
-
         #region IDataReaderHandler ƒƒ“ƒo
 
-        public object Handle(System.Data.IDataReader dataReader)
+        public object Handle(IDataReader dataReader)
         {
             return null;
         }

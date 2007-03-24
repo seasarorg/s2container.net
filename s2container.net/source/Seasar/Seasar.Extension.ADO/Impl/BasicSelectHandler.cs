@@ -27,9 +27,9 @@ namespace Seasar.Extension.ADO.Impl
 {
     public class BasicSelectHandler : BasicHandler, ISelectHandler
     {
-        private static readonly Logger logger = Logger.GetLogger(typeof(BasicSelectHandler));
-        private IDataReaderFactory dataReaderFactory = BasicDataReaderFactory.INSTANCE;
-        private IDataReaderHandler dataReaderHandler;
+        private static readonly Logger _logger = Logger.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private IDataReaderFactory _dataReaderFactory = BasicDataReaderFactory.INSTANCE;
+        private IDataReaderHandler _dataReaderHandler;
 
         public BasicSelectHandler()
         {
@@ -53,14 +53,14 @@ namespace Seasar.Extension.ADO.Impl
 
         public IDataReaderFactory DataReaderFactory
         {
-            get { return dataReaderFactory; }
-            set { dataReaderFactory = value; }
+            get { return _dataReaderFactory; }
+            set { _dataReaderFactory = value; }
         }
 
         public IDataReaderHandler DataReaderHandler
         {
-            get { return this.dataReaderHandler; }
-            set { this.dataReaderHandler = value; }
+            get { return _dataReaderHandler; }
+            set { _dataReaderHandler = value; }
         }
 
         #region ISelectHandler ÉÅÉìÉo
@@ -72,9 +72,9 @@ namespace Seasar.Extension.ADO.Impl
 
         public virtual object Execute(object[] args, Type[] argTypes)
         {
-            if (logger.IsDebugEnabled)
+            if (_logger.IsDebugEnabled)
             {
-                logger.Debug(GetCompleteSql(args));
+                _logger.Debug(GetCompleteSql(args));
             }
             IDbConnection con = Connection;
             try
@@ -83,7 +83,7 @@ namespace Seasar.Extension.ADO.Impl
             }
             finally
             {
-                DataSourceUtil.CloseConnection(this.DataSource, con);
+                DataSourceUtil.CloseConnection(DataSource, con);
             }
         }
 
@@ -99,9 +99,9 @@ namespace Seasar.Extension.ADO.Impl
             IDbCommand cmd = null;
             try
             {
-                cmd = this.Command(connection);
+                cmd = Command(connection);
                 BindArgs(cmd, args, argTypes);
-                return this.Execute(cmd);
+                return Execute(cmd);
             }
             finally
             {
@@ -111,21 +111,21 @@ namespace Seasar.Extension.ADO.Impl
 
         protected virtual object Execute(IDbCommand cmd)
         {
-            if (dataReaderHandler == null)
+            if (_dataReaderHandler == null)
             {
                 throw new EmptyRuntimeException("dataReaderHandler");
             }
             IDataReader dataReader = null;
             try
             {
-                if (dataReaderHandler is ObjectDataReaderHandler)
+                if (_dataReaderHandler is ObjectDataReaderHandler)
                 {
-                    return CommandFactory.ExecuteScalar(this.DataSource, cmd);
+                    return CommandFactory.ExecuteScalar(DataSource, cmd);
                 }
                 else
                 {
-                    dataReader = this.CreateDataReader(cmd);
-                    return dataReaderHandler.Handle(dataReader);
+                    dataReader = CreateDataReader(cmd);
+                    return _dataReaderHandler.Handle(dataReader);
                 }
             }
             finally
@@ -136,7 +136,7 @@ namespace Seasar.Extension.ADO.Impl
 
         protected virtual IDataReader CreateDataReader(IDbCommand cmd)
         {
-            return dataReaderFactory.CreateDataReader(this.DataSource, cmd);
+            return _dataReaderFactory.CreateDataReader(DataSource, cmd);
         }
     }
 }

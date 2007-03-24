@@ -17,28 +17,23 @@
 #endregion
 
 using System;
-using System.Collections;
+using System.Reflection;
 using Seasar.Framework.Aop;
 using Seasar.Framework.Aop.Impl;
-using Seasar.Framework.Aop.Proxy;
-using System.Reflection;
 using Seasar.Framework.Util;
 
 namespace Seasar.Framework.Container.Util
 {
-	/// <summary>
-	/// AopProxyUtil の概要の説明です。
-	/// </summary>
-	public sealed class AopProxyUtil
-	{
+    public sealed class AopProxyUtil
+    {
         /// <summary>
         /// デフォルトのAspectWeaverインスタンス
         /// </summary>
-        private static IAspectWeaver DEFAULT_ASPECTWEAVER_INSTANCE = new AopProxyAspectWeaver();
+        private static readonly IAspectWeaver DEFAULT_ASPECTWEAVER_INSTANCE = new AopProxyAspectWeaver();
 
-		private AopProxyUtil()
-		{
-		}
+        private AopProxyUtil()
+        {
+        }
 
         /// <summary>
         /// Aspectを織り込む
@@ -47,8 +42,8 @@ namespace Seasar.Framework.Container.Util
         /// <param name="constructor">コンストラクタ</param>
         /// <param name="args">コンストラクタの引数</param>
         /// <returns>Aspectを織り込んだオブジェクト</returns>
-		public static object WeaveAspect(IComponentDef componentDef,ConstructorInfo constructor, object[] args)
-		{
+        public static object WeaveAspect(IComponentDef componentDef, ConstructorInfo constructor, object[] args)
+        {
             // S2コンテナを取得する
             IS2Container container = componentDef.Container;
 
@@ -65,11 +60,11 @@ namespace Seasar.Framework.Container.Util
             // Aspectを織り込む
             return aspectWeaver.WeaveAspect(componentDef, constructor, args);
 
-		}
+        }
 
         public static bool TypeFilter(Type type, object filterCriteria)
         {
             return type == typeof(IAspectWeaver);
         }
-	}
+    }
 }

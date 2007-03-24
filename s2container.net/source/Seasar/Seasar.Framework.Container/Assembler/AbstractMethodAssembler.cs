@@ -23,122 +23,117 @@ using Seasar.Framework.Util;
 using Seasar.Framework.Beans;
 using Seasar.Framework.Container.Util;
 
-
 namespace Seasar.Framework.Container.Assembler
 {
-	/// <summary>
-	/// AbstractMethodAssembler の概要の説明です。
-	/// </summary>
-	public abstract class AbstractMethodAssembler : AbstractAssembler,IMethodAssembler
-	{
-		public AbstractMethodAssembler(IComponentDef componentDef)
-			: base(componentDef)
-		{
-		}
+    public abstract class AbstractMethodAssembler : AbstractAssembler, IMethodAssembler
+    {
+        public AbstractMethodAssembler(IComponentDef componentDef)
+            : base(componentDef)
+        {
+        }
 
-		protected void Invoke(Type type,object component,IMethodDef methodDef)
-		{
-			string expression = methodDef.Expression;
-			string methodName = methodDef.MethodName;
-			if(methodName != null)
-			{
-				object[] args = new object[0];
-				MethodInfo method = null;
-				try
-				{
-					if(methodDef.ArgDefSize > 0)
-					{
-						args = methodDef.Args;
-					} 
-					else 
-					{
-						MethodInfo[] methods = type.GetMethods();
-						method = this.GetSuitableMethod(methods,methodName);
-						if(method != null)
-						{
-							ParameterInfo[] parameters = method.GetParameters();
-							Type[] argTypes = new Type[parameters.Length];
-							for(int i = 0; i < parameters.Length; ++i)
-							{
-								argTypes[i] = parameters[i].ParameterType;
-							}
-							args = this.GetArgs(argTypes);
-						}
-					}
-				} 
-				catch(ComponentNotFoundRuntimeException cause)
-				{
-					throw new IllegalMethodRuntimeException(
-						this.GetComponentType(component),methodName,cause);
-				}
-				if(method != null)
-				{
-					MethodUtil.Invoke(method,component,args);
-				}
-				else 
-				{
-					this.Invoke(type,component,methodName,args);
-				}
-			}
-			else
-			{
-				InvokeExpression(component,expression);
-			}
-		}
+        protected void Invoke(Type type, object component, IMethodDef methodDef)
+        {
+            string expression = methodDef.Expression;
+            string methodName = methodDef.MethodName;
+            if (methodName != null)
+            {
+                object[] args = new object[0];
+                MethodInfo method = null;
+                try
+                {
+                    if (methodDef.ArgDefSize > 0)
+                    {
+                        args = methodDef.Args;
+                    }
+                    else
+                    {
+                        MethodInfo[] methods = type.GetMethods();
+                        method = GetSuitableMethod(methods, methodName);
+                        if (method != null)
+                        {
+                            ParameterInfo[] parameters = method.GetParameters();
+                            Type[] argTypes = new Type[parameters.Length];
+                            for (int i = 0; i < parameters.Length; ++i)
+                            {
+                                argTypes[i] = parameters[i].ParameterType;
+                            }
+                            args = GetArgs(argTypes);
+                        }
+                    }
+                }
+                catch (ComponentNotFoundRuntimeException cause)
+                {
+                    throw new IllegalMethodRuntimeException(
+                        GetComponentType(component), methodName, cause);
+                }
+                if (method != null)
+                {
+                    MethodUtil.Invoke(method, component, args);
+                }
+                else
+                {
+                    Invoke(type, component, methodName, args);
+                }
+            }
+            else
+            {
+                InvokeExpression(component, expression);
+            }
+        }
 
-		private void InvokeExpression(object component,string expression)
-		{
-			Hashtable ctx = new Hashtable();
-			ctx["self"] = component;
-			ctx["out"] = Console.Out;
-			ctx["err"] = Console.Error;
-			JScriptUtil.Evaluate(expression,ctx,null);
-		}
+        private void InvokeExpression(object component, string expression)
+        {
+            Hashtable ctx = new Hashtable();
+            ctx["self"] = component;
+            ctx["out"] = Console.Out;
+            ctx["err"] = Console.Error;
+            JScriptUtil.Evaluate(expression, ctx, null);
+        }
 
-		private MethodInfo GetSuitableMethod(MethodInfo[] methods, string methodName)
-		{
-			int argSize = -1;
-			MethodInfo method = null;
-			for(int i = 0; i < methods.Length; ++i)
-			{
-				int tempArgSize = methods[i].GetParameters().Length;
-				if (methods[i].Name.Equals(methodName)
-					&& tempArgSize > argSize
-					&& AutoBindingUtil.IsSuitable(methods[i].GetParameters()))
-				{
-					method = methods[i];
-					argSize = tempArgSize;
-				}
-			}
-			return method;
-		}
+        private MethodInfo GetSuitableMethod(MethodInfo[] methods, string methodName)
+        {
+            int argSize = -1;
+            MethodInfo method = null;
+            for (int i = 0; i < methods.Length; ++i)
+            {
+                int tempArgSize = methods[i].GetParameters().Length;
+                if (methods[i].Name.Equals(methodName)
+                    && tempArgSize > argSize
+                    && AutoBindingUtil.IsSuitable(methods[i].GetParameters()))
+                {
+                    method = methods[i];
+                    argSize = tempArgSize;
+                }
+            }
+            return method;
+        }
 
-		private void Invoke(Type type, object component, string methodName, object[] args)
-		{
-			try
-			{
-				type.InvokeMember(methodName,BindingFlags.InvokeMethod,
-					null,component,args);
-			}
-			catch(MissingMethodException ex)
-			{
-				ex.ToString();
-				throw new MethodNotFoundRuntimeException(type,methodName,args);
-			}
-			catch(Exception ex)
-			{
-				throw new IllegalMethodRuntimeException(this.ComponentDef.ComponentType,
-					methodName,ex);
-			}
-		}	
+        private void Invoke(Type type, object component, string methodName, object[] args)
+        {
+            try
+            {
+                type.InvokeMember(methodName, BindingFlags.InvokeMethod,
+                    null, component, args);
+            }
+            catch (MissingMethodException ex)
+            {
+                ex.ToString();
+                throw new MethodNotFoundRuntimeException(type, methodName, args);
+            }
+            catch (Exception ex)
+            {
+                throw new IllegalMethodRuntimeException(ComponentDef.ComponentType,
+                    methodName, ex);
+            }
+        }
 
-		#region MethodAssembler メンバ
+        #region MethodAssembler メンバ
 
-		public virtual void Assemble(object component)
-		{
+        public virtual void Assemble(object component)
+        {
+        }
 
-		}
-
-		#endregion
-	}
+        #endregion
+    }
 }

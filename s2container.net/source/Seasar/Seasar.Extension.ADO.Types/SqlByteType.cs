@@ -22,35 +22,31 @@ using System.Data.SqlTypes;
 
 namespace Seasar.Extension.ADO.Types
 {
-	public class SqlByteType : SqlBaseType, IValueType
-	{
-		public SqlByteType()
-		{
-        }
-
+    public class SqlByteType : SqlBaseType, IValueType
+    {
         #region IValueType ÉÅÉìÉo
 
-		public override void BindValue(IDbCommand cmd, string columnName, object value)
+        public override void BindValue(IDbCommand cmd, string columnName, object value)
         {
             BindValue(cmd, columnName, value, DbType.Byte);
         }
 
         #endregion
 
-		protected override object GetValue(object value)
-		{
-			if (value == DBNull.Value)
-			{
-				return SqlByte.Null;
-			}
-			if (value is byte)
-			{
-				return new SqlByte((byte) value);
-			}
-			else
-			{
-				return SqlByte.Parse(value.ToString());
-			}
-		}
+        protected override object GetValue(object value)
+        {
+            if (value == DBNull.Value)
+            {
+                return SqlByte.Null;
+            }
+            if (value is byte)
+            {
+                return new SqlByte((byte) value);
+            }
+            else
+            {
+                return SqlByte.Parse(value.ToString());
+            }
+        }
     }
 }

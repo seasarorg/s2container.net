@@ -17,66 +17,63 @@
 #endregion
 
 using System;
-using Seasar.Framework.Container.Impl;
+using System.Reflection;
 using Seasar.Framework.Container.Util;
 using Seasar.Framework.Log;
 
 namespace Seasar.Framework.Container.Assembler
 {
-	/// <summary>
-	/// AbstractAssembler の概要の説明です。
-	/// </summary>
-	public abstract class AbstractAssembler
-	{
-		private static Logger logger_ = Logger.GetLogger(typeof(AbstractAssembler));
-		private IComponentDef componentDef_;
+    public abstract class AbstractAssembler
+    {
+        private static readonly Logger _logger = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private readonly IComponentDef _componentDef;
 
-		public AbstractAssembler(IComponentDef componentDef)
-		{
-			componentDef_ = componentDef;		
-		}
+        public AbstractAssembler(IComponentDef componentDef)
+        {
+            _componentDef = componentDef;
+        }
 
-		protected IComponentDef ComponentDef
-		{
-			get { return componentDef_; }
-		}
+        protected IComponentDef ComponentDef
+        {
+            get { return _componentDef; }
+        }
 
-		protected Type GetComponentType()
-		{
-			return componentDef_.ComponentType;
-		}
+        protected Type GetComponentType()
+        {
+            return _componentDef.ComponentType;
+        }
 
-		protected Type GetComponentType(object component)
-		{
-			Type type = componentDef_.ComponentType;
-			if(type != null)
-			{
-				return type;
-			} 
-			else 
-			{
-				return component.GetType();
-			}
-		}
+        protected Type GetComponentType(object component)
+        {
+            Type type = _componentDef.ComponentType;
+            if (type != null)
+            {
+                return type;
+            }
+            else
+            {
+                return component.GetType();
+            }
+        }
 
-		protected object[] GetArgs(Type[] argTypes)
-		{
-			object[] args = new Object[argTypes.Length];
-			for(int i = 0; i < argTypes.Length; i++)
-			{
-                if(this.ComponentDef.Container.HasComponentDef(argTypes[i]))
-				{
-					args[i] = this.ComponentDef.Container.GetComponent(argTypes[i]);
-				} 
-				else
-				{
-					logger_.Log("WSSR0007",
-						new object[] {this.ComponentDef.ComponentType.FullName});
-					args[i] = null;
-				}
-			}
-			return args;
-		}
+        protected object[] GetArgs(Type[] argTypes)
+        {
+            object[] args = new Object[argTypes.Length];
+            for (int i = 0; i < argTypes.Length; i++)
+            {
+                if (ComponentDef.Container.HasComponentDef(argTypes[i]))
+                {
+                    args[i] = ComponentDef.Container.GetComponent(argTypes[i]);
+                }
+                else
+                {
+                    _logger.Log("WSSR0007",
+                        new object[] { ComponentDef.ComponentType.FullName });
+                    args[i] = null;
+                }
+            }
+            return args;
+        }
 
         /// <summary>
         /// 受け側のTypeを指定してコンポーネントを取得する
@@ -86,7 +83,7 @@ namespace Seasar.Framework.Container.Assembler
         /// <returns>expressionからコンポーネント定義を探す</returns>
         protected object GetComponentByReceiveType(Type receiveType, string expression)
         {
-            IS2Container container = this.ComponentDef.Container;
+            IS2Container container = ComponentDef.Container;
             object value = null;
 
             if (AutoBindingUtil.IsSuitable(receiveType) && expression != null
@@ -98,5 +95,5 @@ namespace Seasar.Framework.Container.Assembler
 
             return value;
         }
-	}
+    }
 }

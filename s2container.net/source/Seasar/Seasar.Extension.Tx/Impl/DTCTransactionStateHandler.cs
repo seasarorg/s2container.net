@@ -16,30 +16,19 @@
  */
 #endregion
 
-using System;
 using System.EnterpriseServices;
 
 namespace Seasar.Extension.Tx.Impl
 {
-	/// <summary>
-	/// DTCTransactionStateHandler の概要の説明です。
-	/// </summary>
-	public class DTCTransactionStateHandler : ITransactionStateHandler
-	{
-		public DTCTransactionStateHandler()
-		{
-		}
+    public class DTCTransactionStateHandler : ITransactionStateHandler
+    {
+        #region ITransactionStateHandler メンバ
 
-		#region ITransactionStateHandler メンバ
+        public bool IsInTransaction
+        {
+            get { return ContextUtil.IsInTransaction; }
+        }
 
-		public bool IsInTransaction
-		{
-			get
-			{
-				return ContextUtil.IsInTransaction;
-			}
-		}
-
-		#endregion
-	}
+        #endregion
+    }
 }

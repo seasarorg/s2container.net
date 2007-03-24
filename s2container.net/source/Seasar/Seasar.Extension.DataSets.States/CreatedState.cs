@@ -23,77 +23,76 @@ using System.Text;
 
 namespace Seasar.Extension.DataSets.States
 {
-	public class CreatedState : AbstractRowState
-	{
-		private static Hashtable sqlCache_ = new Hashtable();
+    public class CreatedState : AbstractRowState
+    {
+        private static readonly Hashtable _sqlCache = new Hashtable();
 
-		public override string ToString()
-		{
-			return DataRowState.Added.ToString();
-		}
+        public override string ToString()
+        {
+            return DataRowState.Added.ToString();
+        }
 
-		protected override string GetSql(DataTable table) 
-		{
-			string sql = null;
-			WeakReference reference = (WeakReference) sqlCache_[table];
-			if (reference == null || !reference.IsAlive) 
-			{
-				sql = CreateSql(table);
-				sqlCache_.Add(table, new WeakReference(sql));
-			} 
-			else 
-			{
-				sql = (string) reference.Target;
-			}
-			return sql;
-		}
+        protected override string GetSql(DataTable table)
+        {
+            string sql;
+            WeakReference reference = (WeakReference) _sqlCache[table];
+            if (reference == null || !reference.IsAlive)
+            {
+                sql = CreateSql(table);
+                _sqlCache.Add(table, new WeakReference(sql));
+            }
+            else
+            {
+                sql = (string) reference.Target;
+            }
+            return sql;
+        }
 
-		private static string CreateSql(DataTable table) 
-		{
-			StringBuilder buf = new StringBuilder(100);
-			StringBuilder paramBuf = new StringBuilder(100);
-			buf.Append("INSERT INTO ");
-			buf.Append(table.TableName);
-			buf.Append(" (");
-			int writableColumnSize = 0;
-			foreach (DataColumn column in table.Columns) 
-			{
-				if (!column.ReadOnly) 
-				{
-					++writableColumnSize;
-					buf.Append(column.ColumnName);
-					buf.Append(", ");
+        private static string CreateSql(DataTable table)
+        {
+            StringBuilder buf = new StringBuilder(100);
+            StringBuilder paramBuf = new StringBuilder(100);
+            buf.Append("INSERT INTO ");
+            buf.Append(table.TableName);
+            buf.Append(" (");
+            int writableColumnSize = 0;
+            foreach (DataColumn column in table.Columns)
+            {
+                if (!column.ReadOnly)
+                {
+                    ++writableColumnSize;
+                    buf.Append(column.ColumnName);
+                    buf.Append(", ");
 
-					paramBuf.Append("@");
-					paramBuf.Append(column.ColumnName);
-					paramBuf.Append(", ");
-				}
-			}
-			buf.Length -= 2;
-			buf.Append(") VALUES (");
+                    paramBuf.Append("@");
+                    paramBuf.Append(column.ColumnName);
+                    paramBuf.Append(", ");
+                }
+            }
+            buf.Length -= 2;
+            buf.Append(") VALUES (");
 
-			paramBuf.Length -= 2;
-			paramBuf.Append(")");
+            paramBuf.Length -= 2;
+            paramBuf.Append(")");
 
-			buf.Append(paramBuf);
+            buf.Append(paramBuf);
 
-			return buf.ToString();
-		}
+            return buf.ToString();
+        }
 
-		protected override object[] GetArgs(DataRow row) 
-		{
-			DataTable table = row.Table;
-			ArrayList bindVariables = new ArrayList();
-			for (int i = 0; i < table.Columns.Count; ++i) 
-			{
-				DataColumn column = table.Columns[i];
-				if (!column.ReadOnly) 
-				{
-					bindVariables.Add(row[i]);
-				}
-			}
-			return bindVariables.ToArray();
-		}
-
-	}
+        protected override object[] GetArgs(DataRow row)
+        {
+            DataTable table = row.Table;
+            ArrayList bindVariables = new ArrayList();
+            for (int i = 0; i < table.Columns.Count; ++i)
+            {
+                DataColumn column = table.Columns[i];
+                if (!column.ReadOnly)
+                {
+                    bindVariables.Add(row[i]);
+                }
+            }
+            return bindVariables.ToArray();
+        }
+    }
 }

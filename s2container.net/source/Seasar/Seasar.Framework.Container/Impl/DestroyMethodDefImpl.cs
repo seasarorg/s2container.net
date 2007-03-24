@@ -16,29 +16,24 @@
  */
 #endregion
 
-using System;
-
 namespace Seasar.Framework.Container.Impl
 {
-	/// <summary>
-	/// DestroyMethodDefImpl の概要の説明です。
-	/// </summary>
-	public class DestroyMethodDefImpl : MethodDefImpl, IDestroyMethodDef
-	{
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		public DestroyMethodDefImpl()
-		{
-		}
+    public class DestroyMethodDefImpl : MethodDefImpl, IDestroyMethodDef
+    {
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public DestroyMethodDefImpl()
+        {
+        }
 
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		/// <param name="methodName">メソッドの名前</param>
-		public DestroyMethodDefImpl(string methodName) : base(methodName)
-		{
-		}
-
-	}
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="methodName">メソッドの名前</param>
+        public DestroyMethodDefImpl(string methodName)
+            : base(methodName)
+        {
+        }
+    }
 }

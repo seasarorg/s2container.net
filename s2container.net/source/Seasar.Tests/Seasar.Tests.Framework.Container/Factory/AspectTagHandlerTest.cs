@@ -16,86 +16,70 @@
  */
 #endregion
 
-using System;
 using System.Collections;
-using System.Reflection;
 using System.IO;
-using MbUnit.Framework;
-using Seasar.Framework.Container;
-using Seasar.Framework.Container.Factory;
+using System.Reflection;
 using log4net;
 using log4net.Config;
 using log4net.Util;
+using MbUnit.Framework;
+using Seasar.Framework.Container;
+using Seasar.Framework.Container.Factory;
 
 namespace Seasar.Tests.Framework.Container.Factory
 {
-	/// <summary>
-	/// AspectTagHandlerTest の概要の説明です。
-	/// </summary>
-	[TestFixture]
-	public class AspectTagHandlerTest
-	{
-		private const string PATH 
+    [TestFixture]
+    public class AspectTagHandlerTest
+    {
+        private const string PATH
             = "Seasar/Tests/Framework/Container/Factory/AspectTagHandlerTest.dicon";
 
-		[SetUp]
-		public void SetUp()
-		{
-			FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
-				Assembly.GetExecutingAssembly()) + ".config");
-			XmlConfigurator.Configure(LogManager.GetRepository(), info);
-		}
+        [SetUp]
+        public void SetUp()
+        {
+            FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
+                Assembly.GetExecutingAssembly()) + ".config");
+            XmlConfigurator.Configure(LogManager.GetRepository(), info);
+        }
 
-		[Test]
-		public void TestAspect()
-		{
-			IS2Container container = S2ContainerFactory.Create(PATH);
-			
-			IList list = (IList) container.GetComponent(typeof(IList));
-			int count = list.Count;
+        [Test]
+        public void TestAspect()
+        {
+            IS2Container container = S2ContainerFactory.Create(PATH);
 
-			IFoo foo = (IFoo) container.GetComponent(typeof(IFoo));
-			int time = foo.Time;
-			foo.ToString();
-			int hashCode = foo.GetHashCode();
-		}
+            IList list = (IList) container.GetComponent(typeof(IList));
+            int count = list.Count;
 
-		public interface IFoo
-		{
-			int Time { get; }
-			int GetHashCode();
-			string ToString();
-		}
+            IFoo foo = (IFoo) container.GetComponent(typeof(IFoo));
+            int time = foo.Time;
+            foo.ToString();
+            int hashCode = foo.GetHashCode();
+        }
 
-		public class FooImpl : IFoo
-		{
-			private int time_ = 3;
+        public interface IFoo
+        {
+            int Time { get; }
+            int GetHashCode();
+            string ToString();
+        }
 
-			public FooImpl()
-			{
-			}
+        public class FooImpl : IFoo
+        {
+            private readonly int _time = 3;
 
-			#region IFoo メンバ
+            #region IFoo メンバ
 
-			public int Time
-			{
-				get
-				{
-					return time_;
-				}
-			}
+            public int Time
+            {
+                get { return _time; }
+            }
 
-			public override int GetHashCode()
-			{
-				return base.GetHashCode();
-			}
+            public override string ToString()
+            {
+                return _time.ToString();
+            }
 
-			public override string ToString()
-			{
-				return time_.ToString();
-			}
-
-			#endregion
-		}
-	}
+            #endregion
+        }
+    }
 }

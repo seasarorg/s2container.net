@@ -31,12 +31,15 @@ namespace Seasar.Framework.Util
 
         public static void Close(IDbCommand cmd)
         {
-            if(cmd == null) return;
+            if (cmd == null)
+            {
+                return;
+            }
             try
             {
                 cmd.Dispose();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new SQLRuntimeException(ex);
             }
@@ -49,7 +52,7 @@ namespace Seasar.Framework.Util
                 DataSourceUtil.SetTransaction(dataSource, cmd);
                 return cmd.ExecuteReader();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new SQLRuntimeException(ex, cmd.CommandText);
             }
@@ -59,10 +62,10 @@ namespace Seasar.Framework.Util
         {
             try
             {
-                DataSourceUtil.SetTransaction(dataSource, cmd); 
+                DataSourceUtil.SetTransaction(dataSource, cmd);
                 return cmd.ExecuteNonQuery();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new SQLRuntimeException(ex, cmd.CommandText);
             }
@@ -75,11 +78,10 @@ namespace Seasar.Framework.Util
                 DataSourceUtil.SetTransaction(dataSource, cmd);
                 return cmd.ExecuteScalar();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new SQLRuntimeException(ex, cmd.CommandText);
             }
         }
-
     }
 }

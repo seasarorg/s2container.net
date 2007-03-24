@@ -21,45 +21,26 @@ using System.Data;
 
 namespace Seasar.Extension.Tx
 {
-	/// <summary>
-	/// ITransactionContext ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public interface ITransactionContext : IDisposable
-	{
-		void OpenConnection();
+    public interface ITransactionContext : IDisposable
+    {
+        void OpenConnection();
 
-		void Begin();
-		void Commit();
-		void Rollback();
+        void Begin();
 
-		ITransactionContext Create();
+        void Commit();
 
-		ITransactionContext Current
-		{
-			get;
-			set;
-		}
+        void Rollback();
 
-		ITransactionContext Parent
-		{
-			get;
-			set;
-		}
+        ITransactionContext Create();
 
-		IDbConnection Connection
-		{
-			get;
-		}
+        ITransactionContext Current { get; set; }
 
-		bool IsInTransaction
-		{
-			get;
-		}
+        ITransactionContext Parent { get; set; }
 
-        IDbTransaction Transaction
-        {
-            get;
-        }
+        IDbConnection Connection { get; }
 
-	}
+        bool IsInTransaction { get; }
+
+        IDbTransaction Transaction { get; }
+    }
 }

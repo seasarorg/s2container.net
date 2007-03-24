@@ -16,25 +16,21 @@
  */
 #endregion
 
-using System;
 using Seasar.Framework.Xml;
 
 namespace Seasar.Framework.Container.Factory
 {
-	/// <summary>
-	/// IncludeTagHandler ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public class IncludeTagHandler : TagHandler
-	{
-		
-		public override void Start(TagHandlerContext context, IAttributes attributes)
-		{
-			string path = attributes["path"];
-			if(path == null)
-				throw new TagAttributeNotDefinedRuntimeException("include","path");
-			IS2Container container = (IS2Container) context.Peek();
-			S2ContainerFactory.Include(container,path);
-		}
-
-	}
+    public class IncludeTagHandler : TagHandler
+    {
+        public override void Start(TagHandlerContext context, IAttributes attributes)
+        {
+            string path = attributes["path"];
+            if (path == null)
+            {
+                throw new TagAttributeNotDefinedRuntimeException("include", "path");
+            }
+            IS2Container container = (IS2Container) context.Peek();
+            S2ContainerFactory.Include(container, path);
+        }
+    }
 }

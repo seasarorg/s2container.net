@@ -16,19 +16,18 @@
  */
 #endregion
 
-using System;
 using Seasar.Framework.Aop;
 
 namespace Seasar.Framework.Container
 {
-	/// <summary>
-	/// Aspectを定義します。
-	/// </summary>
-	public interface IAspectDef : IArgDef
-	{
-		/// <summary>
-		/// Aspect
-		/// </summary>
-		IAspect Aspect{get;}
-	}
+    /// <summary>
+    /// Aspectを定義します。
+    /// </summary>
+    public interface IAspectDef : IArgDef
+    {
+        /// <summary>
+        /// Aspect
+        /// </summary>
+        IAspect Aspect { get; }
+    }
 }

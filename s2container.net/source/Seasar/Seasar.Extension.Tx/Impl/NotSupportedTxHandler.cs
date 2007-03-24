@@ -16,16 +16,13 @@
  */
 #endregion
 
-using System;
 using System.Transactions;
-
 using Seasar.Framework.Aop;
-using Seasar.Framework.Log;
 
 namespace Seasar.Extension.Tx.Impl
 {
-	public class NotSupportedTxHandler : ITransactionHandler
-	{
+    public class NotSupportedTxHandler : ITransactionHandler
+    {
         #region ITransactionHandler ÉÅÉìÉo
 
         object ITransactionHandler.Handle(IMethodInvocation invocation, bool alreadyInTransaction)

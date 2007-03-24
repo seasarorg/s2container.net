@@ -24,24 +24,24 @@ using Seasar.Framework.Container.Factory;
 
 namespace Seasar.Examples.Reference.ADO
 {
-	public class SelectDictionaryClient
-	{
-		private const string PATH = "Seasar.Examples/Reference/ADO/SelectDictionary.dicon";
+    public class SelectDictionaryClient
+    {
+        private const string PATH = "Seasar.Examples/Reference/ADO/SelectDictionary.dicon";
 
-		public void Main()
-		{
-			IS2Container container = S2ContainerFactory.Create(PATH);
-			container.Init();
-			try
-			{
-				ISelectHandler handler = (ISelectHandler) container.GetComponent("SelectDictionaryHandler");
-				IDictionary result = (IDictionary) handler.Execute(new object[] { 7788 });
-				Console.Out.WriteLine(DictionaryUtil.ToDecorateString(result));
-			}
-			finally
-			{
-				container.Destroy();
-			}
-		}
-	}
+        public void Main()
+        {
+            IS2Container container = S2ContainerFactory.Create(PATH);
+            container.Init();
+            try
+            {
+                ISelectHandler handler = (ISelectHandler) container.GetComponent("SelectDictionaryHandler");
+                IDictionary result = (IDictionary) handler.Execute(new object[] { 7788 });
+                Console.Out.WriteLine(DictionaryUtil.ToDecorateString(result));
+            }
+            finally
+            {
+                container.Destroy();
+            }
+        }
+    }
 }

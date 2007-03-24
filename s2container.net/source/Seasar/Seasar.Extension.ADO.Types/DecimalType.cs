@@ -21,12 +21,8 @@ using System.Data;
 
 namespace Seasar.Extension.ADO.Types
 {
-	public class DecimalType : PrimitiveBaseType, IValueType
+    public class DecimalType : PrimitiveBaseType, IValueType
     {
-        public DecimalType()
-        {
-        }
-
         #region IValueType ÉÅÉìÉo
 
         public override void BindValue(IDbCommand cmd, string columnName, object value)
@@ -36,16 +32,16 @@ namespace Seasar.Extension.ADO.Types
 
         #endregion
 
-		protected override object GetValue(object value)
-		{
-			if (value == DBNull.Value)
-			{
-				return null;
-			}
-			else
-			{
-				return Convert.ToDecimal(value);
-			}
+        protected override object GetValue(object value)
+        {
+            if (value == DBNull.Value)
+            {
+                return null;
+            }
+            else
+            {
+                return Convert.ToDecimal(value);
+            }
         }
     }
 }

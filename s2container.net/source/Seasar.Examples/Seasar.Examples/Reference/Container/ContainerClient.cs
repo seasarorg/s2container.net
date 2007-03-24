@@ -22,25 +22,26 @@ using Seasar.Framework.Container;
 
 namespace Seasar.Examples.Reference.Container
 {
-	public class ContainerClient
-	{
-		private IS2Container aaa;
-		private IS2Container bbb;
+    public class ContainerClient
+    {
+        private IS2Container aaa;
+        private IS2Container bbb;
 
-		public ContainerClient(IS2Container container) {
-			this.aaa = container;
-		}
-		
-		public IS2Container DIContainer
-		{
-			get { return this.bbb; }
-			set { this.bbb = value; }
-		}
+        public ContainerClient(IS2Container container)
+        {
+            this.aaa = container;
+        }
 
-		public void Main()
-		{
-			Console.WriteLine(aaa.Root.Path);
-			Console.WriteLine(this.DIContainer.Path);
-		}
-	}
+        public IS2Container DIContainer
+        {
+            get { return bbb; }
+            set { bbb = value; }
+        }
+
+        public void Main()
+        {
+            Console.WriteLine(aaa.Root.Path);
+            Console.WriteLine(DIContainer.Path);
+        }
+    }
 }

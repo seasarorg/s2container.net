@@ -16,33 +16,31 @@
  */
 #endregion
 
-using System;
-
 namespace Seasar.Framework.Container
 {
-	/// <summary>
-	/// メソッドを定義します。
-	/// </summary>
-	public interface IMethodDef : IArgDefAware
-	{
-		/// <summary>
-		/// メソッドの名前
-		/// </summary>
-		string MethodName{get;}
+    /// <summary>
+    /// メソッドを定義します。
+    /// </summary>
+    public interface IMethodDef : IArgDefAware
+    {
+        /// <summary>
+        /// メソッドの名前
+        /// </summary>
+        string MethodName { get; }
 
-		/// <summary>
-		/// 引数の配列
-		/// </summary>
-		object[] Args{get;}
+        /// <summary>
+        /// 引数の配列
+        /// </summary>
+        object[] Args { get; }
 
-		/// <summary>
-		/// S2Container
-		/// </summary>
-		IS2Container Container{set;get;}
+        /// <summary>
+        /// S2Container
+        /// </summary>
+        IS2Container Container { set; get; }
 
-		/// <summary>
-		/// Expression
-		/// </summary>
-		string Expression{set;get;}
-	}
+        /// <summary>
+        /// Expression
+        /// </summary>
+        string Expression { set; get; }
+    }
 }

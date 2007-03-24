@@ -20,21 +20,19 @@ using System;
 
 namespace Seasar.Examples.Reference.Includes.Impl
 {
-	public class HelloClientImpl : IHelloClient
-	{
-		private IHello hello;
+    public class HelloClientImpl : IHelloClient
+    {
+        private IHello _hello;
 
-		public HelloClientImpl() {}
-		
-		public IHello Hello
-		{
-			get { return this.hello; }
-			set { this.hello = value; }
-		}
+        public IHello Hello
+        {
+            get { return _hello; }
+            set { _hello = value; }
+        }
 
-		public void ShowMessage()
-		{
-			Console.WriteLine(this.Hello.Message);
-		}
-	}
+        public void ShowMessage()
+        {
+            Console.WriteLine(Hello.Message);
+        }
+    }
 }

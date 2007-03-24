@@ -23,25 +23,25 @@ using Seasar.Extension.DataSets.Impl;
 
 namespace Seasar.Examples.Reference.S2Unit
 {
-	public class Db2ExcelClient2
-	{
-		private const string PATH = "Seasar.Examples/Reference/S2Unit/Db2ExcelClient2.dicon";
+    public class Db2ExcelClient2
+    {
+        private const string PATH = "Seasar.Examples/Reference/S2Unit/Db2ExcelClient2.dicon";
 
-		public void Main()
-		{
-			IS2Container container = S2ContainerFactory.Create(PATH);
-			container.Init();
-			try
-			{
-				SqlReader reader = (SqlReader) container.GetComponent(typeof(SqlReader));
-				XlsWriter writer = (XlsWriter) container.GetComponent(typeof(XlsWriter));
-				writer.Write(reader.Read());
-				Console.Out.WriteLine("output Excel File : {0}", writer.FullPath);
-			}
-			catch (ApplicationException e)
-			{
-				Console.Out.WriteLine(e.Message);
-			}
-		}
-	}
+        public void Main()
+        {
+            IS2Container container = S2ContainerFactory.Create(PATH);
+            container.Init();
+            try
+            {
+                SqlReader reader = (SqlReader) container.GetComponent(typeof(SqlReader));
+                XlsWriter writer = (XlsWriter) container.GetComponent(typeof(XlsWriter));
+                writer.Write(reader.Read());
+                Console.Out.WriteLine("output Excel File : {0}", writer.FullPath);
+            }
+            catch (ApplicationException e)
+            {
+                Console.Out.WriteLine(e.Message);
+            }
+        }
+    }
 }

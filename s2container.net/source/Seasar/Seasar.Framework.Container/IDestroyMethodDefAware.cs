@@ -16,32 +16,29 @@
  */
 #endregion
 
-using System;
-
 namespace Seasar.Framework.Container
 {
-	/// <summary>
-	/// IDestroyMethodDefの設定が可能になります。
-	/// </summary>
-	public interface IDestroyMethodDefAware
-	{
-		/// <summary>
-		/// IDestroyMethodDefを追加します。
-		/// </summary>
-		/// <param name="methodDef">IDestroyMethodDef</param>
-		void AddDestroyMethodDef(IDestroyMethodDef methodDef);
+    /// <summary>
+    /// IDestroyMethodDefの設定が可能になります。
+    /// </summary>
+    public interface IDestroyMethodDefAware
+    {
+        /// <summary>
+        /// IDestroyMethodDefを追加します。
+        /// </summary>
+        /// <param name="methodDef">IDestroyMethodDef</param>
+        void AddDestroyMethodDef(IDestroyMethodDef methodDef);
 
-		/// <summary>
-		/// IDestroyMethodDefの数
-		/// </summary>
-		int DestroyMethodDefSize{get;}
+        /// <summary>
+        /// IDestroyMethodDefの数
+        /// </summary>
+        int DestroyMethodDefSize { get;}
 
-		/// <summary>
-		/// 番号を指定してIDestroyMethodDefを取得します。
-		/// </summary>
-		/// <param name="index"></param>
-		/// <returns></returns>
-		IDestroyMethodDef GetDestroyMethodDef(int index);
-
-	}
+        /// <summary>
+        /// 番号を指定してIDestroyMethodDefを取得します。
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        IDestroyMethodDef GetDestroyMethodDef(int index);
+    }
 }

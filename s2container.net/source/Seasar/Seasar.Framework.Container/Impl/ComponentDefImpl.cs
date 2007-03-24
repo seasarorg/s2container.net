@@ -24,394 +24,314 @@ using Seasar.Framework.Beans;
 
 namespace Seasar.Framework.Container.Impl
 {
-	/// <summary>
-	/// ComponentDefImpl の概要の説明です。
-	/// </summary>
-	public class ComponentDefImpl : IComponentDef
-	{
-		private Type componentType_;
-		private string componentName_;
-		private IS2Container container_;
-		private string expression_;
-		private ArgDefSupport argDefSupport_ = new ArgDefSupport();
-		private PropertyDefSupport propertyDefSupport_ = new PropertyDefSupport();
-		private InitMethodDefSupport initMethodDefSupport_ = new InitMethodDefSupport();
-		private DestroyMethodDefSupport destroyMethodDefSupport_ = new DestroyMethodDefSupport();
-		private AspectDefSupport aspectDefSupport_ = new AspectDefSupport();
-		private MetaDefSupport metaDefSupport_ = new MetaDefSupport();
-		private string instanceMode_ = ContainerConstants.INSTANCE_SINGLETON;
-		private string autoBindingMode_ = ContainerConstants.AUTO_BINDING_AUTO;
-		private IComponentDeployer componentDeployer_;
-		private IDictionary proxies_ = new Hashtable();
+    public class ComponentDefImpl : IComponentDef
+    {
+        private readonly Type _componentType;
+        private readonly string _componentName;
+        private IS2Container _container;
+        private string _expression;
+        private readonly ArgDefSupport _argDefSupport = new ArgDefSupport();
+        private readonly PropertyDefSupport _propertyDefSupport = new PropertyDefSupport();
+        private readonly InitMethodDefSupport _initMethodDefSupport = new InitMethodDefSupport();
+        private readonly DestroyMethodDefSupport _destroyMethodDefSupport = new DestroyMethodDefSupport();
+        private readonly AspectDefSupport _aspectDefSupport = new AspectDefSupport();
+        private readonly MetaDefSupport _metaDefSupport = new MetaDefSupport();
+        private string _instanceMode = ContainerConstants.INSTANCE_SINGLETON;
+        private string _autoBindingMode = ContainerConstants.AUTO_BINDING_AUTO;
+        private IComponentDeployer _componentDeployer;
+        private readonly IDictionary _proxies = new Hashtable();
 
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		public ComponentDefImpl()
-		{
-		}
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public ComponentDefImpl()
+        {
+        }
 
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		/// <param name="componentType">コンポーネントのType</param>
-		public ComponentDefImpl(Type componentType)
-			: this(componentType,null)
-		{
-		}
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="componentType">コンポーネントのType</param>
+        public ComponentDefImpl(Type componentType)
+            : this(componentType, null)
+        {
+        }
 
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		/// <param name="componentType">コンポーネントのType</param>
-		/// <param name="componentName">コンポーネントの名前</param>
-		public ComponentDefImpl(Type componentType,string componentName)
-		{
-			componentType_ = componentType;
-			componentName_ = componentName;
-		}
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="componentType">コンポーネントのType</param>
+        /// <param name="componentName">コンポーネントの名前</param>
+        public ComponentDefImpl(Type componentType, string componentName)
+        {
+            _componentType = componentType;
+            _componentName = componentName;
+        }
 
-		#region ComponentDef メンバ
+        #region ComponentDef メンバ
 
-		public object GetComponent()
-		{
-			return this.ComponentDeployer.Deploy(ComponentType);
-		}
+        public object GetComponent()
+        {
+            return ComponentDeployer.Deploy(ComponentType);
+        }
 
-		public object GetComponent(Type receiveType)
-		{
-			return this.ComponentDeployer.Deploy(receiveType);
-		}
+        public object GetComponent(Type receiveType)
+        {
+            return ComponentDeployer.Deploy(receiveType);
+        }
 
-		public void InjectDependency(Object outerComponent)
-		{
-			
-			this.ComponentDeployer.InjectDependency(outerComponent);
-		}
+        public void InjectDependency(object outerComponent)
+        {
+            ComponentDeployer.InjectDependency(outerComponent);
+        }
 
-		public IS2Container Container
-		{
-			get
-			{
-				
-				return container_;
-			}
-			set
-			{
-				
-				container_ = value;
-				argDefSupport_.Container = value;
-				metaDefSupport_.Container = value;
-				metaDefSupport_.Container = value;
-				propertyDefSupport_.Container = value;
-				initMethodDefSupport_.Container = value;
-				destroyMethodDefSupport_.Container = value;
-				aspectDefSupport_.Container = value;
-			}
-		}
+        public IS2Container Container
+        {
+            get { return _container; }
+            set
+            {
+                _container = value;
+                _argDefSupport.Container = value;
+                _metaDefSupport.Container = value;
+                _metaDefSupport.Container = value;
+                _propertyDefSupport.Container = value;
+                _initMethodDefSupport.Container = value;
+                _destroyMethodDefSupport.Container = value;
+                _aspectDefSupport.Container = value;
+            }
+        }
 
-		public Type ComponentType
-		{
-			get
-			{
-				
-				return componentType_;
-			}
-		}
+        public Type ComponentType
+        {
+            get { return _componentType; }
+        }
 
-		public string ComponentName
-		{
-			get
-			{
-				
-				return componentName_;
-			}
-		}
+        public string ComponentName
+        {
+            get { return _componentName; }
+        }
 
-		public string AutoBindingMode
-		{
-			get
-			{
-				
-				return autoBindingMode_;
-			}
-			set
-			{
-				
-				if(AutoBindingUtil.IsAuto(value)
-					|| AutoBindingUtil.IsConstructor(value)
-					|| AutoBindingUtil.IsProperty(value)
-					|| AutoBindingUtil.IsNone(value))
-				{
-					autoBindingMode_ = value;
-				} 
-				else 
-				{
-					throw new ArgumentException(value);
-				}
-			}
-		}
+        public string AutoBindingMode
+        {
+            get { return _autoBindingMode; }
+            set
+            {
+                if (AutoBindingUtil.IsAuto(value) || AutoBindingUtil.IsConstructor(value) || AutoBindingUtil.IsProperty(value) || AutoBindingUtil.IsNone(value))
+                {
+                    _autoBindingMode = value;
+                }
+                else
+                {
+                    throw new ArgumentException(value);
+                }
+            }
+        }
 
-		public string InstanceMode
-		{
-			get
-			{
-				
-				return instanceMode_;
-			}
-			set
-			{
-				
-				if(InstanceModeUtil.IsSingleton(value)
-					|| InstanceModeUtil.IsPrototype(value)
-					|| InstanceModeUtil.IsRequest(value)
-					|| InstanceModeUtil.IsSession(value)
-					|| InstanceModeUtil.IsOuter(value))
-				{
-					instanceMode_ = value;
-				}
-				else
-				{
-					throw new ArgumentException(value);
-				}
-			}
-		}
+        public string InstanceMode
+        {
+            get { return _instanceMode; }
+            set
+            {
+                if (InstanceModeUtil.IsSingleton(value) || InstanceModeUtil.IsPrototype(value) || InstanceModeUtil.IsRequest(value) || InstanceModeUtil.IsSession(value) || InstanceModeUtil.IsOuter(value))
+                {
+                    _instanceMode = value;
+                }
+                else
+                {
+                    throw new ArgumentException(value);
+                }
+            }
+        }
 
-		public string Expression
-		{
-			get
-			{
-				
-				return expression_;
-			}
-			set
-			{
-				
-				expression_ = value;
-			}
-		}
+        public string Expression
+        {
+            get { return _expression; }
+            set { _expression = value; }
+        }
 
-		public void Init()
-		{
-			
-			this.ComponentDeployer.Init();
-		}
+        public void Init()
+        {
+            ComponentDeployer.Init();
+        }
 
-		public object GetProxy(Type proxyType)
-		{
-			if(proxyType == null) return null;
-			return proxies_[proxyType];
-		}
+        public object GetProxy(Type proxyType)
+        {
+            if (proxyType == null)
+            {
+                return null;
+            }
+            return _proxies[proxyType];
+        }
 
-		public void AddProxy(Type proxyType, object proxy)
-		{
-			proxies_[proxyType] = proxy;
-		}
+        public void AddProxy(Type proxyType, object proxy)
+        {
+            _proxies[proxyType] = proxy;
+        }
 
-		public void Destroy()
-		{
-			this.ComponentDeployer.Destroy();
-		}
+        public void Destroy()
+        {
+            ComponentDeployer.Destroy();
+        }
 
-		#endregion
+        #endregion
 
-		#region IArgDefAware メンバ
+        #region IArgDefAware メンバ
 
-		public void AddArgDef(IArgDef argDef)
-		{
-			
-			argDefSupport_.AddArgDef(argDef);
-		}
+        public void AddArgDef(IArgDef argDef)
+        {
+            _argDefSupport.AddArgDef(argDef);
+        }
 
-		public int ArgDefSize
-		{
-			get
-			{
-				
-				return argDefSupport_.ArgDefSize;
-			}
-		}
+        public int ArgDefSize
+        {
+            get { return _argDefSupport.ArgDefSize; }
+        }
 
-		public IArgDef GetArgDef(int index)
-		{
-			
-			return argDefSupport_.GetArgDef(index);
-		}
+        public IArgDef GetArgDef(int index)
+        {
+            return _argDefSupport.GetArgDef(index);
+        }
 
-		#endregion
+        #endregion
 
-		#region PropertyDefAware メンバ
+        #region PropertyDefAware メンバ
 
-		public void AddPropertyDef(IPropertyDef propertyDef)
-		{
-			
-			propertyDefSupport_.AddPropertyDef(propertyDef);
-		}
+        public void AddPropertyDef(IPropertyDef propertyDef)
+        {
+            _propertyDefSupport.AddPropertyDef(propertyDef);
+        }
 
-		public int PropertyDefSize
-		{
-			get
-			{
-				
-				return propertyDefSupport_.PropertyDefSize;
-			}
-		}
+        public int PropertyDefSize
+        {
+            get { return _propertyDefSupport.PropertyDefSize; }
+        }
 
-		public IPropertyDef GetPropertyDef(int index)
-		{
-			
-			return propertyDefSupport_.GetPropertyDef(index);
-		}
+        public IPropertyDef GetPropertyDef(int index)
+        {
+            return _propertyDefSupport.GetPropertyDef(index);
+        }
 
-		public IPropertyDef GetPropertyDef(string propertyName)
-		{
-			
-			if(this.HasPropertyDef(propertyName))
-			{
-				return propertyDefSupport_.GetPropertyDef(propertyName);
-			}
-			else
-			{
-				throw new PropertyNotFoundRuntimeException(componentType_,propertyName);
-			}
-		}
+        public IPropertyDef GetPropertyDef(string propertyName)
+        {
+            if (HasPropertyDef(propertyName))
+            {
+                return _propertyDefSupport.GetPropertyDef(propertyName);
+            }
+            else
+            {
+                throw new PropertyNotFoundRuntimeException(_componentType, propertyName);
+            }
+        }
 
-		public bool HasPropertyDef(string propertyName)
-		{
-			
-			return propertyDefSupport_.HasPropertyDef(propertyName);
-		}
+        public bool HasPropertyDef(string propertyName)
+        {
+            return _propertyDefSupport.HasPropertyDef(propertyName);
+        }
 
-		#endregion
+        #endregion
 
-		#region InitMethodDefAware メンバ
+        #region InitMethodDefAware メンバ
 
-		public void AddInitMethodDef(IInitMethodDef methodDef)
-		{
-			
-			initMethodDefSupport_.AddInitMethodDef(methodDef);
-		}
+        public void AddInitMethodDef(IInitMethodDef methodDef)
+        {
+            _initMethodDefSupport.AddInitMethodDef(methodDef);
+        }
 
-		public int InitMethodDefSize
-		{
-			get
-			{
-				
-				return initMethodDefSupport_.InitMethodDefSize;
-			}
-		}
+        public int InitMethodDefSize
+        {
+            get { return _initMethodDefSupport.InitMethodDefSize; }
+        }
 
-		public IInitMethodDef GetInitMethodDef(int index)
-		{
-			
-			return initMethodDefSupport_.GetInitMethodDef(index);
-		}
+        public IInitMethodDef GetInitMethodDef(int index)
+        {
+            return _initMethodDefSupport.GetInitMethodDef(index);
+        }
 
-		#endregion
+        #endregion
 
-		#region DestroyMethodDefAware メンバ
+        #region DestroyMethodDefAware メンバ
 
-		public void AddDestroyMethodDef(IDestroyMethodDef methodDef)
-		{
-			
-			destroyMethodDefSupport_.AddDestroyMethodDef(methodDef);
-		}
+        public void AddDestroyMethodDef(IDestroyMethodDef methodDef)
+        {
+            _destroyMethodDefSupport.AddDestroyMethodDef(methodDef);
+        }
 
-		public int DestroyMethodDefSize
-		{
-			get
-			{
-				
-				return destroyMethodDefSupport_.DestroyMethodDefSize;
-			}
-		}
+        public int DestroyMethodDefSize
+        {
+            get { return _destroyMethodDefSupport.DestroyMethodDefSize; }
+        }
 
-		public IDestroyMethodDef GetDestroyMethodDef(int index)
-		{
-			
-			return destroyMethodDefSupport_.GetDestroyMethodDef(index);
-		}
+        public IDestroyMethodDef GetDestroyMethodDef(int index)
+        {
+            return _destroyMethodDefSupport.GetDestroyMethodDef(index);
+        }
 
-		#endregion
+        #endregion
 
-		#region AspectDefAware メンバ
+        #region AspectDefAware メンバ
 
-		public void AddAspeceDef(IAspectDef aspectDef)
-		{
-			
-			aspectDefSupport_.AddAspectDef(aspectDef);
-		}
+        public void AddAspeceDef(IAspectDef aspectDef)
+        {
+            _aspectDefSupport.AddAspectDef(aspectDef);
+        }
 
-		public int AspectDefSize
-		{
-			get
-			{
-				
-				return aspectDefSupport_.AspectDefSize;
-			}
-		}
+        public int AspectDefSize
+        {
+            get { return _aspectDefSupport.AspectDefSize; }
+        }
 
-		public IAspectDef GetAspectDef(int index)
-		{
-			
-			return aspectDefSupport_.GetAspectDef(index);
-		}
+        public IAspectDef GetAspectDef(int index)
+        {
+            return _aspectDefSupport.GetAspectDef(index);
+        }
 
-		#endregion
+        #endregion
 
-		#region MetaDefAware メンバ
+        #region MetaDefAware メンバ
 
-		public void AddMetaDef(IMetaDef metaDef)
-		{
-			
-			metaDefSupport_.AddMetaDef(metaDef);
-		}
+        public void AddMetaDef(IMetaDef metaDef)
+        {
+            _metaDefSupport.AddMetaDef(metaDef);
+        }
 
-		public int MetaDefSize
-		{
-			get
-			{
-				
-				return metaDefSupport_.MetaDefSize;
-			}
-		}
+        public int MetaDefSize
+        {
+            get { return _metaDefSupport.MetaDefSize; }
+        }
 
-		public IMetaDef GetMetaDef(int index)
-		{
-			
-			return metaDefSupport_.GetMetaDef(index);
-		}
+        public IMetaDef GetMetaDef(int index)
+        {
+            return _metaDefSupport.GetMetaDef(index);
+        }
 
-		public IMetaDef GetMetaDef(string name)
-		{
-			
-			return metaDefSupport_.GetMetaDef(name);
-		}
+        public IMetaDef GetMetaDef(string name)
+        {
+            return _metaDefSupport.GetMetaDef(name);
+        }
 
-		public IMetaDef[] GetMetaDefs(string name)
-		{
-			
-			return metaDefSupport_.GetMetaDefs(name);
-		}
+        public IMetaDef[] GetMetaDefs(string name)
+        {
+            return _metaDefSupport.GetMetaDefs(name);
+        }
 
-		#endregion
+        #endregion
 
-		/// <summary>
-		/// ComponentDeployer
-		/// </summary>
-		private IComponentDeployer ComponentDeployer
-		{
-			get
-			{
-				lock(this)
-				{
-					if(componentDeployer_ == null)
-					{
-						componentDeployer_ = ComponentDeployerFactory.Create(this);
-					}
-					return componentDeployer_;
-				}
-			}
-		}
-	}
+        /// <summary>
+        /// ComponentDeployer
+        /// </summary>
+        private IComponentDeployer ComponentDeployer
+        {
+            get
+            {
+                lock (this)
+                {
+                    if (_componentDeployer == null)
+                    {
+                        _componentDeployer = ComponentDeployerFactory.Create(this);
+                    }
+                    return _componentDeployer;
+                }
+            }
+        }
+    }
 }

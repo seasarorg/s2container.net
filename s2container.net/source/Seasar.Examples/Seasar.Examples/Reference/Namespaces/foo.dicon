@@ -1,8 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8" ?> 
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
 "http://www.seasar.org/dtd/components21.dtd">
 <components namespace="foo">
-	<component name="aaa" class="Seasar.Examples.Reference.Namespaces.Impl.HelloImpl">
-		<property name="Message">"foo! foo! foo!"</property>
-	</component>
+  <component name="aaa" class="Seasar.Examples.Reference.Namespaces.Impl.HelloImpl">
+    <property name="Message">"foo! foo! foo!"</property>
+  </component>
 </components>

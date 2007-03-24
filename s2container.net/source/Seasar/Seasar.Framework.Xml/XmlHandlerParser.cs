@@ -27,35 +27,32 @@ using Seasar.Framework.Xml.Impl;
 
 namespace Seasar.Framework.Xml
 {
-	/// <summary>
-	/// XmlHandlerParser ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public sealed class XmlHandlerParser
-	{
-		private XmlHandler xmlHandler_;
+    public sealed class XmlHandlerParser
+    {
+        private readonly XmlHandler _xmlHandler;
 
-		public XmlHandlerParser(XmlHandler xmlHandler)
-		{
-			xmlHandler_ = xmlHandler;
-		}
+        public XmlHandlerParser(XmlHandler xmlHandler)
+        {
+            _xmlHandler = xmlHandler;
+        }
 
-		public XmlHandler XmlHandler
-		{
-			get { return xmlHandler_; }
-		}
+        public XmlHandler XmlHandler
+        {
+            get { return _xmlHandler; }
+        }
 
-		public object Parse(string path)
-		{
-			StreamReader reader = null;
-			string pathWithoutExt = Path.Combine(
-					Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path));
-			string extension = ResourceUtil.GetExtension(path);
+        public object Parse(string path)
+        {
+            StreamReader reader = null;
+            string pathWithoutExt = Path.Combine(
+                    Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path));
+            string extension = ResourceUtil.GetExtension(path);
 
-            if(File.Exists(path))
+            if (File.Exists(path))
             {
                 reader = new StreamReader(path);
-            } 
-            else if(HttpContext.Current != null)
+            }
+            else if (HttpContext.Current != null)
             {
                 string path4http = Path.Combine(
                     AppDomain.CurrentDomain.SetupInformation.ApplicationBase, path);
@@ -64,36 +61,36 @@ namespace Seasar.Framework.Xml
                     reader = new StreamReader(path4http);
                 }
             }
-            
-            if(reader == null)
+
+            if (reader == null)
             {
                 reader = ResourceUtil.GetResourceAsStreamReaderNoException(pathWithoutExt, extension);
             }
 
-			if(reader == null)
-			{
-				Assembly[] assemblys = AppDomain.CurrentDomain.GetAssemblies();
-				foreach(Assembly assembly in assemblys)
-				{
-					reader = ResourceUtil.GetResourceAsStreamReaderNoException(pathWithoutExt,
-						extension,assembly);
+            if (reader == null)
+            {
+                Assembly[] assemblys = AppDomain.CurrentDomain.GetAssemblies();
+                foreach (Assembly assembly in assemblys)
+                {
+                    reader = ResourceUtil.GetResourceAsStreamReaderNoException(pathWithoutExt,
+                        extension, assembly);
                     if (reader != null)
                     {
                         break;
                     }
-				}
-			}
-            
+                }
+            }
+
             if (reader == null)
             {
                 throw new ResourceNotFoundRuntimeException(path);
             }
 
-			return this.Parse(reader);
-		}
+            return Parse(reader);
+        }
 
-		public object Parse(StreamReader input)
-		{
+        public object Parse(StreamReader input)
+        {
 #if NET_1_1
             XmlValidatingReader reader = new XmlValidatingReader(
                 new XmlTextReader(input));
@@ -102,7 +99,7 @@ namespace Seasar.Framework.Xml
             reader.ValidationEventHandler += 
                 new ValidationEventHandler(ValidationHandler);
 #else
-            
+
             XmlReaderSettings settings = new XmlReaderSettings();
             settings.XmlResolver = new S2XmlResolver();
             settings.ValidationType = ValidationType.DTD;
@@ -110,52 +107,50 @@ namespace Seasar.Framework.Xml
             settings.ProhibitDtd = false;
             XmlReader reader = XmlReader.Create(input, settings);
 #endif
-			
-			try
-			{
-				while(reader.Read())
-				{
-					switch(reader.NodeType)
-					{
-						case XmlNodeType.Element :
-							string elementName = reader.Name;
-							bool isEmptyElement = reader.IsEmptyElement;
-							AttributesImpl attributes = new AttributesImpl();
-							if(reader.MoveToFirstAttribute())
-							{
-								do
-								{
-									attributes.AddAttribute(reader.Name, reader.Value);
-								} while(reader.MoveToNextAttribute());
-							}
-							xmlHandler_.StartElement(elementName, attributes);
-							if(isEmptyElement) xmlHandler_.EndElement(reader.Name);
-							break;
-						case XmlNodeType.Text :
-							xmlHandler_.Characters(reader.Value);
-							break;
-						case XmlNodeType.EndElement :
-							xmlHandler_.EndElement(reader.Name);
-							break;
-					}
-				}
-			}
-			finally
-			{
-				reader.Close();
-				reader = null;
-				input.Close();
-				input = null;
-			}
 
-			return xmlHandler_.Result;
-		}
+            try
+            {
+                while (reader.Read())
+                {
+                    switch (reader.NodeType)
+                    {
+                        case XmlNodeType.Element:
+                            string elementName = reader.Name;
+                            bool isEmptyElement = reader.IsEmptyElement;
+                            AttributesImpl attributes = new AttributesImpl();
+                            if (reader.MoveToFirstAttribute())
+                            {
+                                do
+                                {
+                                    attributes.AddAttribute(reader.Name, reader.Value);
+                                } while (reader.MoveToNextAttribute());
+                            }
+                            _xmlHandler.StartElement(elementName, attributes);
+                            if (isEmptyElement) _xmlHandler.EndElement(reader.Name);
+                            break;
+                        case XmlNodeType.Text:
+                            _xmlHandler.Characters(reader.Value);
+                            break;
+                        case XmlNodeType.EndElement:
+                            _xmlHandler.EndElement(reader.Name);
+                            break;
+                    }
+                }
+            }
+            finally
+            {
+                reader.Close();
+                input.Close();
+            }
 
-		private void ValidationHandler(object sender, ValidationEventArgs args)
-		{
-			Console.Error.WriteLine("***Validation error");
-			Console.Error.WriteLine("\tSeverity:{0}", args.Severity);
-			Console.Error.WriteLine("\tMessage  :{0}", args.Message);
-		}
-	}
+            return _xmlHandler.Result;
+        }
+
+        private void ValidationHandler(object sender, ValidationEventArgs args)
+        {
+            Console.Error.WriteLine("***Validation error");
+            Console.Error.WriteLine("\tSeverity:{0}", args.Severity);
+            Console.Error.WriteLine("\tMessage  :{0}", args.Message);
+        }
+    }
 }

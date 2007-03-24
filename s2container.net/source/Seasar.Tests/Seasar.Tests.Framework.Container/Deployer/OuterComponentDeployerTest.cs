@@ -26,42 +26,39 @@ using Seasar.Framework.Container.Impl;
 
 namespace Seasar.Tests.Framework.Container.Deployer
 {
-	/// <summary>
-	/// OuterComponentDeployerTest ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	[TestFixture]
-	public class OuterComponentDeployerTest
-	{
-		[Test]
-		public void TestInjectDependency()
-		{
-			ComponentDefImpl cd = new ComponentDefImpl(typeof(Hashtable));
-			IInitMethodDef md = new InitMethodDefImpl("Add");
-			md.AddArgDef(new ArgDefImpl("aaa"));
-			md.AddArgDef(new ArgDefImpl("hoge"));
-			cd.AddInitMethodDef(md);
-			IComponentDeployer deployer = new OuterComponentDeployer(cd);
-			Hashtable myTable = new Hashtable();
-			deployer.InjectDependency(myTable);
-			Assert.AreEqual("hoge",myTable["aaa"]);
-		}
+    [TestFixture]
+    public class OuterComponentDeployerTest
+    {
+        [Test]
+        public void TestInjectDependency()
+        {
+            ComponentDefImpl cd = new ComponentDefImpl(typeof(Hashtable));
+            IInitMethodDef md = new InitMethodDefImpl("Add");
+            md.AddArgDef(new ArgDefImpl("aaa"));
+            md.AddArgDef(new ArgDefImpl("hoge"));
+            cd.AddInitMethodDef(md);
+            IComponentDeployer deployer = new OuterComponentDeployer(cd);
+            Hashtable myTable = new Hashtable();
+            deployer.InjectDependency(myTable);
+            Assert.AreEqual("hoge", myTable["aaa"]);
+        }
 
-		[Test]
-		public void TestDeploy()
-		{
-			IS2Container container = new S2ContainerImpl();
-			ComponentDefImpl cd = new ComponentDefImpl(typeof(Hashtable));
-			container.Register(cd);
-			IComponentDeployer deployer = new OuterComponentDeployer(cd);
-			try
-			{
-				deployer.Deploy(typeof(Hashtable));
-				Assert.Fail();
-			}
-			catch(NotSupportedException ex)
-			{
-				Trace.WriteLine(ex);
-			}
-		}
-	}
+        [Test]
+        public void TestDeploy()
+        {
+            IS2Container container = new S2ContainerImpl();
+            ComponentDefImpl cd = new ComponentDefImpl(typeof(Hashtable));
+            container.Register(cd);
+            IComponentDeployer deployer = new OuterComponentDeployer(cd);
+            try
+            {
+                deployer.Deploy(typeof(Hashtable));
+                Assert.Fail();
+            }
+            catch (NotSupportedException ex)
+            {
+                Trace.WriteLine(ex);
+            }
+        }
+    }
 }

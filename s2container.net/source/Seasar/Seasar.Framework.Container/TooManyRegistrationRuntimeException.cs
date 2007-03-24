@@ -23,66 +23,58 @@ using Seasar.Framework.Exceptions;
 
 namespace Seasar.Framework.Container
 {
-	/// <summary>
-	/// TooManyRegistrationRuntimeException の概要の説明です。
-	/// </summary>
-	[Serializable]
-	public sealed class TooManyRegistrationRuntimeException : SRuntimeException
-	{
-		private object key_;
-		private Type[] componentTypes_;
+    [Serializable]
+    public sealed class TooManyRegistrationRuntimeException : SRuntimeException
+    {
+        private readonly object _key;
+        private readonly Type[] _componentTypes;
 
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		/// <param name="key"></param>
-		/// <param name="componentTypes"></param>
-		public TooManyRegistrationRuntimeException(object key,Type[] componentTypes)
-			: base("ESSR0045", new object[] {key,GetTypeNames(componentTypes)})
-		{
-			key_ = key;
-			componentTypes_ = componentTypes;
-		}
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="componentTypes"></param>
+        public TooManyRegistrationRuntimeException(object key, Type[] componentTypes)
+            : base("ESSR0045", new object[] { key, GetTypeNames(componentTypes) })
+        {
+            _key = key;
+            _componentTypes = componentTypes;
+        }
 
-		public TooManyRegistrationRuntimeException(SerializationInfo info, StreamingContext context) 
-			: base( info, context )
-		{
-			this.key_ = info.GetValue("key_", typeof(object));
-			this.componentTypes_ = info.GetValue("componentTypes_", typeof(Type[])) as Type[];
-		}
+        public TooManyRegistrationRuntimeException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+            _key = info.GetValue("_key", typeof(object));
+            _componentTypes = info.GetValue("_componentTypes", typeof(Type[])) as Type[];
+        }
 
-		public override void GetObjectData( SerializationInfo info,
-			StreamingContext context )
-		{
-			info.AddValue("key_", this.key_, typeof(object));
-			info.AddValue("componentTypes_", this.componentTypes_, typeof(Type[]));
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("_key", _key, typeof(object));
+            info.AddValue("_componentTypes", _componentTypes, typeof(Type[]));
+            base.GetObjectData(info, context);
+        }
 
-			base.GetObjectData(info, context);
-		}
+        public object Key
+        {
+            get { return _key; }
+        }
 
-		public object Key
-		{
-			get { return key_; }
-		}
+        public Type[] ComponentTypes
+        {
+            get { return _componentTypes; }
+        }
 
-
-		public Type[] ComponentTypes
-		{
-			get { return componentTypes_; }
-		}
-
-
-		public static string GetTypeNames(Type[] componentTypes)
-		{
-			StringBuilder buf = new StringBuilder(255);
-			foreach(Type componentType in componentTypes)
-			{
-				buf.Append(componentType.FullName);
-				buf.Append(", ");
-			}
-			buf.Length -= 2;
-			return buf.ToString();
-		}
-
-	}
+        public static string GetTypeNames(Type[] componentTypes)
+        {
+            StringBuilder buf = new StringBuilder(255);
+            foreach (Type componentType in componentTypes)
+            {
+                buf.Append(componentType.FullName);
+                buf.Append(", ");
+            }
+            buf.Length -= 2;
+            return buf.ToString();
+        }
+    }
 }

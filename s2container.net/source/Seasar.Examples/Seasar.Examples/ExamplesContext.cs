@@ -16,30 +16,26 @@
  */
 #endregion
 
-using System;
-
 using System.Windows.Forms;
 
 namespace Seasar.Examples
 {
-	/// <summary>
-	/// デモを行う為に必要となるハンドルの格納領域
-	/// </summary>
-	public class ExamplesContext
-	{
-		public event ResultViewChangedEventHandler ResultViewChanged;
-		public ExamplesContext()
-		{
-		}
+    /// <summary>
+    /// デモを行う為に必要となるハンドルの格納領域
+    /// </summary>
+    public class ExamplesContext
+    {
+        public event ResultViewChangedEventHandler ResultViewChanged;
 
-		public Control ResultView 
-		{
-			set 
-			{
-				ResultViewChanged(value);
-			}
-		}
+        public Control ResultView
+        {
+            set
+            {
+                ResultViewChanged(value);
+            }
+        }
 
-	}
-	public delegate void ResultViewChangedEventHandler(Control ctrl);
+    }
+
+    public delegate void ResultViewChangedEventHandler(Control ctrl);
 }

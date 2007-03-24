@@ -16,63 +16,55 @@
  */
 #endregion
 
-using System;
 using System.Reflection;
 using Seasar.Framework.Util;
 using Seasar.Framework.Container.Util;
 
 namespace Seasar.Framework.Container.Assembler
 {
-	/// <summary>
-	/// AutoConstructorAssembler ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public class AutoConstructorAssembler : AbstractConstructorAssembler
-	{
-		public AutoConstructorAssembler(IComponentDef componentDef)
-			: base(componentDef)
-		{
-		}
+    public class AutoConstructorAssembler : AbstractConstructorAssembler
+    {
+        public AutoConstructorAssembler(IComponentDef componentDef)
+            : base(componentDef)
+        {
+        }
 
-		public override object Assemble()
-		{
-			ConstructorInfo constructor =this.GetSuitableConstructor();
+        public override object Assemble()
+        {
+            ConstructorInfo constructor = GetSuitableConstructor();
             object[] args = new object[0];
 
-			if(constructor == null)
-			{
-				if(!this.ComponentDef.ComponentType.IsInterface)
-				{
-					return this.AssembleDefault();
-				}
-			}
-			else
-			{
-				args = this.GetArgs(
-					ParameterUtil.GetParameterTypes(constructor.GetParameters()));
-			}
-			object obj = AopProxyUtil.WeaveAspect(this.ComponentDef, constructor, args);
-			
-			return obj;
-		}
+            if (constructor == null)
+            {
+                if (!ComponentDef.ComponentType.IsInterface)
+                {
+                    return AssembleDefault();
+                }
+            }
+            else
+            {
+                args = GetArgs(ParameterUtil.GetParameterTypes(constructor.GetParameters()));
+            }
+            return AopProxyUtil.WeaveAspect(ComponentDef, constructor, args);
+        }
 
-		private ConstructorInfo GetSuitableConstructor()
-		{
-			int argSize = -1;
-			ConstructorInfo constructor = null;
-			ConstructorInfo[] constructors =
-				this.ComponentDef.ComponentType.GetConstructors();
-			for(int i = 0; i < constructors.Length; ++i)
-			{
-				int tempArgSize = constructors[i].GetParameters().Length;
-				if(tempArgSize == 0) return null;
-				if(tempArgSize > argSize
-					&& AutoBindingUtil.IsSuitable(constructors[i].GetParameters()))
-				{
-					constructor = constructors[i];
-					argSize = tempArgSize;
-				}
-			}
-			return constructor;
-		}		
-	}
+        private ConstructorInfo GetSuitableConstructor()
+        {
+            int argSize = -1;
+            ConstructorInfo constructor = null;
+            ConstructorInfo[] constructors = ComponentDef.ComponentType.GetConstructors();
+            for (int i = 0; i < constructors.Length; ++i)
+            {
+                int tempArgSize = constructors[i].GetParameters().Length;
+                if (tempArgSize == 0) return null;
+                if (tempArgSize > argSize
+                    && AutoBindingUtil.IsSuitable(constructors[i].GetParameters()))
+                {
+                    constructor = constructors[i];
+                    argSize = tempArgSize;
+                }
+            }
+            return constructor;
+        }
+    }
 }

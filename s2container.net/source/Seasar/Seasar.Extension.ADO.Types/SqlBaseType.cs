@@ -25,27 +25,23 @@ namespace Seasar.Extension.ADO.Types
 {
     public abstract class SqlBaseType : BaseValueType
     {
-		public SqlBaseType()
+        protected override object GetBindValue(object value)
         {
-        }
-
-		protected override object GetBindValue(object value)
-		{
-			if (value == null)
-			{
-				return DBNull.Value;
-			}
-			INullable nValue = value as INullable;
-            if (nValue == null) 
+            if (value == null)
+            {
+                return DBNull.Value;
+            }
+            INullable nValue = value as INullable;
+            if (nValue == null)
             {
                 return value;
             }
             if (nValue.IsNull)
-			{
-				return DBNull.Value;
-			}
-			PropertyInfo pi = value.GetType().GetProperty("Value");
-			return pi.GetValue(value, null);
-		}
+            {
+                return DBNull.Value;
+            }
+            PropertyInfo pi = value.GetType().GetProperty("Value");
+            return pi.GetValue(value, null);
+        }
     }
 }

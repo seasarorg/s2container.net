@@ -21,25 +21,21 @@ using System.Data;
 
 namespace Seasar.Extension.ADO.Impl
 {
-	public class DictionaryListDataReaderHandler : AbstractDictionaryDataReaderHandler, IDataReaderHandler
-	{
-		public DictionaryListDataReaderHandler()
-		{
-		}
+    public class DictionaryListDataReaderHandler : AbstractDictionaryDataReaderHandler, IDataReaderHandler
+    {
+        #region IDataReaderHandler ƒƒ“ƒo
 
-		#region IDataReaderHandler ƒƒ“ƒo
+        public override object Handle(IDataReader reader)
+        {
+            IPropertyType[] propertyTypes = PropertyTypeUtil.CreatePropertyTypes(reader.GetSchemaTable());
+            IList list = new ArrayList();
+            while (reader.Read())
+            {
+                list.Add(CreateRow(reader, propertyTypes));
+            }
+            return list;
+        }
 
-		public override object Handle(IDataReader reader)
-		{
-			IPropertyType[] propertyTypes = PropertyTypeUtil.CreatePropertyTypes(reader.GetSchemaTable());
-			IList list = new ArrayList();
-			while (reader.Read()) 
-			{
-				list.Add(CreateRow(reader, propertyTypes));
-			}
-			return list;
-		}
-
-		#endregion
-	}
+        #endregion
+    }
 }

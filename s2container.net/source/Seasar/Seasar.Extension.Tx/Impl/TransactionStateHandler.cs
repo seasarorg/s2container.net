@@ -21,12 +21,13 @@ using System.Transactions;
 namespace Seasar.Extension.Tx.Impl
 {
     public class TransactionStateHandler : ITransactionStateHandler
-	{
+    {
         #region ITransactionStateHandler ƒƒ“ƒo
 
         public bool IsInTransaction
         {
-            get {
+            get
+            {
                 Transaction tx = Transaction.Current;
                 if (tx != null)
                 {

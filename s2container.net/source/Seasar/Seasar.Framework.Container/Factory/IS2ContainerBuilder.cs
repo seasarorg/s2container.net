@@ -16,29 +16,27 @@
  */
 #endregion
 
-using System;
-
 namespace Seasar.Framework.Container.Factory
 {
-	/// <summary>
-	/// IS2Containerを構築します。
-	/// </summary>
-	public interface IS2ContainerBuilder
-	{
-		/// <summary>
-		/// 指定されたパスからS2Containerを構築します。
-		/// </summary>
-		/// <param name="path">パス</param>
-		/// <returns>構築したS2Container</returns>
-		IS2Container Build(string path);
+    /// <summary>
+    /// IS2Containerを構築します。
+    /// </summary>
+    public interface IS2ContainerBuilder
+    {
+        /// <summary>
+        /// 指定されたパスからS2Containerを構築します。
+        /// </summary>
+        /// <param name="path">パス</param>
+        /// <returns>構築したS2Container</returns>
+        IS2Container Build(string path);
 
-		/// <summary>
-		/// 指定されたパスからS2Containerを構築し、
-		/// 親S2Containerにincludeします。
-		/// </summary>
-		/// <param name="parent">親S2Container</param>
-		/// <param name="path">パス</param>
-		/// <returns>構築したS2Container</returns>
-		IS2Container Include(IS2Container parent,string path);
-	}
+        /// <summary>
+        /// 指定されたパスからS2Containerを構築し、
+        /// 親S2Containerにincludeします。
+        /// </summary>
+        /// <param name="parent">親S2Container</param>
+        /// <param name="path">パス</param>
+        /// <returns>構築したS2Container</returns>
+        IS2Container Include(IS2Container parent, string path);
+    }
 }

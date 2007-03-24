@@ -16,7 +16,6 @@
  */
 #endregion
 
-using System;
 using System.Collections;
 using MbUnit.Framework;
 using Seasar.Framework.Util;

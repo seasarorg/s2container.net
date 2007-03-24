@@ -22,17 +22,13 @@ namespace Seasar.Extension.ADO.Types
 {
     public abstract class PrimitiveBaseType : BaseValueType
     {
-		public PrimitiveBaseType()
+        protected override object GetBindValue(object value)
         {
+            if (value == null)
+            {
+                return DBNull.Value;
+            }
+            return value;
         }
-
-		protected override object GetBindValue(object value)
-		{
-			if (value == null)
-			{
-				return DBNull.Value;
-			}
-			return value;
-		}
     }
 }

@@ -27,57 +27,57 @@ using System.Configuration;
 
 namespace Seasar.Framework.Util
 {
-	/// <summary>
-	/// CodeDomÇ≈JScript.NETÇàµÇ¶ÇÈÇÊÇ§Ç…ÇµÇ‹Ç∑ÅB
-	/// </summary>
-	public sealed class JScriptUtil
-	{
-		private static CodeDomProvider provider_ = new JScriptCodeProvider();
-		private static Type evaluateType_;
+    /// <summary>
+    /// CodeDomÇ≈JScript.NETÇàµÇ¶ÇÈÇÊÇ§Ç…ÇµÇ‹Ç∑ÅB
+    /// </summary>
+    public sealed class JScriptUtil
+    {
+        private static readonly CodeDomProvider _provider = new JScriptCodeProvider();
+        private static readonly Type _evaluateType;
 
-		private const string EVAL_SOURCE = @"
-			package Seasar.Framework.Util.JScript
-			{
-				class Evaluator
-				{
-					public static function Eval(expr : String,unsafe : boolean,
-						self : Object,out : Object,err : Object, container : Object,
+        private const string EVAL_SOURCE = @"
+            package Seasar.Framework.Util.JScript
+            {
+                class Evaluator
+                {
+                    public static function Eval(expr : String,unsafe : boolean,
+                        self : Object,out : Object,err : Object, container : Object,
                         appSettings : Object) : Object 
-					{ 
-						if(unsafe)
-						{
-							return eval(expr,'unsafe');
-						}
-						else
-						{
-							return eval(expr); 
-						}
-					}
-				}
-			}";
+                    {
+                        if (unsafe)
+                        {
+                            return eval(expr,'unsafe');
+                        }
+                        else
+                        {
+                            return eval(expr); 
+                        }
+                    }
+                }
+            }";
 
-		private JScriptUtil()
-		{
-		}
+        private JScriptUtil()
+        {
+        }
 
-		static JScriptUtil()
-		{
-			CompilerParameters parameters = new CompilerParameters();
-			parameters.GenerateInMemory = true;
+        static JScriptUtil()
+        {
+            CompilerParameters parameters = new CompilerParameters();
+            parameters.GenerateInMemory = true;
 
 #if NET_1_1
-            ICodeCompiler compiler = provider_.CreateCompiler();
+            ICodeCompiler compiler = _provider.CreateCompiler();
             CompilerResults results = compiler.CompileAssemblyFromSource(parameters,EVAL_SOURCE);
 #else
-            CompilerResults results = provider_.CompileAssemblyFromSource(parameters, EVAL_SOURCE);
+            CompilerResults results = _provider.CompileAssemblyFromSource(parameters, EVAL_SOURCE);
 #endif
 
-			Assembly assembly = results.CompiledAssembly;
-			evaluateType_ = assembly.GetType("Seasar.Framework.Util.JScript.Evaluator");
-		}
+            Assembly assembly = results.CompiledAssembly;
+            _evaluateType = assembly.GetType("Seasar.Framework.Util.JScript.Evaluator");
+        }
 
-		public static object Evaluate(string exp,Hashtable ctx, object root)
-		{
+        public static object Evaluate(string exp, Hashtable ctx, object root)
+        {
 #if NET_1_1
             exp = exp.Replace("\r", "\\r");
             exp = exp.Replace("\n", "\\n");
@@ -96,28 +96,28 @@ namespace Seasar.Framework.Util
             NameValueCollection appSettings = ConfigurationManager.AppSettings;
 #endif
 
-			try
-			{
-				return evaluateType_.InvokeMember("Eval",BindingFlags.InvokeMethod,
-					null, null, new object[] {exp,true, ctx["self"], ctx["out"], ctx["err"], root,
+            try
+            {
+                return _evaluateType.InvokeMember("Eval", BindingFlags.InvokeMethod,
+                    null, null, new object[] {exp,true, ctx["self"], ctx["out"], ctx["err"], root,
                     appSettings});
-			} 
-			catch(Exception ex)
-			{
-				throw new JScriptEvaluateRuntimeException(exp,ex);
-			}
-		}
+            }
+            catch (Exception ex)
+            {
+                throw new JScriptEvaluateRuntimeException(exp, ex);
+            }
+        }
 
-		public static object Evaluate(string exp, object root)
-		{
-			try
-			{
+        public static object Evaluate(string exp, object root)
+        {
+            try
+            {
                 return Evaluate(exp, new Hashtable(), root);
-			} 
-			catch(Exception ex)
-			{
-				throw new JScriptEvaluateRuntimeException(exp,ex);
-			}
-		}
-	}
+            }
+            catch (Exception ex)
+            {
+                throw new JScriptEvaluateRuntimeException(exp, ex);
+            }
+        }
+    }
 }

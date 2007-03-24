@@ -16,19 +16,14 @@
  */
 #endregion
 
-using System;
 using MbUnit.Framework;
 using Seasar.Framework.Container.Factory;
 
 namespace Seasar.Tests.Framework.Container.Factory
 {
-
-	/// <summary>
-    /// SingletonS2ContainerFactoryTest ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	[TestFixture]
-	public class SingletonS2ContainerFactoryTest
-	{
+    [TestFixture]
+    public class SingletonS2ContainerFactoryTest
+    {
         [Test]
         public void TestConfigPathUseS2Section()
         {
@@ -53,5 +48,5 @@ namespace Seasar.Tests.Framework.Container.Factory
                 SingletonS2ContainerFactory.ConfigPath = configPath;
             }
         }
-	}
+    }
 }

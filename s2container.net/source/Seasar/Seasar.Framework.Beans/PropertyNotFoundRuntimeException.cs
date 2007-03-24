@@ -22,46 +22,41 @@ using Seasar.Framework.Exceptions;
 
 namespace Seasar.Framework.Beans
 {
-	/// <summary>
-	/// PropertyNotFoundRuntimeException ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	[Serializable]
-	public class PropertyNotFoundRuntimeException : SRuntimeException
-	{
-		private Type targetType_;
-		private string propertyName_;
+    [Serializable]
+    public class PropertyNotFoundRuntimeException : SRuntimeException
+    {
+        private readonly Type _targetType;
+        private readonly string _propertyName;
 
-		public PropertyNotFoundRuntimeException(Type componentType,string propertyName)
-			: base("ESSR0065",new object[] { componentType.FullName,propertyName})
-		{
-			targetType_ = componentType;
-			propertyName_ = propertyName;
-		}
+        public PropertyNotFoundRuntimeException(Type componentType, string propertyName)
+            : base("ESSR0065", new object[] { componentType.FullName, propertyName })
+        {
+            _targetType = componentType;
+            _propertyName = propertyName;
+        }
 
-		public PropertyNotFoundRuntimeException(SerializationInfo info, StreamingContext context) 
-			: base( info, context )
-		{
-			this.targetType_ = info.GetValue("targetType_", typeof(Type)) as Type;
-			this.propertyName_ = info.GetString("propertyName_");
-		}
+        public PropertyNotFoundRuntimeException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+            _targetType = info.GetValue("_targetType", typeof(Type)) as Type;
+            _propertyName = info.GetString("_propertyName");
+        }
 
-		public override void GetObjectData( SerializationInfo info,
-			StreamingContext context )
-		{
-			info.AddValue("targetType_", this.targetType_, typeof(Type));
-			info.AddValue("propertyName_", this.propertyName_, typeof(string));
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("_targetType", _targetType, typeof(Type));
+            info.AddValue("_propertyName", _propertyName, typeof(string));
+            base.GetObjectData(info, context);
+        }
 
-			base.GetObjectData(info, context);
-		}
+        public Type TargetType
+        {
+            get { return _targetType; }
+        }
 
-		public Type TargetType
-		{
-			get { return targetType_; }
-		}
-
-		public string PropertyName
-		{
-			get { return propertyName_; }
-		}
-	}
+        public string PropertyName
+        {
+            get { return _propertyName; }
+        }
+    }
 }

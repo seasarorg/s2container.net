@@ -16,36 +16,39 @@
  */
 #endregion
 
-using System;
-
 namespace Seasar.Framework.Util
 {
-	public sealed class StringUtil
-	{
-		private StringUtil()
-		{
-		}
+    public sealed class StringUtil
+    {
+        private StringUtil()
+        {
+        }
 
-		public static bool IsEmpty(string text)
-		{
-			return text == null || text.Length == 0 ? true : false;
-		}
+        public static bool IsEmpty(string text)
+        {
+            return text == null || text.Length == 0 ? true : false;
+        }
 
-		public static string Decapitalize(string name)
-		{
-			if(IsEmpty(name)) return name;
+        public static string Decapitalize(string name)
+        {
+            if (IsEmpty(name))
+            {
+                return name;
+            }
+            char[] chars = name.ToCharArray();
+            chars[0] = char.ToLower(chars[0]);
+            return new string(chars);
+        }
 
-			char[] chars = name.ToCharArray();
-			chars[0] = char.ToLower(chars[0]);
-			return new string(chars);
-		}
-
-		public static bool StartWith(string text, string fragment)
-		{
-			if(text == null | fragment == null) return false;
-			return text.Length > fragment.Length
-				&& text.Substring(0, fragment.Length).ToLower()
-				.Equals(fragment.ToLower());
-		}
-	}
+        public static bool StartWith(string text, string fragment)
+        {
+            if (text == null | fragment == null)
+            {
+                return false;
+            }
+            return text.Length > fragment.Length
+                && text.Substring(0, fragment.Length).ToLower()
+                .Equals(fragment.ToLower());
+        }
+    }
 }

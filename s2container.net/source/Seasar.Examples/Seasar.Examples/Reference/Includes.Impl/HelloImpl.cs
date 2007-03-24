@@ -18,16 +18,14 @@
 
 namespace Seasar.Examples.Reference.Includes.Impl
 {
-	public class HelloImpl : IHello
-	{
-		private string helloMessage;
+    public class HelloImpl : IHello
+    {
+        private string _helloMessage;
 
-		public HelloImpl() {}
-
-		public string Message
-		{
-			get { return this.helloMessage; }
-			set { this.helloMessage = value; }
-		}
-	}
+        public string Message
+        {
+            get { return _helloMessage; }
+            set { _helloMessage = value; }
+        }
+    }
 }

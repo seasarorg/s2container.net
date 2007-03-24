@@ -28,37 +28,34 @@ using System.Collections.Generic;
 
 namespace Seasar.Tests.Framework.Container.Factory
 {
-	/// <summary>
-	/// ComponentTagHandlerTest ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	[TestFixture]
-	public class ComponentTagHandlerTest
-	{
+    [TestFixture]
+    public class ComponentTagHandlerTest
+    {
 #if NET_1_1
-		private const string PATH = "Seasar/Tests/Framework/Container/Factory/ComponentTagHandlerTest.2003.dicon";
+        private const string PATH = "Seasar/Tests/Framework/Container/Factory/ComponentTagHandlerTest.2003.dicon";
 #else
         private const string PATH = "Seasar/Tests/Framework/Container/Factory/ComponentTagHandlerTest.dicon";
 #endif
 
-		[Test]
-		public void TestComponent()
-		{
-			IS2Container container = S2ContainerFactory.Create(PATH);
-			container.Init();
-			Assert.IsNotNull(container.GetComponent(typeof(ArrayList)));
-			Assert.IsNotNull(container.GetComponent("aaa"));
-			Assert.AreEqual(1, container.GetComponent("bbb"));
-			Assert.AreEqual(true, container.GetComponent("ccc") != 
-				container.GetComponent("ccc"));
-			IComponentDef cd = container.GetComponentDef("ddd");
-			Assert.AreEqual(ContainerConstants.AUTO_BINDING_NONE,
-				cd.AutoBindingMode);
-			Hashtable table = new Hashtable();
-			container.InjectDependency(table, "eee");
-			Assert.AreEqual("111", table["aaa"]);
-			Assert.IsNotNull(container.GetComponent("fff"));
-			Assert.IsNotNull(container.GetComponent("ggg"));
-		}
+        [Test]
+        public void TestComponent()
+        {
+            IS2Container container = S2ContainerFactory.Create(PATH);
+            container.Init();
+            Assert.IsNotNull(container.GetComponent(typeof(ArrayList)));
+            Assert.IsNotNull(container.GetComponent("aaa"));
+            Assert.AreEqual(1, container.GetComponent("bbb"));
+            Assert.AreEqual(true, container.GetComponent("ccc") !=
+                container.GetComponent("ccc"));
+            IComponentDef cd = container.GetComponentDef("ddd");
+            Assert.AreEqual(ContainerConstants.AUTO_BINDING_NONE,
+                cd.AutoBindingMode);
+            Hashtable table = new Hashtable();
+            container.InjectDependency(table, "eee");
+            Assert.AreEqual("111", table["aaa"]);
+            Assert.IsNotNull(container.GetComponent("fff"));
+            Assert.IsNotNull(container.GetComponent("ggg"));
+        }
 
 #if !NET_1_1
 
@@ -72,6 +69,6 @@ namespace Seasar.Tests.Framework.Container.Factory
         }
 
 #endif
-		
-	}
+
+    }
 }

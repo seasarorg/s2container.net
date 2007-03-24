@@ -16,66 +16,61 @@
  */
 #endregion
 
-using System;
 using MbUnit.Framework;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Factory;
 
 namespace Seasar.Tests.Framework.Container.Factory
 {
-	/// <summary>
-	/// IncludeTagHandlerTest ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	[TestFixture]
-	public class IncludeTagHandlerTest
-	{
-		private const string PATH="Seasar/Tests/Framework/Container/Factory/IncludeTagHandlerTest.dicon";
-		private const string PATH2="Seasar/Tests/Framework/Container/Factory/aaa.dicon";
+    [TestFixture]
+    public class IncludeTagHandlerTest
+    {
+        private const string PATH = "Seasar/Tests/Framework/Container/Factory/IncludeTagHandlerTest.dicon";
+        private const string PATH2 = "Seasar/Tests/Framework/Container/Factory/aaa.dicon";
 
-		[Test]
-		public void TestInclude()
-		{
-			IS2Container container = S2ContainerFactory.Create(PATH);
-			Assert.AreEqual(new A(314).Time, ((A) container.GetComponent(typeof(A))).Time);
-		}
+        [Test]
+        public void TestInclude()
+        {
+            IS2Container container = S2ContainerFactory.Create(PATH);
+            Assert.AreEqual(new A(314).Time, ((A) container.GetComponent(typeof(A))).Time);
+        }
 
-		[Test]
-		public void TestInclude2()
-		{
-			IS2Container container = S2ContainerFactory.Create(PATH2);
-			Assert.AreSame(container.GetComponent("aaa.cdecimal"),
-				container.GetComponent("bbb.cdecimal"));
-		}
+        [Test]
+        public void TestInclude2()
+        {
+            IS2Container container = S2ContainerFactory.Create(PATH2);
+            Assert.AreSame(container.GetComponent("aaa.cdecimal"),
+                container.GetComponent("bbb.cdecimal"));
+        }
 
-		[Test]
-		public void TestInclude3()
-		{
-			IS2Container container = S2ContainerFactory.Create(PATH);
-			IS2Container grandChild = (IS2Container) container.GetComponent("grandChild");
-			IS2Container child = (IS2Container) container.GetComponent("child");
-			IS2Container grandChild2 = (IS2Container) child.GetComponent("grandChild");
-			Assert.AreEqual(grandChild, grandChild2);
-		}
+        [Test]
+        public void TestInclude3()
+        {
+            IS2Container container = S2ContainerFactory.Create(PATH);
+            IS2Container grandChild = (IS2Container) container.GetComponent("grandChild");
+            IS2Container child = (IS2Container) container.GetComponent("child");
+            IS2Container grandChild2 = (IS2Container) child.GetComponent("grandChild");
+            Assert.AreEqual(grandChild, grandChild2);
+        }
 
-		public class A
-		{
-			private long time_;
+        public class A
+        {
+            private long _time;
 
-			public A()
-			{
-			}
+            public A()
+            {
+            }
 
-			public A(long time)
-			{
-				time_ = time;
-			}
+            public A(long time)
+            {
+                _time = time;
+            }
 
-			public long Time
-			{
-				get { return time_; }
-				set { time_ = value; }
-			}
-		}
-
-	}
+            public long Time
+            {
+                get { return _time; }
+                set { _time = value; }
+            }
+        }
+    }
 }

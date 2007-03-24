@@ -17,35 +17,29 @@
 #endregion
 
 using System;
-using Seasar.Framework.Container.Util;
 
 namespace Seasar.Framework.Container.Deployer
 {
-	/// <summary>
-	/// PrototypeComponentDeployer ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public class PrototypeComponentDeployer : AbstractComponentDeployer
-	{
-		public PrototypeComponentDeployer(IComponentDef componentDef)
-			: base(componentDef)
-		{
-		}
+    public class PrototypeComponentDeployer : AbstractComponentDeployer
+    {
+        public PrototypeComponentDeployer(IComponentDef componentDef)
+            : base(componentDef)
+        {
+        }
 
-		public override object Deploy(Type receiveType)
-		{
-			object component = this.ConstructorAssembler.Assemble();
-			this.PropertyAssembler.Assemble(component);
-			this.InitMethodAssembler.Assemble(component);
+        public override object Deploy(Type receiveType)
+        {
+            object component = ConstructorAssembler.Assemble();
+            PropertyAssembler.Assemble(component);
+            InitMethodAssembler.Assemble(component);
 
-			object proxy = GetProxy(receiveType);
-			return proxy == null ? component : proxy;
-		}
+            object proxy = GetProxy(receiveType);
+            return proxy == null ? component : proxy;
+        }
 
-		public override void InjectDependency(object outerComponent)
-		{
-			throw new NotSupportedException("InjectDependency");
-		}
-
-
-	}
+        public override void InjectDependency(object outerComponent)
+        {
+            throw new NotSupportedException("InjectDependency");
+        }
+    }
 }

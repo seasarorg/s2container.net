@@ -21,78 +21,77 @@ using System.Data;
 using Seasar.Extension.ADO;
 using Seasar.Extension.ADO.Impl;
 using Seasar.Extension.DataSets.Types;
-using Seasar.Framework.Util;
 
 namespace Seasar.Extension.DataSets.Impl
 {
-	public class DataTableDataReaderHandler : IDataReaderHandler
-	{
-		private string tableName_;
+    public class DataTableDataReaderHandler : IDataReaderHandler
+    {
+        private readonly string _tableName;
 
-		public DataTableDataReaderHandler(string tableName)
-		{
-			tableName_ = tableName;
-		}
+        public DataTableDataReaderHandler(string tableName)
+        {
+            _tableName = tableName;
+        }
 
-		#region IDataReaderHandler ƒƒ“ƒo
+        #region IDataReaderHandler ƒƒ“ƒo
 
-		public object Handle(System.Data.IDataReader reader)
-		{
-			IPropertyType[] propertyTypes = PropertyTypeUtil.CreatePropertyTypes(reader.GetSchemaTable());
-			DataTable table = new DataTable(tableName_);
-			for (int i = 0; i < propertyTypes.Length; ++i)
-			{
-				String propertyName = propertyTypes[i].PropertyName;
-				Type type = ColumnTypes.GetColumnType(propertyTypes[i].PropertyType).GetColumnType();
-				table.Columns.Add(propertyName, type);
-			}
-			while (reader.Read()) 
-			{
-				AddRow(reader, propertyTypes, table);
-			}
-			return table;
-		}
+        public object Handle(System.Data.IDataReader reader)
+        {
+            IPropertyType[] propertyTypes = PropertyTypeUtil.CreatePropertyTypes(reader.GetSchemaTable());
+            DataTable table = new DataTable(_tableName);
+            for (int i = 0; i < propertyTypes.Length; ++i)
+            {
+                String propertyName = propertyTypes[i].PropertyName;
+                Type type = ColumnTypes.GetColumnType(propertyTypes[i].PropertyType).GetColumnType();
+                table.Columns.Add(propertyName, type);
+            }
+            while (reader.Read())
+            {
+                AddRow(reader, propertyTypes, table);
+            }
+            return table;
+        }
 
-		#endregion
+        #endregion
 
-		private void AddRow(System.Data.IDataReader reader, IPropertyType[] propertyTypes, DataTable table) 
-		{
-			DataRow row = table.NewRow();
-			for (int i = 0; i < table.Columns.Count; ++i) 
-			{
-				row[i] = GetValue(reader, i, propertyTypes);
-			}
-			table.Rows.Add(row);
-		}
+        private void AddRow(System.Data.IDataReader reader, IPropertyType[] propertyTypes, DataTable table)
+        {
+            DataRow row = table.NewRow();
+            for (int i = 0; i < table.Columns.Count; ++i)
+            {
+                row[i] = GetValue(reader, i, propertyTypes);
+            }
+            table.Rows.Add(row);
+        }
 
-		private object GetValue(System.Data.IDataReader reader, int index, IPropertyType[] propertyTypes)
-		{
-			Type type = propertyTypes[index].PropertyType;
-			object value = propertyTypes[index].ValueType.GetValue(reader, index);
-			if (value == null)
-			{
-				return DBNull.Value;
-			}
-			object ret = ColumnTypes.GetColumnType(type).Convert(value, null);
-			if (ret is string)
-			{
-				string s = ret as string;
-				if (s != null)
-				{
-					s = s.TrimEnd(null);
-				}
-				if (IsCellBase64Formatted(s))
-				{
-					return Convert.FromBase64String(s);
-				}
-				return s;
-			}
-			return ret;
-		}
+        private object GetValue(System.Data.IDataReader reader, int index, IPropertyType[] propertyTypes)
+        {
+            Type type = propertyTypes[index].PropertyType;
+            object value = propertyTypes[index].ValueType.GetValue(reader, index);
+            if (value == null)
+            {
+                return DBNull.Value;
+            }
+            object ret = ColumnTypes.GetColumnType(type).Convert(value, null);
+            if (ret is string)
+            {
+                string s = ret as string;
+                if (s != null)
+                {
+                    s = s.TrimEnd(null);
+                }
+                if (IsCellBase64Formatted(s))
+                {
+                    return Convert.FromBase64String(s);
+                }
+                return s;
+            }
+            return ret;
+        }
 
-		private bool IsCellBase64Formatted(string s)
-		{
-			return DataSetConstants.BASE64_FORMAT.StartsWith(s);
-		}
-	}
+        private bool IsCellBase64Formatted(string s)
+        {
+            return DataSetConstants.BASE64_FORMAT.StartsWith(s);
+        }
+    }
 }

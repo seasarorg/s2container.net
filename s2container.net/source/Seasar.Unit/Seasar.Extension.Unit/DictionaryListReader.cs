@@ -20,15 +20,15 @@ using System.Collections;
 
 namespace Seasar.Extension.Unit
 {
-	public class DictionaryListReader : DictionaryReader
-	{
-		public DictionaryListReader(IList list)
-		{
-			SetupColumns((IDictionary) list[0]);
-			foreach (IDictionary dictionary in list)
-			{
-				SetupRow(dictionary);
-			}
-		}
-	}
+    public class DictionaryListReader : DictionaryReader
+    {
+        public DictionaryListReader(IList list)
+        {
+            SetupColumns((IDictionary) list[0]);
+            foreach (IDictionary dictionary in list)
+            {
+                SetupRow(dictionary);
+            }
+        }
+    }
 }

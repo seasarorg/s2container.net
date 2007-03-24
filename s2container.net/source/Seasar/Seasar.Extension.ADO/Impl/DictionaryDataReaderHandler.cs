@@ -16,32 +16,27 @@
  */
 #endregion
 
-using System.Collections;
 using System.Data;
 
 namespace Seasar.Extension.ADO.Impl
 {
-	public class DictionaryDataReaderHandler : AbstractDictionaryDataReaderHandler, IDataReaderHandler
-	{
-		public DictionaryDataReaderHandler()
-		{
-		}
+    public class DictionaryDataReaderHandler : AbstractDictionaryDataReaderHandler, IDataReaderHandler
+    {
+        #region IDataReaderHandler ƒƒ“ƒo
 
-		#region IDataReaderHandler ƒƒ“ƒo
+        public override object Handle(IDataReader reader)
+        {
+            if (reader.Read())
+            {
+                IPropertyType[] propertyTypes = PropertyTypeUtil.CreatePropertyTypes(reader.GetSchemaTable());
+                return CreateRow(reader, propertyTypes);
+            }
+            else
+            {
+                return null;
+            }
+        }
 
-		public override object Handle(IDataReader reader)
-		{
-			if (reader.Read()) 
-			{
-				IPropertyType[] propertyTypes = PropertyTypeUtil.CreatePropertyTypes(reader.GetSchemaTable());
-				return CreateRow(reader, propertyTypes);
-			} 
-			else 
-			{
-				return null;
-			}
-		}
-
-		#endregion
-	}
+        #endregion
+    }
 }

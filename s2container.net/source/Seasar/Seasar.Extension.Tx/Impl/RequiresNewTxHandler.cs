@@ -16,34 +16,33 @@
  */
 #endregion
 
-using System;
 using System.Transactions;
-
 using Seasar.Framework.Aop;
 using Seasar.Framework.Log;
 
 namespace Seasar.Extension.Tx.Impl
 {
-	public class RequiresNewTxHandler : ITransactionHandler
-	{
-        private static Logger logger = Logger.GetLogger(typeof(RequiresNewTxHandler));
+    public class RequiresNewTxHandler : ITransactionHandler
+    {
+        private static readonly Logger _logger = Logger.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         #region ITransactionHandler ÉÅÉìÉo
 
         object ITransactionHandler.Handle(IMethodInvocation invocation, bool alreadyInTransaction)
         {
             using (TransactionScope scope = new TransactionScope(TransactionScopeOption.RequiresNew))
             {
-                logger.Log("DSSR0003", null);
+                _logger.Log("DSSR0003", null);
                 try
                 {
                     object obj = invocation.Proceed();
-                    logger.Log("DSSR0004", null);
+                    _logger.Log("DSSR0004", null);
                     scope.Complete();
                     return obj;
                 }
                 catch
                 {
-                    logger.Log("DSSR0005", null);
+                    _logger.Log("DSSR0005", null);
                     throw;
                 }
             }

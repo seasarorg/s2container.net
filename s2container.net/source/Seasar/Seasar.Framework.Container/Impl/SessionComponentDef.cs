@@ -16,32 +16,28 @@
  */
 #endregion
 
-using System;
 using System.Web.SessionState;
 
 namespace Seasar.Framework.Container.Impl
 {
-	/// <summary>
-	/// SessionComponentDef ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public class SessionComponentDef : SimpleComponentDef
-	{
-		private IS2Container container_;
+    public class SessionComponentDef : SimpleComponentDef
+    {
+        private readonly IS2Container _container;
 
-		public SessionComponentDef(IS2Container container)
-			: base(typeof(HttpSessionState))
-		{
-			container_ = container;
-		}
+        public SessionComponentDef(IS2Container container)
+            : base(typeof(HttpSessionState))
+        {
+            _container = container;
+        }
 
-		public IS2Container Root
-		{
-			get { return container_.Root; }
-		}
+        public IS2Container Root
+        {
+            get { return _container.Root; }
+        }
 
-		public override object GetComponent()
-		{
-			return this.Root.Session;
-		}
-	}
+        public override object GetComponent()
+        {
+            return Root.Session;
+        }
+    }
 }

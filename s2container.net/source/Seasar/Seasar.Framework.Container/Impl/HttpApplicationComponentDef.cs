@@ -16,32 +16,28 @@
  */
 #endregion
 
-using System;
 using System.Web;
 
 namespace Seasar.Framework.Container.Impl
 {
-	/// <summary>
-	/// HttpApplicationComponentDef ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public class HttpApplicationComponentDef : SimpleComponentDef
-	{
-		private IS2Container container_;
+    public class HttpApplicationComponentDef : SimpleComponentDef
+    {
+        private readonly IS2Container _container;
 
-		public HttpApplicationComponentDef(IS2Container container)
-			: base(typeof(HttpApplication))
-		{
-			container_ = container;
-		}
+        public HttpApplicationComponentDef(IS2Container container)
+            : base(typeof(HttpApplication))
+        {
+            _container = container;
+        }
 
-		public IS2Container Root
-		{
-			get { return container_.Root; }
-		}
+        public IS2Container Root
+        {
+            get { return _container.Root; }
+        }
 
-		public override object GetComponent()
-		{
-			return this.Root.HttpApplication;
-		}
-	}
+        public override object GetComponent()
+        {
+            return Root.HttpApplication;
+        }
+    }
 }

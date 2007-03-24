@@ -16,9 +16,7 @@
  */
 #endregion
 
-using System;
 using System.Collections;
-using System.Data;
 using System.IO;
 using System.Reflection;
 using log4net;
@@ -27,7 +25,6 @@ using log4net.Util;
 using MbUnit.Framework;
 using Seasar.Extension.ADO.Impl;
 using Seasar.Extension.Unit;
-using Seasar.Framework.Exceptions;
 
 namespace Seasar.Tests.Extension.ADO.Impl
 {
@@ -51,7 +48,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
         [Test, S2]
         public void TestGetPrimaryKeySet()
         {
-            DatabaseMetaDataImpl dmd = new DatabaseMetaDataImpl(this.DataSource);
+            DatabaseMetaDataImpl dmd = new DatabaseMetaDataImpl(DataSource);
             IList primaryKeySet = dmd.GetPrimaryKeySet("EMP");
 
             Assert.AreEqual(1, primaryKeySet.Count);
@@ -66,7 +63,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
         [Test, S2]
         public void TestGetColumnSet()
         {
-            DatabaseMetaDataImpl dmd = new DatabaseMetaDataImpl(this.DataSource);
+            DatabaseMetaDataImpl dmd = new DatabaseMetaDataImpl(DataSource);
             IList columSet = dmd.GetColumnSet("EMP");
 
             Assert.AreEqual(9, columSet.Count);
@@ -91,7 +88,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
         {
             if (DataSource.GetCommand().GetType().Name.Equals("SqlCommand"))
             {
-                DatabaseMetaDataImpl dmd = new DatabaseMetaDataImpl(this.DataSource);
+                DatabaseMetaDataImpl dmd = new DatabaseMetaDataImpl(DataSource);
                 IList autoIncrementColumSet = dmd.GetAutoIncrementColumnSet("IDTABLE");
 
                 Assert.AreEqual(1, autoIncrementColumSet.Count);

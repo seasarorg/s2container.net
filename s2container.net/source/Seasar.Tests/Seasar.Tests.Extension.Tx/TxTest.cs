@@ -21,22 +21,21 @@ using System.EnterpriseServices;
 
 namespace Seasar.Tests.Extension.Tx
 {
-	public class TxTest : MarshalByRefObject
-	{
-		public bool IsInTransaction()
-		{
-			return ContextUtil.IsInTransaction;
-		}
+    public class TxTest : MarshalByRefObject
+    {
+        public bool IsInTransaction()
+        {
+            return ContextUtil.IsInTransaction;
+        }
 
-		public Guid GetTransactionId()
-		{
-			return ContextUtil.TransactionId;
-		}
+        public Guid GetTransactionId()
+        {
+            return ContextUtil.TransactionId;
+        }
 
-		public void throwException()
-		{
-			throw new NotSupportedException();
-		}
-
-	}
+        public void throwException()
+        {
+            throw new NotSupportedException();
+        }
+    }
 }

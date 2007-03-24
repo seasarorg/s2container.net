@@ -16,22 +16,13 @@
  */
 #endregion
 
-using System;
 using System.EnterpriseServices;
-
 using Seasar.Framework.Aop;
 
 namespace Seasar.Extension.Tx.Impl
 {
-	/// <summary>
-	/// AbstractDTCTransactionHandler ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public abstract class AbstractDTCTransactionHandler : ServicedComponent, ITransactionHandler
-	{
-		public AbstractDTCTransactionHandler()
-		{
-		}
-
-		public abstract object Handle(IMethodInvocation invocation, bool alreadyInTransaction);
-	}
+    public abstract class AbstractDTCTransactionHandler : ServicedComponent, ITransactionHandler
+    {
+        public abstract object Handle(IMethodInvocation invocation, bool alreadyInTransaction);
+    }
 }

@@ -16,7 +16,6 @@
  */
 #endregion
 
-using System;
 using System.Collections;
 using System.Data;
 using System.Diagnostics;
@@ -28,40 +27,40 @@ using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Extension.ADO.Impl
 {
-	[TestFixture]
-	public class BeanListDataReaderHandlerTest : S2TestCase
-	{
-		private const string PATH = "Ado.dicon";
+    [TestFixture]
+    public class BeanListDataReaderHandlerTest : S2TestCase
+    {
+        private const string PATH = "Ado.dicon";
 
-		public void SetUpHandle() 
-		{
-			Include(PATH);
-		}
+        public void SetUpHandle()
+        {
+            Include(PATH);
+        }
 
         [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
-		public void Handle()
-		{
-			IDataReaderHandler handler = new BeanListDataReaderHandler(typeof(Employee));
-			string sql = "select * from emp";
+        public void Handle()
+        {
+            IDataReaderHandler handler = new BeanListDataReaderHandler(typeof(Employee));
+            string sql = "select * from emp";
             IDbConnection con = Connection;
-			IDbCommand cmd = con.CreateCommand();
-			cmd.CommandText = sql;
-			IList ret = null;
-			DataSourceUtil.SetTransaction(DataSource, cmd);
-			IDataReader reader = cmd.ExecuteReader();
-			try 
-			{
-				ret = (IList) handler.Handle(reader);
-			} 
-			finally 
-			{
-				reader.Close();
-			}
-			Assert.IsNotNull(ret, "1");
-			foreach (Employee emp in ret) 
-			{
-				Trace.WriteLine(emp.Empno + "," + emp.Ename);
-			}
-		}
-	}
+            IDbCommand cmd = con.CreateCommand();
+            cmd.CommandText = sql;
+            IList ret;
+            DataSourceUtil.SetTransaction(DataSource, cmd);
+            IDataReader reader = cmd.ExecuteReader();
+            try
+            {
+                ret = (IList) handler.Handle(reader);
+            }
+            finally
+            {
+                reader.Close();
+            }
+            Assert.IsNotNull(ret, "1");
+            foreach (Employee emp in ret)
+            {
+                Trace.WriteLine(emp.Empno + "," + emp.Ename);
+            }
+        }
+    }
 }

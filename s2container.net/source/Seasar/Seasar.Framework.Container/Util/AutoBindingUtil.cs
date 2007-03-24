@@ -22,31 +22,28 @@ using Seasar.Framework.Container;
 
 namespace Seasar.Framework.Container.Util
 {
-	/// <summary>
-	/// AutoBindingUtil ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public sealed class AutoBindingUtil
-	{
-		private AutoBindingUtil()
-		{
-		}
+    public sealed class AutoBindingUtil
+    {
+        private AutoBindingUtil()
+        {
+        }
 
-		public static bool IsSuitable(ParameterInfo[] parameters)
-		{
-			foreach(ParameterInfo parameter in parameters)
-			{
-				if(!IsSuitable(parameter.ParameterType))
-				{
-					return false;
-				}
-			}
-			return true;
-		}
+        public static bool IsSuitable(ParameterInfo[] parameters)
+        {
+            foreach (ParameterInfo parameter in parameters)
+            {
+                if (!IsSuitable(parameter.ParameterType))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
 
-		public static bool IsSuitable(Type type)
-		{
-			return type.IsInterface;
-		}
+        public static bool IsSuitable(Type type)
+        {
+            return type.IsInterface;
+        }
 
         /// <summary>
         /// AutoBindingÇ™óLå¯Ç≈Ç†ÇÈÇ©Çï‘Ç∑
@@ -72,24 +69,24 @@ namespace Seasar.Framework.Container.Util
             }
         }
 
-		public static bool IsAuto(string mode)
-		{
-			return ContainerConstants.AUTO_BINDING_AUTO.ToLower().Equals(mode.ToLower());
-		}
+        public static bool IsAuto(string mode)
+        {
+            return ContainerConstants.AUTO_BINDING_AUTO.ToLower().Equals(mode.ToLower());
+        }
 
-		public static bool IsConstructor(string mode)
-		{
-			return ContainerConstants.AUTO_BINDING_CONSTRUCTOR.ToLower().Equals(mode.ToLower());
-		}
+        public static bool IsConstructor(string mode)
+        {
+            return ContainerConstants.AUTO_BINDING_CONSTRUCTOR.ToLower().Equals(mode.ToLower());
+        }
 
-		public static bool IsProperty(string mode)
-		{
-			return ContainerConstants.AUTO_BINDING_PROPERTY.ToLower().Equals(mode.ToLower());
-		}
+        public static bool IsProperty(string mode)
+        {
+            return ContainerConstants.AUTO_BINDING_PROPERTY.ToLower().Equals(mode.ToLower());
+        }
 
-		public static bool IsNone(string mode)
-		{
-			return ContainerConstants.AUTO_BINDING_NONE.ToLower().Equals(mode.ToLower());
-		}
-	}
+        public static bool IsNone(string mode)
+        {
+            return ContainerConstants.AUTO_BINDING_NONE.ToLower().Equals(mode.ToLower());
+        }
+    }
 }

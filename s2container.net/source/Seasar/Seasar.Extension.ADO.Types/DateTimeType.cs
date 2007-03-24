@@ -21,31 +21,27 @@ using System.Data;
 
 namespace Seasar.Extension.ADO.Types
 {
-	public class DateTimeType : PrimitiveBaseType, IValueType
+    public class DateTimeType : PrimitiveBaseType, IValueType
     {
-        public DateTimeType()
-        {
-        }
-
         #region IValueType ÉÅÉìÉo
 
-		public override void BindValue(IDbCommand cmd, string columnName, object value)
+        public override void BindValue(IDbCommand cmd, string columnName, object value)
         {
             BindValue(cmd, columnName, value, DbType.DateTime);
         }
 
         #endregion
 
-		protected override object GetValue(object value)
-		{
-			if (value == DBNull.Value)
-			{
-				return null;
-			}
-			else
-			{
-				return Convert.ToDateTime(value);
-			}
+        protected override object GetValue(object value)
+        {
+            if (value == DBNull.Value)
+            {
+                return null;
+            }
+            else
+            {
+                return Convert.ToDateTime(value);
+            }
         }
     }
 }

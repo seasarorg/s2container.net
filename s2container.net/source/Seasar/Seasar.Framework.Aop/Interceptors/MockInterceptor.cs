@@ -21,39 +21,38 @@ using System.Collections;
 
 namespace Seasar.Framework.Aop.Interceptors
 {
-	/// <summary>
-	/// Interceptの対象となるメソッドとインスタンスをMockにします
-	/// </summary>
-	public class MockInterceptor : AbstractInterceptor
-	{
+    /// <summary>
+    /// Interceptの対象となるメソッドとインスタンスをMockにします
+    /// </summary>
+    public class MockInterceptor : AbstractInterceptor
+    {
+        /// <summary>
+        /// Mockの戻り値
+        /// </summary>
+        private readonly Hashtable _returnValues = new Hashtable();
 
-		/// <summary>
-		/// Mockの戻り値
-		/// </summary>
-		private Hashtable returnValues_ = new Hashtable();
+        /// <summary>
+        /// Mockの例外
+        /// </summary>
+        private readonly Hashtable _exceptions = new Hashtable();
 
-		/// <summary>
-		/// Mockの例外
-		/// </summary>
-		private Hashtable exceptions_ = new Hashtable();
+        /// <summary>
+        /// メソッドが呼び出し済みかどうか示すフラグ
+        /// </summary>
+        private readonly Hashtable _invokedMethods = new Hashtable();
 
-		/// <summary>
-		/// メソッドが呼び出し済みかどうか示すフラグ
-		/// </summary>
-		private Hashtable invokedMethods_ = new Hashtable();
+        /// <summary>
+        /// メソッドを呼び出したときの引数
+        /// </summary>
+        private readonly Hashtable _invokedMethodArgs = new Hashtable();
 
-		/// <summary>
-		/// メソッドを呼び出したときの引数
-		/// </summary>
-		private Hashtable invokedMethodArgs_ = new Hashtable();
-		
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		public MockInterceptor() 
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public MockInterceptor()
         {
-		}
-		
+        }
+
         #region IMethodInterceptor クラス
 
         /// <summary>
@@ -64,37 +63,37 @@ namespace Seasar.Framework.Aop.Interceptors
         public override object Invoke(IMethodInvocation invocation)
         {
             string methodName = invocation.Method.Name;
-            invokedMethods_[methodName] = true;
-            invokedMethodArgs_[methodName] = invocation.Arguments;
+            _invokedMethods[methodName] = true;
+            _invokedMethodArgs[methodName] = invocation.Arguments;
 
-            if (exceptions_.ContainsKey(methodName)) 
+            if (_exceptions.ContainsKey(methodName))
             {
-                throw exceptions_[methodName] as Exception;
-            } 
-            else if (exceptions_.ContainsKey("")) 
+                throw (Exception) _exceptions[methodName];
+            }
+            else if (_exceptions.ContainsKey(string.Empty))
             {
-                throw exceptions_[""] as Exception;
-            } 
-            else if (returnValues_.ContainsKey(methodName)) 
+                throw (Exception) _exceptions[string.Empty];
+            }
+            else if (_returnValues.ContainsKey(methodName))
             {
-                return returnValues_[methodName];
-            } 
-            else 
+                return _returnValues[methodName];
+            }
+            else
             {
-                return returnValues_[""];
+                return _returnValues[string.Empty];
             }
         }
 
         #endregion
 
         /// <summary>
-		/// コンストラクタ
-		/// </summary>
-		/// <param name="value">Mockの戻り値</param>
-		public MockInterceptor(object value) 
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="value">Mockの戻り値</param>
+        public MockInterceptor(object value)
         {
-			SetReturnValue(value);
-		}
+            SetReturnValue(value);
+        }
 
         /// <summary>
         /// 戻り値の設定
@@ -103,9 +102,10 @@ namespace Seasar.Framework.Aop.Interceptors
         /// Mockのすべてのメソッドの戻り値を設定します。
         /// </remarks>
         /// <param name="returnValue">戻り値</param>
-		public void SetReturnValue(object returnValue) {
-			SetReturnValue("", returnValue);
-		}
+        public void SetReturnValue(object returnValue)
+        {
+            SetReturnValue(string.Empty, returnValue);
+        }
 
         /// <summary>
         /// 戻り値の設定
@@ -115,10 +115,10 @@ namespace Seasar.Framework.Aop.Interceptors
         /// </remarks>
         /// <param name="methodName">戻り値を設定するメソッド名</param>
         /// <param name="returnValue">戻り値</param>
-		public void SetReturnValue(String methodName, object returnValue) 
+        public void SetReturnValue(string methodName, object returnValue)
         {
-			returnValues_[methodName] = returnValue;
-		}
+            _returnValues[methodName] = returnValue;
+        }
 
         /// <summary>
         /// 例外の設定
@@ -127,11 +127,11 @@ namespace Seasar.Framework.Aop.Interceptors
         /// Mockのすべてのメソッドに例外を設定します。
         /// </remarks>
         /// <param name="exception">例外</param>
-		public void SetThrowable(Exception exception) 
+        public void SetThrowable(Exception exception)
         {
-			SetThrowable("", exception);
-		}
-		
+            SetThrowable(string.Empty, exception);
+        }
+
         /// <summary>
         /// 例外の設定
         /// </summary>
@@ -140,28 +140,29 @@ namespace Seasar.Framework.Aop.Interceptors
         /// </remarks>
         /// <param name="methodName">例外を設定するメソッド名</param>
         /// <param name="exception">例外</param>
-        public void SetThrowable(String methodName, Exception exception) 
+        public void SetThrowable(string methodName, Exception exception)
         {
-			exceptions_[methodName] = exception;
-		}
+            _exceptions[methodName] = exception;
+        }
 
         /// <summary>
         /// Mockのメソッドが既に呼び出されているか判定します
         /// </summary>
         /// <param name="methodName">呼び出されているかどうか判定するメソッド命</param>
         /// <returns>Mockのメソッドが既に呼び出されているか</returns>
-		public bool IsInvoked(String methodName) {
-			return invokedMethods_.ContainsKey(methodName);
-		}
+        public bool IsInvoked(string methodName)
+        {
+            return _invokedMethods.ContainsKey(methodName);
+        }
 
         /// <summary>
         /// Mockのメソッドが呼ばれたときの引数を取得します
         /// </summary>
         /// <param name="methodName">引数を取得するメソッド名</param>
         /// <returns>引数のリスト</returns>
-		public object[] GetArgs(String methodName) {
-			return (object[]) invokedMethodArgs_[methodName];
-		}
-
-	}
+        public object[] GetArgs(string methodName)
+        {
+            return (object[]) _invokedMethodArgs[methodName];
+        }
+    }
 }

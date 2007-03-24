@@ -22,37 +22,32 @@ using Seasar.Framework.Exceptions;
 
 namespace Seasar.Framework.Container
 {
-	/// <summary>
-	/// ContainerNotRegisteredRuntimeException ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	[Serializable]
-	public class ContainerNotRegisteredRuntimeException : SRuntimeException
-	{
-		private string path_;
+    [Serializable]
+    public class ContainerNotRegisteredRuntimeException : SRuntimeException
+    {
+        private readonly string path;
 
-		public ContainerNotRegisteredRuntimeException(string path)
-			: base("ESSR0075",new object[] { path})
-		{
-			path_ = path;
-		}
+        public ContainerNotRegisteredRuntimeException(string path)
+            : base("ESSR0075", new object[] { path })
+        {
+            this.path = path;
+        }
 
-		public ContainerNotRegisteredRuntimeException(SerializationInfo info, StreamingContext context) 
-			: base( info, context )
-		{
-			this.path_ = info.GetString("path_");
-		}
+        public ContainerNotRegisteredRuntimeException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+            path = info.GetString("path");
+        }
 
-		public override void GetObjectData( SerializationInfo info,
-			StreamingContext context )
-		{
-			info.AddValue("path_", this.path_, typeof(String));
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("path", path, typeof(string));
+            base.GetObjectData(info, context);
+        }
 
-			base.GetObjectData(info, context);
-		}
-
-		public string Path
-		{
-			get { return path_; }
-		}
-	}
+        public string Path
+        {
+            get { return path; }
+        }
+    }
 }

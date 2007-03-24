@@ -27,176 +27,161 @@ using Seasar.Framework.Container.Impl;
 
 namespace Seasar.Tests.Framework.Container.Assembler
 {
-	/// <summary>
-	/// DefaultInitMethodAssemblerTest ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	[TestFixture]
-	public class DefaultInitMethodAssemblerTest
-	{
-		[Test]
-		public void TestAssemble()
-		{
-			IS2Container container = new S2ContainerImpl();
-			ComponentDefImpl cd = new ComponentDefImpl(typeof(Hashtable));
-			IInitMethodDef md = new InitMethodDefImpl("Add");
-			IArgDef argDef = new ArgDefImpl("aaa");
-			md.AddArgDef(argDef);
-			IArgDef argDef2 = new ArgDefImpl("111");
-			md.AddArgDef(argDef2);
-			cd.AddInitMethodDef(md);
-			container.Register(cd);
-			IMethodAssembler assembler = new DefaultInitMethodAssembler(cd);
-			Hashtable table = new Hashtable();
-			assembler.Assemble(table);
-			Assert.AreEqual("111",table["aaa"]);
-		}
+    [TestFixture]
+    public class DefaultInitMethodAssemblerTest
+    {
+        [Test]
+        public void TestAssemble()
+        {
+            IS2Container container = new S2ContainerImpl();
+            ComponentDefImpl cd = new ComponentDefImpl(typeof(Hashtable));
+            IInitMethodDef md = new InitMethodDefImpl("Add");
+            IArgDef argDef = new ArgDefImpl("aaa");
+            md.AddArgDef(argDef);
+            IArgDef argDef2 = new ArgDefImpl("111");
+            md.AddArgDef(argDef2);
+            cd.AddInitMethodDef(md);
+            container.Register(cd);
+            IMethodAssembler assembler = new DefaultInitMethodAssembler(cd);
+            Hashtable table = new Hashtable();
+            assembler.Assemble(table);
+            Assert.AreEqual("111", table["aaa"]);
+        }
 
-		[Test]
-		public void TestAssembleForExpression()
-		{
-			IS2Container container = new S2ContainerImpl();
-			ComponentDefImpl cd = new ComponentDefImpl(typeof(Hashtable));
-			IInitMethodDef md = new InitMethodDefImpl();
-			md.Expression = "self.Add('aaa','111')";
-			cd.AddInitMethodDef(md);
-			container.Register(cd);
-			IMethodAssembler assembler = new DefaultInitMethodAssembler(cd);
-			Hashtable table = new Hashtable();
-			assembler.Assemble(table);
-			Assert.AreEqual("111",table["aaa"]);
-		}
+        [Test]
+        public void TestAssembleForExpression()
+        {
+            IS2Container container = new S2ContainerImpl();
+            ComponentDefImpl cd = new ComponentDefImpl(typeof(Hashtable));
+            IInitMethodDef md = new InitMethodDefImpl();
+            md.Expression = "self.Add('aaa','111')";
+            cd.AddInitMethodDef(md);
+            container.Register(cd);
+            IMethodAssembler assembler = new DefaultInitMethodAssembler(cd);
+            Hashtable table = new Hashtable();
+            assembler.Assemble(table);
+            Assert.AreEqual("111", table["aaa"]);
+        }
 
-		[Test]
-		public void TestAssembleForAuto()
-		{
-			IS2Container container = new S2ContainerImpl();
-			ComponentDefImpl cd = new ComponentDefImpl(typeof(B));
-			IInitMethodDef md = new InitMethodDefImpl("Bbb");
-			cd.AddInitMethodDef(md);
-			container.Register(cd);
-			container.Register(typeof(ArrayList));
-			IMethodAssembler assembler = new DefaultInitMethodAssembler(cd);
-			B b = new B();
-			assembler.Assemble(b);
-			Assert.AreEqual(0,b.ValueSize);
-		}
+        [Test]
+        public void TestAssembleForAuto()
+        {
+            IS2Container container = new S2ContainerImpl();
+            ComponentDefImpl cd = new ComponentDefImpl(typeof(B));
+            IInitMethodDef md = new InitMethodDefImpl("Bbb");
+            cd.AddInitMethodDef(md);
+            container.Register(cd);
+            container.Register(typeof(ArrayList));
+            IMethodAssembler assembler = new DefaultInitMethodAssembler(cd);
+            B b = new B();
+            assembler.Assemble(b);
+            Assert.AreEqual(0, b.ValueSize);
+        }
 
-		[Test]
-		public void TestAssembleIllegalArgument()
-		{
-			IS2Container container = new S2ContainerImpl();
-			ComponentDefImpl cd = new ComponentDefImpl(typeof(Hashtable));
-			IInitMethodDef md = new InitMethodDefImpl("Add");
-			cd.AddInitMethodDef(md);
-			container.Register(cd);
-			IMethodAssembler assembler = new DefaultInitMethodAssembler(cd);
-			Hashtable table = new Hashtable();
-			try
-			{
-				assembler.Assemble(table);
-				Assert.Fail();
-			}
-			catch(MethodNotFoundRuntimeException ex)
-			{
-				Trace.WriteLine(ex);
-			}
-		}
+        [Test]
+        public void TestAssembleIllegalArgument()
+        {
+            IS2Container container = new S2ContainerImpl();
+            ComponentDefImpl cd = new ComponentDefImpl(typeof(Hashtable));
+            IInitMethodDef md = new InitMethodDefImpl("Add");
+            cd.AddInitMethodDef(md);
+            container.Register(cd);
+            IMethodAssembler assembler = new DefaultInitMethodAssembler(cd);
+            Hashtable table = new Hashtable();
+            try
+            {
+                assembler.Assemble(table);
+                Assert.Fail();
+            }
+            catch (MethodNotFoundRuntimeException ex)
+            {
+                Trace.WriteLine(ex);
+            }
+        }
 
-		[Test]
-		public void TestAssembleIllegalArgument2()
-		{
-			IS2Container container = new S2ContainerImpl();
-			ComponentDefImpl cd = new ComponentDefImpl(typeof(B));
-			IInitMethodDef md = new InitMethodDefImpl("SetAAA");
-			IArgDef argDef = new ArgDefImpl("aaa");
-			md.AddArgDef(argDef);
-			cd.AddInitMethodDef(md);
-			container.Register(cd);
-			IMethodAssembler assembler = new DefaultInitMethodAssembler(cd);
-			try
-			{
-				assembler.Assemble(new B());
-				Assert.Fail();
-			}
-			catch(MethodNotFoundRuntimeException ex)
-			{
-				Trace.WriteLine(ex);
-			}
-		}
+        [Test]
+        public void TestAssembleIllegalArgument2()
+        {
+            IS2Container container = new S2ContainerImpl();
+            ComponentDefImpl cd = new ComponentDefImpl(typeof(B));
+            IInitMethodDef md = new InitMethodDefImpl("SetAAA");
+            IArgDef argDef = new ArgDefImpl("aaa");
+            md.AddArgDef(argDef);
+            cd.AddInitMethodDef(md);
+            container.Register(cd);
+            IMethodAssembler assembler = new DefaultInitMethodAssembler(cd);
+            try
+            {
+                assembler.Assemble(new B());
+                Assert.Fail();
+            }
+            catch (MethodNotFoundRuntimeException ex)
+            {
+                Trace.WriteLine(ex);
+            }
+        }
 
-		[Test]
-		public void TestAssembleField()
-		{
-			IS2Container container = new S2ContainerImpl();
-			ComponentDefImpl cd = new ComponentDefImpl(typeof(Int32));
-			IInitMethodDef md = new InitMethodDefImpl();
-			md.Expression = "out.WriteLine(Int32.MinValue)";
-			cd.AddInitMethodDef(md);
-			container.Register(cd);
-			IMethodAssembler assembler = new DefaultInitMethodAssembler(cd);
-			assembler.Assemble(1);
-		}
+        [Test]
+        public void TestAssembleField()
+        {
+            IS2Container container = new S2ContainerImpl();
+            ComponentDefImpl cd = new ComponentDefImpl(typeof(Int32));
+            IInitMethodDef md = new InitMethodDefImpl();
+            md.Expression = "out.WriteLine(Int32.MinValue)";
+            cd.AddInitMethodDef(md);
+            container.Register(cd);
+            IMethodAssembler assembler = new DefaultInitMethodAssembler(cd);
+            assembler.Assemble(1);
+        }
 
-		public interface IFoo
-		{
-			string HogeName{ get; }
-		}
+        public interface IFoo
+        {
+            string HogeName { get; }
+        }
 
-		public class A : IFoo
-		{
-			private IHoge hoge_;
+        public class A : IFoo
+        {
+            private IHoge _hoge;
 
-			public A()
-			{
-			}
+            public IHoge Hoge
+            {
+                get { return _hoge; }
+                set { _hoge = value; }
+            }
 
-			public IHoge Hoge
-			{
-				get { return hoge_; }
-				set { hoge_ = value; }
-			}
+            public string HogeName
+            {
+                get { return _hoge.Name; }
+            }
+        }
 
-			public string HogeName
-			{
-				get
-				{
-					return hoge_.Name;
-				}
-			}
-		}
+        public interface IHoge
+        {
+            string Name { get; }
+        }
 
-		public interface IHoge
-		{
-			string Name { get; }
-		}
+        public class B : IHoge
+        {
+            private IList _values;
 
-		public class B : IHoge
-		{
-			private IList values_;
+            public string Name
+            {
+                get { return "B"; }
+            }
 
-			public string Name
-			{
-				get
-				{
-					return "B";
-				}
-			}
-			
-			public void SetAaa(int aaa)
-			{
-			}
+            public void SetAaa(int aaa)
+            {
+            }
 
-			public void Bbb(IList values)
-			{
-				values_ = values;
-			}
+            public void Bbb(IList values)
+            {
+                _values = values;
+            }
 
-			public int ValueSize
-			{
-				get { return values_.Count; }
-			}
-		}
-
-
-	}
+            public int ValueSize
+            {
+                get { return _values.Count; }
+            }
+        }
+    }
 }

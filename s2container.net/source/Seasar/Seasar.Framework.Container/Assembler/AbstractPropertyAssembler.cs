@@ -22,51 +22,50 @@ using Seasar.Framework.Beans;
 
 namespace Seasar.Framework.Container.Assembler
 {
-	/// <summary>
-	/// AbstractPropertyAssembler の概要の説明です。
-	/// </summary>
-	public abstract class AbstractPropertyAssembler 
-		: AbstractAssembler,IPropertyAssembler
-	{
-		public AbstractPropertyAssembler(IComponentDef componentDef)
-			: base(componentDef)
-		{
-		}
+    public abstract class AbstractPropertyAssembler
+        : AbstractAssembler, IPropertyAssembler
+    {
+        public AbstractPropertyAssembler(IComponentDef componentDef)
+            : base(componentDef)
+        {
+        }
 
-		protected object GetValue(IPropertyDef propertyDef,object component)
-		{
-			try
-			{
-				return propertyDef.Value;
-			}
-			catch(ComponentNotFoundRuntimeException cause)
-			{
-				throw new IllegalPropertyRuntimeException(
-					this.GetComponentType(component),propertyDef.PropertyName,cause);
-			}
-		}
+        protected object GetValue(IPropertyDef propertyDef, object component)
+        {
+            try
+            {
+                return propertyDef.Value;
+            }
+            catch (ComponentNotFoundRuntimeException cause)
+            {
+                throw new IllegalPropertyRuntimeException(
+                    GetComponentType(component), propertyDef.PropertyName, cause);
+            }
+        }
 
-		protected void SetValue(PropertyInfo propertyInfo,object component,object value)
-		{
-			if(value==null) return;
-			try
-			{
-				propertyInfo.SetValue(component,value,null);
-			}
-			catch(Exception ex)
-			{
-				throw new IllegalPropertyRuntimeException(
-					this.ComponentDef.ComponentType,propertyInfo.Name,ex);
-			}
-		}
+        protected void SetValue(PropertyInfo propertyInfo, object component, object value)
+        {
+            if (value == null)
+            {
+                return;
+            }
+            try
+            {
+                propertyInfo.SetValue(component, value, null);
+            }
+            catch (Exception ex)
+            {
+                throw new IllegalPropertyRuntimeException(
+                    ComponentDef.ComponentType, propertyInfo.Name, ex);
+            }
+        }
 
-		#region PropertyAssembler メンバ
+        #region PropertyAssembler メンバ
 
-		public virtual void Assemble(object component)
-		{
-			
-		}
+        public virtual void Assemble(object component)
+        {
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

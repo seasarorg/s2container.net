@@ -17,138 +17,138 @@
 #endregion
 
 using System;
-using System.Data.SqlTypes;
 using System.Text;
 using Nullables;
 
 namespace Seasar.Examples.Reference.ADO
 {
-	[Serializable]
-	public class Employee 
-	{
-		private long empno;
+    [Serializable]
+    public class Employee
+    {
+        private long _empno;
 
-		private string ename;
+        private string _ename;
 
-		private string job;
+        private string _job;
 
-		private NullableInt16 mgr;
+        private NullableInt16 _mgr;
 
-		private NullableDateTime hiredate;
+        private NullableDateTime _hiredate;
 
-		private NullableSingle sal;
+        private NullableSingle _sal;
 
-		private NullableSingle comm;
+        private NullableSingle _comm;
 
-		private NullableInt32 deptno;
+        private NullableInt32 _deptno;
 
-		private NullableDateTime tstamp;
+        private NullableDateTime _tstamp;
 
-		public Employee()
-		{
-		}
+        public Employee()
+        {
+        }
 
-		public Employee(
-			long empno,
-			string ename,
-			string job,
-			NullableInt16 mgr,
-			NullableDateTime hiredate,
-			NullableSingle sal,
-			NullableSingle comm,
-			NullableInt32 deptno,
-			NullableDateTime tstamp
-			)
-		{
-			this.empno = empno;
-			this.ename = ename;
-			this.job = job;
-			this.mgr = mgr;
-			this.sal = sal;
-			this.comm = comm;
-			this.deptno = deptno;
-			this.tstamp = tstamp;
-		}
+        public Employee(
+            long empno,
+            string ename,
+            string job,
+            NullableInt16 mgr,
+            NullableDateTime hiredate,
+            NullableSingle sal,
+            NullableSingle comm,
+            NullableInt32 deptno,
+            NullableDateTime tstamp
+            )
+        {
+            _empno = empno;
+            _ename = ename;
+            _job = job;
+            _mgr = mgr;
+            _hiredate = hiredate;
+            _sal = sal;
+            _comm = comm;
+            _deptno = deptno;
+            _tstamp = tstamp;
+        }
 
-		public long Empno
-		{
-			set { empno = value; }
-			get { return empno; }
-		}
+        public long Empno
+        {
+            set { _empno = value; }
+            get { return _empno; }
+        }
 
-		public string Ename
-		{
-			set { ename = value; }
-			get { return ename; }
-		}
+        public string Ename
+        {
+            set { _ename = value; }
+            get { return _ename; }
+        }
 
-		public string Job
-		{
-			set { job = value; }
-			get { return job; }
-		}
+        public string Job
+        {
+            set { _job = value; }
+            get { return _job; }
+        }
 
-		public NullableInt16 Mgr
-		{
-			set { mgr = value; }
-			get { return mgr; }
-		}
+        public NullableInt16 Mgr
+        {
+            set { _mgr = value; }
+            get { return _mgr; }
+        }
 
         public NullableDateTime Hiredate
         {
-            set { hiredate = value; }
-            get { return hiredate; }
+            set { _hiredate = value; }
+            get { return _hiredate; }
         }
 
-		public NullableSingle Sal
-		{
-			set { sal = value; }
-			get { return sal; }
-		}
+        public NullableSingle Sal
+        {
+            set { _sal = value; }
+            get { return _sal; }
+        }
 
-		public NullableSingle Comm
-		{
-		    set { comm = value; }
-		    get { return comm; }
-		}
+        public NullableSingle Comm
+        {
+            set { _comm = value; }
+            get { return _comm; }
+        }
 
-		public NullableInt32 Deptno
-		{
-			set { deptno = value; }
-			get { return deptno; }
-		}
+        public NullableInt32 Deptno
+        {
+            set { _deptno = value; }
+            get { return _deptno; }
+        }
 
-		public NullableDateTime Tstamp
-		{
-			set { tstamp = value; }
-			get { return tstamp; }
-		}
+        public NullableDateTime Tstamp
+        {
+            set { _tstamp = value; }
+            get { return _tstamp; }
+        }
 
-		public override bool Equals(object other)
-		{
-			if (!(other is Employee)) return false;
-			Employee castOther = (Employee) other;
-			return this.Empno == castOther.Empno;
-		}
+        public override bool Equals(object other)
+        {
+            if (!(other is Employee)) return false;
+            Employee castOther = (Employee) other;
+            return Empno == castOther.Empno;
+        }
 
-		public override int GetHashCode()
-		{
-			return (int) this.Empno;
-		}
+        public override int GetHashCode()
+        {
+            return (int) Empno;
+        }
 
-		public override string ToString()
-		{
-			StringBuilder buf = new StringBuilder();
-			buf.Append(empno).Append(", ");
-			buf.Append(ename).Append(", ");
-			buf.Append(job).Append(", ");
-			buf.Append(mgr).Append(", ");
-			buf.Append(hiredate).Append(", ");
-			buf.Append(sal).Append(", ");
-			buf.Append(comm).Append(", ");
-			buf.Append(deptno).Append(", ");
-			buf.Append(tstamp);
-			return buf.ToString();
-		}
-	}
+        public override string ToString()
+        {
+            StringBuilder buf = new StringBuilder();
+            buf.Append(_empno).Append(", ");
+            buf.Append(_ename).Append(", ");
+            buf.Append(_job).Append(", ");
+            buf.Append(_mgr).Append(", ");
+            buf.Append(_hiredate).Append(", ");
+            buf.Append(_sal).Append(", ");
+            buf.Append(_comm).Append(", ");
+            buf.Append(_deptno).Append(", ");
+            buf.Append(_tstamp);
+            return buf.ToString();
+        }
+    }
 }

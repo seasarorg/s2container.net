@@ -20,58 +20,55 @@ using System;
 using System.Reflection;
 using Seasar.Framework.Beans;
 using Seasar.Framework.Container.Util;
-using Seasar.Framework.Util;
 
 namespace Seasar.Framework.Container.Assembler
 {
-	/// <summary>
-	/// ManualConstructorAssembler ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public class ManualConstructorAssembler : AbstractConstructorAssembler
-	{
-		public ManualConstructorAssembler(IComponentDef componentDef)
-			: base(componentDef)
-		{
-		}
+    public class ManualConstructorAssembler : AbstractConstructorAssembler
+    {
+        public ManualConstructorAssembler(IComponentDef componentDef)
+            : base(componentDef)
+        {
+        }
 
-		public override object Assemble()
-		{
-			object[] args = new object[this.ComponentDef.ArgDefSize];
+        public override object Assemble()
+        {
+            object[] args = new object[ComponentDef.ArgDefSize];
 
-			for(int i = 0; i < args.Length; ++i)
-			{
-				try
-				{
-                    args[i] = this.ComponentDef.GetArgDef(i).Value;
-				}
-				catch(ComponentNotFoundRuntimeException cause)
-				{
-					throw new IllegalConstructorRuntimeException(
-						this.ComponentDef.ComponentType,cause);
-				}
-			}
+            for (int i = 0; i < args.Length; ++i)
+            {
+                try
+                {
+                    args[i] = ComponentDef.GetArgDef(i).Value;
+                }
+                catch (ComponentNotFoundRuntimeException cause)
+                {
+                    throw new IllegalConstructorRuntimeException(ComponentDef.ComponentType, cause);
+                }
+            }
 
             ConstructorInfo constructor =
-                this.ComponentDef.ComponentType.GetConstructor(
+                ComponentDef.ComponentType.GetConstructor(
                 Type.GetTypeArray(args));
 
-			if(constructor == null)
-				throw new ConstructorNotFoundRuntimeException(
-					this.ComponentDef.ComponentType, args);
+            if (constructor == null)
+            {
+                throw new ConstructorNotFoundRuntimeException(
+                    ComponentDef.ComponentType, args);
+            }
 
             ParameterInfo[] parameters = constructor.GetParameters();
 
             for (int i = 0; i < args.Length; ++i)
             {
-                IArgDef argDef = this.ComponentDef.GetArgDef(i);
-                object value = this.GetComponentByReceiveType(parameters[i].ParameterType, argDef.Expression);
-                if (value != null) args[i] = value;
+                IArgDef argDef = ComponentDef.GetArgDef(i);
+                object value = GetComponentByReceiveType(parameters[i].ParameterType, argDef.Expression);
+                if (value != null)
+                {
+                    args[i] = value;
+                }
             }
 
-            object obj = AopProxyUtil.WeaveAspect(this.ComponentDef, constructor, args);
-			
-            return obj;
-		}
-
-	}
+            return AopProxyUtil.WeaveAspect(ComponentDef, constructor, args);
+        }
+    }
 }

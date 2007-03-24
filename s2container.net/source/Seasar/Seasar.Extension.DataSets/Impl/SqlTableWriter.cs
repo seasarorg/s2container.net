@@ -26,8 +26,8 @@ namespace Seasar.Extension.DataSets.Impl
 {
     public class SqlTableWriter : ITableWriter
     {
-        private IDataSource dataSource_;
-        private ICommandFactory commandFactory_ = BasicCommandFactory.INSTANCE;
+        private readonly IDataSource _dataSource;
+        private ICommandFactory _commandFactory;
 
         public SqlTableWriter(IDataSource dataSource)
             : this(dataSource, BasicCommandFactory.INSTANCE)
@@ -36,19 +36,19 @@ namespace Seasar.Extension.DataSets.Impl
 
         public SqlTableWriter(IDataSource dataSource, ICommandFactory commandFactory)
         {
-            dataSource_ = dataSource;
-            commandFactory_ = commandFactory;
+            _dataSource = dataSource;
+            _commandFactory = commandFactory;
         }
 
         public IDataSource DataSource
         {
-            get { return dataSource_; }
+            get { return _dataSource; }
         }
 
         public ICommandFactory CommandFactory
         {
-            get { return commandFactory_; }
-            set { commandFactory_ = value; }
+            get { return _commandFactory; }
+            set { _commandFactory = value; }
         }
 
         #region ITableWriter ÉÅÉìÉo
@@ -71,7 +71,6 @@ namespace Seasar.Extension.DataSets.Impl
             try
             {
                 BeginDoWrite(table);
-
                 foreach (DataRow row in table.Rows)
                 {
                     RowState state = RowStateFactory.GetRowState(row.RowState);

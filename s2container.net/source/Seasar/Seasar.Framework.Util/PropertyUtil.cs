@@ -23,70 +23,70 @@ using Nullables;
 
 namespace Seasar.Framework.Util
 {
-	public sealed class PropertyUtil
-	{
-		private PropertyUtil()
-		{
-		}
+    public sealed class PropertyUtil
+    {
+        private PropertyUtil()
+        {
+        }
 
-		public static Type GetPrimitiveType(Type type)
-		{
-			if (type.GetInterface(typeof(INullableType).Name) != null)
-			{
-				ConstructorInfo[] constructorInfos = type.GetConstructors();
-				ParameterInfo[] parameterInfos = constructorInfos[0].GetParameters();
-				type = parameterInfos[0].ParameterType;
-			}
-			else if (type.GetInterface(typeof(INullable).Name) != null)
-			{
-				PropertyInfo npi = type.GetProperty("Value");
-				return npi.PropertyType;
-			}
+        public static Type GetPrimitiveType(Type type)
+        {
+            if (type.GetInterface(typeof(INullableType).Name) != null)
+            {
+                ConstructorInfo[] constructorInfos = type.GetConstructors();
+                ParameterInfo[] parameterInfos = constructorInfos[0].GetParameters();
+                type = parameterInfos[0].ParameterType;
+            }
+            else if (type.GetInterface(typeof(INullable).Name) != null)
+            {
+                PropertyInfo npi = type.GetProperty("Value");
+                return npi.PropertyType;
+            }
 
 #if !NET_1_1
-			else if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
-			{
-				type = Nullable.GetUnderlyingType(type);
-			}
+            else if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+            {
+                type = Nullable.GetUnderlyingType(type);
+            }
 #endif
 
-			return type;
-		}
+            return type;
+        }
 
-		public static object GetPrimitiveValue(object value)
-		{
-			if (value == null || value == DBNull.Value)
-			{
-				return DBNull.Value;
-			}
+        public static object GetPrimitiveValue(object value)
+        {
+            if (value == null || value == DBNull.Value)
+            {
+                return DBNull.Value;
+            }
 
-			if (value is INullableType)
-			{
-				INullableType nullableType = (INullableType) value;
-				if (nullableType.HasValue)
-				{
-					return nullableType.Value;
-				}
-				else
-				{
-					return DBNull.Value;
-				}
-			}
-			else if (value is INullable)
-			{
-				INullable nullable = (INullable) value;
-				if (!nullable.IsNull)
-				{
-					PropertyInfo npi = value.GetType().GetProperty("Value");
-					return npi.GetValue(value, null);
-				}
-				else
-				{
-					return DBNull.Value;
-				}
-			}
+            if (value is INullableType)
+            {
+                INullableType nullableType = (INullableType) value;
+                if (nullableType.HasValue)
+                {
+                    return nullableType.Value;
+                }
+                else
+                {
+                    return DBNull.Value;
+                }
+            }
+            else if (value is INullable)
+            {
+                INullable nullable = (INullable) value;
+                if (!nullable.IsNull)
+                {
+                    PropertyInfo npi = value.GetType().GetProperty("Value");
+                    return npi.GetValue(value, null);
+                }
+                else
+                {
+                    return DBNull.Value;
+                }
+            }
 
-			return value;
-		}
-	}
+            return value;
+        }
+    }
 }

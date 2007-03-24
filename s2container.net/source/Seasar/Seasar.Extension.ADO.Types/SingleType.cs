@@ -21,31 +21,27 @@ using System.Data;
 
 namespace Seasar.Extension.ADO.Types
 {
-	public class SingleType : PrimitiveBaseType, IValueType
+    public class SingleType : PrimitiveBaseType, IValueType
     {
-        public SingleType()
-        {
-        }
-
         #region IValueType ÉÅÉìÉo
 
-		public override void BindValue(IDbCommand cmd, string columnName, object value)
+        public override void BindValue(IDbCommand cmd, string columnName, object value)
         {
             BindValue(cmd, columnName, value, DbType.Single);
         }
 
         #endregion
 
-		protected override object GetValue(object value)
-		{
-			if (value == DBNull.Value)
-			{
-				return null;
-			}
-			else
-			{
-				return Convert.ToSingle(value);
-			}
+        protected override object GetValue(object value)
+        {
+            if (value == DBNull.Value)
+            {
+                return null;
+            }
+            else
+            {
+                return Convert.ToSingle(value);
+            }
         }
     }
 }

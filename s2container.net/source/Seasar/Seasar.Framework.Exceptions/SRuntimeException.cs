@@ -22,81 +22,73 @@ using Seasar.Framework.Message;
 
 namespace Seasar.Framework.Exceptions
 {
-	/// <summary>
-	/// Seasarの実行時例外のベースとなるクラスです。
-	/// メッセージコードによって例外を詳細に特定できます。
-	/// </summary>
-	[Serializable]
-	public class SRuntimeException : ApplicationException
-	{
-		private string messageCode_;
-		private object[] args_;
-		private string message_;
-		private string simpleMessage_;
+    /// <summary>
+    /// Seasarの実行時例外のベースとなるクラスです。
+    /// メッセージコードによって例外を詳細に特定できます。
+    /// </summary>
+    [Serializable]
+    public class SRuntimeException : ApplicationException
+    {
+        private readonly string _messageCode;
+        private readonly object[] _args;
+        private readonly string _message;
+        private readonly string _simpleMessage;
 
-		public SRuntimeException(string messageCode)
-			: this(messageCode,null,null)
-		{
-		}
+        public SRuntimeException(string messageCode)
+            : this(messageCode, null, null)
+        {
+        }
 
+        public SRuntimeException(string messageCode, object[] args)
+            : this(messageCode, args, null)
+        {
+        }
 
-		public SRuntimeException(string messageCode,object[] args)
-			: this(messageCode,args,null)
-		{
-		}
+        public SRuntimeException(string messageCode, object[] args, Exception cause)
+            : base(messageCode, cause)
+        {
+            _messageCode = messageCode;
+            _args = args;
+            _simpleMessage = MessageFormatter.GetSimpleMessage(_messageCode, _args);
+            _message = "[" + messageCode + "]" + _simpleMessage;
+        }
 
+        public SRuntimeException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+            _messageCode = info.GetString("_messageCode");
+            _args = info.GetValue("_args", typeof(object[])) as object[];
+            _message = info.GetString("_message");
+            _simpleMessage = info.GetString("_simpleMessage");
+        }
 
-		public SRuntimeException(string messageCode,object[] args,System.Exception cause)
-			: base(messageCode,cause)
-		{
-			messageCode_ = messageCode;
-			args_ = args;
-			simpleMessage_ = MessageFormatter.GetSimpleMessage(messageCode_,args_);
-			message_ = "[" + messageCode + "]" + simpleMessage_;
-		}
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("_messageCode", _messageCode, typeof(string));
+            info.AddValue("_args", _args, typeof(object[]));
+            info.AddValue("_message", _message, typeof(string));
+            info.AddValue("_simpleMessage", _simpleMessage, typeof(string));
+            base.GetObjectData(info, context);
+        }
 
-		public SRuntimeException(SerializationInfo info, StreamingContext context ) 
-			: base( info, context )
-		{
-			this.messageCode_ = info.GetString("messageCode_");
-			this.args_ = info.GetValue("args_", typeof(object[])) as object[];
-			this.message_ = info.GetString("message_");
-			this.simpleMessage_ = info.GetString("simpleMessage_");
-		}
+        public string MessageCode
+        {
+            get { return _messageCode; }
+        }
 
-		public override void GetObjectData( SerializationInfo info,
-			StreamingContext context )
-		{
-			info.AddValue("messageCode_", this.messageCode_, typeof(String));
-			info.AddValue("args_", this.args_, typeof(object[]));
-			info.AddValue("message_", this.message_, typeof(String));
-			info.AddValue("simpleMessage_", this.simpleMessage_, typeof(String));
+        public object[] Args
+        {
+            get { return _args; }
+        }
 
-			base.GetObjectData(info, context);
-		}
+        public override string Message
+        {
+            get { return _message; }
+        }
 
-
-		public string MessageCode
-		{
-			get { return messageCode_; }
-		}
-
-
-		public object[] Args
-		{
-			get { return args_; }
-		}
-		
-		public override string Message
-		{
-			get { return message_; }
-		}
-
-
-		public string SimpleMessage
-		{
-			get { return simpleMessage_; }
-		}
-
-	}
+        public string SimpleMessage
+        {
+            get { return _simpleMessage; }
+        }
+    }
 }

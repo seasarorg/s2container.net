@@ -27,12 +27,9 @@ namespace Seasar.Extension.DataSets.Impl
     public class XlsReader : IDataReader
     {
         private const int DEFAULT_BUFFER_SIZE = 1024 * 4;
-
-        private Regex illigalColumnNamePattern = new Regex("F[0-9]+$", RegexOptions.Compiled);
-
-        private Regex workSheetPrefixPattern = new Regex(@"^#[0-9]+\s+.+$", RegexOptions.Compiled);
-
-        private DataSet dataSet_;
+        private static readonly Regex ILLIGAL_COLUMN_NAME_PATTERN = new Regex("F[0-9]+$", RegexOptions.Compiled);
+        private static readonly Regex WORK_SHEET_PREFIX_PATTERN = new Regex(@"^#[0-9]+\s+.+$", RegexOptions.Compiled);
+        private readonly DataSet _dataSet;
 
         public XlsReader(string path)
         {
@@ -41,8 +38,7 @@ namespace Seasar.Extension.DataSets.Impl
             {
                 throw new FileNotFoundException("xls file not found.", fullPath);
             }
-
-            dataSet_ = CreateDataSet(fullPath);
+            _dataSet = CreateDataSet(fullPath);
         }
 
         public XlsReader(Stream stream)
@@ -57,9 +53,7 @@ namespace Seasar.Extension.DataSets.Impl
                     fs.Write(b, 0, n);
                 }
             }
-
-            dataSet_ = CreateDataSet(tempPath);
-
+            _dataSet = CreateDataSet(tempPath);
             if (File.Exists(tempPath))
             {
                 File.Delete(tempPath);
@@ -68,9 +62,9 @@ namespace Seasar.Extension.DataSets.Impl
 
         #region IDataReader ƒƒ“ƒo
 
-        public virtual DataSet Read()
+        public DataSet Read()
         {
-            return dataSet_;
+            return _dataSet;
         }
 
         #endregion
@@ -112,7 +106,7 @@ namespace Seasar.Extension.DataSets.Impl
                         adapter.Fill(table);
                         SetupTable(table);
                         ds.Tables.Add(table);
-                        //adapter.Fill(ds, tableName.Replace("$", string.Empty));
+                        //adapter.Fill(ds, _tableName.Replace("$", string.Empty));
                     }
                 }
             }
@@ -131,7 +125,7 @@ namespace Seasar.Extension.DataSets.Impl
             {
                 tableName = tableName.Substring(1, tableName.Length - 3);
             }
-            if (workSheetPrefixPattern.IsMatch(tableName))
+            if (WORK_SHEET_PREFIX_PATTERN.IsMatch(tableName))
             {
                 tableName = tableName.Split(new char[] { ' ', '@' })[1];
             }
@@ -140,11 +134,11 @@ namespace Seasar.Extension.DataSets.Impl
             int rowCount = table.Rows.Count;
             if (rowCount > 0)
             {
-                SetupColumns(table, table.Columns);
+                SetupColumns(table.Columns);
             }
         }
 
-        private void SetupColumns(DataTable table, DataColumnCollection columns)
+        private void SetupColumns(DataColumnCollection columns)
         {
             for (int i = 0; i < columns.Count; i++)
             {
@@ -158,7 +152,7 @@ namespace Seasar.Extension.DataSets.Impl
                     isRemove = true;
                 }
 
-                if (illigalColumnNamePattern.IsMatch(columnName))
+                if (ILLIGAL_COLUMN_NAME_PATTERN.IsMatch(columnName))
                 {
                     isRemove = true;
                 }

@@ -21,12 +21,8 @@ using System.Data;
 
 namespace Seasar.Extension.ADO.Types
 {
-	public class Int64Type : PrimitiveBaseType, IValueType
+    public class Int64Type : PrimitiveBaseType, IValueType
     {
-        public Int64Type()
-        {
-        }
-
         #region IValueType ÉÅÉìÉo
 
         public override void BindValue(IDbCommand cmd, string columnName, object value)
@@ -36,16 +32,16 @@ namespace Seasar.Extension.ADO.Types
 
         #endregion
 
-		protected override object GetValue(object value)
-		{
-			if (value == DBNull.Value)
-			{
-				return null;
-			}
-			else
-			{
-				return Convert.ToInt64(value);
-			}
+        protected override object GetValue(object value)
+        {
+            if (value == DBNull.Value)
+            {
+                return null;
+            }
+            else
+            {
+                return Convert.ToInt64(value);
+            }
         }
     }
 }

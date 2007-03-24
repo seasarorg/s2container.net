@@ -24,13 +24,9 @@ namespace Seasar.Tests.Extension.Tx.Impl
     public interface ITxTest
     {
         bool IsInTransaction();
-        string TxId
-        {
-            get;
-        }
+        string TxId { get;}
         void throwException();
     }
-
 
     [global::System.Serializable]
     public class TxException : Exception
@@ -59,9 +55,8 @@ namespace Seasar.Tests.Extension.Tx.Impl
             : base(info, context) { }
     }
 
-	public class TxTest : ITxTest
-	{
-
+    public class TxTest : ITxTest
+    {
         #region ITxTest ÉÅÉìÉo
 
         public bool IsInTransaction()
@@ -76,7 +71,8 @@ namespace Seasar.Tests.Extension.Tx.Impl
 
         public string TxId
         {
-            get {
+            get
+            {
                 Transaction tx = Transaction.Current;
                 if (tx != null)
                 {
@@ -89,8 +85,8 @@ namespace Seasar.Tests.Extension.Tx.Impl
         public void throwException()
         {
             TxException ex = new TxException();
-            ex.WasInTx = this.IsInTransaction();
-            ex.TxId = this.TxId;
+            ex.WasInTx = IsInTransaction();
+            ex.TxId = TxId;
             throw ex;
         }
 

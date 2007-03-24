@@ -18,8 +18,8 @@
 
 namespace Seasar.Examples.Reference.S2Unit
 {
-	public interface IEmployeeDao
-	{
-		Employee GetEmployee(long empno);
-	}
+    public interface IEmployeeDao
+    {
+        Employee GetEmployee(long empno);
+    }
 }

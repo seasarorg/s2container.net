@@ -23,30 +23,30 @@ using Seasar.Extension.DataSets.Impl;
 
 namespace Seasar.Tests.Extension.DataSets.Impl
 {
-	[TestFixture]
-	public class SqlReloadReaderTest : S2TestCase
-	{
-		private const string PATH = "Ado.dicon";
+    [TestFixture]
+    public class SqlReloadReaderTest : S2TestCase
+    {
+        private const string PATH = "Ado.dicon";
 
-		public void SetUpRead() 
-		{
-			Include(PATH);
-		}
+        public void SetUpRead()
+        {
+            Include(PATH);
+        }
 
         [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
-		public void Read() 
-		{
-			DataSet dataSet = new DataSet();
-			DataTable table = dataSet.Tables.Add("emp");
-			table.Columns.Add("empno", typeof(int));
-			table.Columns.Add("ename", typeof(string));
-			DataRow row = table.NewRow();
-			row["empno"] = 7788;
-			row["ename"] = "SCOTT";
-			table.Rows.Add(row);
-			SqlReloadReader reader = new SqlReloadReader(DataSource, dataSet);
-			DataSet ret = reader.Read();
-			S2Assert.AreEqual(dataSet, ret, "1");
-		}
-	}
+        public void Read()
+        {
+            DataSet dataSet = new DataSet();
+            DataTable table = dataSet.Tables.Add("emp");
+            table.Columns.Add("empno", typeof(int));
+            table.Columns.Add("ename", typeof(string));
+            DataRow row = table.NewRow();
+            row["empno"] = 7788;
+            row["ename"] = "SCOTT";
+            table.Rows.Add(row);
+            SqlReloadReader reader = new SqlReloadReader(DataSource, dataSet);
+            DataSet ret = reader.Read();
+            S2Assert.AreEqual(dataSet, ret, "1");
+        }
+    }
 }

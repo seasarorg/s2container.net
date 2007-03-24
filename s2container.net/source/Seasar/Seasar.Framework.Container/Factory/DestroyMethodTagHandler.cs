@@ -16,31 +16,25 @@
  */
 #endregion
 
-using System;
 using Seasar.Framework.Xml;
 using Seasar.Framework.Container.Impl;
 
 namespace Seasar.Framework.Container.Factory
 {
-	/// <summary>
-	/// DestroyMethodTagHandler ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public class DestroyMethodTagHandler : MethodTagHandler
-	{
+    public class DestroyMethodTagHandler : MethodTagHandler
+    {
+        public override void Start(TagHandlerContext context, IAttributes attributes)
+        {
+            string name = attributes["name"];
+            context.Push(new DestroyMethodDefImpl(name));
+        }
 
-		public override void Start(TagHandlerContext context, IAttributes attributes)
-		{
-			string name = attributes["name"];
-			context.Push(new DestroyMethodDefImpl(name));
-		}
-
-		public override void End(TagHandlerContext context, string body)
-		{
-			IDestroyMethodDef methodDef = (IDestroyMethodDef) context.Pop();
-			this.ProcessExpression(methodDef,body,"destroyMethod");
-			IComponentDef componentDef = (IComponentDef) context.Peek();
-			componentDef.AddDestroyMethodDef(methodDef);
-		}
-
-	}
+        public override void End(TagHandlerContext context, string body)
+        {
+            IDestroyMethodDef methodDef = (IDestroyMethodDef) context.Pop();
+            ProcessExpression(methodDef, body, "destroyMethod");
+            IComponentDef componentDef = (IComponentDef) context.Peek();
+            componentDef.AddDestroyMethodDef(methodDef);
+        }
+    }
 }

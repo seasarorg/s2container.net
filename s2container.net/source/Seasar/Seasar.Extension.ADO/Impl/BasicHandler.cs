@@ -27,10 +27,10 @@ namespace Seasar.Extension.ADO.Impl
 {
     public class BasicHandler
     {
-        private IDataSource dataSource;
-        private string sql;
-        private ICommandFactory commandFactory = BasicCommandFactory.INSTANCE;
-        private int commandTimeout = -1;
+        private IDataSource _dataSource;
+        private string _sql;
+        private ICommandFactory _commandFactory = BasicCommandFactory.INSTANCE;
+        private int _commandTimeout = -1;
 
         public BasicHandler()
         {
@@ -50,51 +50,51 @@ namespace Seasar.Extension.ADO.Impl
 
         public IDataSource DataSource
         {
-            get { return this.dataSource; }
-            set { this.dataSource = value; }
+            get { return _dataSource; }
+            set { _dataSource = value; }
         }
 
         public string Sql
         {
-            get { return this.sql; }
-            set { this.sql = value; }
+            get { return _sql; }
+            set { _sql = value; }
         }
 
         public ICommandFactory CommandFactory
         {
-            get { return commandFactory; }
-            set { commandFactory = value; }
+            get { return _commandFactory; }
+            set { _commandFactory = value; }
         }
 
         [Obsolete("BasicCommandFactory.CommandTimeout‚ðŽg—p‚µ‚Ä‚­‚¾‚³‚¢B")]
         public int CommandTimeout
         {
-            get { return commandTimeout; }
-            set { commandTimeout = value; }
+            get { return _commandTimeout; }
+            set { _commandTimeout = value; }
         }
 
         protected IDbConnection Connection
         {
             get
             {
-                if (this.dataSource == null)
+                if (_dataSource == null)
                 {
                     throw new EmptyRuntimeException("dataSource");
                 }
-                return DataSourceUtil.GetConnection(this.dataSource);
+                return DataSourceUtil.GetConnection(_dataSource);
             }
         }
 
         protected virtual IDbCommand Command(IDbConnection connection)
         {
-            if (this.sql == null)
+            if (_sql == null)
             {
-                throw new EmptyRuntimeException("sql");
+                throw new EmptyRuntimeException("_sql");
             }
-            IDbCommand cmd = commandFactory.CreateCommand(connection, this.sql);
-            if (this.commandTimeout > -1)
+            IDbCommand cmd = _commandFactory.CreateCommand(connection, _sql);
+            if (_commandTimeout > -1)
             {
-                cmd.CommandTimeout = this.commandTimeout;
+                cmd.CommandTimeout = _commandTimeout;
             }
             return cmd;
         }
@@ -154,8 +154,11 @@ namespace Seasar.Extension.ADO.Impl
 
         protected virtual string GetCompleteSql(object[] args)
         {
-            if (args == null || args.Length == 0) return this.sql;
-            return commandFactory.GetCompleteSql(sql, args);
+            if (args == null || args.Length == 0)
+            {
+                return _sql;
+            }
+            return _commandFactory.GetCompleteSql(_sql, args);
         }
     }
 }

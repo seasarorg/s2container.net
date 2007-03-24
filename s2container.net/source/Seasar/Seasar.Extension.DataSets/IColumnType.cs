@@ -21,12 +21,12 @@ using System.Data;
 
 namespace Seasar.Extension.DataSets
 {
-	public interface IColumnType
-	{
-		object Convert(object value, string formatPattern);
-		bool Equals1(object arg1, object arg2);
-		string ToDbTypeString();
-		DbType GetDbType();
-		Type GetColumnType();
-	}
+    public interface IColumnType
+    {
+        object Convert(object value, string formatPattern);
+        bool Equals1(object arg1, object arg2);
+        string ToDbTypeString();
+        DbType GetDbType();
+        Type GetColumnType();
+    }
 }

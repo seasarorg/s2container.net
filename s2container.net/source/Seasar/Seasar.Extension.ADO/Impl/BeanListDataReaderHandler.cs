@@ -22,25 +22,26 @@ using System.Data;
 
 namespace Seasar.Extension.ADO.Impl
 {
-	public class BeanListDataReaderHandler : AbstractBeanDataReaderHandler, IDataReaderHandler
-	{
-		public BeanListDataReaderHandler(Type beanType) : base(beanType)
-		{
-		}
+    public class BeanListDataReaderHandler : AbstractBeanDataReaderHandler, IDataReaderHandler
+    {
+        public BeanListDataReaderHandler(Type beanType)
+            : base(beanType)
+        {
+        }
 
-		#region IDataReaderHandler ƒƒ“ƒo
+        #region IDataReaderHandler ƒƒ“ƒo
 
-		public override object Handle(IDataReader dataReader) 
-		{
-			IPropertyType[] propertyTypes = CreatePropertyTypes(dataReader.GetSchemaTable());
-			IList list = new ArrayList();
-			while (dataReader.Read()) 
-			{
-				list.Add(CreateRow(dataReader, propertyTypes));
-			}
-			return list;
-		}
+        public override object Handle(IDataReader dataReader)
+        {
+            IPropertyType[] propertyTypes = CreatePropertyTypes(dataReader.GetSchemaTable());
+            IList list = new ArrayList();
+            while (dataReader.Read())
+            {
+                list.Add(CreateRow(dataReader, propertyTypes));
+            }
+            return list;
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

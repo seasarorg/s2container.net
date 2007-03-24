@@ -16,92 +16,84 @@
  */
 #endregion
 
-using System;
 using System.Diagnostics;
+using MbUnit.Framework;
 using Seasar.Framework.Aop;
 using Seasar.Framework.Aop.Impl;
 using Seasar.Framework.Aop.Proxy;
-using MbUnit.Framework;
 
 namespace Seasar.Tests.Framework.Aop.Impl
 {
-	/// <summary>
-	/// MethodInvocationImplTest の概要の説明です。
-	/// </summary>
-	[TestFixture]
-	public class MethodInvocationImplTest
-	{
-		public MethodInvocationImplTest()
-		{
-		}
+    [TestFixture]
+    public class MethodInvocationImplTest
+    {
+        [Test]
+        public void TestProceed()
+        {
+            TestInterceptor interceptor = new TestInterceptor();
+            TestInterceptor interceptor2 = new TestInterceptor();
+            IPointcut pointcut = new PointcutImpl(new string[] { "Foo" });
+            IAspect aspect = new AspectImpl(interceptor, pointcut);
+            IAspect aspect2 = new AspectImpl(interceptor2, pointcut);
 
-		[Test]
-		public void TestProceed()
-		{
-			TestInterceptor interceptor = new TestInterceptor();
-			TestInterceptor interceptor2 = new TestInterceptor();
-			IPointcut pointcut = new PointcutImpl(new string[] { "Foo" });
-			IAspect aspect = new AspectImpl(interceptor,pointcut);
-			IAspect aspect2 = new AspectImpl(interceptor2,pointcut);
-			
-			Hoge proxy = new HogeImpl();
-			AopProxy aopProxy = new AopProxy(typeof(Hoge),new IAspect[] {aspect,aspect2},null,proxy);
-			proxy = (Hoge) aopProxy.GetTransparentProxy();
-			Trace.WriteLine(proxy.Foo());
-			Assert.AreEqual(true,interceptor.invoked_);
-			Assert.AreEqual(true,interceptor2.invoked_);
-		}
+            Hoge proxy = new HogeImpl();
+            AopProxy aopProxy = new AopProxy(typeof(Hoge), new IAspect[] { aspect, aspect2 }, null, proxy);
+            proxy = (Hoge) aopProxy.GetTransparentProxy();
+            Trace.WriteLine(proxy.Foo());
+            Assert.AreEqual(true, interceptor.invoked_);
+            Assert.AreEqual(true, interceptor2.invoked_);
+        }
 
-		[Test]
-		public void TestProceedForAbstractMethod()
-		{
-			HogeInterceptor interceptor = new HogeInterceptor();
-			IAspect aspect = new AspectImpl(interceptor);
-			Hoge proxy = new HogeImpl();
-			AopProxy aopProxy = new AopProxy(typeof(Hoge),new IAspect[] { aspect },null,proxy);
-			proxy = (Hoge) aopProxy.GetTransparentProxy();
-			Assert.AreEqual("Hello",proxy.Foo());
-		}
+        [Test]
+        public void TestProceedForAbstractMethod()
+        {
+            HogeInterceptor interceptor = new HogeInterceptor();
+            IAspect aspect = new AspectImpl(interceptor);
+            Hoge proxy = new HogeImpl();
+            AopProxy aopProxy = new AopProxy(typeof(Hoge), new IAspect[] { aspect }, null, proxy);
+            proxy = (Hoge) aopProxy.GetTransparentProxy();
+            Assert.AreEqual("Hello", proxy.Foo());
+        }
 
-		public class TestInterceptor : IMethodInterceptor
-		{
-			internal bool invoked_ = false;
+        public class TestInterceptor : IMethodInterceptor
+        {
+            internal bool invoked_ = false;
 
-			public object Invoke(Seasar.Framework.Aop.IMethodInvocation invocation)
-			{
-				invoked_ = true;
-				Trace.WriteLine("before");
-				object ret = invocation.Proceed();
-				Trace.WriteLine("after");
-				return ret;
-			}
-		}
+            public object Invoke(IMethodInvocation invocation)
+            {
+                invoked_ = true;
+                Trace.WriteLine("before");
+                object ret = invocation.Proceed();
+                Trace.WriteLine("after");
+                return ret;
+            }
+        }
 
-		public interface Hoge
-		{
-			string Foo();
-		}
+        public interface Hoge
+        {
+            string Foo();
+        }
 
-		public class HogeImpl : Hoge
-		{
-			#region Hoge メンバ
+        public class HogeImpl : Hoge
+        {
+            #region Hoge メンバ
 
-			public string Foo()
-			{
-				// TODO:  HogeImpl.Foo 実装を追加します。
-				Trace.WriteLine("Foo");
-				return "hogehoge";
-			}
+            public string Foo()
+            {
+                // TODO:  HogeImpl.Foo 実装を追加します。
+                Trace.WriteLine("Foo");
+                return "hogehoge";
+            }
 
-			#endregion
-		}
+            #endregion
+        }
 
-		public class HogeInterceptor : IMethodInterceptor
-		{
-			public object Invoke(Seasar.Framework.Aop.IMethodInvocation invocation)
-			{
-				return "Hello";
-			}
-		}
-	}
+        public class HogeInterceptor : IMethodInterceptor
+        {
+            public object Invoke(IMethodInvocation invocation)
+            {
+                return "Hello";
+            }
+        }
+    }
 }

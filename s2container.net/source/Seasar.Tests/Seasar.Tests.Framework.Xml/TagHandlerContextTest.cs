@@ -23,47 +23,44 @@ using Seasar.Framework.Xml;
 
 namespace Seasar.Tests.Framework.Xml
 {
-	/// <summary>
-	/// TagHandlerContextTest ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	[TestFixture]
-	public class TagHandlerContextTest
-	{
-		[Test]
-		public void TestStartElementAndEndElement()
-		{
-			TagHandlerContext ctx = new TagHandlerContext();
-			ctx.StartElement("aaa");
-			Assert.AreEqual("/aaa", ctx.Path);
-			Assert.AreEqual("/aaa[1]", ctx.DetailPath);
-			Assert.AreEqual("aaa", ctx.QName);
+    [TestFixture]
+    public class TagHandlerContextTest
+    {
+        [Test]
+        public void TestStartElementAndEndElement()
+        {
+            TagHandlerContext ctx = new TagHandlerContext();
+            ctx.StartElement("aaa");
+            Assert.AreEqual("/aaa", ctx.Path);
+            Assert.AreEqual("/aaa[1]", ctx.DetailPath);
+            Assert.AreEqual("aaa", ctx.QName);
 
-			ctx.StartElement("bbb");
-			Assert.AreEqual("/aaa/bbb", ctx.Path);
-			Assert.AreEqual("/aaa[1]/bbb[1]", ctx.DetailPath);
-			Assert.AreEqual("bbb", ctx.QName);
+            ctx.StartElement("bbb");
+            Assert.AreEqual("/aaa/bbb", ctx.Path);
+            Assert.AreEqual("/aaa[1]/bbb[1]", ctx.DetailPath);
+            Assert.AreEqual("bbb", ctx.QName);
 
-			ctx.EndElement();
-			Assert.AreEqual("/aaa", ctx.Path);
-			Assert.AreEqual("/aaa[1]", ctx.DetailPath);
-			Assert.AreEqual("aaa", ctx.QName);
+            ctx.EndElement();
+            Assert.AreEqual("/aaa", ctx.Path);
+            Assert.AreEqual("/aaa[1]", ctx.DetailPath);
+            Assert.AreEqual("aaa", ctx.QName);
 
-			ctx.StartElement("bbb");
-			Assert.AreEqual("/aaa/bbb", ctx.Path);
-			Assert.AreEqual("/aaa[1]/bbb[2]", ctx.DetailPath);
-			Assert.AreEqual("bbb", ctx.QName);
-		}
+            ctx.StartElement("bbb");
+            Assert.AreEqual("/aaa/bbb", ctx.Path);
+            Assert.AreEqual("/aaa[1]/bbb[2]", ctx.DetailPath);
+            Assert.AreEqual("bbb", ctx.QName);
+        }
 
-		[Test]
-		public void TestPeek()
-		{
-			TagHandlerContext ctx = new TagHandlerContext();
-			ctx.Push("aaa");
-			ctx.Push(new ArrayList());
-			ctx.Push("bbb");
-			Assert.IsNotNull(ctx.Peek(typeof(IList)));
-			Assert.IsNull(ctx.Peek(typeof(Int32)));
-			Assert.AreEqual("bbb", ctx.Peek(typeof(string)));
-		}
-	}
+        [Test]
+        public void TestPeek()
+        {
+            TagHandlerContext ctx = new TagHandlerContext();
+            ctx.Push("aaa");
+            ctx.Push(new ArrayList());
+            ctx.Push("bbb");
+            Assert.IsNotNull(ctx.Peek(typeof(IList)));
+            Assert.IsNull(ctx.Peek(typeof(Int32)));
+            Assert.AreEqual("bbb", ctx.Peek(typeof(string)));
+        }
+    }
 }

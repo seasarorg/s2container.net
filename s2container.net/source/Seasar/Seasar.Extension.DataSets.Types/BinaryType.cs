@@ -18,62 +18,59 @@
 
 using System;
 using System.Data;
-using Seasar.Extension.ADO;
 using Seasar.Extension.ADO.Types;
 using Seasar.Framework.Util;
 
 namespace Seasar.Extension.DataSets.Types
 {
-	public class BinaryType : ObjectType, IColumnType
-	{
-		public BinaryType()
-		{
-		}
+    public class BinaryType : ObjectType, IColumnType
+    {
+        #region IColumnType ÉÅÉìÉo
 
-		#region IColumnType ÉÅÉìÉo
+        public override object Convert(object value, string formatPattern)
+        {
+            if (IsNullable(value))
+            {
+                return DBNull.Value;
+            }
+            return BinaryConversionUtil.ToBinary(value);
+        }
 
-		public override object Convert(object value, string formatPattern)
-		{
-			if (IsNullable(value))
-			{
-				return DBNull.Value;
-			}
-			return BinaryConversionUtil.ToBinary(value);
-		}
+        public override DbType GetDbType()
+        {
+            return DbType.Binary;
+        }
 
-		public override DbType GetDbType()
-		{
-			return DbType.Binary;
-		}
+        public override Type GetColumnType()
+        {
+            return ValueTypes.BYTE_ARRAY_TYPE;
+        }
 
-		public override Type GetColumnType()
-		{
-			return ValueTypes.BYTE_ARRAY_TYPE;
-		}
+        #endregion
 
-		#endregion
+        protected override bool DoEquals(object arg1, object arg2)
+        {
+            if (arg1.GetType() == GetColumnType() && arg1.GetType() == GetColumnType())
+            {
+                return ArrayEquals((Array) arg1, (Array) arg2);
+            }
+            return false;
+        }
 
-		protected override bool DoEquals(object arg1, object arg2)
-		{
-			if (arg1.GetType() == GetColumnType() && arg1.GetType() == GetColumnType())
-			{
-				return ArrayEquals((Array) arg1, (Array) arg2);
-			}
-			return false;
-		}
-
-		bool ArrayEquals(Array arg1, Array arg2)
-		{
-			if (arg1.Length != arg2.Length)
-			{
-				return false;
-			}
-			for (int i = 0; i < arg1.Length; i++) {
-				if (!arg1.GetValue(i).Equals(arg2.GetValue(i))) {
-					return false;
-				}
-			}
-			return true;
-		}
-	}
+        bool ArrayEquals(Array arg1, Array arg2)
+        {
+            if (arg1.Length != arg2.Length)
+            {
+                return false;
+            }
+            for (int i = 0; i < arg1.Length; i++)
+            {
+                if (!arg1.GetValue(i).Equals(arg2.GetValue(i)))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
 }

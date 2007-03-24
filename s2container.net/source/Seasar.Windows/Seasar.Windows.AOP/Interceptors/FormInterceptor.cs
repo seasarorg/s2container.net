@@ -28,7 +28,7 @@ using Seasar.Windows.Attr;
     using System.Collections;
     using System.Collections.Specialized;
 #else
-    using System.Collections.Generic;
+using System.Collections.Generic;
 #endif
 
 namespace Seasar.Windows.AOP.Interceptors
@@ -41,12 +41,12 @@ namespace Seasar.Windows.AOP.Interceptors
         /// <summary>
         /// DIコンテナ
         /// </summary>
-        private IS2Container container_;
+        private readonly IS2Container _container;
 
         /// <summary>
         /// 返り値用プロパティ名
         /// </summary>
-        private string returnPropertyName_;
+        private string _returnPropertyName;
 
         /// <summary>
         /// コンストラクタ
@@ -54,8 +54,8 @@ namespace Seasar.Windows.AOP.Interceptors
         /// <param name="container">DIコンテナ</param>
         public FormInterceptor(IS2Container container)
         {
-            container_ = container;
-            returnPropertyName_ = "";
+            _container = container;
+            _returnPropertyName = string.Empty;
         }
 
         /// <summary>
@@ -63,8 +63,8 @@ namespace Seasar.Windows.AOP.Interceptors
         /// </summary>
         public string Property
         {
-            get { return returnPropertyName_; }
-            set { returnPropertyName_ = value; }
+            get { return _returnPropertyName; }
+            set { _returnPropertyName = value; }
         }
 
         /// <summary>
@@ -79,8 +79,6 @@ namespace Seasar.Windows.AOP.Interceptors
 
             object ret = retOfReplace;
 
-            string propertyName;
-
             // メソッドの引数値の取得
             object[] args = invocation.Arguments;
             ParameterInfo[] pis = invocation.Method.GetParameters();
@@ -94,7 +92,7 @@ namespace Seasar.Windows.AOP.Interceptors
             IList<string> listOfParams = new List<string>();
             IDictionary<string, string> hashOfPropNames = new Dictionary<string, string>();
 #endif
-       
+
             foreach (ParameterInfo pi in pis)
             {
                 hashOfParams.Add(pi.Name.ToLower(), args[pi.Position]);
@@ -105,31 +103,38 @@ namespace Seasar.Windows.AOP.Interceptors
             object[] attributes = invocation.Method.GetCustomAttributes(false);
             foreach (object o in attributes)
             {
-                if ( o is TargetFormAttribute )
+                if (o is TargetFormAttribute)
                 {
                     // 戻り値のプロパティ名を取得する
                     TargetFormAttribute attribute = (TargetFormAttribute) o;
                     Type formType = attribute.FormType;
-                    Form form = (Form) container_.GetComponent(formType);
+                    Form form = (Form) _container.GetComponent(formType);
 
-                    if ( attribute.ReturnPropertyName != "" )
+                    string propertyName;
+                    if (attribute.ReturnPropertyName != string.Empty)
+                    {
                         propertyName = attribute.ReturnPropertyName;
+                    }
                     else
                     {
-                        if ( returnPropertyName_ != null )
-                            propertyName = returnPropertyName_;
+                        if (_returnPropertyName != null)
+                        {
+                            propertyName = _returnPropertyName;
+                        }
                         else
-                            propertyName = "";
+                        {
+                            propertyName = string.Empty;
+                        }
                     }
-                    
+
                     // フォームに値をセットする
                     PropertyInfo[] infos = form.GetType().GetProperties();
                     foreach (PropertyInfo info in infos)
                     {
                         hashOfPropNames.Add(info.Name.ToLower(), info.Name);
                     }
-                    
-                    for ( int i = 0; i < listOfParams.Count; i++ )
+
+                    for (int i = 0; i < listOfParams.Count; i++)
                     {
 #if NET_1_1
                         if ( hashOfPropNames.ContainsKey((string) listOfParams[i]) )
@@ -139,32 +144,35 @@ namespace Seasar.Windows.AOP.Interceptors
                             property.SetValue(form, hashOfParams[(string) listOfParams[i]], null);
                         }
 #else
-                        if ( hashOfPropNames.ContainsKey(listOfParams[i]) )
+                        if (hashOfPropNames.ContainsKey(listOfParams[i]))
                         {
                             string propName = hashOfPropNames[listOfParams[i]];
                             PropertyInfo property = form.GetType().GetProperty(propName);
                             property.SetValue(form, hashOfParams[listOfParams[i]], null);
-                        }                        
+                        }
 #endif
-
                     }
 
                     // WindowsFormの表示
-                    if ( attribute.Mode == ModalType.Modal )
+                    if (attribute.Mode == ModalType.Modal)
                     {
                         retOfReplace = form.ShowDialog();
                         ret = retOfReplace;
 
                         // WindowsFormから戻り値用プロパティから値を取得する
-                        if ( propertyName != "" )
+                        if (propertyName != string.Empty)
                         {
                             PropertyInfo propInfo = form.GetType().GetProperty(propertyName);
-                            if ( propInfo != null )
+                            if (propInfo != null)
+                            {
                                 ret = propInfo.GetValue(form, null);
+                            }
                         }
                     }
                     else
+                    {
                         form.Show();
+                    }
                 }
             }
 

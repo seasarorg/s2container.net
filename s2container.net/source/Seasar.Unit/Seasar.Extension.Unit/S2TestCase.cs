@@ -30,25 +30,19 @@ namespace Seasar.Extension.Unit
 {
     public class S2TestCase : S2FrameworkTestCaseBase
     {
-        private IDataSource dataSource;
-
-        private IDbConnection connection;
-
-        private ICommandFactory commandFactory;
-
-        public S2TestCase()
-        {
-        }
+        private IDataSource _dataSource;
+        private IDbConnection _connection;
+        private ICommandFactory _commandFactory;
 
         public IDataSource DataSource
         {
             get
             {
-                if (dataSource == null)
+                if (_dataSource == null)
                 {
-                    throw new EmptyRuntimeException("dataSource");
+                    throw new EmptyRuntimeException("_dataSource");
                 }
-                return dataSource;
+                return _dataSource;
             }
         }
 
@@ -56,43 +50,44 @@ namespace Seasar.Extension.Unit
         {
             get
             {
-                if (connection != null)
+                if (_connection != null)
                 {
-                    return connection;
+                    return _connection;
                 }
-                connection = DataSourceUtil.GetConnection(dataSource);
-                return connection;
+                _connection = DataSourceUtil.GetConnection(_dataSource);
+                return _connection;
             }
         }
 
         public bool HasConnection
         {
-            get { return connection != null; }
+            get { return _connection != null; }
         }
 
         public ICommandFactory CommandFactory
         {
-            get {
-                if (commandFactory == null)
+            get
+            {
+                if (_commandFactory == null)
                 {
-                    commandFactory = Container.GetComponent(typeof(ICommandFactory)) as ICommandFactory;
+                    _commandFactory = Container.GetComponent(typeof(ICommandFactory)) as ICommandFactory;
                 }
-                if (commandFactory == null)
+                if (_commandFactory == null)
                 {
-                    commandFactory = BasicCommandFactory.INSTANCE;
+                    _commandFactory = BasicCommandFactory.INSTANCE;
                 }
-                return commandFactory;
+                return _commandFactory;
             }
         }
 
         internal void SetConnection(IDbConnection connection)
         {
-            this.connection = connection;
+            _connection = connection;
         }
 
         internal void SetDataSource(IDataSource dataSource)
         {
-            this.dataSource = dataSource;
+            _dataSource = dataSource;
         }
 
         /// <summary>

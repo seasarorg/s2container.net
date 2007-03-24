@@ -22,26 +22,24 @@ using Seasar.Framework.Container.Factory;
 
 namespace Seasar.Examples.Reference.LocalTx
 {
-	/// <summary>
-	/// ローカルトランザクション
-	/// </summary>
-	public class LocalTxClient
-	{
-        private static readonly String PATH = "Seasar.Examples/Reference/LocalTx/LocalTxClient.dicon";
-
-        public LocalTxClient() {}
+    /// <summary>
+    /// ローカルトランザクション
+    /// </summary>
+    public class LocalTxClient
+    {
+        private const string PATH = "Seasar.Examples/Reference/LocalTx/LocalTxClient.dicon";
 
         public void Main()
         {
             IS2Container container = S2ContainerFactory.Create(PATH);
             container.Init();
-            
+
             IEmployeeDao dao = (IEmployeeDao) container.GetComponent(typeof(IEmployeeDao));
             try
             {
                 dao.Insert();
             }
-            catch(ApplicationException){}
+            catch (ApplicationException) { }
         }
-	}
+    }
 }

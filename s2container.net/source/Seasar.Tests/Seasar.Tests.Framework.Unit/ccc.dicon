@@ -2,6 +2,6 @@
 <!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
 "http://www.seasar.org/dtd/components.dtd">
 <components>
-	<component name="list1" class="System.Collections.ArrayList"/>
-	<component name="list2" class="System.Collections.ArrayList"/>
+  <component name="list1" class="System.Collections.ArrayList"/>
+  <component name="list2" class="System.Collections.ArrayList"/>
 </components>

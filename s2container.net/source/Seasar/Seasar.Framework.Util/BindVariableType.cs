@@ -18,16 +18,16 @@
 
 namespace Seasar.Framework.Util
 {
-	/// <summary>
-	/// バインド変数の種類
-	/// </summary>
-	public enum BindVariableType
-	{
+    /// <summary>
+    /// バインド変数の種類
+    /// </summary>
+    public enum BindVariableType
+    {
         None,
-		AtmarkWithParam,
+        AtmarkWithParam,
         Question,
         QuestionWithParam,
         ColonWithParam,
-		ColonWithParamToLower
-	}
+        ColonWithParamToLower
+    }
 }

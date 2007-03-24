@@ -21,15 +21,11 @@ using System.Data;
 
 namespace Seasar.Extension.ADO.Types
 {
-	public class BinaryType : PrimitiveBaseType, IValueType
+    public class BinaryType : PrimitiveBaseType, IValueType
     {
-        public BinaryType()
-        {
-        }
-
         #region IValueType ÉÅÉìÉo
 
-		public override void BindValue(IDbCommand cmd, string columnName, object value)
+        public override void BindValue(IDbCommand cmd, string columnName, object value)
         {
             BindValue(cmd, columnName, value, DbType.Binary);
         }
@@ -38,14 +34,14 @@ namespace Seasar.Extension.ADO.Types
 
         protected override object GetValue(object value)
         {
-			if (value == DBNull.Value)
-			{
-				return null;
-			}
-			else
-			{
-				return (byte[]) value;
-			}
-		}
+            if (value == DBNull.Value)
+            {
+                return null;
+            }
+            else
+            {
+                return (byte[]) value;
+            }
+        }
     }
 }

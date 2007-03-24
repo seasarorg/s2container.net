@@ -21,35 +21,31 @@ using System.Data;
 
 namespace Seasar.Extension.ADO.Types
 {
-	public class NullableDecimalType : NullableBaseType, IValueType
+    public class NullableDecimalType : NullableBaseType, IValueType
     {
-		public NullableDecimalType()
-        {
-        }
-
         #region IValueType ÉÅÉìÉo
 
-		public override void BindValue(IDbCommand cmd, string columnName, object value)
+        public override void BindValue(IDbCommand cmd, string columnName, object value)
         {
             BindValue(cmd, columnName, value, DbType.Decimal);
         }
 
         #endregion
 
-		protected override object GetValue(object value)
-		{
-			if (value == DBNull.Value)
-			{
-				return null;
-			}
-			else if (value is decimal)
-			{
-				return new Nullable<Decimal>((decimal) value);
-			}
-			else
-			{
-				return Convert.ToDecimal(value);
-			}
-		}
+        protected override object GetValue(object value)
+        {
+            if (value == DBNull.Value)
+            {
+                return null;
+            }
+            else if (value is decimal)
+            {
+                return new Nullable<Decimal>((decimal) value);
+            }
+            else
+            {
+                return Convert.ToDecimal(value);
+            }
+        }
     }
 }

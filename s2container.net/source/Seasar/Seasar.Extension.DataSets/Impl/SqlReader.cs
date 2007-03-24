@@ -24,18 +24,17 @@ namespace Seasar.Extension.DataSets.Impl
 {
     public class SqlReader : IDataReader
     {
-        private IDataSource dataSource_;
-
-        private IList tableReaders_ = new ArrayList();
+        private readonly IDataSource _dataSource;
+        private readonly IList _tableReaders = new ArrayList();
 
         public SqlReader(IDataSource dataSource)
         {
-            dataSource_ = dataSource;
+            _dataSource = dataSource;
         }
 
         public IDataSource DataSource
         {
-            get { return dataSource_; }
+            get { return _dataSource; }
         }
 
         public virtual void AddTable(string tableName)
@@ -45,16 +44,16 @@ namespace Seasar.Extension.DataSets.Impl
 
         public virtual void AddTable(string tableName, string condition)
         {
-            SqlTableReader reader = new SqlTableReader(dataSource_);
+            SqlTableReader reader = new SqlTableReader(_dataSource);
             reader.SetTable(tableName, condition);
-            tableReaders_.Add(reader);
+            _tableReaders.Add(reader);
         }
 
         public virtual void AddSql(string sql, string tableName)
         {
-            SqlTableReader reader = new SqlTableReader(dataSource_);
+            SqlTableReader reader = new SqlTableReader(_dataSource);
             reader.SetSql(sql, tableName);
-            tableReaders_.Add(reader);
+            _tableReaders.Add(reader);
         }
 
         #region IDataReader ÉÅÉìÉo
@@ -62,7 +61,7 @@ namespace Seasar.Extension.DataSets.Impl
         public virtual DataSet Read()
         {
             DataSet dataSet = new DataSet();
-            foreach (ITableReader reader in tableReaders_)
+            foreach (ITableReader reader in _tableReaders)
             {
                 dataSet.Tables.Add(reader.Read());
             }

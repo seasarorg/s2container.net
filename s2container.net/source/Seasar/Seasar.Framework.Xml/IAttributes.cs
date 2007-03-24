@@ -16,21 +16,16 @@
  */
 #endregion
 
-using System;
-
 namespace Seasar.Framework.Xml
 {
-	/// <summary>
-	/// Attributes ‚ÌŠT—v‚Ìà–¾‚Å‚·B
-	/// </summary>
-	public interface IAttributes
-	{
-		string this[string qName] { get; }
+    public interface IAttributes
+    {
+        string this[string qName] { get; }
 
-		string this[int index] { get; }
+        string this[int index] { get; }
 
-		int Count { get; }
+        int Count { get; }
 
-		string GetQName(int index);
-	}
+        string GetQName(int index);
+    }
 }

@@ -16,33 +16,31 @@
  */
 #endregion
 
-using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Seasar.Framework.Util
 {
-	public sealed class SerializeUtil
-	{
-		private SerializeUtil()
-		{
-		}
+    public sealed class SerializeUtil
+    {
+        private SerializeUtil()
+        {
+        }
 
-		/// <summary>
-		/// シリアライズされたオブジェクトを返します
-		/// </summary>
-		/// <param name="o">シリアライズするオブジェクト</param>
-		/// <returns>シリアライズされたオブジェクト</returns>
-		public static object Serialize(object o)
-		{
-			using(MemoryStream ms = new MemoryStream())
-			{
-				BinaryFormatter bf = new BinaryFormatter();
-				bf.Serialize(ms,o);
-				ms.Seek(0, SeekOrigin.Begin);
-				return bf.Deserialize(ms);
-			}
-		}
-
-	}
+        /// <summary>
+        /// シリアライズされたオブジェクトを返します
+        /// </summary>
+        /// <param name="o">シリアライズするオブジェクト</param>
+        /// <returns>シリアライズされたオブジェクト</returns>
+        public static object Serialize(object o)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                BinaryFormatter bf = new BinaryFormatter();
+                bf.Serialize(ms, o);
+                ms.Seek(0, SeekOrigin.Begin);
+                return bf.Deserialize(ms);
+            }
+        }
+    }
 }

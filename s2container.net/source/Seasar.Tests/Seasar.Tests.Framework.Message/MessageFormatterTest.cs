@@ -25,41 +25,41 @@ using Seasar.Framework.Message;
 
 namespace Seasar.Tests.Framework.Message
 {
-	[TestFixture]
-	public class MessageFormatterTest
-	{
-		public MessageFormatterTest()
-		{
-		}
-		
-		[Test]
-		public void TestGetMessage() {
-			string message = MessageFormatter.GetMessage("ESSR0001", new object[]{"test"});
-			Assert.AreEqual("[ESSR0001] testが見つかりません", message, "メッセージリソースを取得出来る事");
-			
-		}
-		
-		[Test]
-		public void TestGetMessage2() {
-			Assembly asm = Assembly.GetExecutingAssembly();
-			string message = MessageFormatter.GetMessage("ETST0001", new object[]{"test"}, asm);
-			ResourceManager rm = new ResourceManager("TSTMessages",asm);
-			try {
-				Trace.WriteLine(rm.GetString("ETST0001"));
-			} catch(Exception e) {
-				Trace.WriteLine(e.StackTrace);
-			}
-			Assert.AreEqual("[ETST0001] test message", message , "メッセージリソースを取得出来る事");
-		}
+    [TestFixture]
+    public class MessageFormatterTest
+    {
+        [Test]
+        public void TestGetMessage()
+        {
+            string message = MessageFormatter.GetMessage("ESSR0001", new object[] { "test" });
+            Assert.AreEqual("[ESSR0001] testが見つかりません", message, "メッセージリソースを取得出来る事");
 
-		[Test]
-		public void TestGetMessage3()
-		{
-			string message = MessageFormatter.GetMessage("ESSR0001", new object[]{"test"});
-			Assert.AreEqual("[ESSR0001] testが見つかりません", message, "メッセージリソースを取得出来る事");
-			message = MessageFormatter.GetMessage("ESSR0001", new object[]{"test"});
-			Assert.AreEqual("[ESSR0001] testが見つかりません", message, "メッセージリソースを取得出来る事");
-		}
+        }
 
-	}
+        [Test]
+        public void TestGetMessage2()
+        {
+            Assembly asm = Assembly.GetExecutingAssembly();
+            string message = MessageFormatter.GetMessage("ETST0001", new object[] { "test" }, asm);
+            ResourceManager rm = new ResourceManager("TSTMessages", asm);
+            try
+            {
+                Trace.WriteLine(rm.GetString("ETST0001"));
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(e.StackTrace);
+            }
+            Assert.AreEqual("[ETST0001] test message", message, "メッセージリソースを取得出来る事");
+        }
+
+        [Test]
+        public void TestGetMessage3()
+        {
+            string message = MessageFormatter.GetMessage("ESSR0001", new object[] { "test" });
+            Assert.AreEqual("[ESSR0001] testが見つかりません", message, "メッセージリソースを取得出来る事");
+            message = MessageFormatter.GetMessage("ESSR0001", new object[] { "test" });
+            Assert.AreEqual("[ESSR0001] testが見つかりません", message, "メッセージリソースを取得出来る事");
+        }
+    }
 }

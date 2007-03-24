@@ -16,15 +16,9 @@
  */
 #endregion
 
-using System;
-
-
 namespace Seasar.Extension.Tx.Impl
 {
-	/// <summary>
-	/// LocalSupportedTxHandler ‚ÌŠT—v‚Ìà–¾‚Å‚·B
-	/// </summary>
-	public class LocalSupportedTxHandler : AbstractLocalTxHandler
-	{
-	}
+    public class LocalSupportedTxHandler : AbstractLocalTxHandler
+    {
+    }
 }

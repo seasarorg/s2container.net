@@ -22,34 +22,32 @@ using Seasar.Framework.Exceptions;
 
 namespace Seasar.Framework.Util
 {
-	[Serializable]
-	public class ResourceNotFoundRuntimeException : SRuntimeException
-	{
-		private string path_;
+    [Serializable]
+    public class ResourceNotFoundRuntimeException : SRuntimeException
+    {
+        private readonly string path;
 
-		public ResourceNotFoundRuntimeException(string path)
-			: base("ESSR0055", new object[] { path })
-		{
-			path_ = path;
-		}
+        public ResourceNotFoundRuntimeException(string path)
+            : base("ESSR0055", new object[] { path })
+        {
+            this.path = path;
+        }
 
-		public ResourceNotFoundRuntimeException(SerializationInfo info, StreamingContext context) 
-			: base( info, context )
-		{
-			this.path_ = info.GetString("path_");
-		}
+        public ResourceNotFoundRuntimeException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+            path = info.GetString("path");
+        }
 
-		public override void GetObjectData( SerializationInfo info,
-			StreamingContext context )
-		{
-			info.AddValue("path_", this.path_, typeof(String));
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("path", path, typeof(string));
+            base.GetObjectData(info, context);
+        }
 
-			base.GetObjectData(info, context);
-		}
-
-		public string Path
-		{
-			get { return path_; }
-		}
-	}
+        public string Path
+        {
+            get { return path; }
+        }
+    }
 }

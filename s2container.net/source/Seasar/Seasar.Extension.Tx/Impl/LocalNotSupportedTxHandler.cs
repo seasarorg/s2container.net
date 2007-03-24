@@ -16,49 +16,47 @@
  */
 #endregion
 
-using System;
-
 using Seasar.Framework.Aop;
 
 namespace Seasar.Extension.Tx.Impl
 {
-	/// <summary>
-	/// LocalNotSupportedTxHandler ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public class LocalNotSupportedTxHandler : AbstractLocalTxHandler
-	{
-		public override object Handle(IMethodInvocation invocation, bool alreadyInTransaction)
-		{
-			if(alreadyInTransaction)
-			{
-				return HandleTransaction(invocation);
-			} 
-			else 
-			{
-				return invocation.Proceed();
-			}
-		}
+    public class LocalNotSupportedTxHandler : AbstractLocalTxHandler
+    {
+        public override object Handle(IMethodInvocation invocation, bool alreadyInTransaction)
+        {
+            if (alreadyInTransaction)
+            {
+                return HandleTransaction(invocation);
+            }
+            else
+            {
+                return invocation.Proceed();
+            }
+        }
 
-		private object HandleTransaction(IMethodInvocation invocation)
-		{
-			using(ITransactionContext current = this.Context.Create())
-			{
-				ITransactionContext parent = this.Context.Current;
-				current.Parent = parent;
-				this.Context.Current = null;
-				current.OpenConnection();
-				this.Context.Current = current;
+        private object HandleTransaction(IMethodInvocation invocation)
+        {
+            using (ITransactionContext current = Context.Create())
+            {
+                ITransactionContext parent = Context.Current;
+                current.Parent = parent;
+                Context.Current = null;
+                current.OpenConnection();
+                Context.Current = current;
 
-				try
-				{
-					return invocation.Proceed();
-				}
-				finally
-				{
-					this.Context.Current = parent;
-					if(parent != null) this.Context.Current.Parent = null;
-				}			
-			}
-		}
-	}
+                try
+                {
+                    return invocation.Proceed();
+                }
+                finally
+                {
+                    Context.Current = parent;
+                    if (parent != null)
+                    {
+                        Context.Current.Parent = null;
+                    }
+                }
+            }
+        }
+    }
 }

@@ -16,34 +16,28 @@
  */
 #endregion
 
-using System;
 using Seasar.Framework.Xml;
 using Seasar.Framework.Util;
 using Seasar.Framework.Container.Impl;
 
 namespace Seasar.Framework.Container.Factory
 {
-	/// <summary>
-	/// ArgTagHandler ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public class ArgTagHandler : TagHandler
-	{
+    public class ArgTagHandler : TagHandler
+    {
+        public override void Start(TagHandlerContext context, IAttributes attributes)
+        {
+            context.Push(new ArgDefImpl());
+        }
 
-		public override void Start(TagHandlerContext context, IAttributes attributes)
-		{
-			context.Push(new ArgDefImpl());
-		}
-
-		public override void End(TagHandlerContext context, string body)
-		{
-			IArgDef argDef = (IArgDef) context.Pop();
-			if(!StringUtil.IsEmpty(body))
-			{
-				argDef.Expression = body;
-			}
-			IArgDefAware argDefAware = (IArgDefAware) context.Peek();
-			argDefAware.AddArgDef(argDef);
-		}
-
-	}
+        public override void End(TagHandlerContext context, string body)
+        {
+            IArgDef argDef = (IArgDef) context.Pop();
+            if (!StringUtil.IsEmpty(body))
+            {
+                argDef.Expression = body;
+            }
+            IArgDefAware argDefAware = (IArgDefAware) context.Peek();
+            argDefAware.AddArgDef(argDef);
+        }
+    }
 }

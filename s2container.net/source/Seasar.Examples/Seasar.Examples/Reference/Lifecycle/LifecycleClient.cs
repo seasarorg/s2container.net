@@ -17,28 +17,25 @@
 #endregion
 
 using System;
-
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Factory;
 
 namespace Seasar.Examples.Reference.Lifecycle
 {
-	public class LifecycleClient
-	{
-		private static readonly String PATH = "Seasar.Examples/Reference/Lifecycle/lifecycle.dicon";
+    public class LifecycleClient
+    {
+        private const string PATH = "Seasar.Examples/Reference/Lifecycle/lifecycle.dicon";
 
-		public LifecycleClient() {}
+        public void Main()
+        {
+            IS2Container container = S2ContainerFactory.Create(PATH);
+            Console.WriteLine("before init ....");
+            container.Init();
+            Console.WriteLine("after init");
 
-		public void Main()
-		{
-			IS2Container container = S2ContainerFactory.Create(PATH);
-			Console.WriteLine("before init ....");
-			container.Init();
-			Console.WriteLine("after init");
-
-			Console.WriteLine("before destroy ...");
-			container.Destroy();
-			Console.WriteLine("after destroy");
-		}
-	}
+            Console.WriteLine("before destroy ...");
+            container.Destroy();
+            Console.WriteLine("after destroy");
+        }
+    }
 }

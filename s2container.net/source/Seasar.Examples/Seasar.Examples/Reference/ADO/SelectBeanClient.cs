@@ -23,24 +23,24 @@ using Seasar.Framework.Container.Factory;
 
 namespace Seasar.Examples.Reference.ADO
 {
-	public class SelectBeanClient
-	{
-		private const string PATH = "Seasar.Examples/Reference/ADO/SelectBean.dicon";
+    public class SelectBeanClient
+    {
+        private const string PATH = "Seasar.Examples/Reference/ADO/SelectBean.dicon";
 
-		public void Main()
-		{
-			IS2Container container = S2ContainerFactory.Create(PATH);
-			container.Init();
-			try
-			{
-				ISelectHandler handler = (ISelectHandler) container.GetComponent("SelectBeanHandler");
-				Employee result = (Employee) handler.Execute(new object[] { 7788 });
-				Console.Out.WriteLine(result);
-			}
-			finally
-			{
-				container.Destroy();
-			}
-		}
-	}
+        public void Main()
+        {
+            IS2Container container = S2ContainerFactory.Create(PATH);
+            container.Init();
+            try
+            {
+                ISelectHandler handler = (ISelectHandler) container.GetComponent("SelectBeanHandler");
+                Employee result = (Employee) handler.Execute(new object[] { 7788 });
+                Console.Out.WriteLine(result);
+            }
+            finally
+            {
+                container.Destroy();
+            }
+        }
+    }
 }

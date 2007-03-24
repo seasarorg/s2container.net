@@ -17,114 +17,112 @@
 #endregion
 
 using System.Data;
-using Seasar.Framework.Util;
 
 namespace Seasar.Extension.ADO.Impl
 {
     public class ConnectionHolderDataSource : IDataSource, IDbConnectionHolder
     {
-        private IDataSource dataSource;
-
-        private IDbConnection holderConnection;
+        private readonly IDataSource _dataSource;
+        private IDbConnection _holderConnection;
 
         public ConnectionHolderDataSource(IDataSource dataSource) 
         {
-            this.dataSource = dataSource;
+            _dataSource = dataSource;
         }
 
         public IDbConnection GetConnection()
         {
-            if (holderConnection == null) 
+            if (_holderConnection == null) 
             {
-                holderConnection = dataSource.GetConnection();
+                _holderConnection = _dataSource.GetConnection();
             }
-            return holderConnection;
+            return _holderConnection;
         }
 
         public IDbCommand GetCommand()
         {
-            return dataSource.GetCommand();
+            return _dataSource.GetCommand();
         }
 
         public IDbCommand GetCommand(string cmdText)
         {
-            return dataSource.GetCommand(cmdText);
+            return _dataSource.GetCommand(cmdText);
         }
 
         public IDbCommand GetCommand(string cmdText, IDbConnection connection)
         {
-            return dataSource.GetCommand(cmdText, connection);
+            return _dataSource.GetCommand(cmdText, connection);
         }
 
         public IDbCommand GetCommand(string cmdText, 
             IDbConnection connection, IDbTransaction transaction)
         {
-            return dataSource.GetCommand(cmdText, connection, transaction);
+            return _dataSource.GetCommand(cmdText, connection, transaction);
         }
 
         public IDataParameter GetParameter()
         {
-            return dataSource.GetParameter();
+            return _dataSource.GetParameter();
         }
 
         public IDataParameter GetParameter(string name, DbType dataType)
         {
-            return dataSource.GetParameter(name, dataType);
+            return _dataSource.GetParameter(name, dataType);
         }
 
         public IDataParameter GetParameter(string name, object value)
         {
-            return dataSource.GetParameter(name, value);
+            return _dataSource.GetParameter(name, value);
         }
 
         public IDataParameter GetParameter(string name, DbType dataType, int size)
         {
-            return dataSource.GetParameter(name, dataType, size);
+            return _dataSource.GetParameter(name, dataType, size);
         }
 
         public IDataParameter GetParameter(string name, DbType dataType, int size, string srcColumn)
         {
-            return dataSource.GetParameter(name, dataType, size, srcColumn);
+            return _dataSource.GetParameter(name, dataType, size, srcColumn);
         }
 
         public IDataAdapter GetDataAdapter()
         {
-            return dataSource.GetDataAdapter();
+            return _dataSource.GetDataAdapter();
         }
 
         public IDataAdapter GetDataAdapter(IDbCommand selectCommand)
         {
-            return dataSource.GetDataAdapter(selectCommand);
+            return _dataSource.GetDataAdapter(selectCommand);
         }
 
         public IDataAdapter GetDataAdapter(string selectCommandText, string selectConnectionString)
         {
-            return dataSource.GetDataAdapter(selectCommandText, selectConnectionString);
+            return _dataSource.GetDataAdapter(selectCommandText, selectConnectionString);
         }
 
         public IDataAdapter GetDataAdapter(string selectCommandText, IDbConnection selectConnection)
         {
-            return dataSource.GetDataAdapter(selectCommandText, selectConnection);
+            return _dataSource.GetDataAdapter(selectCommandText, selectConnection);
         }
 
         public virtual IDbTransaction GetTransaction()
         {
-            return dataSource.GetTransaction();
+            return _dataSource.GetTransaction();
         }
 
         public IDataSource Current
         {
-            get { return dataSource; }
+            get { return _dataSource; }
         }
 
         public bool IsHolderConnection
         {
-            get { return holderConnection != null; }
+            get { return _holderConnection != null; }
         }
 
         public void ReleaseConnection()
         {
-            holderConnection = null;
+            _holderConnection = null;
         }
     }
 }

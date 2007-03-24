@@ -35,19 +35,19 @@ namespace Seasar.Framework.Util
 
         public static string ToString(object value, string pattern)
         {
-            if(value == null)
+            if (value == null)
             {
                 return null;
             }
-            else if(value is string)
+            else if (value is string)
             {
                 return (string) value;
             }
-			else if (value is byte[])
-			{
-				return DataSetConstants.BASE64_FORMAT + Convert.ToBase64String(value as byte[]);
-			}
-			else if (value is IFormattable)
+            else if (value is byte[])
+            {
+                return DataSetConstants.BASE64_FORMAT + Convert.ToBase64String(value as byte[]);
+            }
+            else if (value is IFormattable)
             {
                 return ToString((IFormattable) value, pattern);
             }
@@ -59,11 +59,11 @@ namespace Seasar.Framework.Util
 
         public static string ToString(IFormattable value, string pattern)
         {
-            if(value != null)
+            if (value != null)
             {
-                if(pattern != null)
+                if (pattern != null)
                 {
-                    if(value is DateTime)
+                    if (value is DateTime)
                     {
                         return value.ToString(pattern, DateTimeFormatInfo.CurrentInfo);
                     }
@@ -74,7 +74,7 @@ namespace Seasar.Framework.Util
                 }
                 else
                 {
-                    return ((object) value).ToString();
+                    return value.ToString();
                 }
             }
             else

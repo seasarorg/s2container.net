@@ -22,35 +22,31 @@ using Nullables;
 
 namespace Seasar.Extension.ADO.Types
 {
-	public class NHibernateNullableDateTimeType : NHibernateNullableBaseType, IValueType
+    public class NHibernateNullableDateTimeType : NHibernateNullableBaseType, IValueType
     {
-		public NHibernateNullableDateTimeType()
-        {
-        }
-
         #region IValueType ÉÅÉìÉo
 
-		public override void BindValue(IDbCommand cmd, string columnName, object value)
+        public override void BindValue(IDbCommand cmd, string columnName, object value)
         {
             BindValue(cmd, columnName, value, DbType.DateTime);
         }
 
         #endregion
 
-		protected override object GetValue(object value)
-		{
-			if (value == DBNull.Value)
-			{
-				return null;
-			}
-			else if (value is DateTime)
-			{
-				return new NullableDateTime((DateTime) value);
-			}
-			else
-			{
-				return NullableDateTime.Parse(value.ToString());
-			}
-		}
+        protected override object GetValue(object value)
+        {
+            if (value == DBNull.Value)
+            {
+                return null;
+            }
+            else if (value is DateTime)
+            {
+                return new NullableDateTime((DateTime) value);
+            }
+            else
+            {
+                return NullableDateTime.Parse(value.ToString());
+            }
+        }
     }
 }

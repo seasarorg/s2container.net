@@ -22,162 +22,167 @@ using Seasar.Framework.Util;
 
 namespace Seasar.Framework.Container.Impl
 {
-	/// <summary>
-	/// 引数を定義します。
-	/// </summary>
-	public class ArgDefImpl : IArgDef
-	{
-		private Object value_;
-		private IS2Container container_;
-		private string expression_;
-		private Type argType_;
-		private IComponentDef childComponentDef_;
-		private MetaDefSupport metaDefSupport_ = new MetaDefSupport();
+    /// <summary>
+    /// 引数を定義します。
+    /// </summary>
+    public class ArgDefImpl : IArgDef
+    {
+        private object value;
+        private IS2Container container;
+        private string expression;
+        private Type argType;
+        private IComponentDef childComponentDef;
+        private readonly MetaDefSupport metaDefSupport = new MetaDefSupport();
 
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		public ArgDefImpl()
-		{
-		}
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public ArgDefImpl()
+        {
+        }
 
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		/// <param name="value">値</param>
-		public ArgDefImpl(object value)
-		{
-			this.value_ = value;
-		}
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="value">値</param>
+        public ArgDefImpl(object value)
+        {
+            this.value = value;
+        }
 
-		#region ArgDef メンバ
+        #region ArgDef メンバ
 
-		public object Value
-		{
-			get
-			{
-				if(expression_ != null)
-				{
-					if(container_.HasComponentDef(expression_))
-					{
-						return container_.GetComponent(expression_);
-					}
-					else if (IsCharacterString(expression_))
-					{
-						return JScriptUtil.Evaluate(expression_, container_);
-					}
-					else if (expression_.IndexOf(".") > 0)
-					{
-						int lastIndex = expression_.LastIndexOf(".");
-						string enumTypeName =
-							expression_.Substring(0, lastIndex);
-						Type enumType = ClassUtil.ForName(enumTypeName,
-							AppDomain.CurrentDomain.GetAssemblies());
-						if (enumType != null && enumType.IsEnum)
-						{
-							return Enum.Parse(enumType, expression_.Substring(lastIndex + 1));
-						}
+        public object Value
+        {
+            get
+            {
+                if (expression != null)
+                {
+                    if (container.HasComponentDef(expression))
+                    {
+                        return container.GetComponent(expression);
+                    }
+                    else if (IsCharacterString(expression))
+                    {
+                        return JScriptUtil.Evaluate(expression, container);
+                    }
+                    else if (expression.IndexOf(".") > 0)
+                    {
+                        int lastIndex = expression.LastIndexOf(".");
+                        string enumTypeName = expression.Substring(0, lastIndex);
+                        Type enumType = ClassUtil.ForName(enumTypeName,
+                            AppDomain.CurrentDomain.GetAssemblies());
+                        if (enumType != null && enumType.IsEnum)
+                        {
+                            return Enum.Parse(enumType, expression.Substring(lastIndex + 1));
+                        }
 
-						Type classType = ClassUtil.ForName(expression_,
-							AppDomain.CurrentDomain.GetAssemblies());
-						if (classType != null && classType.IsClass)
-						{
-							return classType;
-						}
+                        Type classType = ClassUtil.ForName(expression,
+                            AppDomain.CurrentDomain.GetAssemblies());
+                        if (classType != null && classType.IsClass)
+                        {
+                            return classType;
+                        }
 
-						return JScriptUtil.Evaluate(expression_, container_);
-					}
-					else
-					{
-						return JScriptUtil.Evaluate(expression_, container_);
-					}
-				}
-				if(childComponentDef_ != null) 
-				{
-					return childComponentDef_.GetComponent(argType_);
-				}
-				return value_;
-			}
-			set
-			{
-				value_ = value;
-			}
-		}
+                        return JScriptUtil.Evaluate(expression, container);
+                    }
+                    else
+                    {
+                        return JScriptUtil.Evaluate(expression, container);
+                    }
+                }
+                if (childComponentDef != null)
+                {
+                    return childComponentDef.GetComponent(argType);
+                }
+                return value;
+            }
+            set
+            {
+                this.value = value;
+            }
+        }
 
-		public IS2Container Container
-		{
-			get { return container_; }
-			set
-			{
-				container_ = value;
-				if(childComponentDef_ != null) 
-				{
-					childComponentDef_.Container = value;
-				}
-				metaDefSupport_.Container = value;
-			}
-		}
+        public IS2Container Container
+        {
+            get { return container; }
+            set
+            {
+                container = value;
+                if (childComponentDef != null)
+                {
+                    childComponentDef.Container = value;
+                }
+                metaDefSupport.Container = value;
+            }
+        }
 
-		public string Expression
-		{
-			get { return expression_; }
-			set	{ expression_ = value; }
-		}
+        public string Expression
+        {
+            get { return expression; }
+            set { expression = value; }
+        }
 
-		public IComponentDef ChildComponentDef
-		{
-			set
-			{
-				if(container_ != null)
-				{
-					value.Container = container_;
-				}
-				childComponentDef_ = value;
-			}
-		}
+        public IComponentDef ChildComponentDef
+        {
+            set
+            {
+                if (container != null)
+                {
+                    value.Container = container;
+                }
+                childComponentDef = value;
+            }
+        }
 
-		public Type ArgType
-		{
-			get { return argType_; }
-			set { argType_ = value; }
-		}
+        public Type ArgType
+        {
+            get { return argType; }
+            set { argType = value; }
+        }
 
-		#endregion
+        #endregion
 
-		#region IMetaDefAware メンバ
+        #region IMetaDefAware メンバ
 
-		public void AddMetaDef(IMetaDef metaDef)
-		{
-			metaDefSupport_.AddMetaDef(metaDef);
-		}
+        public void AddMetaDef(IMetaDef metaDef)
+        {
+            metaDefSupport.AddMetaDef(metaDef);
+        }
 
-		public int MetaDefSize
-		{
-			get { return metaDefSupport_.MetaDefSize; }
-		}
+        public int MetaDefSize
+        {
+            get { return metaDefSupport.MetaDefSize; }
+        }
 
-		public IMetaDef GetMetaDef(int index)
-		{
-			return metaDefSupport_.GetMetaDef(index);
-		}
+        public IMetaDef GetMetaDef(int index)
+        {
+            return metaDefSupport.GetMetaDef(index);
+        }
 
-		public IMetaDef GetMetaDef(string name)
-		{
-			return metaDefSupport_.GetMetaDef(name);
-		}
+        public IMetaDef GetMetaDef(string name)
+        {
+            return metaDefSupport.GetMetaDef(name);
+        }
 
-		public IMetaDef[] GetMetaDefs(string name)
-		{
-			return metaDefSupport_.GetMetaDefs(name);
-		}
+        public IMetaDef[] GetMetaDefs(string name)
+        {
+            return metaDefSupport.GetMetaDefs(name);
+        }
 
-		#endregion
+        #endregion
 
-		private bool IsCharacterString(string str)
-		{
-			if (str == null) return false;
-			if (str.StartsWith("\"") && str.EndsWith("\"") && str.Length >= 2) return true;
-			return false;
-		}
-	}
+        private bool IsCharacterString(string str)
+        {
+            if (str == null)
+            {
+                return false;
+            }
+            if (str.StartsWith("\"") && str.EndsWith("\"") && str.Length >= 2)
+            {
+                return true;
+            }
+            return false;
+        }
+    }
 }

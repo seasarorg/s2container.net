@@ -21,105 +21,99 @@ using System.Collections;
 using System.IO;
 using System.Reflection;
 using System.Text;
-
 using Seasar.Framework.Util;
-
 using Seasar.Examples;
 using Seasar.Extension.UI;
 
-
 namespace Seasar.Examples.Impl
 {
-	/// <summary>
-	/// デモを実行するクラスの実装。
-	/// 処理可能なデモコードは、引数無しのMainメソッドを持ち、実行結果をテキストコンソール出力する。
-	/// </summary>
-	public class BasicExamplesHandler : IExamplesHandler
-	{    
-		private string title = "UnKnown";
-		private int codepage = 932;
-        
-		// 実行されるデモコード
-		private object examples = null;
+    /// <summary>
+    /// デモを実行するクラスの実装。
+    /// 処理可能なデモコードは、引数無しのMainメソッドを持ち、実行結果をテキストコンソール出力する。
+    /// </summary>
+    public class BasicExamplesHandler : IExamplesHandler
+    {
+        private string _title = "UnKnown";
+        private int _codepage = 932;
 
-		private ArrayList dicons = new ArrayList();
+        // 実行されるデモコード
+        private object _examples = null;
 
-		private ArrayList codes = new ArrayList();
+        private readonly ArrayList _dicons = new ArrayList();
 
-		public BasicExamplesHandler() {}
+        private readonly ArrayList _codes = new ArrayList();
 
-		public object Examples
-		{
-			get { return this.examples;  }
-			set { this.examples = value; }
-		}
+        public object Examples
+        {
+            get { return _examples; }
+            set { _examples = value; }
+        }
 
-		public int Codepage
-		{
-			set { codepage = value; }
-			get { return codepage; }
-		}
+        public int Codepage
+        {
+            set { _codepage = value; }
+            get { return _codepage; }
+        }
 
-		public void AddDicon(string path) 
-		{
-			this.dicons.Add(path);
-		}
+        public void AddDicon(string path)
+        {
+            _dicons.Add(path);
+        }
 
-		public void AddCode(string path)
-		{
-			this.codes.Add(path);
-		}
-        
-		#region IExamplesHandler メンバ
+        public void AddCode(string path)
+        {
+            _codes.Add(path);
+        }
 
-		public void Main(ExamplesContext context) 
-		{
-			if(this.examples != null)
-			{
-				Type t = this.examples.GetType();
-				MethodInfo method = t.GetMethod("Main");
-				MethodUtil.Invoke(method, this.examples, null);
-			}
-		}
+        #region IExamplesHandler メンバ
 
-		public String Title
-		{
-			get { return this.title; }
-			set { this.title = value; }
-		}
-        
-		public void AppendDicon(TextAppender appender) 
-		{
-			AppendText(this.dicons, appender);
-		}
+        public void Main(ExamplesContext context)
+        {
+            if (_examples != null)
+            {
+                Type t = _examples.GetType();
+                MethodInfo method = t.GetMethod("Main");
+                MethodUtil.Invoke(method, _examples, null);
+            }
+        }
 
-		public void AppendCode(TextAppender appender) 
-		{
-			AppendText(this.codes, appender);
-		}
+        public string Title
+        {
+            get { return _title; }
+            set { _title = value; }
+        }
 
-		private void AppendText(ArrayList pathNames, TextAppender appender)
-		{
-			foreach(string path in pathNames)
-			{
-				string pathWithoutExt = Path.Combine(
-					Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path));
-				string extension = ResourceUtil.GetExtension(path);
-				StreamReader sr = null;
-				if(File.Exists(path))
-				{
-					// 基本的にはビルド時にコードとdiconファイルの両方をコピーしているのでファイルが存在する筈。
-					sr = new StreamReader(path, Encoding.GetEncoding(codepage));
-				}
-				else 
-				{
-					sr = ResourceUtil.GetResourceAsStreamReader(pathWithoutExt, extension);
-				}
-				appender.WriteLine(sr.ReadToEnd()); // サンプルコードなので、長大な文字列では無い筈…。
-			}
-		}
+        public void AppendDicon(TextAppender appender)
+        {
+            AppendText(_dicons, appender);
+        }
 
-		#endregion
+        public void AppendCode(TextAppender appender)
+        {
+            AppendText(_codes, appender);
+        }
 
-	}
+        private void AppendText(ArrayList pathNames, TextAppender appender)
+        {
+            foreach (string path in pathNames)
+            {
+                string pathWithoutExt = Path.Combine(
+                    Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path));
+                string extension = ResourceUtil.GetExtension(path);
+                StreamReader sr;
+                if (File.Exists(path))
+                {
+                    // 基本的にはビルド時にコードとdiconファイルの両方をコピーしているのでファイルが存在する筈。
+                    sr = new StreamReader(path, Encoding.GetEncoding(_codepage));
+                }
+                else
+                {
+                    sr = ResourceUtil.GetResourceAsStreamReader(pathWithoutExt, extension);
+                }
+                appender.WriteLine(sr.ReadToEnd()); // サンプルコードなので、長大な文字列では無い筈…。
+            }
+        }
+
+        #endregion
+    }
 }

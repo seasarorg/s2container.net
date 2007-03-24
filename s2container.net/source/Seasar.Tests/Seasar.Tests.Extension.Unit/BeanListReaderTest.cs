@@ -24,63 +24,63 @@ using Seasar.Extension.Unit;
 
 namespace Seasar.Tests.Extension.Unit
 {
-	[TestFixture]
-	public class BeanListReaderTest
-	{
-		[Test]
-		public void TestRead()
-		{
-			BasicTypeBean bean = new BasicTypeBean();
-			bean.Id = 1;
-			bean.BoolType = true;
-			bean.SbyteType = SByte.MaxValue;
-			bean.ByteType = Byte.MaxValue;
-			bean.Int16Type = Int16.MaxValue;
-			bean.Int32Type = Int32.MaxValue;
-			bean.Int64Type = Int64.MaxValue;
-			bean.DecimalType = Decimal.MaxValue;
-			bean.SingleType = Single.MaxValue;
-			bean.DoubleType = Double.MaxValue;
-			bean.StringType = "abcde";
-			bean.DateTimeType = new DateTime(1999, 12, 31);
+    [TestFixture]
+    public class BeanListReaderTest
+    {
+        [Test]
+        public void TestRead()
+        {
+            BasicTypeBean bean = new BasicTypeBean();
+            bean.Id = 1;
+            bean.BoolType = true;
+            bean.SbyteType = SByte.MaxValue;
+            bean.ByteType = Byte.MaxValue;
+            bean.Int16Type = Int16.MaxValue;
+            bean.Int32Type = Int32.MaxValue;
+            bean.Int64Type = Int64.MaxValue;
+            bean.DecimalType = Decimal.MaxValue;
+            bean.SingleType = Single.MaxValue;
+            bean.DoubleType = Double.MaxValue;
+            bean.StringType = "abcde";
+            bean.DateTimeType = new DateTime(1999, 12, 31);
 
-			IList list = new ArrayList();
-			list.Add(bean);
+            IList list = new ArrayList();
+            list.Add(bean);
 
-			BeanListReader reader = new BeanListReader(list);
-			DataSet ds = reader.Read();
-			DataTable table = ds.Tables[0];
-			DataRow row = table.Rows[0];
-			DataColumnCollection columns = table.Columns;
+            BeanListReader reader = new BeanListReader(list);
+            DataSet ds = reader.Read();
+            DataTable table = ds.Tables[0];
+            DataRow row = table.Rows[0];
+            DataColumnCollection columns = table.Columns;
 
-			Assert.AreEqual(DataRowState.Unchanged, row.RowState);
-			Assert.AreEqual(12, columns.Count);
+            Assert.AreEqual(DataRowState.Unchanged, row.RowState);
+            Assert.AreEqual(12, columns.Count);
 
-			Assert.AreEqual(1, row["id"]);
-			Assert.AreEqual(true, row["booltype"]);
-			Assert.AreEqual(SByte.MaxValue, row["sbytetype"]);
-			Assert.AreEqual(Byte.MaxValue, row["bytetype"]);
-			Assert.AreEqual(Int16.MaxValue, row["int16type"]);
-			Assert.AreEqual(Int32.MaxValue, row["int32type"]);
-			Assert.AreEqual(Int64.MaxValue, row["int64type"]);
-			Assert.AreEqual(Decimal.MaxValue, row["decimaltype"]);
-			Assert.AreEqual(Single.MaxValue, row["singletype"]);
-			Assert.AreEqual(Double.MaxValue, row["doubletype"]);
-			Assert.AreEqual("abcde", row["stringtype"]);
-			Assert.AreEqual(new DateTime(1999, 12, 31), row["datetimetype"]);
+            Assert.AreEqual(1, row["id"]);
+            Assert.AreEqual(true, row["booltype"]);
+            Assert.AreEqual(SByte.MaxValue, row["sbytetype"]);
+            Assert.AreEqual(Byte.MaxValue, row["bytetype"]);
+            Assert.AreEqual(Int16.MaxValue, row["int16type"]);
+            Assert.AreEqual(Int32.MaxValue, row["int32type"]);
+            Assert.AreEqual(Int64.MaxValue, row["int64type"]);
+            Assert.AreEqual(Decimal.MaxValue, row["decimaltype"]);
+            Assert.AreEqual(Single.MaxValue, row["singletype"]);
+            Assert.AreEqual(Double.MaxValue, row["doubletype"]);
+            Assert.AreEqual("abcde", row["stringtype"]);
+            Assert.AreEqual(new DateTime(1999, 12, 31), row["datetimetype"]);
 
-			Assert.AreEqual(typeof(long), columns["id"].DataType);
-			Assert.AreEqual(typeof(bool), columns["booltype"].DataType);
-			Assert.AreEqual(typeof(sbyte), columns["sbytetype"].DataType);
-			Assert.AreEqual(typeof(byte), columns["bytetype"].DataType);
-			Assert.AreEqual(typeof(short), columns["int16type"].DataType);
-			Assert.AreEqual(typeof(int), columns["int32type"].DataType);
-			Assert.AreEqual(typeof(long), columns["int64type"].DataType);
-			Assert.AreEqual(typeof(decimal), columns["decimaltype"].DataType);
-			Assert.AreEqual(typeof(float), columns["singletype"].DataType);
-			Assert.AreEqual(typeof(double), columns["doubletype"].DataType);
-			Assert.AreEqual(typeof(string), columns["stringtype"].DataType);
-			Assert.AreEqual(typeof(DateTime), columns["datetimetype"].DataType);
-		}
-	}
+            Assert.AreEqual(typeof(long), columns["id"].DataType);
+            Assert.AreEqual(typeof(bool), columns["booltype"].DataType);
+            Assert.AreEqual(typeof(sbyte), columns["sbytetype"].DataType);
+            Assert.AreEqual(typeof(byte), columns["bytetype"].DataType);
+            Assert.AreEqual(typeof(short), columns["int16type"].DataType);
+            Assert.AreEqual(typeof(int), columns["int32type"].DataType);
+            Assert.AreEqual(typeof(long), columns["int64type"].DataType);
+            Assert.AreEqual(typeof(decimal), columns["decimaltype"].DataType);
+            Assert.AreEqual(typeof(float), columns["singletype"].DataType);
+            Assert.AreEqual(typeof(double), columns["doubletype"].DataType);
+            Assert.AreEqual(typeof(string), columns["stringtype"].DataType);
+            Assert.AreEqual(typeof(DateTime), columns["datetimetype"].DataType);
+        }
+    }
 }

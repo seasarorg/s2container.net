@@ -21,35 +21,31 @@ using System.Data;
 
 namespace Seasar.Extension.ADO.Types
 {
-	public class NullableInt16Type : NullableBaseType, IValueType
+    public class NullableInt16Type : NullableBaseType, IValueType
     {
-		public NullableInt16Type()
-        {
-        }
-
         #region IValueType ÉÅÉìÉo
 
-		public override void BindValue(IDbCommand cmd, string columnName, object value)
+        public override void BindValue(IDbCommand cmd, string columnName, object value)
         {
             BindValue(cmd, columnName, value, DbType.Int16);
         }
 
         #endregion
 
-		protected override object GetValue(object value)
-		{
-			if (value == DBNull.Value)
-			{
-				return null;
-			}
-			else if (value is short)
-			{
-				return new Nullable<Int16>((short) value);
-			}
-			else
-			{
-				return Convert.ToInt16(value);
-			}
-		}
+        protected override object GetValue(object value)
+        {
+            if (value == DBNull.Value)
+            {
+                return null;
+            }
+            else if (value is short)
+            {
+                return new Nullable<Int16>((short) value);
+            }
+            else
+            {
+                return Convert.ToInt16(value);
+            }
+        }
     }
 }

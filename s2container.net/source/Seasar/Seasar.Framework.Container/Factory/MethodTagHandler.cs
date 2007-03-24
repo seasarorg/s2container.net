@@ -16,37 +16,33 @@
  */
 #endregion
 
-using System;
 using Seasar.Framework.Util;
 using Seasar.Framework.Xml;
 
 namespace Seasar.Framework.Container.Factory
 {
-	/// <summary>
-	/// MethodTagHandler ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public abstract class MethodTagHandler : TagHandler
-	{
-		protected void ProcessExpression(
-			IMethodDef methodDef,string expression,string tagName)
-		{
-			string expr = expression;
-			if(expr != null)
-			{
-				expr = expr.Trim();
-				if(!StringUtil.IsEmpty(expr))
-				{
-					methodDef.Expression = expr;
-				}
-				else
-				{
-					expr = null;
-				}
-			}
-			if(methodDef.MethodName == null && expr == null)
-			{
-				throw new TagAttributeNotDefinedRuntimeException(tagName,"name");
-			}
-		}
-	}
+    public abstract class MethodTagHandler : TagHandler
+    {
+        protected void ProcessExpression(
+            IMethodDef methodDef, string expression, string tagName)
+        {
+            string expr = expression;
+            if (expr != null)
+            {
+                expr = expr.Trim();
+                if (!StringUtil.IsEmpty(expr))
+                {
+                    methodDef.Expression = expr;
+                }
+                else
+                {
+                    expr = null;
+                }
+            }
+            if (methodDef.MethodName == null && expr == null)
+            {
+                throw new TagAttributeNotDefinedRuntimeException(tagName, "name");
+            }
+        }
+    }
 }

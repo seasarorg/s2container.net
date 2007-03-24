@@ -2,10 +2,10 @@
 <!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
 "http://www.seasar.org/dtd/components.dtd">
 <components>
-	<component name="date" class="System.DateTime">
-		<arg>2006</arg>
-		<arg>4</arg>
-		<arg>1</arg>
-	</component>
-	<component name="date2" class="System.DateTime"/>
+  <component name="date" class="System.DateTime">
+    <arg>2006</arg>
+    <arg>4</arg>
+    <arg>1</arg>
+  </component>
+  <component name="date2" class="System.DateTime"/>
 </components>

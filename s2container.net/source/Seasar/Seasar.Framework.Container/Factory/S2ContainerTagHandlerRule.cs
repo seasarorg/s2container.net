@@ -16,27 +16,23 @@
  */
 #endregion
 
-using System;
 using Seasar.Framework.Xml;
 
 namespace Seasar.Framework.Container.Factory
 {
-	/// <summary>
-	/// S2ContainerTagHandlerRule ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public class S2ContainerTagHandlerRule : TagHandlerRule
-	{
-		public S2ContainerTagHandlerRule()
-		{
-			this["/components"] = new ComponentsTagHandler();
-			this["component"] = new ComponentTagHandler();
-			this["arg"] = new ArgTagHandler();
-			this["property"] = new PropertyTagHandler();
-			this["meta"] = new MetaTagHandler();
-			this["initMethod"] = new InitMethodTagHandler();
-			this["destroyMethod"] = new DestroyMethodTagHandler();
-			this["aspect"] = new AspectTagHandler();
-			this["/components/include"] = new IncludeTagHandler();
-		}
-	}
+    public class S2ContainerTagHandlerRule : TagHandlerRule
+    {
+        public S2ContainerTagHandlerRule()
+        {
+            this["/components"] = new ComponentsTagHandler();
+            this["component"] = new ComponentTagHandler();
+            this["arg"] = new ArgTagHandler();
+            this["property"] = new PropertyTagHandler();
+            this["meta"] = new MetaTagHandler();
+            this["initMethod"] = new InitMethodTagHandler();
+            this["destroyMethod"] = new DestroyMethodTagHandler();
+            this["aspect"] = new AspectTagHandler();
+            this["/components/include"] = new IncludeTagHandler();
+        }
+    }
 }

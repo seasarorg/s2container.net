@@ -21,28 +21,24 @@ using Nullables;
 
 namespace Seasar.Extension.ADO.Types
 {
-	public abstract class NHibernateNullableBaseType : BaseValueType
-	{
-		public NHibernateNullableBaseType()
-		{
-        }
-
-		protected override object GetBindValue(object value)
-		{
-			if (value == null)
-			{
-				return DBNull.Value;
-			}
-			INullableType ret = (INullableType) value as INullableType;
-            if (ret == null) 
+    public abstract class NHibernateNullableBaseType : BaseValueType
+    {
+        protected override object GetBindValue(object value)
+        {
+            if (value == null)
+            {
+                return DBNull.Value;
+            }
+            INullableType ret = value as INullableType;
+            if (ret == null)
             {
                 return value;
             }
-			if (!ret.HasValue)
-			{
-				return DBNull.Value;
-			}
-			return ret.Value;
-		}
+            if (!ret.HasValue)
+            {
+                return DBNull.Value;
+            }
+            return ret.Value;
+        }
     }
 }

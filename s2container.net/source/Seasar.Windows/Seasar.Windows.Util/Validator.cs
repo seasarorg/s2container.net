@@ -24,7 +24,7 @@ namespace Seasar.Windows.Utils
     /// <summary>
     /// 入力チェック用ユーティリティクラス
     /// </summary>
-    public class Validator
+    public sealed class Validator
     {
         /// <summary>
         /// コンストラクタ
@@ -44,7 +44,7 @@ namespace Seasar.Windows.Utils
             // Shift_JIS = 932
             Encoding enc = Encoding.GetEncoding(932);
 
-            return ( enc.GetByteCount(src) );
+            return (enc.GetByteCount(src));
         }
 
         /// <summary>
@@ -55,10 +55,12 @@ namespace Seasar.Windows.Utils
         /// <returns>長さ</returns>
         public static int GetLength(string src, Encoding encoding)
         {
-            if ( encoding == null )
+            if (encoding == null)
+            {
                 throw new ArgumentNullException("encoding");
+            }
 
-            return ( encoding.GetByteCount(src) );
+            return (encoding.GetByteCount(src));
         }
 
         /// <summary>
@@ -71,10 +73,14 @@ namespace Seasar.Windows.Utils
         public static bool IsInRangeBySJIS(string src, int lower, int upper)
         {
             int length = GetLengthBySJIS(src);
-            if ( length < lower || upper < length )
+            if (length < lower || upper < length)
+            {
                 return false;
+            }
             else
+            {
                 return true;
+            }
         }
 
         /// <summary>
@@ -84,16 +90,23 @@ namespace Seasar.Windows.Utils
         /// <param name="lower">最低の長さ</param>
         /// <param name="upper">最長の長さ</param>
         /// <returns></returns>
+        /// <param name="encoding">文字エンコード</param>
         public static bool IsInRange(string src, int lower, int upper, Encoding encoding)
         {
-            if ( encoding == null )
+            if (encoding == null)
+            {
                 throw new ArgumentNullException("encoding");
+            }
 
             int length = GetLength(src, encoding);
-            if ( length < lower || upper < length )
+            if (length < lower || upper < length)
+            {
                 return false;
+            }
             else
+            {
                 return true;
+            }
         }
 
         /// <summary>
@@ -105,10 +118,14 @@ namespace Seasar.Windows.Utils
         /// <returns></returns>
         public static bool IsInRange(long value, long lower, long upper)
         {
-            if ( value < lower || upper < value )
+            if (value < lower || upper < value)
+            {
                 return false;
+            }
             else
+            {
                 return true;
+            }
         }
 
         /// <summary>
@@ -120,10 +137,14 @@ namespace Seasar.Windows.Utils
         /// <returns></returns>
         public static bool IsInRange(int value, int lower, int upper)
         {
-            if ( value < lower || upper < value )
+            if (value < lower || upper < value)
+            {
                 return false;
+            }
             else
+            {
                 return true;
+            }
         }
 
         /// <summary>
@@ -135,10 +156,14 @@ namespace Seasar.Windows.Utils
         /// <returns></returns>
         public static bool IsInRange(double value, double lower, double upper)
         {
-            if ( value < lower || upper < value )
+            if (value < lower || upper < value)
+            {
                 return false;
+            }
             else
+            {
                 return true;
+            }
         }
 
         /// <summary>
@@ -151,10 +176,14 @@ namespace Seasar.Windows.Utils
         {
             DateTime firstDate = new DateTime(value.Year, value.Month, value.Day, 0, 0, 0);
             DateTime secondDate = new DateTime(compare.Year, compare.Month, compare.Day, 0, 0, 0);
-            if ( firstDate.Ticks == secondDate.Ticks )
+            if (firstDate.Ticks == secondDate.Ticks)
+            {
                 return 0;
+            }
             else
-                return ( secondDate.Subtract(firstDate).Days );
+            {
+                return (secondDate.Subtract(firstDate).Days);
+            }
         }
 
         /// <summary>
@@ -167,10 +196,14 @@ namespace Seasar.Windows.Utils
         {
             DateTime firstDate = new DateTime(value.Year, value.Month, value.Day, 0, 0, 0);
             DateTime secondDate = new DateTime(compare.Year, compare.Month, compare.Day, 0, 0, 0);
-            if ( firstDate.Year == secondDate.Year && firstDate.Month == secondDate.Month )
+            if (firstDate.Year == secondDate.Year && firstDate.Month == secondDate.Month)
+            {
                 return 0;
+            }
             else
-                return ( ( secondDate.Year - firstDate.Year ) * 12 + ( secondDate.Month - firstDate.Month ) );
+            {
+                return ((secondDate.Year - firstDate.Year) * 12 + (secondDate.Month - firstDate.Month));
+            }
         }
 
         /// <summary>
@@ -184,7 +217,7 @@ namespace Seasar.Windows.Utils
             DateTime firstDate = new DateTime(value.Year, value.Month, value.Day, 0, 0, 0);
             DateTime secondDate = new DateTime(compare.Year, compare.Month, compare.Day, 0, 0, 0);
 
-            return ( secondDate.Year - firstDate.Year );
+            return (secondDate.Year - firstDate.Year);
         }
 
         /// <summary>
@@ -195,7 +228,7 @@ namespace Seasar.Windows.Utils
         /// <returns>同じミリ秒なら0、最初日付が比較日付より以前ならマイナス、逆なら正</returns>
         public static long CompareStrict(DateTime value, DateTime compare)
         {
-            return ( value.Ticks - compare.Ticks );
+            return (value.Ticks - compare.Ticks);
         }
     }
 }

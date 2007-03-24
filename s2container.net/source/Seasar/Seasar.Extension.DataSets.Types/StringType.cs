@@ -18,53 +18,47 @@
 
 using System;
 using System.Data;
-using Seasar.Extension.ADO;
 using Seasar.Framework.Util;
-using Nullables;
 
 namespace Seasar.Extension.DataSets.Types
 {
-	public class StringType : ObjectType, IColumnType
-	{
-		public StringType()
-		{
-		}
+    public class StringType : ObjectType, IColumnType
+    {
+        #region IColumnType ÉÅÉìÉo
 
-		#region IColumnType ÉÅÉìÉo
+        public override object Convert(object value, string formatPattern)
+        {
+            if (IsNullable(value))
+            {
+                return DBNull.Value;
+            }
+            string s = StringConversionUtil.ToString(value, formatPattern);
+            if (s != null)
+            {
+                s = s.Trim();
+            }
+            if (s == string.Empty)
+            {
+                s = null;
+            }
+            return s;
+        }
 
-		public override object Convert(object value, string formatPattern)
-		{
-			if (IsNullable(value))
-			{
-				return DBNull.Value;
-			}
-			string s = StringConversionUtil.ToString(value, formatPattern);
-			if (s != null)
-			{
-				s = s.Trim();
-			}
-			if (s == string.Empty)
-			{
-				s = null;
-			}
-			return s;
-		}
+        public override string ToDbTypeString()
+        {
+            return "VARCHAR";
+        }
 
-		public override string ToDbTypeString()
-		{
-			return "VARCHAR";
-		}
+        public override DbType GetDbType()
+        {
+            return DbType.String;
+        }
 
-		public override DbType GetDbType()
-		{
-			return DbType.String;
-		}
+        public override Type GetColumnType()
+        {
+            return typeof(string);
+        }
 
-		public override Type GetColumnType()
-		{
-			return typeof(string);
-		}
-
-		#endregion
-	}
+        #endregion
+    }
 }

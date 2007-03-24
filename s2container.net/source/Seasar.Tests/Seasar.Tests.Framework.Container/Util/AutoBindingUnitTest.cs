@@ -25,9 +25,9 @@ using System.Windows.Forms;
 
 namespace Seasar.Tests.Framework.Container.Util
 {
-	[TestFixture]
+    [TestFixture]
     public class AutoBindingUtilTest
-	{
+    {
         [Test]
         public void TestIsSuitable_FormƒNƒ‰ƒX‚Ìê‡()
         {
@@ -51,5 +51,5 @@ namespace Seasar.Tests.Framework.Container.Util
         class TestForm : Form
         {
         }
-	}
+    }
 }

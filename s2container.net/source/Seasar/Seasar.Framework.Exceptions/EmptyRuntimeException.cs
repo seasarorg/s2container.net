@@ -21,37 +21,35 @@ using System.Runtime.Serialization;
 
 namespace Seasar.Framework.Exceptions
 {
-	/// <summary>
-	/// 対象が設定されていない場合の実行時例外です。
-	/// </summary>
-	[Serializable]
-	public sealed class EmptyRuntimeException : SRuntimeException
-	{
-		private string targetName_;
+    /// <summary>
+    /// 対象が設定されていない場合の実行時例外です。
+    /// </summary>
+    [Serializable]
+    public sealed class EmptyRuntimeException : SRuntimeException
+    {
+        private readonly string _targetName;
 
-		public EmptyRuntimeException(string targetName)
-			: base("ESSR0007",new object[] {targetName})
-		{
-			targetName_ = targetName;
-		}
+        public EmptyRuntimeException(string targetName)
+            : base("ESSR0007", new object[] { targetName })
+        {
+            _targetName = targetName;
+        }
 
-		public EmptyRuntimeException(SerializationInfo info, StreamingContext context) 
-			: base( info, context )
-		{
-			this.targetName_ = info.GetString("targetName_");
-		}
+        public EmptyRuntimeException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+            _targetName = info.GetString("_targetName");
+        }
 
-		public override void GetObjectData( SerializationInfo info,
-			StreamingContext context )
-		{
-			info.AddValue("targetName_", this.targetName_, typeof(String));
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("_targetName", _targetName, typeof(string));
+            base.GetObjectData(info, context);
+        }
 
-			base.GetObjectData(info, context);
-		}
-
-		public string TargetName
-		{
-			get { return targetName_; }
-		}
-	}
+        public string TargetName
+        {
+            get { return _targetName; }
+        }
+    }
 }

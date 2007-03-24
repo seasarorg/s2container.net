@@ -21,144 +21,139 @@ using Seasar.Framework.Xml;
 
 namespace Seasar.Framework.Xml
 {
-	/// <summary>
-	/// XmlHandler ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public sealed class XmlHandler
-	{
+    public sealed class XmlHandler
+    {
+        private readonly TagHandlerRule _tagHandlerRule;
+        private readonly TagHandlerContext _context = new TagHandlerContext();
 
-		private TagHandlerRule tagHandlerRule_;
-		private TagHandlerContext context_ = new TagHandlerContext();
-		
-		public XmlHandler(TagHandlerRule tagHandlerRule)
-		{
-			tagHandlerRule_ = tagHandlerRule;
-		}
+        public XmlHandler(TagHandlerRule tagHandlerRule)
+        {
+            _tagHandlerRule = tagHandlerRule;
+        }
 
-		public TagHandlerContext TagHandlerContext
-		{
-			get { return context_; }
-		}
+        public TagHandlerContext TagHandlerContext
+        {
+            get { return _context; }
+        }
 
-		public void StartElement(string qName,IAttributes attributes)
-		{
-			this.AppendBody();
-			context_.StartElement(qName);
-			this.Start(attributes);
-		}
+        public void StartElement(string qName, IAttributes attributes)
+        {
+            AppendBody();
+            _context.StartElement(qName);
+            Start(attributes);
+        }
 
-		public void Characters(string text)
-		{
-			context_.Characters = text;
-			this.AppendBody();
-		}
+        public void Characters(string text)
+        {
+            _context.Characters = text;
+            AppendBody();
+        }
 
-		public void EndElement(string qName)
-		{
-			this.AppendBody();
-			this.End();
-			context_.EndElement();
-		}
+        public void EndElement(string qName)
+        {
+            AppendBody();
+            End();
+            _context.EndElement();
+        }
 
-		public object Result
-		{
-			get { return context_.Result; }
-		}
+        public object Result
+        {
+            get { return _context.Result; }
+        }
 
-		private TagHandler GetTagHandlerByPath()
-		{
-			return tagHandlerRule_[context_.Path];
-		}
+        private TagHandler GetTagHandlerByPath()
+        {
+            return _tagHandlerRule[_context.Path];
+        }
 
-		private TagHandler GetTagHandlerByQName()
-		{
-			return tagHandlerRule_[context_.QName];
-		}
+        private TagHandler GetTagHandlerByQName()
+        {
+            return _tagHandlerRule[_context.QName];
+        }
 
-		private void Start(IAttributes attributes)
-		{
-			TagHandler th = this.GetTagHandlerByPath();
-			this.Start(th,attributes);
-			th = this.GetTagHandlerByQName();
-			this.Start(th,attributes);
-		}
+        private void Start(IAttributes attributes)
+        {
+            TagHandler th = GetTagHandlerByPath();
+            Start(th, attributes);
+            th = GetTagHandlerByQName();
+            Start(th, attributes);
+        }
 
-		private void Start(TagHandler handler, IAttributes attributes)
-		{
-			if(handler != null)
-			{
-				try
-				{
-					handler.Start(context_,attributes);
-				} 
-				catch(Exception ex)
-				{
-					this.ReportDetailPath(ex);
-					throw ex;
-				}
-			}
-		}
+        private void Start(TagHandler handler, IAttributes attributes)
+        {
+            if (handler != null)
+            {
+                try
+                {
+                    handler.Start(_context, attributes);
+                }
+                catch (Exception ex)
+                {
+                    ReportDetailPath(ex);
+                    throw;
+                }
+            }
+        }
 
-		private void AppendBody()
-		{
-			string characters = context_.Characters;
-			if(characters.Length > 0)
-			{
-				TagHandler th = this.GetTagHandlerByPath();
-				this.AppendBody(th,characters);
-				th = this.GetTagHandlerByQName();
-				this.AppendBody(th,characters);
-				context_.ClearCharacters();
-			}
-		}
+        private void AppendBody()
+        {
+            string characters = _context.Characters;
+            if (characters.Length > 0)
+            {
+                TagHandler th = GetTagHandlerByPath();
+                AppendBody(th, characters);
+                th = GetTagHandlerByQName();
+                AppendBody(th, characters);
+                _context.ClearCharacters();
+            }
+        }
 
-		private void AppendBody(TagHandler handler, string characters)
-		{
-			if(handler != null)
-			{
-				try
-				{
-					handler.AppendBody(context_, characters);
-				}
-				catch(Exception ex)
-				{
-					this.ReportDetailPath(ex);
-					throw ex;
-				}
-			}
-		}
+        private void AppendBody(TagHandler handler, string characters)
+        {
+            if (handler != null)
+            {
+                try
+                {
+                    handler.AppendBody(_context, characters);
+                }
+                catch (Exception ex)
+                {
+                    ReportDetailPath(ex);
+                    throw;
+                }
+            }
+        }
 
-		private void End()
-		{
-			string body = context_.Body;
-			TagHandler th = this.GetTagHandlerByPath();
-			this.End(th,body);
-			th = this.GetTagHandlerByQName();
-			this.End(th,body);
-		}
+        private void End()
+        {
+            string body = _context.Body;
+            TagHandler th = GetTagHandlerByPath();
+            End(th, body);
+            th = GetTagHandlerByQName();
+            End(th, body);
+        }
 
-		private void End(TagHandler handler, string body)
-		{
-			if(handler != null)
-			{
-				try
-				{
-					handler.End(context_,body);
-				}
-				catch(Exception ex)
-				{
-					this.ReportDetailPath(ex);
-					throw ex;
-				}
-			}
-		}
+        private void End(TagHandler handler, string body)
+        {
+            if (handler != null)
+            {
+                try
+                {
+                    handler.End(_context, body);
+                }
+                catch (Exception ex)
+                {
+                    ReportDetailPath(ex);
+                    throw;
+                }
+            }
+        }
 
-		private void ReportDetailPath(Exception cause)
-		{
-			Console.WriteLine("Exception occured at " + context_.DetailPath);
-			Console.WriteLine(cause.Message);
-			Console.WriteLine(cause.StackTrace);
-		}
-
-	}
+        private void ReportDetailPath(Exception cause)
+        {
+            Console.WriteLine("Exception occured at " + _context.DetailPath);
+            Console.WriteLine(cause.Message);
+            Console.WriteLine(cause.StackTrace);
+        }
+    }
 }

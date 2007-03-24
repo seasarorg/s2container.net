@@ -18,43 +18,38 @@
 
 using System;
 using System.Data;
-using Seasar.Extension.ADO;
 using Seasar.Framework.Util;
 
 namespace Seasar.Extension.DataSets.Types
 {
-	public class BooleanType : ObjectType, IColumnType
-	{
-		public BooleanType()
-		{
-		}
+    public class BooleanType : ObjectType, IColumnType
+    {
+        #region IColumnType ÉÅÉìÉo
 
-		#region IColumnType ÉÅÉìÉo
+        public override object Convert(object value, string formatPattern)
+        {
+            if (IsNullable(value))
+            {
+                return DBNull.Value;
+            }
+            return BooleanConversionUtil.ToBoolean(value);
+        }
 
-		public override object Convert(object value, string formatPattern)
-		{
-			if (IsNullable(value))
-			{
-				return DBNull.Value;
-			}
-			return BooleanConversionUtil.ToBoolean(value);
-		}
+        public override string ToDbTypeString()
+        {
+            return "BIT";
+        }
 
-		public override string ToDbTypeString()
-		{
-			return "BIT";
-		}
+        public override DbType GetDbType()
+        {
+            return DbType.Boolean;
+        }
 
-		public override DbType GetDbType()
-		{
-			return DbType.Boolean;
-		}
+        public override Type GetColumnType()
+        {
+            return typeof(bool);
+        }
 
-		public override Type GetColumnType()
-		{
-			return typeof(bool);
-		}
-
-		#endregion
-	}
+        #endregion
+    }
 }

@@ -16,42 +16,37 @@
  */
 #endregion
 
-using System;
-
 namespace Seasar.Framework.Container.Util
 {
-	/// <summary>
-	/// InstanceModeUtil ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public sealed class InstanceModeUtil
-	{
-		private InstanceModeUtil()
-		{
-		}
+    public sealed class InstanceModeUtil
+    {
+        private InstanceModeUtil()
+        {
+        }
 
-		public static bool IsSingleton(string mode)
-		{
-			return ContainerConstants.INSTANCE_SINGLETON.ToLower().Equals(mode.ToLower());
-		}
+        public static bool IsSingleton(string mode)
+        {
+            return ContainerConstants.INSTANCE_SINGLETON.ToLower().Equals(mode.ToLower());
+        }
 
-		public static bool IsPrototype(string mode)
-		{
-			return ContainerConstants.INSTANCE_PROTOTYPE.ToLower().Equals(mode.ToLower());
-		}
+        public static bool IsPrototype(string mode)
+        {
+            return ContainerConstants.INSTANCE_PROTOTYPE.ToLower().Equals(mode.ToLower());
+        }
 
-		public static bool IsRequest(string mode)
-		{
-			return ContainerConstants.INSTANCE_REQUEST.ToLower().Equals(mode.ToLower());
-		}
+        public static bool IsRequest(string mode)
+        {
+            return ContainerConstants.INSTANCE_REQUEST.ToLower().Equals(mode.ToLower());
+        }
 
-		public static bool IsSession(string mode)
-		{
-			return ContainerConstants.INSTANCE_SESSION.ToLower().Equals(mode.ToLower());
-		}
+        public static bool IsSession(string mode)
+        {
+            return ContainerConstants.INSTANCE_SESSION.ToLower().Equals(mode.ToLower());
+        }
 
-		public static bool IsOuter(string mode)
-		{
-			return ContainerConstants.INSTANCE_OUTER.ToLower().Equals(mode.ToLower());
-		}
-	}
+        public static bool IsOuter(string mode)
+        {
+            return ContainerConstants.INSTANCE_OUTER.ToLower().Equals(mode.ToLower());
+        }
+    }
 }

@@ -25,31 +25,28 @@ using MbUnit.Framework;
 
 namespace Seasar.Tests.Framework.Container.Deployer
 {
-	/// <summary>
-	/// SessionComponentDeployerTest ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	[TestFixture]
-	public class SessionComponentDeployerTest
-	{
-		[Test]
-		public void TestDeployAutoAutoConstructor()
-		{
-			MockWebHost host = (MockWebHost) ApplicationHost.CreateApplicationHost(
-				typeof(MockWebHost), "/test", Environment.CurrentDirectory);
-			Assert.AreEqual("<span id=\"ResultLabel\"></span>", host.Process());
-		}
+    [TestFixture]
+    public class SessionComponentDeployerTest
+    {
+        [Test]
+        public void TestDeployAutoAutoConstructor()
+        {
+            MockWebHost host = (MockWebHost) ApplicationHost.CreateApplicationHost(
+                typeof(MockWebHost), "/test", Environment.CurrentDirectory);
+            Assert.AreEqual("<span id=\"ResultLabel\"></span>", host.Process());
+        }
 
-		public class MockWebHost : MarshalByRefObject
-		{
-			public string Process()
-			{
-				StringBuilder sb = new StringBuilder();
-				TextWriter writer = new StringWriter(sb);
-				SimpleWorkerRequest workerRequest = new SimpleWorkerRequest(
-					"SessionComponentDeployerWebPage.aspx", "", writer);
-				HttpRuntime.ProcessRequest(workerRequest);
-				return sb.ToString();
-			}
-		}
-	}
+        public class MockWebHost : MarshalByRefObject
+        {
+            public string Process()
+            {
+                StringBuilder sb = new StringBuilder();
+                TextWriter writer = new StringWriter(sb);
+                SimpleWorkerRequest workerRequest = new SimpleWorkerRequest(
+                    "SessionComponentDeployerWebPage.aspx", string.Empty, writer);
+                HttpRuntime.ProcessRequest(workerRequest);
+                return sb.ToString();
+            }
+        }
+    }
 }

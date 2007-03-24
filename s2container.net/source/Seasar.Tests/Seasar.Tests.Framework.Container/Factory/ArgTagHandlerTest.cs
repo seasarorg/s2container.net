@@ -23,60 +23,56 @@ using Seasar.Framework.Container.Factory;
 
 namespace Seasar.Tests.Framework.Container.Factory
 {
+    [TestFixture]
+    public class ArgTagHandlerTest
+    {
+        private const string PATH =
+            "Seasar/Tests/Framework/Container/Factory/ArgTagHandlerTest.dicon";
 
-	/// <summary>
-	/// ArgTagHandlerTest ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	[TestFixture]
-	public class ArgTagHandlerTest
-	{
-		private const string PATH =
-			"Seasar/Tests/Framework/Container/Factory/ArgTagHandlerTest.dicon";
+        [Test]
+        public void TestArg()
+        {
+            IS2Container container = S2ContainerFactory.Create(PATH);
+            Assert.AreEqual(new Decimal(1), container.GetComponent(typeof(Decimal)));
+        }
 
-		[Test]
-		public void TestArg()
-		{
-			IS2Container container = S2ContainerFactory.Create(PATH);
-			Assert.AreEqual(new Decimal(1), container.GetComponent(typeof(Decimal)));
-		}
-
-		[Test]
-		public void TestArg2()
-		{
-			IS2Container container = S2ContainerFactory.Create(PATH);
-			A a = (A) container.GetComponent(typeof(A));
-			Assert.AreEqual("A", a.Name);
+        [Test]
+        public void TestArg2()
+        {
+            IS2Container container = S2ContainerFactory.Create(PATH);
+            A a = (A) container.GetComponent(typeof(A));
+            Assert.AreEqual("A", a.Name);
             Assert.AreEqual(DayOfWeek.Friday, a.DayOfWeek1);
             Assert.AreEqual(DayOfWeek.Sunday, a.DayOfWeek2);
-		}
+        }
 
-		public class A
-		{
-			private string name;
-            private DayOfWeek dayOfWeek1;
-            private DayOfWeek dayOfWeek2;
+        public class A
+        {
+            private readonly string _name;
+            private readonly DayOfWeek _dayOfWeek1;
+            private readonly DayOfWeek _dayOfWeek2;
 
-			public A(string name, DayOfWeek dayOfWeek1, DayOfWeek dayOfWeek2)
-			{
-				this.name = name;
-                this.dayOfWeek1 = dayOfWeek1;
-                this.dayOfWeek2 = dayOfWeek2;
-			}
+            public A(string name, DayOfWeek dayOfWeek1, DayOfWeek dayOfWeek2)
+            {
+                _name = name;
+                _dayOfWeek1 = dayOfWeek1;
+                _dayOfWeek2 = dayOfWeek2;
+            }
 
-			public string Name
-			{
-				get { return name; }
-			}
+            public string Name
+            {
+                get { return _name; }
+            }
 
             public DayOfWeek DayOfWeek1
             {
-                get { return dayOfWeek1; }
+                get { return _dayOfWeek1; }
             }
 
             public DayOfWeek DayOfWeek2
             {
-                get { return dayOfWeek2; }
+                get { return _dayOfWeek2; }
             }
-		}
-	}
+        }
+    }
 }

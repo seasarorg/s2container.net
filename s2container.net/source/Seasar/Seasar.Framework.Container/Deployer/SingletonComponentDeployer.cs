@@ -17,62 +17,63 @@
 #endregion
 
 using System;
-using Seasar.Framework.Container.Util;
 
 namespace Seasar.Framework.Container.Deployer
 {
-	/// <summary>
-	/// SingletonComponentDeployer ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public class SingletonComponentDeployer : AbstractComponentDeployer
-	{
-		private object component_;
-		private bool instantiating_ = false;
+    public class SingletonComponentDeployer : AbstractComponentDeployer
+    {
+        private object component;
+        private bool instantiating = false;
 
-		public SingletonComponentDeployer(IComponentDef componentDef)
-			: base(componentDef)
-		{
-		}
+        public SingletonComponentDeployer(IComponentDef componentDef)
+            : base(componentDef)
+        {
+        }
 
-		public override object Deploy(Type receiveType)
-		{
-			lock(this)
-			{
-				if(component_ == null) this.Assemble();
+        public override object Deploy(Type receiveType)
+        {
+            lock (this)
+            {
+                if (component == null)
+                {
+                    Assemble();
+                }
+                object proxy = GetProxy(receiveType);
+                return proxy == null ? component : proxy;
+            }
+        }
 
-				object proxy = GetProxy(receiveType);
-				return proxy == null ? component_ : proxy;
-			}
-		}
+        public override void InjectDependency(object outerComponent)
+        {
+            throw new NotSupportedException("InjectDependency");
+        }
 
-		public override void InjectDependency(object outerComponent)
-		{
-			throw new NotSupportedException("InjectDependency");
-		}
+        private void Assemble()
+        {
+            if (instantiating)
+            {
+                throw new CyclicReferenceRuntimeException(ComponentDef.ComponentType);
+            }
+            instantiating = true;
+            component = ConstructorAssembler.Assemble();
+            instantiating = false;
+            PropertyAssembler.Assemble(component);
+            InitMethodAssembler.Assemble(component);
+        }
 
-		private void Assemble()
-		{
-			if(instantiating_) throw new CyclicReferenceRuntimeException(
-								   this.ComponentDef.ComponentType);
-			instantiating_ = true;
-			component_ = this.ConstructorAssembler.Assemble();
-			instantiating_ = false;
-			this.PropertyAssembler.Assemble(component_);
-			this.InitMethodAssembler.Assemble(component_);
-		}
+        public override void Init()
+        {
+            Deploy(ComponentDef.ComponentType);
+        }
 
-		public override void Init()
-		{
-			this.Deploy(ComponentDef.ComponentType);
-		}
-
-		public override void Destroy()
-		{
-			if(component_ == null) return;
-			this.DestroyMethodAssembler.Assemble(component_);
-			component_ = null;
-		}
-
-
-	}
+        public override void Destroy()
+        {
+            if (component == null)
+            {
+                return;
+            }
+            DestroyMethodAssembler.Assemble(component);
+            component = null;
+        }
+    }
 }

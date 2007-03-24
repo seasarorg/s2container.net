@@ -25,67 +25,67 @@ using Seasar.Framework.Container.Util;
 
 namespace Seasar.Framework.Container.Factory
 {
-	/// <summary>
-	/// ComponentTagHandler ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public class ComponentTagHandler : TagHandler
-	{
+    public class ComponentTagHandler : TagHandler
+    {
+        public override void Start(TagHandlerContext context, IAttributes attributes)
+        {
+            IComponentDef componentDef;
+            string className = attributes["class"];
+            Type componentType = null;
+            if (className != null)
+            {
+                Assembly[] asms = AppDomain.CurrentDomain.GetAssemblies();
+                componentType = ClassUtil.ForName(className, asms);
+                if (componentType == null)
+                    throw new ClassNotFoundRuntimeException(className);
+            }
+            string name = attributes["name"];
+            componentDef = new ComponentDefImpl(componentType, name);
+            string instanceMode = attributes["instance"];
+            if (instanceMode != null)
+            {
+                componentDef.InstanceMode = instanceMode;
+            }
+            string autoBindingMode = attributes["autoBinding"];
+            if (autoBindingMode != null)
+            {
+                componentDef.AutoBindingMode = autoBindingMode;
+            }
+            context.Push(componentDef);
+        }
 
-		public override void Start(TagHandlerContext context, IAttributes attributes)
-		{
-			IComponentDef componentDef = null;
-			string className = attributes["class"];
-			Type componentType = null;
-			IS2Container container = (IS2Container) context.Peek(0);
-			if(className != null)
-			{
-				Assembly[] asms = AppDomain.CurrentDomain.GetAssemblies();
-				componentType = ClassUtil.ForName(className,asms);
-				if(componentType == null)
-					throw new ClassNotFoundRuntimeException(className);
-			}
-			string name = attributes["name"];
-			componentDef = new ComponentDefImpl(componentType,name);
-			string instanceMode = attributes["instance"];
-			if(instanceMode != null) componentDef.InstanceMode = instanceMode;
-			string autoBindingMode = attributes["autoBinding"];
-			if(autoBindingMode != null) componentDef.AutoBindingMode = autoBindingMode;
-			context.Push(componentDef);
-		}
-
-		public override void End(TagHandlerContext context, string body)
-		{
-			IComponentDef componentDef = (IComponentDef) context.Pop();
-			string expression = null;
-			if(body != null)
-			{
-				expression = body.Trim();
-				if(!StringUtil.IsEmpty(expression))
-				{
-					componentDef.Expression = expression;
-				}
-				else
-				{
-					expression = null;
-				}
-			}
-			if(componentDef.ComponentType == null
-				&& !InstanceModeUtil.IsOuter(componentDef.InstanceMode)
-				&& expression == null)
-			{
-				throw new TagAttributeNotDefinedRuntimeException("component","class");
-			}
-			if(context.Peek() is IS2Container)
-			{
-				IS2Container container = (IS2Container) context.Peek();
-				container.Register(componentDef);
-			}
-			else
-			{
-				IArgDef argDef = (IArgDef) context.Peek();
-				argDef.ChildComponentDef = componentDef;
-			}
-		}
-
-	}
+        public override void End(TagHandlerContext context, string body)
+        {
+            IComponentDef componentDef = (IComponentDef) context.Pop();
+            string expression = null;
+            if (body != null)
+            {
+                expression = body.Trim();
+                if (!StringUtil.IsEmpty(expression))
+                {
+                    componentDef.Expression = expression;
+                }
+                else
+                {
+                    expression = null;
+                }
+            }
+            if (componentDef.ComponentType == null
+                && !InstanceModeUtil.IsOuter(componentDef.InstanceMode)
+                && expression == null)
+            {
+                throw new TagAttributeNotDefinedRuntimeException("component", "class");
+            }
+            if (context.Peek() is IS2Container)
+            {
+                IS2Container container = (IS2Container) context.Peek();
+                container.Register(componentDef);
+            }
+            else
+            {
+                IArgDef argDef = (IArgDef) context.Peek();
+                argDef.ChildComponentDef = componentDef;
+            }
+        }
+    }
 }

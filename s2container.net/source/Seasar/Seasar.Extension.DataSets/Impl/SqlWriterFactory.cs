@@ -28,7 +28,7 @@ namespace Seasar.Extension.DataSets.Impl
 
         public static IDataWriter GetSqlWriter(IDataSource dataSource, ICommandFactory commandFactory)
         {
-            IDataWriter result = null;
+            IDataWriter result;
             if (dataSource.GetCommand().GetType().Name.Equals("SqlCommand"))
             {
                 result = new SqlServerSqlWriter(dataSource, commandFactory);

@@ -30,116 +30,120 @@ using Seasar.Framework.Util;
 
 namespace Seasar.Extension.Component.Impl
 {
-	public class ComponentInvoker : IComponentInvoker
-	{
-		private IS2Container container;
+    public class ComponentInvoker : IComponentInvoker
+    {
+        private IS2Container _container;
 
-		public IS2Container Container
-		{
-			set { container = value; }
-		}
+        public IS2Container Container
+        {
+            set { _container = value; }
+        }
 
-		public object Invoke(string componentName, string methodName, object[] args)
-		{
-			object component = container.GetComponent(componentName);
-			Type type = null;
-			try
-			{
-				if ( RemotingServices.IsTransparentProxy(component) )
-				{
-					AopProxy aopProxy = RemotingServices.GetRealProxy(component) as AopProxy;
-					type = aopProxy.TargetType;
-				}
-				else
-				{
-					type = component.GetType();
-				}
+        public object Invoke(string componentName, string methodName, object[] args)
+        {
+            object component = _container.GetComponent(componentName);
+            Type type = null;
+            try
+            {
+                if (RemotingServices.IsTransparentProxy(component))
+                {
+                    AopProxy aopProxy = RemotingServices.GetRealProxy(component) as AopProxy;
+                    type = aopProxy.TargetType;
+                }
+                else
+                {
+                    type = component.GetType();
+                }
 
-				MethodInfo methodInfo = type.GetMethod(methodName);
-				
-				if (methodInfo == null)
-					throw new MissingMethodException();
-				
-				int ParametersSize = methodInfo.GetParameters().Length;
+                MethodInfo methodInfo = type.GetMethod(methodName);
 
-				if ( (ParametersSize > 0 && args == null) || 
-					 (args != null && ParametersSize != args.Length) )
-					throw new IllegalMethodRuntimeException(type, methodName, null);
+                if (methodInfo == null)
+                {
+                    throw new MissingMethodException();
+                }
 
-				if (type.IsMarshalByRef)
-				{
-					return MethodUtil.Invoke(methodInfo, component, args);	
-				}
-				else
-				{
-					IComponentDef componentDef = container.GetComponentDef(componentName);
-					return InvokeNonMarshalByRefObject(component, 
-						GetAspects(componentDef), methodInfo, args);
-				}
-			}
+                int ParametersSize = methodInfo.GetParameters().Length;
 
-			catch(MissingMethodException ex)
-			{
-				ex.ToString();
-				throw new MethodNotFoundRuntimeException(type, methodName, args);
-			}
-			catch(Exception ex)
-			{
-				throw new IllegalMethodRuntimeException(type, methodName, ex);
-			}
-		}
+                if ((ParametersSize > 0 && args == null) ||
+                     (args != null && ParametersSize != args.Length))
+                {
+                    throw new IllegalMethodRuntimeException(type, methodName, null);
+                }
 
-		private object InvokeNonMarshalByRefObject(
-			object target, IAspect[] aspects, MethodBase method, object[] args) 
-		{
+                if (type.IsMarshalByRef)
+                {
+                    return MethodUtil.Invoke(methodInfo, component, args);
+                }
+                else
+                {
+                    IComponentDef componentDef = _container.GetComponentDef(componentName);
+                    return InvokeNonMarshalByRefObject(component,
+                        GetAspects(componentDef), methodInfo, args);
+                }
+            }
 
-			ArrayList interceptorList = new ArrayList();
+            catch (MissingMethodException ex)
+            {
+                ex.ToString();
+                throw new MethodNotFoundRuntimeException(type, methodName, args);
+            }
+            catch (Exception ex)
+            {
+                throw new IllegalMethodRuntimeException(type, methodName, ex);
+            }
+        }
 
-			if(aspects != null)
-			{
-				// 定義されたAspectからInterceptorのリストの作成
-				foreach(IAspect aspect in aspects)
-				{
-					IPointcut pointcut = aspect.Pointcut;
-					// IPointcutよりAdvice(Interceptor)を挿入するか確認
-					if(pointcut == null || pointcut.IsApplied(method)) 
-					{
-						// Aspectを適用する場合
-						interceptorList.Add(aspect.MethodInterceptor);
-					}
-				}
-			}
+        private object InvokeNonMarshalByRefObject(
+            object target, IAspect[] aspects, MethodBase method, object[] args)
+        {
 
-			object ret = null;
-			if(interceptorList.Count == 0)
-			{
-				// Interceptorを挿入しない場合
-				ret = method.Invoke(target, args);
-			}
-			else
-			{
-				// Interceptorを挿入する場合
-				IMethodInterceptor[] interceptors = (IMethodInterceptor[])
-					interceptorList.ToArray(typeof(IMethodInterceptor));
-					
-				IMethodInvocation invocation = new MethodInvocationImpl(target,
-					method, args, interceptors, new Hashtable());
+            ArrayList interceptorList = new ArrayList();
 
-				ret = interceptors[0].Invoke(invocation);
-				
-			}
-			return ret;
-		}
+            if (aspects != null)
+            {
+                // 定義されたAspectからInterceptorのリストの作成
+                foreach (IAspect aspect in aspects)
+                {
+                    IPointcut pointcut = aspect.Pointcut;
+                    // IPointcutよりAdvice(Interceptor)を挿入するか確認
+                    if (pointcut == null || pointcut.IsApplied(method))
+                    {
+                        // Aspectを適用する場合
+                        interceptorList.Add(aspect.MethodInterceptor);
+                    }
+                }
+            }
 
-		private static IAspect[] GetAspects(IComponentDef componentDef)
-		{
-			int size = componentDef.AspectDefSize;
-			IAspect[] aspects = new IAspect[size];
-			for(int i = 0; i < size; ++i)
-			{
-				aspects[i] = componentDef.GetAspectDef(i).Aspect;
-			}
-			return aspects;
-		}
-	}
+            object ret;
+            if (interceptorList.Count == 0)
+            {
+                // Interceptorを挿入しない場合
+                ret = method.Invoke(target, args);
+            }
+            else
+            {
+                // Interceptorを挿入する場合
+                IMethodInterceptor[] interceptors = (IMethodInterceptor[])
+                    interceptorList.ToArray(typeof(IMethodInterceptor));
+
+                IMethodInvocation invocation = new MethodInvocationImpl(target,
+                    method, args, interceptors, new Hashtable());
+
+                ret = interceptors[0].Invoke(invocation);
+
+            }
+            return ret;
+        }
+
+        private static IAspect[] GetAspects(IComponentDef componentDef)
+        {
+            int size = componentDef.AspectDefSize;
+            IAspect[] aspects = new IAspect[size];
+            for (int i = 0; i < size; ++i)
+            {
+                aspects[i] = componentDef.GetAspectDef(i).Aspect;
+            }
+            return aspects;
+        }
+    }
 }

@@ -21,30 +21,26 @@ using System.Data;
 
 namespace Seasar.Extension.ADO.Types
 {
-	public class StringType : PrimitiveBaseType, IValueType
+    public class StringType : PrimitiveBaseType, IValueType
     {
-        public StringType()
-        {
-        }
-
         #region IValueType ÉÅÉìÉo
 
-		public override void BindValue(IDbCommand cmd, string columnName, object value)
+        public override void BindValue(IDbCommand cmd, string columnName, object value)
         {
             BindValue(cmd, columnName, value, DbType.String);
         }
 
         #endregion
 
-		protected override object GetValue(object value)
+        protected override object GetValue(object value)
         {
-            if(value == DBNull.Value)
+            if (value == DBNull.Value)
             {
                 return null;
             }
-            else if(value is string)
+            else if (value is string)
             {
-                return (string) value;
+                return value;
             }
             else
             {

@@ -22,31 +22,31 @@ using MbUnit.Core.Invokers;
 
 namespace Seasar.Extension.Unit
 {
-	[AttributeUsage(AttributeTargets.Method, AllowMultiple=false, Inherited=true)]
-	public sealed class S2Attribute : DecoratorPatternAttribute
-	{
-		private Tx tx;
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
+    public sealed class S2Attribute : DecoratorPatternAttribute
+    {
+        private readonly Tx _tx;
 
-		public S2Attribute()
-		{
-			this.tx = Tx.NotSupported;
-		}
+        public S2Attribute()
+        {
+            _tx = Tx.NotSupported;
+        }
 
-		public S2Attribute(Tx tx)
-		{
-			this.tx = tx;
-		}
+        public S2Attribute(Tx tx)
+        {
+            _tx = tx;
+        }
 
-		public override IRunInvoker GetInvoker(IRunInvoker invoker)
-		{
-			return new S2TestCaseRunInvoker(invoker, tx);
-		}
-	}
+        public override IRunInvoker GetInvoker(IRunInvoker invoker)
+        {
+            return new S2TestCaseRunInvoker(invoker, _tx);
+        }
+    }
 
-	public enum Tx
-	{
-		Rollback,
-		Commit,
-		NotSupported
-	}
+    public enum Tx
+    {
+        Rollback,
+        Commit,
+        NotSupported
+    }
 }

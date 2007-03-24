@@ -16,42 +16,38 @@
  */
 #endregion
 
-using System;
 using Seasar.Framework.Container.Util;
 
 namespace Seasar.Framework.Container.Deployer
 {
-	/// <summary>
-	/// ComponentDeployerFactory ÇÃäTóvÇÃê‡ñæÇ≈Ç∑ÅB
-	/// </summary>
-	public sealed class ComponentDeployerFactory
-	{
-		private ComponentDeployerFactory()
-		{
-		}
+    public sealed class ComponentDeployerFactory
+    {
+        private ComponentDeployerFactory()
+        {
+        }
 
-		public static IComponentDeployer Create(IComponentDef componentDef)
-		{
-			if(InstanceModeUtil.IsSingleton(componentDef.InstanceMode))
-			{
-				return new SingletonComponentDeployer(componentDef);
-			}
-			else if(InstanceModeUtil.IsPrototype(componentDef.InstanceMode))
-			{
-				return new PrototypeComponentDeployer(componentDef);
-			}
-			else if(InstanceModeUtil.IsRequest(componentDef.InstanceMode))
-			{
-				return new RequestComponentDeployer(componentDef);
-			}
-			else if(InstanceModeUtil.IsSession(componentDef.InstanceMode))
-			{
-				return new SessionComponentDeployer(componentDef);
-			}
-			else
-			{
-				return new OuterComponentDeployer(componentDef);
-			}
-		}
-	}
+        public static IComponentDeployer Create(IComponentDef componentDef)
+        {
+            if (InstanceModeUtil.IsSingleton(componentDef.InstanceMode))
+            {
+                return new SingletonComponentDeployer(componentDef);
+            }
+            else if (InstanceModeUtil.IsPrototype(componentDef.InstanceMode))
+            {
+                return new PrototypeComponentDeployer(componentDef);
+            }
+            else if (InstanceModeUtil.IsRequest(componentDef.InstanceMode))
+            {
+                return new RequestComponentDeployer(componentDef);
+            }
+            else if (InstanceModeUtil.IsSession(componentDef.InstanceMode))
+            {
+                return new SessionComponentDeployer(componentDef);
+            }
+            else
+            {
+                return new OuterComponentDeployer(componentDef);
+            }
+        }
+    }
 }

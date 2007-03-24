@@ -30,12 +30,15 @@ namespace Seasar.Framework.Util
 
         public static void Close(IDataReader dataReader)
         {
-            if(dataReader == null) return;
+            if (dataReader == null)
+            {
+                return;
+            }
             try
             {
                 dataReader.Close();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new SQLRuntimeException(ex);
             }
