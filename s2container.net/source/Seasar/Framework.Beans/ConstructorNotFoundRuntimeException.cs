@@ -42,7 +42,7 @@ namespace Seasar.Framework.Beans
 
         public ConstructorNotFoundRuntimeException(Type targetType, Type[] paramTypes)
             : base("ESSR0048",
-            new object[] { targetType.FullName, GetSigunature(paramTypes) })
+            new object[] { targetType.FullName, GetSignature(paramTypes) })
         {
             this.targetType = targetType;
             this.paramTypes = paramTypes;
@@ -100,16 +100,16 @@ namespace Seasar.Framework.Beans
                 {
                     if (i > 0)
                     {
-                        buf.ToString(", ");
+                        buf.Append(", ");
                     }
 
                     if (paramTypes[i] != null)
                     {
-                        buf.ToString(paramTypes[i].FullName);
+                        buf.Append(paramTypes[i].FullName);
                     }
                     else
                     {
-                        buf.ToString("null");
+                        buf.Append("null");
                     }
                 }
             }
