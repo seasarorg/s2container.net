@@ -48,6 +48,7 @@
     <Compile Include="Framework.Container\ContainerConstants.cs" />
     <Compile Include="Framework.Container\ContainerNotRegisteredRuntimeException.cs" />
     <Compile Include="Framework.Container\CyclicReferenceRuntimeException.cs" />
+    <Compile Include="Framework.Container\ExtensionNotFoundRuntimeException.cs" />
     <Compile Include="Framework.Container\IAccessTypeDef.cs" />
     <Compile Include="Framework.Container\IArgDef.cs" />
     <Compile Include="Framework.Container\IArgDefAware.cs" />
@@ -65,7 +66,12 @@
     <Compile Include="Framework.Container\IExpression.cs" />
     <Compile Include="Framework.Container\IExternalContext.cs" />
     <Compile Include="Framework.Container\IExternalContextComponentDefRegister.cs" />
+    <Compile Include="Framework.Container\IllegalAccessTypeDefRuntimeException.cs" />
+    <Compile Include="Framework.Container\IllegalAutoBindingDefRuntimeException.cs" />
+    <Compile Include="Framework.Container\IllegalAutoBindingPropertyRuntimeException.cs" />
+    <Compile Include="Framework.Container\IllegalBindingTypeDefRuntimeException.cs" />
     <Compile Include="Framework.Container\IllegalConstructorRuntimeException.cs" />
+    <Compile Include="Framework.Container\IllegalDestroyMethodAttributeRuntimeException.cs" />
     <Compile Include="Framework.Container\IMetaDef.cs" />
     <Compile Include="Framework.Container\IMetaDefAware.cs" />
     <Compile Include="Framework.Container\IMethodDef.cs" />
