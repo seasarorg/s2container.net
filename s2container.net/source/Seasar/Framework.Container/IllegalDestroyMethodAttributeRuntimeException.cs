@@ -51,9 +51,9 @@ namespace Seasar.Framework.Container
         }
 
         /// <summary>
-        /// 例外の原因となった属性が指定されたクラスを返します。
+        /// 例外の原因となった属性が指定されたクラスのTypeを返します。
         /// </summary>
-        /// <value>属性が指定されたクラス</value>
+        /// <value>属性が指定されたクラスのType</value>
         public Type ComponentType
         {
             get { return componentType; }

@@ -47,9 +47,9 @@ namespace Seasar.Framework.Container
         }
 
         /// <summary>
-        /// 構築に失敗したコンポーネントのクラスを返します。
+        /// 構築に失敗したコンポーネントのクラスのTypeを返します。
         /// </summary>
-        /// <value>構築に失敗したコンポーネントのクラス</value>
+        /// <value>構築に失敗したコンポーネントのクラスのType</value>
         public Type ComponentType
         {
             get { return componentType; }

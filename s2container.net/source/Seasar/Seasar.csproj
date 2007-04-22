@@ -72,6 +72,9 @@
     <Compile Include="Framework.Container\IllegalBindingTypeDefRuntimeException.cs" />
     <Compile Include="Framework.Container\IllegalConstructorRuntimeException.cs" />
     <Compile Include="Framework.Container\IllegalDestroyMethodAttributeRuntimeException.cs" />
+    <Compile Include="Framework.Container\IllegalInitMethodAttributeRuntimeException.cs" />
+    <Compile Include="Framework.Container\IllegalInstanceDefRuntimeException.cs" />
+    <Compile Include="Framework.Container\IllegalMethodRuntimeException.cs" />
     <Compile Include="Framework.Container\IMetaDef.cs" />
     <Compile Include="Framework.Container\IMetaDefAware.cs" />
     <Compile Include="Framework.Container\IMethodDef.cs" />

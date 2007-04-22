@@ -47,9 +47,9 @@ namespace Seasar.Framework.Container
         }
 
         /// <summary>
-        /// 自動バインディングに失敗したコンポーネントのクラスを返します。
+        /// 自動バインディングに失敗したコンポーネントのクラスのTypeを返します。
         /// </summary>
-        /// <value>自動バインディングに失敗したコンポーネントのクラス</value>
+        /// <value>自動バインディングに失敗したコンポーネントのクラスのType</value>
         public Type ComponentType
         {
             get { return componentType; }
