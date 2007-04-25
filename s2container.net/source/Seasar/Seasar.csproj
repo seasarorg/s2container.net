@@ -34,6 +34,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Framework.Aop\IAspect.cs" />
+    <Compile Include="Framework.Aop\IInterType.cs" />
     <Compile Include="Framework.Aop\IMethodInterceptor.cs" />
     <Compile Include="Framework.Aop\IMethodInvocation.cs" />
     <Compile Include="Framework.Aop\IPointcut.cs" />
@@ -66,6 +67,11 @@
     <Compile Include="Framework.Container\IExpression.cs" />
     <Compile Include="Framework.Container\IExternalContext.cs" />
     <Compile Include="Framework.Container\IExternalContextComponentDefRegister.cs" />
+    <Compile Include="Framework.Container\IInitMethodDef.cs" />
+    <Compile Include="Framework.Container\IInitMethodDefAware.cs" />
+    <Compile Include="Framework.Container\IInstanceDef.cs" />
+    <Compile Include="Framework.Container\IInterTypeDef.cs" />
+    <Compile Include="Framework.Container\IInterTypeDefAware.cs" />
     <Compile Include="Framework.Container\IllegalAccessTypeDefRuntimeException.cs" />
     <Compile Include="Framework.Container\IllegalAutoBindingDefRuntimeException.cs" />
     <Compile Include="Framework.Container\IllegalAutoBindingPropertyRuntimeException.cs" />
@@ -77,13 +83,18 @@
     <Compile Include="Framework.Container\IllegalMethodRuntimeException.cs" />
     <Compile Include="Framework.Container\IMetaDef.cs" />
     <Compile Include="Framework.Container\IMetaDefAware.cs" />
+    <Compile Include="Framework.Container\IMethodAssembler.cs" />
     <Compile Include="Framework.Container\IMethodDef.cs" />
+    <Compile Include="Framework.Container\InstanceDefConstants.cs" />
     <Compile Include="Framework.Container\IPropertyAssembler.cs" />
     <Compile Include="Framework.Container\IPropertyDef.cs" />
+    <Compile Include="Framework.Container\IPropertyDefAware.cs" />
     <Compile Include="Framework.Container\IS2Container.cs" />
+    <Compile Include="Framework.Container\ITooManyRegistrationComponentDef.cs" />
     <Compile Include="Framework.Container\TooManyRegistrationRuntimeException.cs" />
     <Compile Include="Framework.Exceptions\EmptyRuntimeException.cs" />
     <Compile Include="Framework.Exceptions\IllegalAccessRuntimeException.cs" />
+    <Compile Include="Framework.Exceptions\InvocationTargetRuntimeException.cs" />
     <Compile Include="Framework.Exceptions\SRuntimeException.cs" />
     <Compile Include="Framework.Message\MessageFormatter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
