@@ -39,8 +39,12 @@
     <Compile Include="Framework.Aop\IMethodInvocation.cs" />
     <Compile Include="Framework.Aop\IPointcut.cs" />
     <Compile Include="Framework.Beans\ConstructorNotFoundRuntimeException.cs" />
+    <Compile Include="Framework.Beans\FieldNotFoundRuntimeException.cs" />
+    <Compile Include="Framework.Beans\IBeanDesc.cs" />
     <Compile Include="Framework.Beans\IllegalPropertyRuntimeException.cs" />
     <Compile Include="Framework.Beans\IPropertyDesc.cs" />
+    <Compile Include="Framework.Beans\MethodNotFoundRuntimeException.cs" />
+    <Compile Include="Framework.Beans\PropertyNotFoundRuntimeException.cs" />
     <Compile Include="Framework.Container\AccessTypeDefConstants.cs" />
     <Compile Include="Framework.Container\AutoBindingDefConstants.cs" />
     <Compile Include="Framework.Container\BindingTypeDefConstants.cs" />
@@ -97,6 +101,7 @@
     <Compile Include="Framework.Exceptions\InvocationTargetRuntimeException.cs" />
     <Compile Include="Framework.Exceptions\SRuntimeException.cs" />
     <Compile Include="Framework.Message\MessageFormatter.cs" />
+    <Compile Include="Framework.Util\MethodUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

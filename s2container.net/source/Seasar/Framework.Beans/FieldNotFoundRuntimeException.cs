@@ -17,29 +17,31 @@
 #endregion
 
 using System;
+using Seasar.Framework.Exceptions;
 
-namespace Seasar.Framework.Exceptions
+namespace Seasar.Framework.Beans
 {
-    /// <summary>
-    /// TargetException, ArgumentException, TargetParameterCountException,
-    /// MethodAccessExceptionをラップする実行時例外です。
-    /// メソッド・コンストラクタ・プロパティの呼び出しに関する例外です。
-    /// 呼び出される前に例外は発生します。
-    /// </summary>
     [Serializable]
-    public class IllegalAccessRuntimeException : SRuntimeException
+    public class FieldNotFoundRuntimeException : SRuntimeException
     {
         private Type targetType;
+        private string fieldName;
 
-        public IllegalAccessRuntimeException(Type targetType, MemberAccessException cause)
-            : base("ESSR0042", new object[] { targetType.FullName, cause }, cause)
+        public FieldNotFoundRuntimeException(Type componentType, string fieldName)
+            : base("ESSR0070", new object[] { componentType.FullName, fieldName })
         {
-            this.targetType = targetType;
+            this.targetType = componentType;
+            this.fieldName = fieldName;
         }
 
         public Type TargetType
         {
             get { return targetType; }
+        }
+
+        public string FieldName
+        {
+            get { return fieldName; }
         }
     }
 }
