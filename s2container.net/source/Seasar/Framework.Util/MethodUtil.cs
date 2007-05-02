@@ -54,6 +54,11 @@ namespace Seasar.Framework.Util
             }
         }
 
+        public static bool IsAbstract(MethodInfo method)
+        {
+            return method.IsAbstract;
+        }
+
         public static string GetSignature(string methodName, Type[] argTypes)
         {
             StringBuilder buf = new StringBuilder(100);
@@ -71,6 +76,38 @@ namespace Seasar.Framework.Util
                     }
 
                     buf.Append(argTypes[i].FullName);
+                }
+            }
+
+            buf.Append(")");
+
+            return buf.ToString();
+        }
+
+        public static string GetSignature(string methodName, object[] methodArgs)
+        {
+            StringBuilder buf = new StringBuilder(100);
+
+            buf.Append(methodName);
+            buf.Append("(");
+
+            if (methodArgs != null)
+            {
+                for (int i = 0; i < methodArgs.Length; ++i)
+                {
+                    if (i > 0)
+                    {
+                        buf.Append(", ");
+                    }
+
+                    if (methodArgs[i] != null)
+                    {
+                        buf.Append(methodArgs[i].GetType().FullName);
+                    }
+                    else
+                    {
+                        buf.Append("null");
+                    }
                 }
             }
 

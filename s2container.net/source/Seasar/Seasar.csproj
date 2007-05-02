@@ -38,6 +38,7 @@
     <Compile Include="Framework.Aop\IMethodInterceptor.cs" />
     <Compile Include="Framework.Aop\IMethodInvocation.cs" />
     <Compile Include="Framework.Aop\IPointcut.cs" />
+    <Compile Include="Framework.Beans.Impl\PropertyDescImpl.cs" />
     <Compile Include="Framework.Beans\ConstructorNotFoundRuntimeException.cs" />
     <Compile Include="Framework.Beans\FieldNotFoundRuntimeException.cs" />
     <Compile Include="Framework.Beans\IBeanDesc.cs" />

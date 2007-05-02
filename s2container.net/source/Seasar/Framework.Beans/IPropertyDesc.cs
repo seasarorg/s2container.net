@@ -27,18 +27,16 @@ namespace Seasar.Framework.Beans
 
         Type propertyType { get; }
 
-        MethodInfo ReadMethod { get; set; }
+        MethodInfo ReadMethod { get; }
 
         bool HasReadMethod { get; }
 
-        MethodInfo WriteMethod { get; set; }
+        MethodInfo WriteMethod { get; }
 
         bool HasWriteMethod { get; }
 
         object GetValue(object target);
 
         void SetValue(object target, object value);
-
-        object convertIfNeed(object value);
     }
 }
