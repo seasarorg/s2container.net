@@ -38,7 +38,8 @@
     <Compile Include="Framework.Aop\IMethodInterceptor.cs" />
     <Compile Include="Framework.Aop\IMethodInvocation.cs" />
     <Compile Include="Framework.Aop\IPointcut.cs" />
-    <Compile Include="Framework.Beans.Impl\PropertyDescImpl.cs" />
+    <Compile Include="Framework.Beans.Impl\BeanDesc.cs" />
+    <Compile Include="Framework.Beans.Impl\PropertyDesc.cs" />
     <Compile Include="Framework.Beans\ConstructorNotFoundRuntimeException.cs" />
     <Compile Include="Framework.Beans\FieldNotFoundRuntimeException.cs" />
     <Compile Include="Framework.Beans\IBeanDesc.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="Framework.Exceptions\InvocationTargetRuntimeException.cs" />
     <Compile Include="Framework.Exceptions\SRuntimeException.cs" />
     <Compile Include="Framework.Message\MessageFormatter.cs" />
+    <Compile Include="Framework.Util\HashSet.cs" />
     <Compile Include="Framework.Util\MethodUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

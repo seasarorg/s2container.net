@@ -23,12 +23,12 @@ using System.Text;
 
 namespace Seasar.Framework.Beans.Impl
 {
-    public class PropertyDescImpl : IPropertyDesc
+    public class PropertyDesc : IPropertyDesc
     {
         private PropertyInfo property;
         private IBeanDesc beanDesc;
 
-        public PropertyDescImpl(PropertyInfo property, IBeanDesc beanDesc)
+        public PropertyDesc(PropertyInfo property, IBeanDesc beanDesc)
         {
             this.property = property;
             this.beanDesc = beanDesc;
