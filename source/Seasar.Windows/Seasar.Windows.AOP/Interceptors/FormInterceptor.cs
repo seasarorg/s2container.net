@@ -109,6 +109,8 @@ namespace Seasar.Windows.AOP.Interceptors
                     TargetFormAttribute attribute = (TargetFormAttribute) o;
                     Type formType = attribute.FormType;
                     Form form = (Form) _container.GetComponent(formType);
+                    if (form == null)
+                        throw new NullReferenceException(SWFMessages.ASWF0001);
 
                     string propertyName;
                     if (attribute.ReturnPropertyName != string.Empty)

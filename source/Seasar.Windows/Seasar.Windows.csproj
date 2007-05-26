@@ -88,6 +88,7 @@
     <Reference Include="System.Data">
       <Name>System.Data</Name>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms">
       <Name>System.Windows.Forms</Name>
     </Reference>
@@ -102,6 +103,8 @@
     <Compile Include="Seasar.Windows.AOP\Interceptors\FormInterceptor.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Windows.Attr\ControlAttribute.cs" />
+    <Compile Include="Seasar.Windows.Attr\ControlModifierAttribute.cs" />
     <Compile Include="Seasar.Windows.Attr\TargetFormAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -110,6 +113,17 @@
     </Compile>
     <Compile Include="Seasar.Windows\S2ApplicationContext.cs">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Windows\S2Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Seasar.Windows\S2Form.Designer.cs">
+      <DependentUpon>S2Form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SWFMessages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SWFMessages.resx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -120,6 +134,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Seasar.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SWFMessages.ja-JP.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SWFMessages.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SWFMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
