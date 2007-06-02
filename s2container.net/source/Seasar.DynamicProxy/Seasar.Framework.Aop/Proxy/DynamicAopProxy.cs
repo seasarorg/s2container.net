@@ -98,6 +98,10 @@ namespace Seasar.Framework.Aop.Proxy
 
             if (_type.IsInterface)
             {
+                if (target == null)
+                {
+                    target = new object();
+                }
                 _enhancedType = _generator.ProxyBuilder.CreateInterfaceProxy(new Type[] { _type }, target.GetType());
             }
             else
@@ -123,6 +127,21 @@ namespace Seasar.Framework.Aop.Proxy
         #endregion
 
         #region public method
+
+        /// <summary>
+        /// プロキシオブジェクトを生成します
+        /// </summary>
+        public object Create()
+        {
+            if (_type.IsInterface)
+            {
+                return Create(new object());
+            }
+            else
+            {
+                return Activator.CreateInstance(_enhancedType, new object[] { this });
+            }
+        }
 
         /// <summary>
         /// プロキシオブジェクトを生成します
