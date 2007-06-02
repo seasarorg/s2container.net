@@ -1,5 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual C# Express 2005
+# Visual Studio 2005
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seasar", "Seasar\Seasar.csproj", "{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seasar.Examples", "Seasar.Examples\Seasar.Examples.csproj", "{AF6F7B3F-FFE2-4C83-9275-7978F5039987}"
@@ -11,6 +11,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seasar.DynamicProxy", "Seasar.DynamicProxy\Seasar.DynamicProxy.csproj", "{063DED73-CA16-4038-904D-5A18A630843D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seasar.Windows", "Seasar.Windows\Seasar.Windows.csproj", "{B361D11C-9C58-499C-8A56-4A677BEEBB2B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seasar.Quill", "Seasar.Quill\Seasar.Quill.csproj", "{4C1D6F42-4178-4C68-8277-B2978BF784FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seasar.Quill.Examples", "Seasar.Quill.Examples\Seasar.Quill.Examples.csproj", "{26D5B09E-8D88-4104-9373-19227DA5E13E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +46,14 @@ Global
 		{B361D11C-9C58-499C-8A56-4A677BEEBB2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B361D11C-9C58-499C-8A56-4A677BEEBB2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B361D11C-9C58-499C-8A56-4A677BEEBB2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C1D6F42-4178-4C68-8277-B2978BF784FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C1D6F42-4178-4C68-8277-B2978BF784FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C1D6F42-4178-4C68-8277-B2978BF784FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C1D6F42-4178-4C68-8277-B2978BF784FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26D5B09E-8D88-4104-9373-19227DA5E13E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26D5B09E-8D88-4104-9373-19227DA5E13E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26D5B09E-8D88-4104-9373-19227DA5E13E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26D5B09E-8D88-4104-9373-19227DA5E13E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
