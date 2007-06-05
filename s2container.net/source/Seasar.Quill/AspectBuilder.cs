@@ -16,7 +16,6 @@
  */
 #endregion
 
-
 using System;
 using System.Collections.Generic;
 using Seasar.Framework.Aop;
@@ -72,7 +71,7 @@ namespace Seasar.Quill
             foreach (AspectAttribute attrByType in attrsByType)
             {
                 // Pointcutに全てのメソッドが追加されているAspectを作成する
-                IAspect aspect = CreateAspect(attrByType.InterceptorType);
+                IAspect aspect = CreateAspect(attrByType);
 
                 // 作成したAspectをリストに追加する
                 aspectList.Add(aspect);
@@ -92,17 +91,12 @@ namespace Seasar.Quill
         /// <summary>
         /// 全てのメソッドにAspectが有効となるAspect定義を作成する
         /// </summary>
-        /// <param name="interceptorType">InterceptorのType</param>
+        /// <param name="aspectAttr">Aspectを設定する属性</param>
         /// <returns>全てのメソッドにAspectが有効となるAspect定義</returns>
-        protected virtual IAspect CreateAspect(Type interceptorType)
+        protected virtual IAspect CreateAspect(AspectAttribute aspectAttr)
         {
-            // Interceptorのコンポーネントを取得する
-            QuillComponent component =
-                container.GetComponent(interceptorType, interceptorType);
-
             // Interceptorを作成する
-            IMethodInterceptor interceptor = (IMethodInterceptor)
-                component.GetComponentObject(interceptorType);
+            IMethodInterceptor interceptor = GetMethodInterceptor(aspectAttr);
 
             // InterceptorからAspectを作成する
             // (Pointcutは指定しないので全てのメソッドが対象となる)
@@ -113,6 +107,85 @@ namespace Seasar.Quill
         }
 
         /// <summary>
+        /// Aspect属性からインターセプターを取得する
+        /// </summary>
+        /// <param name="aspectAttr">Aspect属性</param>
+        /// <returns>インターセプター</returns>
+        protected virtual IMethodInterceptor GetMethodInterceptor(
+            AspectAttribute aspectAttr)
+        {
+            if (aspectAttr.InterceptorType != null)
+            {
+                // interceptorTypeが指定されている場合は
+                // QuillからTypeを指定してインターセプターを取得する
+                return GetMethodInterceptor(aspectAttr.InterceptorType);
+            }
+            else if (aspectAttr.ComponentName != null)
+            {
+                // コンポーネント名が指定されている場合は
+                // S2Containerからコンポーネント名を指定してインターセプターを取得する
+                return GetMethodInterceptor(aspectAttr.ComponentName);
+            }
+            else
+            {
+                // Aspect属性にinterceptorTypeとcomponentNameのどちらの指定も
+                // されていない場合は例外をスローする
+                throw new QuillApplicationException("EQLL0013");
+            }
+
+        }
+
+        /// <summary>
+        /// QuillからTypeを指定してインターセプターを取得する
+        /// </summary>
+        /// <param name="interceptorType">インターセプターのType</param>
+        /// <returns>インターセプター</returns>
+        protected virtual IMethodInterceptor GetMethodInterceptor(
+            Type interceptorType)
+        {
+            // Interceptorのコンポーネントを取得する
+            QuillComponent component =
+                container.GetComponent(interceptorType);
+
+            if (typeof(IMethodInterceptor).IsAssignableFrom(component.ComponentType))
+            {
+                // IMethodInterceptorに代入ができる場合はInterceptorを返す
+                return (IMethodInterceptor)component.GetComponentObject(interceptorType);
+            }
+            else
+            {
+                // IMethodInterceptorに代入できない場合は例外をスローする
+                throw new QuillApplicationException("EQLL0012",
+                    new object[] { component.ComponentType.FullName });
+            }
+        }
+
+        /// <summary>
+        /// S2Containerからコンポーネント名を指定してインターセプターを取得する
+        /// </summary>
+        /// <param name="componentName">コンポーネント名</param>
+        /// <returns>インターセプター</returns>
+        protected virtual IMethodInterceptor GetMethodInterceptor(
+            string componentName)
+        {
+            // S2Containerからコンポーネントのオブジェクトを取得する
+            object interceptor = 
+                SingletonS2ContainerConnector.GetComponent(componentName);
+
+            if (typeof(IMethodInterceptor).IsAssignableFrom(interceptor.GetType()))
+            {
+                // IMethodInterceptorに代入ができる場合はInterceptorを返す
+                return (IMethodInterceptor) interceptor;
+            }
+            else
+            {
+                // IMethodInterceptorに代入できない場合は例外をスローする
+                throw new QuillApplicationException("EQLL0012",
+                    new object[] { interceptor.GetType().FullName });
+            }
+        }
+
+        /// <summary>
         /// 指定されたメソッドからAspectが有効となるAspect定義のリストを作成する
         /// </summary>
         /// <param name="methods">メソッド情報の配列</param>
@@ -120,8 +193,8 @@ namespace Seasar.Quill
         protected virtual IList<IAspect> CreateAspectList(MethodInfo[] methods)
         {
             // Interceptor毎にpointcutとなるメソッド名を格納する
-            IDictionary<Type, List<string>> methodNames =
-                new Dictionary<Type, List<string>>();
+            IDictionary<IMethodInterceptor, List<string>> methodNames =
+                new Dictionary<IMethodInterceptor, List<string>>();
 
             // メソッドの件数分、Aspect属性を確認してPointcutを作成する為のメソッド名を追加する
             foreach (MethodInfo method in methods)
@@ -134,11 +207,11 @@ namespace Seasar.Quill
             List<IAspect> aspectList = new List<IAspect>();
 
             // Interceptorの件数分、Aspectを作成する
-            foreach (Type interceptorType in methodNames.Keys)
+            foreach (IMethodInterceptor interceptor in methodNames.Keys)
             {
-                // InterceptorのTypeとメソッド名の配列からAspectを作成する
+                // Interceptorとメソッド名の配列からAspectを作成する
                 IAspect aspect = CreateAspect(
-                    interceptorType, methodNames[interceptorType].ToArray());
+                    interceptor, methodNames[interceptor].ToArray());
 
                 // Aspectのリストに追加する
                 aspectList.Add(aspect);
@@ -150,22 +223,14 @@ namespace Seasar.Quill
 
 
         /// <summary>
-        /// 指定されたメソッドからAspectが有効となるAspect定義を作成する
+        /// インターセプターとメソッドを指定してAspect定義を作成する
         /// </summary>
-        /// <param name="interceptorType">InterceptorのType</param>
+        /// <param name="interceptor">インターセプター</param>
         /// <param name="methodNames">Aspectを適用するメソッド名の配列</param>
         /// <returns>指定されたメソッドにAspectが有効となるAspect定義</returns>
         protected virtual IAspect CreateAspect(
-            Type interceptorType, string[] methodNames)
+            IMethodInterceptor interceptor, string[] methodNames)
         {
-            // Interceptorのコンポーネントを取得する
-            QuillComponent component = 
-                container.GetComponent(interceptorType, interceptorType);
-
-            // Interceptorを作成する
-            IMethodInterceptor interceptor = (IMethodInterceptor)
-                component.GetComponentObject(interceptorType);
-
             // Pointcutを作成する
             IPointcut pointcut = new PointcutImpl(methodNames);
 
@@ -184,7 +249,7 @@ namespace Seasar.Quill
         /// </param>
         /// <param name="method">メソッド情報</param>
         protected void AddMethodNamesForPointcut(
-            IDictionary<Type, List<string>> methodNames, MethodInfo method)
+            IDictionary<IMethodInterceptor, List<string>> methodNames, MethodInfo method)
         {
             // メソッドに指定されているAspect属性を取得する
             AspectAttribute[] aspectAttrs =
@@ -194,8 +259,7 @@ namespace Seasar.Quill
             foreach (AspectAttribute aspectAttr in aspectAttrs)
             {
                 // Pointcutを作成する為のメソッド名を追加する
-                AddMethodNamesForPointcut(
-                    methodNames, method.Name, aspectAttr.InterceptorType);
+                AddMethodNamesForPointcut(methodNames, method.Name, aspectAttr);
             }
         }
 
@@ -206,19 +270,22 @@ namespace Seasar.Quill
         /// Interceptor毎にpointcutとなるメソッド名を格納したコレクション
         /// </param>
         /// <param name="methodName">メソッド名</param>
-        /// <param name="interceptorType">InterceptorのType</param>
+        /// <param name="aspectAttr">Aspect属性</param>
         protected void AddMethodNamesForPointcut(
-            IDictionary<Type, List<string>> methodNames, string methodName,
-            Type interceptorType)
+            IDictionary<IMethodInterceptor, List<string>> methodNames,
+             string methodName, AspectAttribute aspectAttr)
         {
-            if (!methodNames.ContainsKey(interceptorType))
+            // インターセプターを取得する
+            IMethodInterceptor interceptor = GetMethodInterceptor(aspectAttr);
+
+            if (!methodNames.ContainsKey(interceptor))
             {
-                // Typeの中で始めてのInterceptorの場合はstringのリストを初期化する
-                methodNames.Add(interceptorType, new List<string>());
+                // 始めてのInterceptorの場合はstringのリストを初期化する
+                methodNames.Add(interceptor, new List<string>());
             }
 
             // メソッド名を追加する
-            methodNames[interceptorType].Add(methodName);
+            methodNames[interceptor].Add(methodName);
         }
     }
 }

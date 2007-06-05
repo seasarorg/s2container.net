@@ -28,14 +28,19 @@ namespace Seasar.Quill.Attrs
     /// クラス・インターフェース・メソッドに設定することができる。
     /// (複数設定することができる)
     /// </remarks>
-    [AttributeUsage(AttributeTargets.Interface | 
-        AttributeTargets.Class | AttributeTargets.Method)]
+    [AttributeUsage(AttributeTargets.Interface |
+       AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
     public class AspectAttribute : Attribute
     {
         /// <summary>
         /// InterceptorのType
         /// </summary>
-        private Type interceptorType;
+        protected Type interceptorType;
+
+        /// <summary>
+        /// S2コンテナにおけるコンポーネント名
+        /// </summary>
+        protected string componentName;
 
         /// <summary>
         /// InterceptorのTypeを指定してAspectAttributeを初期化するコンストラクタ
@@ -48,12 +53,32 @@ namespace Seasar.Quill.Attrs
         }
 
         /// <summary>
+        /// InterceptorのS2コンテナにおけるコンポーネント名を指定して
+        /// AspectAttributeを初期化するコンストラクタ
+        /// </summary>
+        /// <param name="componentName">S2コンテナにおけるコンポーネント名</param>
+        public AspectAttribute(string componentName)
+        {
+            // S2コンテナにおけるコンポーネント名を設定する
+            this.componentName = componentName;
+        }
+
+        /// <summary>
         /// InterceptorのTypeを取得する
         /// </summary>
         /// <value>InterceptorのType</value>
         public Type InterceptorType
         {
             get { return interceptorType; }
+        }
+
+        /// <summary>
+        /// S2コンテナにおけるコンポーネント名を取得する
+        /// </summary>
+        /// <value>S2コンテナにおけるコンポーネント名</value>
+        public string ComponentName
+        {
+            get { return componentName; }
         }
     }
 }

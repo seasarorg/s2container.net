@@ -16,7 +16,6 @@
  */
 #endregion
 
-
 using System;
 using System.Collections.Generic;
 using Seasar.Framework.Aop;
@@ -48,6 +47,23 @@ namespace Seasar.Quill
         {
             // QuillContainer内で使用するAspectBuilderを作成する
             aspectBuilder = new AspectBuilder(this);
+        }
+
+        /// <summary>
+        /// Quillコンポーネントを取得する
+        /// </summary>
+        /// <remarks>
+        /// <para>インスタンスの受け側のTypeとインスタンスのTypeが同じ場合の
+        /// QuillComponentを取得する。</para>
+        /// <para>Quillコンポーネントが生成済みの場合は生成済みの
+        /// Quillコンポーネントを返す。</para>        
+        /// </remarks>
+        /// <param name="type">インスタンスの受け側のType</param>
+        /// <returns>Quillコンポーネント</returns>
+        public virtual QuillComponent GetComponent(Type type)
+        {
+            // Quillコンポーネントを取得して返す
+            return GetComponent(type, type);
         }
 
         /// <summary>

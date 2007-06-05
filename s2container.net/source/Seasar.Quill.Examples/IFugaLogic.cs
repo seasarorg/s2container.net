@@ -3,10 +3,9 @@ using Seasar.Quill.Attrs;
 
 namespace Seasar.Quill.Examples
 {
-    [Implementation]
+    [Implementation(typeof(FugaLogic))]
     public interface IFugaLogic
     {
-        [Aspect(typeof(ConsoleWriteInterceptor))]
         void FugaFuga();
     }
 }
