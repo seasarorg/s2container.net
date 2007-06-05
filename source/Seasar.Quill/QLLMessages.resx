@@ -147,4 +147,19 @@
   <data name="IQLL0002" xml:space="preserve">
     <value>{0} DIを終了する</value>
   </data>
+  <data name="EQLL0009" xml:space="preserve">
+    <value>S2Containerが作成されていません。SingletonS2ContainerFactoryからS2Containerが作成してください</value>
+  </data>
+  <data name="EQLL0010" xml:space="preserve">
+    <value>S2Containerにコンポーネント"{0}"が存在しません</value>
+  </data>
+  <data name="EQLL0011" xml:space="preserve">
+    <value>S2Containerからのコンポーネントの取得に失敗しました</value>
+  </data>
+  <data name="EQLL0012" xml:space="preserve">
+    <value>Seasar.Framework.Aop.IMethodInterceptorを実装していないクラスがInterceptorとして設定されています({0})</value>
+  </data>
+  <data name="EQLL0013" xml:space="preserve">
+    <value>Aspect属性にパラメータが設定されていません。interceptorTypeもしくはcomponentNameを指定してください</value>
+  </data>
 </root>

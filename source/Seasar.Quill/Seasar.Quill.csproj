@@ -60,6 +60,7 @@
     <Compile Include="QuillControl.Designer.cs">
       <DependentUpon>QuillControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="SingletonS2ContainerConnector.cs" />
     <Compile Include="Util\AttributeUtil.cs" />
     <Compile Include="Util\MessageUtil.cs" />
   </ItemGroup>
@@ -74,7 +75,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="QuillControl.gif" />
     <None Include="Resources\QuillControl.gif" />
     <None Include="Seasar.snk" />
   </ItemGroup>

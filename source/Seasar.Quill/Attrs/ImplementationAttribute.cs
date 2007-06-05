@@ -33,7 +33,7 @@ namespace Seasar.Quill.Attrs
     public class ImplementationAttribute : Attribute
     {
         // 実装クラスのType
-        private Type implementationType;
+        protected Type implementationType;
 
         /// <summary>
         /// 属性が指定されているクラス自身を実装クラスとして
