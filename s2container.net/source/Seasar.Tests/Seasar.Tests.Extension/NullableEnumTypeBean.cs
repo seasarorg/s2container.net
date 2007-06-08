@@ -128,7 +128,7 @@ namespace Seasar.Tests.Extension
             _int32Type = int32Type;
             _int64Type = int64Type;
             _decimalType = decimalType;
-            singleType = singleType;
+            _singleType = singleType;
             _doubleType = doubleType;
             _stringType = stringType;
         }
