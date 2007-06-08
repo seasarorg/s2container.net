@@ -1,7 +1,7 @@
 <VisualStudioProject>
     <CSHARP
         ProjectType = "Local"
-        ProductVersion = "7.10.3077"
+        ProductVersion = "7.10.6030"
         SchemaVersion = "2.0"
         ProjectGuid = "{B361D11C-9C58-499C-8A56-4A677BEEBB2B}"
     >
@@ -107,6 +107,14 @@
                     RelPath = "AssemblyInfo.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SWFMessages.ja-JP.resx"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "SWFMessages.resx"
+                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "Seasar.Windows\S2ApplicationContext.cs"

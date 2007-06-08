@@ -27,6 +27,7 @@ using Seasar.Windows.Attr;
 #if NET_1_1
     using System.Collections;
     using System.Collections.Specialized;
+    using Seasar.Framework.Message;
 #else
 using System.Collections.Generic;
 #endif
@@ -110,7 +111,12 @@ namespace Seasar.Windows.AOP.Interceptors
                     Type formType = attribute.FormType;
                     Form form = (Form) _container.GetComponent(formType);
                     if (form == null)
+#if NET_1_1
+                        throw new NullReferenceException(MessageFormatter.GetMessage("ASWF0001", null));
+#else
                         throw new NullReferenceException(SWFMessages.ASWF0001);
+#endif
+                    
 
                     string propertyName;
                     if (attribute.ReturnPropertyName != string.Empty)
