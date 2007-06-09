@@ -56,14 +56,14 @@ namespace Seasar.Extension.ADO.Impl
             {
                 _logger.Debug(GetCompleteSql(args));
             }
-            IDbConnection connection = Connection;
+            IDbConnection con = Connection;
             try
             {
-                return Execute(connection, args, argTypes);
+                return Execute(con, args, argTypes);
             }
             finally
             {
-                DataSourceUtil.CloseConnection(DataSource, connection);
+                DataSourceUtil.CloseConnection(DataSource, con);
             }
         }
 

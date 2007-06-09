@@ -37,6 +37,11 @@ namespace Seasar.Extension.ADO.Impl
             return BasicCommandFactory.INSTANCE.GetCompleteSql(sql, args);
         }
 
+        public string[] GetArgNames(IDbCommand cmd, object[] args)
+        {
+            return BasicCommandFactory.INSTANCE.GetArgNames(cmd, args);
+        }
+
         public virtual int ExecuteNonQuery(IDataSource dataSource, IDbCommand cmd)
         {
             return BasicCommandFactory.INSTANCE.ExecuteNonQuery(dataSource, cmd);

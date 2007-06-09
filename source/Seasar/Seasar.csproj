@@ -297,6 +297,8 @@
     <Compile Include="Seasar.Extension.ADO\Impl\OracleDataReader.cs" />
     <Compile Include="Seasar.Extension.ADO\Impl\OracleDataReaderFactory.cs" />
     <Compile Include="Seasar.Extension.ADO\Impl\BeanGenericListDataReaderHandler.cs" />
+    <Compile Include="Seasar.Extension.ADO\Impl\NoReplaceDbParameterParser.cs" />
+    <Compile Include="Seasar.Extension.ADO\Impl\BasicDbParameterParser.cs" />
     <Compile Include="Seasar.Extension.ADO\IPropertyType.cs">
       <SubType>Code</SubType>
     </Compile>

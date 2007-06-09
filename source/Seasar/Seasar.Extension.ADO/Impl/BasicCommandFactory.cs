@@ -40,7 +40,7 @@ namespace Seasar.Extension.ADO.Impl
         private int commandTimeout = -1;
 
         public BasicCommandFactory()
-            : this(DbParameterParser.INSTANCE)
+            : this(BasicDbParameterParser.INSTANCE)
         {
         }
 
@@ -82,8 +82,21 @@ namespace Seasar.Extension.ADO.Impl
 
         public string GetCompleteSql(string sql, object[] args)
         {
+            if (args == null || args.Length == 0)
+            {
+                return sql;
+            }
             _parser.Parse(sql);
             return ReplaceSql(sql, args);
+        }
+
+        public string[] GetArgNames(IDbCommand cmd, object[] args)
+        {
+            if (args == null || args.Length == 0)
+            {
+                return new string[0];
+            }
+            return _parser.GetArgNames(cmd, args);
         }
 
         public virtual int ExecuteNonQuery(IDataSource dataSource, IDbCommand cmd)
@@ -105,68 +118,7 @@ namespace Seasar.Extension.ADO.Impl
 
         protected string ChangeSignSql(IDbCommand cmd, string original)
         {
-            string ret;
-            switch (DataProviderUtil.GetBindVariableType(cmd))
-            {
-                case BindVariableType.AtmarkWithParam:
-                    ret = GetChangeSignCommandText(original, "@");
-                    break;
-                case BindVariableType.Question:
-                    ret = GetCommandText(original, "?");
-                    break;
-                case BindVariableType.QuestionWithParam:
-                    ret = GetChangeSignCommandText(original, "?");
-                    break;
-                case BindVariableType.ColonWithParam:
-                    ret = GetChangeSignCommandText(original, ":");
-                    break;
-                case BindVariableType.ColonWithParamToLower:
-                    ret = GetChangeSignCommandText(original, ":");
-                    ret = ret.ToLower();
-                    break;
-                default:
-                    ret = original;
-                    break;
-            }
-            return ret;
-        }
-
-        private string GetChangeSignCommandText(string sql, string sign)
-        {
-            StringBuilder text = new StringBuilder(sql);
-            for (int startIndex = 0, parameterIndex = 0; ; ++parameterIndex)
-            {
-                Match match = _parser.Match(text.ToString(), startIndex);
-                if (!match.Success)
-                {
-                    break;
-                }
-                string parameterName = sign + parameterIndex.ToString();
-                text.Replace(match.Value, parameterName, match.Index, match.Length);
-                startIndex = match.Index + parameterName.Length;
-            }
-            return text.ToString();
-        }
-
-        private string GetCommandText(string sql, string sign)
-        {
-            return ReplaceSql(sql, sign);
-        }
-
-        private string ReplaceSql(string sql, string newValue)
-        {
-            StringBuilder text = new StringBuilder(sql);
-            for (int startIndex = 0; ; )
-            {
-                Match match = _parser.Match(text.ToString(), startIndex);
-                if (!match.Success)
-                {
-                    break;
-                }
-                text.Replace(match.Value, newValue, match.Index, match.Length);
-                startIndex = match.Index + newValue.Length;
-            }
-            return text.ToString();
+            return _parser.ChangeSignSql(cmd, original);
         }
 
         private string ReplaceSql(string sql, object[] args)
@@ -252,7 +204,7 @@ namespace Seasar.Extension.ADO.Impl
             }
             else
             {
-                return "'" + bindVariable.ToString() + "'";
+                return "'" + bindVariable + "'";
             }
         }
     }

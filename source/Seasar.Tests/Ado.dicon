@@ -133,6 +133,13 @@
   <component class="Seasar.Extension.Tx.Impl.TransactionContext" />
 
   <component class="Seasar.Extension.ADO.Impl.BasicCommandFactory" />
+  <!--
+  <component class="Seasar.Extension.ADO.Impl.BasicCommandFactory">
+    <arg>
+      <component class="Seasar.Extension.ADO.Impl.NoReplaceDbParameterParser"></component>
+    </arg>
+  </component>
+  -->
   <component class="Seasar.Extension.ADO.Impl.BasicDataReaderFactory" />
   <!--
   <component class="Seasar.Extension.ADO.Impl.BooleanToIntCommandFactory" />
