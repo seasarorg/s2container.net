@@ -19,7 +19,6 @@
 using System;
 using System.Data.OleDb;
 using System.Data;
-using Seasar.Framework.Util;
 
 namespace Seasar.Extension.ADO.Types
 {
@@ -64,23 +63,6 @@ namespace Seasar.Extension.ADO.Types
             ParameterDirection direction
             )
         {
-            BindVariableType vt = DataProviderUtil.GetBindVariableType(cmd);
-            switch (vt)
-            {
-                case BindVariableType.QuestionWithParam:
-                    columnName = "?" + columnName;
-                    break;
-                case BindVariableType.ColonWithParam:
-                    columnName = ":" + columnName;
-                    break;
-                case BindVariableType.ColonWithParamToLower:
-                    columnName = ":" + columnName.ToLower();
-                    break;
-                default:
-                    columnName = "@" + columnName;
-                    break;
-            }
-
             IDbDataParameter parameter = cmd.CreateParameter();
             parameter.ParameterName = columnName;
             parameter.DbType = dbType;

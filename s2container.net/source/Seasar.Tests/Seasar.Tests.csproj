@@ -95,6 +95,7 @@
     <Reference Include="System.Data">
       <Name>System.Data</Name>
     </Reference>
+    <Reference Include="System.Data.OracleClient" />
     <Reference Include="System.Drawing">
       <Name>System.Drawing</Name>
     </Reference>
@@ -166,7 +167,9 @@
     <EmbeddedResource Include="Seasar.Tests.Framework.Util\test1.xml" />
     <EmbeddedResource Include="Seasar.Tests.Framework.Xml\test1.xml" />
     <EmbeddedResource Include="test.dicon" />
-    <EmbeddedResource Include="TSTMessages.resx" />
+    <EmbeddedResource Include="TSTMessages.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <None Include="App.config" />
     <EmbeddedResource Include="DTCTx.dicon" />
     <EmbeddedResource Include="ImplicitTx.dicon" />
@@ -186,6 +189,7 @@
     <Compile Include="Seasar.Tests.Extension.ADO\DataSourceImplTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Tests.Extension.ADO\Impl\BasicDbParameterParserTest.cs" />
     <Compile Include="Seasar.Tests.Extension.ADO\Impl\BasicSelectHandlerTest.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -198,7 +202,6 @@
     <Compile Include="Seasar.Tests.Extension.ADO\Impl\BeanListDataReaderHandlerTest.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Seasar.Tests.Extension.ADO\Impl\DbParameterParserTest.cs" />
     <Compile Include="Seasar.Tests.Extension.ADO\Impl\Department.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -213,6 +216,7 @@
     </Compile>
     <Compile Include="Seasar.Tests.Extension.ADO\Impl\DatabaseMetaDataImplTest.cs" />
     <Compile Include="Seasar.Tests.Extension.ADO\Impl\BeanGenericListDataReaderHandlerTest.cs" />
+    <Compile Include="Seasar.Tests.Extension.ADO\Impl\NoReplaceDbParameterParserTest.cs" />
     <Compile Include="Seasar.Tests.Extension.DataSets\Impl\SqlDeleteTableWriterTest.cs">
       <SubType>Code</SubType>
     </Compile>

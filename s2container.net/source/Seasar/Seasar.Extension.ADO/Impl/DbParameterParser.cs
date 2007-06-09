@@ -16,44 +16,47 @@
  */
 #endregion
 
+using System;
+using System.Data;
 using System.Text.RegularExpressions;
 
 namespace Seasar.Extension.ADO.Impl
 {
+    [Obsolete("Seasar.Extension.ADO.Impl.BasicDbParameterParser‚ğg—p‚µ‚Ä‚­‚¾‚³‚¢B")]
     public class DbParameterParser : IDbParameterParser
     {
         public static readonly IDbParameterParser INSTANCE = new DbParameterParser();
 
-        private const string DEFAULT_PARAMETER_MARKER_FORMAT
-            = @"("
-            + @"(?<![@\p{Lo}\p{Lu}\p{Ll}\p{Lm}\p{Nd}\uff3f_#\$\.])@[\p{Lo}\p{Lu}\p{Ll}\p{Lm}\p{Nd}\uff3f_#\$\.]*(?=[\s,\(\);]+|$)"
-            + @"|"
-            + @"(?<![:\p{Lo}\p{Lu}\p{Ll}\p{Lm}\p{Nd}\uff3f_#\$\.]):[\p{Lo}\p{Lu}\p{Ll}\p{Lm}\p{Nd}\uff3f_#\$\.]*(?=[\s,\(\);]+|$)"
-            + @"|"
-            + @"\?(?=[\s,\(\);]+|$)"
-            + @")"
-            ;
-
-        private readonly Regex regex;
+        private readonly IDbParameterParser _instance;
 
         public DbParameterParser()
-            : this(DEFAULT_PARAMETER_MARKER_FORMAT)
         {
+            _instance = new BasicDbParameterParser();
         }
 
         public DbParameterParser(string pattern)
         {
-            this.regex = new Regex(pattern, RegexOptions.Compiled);
+            _instance = new BasicDbParameterParser(pattern);
         }
 
         public MatchCollection Parse(string sql)
         {
-            return regex.Matches(sql);
+            return _instance.Parse(sql);
         }
 
         public Match Match(string sql, int startIndex)
         {
-            return regex.Match(sql, startIndex);
+            return _instance.Match(sql, startIndex);
+        }
+
+        public virtual string ChangeSignSql(IDbCommand cmd, string original)
+        {
+            return _instance.ChangeSignSql(cmd, original);
+        }
+
+        public virtual string[] GetArgNames(IDbCommand cmd, object[] args)
+        {
+            return _instance.GetArgNames(cmd, args);
         }
     }
 }

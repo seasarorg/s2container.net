@@ -124,6 +124,11 @@
                     AssemblyName = "System.Windows.Forms"
                     HintPath = "..\..\..\..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Windows.Forms.dll"
                 />
+                <Reference
+                    Name = "system.data.oracleclient"
+                    AssemblyName = "system.data.oracleclient"
+                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\system.data.oracleclient.dll"
+                />
             </References>
         </Build>
         <Files>
@@ -183,6 +188,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Seasar.Tests.Extension.ADO\Impl\BasicDbParameterParserTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Seasar.Tests.Extension.ADO\Impl\BasicSelectHandlerTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -203,11 +213,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Seasar.Tests.Extension.ADO\Impl\DbParameterParserTest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Seasar.Tests.Extension.ADO\Impl\Department.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -224,6 +229,11 @@
                 />
                 <File
                     RelPath = "Seasar.Tests.Extension.ADO\Impl\Employee.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Seasar.Tests.Extension.ADO\Impl\NoReplaceDbParameterParserTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

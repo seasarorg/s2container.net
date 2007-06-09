@@ -16,6 +16,7 @@
  */
 #endregion
 
+using System.Data;
 using System.Text.RegularExpressions;
 
 namespace Seasar.Extension.ADO
@@ -25,5 +26,9 @@ namespace Seasar.Extension.ADO
         MatchCollection Parse(string sql);
 
         Match Match(string sql, int startIndex);
+
+        string ChangeSignSql(IDbCommand cmd, string original);
+
+        string[] GetArgNames(IDbCommand cmd, object[] args);
     }
 }

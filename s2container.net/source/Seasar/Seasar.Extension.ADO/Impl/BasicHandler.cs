@@ -79,7 +79,7 @@ namespace Seasar.Extension.ADO.Impl
             {
                 if (_dataSource == null)
                 {
-                    throw new EmptyRuntimeException("dataSource");
+                    throw new EmptyRuntimeException("_dataSource");
                 }
                 return DataSourceUtil.GetConnection(_dataSource);
             }
@@ -109,7 +109,7 @@ namespace Seasar.Extension.ADO.Impl
         protected virtual void BindArgs(IDbCommand command, object[] args, Type[] argTypes)
         {
             if (args == null) return;
-            string[] argNames = GetArgNames(args);
+            string[] argNames = _commandFactory.GetArgNames(command, args);
             for (int i = 0; i < args.Length; ++i)
             {
                 IValueType valueType = ValueTypes.GetValueType(argTypes[i]);
@@ -142,22 +142,8 @@ namespace Seasar.Extension.ADO.Impl
             return argTypes;
         }
 
-        private string[] GetArgNames(object[] args)
-        {
-            string[] argNames = new string[args.Length];
-            for (int i = 0; i < argNames.Length; ++i)
-            {
-                argNames[i] = Convert.ToString(i);
-            }
-            return argNames;
-        }
-
         protected virtual string GetCompleteSql(object[] args)
         {
-            if (args == null || args.Length == 0)
-            {
-                return _sql;
-            }
             return _commandFactory.GetCompleteSql(_sql, args);
         }
     }

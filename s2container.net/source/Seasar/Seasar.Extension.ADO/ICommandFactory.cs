@@ -26,6 +26,8 @@ namespace Seasar.Extension.ADO
 
         string GetCompleteSql(string sql, object[] args);
 
+        string[] GetArgNames(IDbCommand cmd, object[] args);
+
         int ExecuteNonQuery(IDataSource dataSource, IDbCommand cmd);
 
         IDataReader ExecuteReader(IDataSource dataSource, IDbCommand cmd);
