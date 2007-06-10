@@ -60,6 +60,20 @@ namespace Seasar.Quill
 		}
 
         /// <summary>
+        /// メッセージコードとメッセージを指定してQuillApplicationExceptionを初期化する
+        /// </summary>
+        /// <param name="messageCode">メッセージコード</param>
+        /// <param name="message">メッセージ</param>
+        public QuillApplicationException(string messageCode, string message)
+        {
+            // メッセージをセットする
+            simpleMessage = message;
+
+            // メッセージコード付きのメッセージをセットする
+            message = "[" + messageCode + "]" + simpleMessage;
+        }
+
+        /// <summary>
         /// メッセージコード・メッセージ中に埋め込む文字列の配列を指定して
         /// QuillApplicationExceptionを初期化する
         /// </summary>
@@ -112,7 +126,7 @@ namespace Seasar.Quill
         }
 
         /// <summary>
-        /// メッセージ(メッセージコードを含む)を取得する
+        /// メッセージ(メッセージコードを含む)を取得・設定する
         /// </summary>
         /// <value>メッセージ(メッセージコードを含む)</value>
         public override string Message

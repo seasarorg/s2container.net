@@ -162,4 +162,10 @@
   <data name="EQLL0013" xml:space="preserve">
     <value>Aspect属性にパラメータが設定されていません。interceptorTypeもしくはcomponentNameを指定してください</value>
   </data>
+  <data name="EQLL0014" xml:space="preserve">
+    <value>Binding属性に指定されているコンポーネントの型はフィールドに代入のできません （{0}に{1}をバインディングしようとしています）</value>
+  </data>
+  <data name="EQLL0015" xml:space="preserve">
+    <value>Binding属性はstaticフィールドに設定することはできません（{0}.{1}）</value>
+  </data>
 </root>

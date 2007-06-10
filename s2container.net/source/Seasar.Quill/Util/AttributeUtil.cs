@@ -16,7 +16,6 @@
  */
 #endregion
 
-
 using System;
 using Seasar.Quill.Attrs;
 using System.Reflection;
@@ -28,6 +27,8 @@ namespace Seasar.Quill.Util
     /// </summary>
     public static class AttributeUtil
     {
+        #region ImplementationAttribute
+
         /// <summary>
         /// 実装クラスを指定する為に設定されている属性
         /// (<see cref="Seasar.Quill.Attrs.ImplementationAttribute"/>)を取得する
@@ -84,6 +85,10 @@ namespace Seasar.Quill.Util
             // 実装クラスを指定する属性を返す
             return implAttr;
         }
+
+        #endregion
+
+        #region AspectAttribute
 
         /// <summary>
         /// Aspectを指定する為にクラスやインターフェースに設定されている属性
@@ -146,7 +151,7 @@ namespace Seasar.Quill.Util
         /// </summary>
         /// <param name="member">属性を確認するメンバ</param>
         /// <returns>Aspectが指定された属性の配列</returns>
-        private static AspectAttribute[] GetAspectAttrsByMember(MemberInfo member)
+        public static AspectAttribute[] GetAspectAttrsByMember(MemberInfo member)
         {
             // Aspectを指定する属性を取得する
             AspectAttribute[] attrs =
@@ -156,5 +161,41 @@ namespace Seasar.Quill.Util
             // Aspectを指定する属性を返す
             return attrs;
         }
+
+        #endregion
+
+        #region BindingAttribute
+
+        /// <summary>
+        /// S2ContainerのコンポーネントのBindingを指定する為にフィールドに設定されている
+        /// 属性(<see cref="Seasar.Quill.Attrs.BindingAttribute"/>)を取得する
+        /// </summary>
+        /// <param name="field">フィールド</param>
+        /// <returns>Bindingコンポーネントが指定されたBinding属性</returns>
+        public static BindingAttribute GetBindingAttr(FieldInfo field)
+        {
+            if (field.IsStatic)
+            {
+                // staticフィールドの場合は例外をスローする
+                throw new QuillApplicationException("EQLL0015", new string[] {
+                    field.DeclaringType.FullName, field.Name});
+            }
+
+            // バインディングコンポーネントを指定する属性を取得する
+            BindingAttribute bindingAttr =
+                (BindingAttribute)Attribute.GetCustomAttribute(
+                field, typeof(BindingAttribute));
+
+            // バインディング属性が指定されていない場合はnullを返す
+            if (bindingAttr == null || bindingAttr.ComponentName == null)
+            {
+                return null;
+            }
+
+            // Binding属性を返す
+            return bindingAttr;
+        }
+
+        #endregion
     }
 }

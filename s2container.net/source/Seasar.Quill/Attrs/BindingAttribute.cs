@@ -21,54 +21,25 @@ using System;
 namespace Seasar.Quill.Attrs
 {
     /// <summary>
-    /// Aspectを指定する属性クラス
+    /// S2Containerのコンポーネントをバインディングするための属性クラス
     /// </summary>
-    /// <remarks>
-    /// クラス・インターフェース・メソッドに設定することができる。
-    /// (複数設定することができる)
-    /// </remarks>
-    [AttributeUsage(AttributeTargets.Interface |
-       AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
-    public class AspectAttribute : Attribute
+    [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
+    public class BindingAttribute : Attribute
     {
-        /// <summary>
-        /// InterceptorのType
-        /// </summary>
-        protected Type interceptorType;
-
         /// <summary>
         /// S2Containerにおけるコンポーネント名
         /// </summary>
         protected string componentName;
 
         /// <summary>
-        /// InterceptorのTypeを指定してAspectAttributeを初期化するコンストラクタ
-        /// </summary>
-        /// <param name="interceptorType">InterceptorのType</param>
-        public AspectAttribute(Type interceptorType)
-        {
-            // InterceptorのTypeを設定する
-            this.interceptorType = interceptorType;
-        }
-
-        /// <summary>
-        /// InterceptorのS2Containerにおけるコンポーネント名を指定して
-        /// AspectAttributeを初期化するコンストラクタ
+        /// S2Containerにおけるコンポーネント名を指定して
+        /// BindingAttributeを初期化するコンストラクタ
         /// </summary>
         /// <param name="componentName">S2Containerにおけるコンポーネント名</param>
-        public AspectAttribute(string componentName)
+        public BindingAttribute(string componentName)
         {
-            // S2Containerにおけるコンポーネント名を設定する
+            // コンポーネント名をセットする
             this.componentName = componentName;
-        }
-
-        /// <summary>
-        /// InterceptorのTypeを取得する
-        /// </summary>
-        /// <value>InterceptorのType</value>
-        public Type InterceptorType
-        {
-            get { return interceptorType; }
         }
 
         /// <summary>

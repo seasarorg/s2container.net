@@ -25,6 +25,23 @@ namespace Seasar.Quill
         /// <returns>コンポーネントのインスタンス</returns>
         public static object GetComponent(string componentName)
         {
+            // S2Containerのコンポーネントをコンポーネント名を指定して取得します
+            return GetComponent(componentName, null);
+        }
+
+        /// <summary>
+        /// S2Containerのコンポーネントをコンポーネント名を指定して取得します
+        /// </summary>
+        /// <remarks>
+        /// see cref="Seasar.Framework.Container.Factory.SingletonS2ContainerFactory"/>
+        /// で作成された<see cref="Seasar.Framework.Container.IS2Container"/>
+        /// からコンポーネントを取得します
+        /// </remarks>
+        /// <param name="componentName">コンポーネント名</param>
+        /// <param name="receiptType">受け側のType</param>
+        /// <returns>コンポーネントのインスタンス</returns>
+        public static object GetComponent(string componentName, Type receiptType)
+        {
             if (!SingletonS2ContainerFactory.HasContainer)
             {
                 // S2Containerが作成されていない場合は例外をスローします
@@ -37,16 +54,24 @@ namespace Seasar.Quill
             if (!container.HasComponentDef(componentName))
             {
                 // S2Containerにコンポーネントが登録されていない場合は例外をスローする
-                throw new QuillApplicationException("EQLL0010", 
+                throw new QuillApplicationException("EQLL0010",
                     new string[] { componentName });
             }
 
             try
             {
-                // S2Containerから取得したコンポーネントを返す
-                return container.GetComponent(componentName);
+                if (receiptType == null)
+                {
+                    // S2Containerから取得したコンポーネントを返す
+                    return container.GetComponent(componentName);
+                }
+                else
+                {
+                    // 受け側の型を指定してS2Containerから取得したコンポーネントを返す
+                    return container.GetComponent(receiptType, componentName);
+                }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 // コンポーネントの取得で例外が発生した場合は例外をスローする
                 throw new QuillApplicationException("EQLL0011", new string[] { }, ex);
