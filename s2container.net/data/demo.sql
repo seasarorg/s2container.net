@@ -106,7 +106,23 @@ CREATE TABLE [dbo].[BASICTYPE] (
 	[STRINGTYPE] varchar (1024) NULL,
 	[DATETIMETYPE] datetime NULL,
 	CONSTRAINT [PK_BASICTYPE] PRIMARY KEY NONCLUSTERED ([ID])
-) 
+)
+GO
+
+CREATE TABLE [dbo].[DECIMAL_VERSION_NO] (
+	[EMPNO] numeric (4, 0) NOT NULL ,
+	[EMP_NAME] varchar(60) NULL,
+	[VERSION_NO] numeric (4, 0) NOT NULL,
+	CONSTRAINT [PK_DECIMAL_VERSION_NO] PRIMARY KEY NONCLUSTERED ([EMPNO])
+)
+GO
+
+CREATE TABLE [dbo].[INT_VERSION_NO] (
+	[EMPNO] numeric (4, 0) NOT NULL ,
+	[EMP_NAME] varchar(60) NULL,
+	[VERSION_NO] int NOT NULL,
+	CONSTRAINT [PK_INT_VERSION_NO] PRIMARY KEY NONCLUSTERED ([EMPNO])
+)
 GO
 
 INSERT INTO [dbo].[EMP] VALUES(7369,'SMITH','CLERK',7902,CONVERT(datetime,'1980-12-17'),800,NULL,20,CONVERT(datetime,'2000-01-01 00:00:00.0'))
@@ -170,3 +186,53 @@ INSERT INTO [dbo].[BASICTYPE] VALUES (
 	'10',
 	NULL
 );
+
+INSERT INTO [dbo].[DECIMAL_VERSION_NO] VALUES(10, 'Decimal', 100);
+INSERT INTO [dbo].[INT_VERSION_NO] VALUES(10, 'Int', 100);
+
+IF OBJECT_ID ( 'dbo.sales_tax2' ) IS NOT NULL
+DROP FUNCTION dbo.sales_tax2
+GO
+
+CREATE FUNCTION dbo.sales_tax2 (@sales real)
+RETURNS real
+AS
+BEGIN
+RETURN @sales * 0.2;
+END;
+GO
+
+IF OBJECT_ID ( 'dbo.sales_tax' ) IS NOT NULL
+DROP PROCEDURE dbo.sales_tax
+GO
+
+CREATE PROCEDURE dbo.sales_tax (@sales real, @tax real OUTPUT)
+AS
+BEGIN
+SET @tax = @sales * 0.2;
+END;
+GO
+
+IF OBJECT_ID ( 'dbo.sales_tax3' ) IS NOT NULL
+DROP PROCEDURE dbo.sales_tax2
+GO
+
+CREATE PROCEDURE dbo.sales_tax3 (@sales real OUTPUT)
+AS
+BEGIN
+SET @sales = @sales * 0.2;
+END;
+GO
+
+IF OBJECT_ID ( 'dbo.sales_tax4' ) IS NOT NULL
+DROP PROCEDURE dbo.sales_tax4
+GO
+
+CREATE PROCEDURE dbo.sales_tax4 (@sales real, @tax real OUTPUT, @total real OUTPUT)
+AS
+BEGIN
+SET @tax = @sales * 0.2;
+SET @total = @sales * 1.2;
+END;
+GO
+
