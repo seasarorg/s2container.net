@@ -7,4 +7,10 @@
     <component name="hogeS2Interceptor"
                class="Seasar.Quill.Examples.HogeS2Interceptor" />
 
+    <component name="fugaLogic"
+               class="Seasar.Quill.Examples.FugaLogic">
+
+      <aspect>hogeS2Interceptor</aspect>
+    </component>
+
 </components>

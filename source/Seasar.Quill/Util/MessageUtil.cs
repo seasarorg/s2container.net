@@ -49,6 +49,13 @@ namespace Seasar.Quill.Util
             // メッセージのフォーマットをResourceManagerから取得する
             string format = MESSAGES_RESOURCE_MANAGER.GetString(messageCode);
 
+            if (format == null)
+            {
+                // メッセージが見つからない場合は例外をスローする
+                throw new QuillApplicationException(
+                    "EQLL0000", "message not found.");
+            }
+
             if (arguments == null)
             {
                 // メッセージ中に埋め込む値がnullの場合は空の配列に変換する

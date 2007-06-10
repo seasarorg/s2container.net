@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="AspectBuilder.cs" />
     <Compile Include="Attrs\AspectAttribute.cs" />
+    <Compile Include="Attrs\BindingAttribute.cs" />
     <Compile Include="Attrs\ImplementationAttribute.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -63,6 +64,7 @@
     <Compile Include="SingletonS2ContainerConnector.cs" />
     <Compile Include="Util\AttributeUtil.cs" />
     <Compile Include="Util\MessageUtil.cs" />
+    <Compile Include="Util\TypeUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Seasar.DynamicProxy\Seasar.DynamicProxy.csproj">

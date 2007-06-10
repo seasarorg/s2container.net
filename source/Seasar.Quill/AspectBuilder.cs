@@ -172,7 +172,10 @@ namespace Seasar.Quill
             object interceptor = 
                 SingletonS2ContainerConnector.GetComponent(componentName);
 
-            if (typeof(IMethodInterceptor).IsAssignableFrom(interceptor.GetType()))
+            // インターセプターのTypeを取得する
+            Type type = TypeUtil.GetType(interceptor);
+
+            if (typeof(IMethodInterceptor).IsAssignableFrom(type))
             {
                 // IMethodInterceptorに代入ができる場合はInterceptorを返す
                 return (IMethodInterceptor) interceptor;
@@ -181,7 +184,7 @@ namespace Seasar.Quill
             {
                 // IMethodInterceptorに代入できない場合は例外をスローする
                 throw new QuillApplicationException("EQLL0012",
-                    new object[] { interceptor.GetType().FullName });
+                    new object[] { type.FullName });
             }
         }
 

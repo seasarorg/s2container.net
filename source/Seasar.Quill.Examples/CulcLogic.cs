@@ -9,6 +9,9 @@ namespace Seasar.Quill.Examples
     {
         protected HogeLogic hogeLogic = null;
 
+        [Binding("fugaLogic")]
+        protected IFugaLogic fugaLogic;
+
         #region ICulcLogic ÉÅÉìÉo
 
         [Aspect(typeof(ConsoleWriteInterceptor))]
@@ -23,6 +26,8 @@ namespace Seasar.Quill.Examples
         [Aspect(typeof(ConsoleWriteInterceptor))]
         public virtual int LocalPlus(int x, int y)
         {
+            fugaLogic.FugaFuga();
+
             return hogeLogic.HogeHoge(x, y);
         }
     }
