@@ -82,9 +82,8 @@ namespace Seasar.Extension.Component.Impl
                 }
             }
 
-            catch (MissingMethodException ex)
+            catch (MissingMethodException)
             {
-                ex.ToString();
                 throw new MethodNotFoundRuntimeException(type, methodName, args);
             }
             catch (Exception ex)

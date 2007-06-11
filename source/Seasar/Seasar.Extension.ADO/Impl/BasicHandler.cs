@@ -66,13 +66,6 @@ namespace Seasar.Extension.ADO.Impl
             set { _commandFactory = value; }
         }
 
-        [Obsolete("BasicCommandFactory.CommandTimeoutを使用してください。")]
-        public int CommandTimeout
-        {
-            get { return _commandTimeout; }
-            set { _commandTimeout = value; }
-        }
-
         protected IDbConnection Connection
         {
             get
@@ -97,13 +90,6 @@ namespace Seasar.Extension.ADO.Impl
                 cmd.CommandTimeout = _commandTimeout;
             }
             return cmd;
-        }
-
-        [Obsolete("BindArgs(IDbCommand, object[], Type[])を使用してください。")]
-        protected virtual void BindArgs(IDbCommand command, object[] args, Type[] argTypes,
-            string[] argNames)
-        {
-            BindArgs(command, args, argTypes);
         }
 
         protected virtual void BindArgs(IDbCommand command, object[] args, Type[] argTypes)

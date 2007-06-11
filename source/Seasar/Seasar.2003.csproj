@@ -1498,27 +1498,12 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Seasar.Framework.Util\DataReaderInspector.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Seasar.Framework.Util\DataReaderUtil.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Seasar.Framework.Util\DataSetInspector.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Seasar.Framework.Util\DataSourceUtil.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Seasar.Framework.Util\DataTableInspector.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -1534,11 +1519,6 @@
                 />
                 <File
                     RelPath = "Seasar.Framework.Util\ExceptionUtil.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Seasar.Framework.Util\IListInspector.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

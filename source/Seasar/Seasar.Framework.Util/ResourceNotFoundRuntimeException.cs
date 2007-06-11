@@ -25,29 +25,29 @@ namespace Seasar.Framework.Util
     [Serializable]
     public class ResourceNotFoundRuntimeException : SRuntimeException
     {
-        private readonly string path;
+        private readonly string _path;
 
         public ResourceNotFoundRuntimeException(string path)
             : base("ESSR0055", new object[] { path })
         {
-            this.path = path;
+            _path = path;
         }
 
         public ResourceNotFoundRuntimeException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            path = info.GetString("path");
+            _path = info.GetString("_path");
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("path", path, typeof(string));
+            info.AddValue("_path", _path, typeof(string));
             base.GetObjectData(info, context);
         }
 
         public string Path
         {
-            get { return path; }
+            get { return _path; }
         }
     }
 }
