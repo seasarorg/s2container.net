@@ -160,11 +160,6 @@ namespace Seasar.Extension.ADO.Types
         {
         }
 
-        [Obsolete("メソッドを呼び出す必要がなくなりました。")]
-        public static void Init(IDataSource dataSource)
-        {
-        }
-
         public static void RegisterValueType(Type type, IValueType valueType)
         {
             lock (_types)

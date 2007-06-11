@@ -828,19 +828,10 @@
     <Compile Include="Seasar.Framework.Util\DataProviderUtil.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Seasar.Framework.Util\DataReaderInspector.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Seasar.Framework.Util\DataReaderUtil.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Seasar.Framework.Util\DataSetInspector.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Seasar.Framework.Util\DataSourceUtil.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Framework.Util\DataTableInspector.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Seasar.Framework.Util\DataTableUtil.cs">
@@ -875,7 +866,6 @@
     <Compile Include="Seasar.Framework.Util\TextUtil.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Seasar.Framework.Util\IListInspector.cs" />
     <Compile Include="Seasar.Framework.Util\BinaryConversionUtil.cs" />
     <Compile Include="Seasar.Framework.Util\BooleanConversionUtil.cs" />
     <Compile Include="Seasar.Framework.Util\PropertyUtil.cs" />
