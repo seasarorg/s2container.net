@@ -199,7 +199,7 @@ RETURNS real
 AS
 BEGIN
 RETURN @sales * 0.2;
-END;
+END
 GO
 
 IF OBJECT_ID ( 'dbo.sales_tax' ) IS NOT NULL
@@ -210,7 +210,7 @@ CREATE PROCEDURE dbo.sales_tax (@sales real, @tax real OUTPUT)
 AS
 BEGIN
 SET @tax = @sales * 0.2;
-END;
+END
 GO
 
 IF OBJECT_ID ( 'dbo.sales_tax3' ) IS NOT NULL
@@ -221,7 +221,7 @@ CREATE PROCEDURE dbo.sales_tax3 (@sales real OUTPUT)
 AS
 BEGIN
 SET @sales = @sales * 0.2;
-END;
+END
 GO
 
 IF OBJECT_ID ( 'dbo.sales_tax4' ) IS NOT NULL
@@ -233,6 +233,6 @@ AS
 BEGIN
 SET @tax = @sales * 0.2;
 SET @total = @sales * 1.2;
-END;
+END
 GO
 
