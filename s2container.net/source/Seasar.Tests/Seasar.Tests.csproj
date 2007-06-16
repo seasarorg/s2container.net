@@ -17,8 +17,7 @@
     <DefaultTargetSchema>IE50</DefaultTargetSchema>
     <DelaySign>false</DelaySign>
     <OutputType>Library</OutputType>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace>Seasar.Tests</RootNamespace>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <StartupObject>
     </StartupObject>
@@ -127,326 +126,202 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Ado.dicon" />
-    <EmbeddedResource Include="Seasar.Tests.Extension.DataSets\Impl\XlsReaderImplSortTest.xls" />
-    <EmbeddedResource Include="Seasar.Tests.Extension.DataSets\Impl\XlsReaderImplTest.xls" />
-    <EmbeddedResource Include="Seasar.Tests.Extension.DataSets\Impl\XlsReaderTest1.xls" />
-    <EmbeddedResource Include="Seasar.Tests.Extension.Tx\DTCRequiredInterceptorTest.dicon" />
-    <EmbeddedResource Include="Seasar.Tests.Extension.Tx\DTCRequiresNewInterceptorTest.dicon" />
-    <EmbeddedResource Include="Seasar.Tests.Extension.Tx\Impl\LocalNotSupportedInterceptorTest.dicon" />
-    <EmbeddedResource Include="Seasar.Tests.Extension.Tx\Impl\LocalRequiredInterceptorTest.dicon" />
-    <EmbeddedResource Include="Seasar.Tests.Extension.Tx\Impl\LocalRequiresNewInterceptorTest.dicon" />
-    <EmbeddedResource Include="Seasar.Tests.Framework.Container\Deployer\SessionComponentDeployerWebPage.aspx.resx">
+    <EmbeddedResource Include="Framework\Container.Deployer\SessionComponentDeployerWebPage.aspx.resx">
       <DependentUpon>SessionComponentDeployerWebPage.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Seasar.Tests.Framework.Container\Factory\aaa.dicon" />
-    <EmbeddedResource Include="Seasar.Tests.Framework.Container\Factory\ArgTagHandlerTest.dicon" />
-    <EmbeddedResource Include="Seasar.Tests.Framework.Container\Factory\AspectTagHandlerTest.dicon" />
-    <EmbeddedResource Include="Seasar.Tests.Framework.Container\Factory\bbb.dicon" />
-    <EmbeddedResource Include="Seasar.Tests.Framework.Container\Factory\ccc.dicon" />
-    <EmbeddedResource Include="Seasar.Tests.Framework.Container\Factory\ComponentsTagHandlerTest.dicon" />
-    <EmbeddedResource Include="Seasar.Tests.Framework.Container\Factory\ComponentTagHandlerTest.dicon" />
-    <EmbeddedResource Include="Seasar.Tests.Framework.Container\Factory\DestroyMethodTagHandlerTest.dicon" />
-    <EmbeddedResource Include="Seasar.Tests.Framework.Container\Factory\IncludeTagHandlerTest.dicon" />
-    <EmbeddedResource Include="Seasar.Tests.Framework.Container\Factory\IncludeTagHandlerTestChild.dicon" />
-    <EmbeddedResource Include="Seasar.Tests.Framework.Container\Factory\IncludeTagHandlerTestGrandChild.dicon" />
-    <EmbeddedResource Include="Seasar.Tests.Framework.Container\Factory\InitMethodTagHandlerTest.dicon" />
-    <EmbeddedResource Include="Seasar.Tests.Framework.Container\Factory\MetaTagHandlerTest.dicon" />
-    <EmbeddedResource Include="Seasar.Tests.Framework.Container\Factory\PropertyTagHandlerTest.dicon" />
-    <EmbeddedResource Include="Seasar.Tests.Framework.Container\Impl\child.dicon" />
-    <EmbeddedResource Include="Seasar.Tests.Framework.Container\Impl\obj.dicon" />
-    <EmbeddedResource Include="Seasar.Tests.Framework.Container\Impl\root.dicon" />
-    <EmbeddedResource Include="Seasar.Tests.Framework.Container\Impl\test1.dicon" />
-    <EmbeddedResource Include="Seasar.Tests.Framework.Container\Impl\test2.dicon" />
-    <EmbeddedResource Include="Seasar.Tests.Framework.Container\Impl\test3.dicon" />
-    <EmbeddedResource Include="Seasar.Tests.Framework.Unit\aaa.dicon" />
-    <EmbeddedResource Include="Seasar.Tests.Framework.Unit\bbb.dicon" />
-    <EmbeddedResource Include="Seasar.Tests.Framework.Unit\ccc.dicon" />
-    <EmbeddedResource Include="Seasar.Tests.Framework.Unit\ddd.dicon" />
-    <EmbeddedResource Include="Seasar.Tests.Framework.Unit\empty.dicon" />
-    <EmbeddedResource Include="Seasar.Tests.Framework.Unit\S2FrameworkTestCaseTest_ado.dicon" />
-    <EmbeddedResource Include="Seasar.Tests.Framework.Util\test1.xml" />
-    <EmbeddedResource Include="Seasar.Tests.Framework.Xml\test1.xml" />
     <EmbeddedResource Include="test.dicon" />
     <EmbeddedResource Include="TSTMessages.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <None Include="App.config" />
+    <None Include="App.config">
+    </None>
     <EmbeddedResource Include="DTCTx.dicon" />
     <EmbeddedResource Include="ImplicitTx.dicon" />
     <EmbeddedResource Include="LocalTx.dicon" />
+    <EmbeddedResource Include="Extension\DataSets.Impl\XlsReaderImplSortTest.xls" />
+    <EmbeddedResource Include="Extension\DataSets.Impl\XlsReaderImplTest.xls" />
+    <EmbeddedResource Include="Extension\DataSets.Impl\XlsReaderTest1.xls" />
+    <EmbeddedResource Include="Extension\Tx.Impl\DTCRequiredInterceptorTest.dicon" />
+    <EmbeddedResource Include="Extension\Tx.Impl\DTCRequiresNewInterceptorTest.dicon" />
+    <EmbeddedResource Include="Extension\Tx.Impl\LocalNotSupportedInterceptorTest.dicon" />
+    <EmbeddedResource Include="Extension\Tx.Impl\LocalRequiredInterceptorTest.dicon" />
+    <EmbeddedResource Include="Extension\Tx.Impl\LocalRequiresNewInterceptorTest.dicon" />
+    <EmbeddedResource Include="Extension\Tx.Impl\NotSupportedInterceptorTest.dicon" />
+    <EmbeddedResource Include="Extension\Tx.Impl\RequiredInterceptorTest.dicon" />
+    <EmbeddedResource Include="Extension\Tx.Impl\RequiresNewInterceptorTest.dicon" />
+    <None Include="Extension\Unit\S2TestCaseTest_ReadXlsWriteDbTx.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Extension\Unit\testdata.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <EmbeddedResource Include="Framework\Aop.Proxy\AopProxy.dicon" />
+    <EmbeddedResource Include="Framework\Aop.Proxy\DynamicProxy.dicon" />
+    <EmbeddedResource Include="Framework\Container.Factory\aaa.dicon" />
+    <EmbeddedResource Include="Framework\Container.Factory\ArgTagHandlerTest.dicon" />
+    <EmbeddedResource Include="Framework\Container.Factory\AspectTagHandlerTest.dicon" />
+    <EmbeddedResource Include="Framework\Container.Factory\bbb.dicon" />
+    <EmbeddedResource Include="Framework\Container.Factory\ccc.dicon" />
+    <EmbeddedResource Include="Framework\Container.Factory\ComponentsTagHandlerTest.dicon" />
+    <EmbeddedResource Include="Framework\Container.Factory\ComponentTagHandlerTest.2003.dicon" />
+    <EmbeddedResource Include="Framework\Container.Factory\ComponentTagHandlerTest.dicon" />
+    <EmbeddedResource Include="Framework\Container.Factory\DestroyMethodTagHandlerTest.dicon" />
+    <EmbeddedResource Include="Framework\Container.Factory\IncludeTagHandlerTest.dicon" />
+    <EmbeddedResource Include="Framework\Container.Factory\IncludeTagHandlerTestChild.dicon" />
+    <EmbeddedResource Include="Framework\Container.Factory\IncludeTagHandlerTestGrandChild.dicon" />
+    <EmbeddedResource Include="Framework\Container.Factory\InitMethodTagHandlerTest.dicon" />
+    <EmbeddedResource Include="Framework\Container.Factory\MetaTagHandlerTest.dicon" />
+    <EmbeddedResource Include="Framework\Container.Factory\PropertyTagHandlerTest.dicon" />
+    <EmbeddedResource Include="Framework\Container.Impl\child.dicon" />
+    <EmbeddedResource Include="Framework\Container.Impl\obj.dicon" />
+    <EmbeddedResource Include="Framework\Container.Impl\root.dicon" />
+    <EmbeddedResource Include="Framework\Container.Impl\test1.dicon" />
+    <EmbeddedResource Include="Framework\Container.Impl\test2.dicon" />
+    <EmbeddedResource Include="Framework\Container.Impl\test3.dicon" />
+    <EmbeddedResource Include="Framework\Unit\aaa.dicon" />
+    <EmbeddedResource Include="Framework\Unit\bbb.dicon" />
+    <EmbeddedResource Include="Framework\Unit\ccc.dicon" />
+    <EmbeddedResource Include="Framework\Unit\ddd.dicon" />
+    <EmbeddedResource Include="Framework\Unit\empty.dicon" />
+    <EmbeddedResource Include="Framework\Unit\S2FrameworkTestCaseTest_ado.dicon" />
     <None Include="Seasar.snk" />
-    <EmbeddedResource Include="Seasar.Tests.Extension.Tx\Impl\RequiredInterceptorTest.dicon" />
-    <EmbeddedResource Include="Seasar.Tests.Extension.Tx\Impl\RequiresNewInterceptorTest.dicon" />
-    <EmbeddedResource Include="Seasar.Tests.Extension.Tx\Impl\NotSupportedInterceptorTest.dicon" />
-    <None Include="Seasar.Tests.Extension.Unit\testdata.xls" />
-    <None Include="Seasar.Tests.Extension.Unit\S2TestCaseTest_ReadXlsWriteDbTx.xls" />
     <EmbeddedResource Include="Tx.dicon" />
-    <EmbeddedResource Include="Seasar.Tests.Framework.Aop\Proxy\AopProxy.dicon" />
-    <EmbeddedResource Include="Seasar.Tests.Framework.Aop\Proxy\DynamicProxy.dicon" />
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Seasar.Tests.Extension.ADO\DataSourceImplTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Extension.ADO\Impl\BasicDbParameterParserTest.cs" />
-    <Compile Include="Seasar.Tests.Extension.ADO\Impl\BasicSelectHandlerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Extension.ADO\Impl\BasicUpdateHandlerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Extension.ADO\Impl\BeanDataReaderHandlerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Extension.ADO\Impl\BeanListDataReaderHandlerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Extension.ADO\Impl\Department.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Extension.ADO\Impl\DictionaryDataReaderHandlerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Extension.ADO\Impl\DictionaryListDataReaderHandlerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Extension.ADO\Impl\Employee.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Extension.ADO\Impl\DatabaseMetaDataImplTest.cs" />
-    <Compile Include="Seasar.Tests.Extension.ADO\Impl\BeanGenericListDataReaderHandlerTest.cs" />
-    <Compile Include="Seasar.Tests.Extension.ADO\Impl\NoReplaceDbParameterParserTest.cs" />
-    <Compile Include="Seasar.Tests.Extension.DataSets\Impl\SqlDeleteTableWriterTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Extension.DataSets\Impl\SqlReloadReaderTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Extension.DataSets\Impl\SqlReloadTableReaderTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Extension.DataSets\Impl\SqlTableReaderTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Extension.DataSets\Impl\SqlTableWriterTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Extension.DataSets\Impl\XlsReaderSortTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Extension.DataSets\Impl\XlsReaderTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Extension.DataSets\Impl\XlsReaderTest1.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Extension.DataSets\Impl\XlsWriterTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Extension.DataSets\Impl\SqlServerSqlTableWriterTest.cs" />
-    <Compile Include="Seasar.Tests.Extension.Tx\DTCRequiredInterceptorTest.cs" />
-    <Compile Include="Seasar.Tests.Extension.Tx\DTCRequiresNewInterceptorTest.cs" />
-    <Compile Include="Seasar.Tests.Extension.Tx\Impl\LocalNotSupportedInterceptorTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Extension.Tx\Impl\LocalRequiredInterceptorTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Extension.Tx\Impl\LocalRequiresNewInterceptorTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Extension.Tx\Impl\LocalTxTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Extension.Tx\Impl\RequiredInterceptorTest.cs" />
-    <Compile Include="Seasar.Tests.Extension.Tx\Impl\TxTest.cs" />
-    <Compile Include="Seasar.Tests.Extension.Tx\Impl\RequiresNewInterceptorTest.cs" />
-    <Compile Include="Seasar.Tests.Extension.Tx\Impl\NotSupportedInterceptorTest.cs" />
-    <Compile Include="Seasar.Tests.Extension.Tx\TxTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Extension.Unit\BeanListReaderTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Extension.Unit\BeanReaderTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Extension.Unit\DictionaryListReaderTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Extension.Unit\DictionaryReaderTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Extension.Unit\S2AssertTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Extension.Unit\S2TestCaseTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Extension\BasicTypeBean.cs" />
-    <Compile Include="Seasar.Tests.Extension\NHibernateNullableBasicTypeBean.cs" />
-    <Compile Include="Seasar.Tests.Extension\NullableBasicTypeBean.cs" />
-    <Compile Include="Seasar.Tests.Extension\SqlTypeBasicTypeBean.cs" />
-    <Compile Include="Seasar.Tests.Extension\EnumTypeBean.cs" />
-    <Compile Include="Seasar.Tests.Extension\NullableEnumTypeBean.cs" />
-    <Compile Include="Seasar.Tests.Framework.Aop\Impl\MethodInvocationImplTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Aop\Impl\PointcutImplTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Aop\Interceptors\InterceptorChainTest.cs" />
-    <Compile Include="Seasar.Tests.Framework.Aop\Interceptors\MockInterceptorTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Aop\Proxy\AopProxyTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Aop\Proxy\DynamicAopProxyTest.cs" />
-    <Compile Include="Seasar.Tests.Framework.Container\Assembler\AutoConstructorAssemblerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Container\Assembler\AutoPropertyAssemblerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Container\Assembler\DefaultConstructorAssemblerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Container\Assembler\DefaultDestroyMethodAssemblerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Container\Assembler\DefaultInitMethodAssemblerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Container\Assembler\ExpressionConstructorAssemblerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Container\Assembler\ManualConstructorAssemblerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Container\Assembler\ManualPropertyAssemblerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Container\Deployer\OuterComponentDeployerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Container\Deployer\PrototypeComponentDeployerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Container\Deployer\RequestComponentDeployerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Container\Deployer\SessionComponentDeployerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Container\Deployer\SessionComponentDeployerWebPage.aspx.cs">
+    <Compile Include="Extension\ADO.Impl\BasicDbParameterParserTest.cs" />
+    <Compile Include="Extension\ADO.Impl\BasicSelectHandlerTest.cs" />
+    <Compile Include="Extension\ADO.Impl\BasicUpdateHandlerTest.cs" />
+    <Compile Include="Extension\ADO.Impl\BeanDataReaderHandlerTest.cs" />
+    <Compile Include="Extension\ADO.Impl\BeanGenericListDataReaderHandlerTest.cs" />
+    <Compile Include="Extension\ADO.Impl\BeanListDataReaderHandlerTest.cs" />
+    <Compile Include="Extension\ADO.Impl\DatabaseMetaDataImplTest.cs" />
+    <Compile Include="Extension\ADO.Impl\DataSourceImplTest.cs" />
+    <Compile Include="Extension\ADO.Impl\Department.cs" />
+    <Compile Include="Extension\ADO.Impl\DictionaryDataReaderHandlerTest.cs" />
+    <Compile Include="Extension\ADO.Impl\DictionaryListDataReaderHandlerTest.cs" />
+    <Compile Include="Extension\ADO.Impl\Employee.cs" />
+    <Compile Include="Extension\ADO.Impl\NoReplaceDbParameterParserTest.cs" />
+    <Compile Include="Extension\BasicTypeBean.cs" />
+    <Compile Include="Extension\DataSets.Impl\SqlDeleteTableWriterTest.cs" />
+    <Compile Include="Extension\DataSets.Impl\SqlReloadReaderTest.cs" />
+    <Compile Include="Extension\DataSets.Impl\SqlReloadTableReaderTest.cs" />
+    <Compile Include="Extension\DataSets.Impl\SqlServerSqlTableWriterTest.cs" />
+    <Compile Include="Extension\DataSets.Impl\SqlTableReaderTest.cs" />
+    <Compile Include="Extension\DataSets.Impl\SqlTableWriterTest.cs" />
+    <Compile Include="Extension\DataSets.Impl\XlsReaderSortTest.cs" />
+    <Compile Include="Extension\DataSets.Impl\XlsReaderTest.cs" />
+    <Compile Include="Extension\DataSets.Impl\XlsReaderTest1.cs" />
+    <Compile Include="Extension\DataSets.Impl\XlsWriterTest.cs" />
+    <Compile Include="Extension\EnumTypeBean.cs" />
+    <Compile Include="Extension\NHibernateNullableBasicTypeBean.cs" />
+    <Compile Include="Extension\NullableBasicTypeBean.cs" />
+    <Compile Include="Extension\NullableEnumTypeBean.cs" />
+    <Compile Include="Extension\SqlTypeBasicTypeBean.cs" />
+    <Compile Include="Extension\Tx.Impl\DTCRequiredInterceptorTest.cs" />
+    <Compile Include="Extension\Tx.Impl\DTCRequiresNewInterceptorTest.cs" />
+    <Compile Include="Extension\Tx.Impl\LocalNotSupportedInterceptorTest.cs" />
+    <Compile Include="Extension\Tx.Impl\LocalRequiredInterceptorTest.cs" />
+    <Compile Include="Extension\Tx.Impl\LocalRequiresNewInterceptorTest.cs" />
+    <Compile Include="Extension\Tx.Impl\LocalTxTest.cs" />
+    <Compile Include="Extension\Tx.Impl\NotSupportedInterceptorTest.cs" />
+    <Compile Include="Extension\Tx.Impl\RequiredInterceptorTest.cs" />
+    <Compile Include="Extension\Tx.Impl\RequiresNewInterceptorTest.cs" />
+    <Compile Include="Extension\Tx.Impl\Tx2Test.cs" />
+    <Compile Include="Extension\Tx.Impl\TxTest.cs" />
+    <Compile Include="Extension\Unit\BeanListReaderTest.cs" />
+    <Compile Include="Extension\Unit\BeanReaderTest.cs" />
+    <Compile Include="Extension\Unit\DictionaryListReaderTest.cs" />
+    <Compile Include="Extension\Unit\DictionaryReaderTest.cs" />
+    <Compile Include="Extension\Unit\S2AssertTest.cs" />
+    <Compile Include="Extension\Unit\S2TestCaseTest.cs" />
+    <Compile Include="Framework\Aop.Impl\MethodInvocationImplTest.cs" />
+    <Compile Include="Framework\Aop.Impl\PointcutImplTest.cs" />
+    <Compile Include="Framework\Aop.Interceptors\InterceptorChainTest.cs" />
+    <Compile Include="Framework\Aop.Interceptors\MockInterceptorTest.cs" />
+    <Compile Include="Framework\Aop.Proxy\AopProxyTest.cs" />
+    <Compile Include="Framework\Aop.Proxy\DynamicAopProxyTest.cs" />
+    <Compile Include="Framework\Container.Assembler\AutoConstructorAssemblerTest.cs" />
+    <Compile Include="Framework\Container.Assembler\AutoPropertyAssemblerTest.cs" />
+    <Compile Include="Framework\Container.Assembler\DefaultConstructorAssemblerTest.cs" />
+    <Compile Include="Framework\Container.Assembler\DefaultDestroyMethodAssemblerTest.cs" />
+    <Compile Include="Framework\Container.Assembler\DefaultInitMethodAssemblerTest.cs" />
+    <Compile Include="Framework\Container.Assembler\ExpressionConstructorAssemblerTest.cs" />
+    <Compile Include="Framework\Container.Assembler\ManualConstructorAssemblerTest.cs" />
+    <Compile Include="Framework\Container.Assembler\ManualPropertyAssemblerTest.cs" />
+    <Compile Include="Framework\Container.Deployer\OuterComponentDeployerTest.cs" />
+    <Compile Include="Framework\Container.Deployer\PrototypeComponentDeployerTest.cs" />
+    <Compile Include="Framework\Container.Deployer\RequestComponentDeployerTest.cs" />
+    <Compile Include="Framework\Container.Deployer\SessionComponentDeployerTest.cs" />
+    <Compile Include="Framework\Container.Deployer\SessionComponentDeployerWebPage.aspx.cs">
       <DependentUpon>SessionComponentDeployerWebPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Seasar.Tests.Framework.Container\Deployer\SingletonComponentDeployerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Container\Factory\ArgTagHandlerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Container\Factory\AspectTagHandlerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Container\Factory\ComponentsTagHandlerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Container\Factory\ComponentTagHandlerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Container\Factory\DestroyMethodTagHandlerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Container\Factory\IncludeTagHandlerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Container\Factory\InitMethodTagHandlerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Container\Factory\MetaTagHandlerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Container\Factory\PropertyTagHandlerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Container\Factory\SingletonS2ContainerFactoryTest.cs" />
-    <Compile Include="Seasar.Tests.Framework.Container\Impl\ArgDefImplTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Container\Impl\AspectDefImplTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Container\Impl\ComponentDefImplTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Container\Impl\NestIncludeTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Container\Impl\S2ContainerImplTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Container\Util\AutoBindingUnitTest.cs" />
-    <Compile Include="Seasar.Tests.Framework.Container\Util\MetaDefSupportTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Exceptions\SRuntimeExceptionTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Log\LoggerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Message\MessageFormatterTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Unit\Hoge.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Unit\S2TestCaseBaseTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Util\ClassUtilTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Util\ConstructorUtilTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Util\ConversionUtilTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Util\JScriptUtilTest.cs" />
-    <Compile Include="Seasar.Tests.Framework.Util\ResourceUtilTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Util\SerializeUtilTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Util\ToStringUtilTest.cs" />
-    <Compile Include="Seasar.Tests.Framework.Xml\S2SectionHandlerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Xml\TagHandlerContextTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Tests.Framework.Xml\XmlHandlerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Content Include="Seasar.Tests.Framework.Container\Deployer\SessionComponentDeployerWebPage.aspx" />
+    <Compile Include="Framework\Container.Deployer\SingletonComponentDeployerTest.cs" />
+    <Compile Include="Framework\Container.Factory\ArgTagHandlerTest.cs" />
+    <Compile Include="Framework\Container.Factory\AspectTagHandlerTest.cs" />
+    <Compile Include="Framework\Container.Factory\ComponentsTagHandlerTest.cs" />
+    <Compile Include="Framework\Container.Factory\ComponentTagHandlerTest.cs" />
+    <Compile Include="Framework\Container.Factory\DestroyMethodTagHandlerTest.cs" />
+    <Compile Include="Framework\Container.Factory\IncludeTagHandlerTest.cs" />
+    <Compile Include="Framework\Container.Factory\InitMethodTagHandlerTest.cs" />
+    <Compile Include="Framework\Container.Factory\MetaTagHandlerTest.cs" />
+    <Compile Include="Framework\Container.Factory\PropertyTagHandlerTest.cs" />
+    <Compile Include="Framework\Container.Factory\SingletonS2ContainerFactoryTest.cs" />
+    <Compile Include="Framework\Container.Impl\ArgDefImplTest.cs" />
+    <Compile Include="Framework\Container.Impl\AspectDefImplTest.cs" />
+    <Compile Include="Framework\Container.Impl\ComponentDefImplTest.cs" />
+    <Compile Include="Framework\Container.Impl\NestIncludeTest.cs" />
+    <Compile Include="Framework\Container.Impl\S2ContainerImplTest.cs" />
+    <Compile Include="Framework\Container.Util\AutoBindingUnitTest.cs" />
+    <Compile Include="Framework\Container.Util\MetaDefSupportTest.cs" />
+    <Compile Include="Framework\Exceptions\SRuntimeExceptionTest.cs" />
+    <Compile Include="Framework\Log\LoggerTest.cs" />
+    <Compile Include="Framework\Message\MessageFormatterTest.cs" />
+    <Compile Include="Framework\Unit\Hoge.cs" />
+    <Compile Include="Framework\Unit\S2TestCaseBaseTest.cs" />
+    <Compile Include="Framework\Util\ClassUtilTest.cs" />
+    <Compile Include="Framework\Util\ConstructorUtilTest.cs" />
+    <Compile Include="Framework\Util\ConversionUtilTest.cs" />
+    <Compile Include="Framework\Util\JScriptUtilTest.cs" />
+    <Compile Include="Framework\Util\ResourceUtilTest.cs" />
+    <Compile Include="Framework\Util\SerializeUtilTest.cs" />
+    <Compile Include="Framework\Util\ToStringUtilTest.cs" />
+    <Compile Include="Framework\Xml\S2SectionHandlerTest.cs" />
+    <Compile Include="Framework\Xml\TagHandlerContextTest.cs" />
+    <Compile Include="Framework\Xml\XmlHandlerTest.cs" />
+    <Content Include="Framework\Container.Deployer\SessionComponentDeployerWebPage.aspx" />
+    <EmbeddedResource Include="Framework\Util\test1.xml" />
+    <EmbeddedResource Include="Framework\Xml\test1.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Seasar.Tests.Extension.ADO\Impl\" />
+    <Folder Include="Seasar.Tests.Extension.DataSets\Impl\" />
+    <Folder Include="Seasar.Tests.Extension.Tx\Impl\" />
+    <Folder Include="Seasar.Tests.Extension.Unit\" />
+    <Folder Include="Seasar.Tests.Extension\" />
+    <Folder Include="Seasar.Tests.Framework.Aop\Impl\" />
+    <Folder Include="Seasar.Tests.Framework.Aop\Interceptors\" />
+    <Folder Include="Seasar.Tests.Framework.Aop\Proxy\" />
+    <Folder Include="Seasar.Tests.Framework.Container\Assembler\" />
+    <Folder Include="Seasar.Tests.Framework.Container\Deployer\" />
+    <Folder Include="Seasar.Tests.Framework.Container\Factory\" />
+    <Folder Include="Seasar.Tests.Framework.Container\Impl\" />
+    <Folder Include="Seasar.Tests.Framework.Container\Util\" />
+    <Folder Include="Seasar.Tests.Framework.Exceptions\" />
+    <Folder Include="Seasar.Tests.Framework.Log\" />
+    <Folder Include="Seasar.Tests.Framework.Message\" />
+    <Folder Include="Seasar.Tests.Framework.Unit\" />
+    <Folder Include="Seasar.Tests.Framework.Util\" />
+    <Folder Include="Seasar.Tests.Framework.Xml\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>copy "$(ProjectDir)App.config" "$(TargetPath).config"
-mkdir "$(TargetDir)bin"
-copy "$(TargetDir)" "$(TargetDir)bin\"
-copy "$(ProjectDir)Seasar.Tests.Framework.Container\Deployer\SessionComponentDeployerWebPage.aspx" "$(TargetDir)"
-copy "$(ProjectDir)Seasar.Tests.Framework.Container\Deployer\SessionComponentDeployerWebPage.aspx.cs" "$(TargetDir)"
-mkdir "$(TargetDir)\Seasar\Tests\Extension\Unit"
-copy "$(ProjectDir)Seasar.Tests.Extension.Unit\*.xls" "$(TargetDir)Seasar\Tests\Extension\Unit"</PostBuildEvent>
+    <PostBuildEvent>copy "$(ProjectDir)Framework\Container.Deployer\SessionComponentDeployerWebPage.aspx" "$(TargetDir)"
+copy "$(ProjectDir)Framework\Container.Deployer\SessionComponentDeployerWebPage.aspx.cs" "$(TargetDir)"
+</PostBuildEvent>
   </PropertyGroup>
 </Project>

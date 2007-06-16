@@ -2,7 +2,7 @@
 <!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
 "http://www.seasar.org/dtd/components21.dtd">
 <components namespace="LocalTx">
-  <include path="Ado.dicon" />
+  <include path="Seasar.Tests.Ado.dicon" />
 
   <component name="RequiredTx" class="Seasar.Extension.Tx.TransactionInterceptor">
     <arg>
