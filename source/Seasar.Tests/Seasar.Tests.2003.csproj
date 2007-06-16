@@ -758,25 +758,6 @@
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
-                <Folder RelPath = "Seasar.Tests.Extension\" />
-                <Folder RelPath = "Seasar.Tests.Extension.ADO\Impl\" />
-                <Folder RelPath = "Seasar.Tests.Extension.DataSets\Impl\" />
-                <Folder RelPath = "Seasar.Tests.Extension.Tx\Impl\" />
-                <Folder RelPath = "Seasar.Tests.Extension.Unit\" />
-                <Folder RelPath = "Seasar.Tests.Framework.Aop\Impl\" />
-                <Folder RelPath = "Seasar.Tests.Framework.Aop\Interceptors\" />
-                <Folder RelPath = "Seasar.Tests.Framework.Aop\Proxy\" />
-                <Folder RelPath = "Seasar.Tests.Framework.Container\Assembler\" />
-                <Folder RelPath = "Seasar.Tests.Framework.Container\Deployer\" />
-                <Folder RelPath = "Seasar.Tests.Framework.Container\Factory\" />
-                <Folder RelPath = "Seasar.Tests.Framework.Container\Impl\" />
-                <Folder RelPath = "Seasar.Tests.Framework.Container\Util\" />
-                <Folder RelPath = "Seasar.Tests.Framework.Exceptions\" />
-                <Folder RelPath = "Seasar.Tests.Framework.Log\" />
-                <Folder RelPath = "Seasar.Tests.Framework.Message\" />
-                <Folder RelPath = "Seasar.Tests.Framework.Unit\" />
-                <Folder RelPath = "Seasar.Tests.Framework.Util\" />
-                <Folder RelPath = "Seasar.Tests.Framework.Xml\" />
             </Include>
         </Files>
     </CSHARP>

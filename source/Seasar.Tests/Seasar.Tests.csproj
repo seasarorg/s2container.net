@@ -295,27 +295,6 @@
     <EmbeddedResource Include="Framework\Util\test1.xml" />
     <EmbeddedResource Include="Framework\Xml\test1.xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Seasar.Tests.Extension.ADO\Impl\" />
-    <Folder Include="Seasar.Tests.Extension.DataSets\Impl\" />
-    <Folder Include="Seasar.Tests.Extension.Tx\Impl\" />
-    <Folder Include="Seasar.Tests.Extension.Unit\" />
-    <Folder Include="Seasar.Tests.Extension\" />
-    <Folder Include="Seasar.Tests.Framework.Aop\Impl\" />
-    <Folder Include="Seasar.Tests.Framework.Aop\Interceptors\" />
-    <Folder Include="Seasar.Tests.Framework.Aop\Proxy\" />
-    <Folder Include="Seasar.Tests.Framework.Container\Assembler\" />
-    <Folder Include="Seasar.Tests.Framework.Container\Deployer\" />
-    <Folder Include="Seasar.Tests.Framework.Container\Factory\" />
-    <Folder Include="Seasar.Tests.Framework.Container\Impl\" />
-    <Folder Include="Seasar.Tests.Framework.Container\Util\" />
-    <Folder Include="Seasar.Tests.Framework.Exceptions\" />
-    <Folder Include="Seasar.Tests.Framework.Log\" />
-    <Folder Include="Seasar.Tests.Framework.Message\" />
-    <Folder Include="Seasar.Tests.Framework.Unit\" />
-    <Folder Include="Seasar.Tests.Framework.Util\" />
-    <Folder Include="Seasar.Tests.Framework.Xml\" />
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
