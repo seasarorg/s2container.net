@@ -46,28 +46,48 @@ namespace Seasar.Framework.Message
 
         public static string GetMessage(string messageCode, object[] args)
         {
-            return GetMessage(messageCode, args, Assembly.GetExecutingAssembly());
+            return GetMessage(messageCode, args, (string) null);
+        }
+
+        public static string GetMessage(string messageCode, object[] args, string nameSpace)
+        {
+            return GetMessage(messageCode, args, Assembly.GetExecutingAssembly(), nameSpace);
         }
 
         public static string GetMessage(string messageCode, object[] args, Assembly assembly)
+        {
+            return GetMessage(messageCode, args, assembly, null);
+        }
+
+        public static string GetMessage(string messageCode, object[] args, Assembly assembly, string nameSpace)
         {
             if (messageCode == null)
             {
                 messageCode = string.Empty;
             }
-            return "[" + messageCode + "] " + GetSimpleMessage(messageCode, args, assembly);
+            return "[" + messageCode + "] " + GetSimpleMessage(messageCode, args, assembly, nameSpace);
         }
 
         public static string GetSimpleMessage(string messageCode, object[] arguments)
         {
-            return GetSimpleMessage(messageCode, arguments, Assembly.GetExecutingAssembly());
+            return GetSimpleMessage(messageCode, arguments, (string) null);
+        }
+
+        public static string GetSimpleMessage(string messageCode, object[] arguments, string nameSpace)
+        {
+            return GetSimpleMessage(messageCode, arguments, Assembly.GetExecutingAssembly(), nameSpace);
         }
 
         public static string GetSimpleMessage(string messageCode, object[] arguments, Assembly assembly)
         {
+            return GetSimpleMessage(messageCode, arguments, assembly, null);
+        }
+
+        public static string GetSimpleMessage(string messageCode, object[] arguments, Assembly assembly, string nameSpace)
+        {
             try
             {
-                string pattern = GetPattern(messageCode, assembly);
+                string pattern = GetPattern(nameSpace, messageCode, assembly);
                 if (pattern != null)
                 {
                     if (arguments == null)
@@ -83,9 +103,9 @@ namespace Seasar.Framework.Message
             return GetNoPatternMessage(arguments);
         }
 
-        private static string GetPattern(string messageCode, Assembly assembly)
+        private static string GetPattern(string nameSpace, string messageCode, Assembly assembly)
         {
-            ResourceManager resourceManager = GetMessages(GetSystemName(messageCode), assembly);
+            ResourceManager resourceManager = GetMessages(nameSpace, GetSystemName(messageCode), assembly);
             if (resourceManager != null)
             {
                 return resourceManager.GetString(messageCode);
@@ -98,7 +118,7 @@ namespace Seasar.Framework.Message
             return messageCode.Substring(1, Math.Min(3, messageCode.Length));
         }
 
-        private static ResourceManager GetMessages(string systemName, Assembly assembly)
+        private static ResourceManager GetMessages(string nameSpace, string systemName, Assembly assembly)
         {
             string key = systemName + assembly.FullName;
             if (_resourceManagers.ContainsKey(key))
@@ -107,7 +127,15 @@ namespace Seasar.Framework.Message
             }
             else
             {
-                ResourceManager rm = new ResourceManager(systemName + MESSAGES, assembly);
+                StringBuilder buf = new StringBuilder();
+                if (nameSpace != null)
+                {
+                    buf.Append(nameSpace);
+                    buf.Append(".");
+                }
+                buf.Append(systemName);
+                buf.Append(MESSAGES);
+                ResourceManager rm = new ResourceManager(buf.ToString(), assembly);
                 _resourceManagers[key] = rm;
                 return rm;
             }

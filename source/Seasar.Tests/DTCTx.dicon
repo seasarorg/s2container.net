@@ -2,7 +2,7 @@
 <!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
 "http://www.seasar.org/dtd/components21.dtd">
 <components namespace="DTCTx">
-  <include path="Ado.dicon" />
+  <include path="Seasar.Tests.Ado.dicon" />
 
   <component name="DTCTransactionStateHandler" class="Seasar.Extension.Tx.Impl.DTCTransactionStateHandler" />
 
