@@ -217,6 +217,7 @@
                 />
                 <File
                     RelPath = "Dao\Id\HogeSystemNullable.cs"
+                    SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
@@ -331,6 +332,7 @@
                 />
                 <File
                     RelPath = "Dao\Impl\GenericNullableEntity.cs"
+                    SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
@@ -439,6 +441,7 @@
                 />
                 <File
                     RelPath = "Dao\Impl\IGenericNullableDao.cs"
+                    SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
