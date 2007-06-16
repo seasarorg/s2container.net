@@ -23,6 +23,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seasar.Dao.2003", "Seasar.D
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seasar.Dao.Examples.2003", "Seasar.Dao.Examples\Seasar.Dao.Examples.2003.csproj", "{D10462BB-F8BB-49E3-94C7-BEC5E94C2263}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -55,6 +59,10 @@ Global
 		{474715CA-5C99-4C50-ADFA-FB628824DFF0}.Debug.Build.0 = Debug|.NET
 		{474715CA-5C99-4C50-ADFA-FB628824DFF0}.Release.ActiveCfg = Release|.NET
 		{474715CA-5C99-4C50-ADFA-FB628824DFF0}.Release.Build.0 = Release|.NET
+		{D10462BB-F8BB-49E3-94C7-BEC5E94C2263}.Debug.ActiveCfg = Debug|.NET
+		{D10462BB-F8BB-49E3-94C7-BEC5E94C2263}.Debug.Build.0 = Debug|.NET
+		{D10462BB-F8BB-49E3-94C7-BEC5E94C2263}.Release.ActiveCfg = Release|.NET
+		{D10462BB-F8BB-49E3-94C7-BEC5E94C2263}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection

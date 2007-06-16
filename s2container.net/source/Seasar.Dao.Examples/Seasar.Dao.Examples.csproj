@@ -1,0 +1,523 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D10462BB-F8BB-49E3-94C7-BEC5E94C2263}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>App.ico</ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>S2Dao.NET.Examples</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>
+    </RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE;DEBUG;NET_2_0</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\net2.0\Release\</OutputPath>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE;NET_2_0</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\net2.0\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Nullables, Version=1.0.0.0, Culture=neutral, PublicKeyToken=154fdcb44c4484fc">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\net2.0\Nullables.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="Seasar.Dao.Examples\AutoDelete\AutoDelete.dicon" />
+    <None Include="Seasar.Dao.Examples\AutoDelete\DB2AutoDelete.dicon" />
+    <None Include="Seasar.Dao.Examples\AutoDelete\FirebirdAutoDelete.dicon" />
+    <None Include="Seasar.Dao.Examples\AutoDelete\MySqlAutoDelete.dicon" />
+    <None Include="Seasar.Dao.Examples\AutoDelete\OleDbDB2AutoDelete.dicon" />
+    <None Include="Seasar.Dao.Examples\AutoDelete\OleDbMDBAutoDelete.dicon" />
+    <None Include="Seasar.Dao.Examples\AutoDelete\OracleAutoDelete.dicon" />
+    <None Include="Seasar.Dao.Examples\AutoDelete\PostgreSQLAutoDelete.dicon" />
+    <None Include="Seasar.Dao.Examples\AutoInsert\AutoInsert.dicon" />
+    <None Include="Seasar.Dao.Examples\AutoInsert\DB2AutoInsert.dicon" />
+    <None Include="Seasar.Dao.Examples\AutoInsert\FirebirdAutoInsert.dicon" />
+    <None Include="Seasar.Dao.Examples\AutoInsert\MySqlAutoInsert.dicon" />
+    <None Include="Seasar.Dao.Examples\AutoInsert\OleDbDB2AutoInsert.dicon" />
+    <None Include="Seasar.Dao.Examples\AutoInsert\OleDbMDBAutoInsert.dicon" />
+    <None Include="Seasar.Dao.Examples\AutoInsert\OracleAutoInsert.dicon" />
+    <None Include="Seasar.Dao.Examples\AutoInsert\PostgreSQLAutoInsert.dicon" />
+    <None Include="Seasar.Dao.Examples\AutoSelect\AutoSelect.dicon" />
+    <None Include="Seasar.Dao.Examples\AutoSelect\DB2AutoSelect.dicon" />
+    <None Include="Seasar.Dao.Examples\AutoSelect\FirebirdAutoSelect.dicon" />
+    <None Include="Seasar.Dao.Examples\AutoSelect\MySqlAutoSelect.dicon" />
+    <None Include="Seasar.Dao.Examples\AutoSelect\OleDbDB2AutoSelect.dicon" />
+    <None Include="Seasar.Dao.Examples\AutoSelect\OleDbMDBAutoSelect.dicon" />
+    <None Include="Seasar.Dao.Examples\AutoSelect\OracleAutoSelect.dicon" />
+    <None Include="Seasar.Dao.Examples\AutoSelect\PostgreSQLAutoSelect.dicon" />
+    <None Include="Seasar.Dao.Examples\AutoUpdate\AutoUpdate.dicon" />
+    <None Include="Seasar.Dao.Examples\AutoUpdate\DB2AutoUpdate.dicon" />
+    <None Include="Seasar.Dao.Examples\AutoUpdate\FirebirdAutoUpdate.dicon" />
+    <None Include="Seasar.Dao.Examples\AutoUpdate\MySqlAutoUpdate.dicon" />
+    <None Include="Seasar.Dao.Examples\AutoUpdate\OleDbDB2AutoUpdate.dicon" />
+    <None Include="Seasar.Dao.Examples\AutoUpdate\OleDbMDBAutoUpdate.dicon" />
+    <None Include="Seasar.Dao.Examples\AutoUpdate\OracleAutoUpdate.dicon" />
+    <None Include="Seasar.Dao.Examples\AutoUpdate\PostgreSQLAutoUpdate.dicon" />
+    <None Include="Seasar.Dao.Examples\Examples.dicon" />
+    <None Include="Seasar.Dao.Examples\FirebirdEx.dicon" />
+    <None Include="Seasar.Dao.Examples\NoPersistentPropsAttr\DB2NoPersistentPropsAttr.dicon" />
+    <None Include="Seasar.Dao.Examples\NoPersistentPropsAttr\FirebirdNoPersistentPropsAttr.dicon" />
+    <None Include="Seasar.Dao.Examples\NoPersistentPropsAttr\MySqlNoPersistentPropsAttr.dicon" />
+    <None Include="Seasar.Dao.Examples\NoPersistentPropsAttr\NoPersistentPropsAttr.dicon" />
+    <None Include="Seasar.Dao.Examples\NoPersistentPropsAttr\OleDbDB2NoPersistentPropsAttr.dicon" />
+    <None Include="Seasar.Dao.Examples\NoPersistentPropsAttr\OleDbMDBNoPersistentPropsAttr.dicon" />
+    <None Include="Seasar.Dao.Examples\NoPersistentPropsAttr\OracleNoPersistentPropsAttr.dicon" />
+    <None Include="Seasar.Dao.Examples\NoPersistentPropsAttr\PostgreSQLNoPersistentPropsAttr.dicon" />
+    <None Include="Seasar.Dao.Examples\OleDbMDBEx.dicon" />
+    <None Include="Seasar.Dao.Examples\PersistentPropsAttr\DB2PersistentPropsAttr.dicon" />
+    <None Include="Seasar.Dao.Examples\PersistentPropsAttr\FirebirdPersistentPropsAttr.dicon" />
+    <None Include="Seasar.Dao.Examples\PersistentPropsAttr\MySqlPersistentPropsAttr.dicon" />
+    <None Include="Seasar.Dao.Examples\PersistentPropsAttr\OleDbDB2PersistentPropsAttr.dicon" />
+    <None Include="Seasar.Dao.Examples\PersistentPropsAttr\OleDbMDBPersistentPropsAttr.dicon" />
+    <None Include="Seasar.Dao.Examples\PersistentPropsAttr\OraclePersistentPropsAttr.dicon" />
+    <None Include="Seasar.Dao.Examples\PersistentPropsAttr\PersistentPropsAttr.dicon" />
+    <None Include="Seasar.Dao.Examples\PersistentPropsAttr\PostgreSQLPersistentPropsAttr.dicon" />
+    <None Include="Seasar.Dao.Examples\PostgreSQLEx.dicon" />
+    <None Include="Seasar.Dao.Examples\QueryAttr\DB2QueryAttr.dicon" />
+    <None Include="Seasar.Dao.Examples\QueryAttr\FirebirdQueryAttr.dicon" />
+    <None Include="Seasar.Dao.Examples\QueryAttr\MySqlQueryAttr.dicon" />
+    <None Include="Seasar.Dao.Examples\QueryAttr\OleDbDB2QueryAttr.dicon" />
+    <None Include="Seasar.Dao.Examples\QueryAttr\OleDbMDBQueryAttr.dicon" />
+    <None Include="Seasar.Dao.Examples\QueryAttr\OracleQueryAttr.dicon" />
+    <None Include="Seasar.Dao.Examples\QueryAttr\PostgreSQLQueryAttr.dicon" />
+    <None Include="Seasar.Dao.Examples\QueryAttr\QueryAttr.dicon" />
+    <None Include="Seasar.Dao.Examples\s2dotnetdemo.mdb" />
+    <None Include="Seasar.Dao.Examples\SqlAttr\DB2SqlAttr.dicon" />
+    <None Include="Seasar.Dao.Examples\SqlAttr\FirebirdSqlAttr.dicon" />
+    <None Include="Seasar.Dao.Examples\SqlAttr\MySqlSqlAttr.dicon" />
+    <None Include="Seasar.Dao.Examples\SqlAttr\OleDbDB2SqlAttr.dicon" />
+    <None Include="Seasar.Dao.Examples\SqlAttr\OleDbMDBSqlAttr.dicon" />
+    <None Include="Seasar.Dao.Examples\SqlAttr\OracleSqlAttr.dicon" />
+    <None Include="Seasar.Dao.Examples\SqlAttr\PostgreSQLSqlAttr.dicon" />
+    <None Include="Seasar.Dao.Examples\SqlAttr\SqlAttr.dicon" />
+    <None Include="Seasar.Dao.Examples\SqlFile\DB2SqlFile.dicon" />
+    <None Include="Seasar.Dao.Examples\SqlFile\FirebirdSqlFile.dicon" />
+    <None Include="Seasar.Dao.Examples\SqlFile\MySqlSqlFile.dicon" />
+    <None Include="Seasar.Dao.Examples\SqlFile\OleDbDB2SqlFile.dicon" />
+    <None Include="Seasar.Dao.Examples\SqlFile\OleDbMDBSqlFile.dicon" />
+    <None Include="Seasar.Dao.Examples\SqlFile\OracleSqlFile.dicon" />
+    <None Include="Seasar.Dao.Examples\SqlFile\PostgreSQLSqlFile.dicon" />
+    <None Include="Seasar.Dao.Examples\SqlFile\SqlFile.dicon" />
+    <Content Include="App.ico" />
+    <Compile Include="AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoDelete\AutoDeleteClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoDelete\AutoDeleteLogic.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoDelete\DB2AutoDeleteClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoDelete\FirebirdAutoDeleteClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoDelete\IEmployeeDao.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoDelete\MySqlAutoDeleteClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoDelete\OleDbDB2AutoDeleteClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoDelete\OleDbMDBAutoDeleteClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoDelete\OracleAutoDeleteClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoDelete\PostgreSQLAutoDeleteClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoInsert\AutoInsertClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoInsert\AutoInsertLogic.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoInsert\DB2AutoInsertClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoInsert\FirebirdAutoInsertClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoInsert\IEmployeeDao.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoInsert\MySqlAutoInsertClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoInsert\OleDbDB2AutoInsertClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoInsert\OleDbMDBAutoInsertClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoInsert\OracleAutoInsertClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoInsert\PostgreSQLAutoInsertClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoSelect\AutoSelectClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoSelect\DB2AutoSelectClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoSelect\FirebirdAutoSelectClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoSelect\IDepartmentDao1.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoSelect\IDepartmentDao2.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoSelect\IEmployeeDao.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoSelect\MySqlAutoSelectClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoSelect\OleDbDB2AutoSelectClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoSelect\OleDbMDBAutoSelectClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoSelect\OracleAutoSelectClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoSelect\PostgreSQLAutoSelectClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoUpdate\AutoUpdateClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoUpdate\AutoUpdateLogic.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoUpdate\DB2AutoUpdateClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoUpdate\FirebirdAutoUpdateClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoUpdate\IEmployeeDao.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoUpdate\MySqlAutoUpdateClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoUpdate\OleDbDB2AutoUpdateClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoUpdate\OleDbMDBAutoUpdateClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoUpdate\OracleAutoUpdateClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoUpdate\PostgreSQLAutoUpdateClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\Department1.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\Department2.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\Employee.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\ForCleanupException.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\NoPersistentPropsAttr\DB2NoPersistentPropsAttrClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\NoPersistentPropsAttr\FirebirdNoPersistentPropsAttrClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\NoPersistentPropsAttr\IEmployeeDao.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\NoPersistentPropsAttr\MySqlNoPersistentPropsAttrClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\NoPersistentPropsAttr\NoPersistentPropsAttrClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\NoPersistentPropsAttr\NoPersistentPropsAttrLogic.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\NoPersistentPropsAttr\OleDbDB2NoPersistentPropsAttrClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\NoPersistentPropsAttr\OleDbMDBNoPersistentPropsAttrClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\NoPersistentPropsAttr\OracleNoPersistentPropsAttrClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\NoPersistentPropsAttr\PostgreSQLNoPersistentPropsAttrClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\PersistentPropsAttr\DB2PersistentPropsAttrClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\PersistentPropsAttr\FirebirdPersistentPropsAttrClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\PersistentPropsAttr\IEmployeeDao.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\PersistentPropsAttr\MySqlPersistentPropsAttrClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\PersistentPropsAttr\OleDbDB2PersistentPropsAttrClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\PersistentPropsAttr\OleDbMDBPersistentPropsAttrClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\PersistentPropsAttr\OraclePersistentPropsAttrClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\PersistentPropsAttr\PersistentPropsAttrClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\PersistentPropsAttr\PersistentPropsAttrLogic.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\PersistentPropsAttr\PostgreSQLPersistentPropsAttrClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\QueryAttr\DB2QueryAttrClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\QueryAttr\FirebirdQueryAttrClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\QueryAttr\IEmployeeDao.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\QueryAttr\MySqlQueryAttrClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\QueryAttr\OleDbDB2QueryAttrClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\QueryAttr\OleDbMDBQueryAttrClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\QueryAttr\OracleQueryAttrClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\QueryAttr\PostgreSQLQueryAttrClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\QueryAttr\QueryAttrClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\SqlAttr\DB2SqlAttrClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\SqlAttr\FirebirdSqlAttrClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\SqlAttr\IEmployeeDao.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\SqlAttr\MySqlSqlAttrClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\SqlAttr\OleDbDB2SqlAttrClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\SqlAttr\OleDbMDBSqlAttrClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\SqlAttr\OracleSqlAttrClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\SqlAttr\PostgreSQLSqlAttrClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\SqlAttr\SqlAttrClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\SqlFile\DB2SqlFileClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\SqlFile\FirebirdSqlFileClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\SqlFile\IEmployeeDao.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\SqlFile\MySqlSqlFileClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\SqlFile\OleDbDB2SqlFileClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\SqlFile\OleDbMDBSqlFileClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\SqlFile\OracleSqlFileClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\SqlFile\PostgreSQLSqlFileClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Dao.Examples\SqlFile\SqlFileClient.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Examples\Examples.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Examples\ExamplesContext.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Examples\ExamplesExplorer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Seasar.Examples\ExecutableTreeNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Examples\Extension\UI\Forms\HighlightDescriptor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Examples\Extension\UI\Forms\HighlightDescriptorCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Examples\Extension\UI\Forms\SyntaxHighlightingTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Seasar.Examples\Extension\UI\TextAppender.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Examples\Extension\UI\Win32.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Examples\IExamplesHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Examples\Impl\BasicExamplesHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="Seasar.Dao.Examples\DB2Ex.dicon" />
+    <EmbeddedResource Include="Seasar.Dao.Examples\Ex.dicon" />
+    <EmbeddedResource Include="Seasar.Dao.Examples\MySqlEx.dicon" />
+    <EmbeddedResource Include="Seasar.Dao.Examples\OleDbDB2Ex.dicon" />
+    <EmbeddedResource Include="Seasar.Dao.Examples\OracleEx.dicon" />
+    <EmbeddedResource Include="Seasar.Dao.Examples\SqlFile\IEmployeeDao_GetEnameByEmpno.sql" />
+    <EmbeddedResource Include="Seasar.Examples\ExamplesExplorer.resx">
+      <DependentUpon>ExamplesExplorer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Seasar.Examples\Extension\UI\Forms\SyntaxHighlightingTextBox.resx">
+      <DependentUpon>SyntaxHighlightingTextBox.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Seasar.Dao\Seasar.Dao.csproj">
+      <Project>{474715CA-5C99-4C50-ADFA-FB628824DFF0}</Project>
+      <Name>Seasar.Dao</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Seasar\Seasar.csproj">
+      <Project>{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}</Project>
+      <Name>Seasar</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>xcopy "$(ProjectDir)Seasar.Dao.Examples" "$(TargetDir)\Seasar.Dao.Examples" /S /I /Y /D
+copy "$(ProjectDir)\Seasar.Dao.Examples\s2dotnetdemo.mdb" "$(ProjectDir)$(OutDir)"</PostBuildEvent>
+  </PropertyGroup>
+</Project>
