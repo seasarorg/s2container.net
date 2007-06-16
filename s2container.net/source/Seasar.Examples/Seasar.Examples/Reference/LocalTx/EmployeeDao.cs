@@ -40,12 +40,12 @@ namespace Seasar.Examples.Reference.LocalTx
 
         public void Insert()
         {
-            string sql = "insert into emp2 _values(@_empno, @_ename, @deptnum)";
+            string sql = "insert into emp2 values(@empno, @ename, @deptnum)";
             using (IDbCommand cmd = _dataSource.GetCommand(sql,
                       _dataSource.GetConnection(), _dataSource.GetTransaction()))
             {
-                cmd.Parameters.Add(_dataSource.GetParameter("@_empno", 99));
-                cmd.Parameters.Add(_dataSource.GetParameter("@_ename", "Sugimoto"));
+                cmd.Parameters.Add(_dataSource.GetParameter("@empno", 99));
+                cmd.Parameters.Add(_dataSource.GetParameter("@ename", "Sugimoto"));
                 cmd.Parameters.Add(_dataSource.GetParameter("@deptnum", 31));
                 cmd.ExecuteNonQuery();
                 Console.WriteLine("EMPÇí«â¡ÇµÇ‹ÇµÇΩÅB");

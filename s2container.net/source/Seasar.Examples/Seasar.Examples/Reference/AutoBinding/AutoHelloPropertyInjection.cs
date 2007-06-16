@@ -34,7 +34,7 @@ namespace Seasar.Examples.Reference.AutoBinding
 
         public void ShowMessage()
         {
-            Console.WriteLine(_dictionary["_hello"]);
+            Console.WriteLine(_dictionary["hello"]);
         }
     }
 
