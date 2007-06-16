@@ -109,6 +109,10 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
+    <ProjectReference Include="..\Seasar.Dao\Seasar.Dao.csproj">
+      <Project>{474715CA-5C99-4C50-ADFA-FB628824DFF0}</Project>
+      <Name>Seasar.Dao</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Seasar.DynamicProxy\Seasar.DynamicProxy.csproj">
       <Project>{063DED73-CA16-4038-904D-5A18A630843D}</Project>
       <Name>Seasar.DynamicProxy</Name>
@@ -150,6 +154,17 @@
     <EmbeddedResource Include="Extension\Tx.Impl\NotSupportedInterceptorTest.dicon" />
     <EmbeddedResource Include="Extension\Tx.Impl\RequiredInterceptorTest.dicon" />
     <EmbeddedResource Include="Extension\Tx.Impl\RequiresNewInterceptorTest.dicon" />
+    <EmbeddedResource Include="Dao\Dao.dicon" />
+    <EmbeddedResource Include="Dao\Impl\IDepartmentTotalSalaryDao_GetTotalSalaries.sql" />
+    <EmbeddedResource Include="Dao\Impl\IEmployeeDao_GetAllEmployees.sql" />
+    <EmbeddedResource Include="Dao\Impl\IEmployeeDao_GetAllEmployeesToGenericList1.sql" />
+    <EmbeddedResource Include="Dao\Impl\IEmployeeDao_GetAllEmployeesToGenericList2.sql" />
+    <EmbeddedResource Include="Dao\Impl\IEmployeeDao_GetCount.sql" />
+    <EmbeddedResource Include="Dao\Impl\IEmployeeDao_Update.sql" />
+    <EmbeddedResource Include="Dao\Impl\IEmployeeDao_UpdateSqlFileEncodingDefault.sql" />
+    <EmbeddedResource Include="Dao\Impl\IEmployeeDao_UpdateSqlFileEncodingUTF8.sql" />
+    <EmbeddedResource Include="Dao\Interceptors\IEmployeeDao_Insert.sql" />
+    <EmbeddedResource Include="Dao\Pager\PagerDataReaderWrapperTest.dicon" />
     <None Include="Extension\Unit\S2TestCaseTest_ReadXlsWriteDbTx.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -186,10 +201,94 @@
     <EmbeddedResource Include="Framework\Unit\empty.dicon" />
     <EmbeddedResource Include="Framework\Unit\S2FrameworkTestCaseTest_ado.dicon" />
     <None Include="Seasar.snk" />
+    <EmbeddedResource Include="Dao\Tests.dicon" />
     <EmbeddedResource Include="Tx.dicon" />
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Dao\Context\CommandContextPropertyAccessorTest.cs" />
+    <Compile Include="Dao\Dbms\DbmsManagerTest.cs" />
+    <Compile Include="Dao\Dbms\Department.cs" />
+    <Compile Include="Dao\Dbms\Employee.cs" />
+    <Compile Include="Dao\Dbms\OracleTest.cs" />
+    <Compile Include="Dao\Dbms\StandardTest.cs" />
+    <Compile Include="Dao\Id\Hoge.cs" />
+    <Compile Include="Dao\Id\HogeNullable.cs" />
+    <Compile Include="Dao\Id\HogeSystemNullable.cs" />
+    <Compile Include="Dao\Id\IdentifierGeneratorFactoryTest.cs" />
+    <Compile Include="Dao\Id\IdentityIdentifierGeneratorTest.cs" />
+    <Compile Include="Dao\Id\SequenceIdentifierGeneratorTest.cs" />
+    <Compile Include="Dao\Impl\AbstractBeanMetaDataDataReaderHandlerTest.cs" />
+    <Compile Include="Dao\Impl\BeanArrayMetaDataResultSetHandlerTest.cs" />
+    <Compile Include="Dao\Impl\BeanGenericListMetaDataDataReaderHandlerTest.cs" />
+    <Compile Include="Dao\Impl\BeanListMetaDataDataReaderHandlerTest.cs" />
+    <Compile Include="Dao\Impl\BeanMetaDataDataReaderHandlerTest.cs" />
+    <Compile Include="Dao\Impl\BeanMetaDataImplTest.cs" />
+    <Compile Include="Dao\Impl\DaoMetaDataImplTest.cs" />
+    <Compile Include="Dao\Impl\DeleteAutoStaticCommandTest.cs" />
+    <Compile Include="Dao\Impl\Department.cs" />
+    <Compile Include="Dao\Impl\Department2.cs" />
+    <Compile Include="Dao\Impl\DepartmentTotalSalary.cs" />
+    <Compile Include="Dao\Impl\Employee.cs" />
+    <Compile Include="Dao\Impl\Employee2.cs" />
+    <Compile Include="Dao\Impl\Employee3.cs" />
+    <Compile Include="Dao\Impl\Employee4.cs" />
+    <Compile Include="Dao\Impl\Employee5.cs" />
+    <Compile Include="Dao\Impl\EmployeeNullable.cs" />
+    <Compile Include="Dao\Impl\EmployeeSearchCondition.cs" />
+    <Compile Include="Dao\Impl\EmployeeVersionNo.cs" />
+    <Compile Include="Dao\Impl\FormUseHistory.cs" />
+    <Compile Include="Dao\Impl\GenericNullableEntity.cs" />
+    <Compile Include="Dao\Impl\IDepartmentAutoDao.cs" />
+    <Compile Include="Dao\Impl\IDepartmentTotalSalaryDao.cs" />
+    <Compile Include="Dao\Impl\IdTable.cs" />
+    <Compile Include="Dao\Impl\IdTable2.cs" />
+    <Compile Include="Dao\Impl\IEmployee2Dao.cs" />
+    <Compile Include="Dao\Impl\IEmployee3Dao.cs" />
+    <Compile Include="Dao\Impl\IEmployee4Dao.cs" />
+    <Compile Include="Dao\Impl\IEmployee5Dao.cs" />
+    <Compile Include="Dao\Impl\IEmployee6Dao.cs" />
+    <Compile Include="Dao\Impl\IEmployee7Dao.cs" />
+    <Compile Include="Dao\Impl\IEmployee8Dao.cs" />
+    <Compile Include="Dao\Impl\IEmployeeAutoDao.cs" />
+    <Compile Include="Dao\Impl\IEmployeeDao.cs" />
+    <Compile Include="Dao\Impl\IEmployeeNullableAutoDao.cs" />
+    <Compile Include="Dao\Impl\IEmployeeVersionNoDao.cs" />
+    <Compile Include="Dao\Impl\IFormUseHistoryDao.cs" />
+    <Compile Include="Dao\Impl\IGenericNullableDao.cs" />
+    <Compile Include="Dao\Impl\IIdTableAuto2Dao.cs" />
+    <Compile Include="Dao\Impl\IIdTableAutoDao.cs" />
+    <Compile Include="Dao\Impl\IIllegalEmployeeAutoDao.cs" />
+    <Compile Include="Dao\Impl\InsertAutoStaticCommandTest.cs" />
+    <Compile Include="Dao\Impl\IStoredProcedureTestDao.cs" />
+    <Compile Include="Dao\Impl\IUnderscoreEntityDao.cs" />
+    <Compile Include="Dao\Impl\RelationKeyTest.cs" />
+    <Compile Include="Dao\Impl\SelectDynamicCommandTest.cs" />
+    <Compile Include="Dao\Impl\UnderscoreEntity.cs" />
+    <Compile Include="Dao\Impl\UpdateAutoStaticCommandTest.cs" />
+    <Compile Include="Dao\Impl\UpdateDynamicCommandTest.cs" />
+    <Compile Include="Dao\Interceptors\Department.cs" />
+    <Compile Include="Dao\Interceptors\Employee.cs" />
+    <Compile Include="Dao\Interceptors\Hoge.cs" />
+    <Compile Include="Dao\Interceptors\IDepartmentAutoDao.cs" />
+    <Compile Include="Dao\Interceptors\IEmployeeAutoDao.cs" />
+    <Compile Include="Dao\Interceptors\IEmployeeDao.cs" />
+    <Compile Include="Dao\Interceptors\S2DaoInterceptor2Test.cs" />
+    <Compile Include="Dao\Interceptors\S2DaoInterceptor3Test.cs" />
+    <Compile Include="Dao\Interceptors\S2DaoInterceptorTest.cs" />
+    <Compile Include="Dao\Pager\Employee.cs" />
+    <Compile Include="Dao\Pager\IEmployeeDao.cs" />
+    <Compile Include="Dao\Pager\MockDataReader.cs" />
+    <Compile Include="Dao\Pager\MockDataReaderBase.cs" />
+    <Compile Include="Dao\Pager\MockDataReaderFactory.cs" />
+    <Compile Include="Dao\Pager\PagerDataReaderFactoryLimitOffsetWrapperTest.cs" />
+    <Compile Include="Dao\Pager\PagerDataReaderFactoryRowNumberWrapperTest.cs" />
+    <Compile Include="Dao\Pager\PagerDataReaderFactoryTopWrapperTest.cs" />
+    <Compile Include="Dao\Pager\PagerDataReaderFactoryWrapperTest.cs" />
+    <Compile Include="Dao\Pager\PagerDataReaderWrapperTest.cs" />
+    <Compile Include="Dao\Parser\SqlParserTest.cs" />
+    <Compile Include="Dao\Parser\SqlTokenizerTest.cs" />
+    <Compile Include="Dao\Unit\S2DaoTestCase.cs" />
     <Compile Include="Extension\ADO.Impl\BasicDbParameterParserTest.cs" />
     <Compile Include="Extension\ADO.Impl\BasicSelectHandlerTest.cs" />
     <Compile Include="Extension\ADO.Impl\BasicUpdateHandlerTest.cs" />
