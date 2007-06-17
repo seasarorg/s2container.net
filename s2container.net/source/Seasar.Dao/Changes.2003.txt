@@ -1,5 +1,6 @@
 ﻿2007/??/??
 - [DAONET-52]VersionNoをNullable型に対応させる
+- [DAONET-55]S2Dao.NETをSeasar.NETソリューションに追加
 
 S2Dao.NET 1.0.4
 2007/3/20
