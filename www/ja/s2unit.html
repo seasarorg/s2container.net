@@ -51,7 +51,7 @@ MbUnitを拡張しています。主な機能は以下のとおりです。</p>
 		</ul>	
 	</li>
 	<li>
-		<a href="#init">テストメソッド毎の初期化・終了処理</a>
+		<a href="#init">テストメソッドの初期化・終了処理</a>
 		<ul>
 			<li>テストメソッド(TestXxx)に対応するSetUpXxx(),TearDownXxx()を定義しておくと、
 			SetUp()の後、TearDown()の前に自動的に呼び出されます。
@@ -283,7 +283,7 @@ VB.NET
 テストメソッドが終わると、自動セットされた値は自動的にnull(VBの場合はNothing)がセットされます。
 </p>
 
-<h2><a name="init">テストメソッド毎の初期化・終了処理</a></h2>
+<h2><a name="init">テストメソッドの初期化・終了処理</a></h2>
 <p>
 テストメソッド(TestXxx)に対応するSetUpXxx(),TearDownXxx()を定義しておくと、
 SetUp()の後、TearDown()の前に自動的に呼び出されます。
@@ -292,12 +292,26 @@ SetUp()の後、TearDown()の前に自動的に呼び出されます。
 C#
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <pre class="csharpcode">
+<span class="rem">// SetUpFirst(), SetUp(), SetUpHogeHoge(), TestHogeHoge(),</span>
+<span class="rem">// TearDownHogeHoge(), TearDown(), TearDownLast()の順に呼び出します。</span>
 [TestFixture]
 <span class="kwrd">public</span> <span class="kwrd">class</span> HogeTest : S2TestCase
 {
+    [MbUnit.Framework.SetUp]
+    <span class="kwrd">public</span> <span class="kwrd">void</span> SetUpFirst()
+    {
+        <span class="rem">// 初期化処理を行います (MbUnitが呼び出します)</span>
+    }
+
+    <span class="kwrd">public</span> <span class="kwrd">void</span> SetUp()
+    {
+        <span class="rem">// 初期化処理を行います (S2Unit.NETが呼び出します。)</span>
+        <span class="rem">// S2Container.NETに対する初期化処理はこのメソッドで呼び出します。</span>
+    }
+    
     <span class="kwrd">public</span> <span class="kwrd">void</span> SetUpHogeHoge() 
     {
-        <span class="rem">// 初期化処理を行います </span>
+        <span class="rem">// テストメソッド毎の初期化処理を行います </span>
     }
 
     [Test, S2]
@@ -308,30 +322,65 @@ C#
 
     <span class="kwrd">public</span> <span class="kwrd">void</span> TearDownHogeHoge()
     {
-        <span class="rem">// 終了処理を書きます</span>
+        <span class="rem">// テストメソッド毎の終了処理を書きます</span>
     }
-}</pre>
+
+    <span class="kwrd">public</span> <span class="kwrd">void</span> TearDown()
+    {
+        <span class="rem">// 終了処理を書きます(S2Unit.NETが呼び出します。)</span>
+        <span class="rem">// S2Container.NETに対する終了処理はこのメソッドで呼び出します。</span>
+    }
+
+    [MbUnit.Framework.TearDown]
+    <span class="kwrd">public</span> <span class="kwrd">void</span> TearDownLast()
+    {
+        <span class="rem">// 終了処理を書きます (MbUnitが呼び出します)</span>
+    }
+}
+</pre>
 VB.NET
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <pre class="csharpcode vb">
-&lt;TestFixture()&gt; _
+<span class="rem">' SetUpFirst(), SetUp(), SetUpHogeHoge(), TestHogeHoge(),</span>
+<span class="rem">' TearDownHogeHoge(), TearDown(), TearDownLast()の順に呼び出します。</span>
+&lt;TestFixture&gt; _ 
 <span class="kwrd">Public</span> <span class="kwrd">Class</span> HogeTest
-    <span class="kwrd">Inherits</span> S2TestCase
-   
-    <span class="kwrd">Public</span> <span class="kwrd">Sub</span> SetUpHogeHoge()
-        <span class="rem">' 初期化処理を行います</span>
-    <span class="kwrd">End</span> <span class="kwrd">Sub</span> 
+     <span class="kwrd">Inherits</span> S2TestCase
+    &lt;MbUnit.Framework.SetUp&gt; _ 
 
-    &lt;Test(), S2()&gt; _
-    <span class="kwrd">Public</span> <span class="kwrd">Sub</span> TestHogeHoge()
+    <span class="kwrd">Public</span>  <span class="kwrd">Sub</span> SetUpFirst()
+        <span class="rem">' 初期化処理を行います (MbUnitが呼び出します)</span>
+    <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+ 
+    <span class="kwrd">Public</span>  <span class="kwrd">Sub</span> SetUp()
+        <span class="rem">' 初期化処理を行います (S2Unit.NETが呼び出します。)</span>
+        <span class="rem">' S2Container.NETに対する初期化処理はこのメソッドで呼び出します。</span>
+    <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+ 
+    <span class="kwrd">Public</span>  <span class="kwrd">Sub</span> SetUpHogeHoge()
+        <span class="rem">' テストメソッド毎の初期化処理を行います </span>
+    <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+ 
+    &lt;Test, S2&gt; _ 
+    <span class="kwrd">Public</span>  <span class="kwrd">Sub</span> TestHogeHoge()
         <span class="rem">' テストコードを書きます</span>
     <span class="kwrd">End</span> <span class="kwrd">Sub</span>
-
-    <span class="kwrd">Public</span> <span class="kwrd">Sub</span> TearDownHogeHoge()
-        <span class="rem">' 終了処理を書きます</span>
+ 
+    <span class="kwrd">Public</span>  <span class="kwrd">Sub</span> TearDownHogeHoge()
+        <span class="rem">' テストメソッド毎の終了処理を書きます</span>
     <span class="kwrd">End</span> <span class="kwrd">Sub</span>
-
-<span class="kwrd">End</span> Class</pre>
+ 
+    <span class="kwrd">Public</span>  <span class="kwrd">Sub</span> TearDown()
+        <span class="rem">' 終了処理を書きます(S2Unit.NETが呼び出します。)</span>
+        <span class="rem">' S2Container.NETに対する終了処理はこのメソッドで呼び出します。</span>
+    <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+ 
+    &lt;MbUnit.Framework.TearDown&gt; _ 
+    <span class="kwrd">Public</span>  <span class="kwrd">Sub</span> TearDownLast()
+        <span class="rem">' 終了処理を書きます (MbUnitが呼び出します)</span>
+    <span class="kwrd">End</span> <span class="kwrd">Sub</span>
+<span class="kwrd">End</span> <span class="kwrd">Class</span>
+</pre>
 
 <h2><a name="trans">トランザクションの自動制御</a></h2>
 <p>
