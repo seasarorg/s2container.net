@@ -54,6 +54,7 @@ namespace Seasar.Framework.Unit
             {
                 try
                 {
+                    SetUpMethod();
                     SetUpForEachTestMethod();
                     _container.Init();
                     try
@@ -108,6 +109,7 @@ namespace Seasar.Framework.Unit
                 finally
                 {
                     TearDownForEachTestMethod();
+                    TearDownMethod();
                 }
             }
             catch (Exception e)
@@ -138,7 +140,7 @@ namespace Seasar.Framework.Unit
             _container = null;
         }
 
-        protected virtual void SetUpForEachTestMethod()
+        protected virtual void SetUpMethod()
         {
             MethodInfo setupAllMethod = _fixture.GetType().GetMethod("SetUp");
             if (setupAllMethod != null)
@@ -149,7 +151,10 @@ namespace Seasar.Framework.Unit
                     MethodUtil.Invoke(setupAllMethod, _fixture, null);
                 }
             }
+        }
 
+        protected virtual void SetUpForEachTestMethod()
+        {
             string targetName = GetTargetName();
             if (targetName.Length > 0)
             {
@@ -180,6 +185,19 @@ namespace Seasar.Framework.Unit
                 if (tearDownMethod != null)
                 {
                     MethodUtil.Invoke(tearDownMethod, _fixture, null);
+                }
+            }
+        }
+
+        protected virtual void TearDownMethod()
+        {
+            MethodInfo teadDownAllMethod = _fixture.GetType().GetMethod("TearDown");
+            if (teadDownAllMethod != null)
+            {
+                TearDownAttribute a = Attribute.GetCustomAttribute(teadDownAllMethod, typeof(TearDownAttribute)) as TearDownAttribute;
+                if (a == null)
+                {
+                    MethodUtil.Invoke(teadDownAllMethod, _fixture, null);
                 }
             }
         }
