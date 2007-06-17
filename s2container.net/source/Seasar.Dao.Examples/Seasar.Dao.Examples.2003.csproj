@@ -90,11 +90,6 @@
                     HintPath = "..\..\..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Windows.Forms.dll"
                 />
                 <Reference
-                    Name = "Seasar"
-                    AssemblyName = "Seasar"
-                    HintPath = "..\..\lib\net1.1\Seasar.dll"
-                />
-                <Reference
                     Name = "log4net"
                     AssemblyName = "log4net"
                     HintPath = "..\..\lib\net1.1\log4net.dll"
@@ -107,6 +102,11 @@
                 <Reference
                     Name = "Seasar.Dao.2003"
                     Project = "{474715CA-5C99-4C50-ADFA-FB628824DFF0}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "Seasar.2003"
+                    Project = "{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
             </References>
