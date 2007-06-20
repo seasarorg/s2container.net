@@ -135,4 +135,7 @@
   <data name="FSWF0005" xml:space="preserve">
     <value>引数 {0}が1より小さいです。</value>
   </data>
+  <data name="FSWF0006" xml:space="preserve">
+    <value>無効な型：{0}</value>
+  </data>
 </root>

@@ -113,5 +113,14 @@ namespace Seasar.Windows {
                 return ResourceManager.GetString("FSWF0005", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Invalid type : {0} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string FSWF0006 {
+            get {
+                return ResourceManager.GetString("FSWF0006", resourceCulture);
+            }
+        }
     }
 }
