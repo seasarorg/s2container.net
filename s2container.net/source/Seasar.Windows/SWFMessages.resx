@@ -135,4 +135,7 @@
   <data name="FSWF0005" xml:space="preserve">
     <value>Parameter {0} is under 1.</value>
   </data>
+  <data name="FSWF0006" xml:space="preserve">
+    <value>Invalid type : {0}</value>
+  </data>
 </root>

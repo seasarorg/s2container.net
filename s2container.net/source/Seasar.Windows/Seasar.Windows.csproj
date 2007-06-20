@@ -120,6 +120,13 @@
     <Compile Include="Seasar.Windows\S2Form.Designer.cs">
       <DependentUpon>S2Form.cs</DependentUpon>
     </Compile>
+    <Compile Include="Seasar.Windows\Utils\BindingArrayUtil.cs" />
+    <Compile Include="Seasar.Windows\Utils\BindingBindingListUtil.cs" />
+    <Compile Include="Seasar.Windows\Utils\BindingDataTableUtil.cs" />
+    <Compile Include="Seasar.Windows\Utils\BindingGenericListUtil.cs" />
+    <Compile Include="Seasar.Windows\Utils\BindingListUtil.cs" />
+    <Compile Include="Seasar.Windows\Utils\BindingUtilFactory.cs" />
+    <Compile Include="Seasar.Windows\Utils\IBindingUtil.cs" />
     <Compile Include="SWFMessages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
