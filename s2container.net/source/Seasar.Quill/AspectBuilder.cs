@@ -89,106 +89,6 @@ namespace Seasar.Quill
         }
 
         /// <summary>
-        /// 全てのメソッドにAspectが有効となるAspect定義を作成する
-        /// </summary>
-        /// <param name="aspectAttr">Aspectを設定する属性</param>
-        /// <returns>全てのメソッドにAspectが有効となるAspect定義</returns>
-        protected virtual IAspect CreateAspect(AspectAttribute aspectAttr)
-        {
-            // Interceptorを作成する
-            IMethodInterceptor interceptor = GetMethodInterceptor(aspectAttr);
-
-            // InterceptorからAspectを作成する
-            // (Pointcutは指定しないので全てのメソッドが対象となる)
-            IAspect aspect = new AspectImpl(interceptor);
-
-            // Aspectを返す
-            return aspect;
-        }
-
-        /// <summary>
-        /// Aspect属性からインターセプターを取得する
-        /// </summary>
-        /// <param name="aspectAttr">Aspect属性</param>
-        /// <returns>インターセプター</returns>
-        protected virtual IMethodInterceptor GetMethodInterceptor(
-            AspectAttribute aspectAttr)
-        {
-            if (aspectAttr.InterceptorType != null)
-            {
-                // interceptorTypeが指定されている場合は
-                // QuillからTypeを指定してインターセプターを取得する
-                return GetMethodInterceptor(aspectAttr.InterceptorType);
-            }
-            else if (aspectAttr.ComponentName != null)
-            {
-                // コンポーネント名が指定されている場合は
-                // S2Containerからコンポーネント名を指定してインターセプターを取得する
-                return GetMethodInterceptor(aspectAttr.ComponentName);
-            }
-            else
-            {
-                // Aspect属性にinterceptorTypeとcomponentNameのどちらの指定も
-                // されていない場合は例外をスローする
-                throw new QuillApplicationException("EQLL0013");
-            }
-
-        }
-
-        /// <summary>
-        /// QuillからTypeを指定してインターセプターを取得する
-        /// </summary>
-        /// <param name="interceptorType">インターセプターのType</param>
-        /// <returns>インターセプター</returns>
-        protected virtual IMethodInterceptor GetMethodInterceptor(
-            Type interceptorType)
-        {
-            // Interceptorのコンポーネントを取得する
-            QuillComponent component =
-                container.GetComponent(interceptorType);
-
-            if (typeof(IMethodInterceptor).IsAssignableFrom(component.ComponentType))
-            {
-                // IMethodInterceptorに代入ができる場合はInterceptorを返す
-                return (IMethodInterceptor)component.GetComponentObject(interceptorType);
-            }
-            else
-            {
-                // IMethodInterceptorに代入できない場合は例外をスローする
-                throw new QuillApplicationException("EQLL0012",
-                    new object[] { component.ComponentType.FullName });
-            }
-        }
-
-        /// <summary>
-        /// S2Containerからコンポーネント名を指定してインターセプターを取得する
-        /// </summary>
-        /// <param name="componentName">コンポーネント名</param>
-        /// <returns>インターセプター</returns>
-        protected virtual IMethodInterceptor GetMethodInterceptor(
-            string componentName)
-        {
-            // S2Containerからコンポーネントのオブジェクトを取得する
-            object interceptor = 
-                SingletonS2ContainerConnector.GetComponent(componentName);
-
-            // インターセプターのTypeを取得する
-            Type type = TypeUtil.GetType(interceptor);
-
-            if (typeof(IMethodInterceptor).IsAssignableFrom(type))
-            {
-                // IMethodInterceptorに代入ができる場合はInterceptorを返す
-                return (IMethodInterceptor) interceptor;
-            }
-            else
-            {
-                // IMethodInterceptorに代入できない場合は例外をスローする
-                throw new QuillApplicationException("EQLL0012",
-                    new object[] { type.FullName });
-            }
-        }
-
-        /// <summary>
         /// 指定されたメソッドからAspectが有効となるAspect定義のリストを作成する
         /// </summary>
         /// <param name="methods">メソッド情報の配列</param>
@@ -224,6 +124,23 @@ namespace Seasar.Quill
             return aspectList.ToArray();
         }
 
+        /// <summary>
+        /// 全てのメソッドにAspectが有効となるAspect定義を作成する
+        /// </summary>
+        /// <param name="aspectAttr">Aspectを設定する属性</param>
+        /// <returns>全てのメソッドにAspectが有効となるAspect定義</returns>
+        protected virtual IAspect CreateAspect(AspectAttribute aspectAttr)
+        {
+            // Interceptorを作成する
+            IMethodInterceptor interceptor = GetMethodInterceptor(aspectAttr);
+
+            // InterceptorからAspectを作成する
+            // (Pointcutは指定しないので全てのメソッドが対象となる)
+            IAspect aspect = new AspectImpl(interceptor);
+
+            // Aspectを返す
+            return aspect;
+        }
 
         /// <summary>
         /// インターセプターとメソッドを指定してAspect定義を作成する
@@ -290,5 +207,88 @@ namespace Seasar.Quill
             // メソッド名を追加する
             methodNames[interceptor].Add(methodName);
         }
+
+        /// <summary>
+        /// Aspect属性からインターセプターを取得する
+        /// </summary>
+        /// <param name="aspectAttr">Aspect属性</param>
+        /// <returns>インターセプター</returns>
+        protected virtual IMethodInterceptor GetMethodInterceptor(
+            AspectAttribute aspectAttr)
+        {
+            if (aspectAttr.InterceptorType != null)
+            {
+                // interceptorTypeが指定されている場合は
+                // QuillからTypeを指定してインターセプターを取得する
+                return GetMethodInterceptor(aspectAttr.InterceptorType);
+            }
+            else if (aspectAttr.ComponentName != null)
+            {
+                // コンポーネント名が指定されている場合は
+                // S2Containerからコンポーネント名を指定してインターセプターを取得する
+                return GetMethodInterceptor(aspectAttr.ComponentName);
+            }
+            else
+            {
+                // Aspect属性にinterceptorTypeとcomponentNameのどちらの指定も
+                // されていない場合は例外をスローする
+                throw new QuillApplicationException("EQLL0013");
+            }
+
+        }
+
+        /// <summary>
+        /// QuillからTypeを指定してインターセプターを取得する
+        /// </summary>
+        /// <param name="interceptorType">インターセプターのType</param>
+        /// <returns>インターセプター</returns>
+        protected virtual IMethodInterceptor GetMethodInterceptor(
+            Type interceptorType)
+        {
+            // Interceptorのコンポーネントを取得する
+            QuillComponent component =
+                container.GetComponent(interceptorType);
+
+            if (typeof(IMethodInterceptor).IsAssignableFrom(component.ComponentType))
+            {
+                // IMethodInterceptorに代入ができる場合はInterceptorを返す
+                return (IMethodInterceptor)component.GetComponentObject(interceptorType);
+            }
+            else
+            {
+                // IMethodInterceptorに代入できない場合は例外をスローする
+                throw new QuillApplicationException("EQLL0012",
+                    new object[] { component.ComponentType.FullName });
+            }
+        }
+
+        /// <summary>
+        /// S2Containerからコンポーネント名を指定してインターセプターを取得する
+        /// </summary>
+        /// <param name="componentName">コンポーネント名</param>
+        /// <returns>インターセプター</returns>
+        protected virtual IMethodInterceptor GetMethodInterceptor(
+            string componentName)
+        {
+            // S2Containerからコンポーネントのオブジェクトを取得する
+            object interceptor =
+                SingletonS2ContainerConnector.GetComponent(componentName);
+
+            // インターセプターのTypeを取得する
+            Type type = TypeUtil.GetType(interceptor);
+
+            if (typeof(IMethodInterceptor).IsAssignableFrom(type))
+            {
+                // IMethodInterceptorに代入ができる場合はInterceptorを返す
+                return (IMethodInterceptor)interceptor;
+            }
+            else
+            {
+                // IMethodInterceptorに代入できない場合は例外をスローする
+                throw new QuillApplicationException("EQLL0012",
+                    new object[] { type.FullName });
+            }
+        }
+
     }
 }

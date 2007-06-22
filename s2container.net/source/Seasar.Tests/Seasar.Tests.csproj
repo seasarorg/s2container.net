@@ -117,6 +117,10 @@
       <Project>{063DED73-CA16-4038-904D-5A18A630843D}</Project>
       <Name>Seasar.DynamicProxy</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Seasar.Quill\Seasar.Quill.csproj">
+      <Project>{4C1D6F42-4178-4C68-8277-B2978BF784FF}</Project>
+      <Name>Seasar.Quill</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Seasar.Unit\Seasar.Unit.csproj">
       <Name>Seasar.Unit</Name>
       <Project>{FC3A021B-6288-4C34-8303-544640D22FDA}</Project>
@@ -357,6 +361,14 @@
       <DependentUpon>SessionComponentDeployerWebPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Quill\AspectBuilderTest.cs" />
+    <Compile Include="Quill\QuillComponentTest.cs" />
+    <Compile Include="Quill\QuillContainerTest.cs" />
+    <Compile Include="Quill\QuillInjectorTest.cs" />
+    <Compile Include="Quill\SingletonS2ContainerConnectorTest.cs" />
+    <Compile Include="Quill\Util\AttributeUtilTest.cs" />
+    <Compile Include="Quill\Util\MessageUtilTest.cs" />
+    <Compile Include="Quill\Util\TypeUtilTest.cs" />
     <Compile Include="Framework\Container.Deployer\SingletonComponentDeployerTest.cs" />
     <Compile Include="Framework\Container.Factory\ArgTagHandlerTest.cs" />
     <Compile Include="Framework\Container.Factory\AspectTagHandlerTest.cs" />

@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using Seasar.Framework.Aop;
 using Seasar.Framework.Aop.Proxy;
+using System.Reflection;
 
 namespace Seasar.Quill
 {
@@ -91,8 +92,40 @@ namespace Seasar.Quill
             else
             {
                 // Aspect属性が定義されていない場合は実装クラスのインスタンスを作成する
-                componentObjects[componentType] = 
-                    Activator.CreateInstance(componentType);
+                CreateObject(componentType, receiptType);
+            }
+        }
+
+        /// <summary>
+        /// 実装クラスのインスタンスを作成する
+        /// </summary>
+        /// <remarks>
+        /// インスタンスを作成するクラスにはパラメータ(引数)無しでpublicである
+        /// コンストラクタが必要とする
+        /// </remarks>
+        /// <param name="componentType">コンポーネントのType</param>
+        protected virtual void CreateObject(Type componentType, Type receiptType)
+        {
+            // コンストラクタを取得する
+            ConstructorInfo constructor = componentType.GetConstructor(new Type[] { });
+
+            if (constructor == null)
+            {
+                // パラメータ無しでpublicであるコンストラクタがない場合は例外をスローする
+                throw new QuillApplicationException(
+                    "EQLL0017", new object[] { componentType.FullName });
+            }
+
+            // インスタンスを作成する
+            object obj = Activator.CreateInstance(componentType);
+            
+            // 実装クラスの型で格納する
+            componentObjects[componentType] = obj;
+
+            if (!componentType.Equals(receiptType))
+            {
+                // 受け側の型が異なる場合は受け側の型で格納する
+                componentObjects[receiptType] = obj;
             }
         }
 

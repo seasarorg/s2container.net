@@ -98,6 +98,13 @@ namespace Seasar.Quill.Util
         /// <returns>Aspectが指定された属性の配列</returns>
         public static AspectAttribute[] GetAspectAttrs(Type type)
         {
+            if (!type.IsPublic && !type.IsNestedPublic)
+            {
+                // メソッドを宣言するクラスがpublicではない場合は例外をスローする
+                throw new QuillApplicationException("EQLL0016", new object[] {
+                    type.FullName });
+            }
+
             // Aspectを指定する属性を取得して返す
             return GetAspectAttrsByMember(type);
         }
@@ -117,6 +124,13 @@ namespace Seasar.Quill.Util
             {
                 // Aspect属性が指定されていない場合は配列サイズ0のAspect属性の配列を返す
                 return attrs;
+            }
+
+            if (!method.DeclaringType.IsPublic && !method.DeclaringType.IsNestedPublic)
+            {
+                // メソッドを宣言するクラスがpublicではない場合は例外をスローする
+                throw new QuillApplicationException("EQLL0016", new object[] {
+                    method.DeclaringType.FullName });
             }
 
             if (method.IsStatic)
