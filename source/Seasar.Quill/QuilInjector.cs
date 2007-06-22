@@ -43,11 +43,10 @@ namespace Seasar.Quill
         /// QuillInjectorを初期化するコンストラクタ
         /// </summary>
         /// <remarks>
-        /// アクセス修飾子がprivateに設定されているのでQuillInjector内からしか呼ばれない。
-        /// <see cref="GetInstance"/>から呼び出される。
+        /// <see cref="GetInstance"/>からインスタンスを生成する
         /// </remarks>
         /// <seealso cref="Seasar.Quill.QuillInjector.GetInstance"/>
-        private QuillInjector()
+        protected QuillInjector()
         {
             // QuillInjector内で使用するQuillContainerを作成する
             container = new QuillContainer();

@@ -70,7 +70,7 @@ namespace Seasar.Quill
             simpleMessage = message;
 
             // メッセージコード付きのメッセージをセットする
-            message = "[" + messageCode + "]" + simpleMessage;
+            this.message = "[" + messageCode + "]" + simpleMessage;
         }
 
         /// <summary>
