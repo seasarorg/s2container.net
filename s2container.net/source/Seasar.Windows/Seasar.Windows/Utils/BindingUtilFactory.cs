@@ -19,9 +19,6 @@
 #endregion
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 
 namespace Seasar.Windows.Seasar.Windows.Utils
@@ -68,22 +65,68 @@ namespace Seasar.Windows.Seasar.Windows.Utils
         /// <returns>バインドするクラス</returns>
         public IBindingUtil Create(Type propertyType)
         {
-            if (propertyType == typeof (IList))
-                return (new BindingListUtil());
-            else if (propertyType.Name == typeof (IList<>).Name)
-                return (new BindingGenericListUtil());
-            else if (propertyType.Name == typeof (IBindingList).Name)
-                return (new BindingBindingListUtil());
-            else if (propertyType.Name == typeof (IEnumerable).Name)
+            if (propertyType.IsArray)
+            {
                 return (new BindingArrayUtil());
-            else if (propertyType.Name == typeof (IEnumerable<>).Name)
-                return (new BindingArrayUtil());
-            else if (propertyType.IsArray)
-                return (new BindingArrayUtil());
+            }
             else if (propertyType == typeof (DataTable))
+            {
                 return (new BindingDataTableUtil());
+            }
+            else if (propertyType.IsGenericType)
+            {
+                if (propertyType.IsInterface)
+                {
+                    if (propertyType.Name == "IList")
+                        return (new BindingGenericListUtil());
+                    if (propertyType.Name == "IEnumerable")
+                        return (new BindingArrayUtil());
+
+                    throw new InvalidCastException(String.Format(SWFMessages.FSWF0006, propertyType.Name));
+                }
+                else
+                {
+                    Type interfaceType = propertyType.GetInterface("IList");
+                    if (interfaceType != null)
+                        return (new BindingGenericListUtil());
+
+                    interfaceType = propertyType.GetInterface("IEnumerable");
+                    if (interfaceType != null)
+                        return (new BindingArrayUtil());
+
+                    throw new InvalidCastException(String.Format(SWFMessages.FSWF0006, propertyType.Name));
+                }
+            }
             else
-                throw new InvalidCastException(String.Format(SWFMessages.FSWF0006, propertyType.Name));
+            {
+                if (propertyType.IsInterface)
+                {
+                    if (propertyType.Name == "IBindingList")
+                        return (new BindingBindingListUtil());
+                    if (propertyType.Name == "IList")
+                        return (new BindingListUtil());
+                    if (propertyType.Name == "IEnumerable")
+                        return (new BindingArrayUtil());
+
+                    throw new InvalidCastException(String.Format(SWFMessages.FSWF0006, propertyType.Name));
+                }
+                else
+                {
+                    Type interfaceType = propertyType.GetInterface("IBindingList");
+                    if (interfaceType != null)
+                        return (new BindingBindingListUtil());
+
+                    interfaceType = propertyType.GetInterface("IList");
+                    if (interfaceType != null)
+                        return (new BindingListUtil());
+
+                    interfaceType = propertyType.GetInterface("IEnumerable");
+                    if (interfaceType != null)
+                        return (new BindingArrayUtil());
+
+                    throw new InvalidCastException(String.Format(SWFMessages.FSWF0006, propertyType.Name));
+                }
+            }
         }
     }
 }
