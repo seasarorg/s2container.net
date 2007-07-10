@@ -42,6 +42,11 @@ namespace Seasar.Quill.Attrs
         protected string componentName;
 
         /// <summary>
+        /// Aspectを適用する順番(数が小さいほうが先に適用される)
+        /// </summary>
+        protected int ordinal = 0;
+
+        /// <summary>
         /// InterceptorのTypeを指定してAspectAttributeを初期化するコンストラクタ
         /// </summary>
         /// <param name="interceptorType">InterceptorのType</param>
@@ -49,6 +54,20 @@ namespace Seasar.Quill.Attrs
         {
             // InterceptorのTypeを設定する
             this.interceptorType = interceptorType;
+        }
+
+        /// <summary>
+        /// InterceptorのTypeを指定してAspectAttributeを初期化するコンストラクタ
+        /// </summary>
+        /// <param name="interceptorType">InterceptorのType</param>
+        /// <param name="ordinal">Aspectを適用する順番</param>
+        public AspectAttribute(Type interceptorType, int ordinal)
+        {
+            // InterceptorのTypeを設定する
+            this.interceptorType = interceptorType;
+
+            // Aspectを適用する順番を設定する
+            this.ordinal = ordinal;
         }
 
         /// <summary>
@@ -60,6 +79,21 @@ namespace Seasar.Quill.Attrs
         {
             // S2Containerにおけるコンポーネント名を設定する
             this.componentName = componentName;
+        }
+
+        /// <summary>
+        /// InterceptorのS2Containerにおけるコンポーネント名を指定して
+        /// AspectAttributeを初期化するコンストラクタ
+        /// </summary>
+        /// <param name="componentName">S2Containerにおけるコンポーネント名</param>
+        /// <param name="ordinal">Aspectを適用する順番</param>
+        public AspectAttribute(string componentName, int ordinal)
+        {
+            // S2Containerにおけるコンポーネント名を設定する
+            this.componentName = componentName;
+
+            // Aspectを適用する順番を設定する
+            this.ordinal = ordinal;
         }
 
         /// <summary>
@@ -78,6 +112,16 @@ namespace Seasar.Quill.Attrs
         public string ComponentName
         {
             get { return componentName; }
+        }
+
+        /// <summary>
+        /// Aspectを適用する順番を取得する
+        /// (数が小さいほうが先に適用される)
+        /// </summary>
+        /// <value>Aspectを適用する順番(数が小さいほうが先に適用される)</value>
+        public int Ordinal
+        {
+            get { return ordinal; }
         }
     }
 }
