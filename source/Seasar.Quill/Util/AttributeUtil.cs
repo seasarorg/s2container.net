@@ -19,6 +19,7 @@
 using System;
 using Seasar.Quill.Attrs;
 using System.Reflection;
+using System.Collections.Generic;
 
 namespace Seasar.Quill.Util
 {
@@ -172,8 +173,15 @@ namespace Seasar.Quill.Util
                 (AspectAttribute[])Attribute.GetCustomAttributes(
                 member, typeof(AspectAttribute));
 
+            // Aspectを格納するリスト
+            List<AspectAttribute> attrList = 
+                new List<AspectAttribute>(attrs);
+
+            // Aspectのリストを並び替える
+            attrList.Sort(new AspectAttributeComparer());
+
             // Aspectを指定する属性を返す
-            return attrs;
+            return attrList.ToArray();
         }
 
         #endregion
@@ -208,6 +216,36 @@ namespace Seasar.Quill.Util
 
             // Binding属性を返す
             return bindingAttr;
+        }
+
+        #endregion
+
+        #region AspectAttributeを比較するクラス
+
+        /// <summary>
+        /// AspectAttributeを比較するクラス
+        /// </summary>
+        private class AspectAttributeComparer : IComparer<AspectAttribute>
+        {
+            /// <summary>
+            /// 2つのAspectAttributeを比較する
+            /// （並び順は<see cref="Seasar.Quill.Attrs.AspectAttribute.Ordinal"/>で
+            /// 決定する)
+            /// <para>
+            /// xとyが等しい場合は0, xがyより大きい場合は正の値,
+            /// xがyより小さい場合は負の値を返す
+            /// </para>
+            /// </summary>
+            /// <param name="x">比較対象の第1オブジェクト</param>
+            /// <param name="y">比較対象の第2オブジェクト</param>
+            /// <returns>xとyが等しい場合は0, xがyより大きい場合は正の値,
+            /// xがyより小さい場合は負の値を返す</returns>
+            public int Compare(AspectAttribute x, AspectAttribute y)
+            {
+                // xとyが等しい場合は0, xがyより大きい場合は正の値,
+                // xがyより小さい場合は負の値を返す
+                return x.Ordinal - y.Ordinal;
+            }
         }
 
         #endregion
