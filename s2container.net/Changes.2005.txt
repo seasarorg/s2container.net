@@ -1,5 +1,6 @@
 ﻿S2Container.NET 1.3.0
 2007/06/??
+- [CONTAINERNET-62]自動バインディング機能を持つS2Formの追加
 - [CONTAINERNET-65]DataDirect Connect for ADO.NET 3.0を使ったときバインド変数のエラーが発生
 - [CONTAINERNET-66]S2Unit.NEtでSetUp(),TeadrDown()を呼び出し、S2Container.NETに関する初期化・終了処理を行う。
 
