@@ -1,103 +1,204 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<!-- don't edit start -->
-<head><title>Seasar - DI Container with AOP - </title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link href="seasar_b.css" type="text/css" rel="stylesheet" media="screen">
-<link rel="stylesheet" type="text/css" href="csharp.css" >
-<link href="seasar_p.css" type="text/css" rel="stylesheet" media="print"><script src="seasar_b.js" type="text/JavaScript" language="JavaScript"></script>
-</head><body onLoad="preload('ja')"><table width="100%" border="0" cellspacing="0" cellpadding="0" align="left"><tr>
-<td align="left" valign="top" width="780"><table width="780" border="0" cellspacing="0" cellpadding="0" class="white">
-<tr><td colspan="7"><img height="5" width="780" src="images/top01_b.gif" alt=""></td></tr>
-<tr><td><img height="117" width="235" src="images/top02_b.gif" alt="Seasar"></td>
-<td colspan="3"><img height="117" width="289" src="images/top03.gif" alt="DI Container with AOP"></td>
-<td colspan="3"><img height="117" width="256" src="images/spacer.gif" alt=""></td>
-</tr><tr><td rowspan="2"><img src="images/top04.gif" alt="" height="49" width="235"></td>
-<td><a href="http://www.seasar.org/index.html"><img src="images/menu01_b_ja.gif" height="30" width="78" border="0" alt="" id="menu01" onmouseover="swap(1)" onmouseout="restore(1)"></a></td>
-<td><a href="http://www.seasar.org/projects.html"><img src="images/menu02_b_ja.gif" height="30" width="101" border="0" alt="" id="menu02" onmouseover="swap(2)" onmouseout="restore(2)"></a></td>
-<td><a href="http://www.seasar.org/products.html"><img src="images/menu03_b_ja.gif" height="30" width="110" border="0" alt="" id="menu03" onmouseover="swap(3)" onmouseout="restore(3)"></a></td>
-<td><a href="http://www.seasar.org/resources.html"><img src="images/menu04_b_ja.gif" height="30" width="113" border="0" alt="" id="menu04" onmouseover="swap(4)" onmouseout="restore(4)"></a></td>
-<td><img src="images/menu05_b_ja.gif" height="30" width="109" border="0" alt="" id="menu05" onmouseover="swap(5)" onmouseout="restore(5)"></td>
-<td><img height="30" width="34" src="images/menu06.gif" alt=""></td></tr><tr>
-<td colspan="6"><img height="19" width="545" src="images/spacer.gif" alt=""></td></tr></table>
-<table  width="780" border="0" cellspacing="0" cellpadding="0" class="white">
-<tr align="left" valign="top"><td width="14"><img height="14" width="14" src="images/spacer.gif" alt=""></td><td width="740" class="main">
-<!-- don't edit end -->
-<!-- document start -->
+﻿<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>S2ADO - S2Container.NET</title>
+	<link href="css/common.css" rel="stylesheet" type="text/css" media="screen,print" />
+	<link href="css/csharp.css" rel="stylesheet" type="text/css" media="screen,print" />
+</head>
 
-<a href="index.html">S2Container.NET TOPページへ</a>
+<body>
+<a name="top"/>
+<div class="container">
 
-<p>SQLは自由に発行したい。でもADO.NETを使うのはめんどくさい。そんなあなたのために用意されているのが、S2ADOです。</p>
+<div>
+	<div class="logo"><img src="images/title_s2containernet.png" alt="S2Container.NET プロジェクト" /></div>
+	<hr />
+	<div class="pan">
+		<a href="http://www.seasar.org/">Seasarプロジェクト</a>
+		＞ <a href="seasarnet.html">Seasar.NETプロジェクト</a>
+		＞ <a href="index.html">S2Container.NET</a>
+		＞ S2ADO
+	</div>
+</div>
 
-<ul>
-<li><a href="#DML">データ操作</a></li>
-<ul>
-<li><a href="#BeanListDataReaderHandler">検索処理(BeanList)</a></li>
-<li><a href="#BeanDataReaderHandler">検索処理(Bean)</a></li>
-<li><a href="#DictionaryListDataReaderHandler">検索処理(DictionaryList)</a></li>
-<li><a href="#DictionaryDataReaderHandler">検索処理(Dictionary)</a></li>
-<li><a href="#BasicUpdateHandler">更新処理</a></li>
-</ul>
+<div class="middle">
 
-<li><a href="#NullValue">NULL値の扱い</a>
-<ul>
-<li><a href="#NullValueNHibernate">NHibernateContribのNullables</a></li>
-<li><a href="#NullValueSqlTypes">System.Data.SqlTypesのNull</a></li>
-<li><a href="#NullValueNullable">System.Nullable(.NET 2.0以降)</a></li>
-</ul>
+<div class="menus">
 
-<li><a href="#ParameterMark">パラメータマーカー(@, :, ?)の扱い</a>
-</ul>
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/s2containernet.png" alt="S2Container.NET" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li><a href="index.html">Welcome</a></li>
+				<li><a href="download.html">ダウンロード</a></li>
+			</ul>
+		</div>
+	</div>
+	</div>
+	
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/documentation.png" alt="ドキュメンテーション" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li><a href="setup.html">セットアップ</a></li>
+				<li><a href="dicontainer.html">DIContainer</a></li>
+				<li><a href="aop.html">AOP</a></li>
+				<li><a href="asp.html">ASP.NETでの利用</a></li>
+				<li><a href="db.html">データベース接続</a></li>
+				<li><a href="tx.html">トランザクション</a></li>
+				<li>S2ADO</li>
+				<li><a href="s2unit.html">S2Unit.NET</a></li>
+				<li><a href="s2windows.html">S2Windows.NET</a></li>
+				<li><a href="jscript.html">JScript.NET式</a></li>
+				<li><a href="quill.html">Quillで簡単DI+AOP</a></li>
+			</ul>
+		</div>
+	</div>
+	</div>
+	
+	<div class="menuLine">
+	<div class="menu">
+	
+		<div class="menuTitle">
+			<img src="images/support.png" alt="サポート" />
+		</div>
+		
+		<div class="menuBody">
+			<ul>
+				<li>
+					<a href="faq.html">FAQ</a>
+					<p>よくある質問と答えをまとめています。</p>
+				</li>
+				<li>
+					<a href="https://ml.seasar.org/mailman/listinfo/seasar-dotnet">Mailing List</a>
+					<p>Seasar.NETに関する議論を行うメーリングリストです。</p>
+				</li>
+				<li>
+					<a href="https://www.seasar.org/issues/browse/CONTAINERNET">トラッキング</a>
+					<p>S2Container.NETのバグや問題の検索、報告を行うことができます。</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+	</div>
 
-<h2><a name="DML">データ操作</a></h2>
+</div><!-- div.left -->
 
-<h3><a name="BeanListDataReaderHandler">検索処理(BeanList)</a></h3>
-<p>さっそく複数件のobjectを検索してみましょう。検索するためにはBasicSelectHandlerを使います。次のようなプロパティが用意されています。</p>
+<!-- ############################################# コンテンツ ######################################################### -->
 
-<h4>Seasar.Extension.ADO.Impl.BasicSelectHandler</h4>
-<table border="1">
-<tr bgcolor="#d1f3f4" align="center">
-<th width="96">プロパティ</th>
-<th width="156">説明</th>
-<th width="478" >S2Containerでの設定例</th>
-</tr>
-<tr>
-<td>DataSource</td>
-<td>DataSource</td>
-<td>通常自動的に設定されます。</td>
-</tr>
-<tr>
-<td>Sql</td>
-<td>実行したいSQL文</td>
-<td>&quot;SELECT * FROM emp&quot;</td>
-</tr>
-<tr>
-<td>DataReaderHandler</td>
-<td>System.Data.IDataReaderを処理するHandlerのクラス</td>
-<td>複数件のobjectを返すためにはBeanListDataReaderHandlerを使います。<br>
-※.NET 2.0のGenericを使用する場合、BeanGenericListDataReaderHandlerを使います。
-<pre>&lt;component
-  class=&quot;Seasar.Extension.ADO.Impl.BeanListDataReaderHandler&quot;&gt;
-  &lt;arg&gt;Seasar.Examples.Reference.ADO.Employee&lt;/arg&gt;
-&lt;/component&gt;</pre>
-<p></p>
-</td>
-</tr>
-<tr>
-<td><span style="text-decoration:line-through">CommandTimeout</span></td>
-<td><span style="text-decoration:line-through">コマンドが実行されるまでの待機時間(秒)。値が-1の場合は特に設定しない(System.Data.IDbCommand.CommandTimeoutプロパティの規定値が適用)。</span></td>
-<td>※Seasar.Extension.ADO.Impl.BasicCommandFactoryクラスのCommandTimeoutプロパティを使用してください。</td>
-</tr>
-</table>
+<div class="contents">
+	
+	<div class="content">
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>目次</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　SQLは自由に発行したい。でもADO.NETを使うのはめんどくさい。そんなあなたのために用意されているのが、S2ADOです。</p>
+		
+			<ul>
+				<li><a href="#DML">データ操作</a></li>
+				<ul>
+					<li><a href="#BeanListDataReaderHandler">検索処理(BeanList)</a></li>
+					<li><a href="#BeanDataReaderHandler">検索処理(Bean)</a></li>
+					<li><a href="#DictionaryListDataReaderHandler">検索処理(DictionaryList)</a></li>
+					<li><a href="#DictionaryDataReaderHandler">検索処理(Dictionary)</a></li>
+					<li><a href="#BasicUpdateHandler">更新処理</a></li>
+				</ul>
+				
+				<li><a href="#NullValue">NULL値の扱い</a>
+				<ul>
+					<li><a href="#NullValueNHibernate">NHibernateContribのNullables</a></li>
+					<li><a href="#NullValueSqlTypes">System.Data.SqlTypesのNull</a></li>
+					<li><a href="#NullValueNullable">System.Nullable(.NET 2.0以降)</a></li>
+				</ul>
+				
+				<li><a href="#ParameterMark">パラメータマーカー(@, :, ?)の扱い</a></li>
+				<li><a href="#OracleUnicode">OracleのUnicode問題(バージョン1.2.9以降)</a></li>
+				<li><a href="#BooleanToInt">Booleanの扱い(バージョン1.2.9以降)</a></li>
+			</ul>
+			
+		</div>
+	</div>
+	
+<!-- ############################################# データ操作 ######################################################### -->
 
-<h4>Seasar.Examples.Reference.ADO.SelectBeanList.dicon</h4>
+	<div class="content">
+		<a name="DML" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>データ操作</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<h2><a name="BeanListDataReaderHandler">検索処理(BeanList)</a></h2>
+			<p>　さっそく複数件のobjectを検索してみましょう。検索するためにはBasicSelectHandlerを使います。
+			次のようなプロパティが用意されています。</p>
+			<h3>Seasar.Extension.ADO.Impl.BasicSelectHandler</h3>
+
+			<table border="0" cellspacing="1">
+				<tr><th>プロパティ</th><th>説明</th><th>S2Containerでの設定例</th></tr>
+				<tr><td>DataSource</td><td>DataSource</td><td>通常自動的に設定されます。</td></tr>
+				<tr><td>Sql</td><td>実行したいSQL文</td><td>"SELECT * FROM emp"</td></tr>
+				<tr>
+					<td>DataReaderHandler</td><td>System.Data.IDataReaderを処理するHandlerのクラス</td>
+					<td>
+					複数件のobjectを返すためにはBeanListDataReaderHandlerを使います。<br />
+					<span class="important">※.NET 2.0のGenericを使用する場合、BeanGenericListDataReaderHandlerを使います。</span>
+<pre class="csharpcode">
+&lt;component
+  class=&quot;Seasar.Extension.ADO.
+Impl.BeanListDataReaderHandler&quot;&gt;
+
+  &lt;arg&gt;Seasar.Examples.Reference.
+ADO.Employee&lt;/arg&gt;
+
+&lt;/component&gt;
+</pre>					
+					</td>
+				</tr>
+				<tr>
+					<td>CommandTimeout</td>
+					<td>コマンドが実行されるまでの待機時間(秒)。値が-1の場合は特に設定しない
+					(System.Data.IDbCommand.<br/>CommandTimeoutプロパティの規定値が適用)。</td>
+					<td></td>
+				</tr>
+			
+			</table>
+
+			<h3>Seasar.Examples.Reference.ADO.SelectBeanList.dicon</h3>
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <pre class="csharpcode">
 <span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
   <span class="kwrd">&lt;</span><span class="html">include</span> <span class="attr">path</span><span class="kwrd">="Seasar.Examples/Ado.dicon"</span> <span class="kwrd">/&gt;</span>
-  <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="SelectBeanListClient"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.ADO.SelectBeanListClient"</span><span class="kwrd">/&gt;</span>
-  <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="SelectBeanListHandler"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.ADO.Impl.BasicSelectHandler"</span><span class="kwrd">&gt;</span>
-    <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="Sql"</span><span class="kwrd">&gt;</span><br />"SELECT empno, ename, job, mgr, hiredate, sal, comm, deptno FROM emp"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+  <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="SelectBeanListClient"</span>
+<span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.ADO.SelectBeanListClient"</span><span class="kwrd">/&gt;</span>
+
+  <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="SelectBeanListHandler"</span>
+<span class="attr">class</span><span class="kwrd">="Seasar.Extension.ADO.Impl.BasicSelectHandler"</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="Sql"</span><span class="kwrd">&gt;</span><br />"SELECT empno, ename, job, mgr, hiredate, sal, comm, deptno FROM emp"
+    <span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
     <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="DataReaderHandler"</span><span class="kwrd">&gt;</span>
       <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.ADO.Impl.BeanListDataReaderHandler"</span><span class="kwrd">&gt;</span>
         <span class="kwrd">&lt;</span><span class="html">arg</span><span class="kwrd">&gt;</span>Seasar.Examples.Reference.ADO.Employee<span class="kwrd">&lt;/</span><span class="html">arg</span><span class="kwrd">&gt;</span>
@@ -107,8 +208,8 @@
 <span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
 </pre>
 
-<h4>Seasar.Examples.Reference.ADO.SelectBeanListClient</h4>
-C#
+			<h3>Seasar.Examples.Reference.ADO.SelectBeanListClient</h3>
+			<p class="kindCode">C#</p>
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <pre class="csharpcode">
 <span class="kwrd">using</span> System;
@@ -121,7 +222,8 @@ C#
 {
     <span class="kwrd">public</span> <span class="kwrd">class</span> SelectBeanListClient
     {
-        <span class="kwrd">private</span> <span class="kwrd">const</span> <span class="kwrd">string</span> PATH = <span class="str">"Seasar.Examples/Reference/ADO/SelectBeanList.dicon"</span>;
+        <span class="kwrd">private</span> <span class="kwrd">const</span> <span class="kwrd">string</span>
+            PATH = <span class="str">"Seasar.Examples/Reference/ADO/SelectBeanList.dicon"</span>;
 
         <span class="kwrd">public</span> <span class="kwrd">void</span> Main()
         {
@@ -129,7 +231,8 @@ C#
             container.Init();
             <span class="kwrd">try</span>
             {
-                ISelectHandler handler = (ISelectHandler) container.GetComponent(<span class="str">"SelectBeanListHandler"</span>);
+                ISelectHandler handler = (ISelectHandler)
+                    container.GetComponent(<span class="str">"SelectBeanListHandler"</span>);
                 IList result = (IList) handler.Execute(<span class="kwrd">null</span>);
                 <span class="kwrd">for</span> (<span class="kwrd">int</span> i = 0; i &lt; result.Count; ++i)
                 {
@@ -145,8 +248,8 @@ C#
 }
 </pre>
 
-<h4>実行結果</h4>
-<pre>
+			<h3>実行結果</h3>
+<pre class="csharpcode">
 DEBUG 2006-06-19 23:26:59,890 [9] 論理的なコネクションを取得しました
 DEBUG 2006-06-19 23:26:59,984 [9] 論理的なコネクションを閉じました
 7369, SMITH, CLERK, 7902, 1980/12/17 0:00:00, 800, , 20, 
@@ -164,20 +267,20 @@ DEBUG 2006-06-19 23:26:59,984 [9] 論理的なコネクションを閉じまし�
 7902, FORD, ANALYST, 7566, 1981/12/03 0:00:00, 3000, , 20, 
 7934, MILLER, CLERK, 7782, 1982/01/23 0:00:00, 1300, , 10, 
 </pre>
-<p>
-バインド変数がある場合には、Execute(object[])の引数に指定します。今回の例はバインド変数がないので、nullを設定しています。S2Containerにコンポーネントを組み立ててもらい、後はExecute()を呼び出すだけなので楽チンです。カラム名にアンダースコア(_)が含まれている場合は、アンダースコアを除いてプロパティにマッピングされます。
-</p>
 
-<h3><a name="BeanDataReaderHandler">検索処理(Bean)</a></h3>
-<p>1件のobjectを検索するためには上記と同様にBasicSelectHandlerを使います。BeanDataReaderHandlerを使うこと以外は上記と同様です。結果はリストではなくobjectとしてかえってきます。</p>
-
-<h4>Seasar.Examples.Reference.ADO.SelectBean.dicon</h4>
+			<h2><a name="BeanDataReaderHandler">検索処理(Bean)</a></h2>
+			<p>　1件のobjectを検索するためには上記と同様にBasicSelectHandlerを使います。
+			BeanDataReaderHandlerを使うこと以外は上記と同様です。結果はリストではなくobjectとしてかえってきます。</p>
+			<h3>Seasar.Examples.Reference.ADO.SelectBean.dicon</h3>
+			
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <pre class="csharpcode">
 <span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
   <span class="kwrd">&lt;</span><span class="html">include</span> <span class="attr">path</span><span class="kwrd">="Seasar.Examples/Ado.dicon"</span> <span class="kwrd">/&gt;</span>
-  <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="SelectBeanClient"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.ADO.SelectBeanClient"</span><span class="kwrd">/&gt;</span>
-  <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="SelectBeanHandler"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.ADO.Impl.BasicSelectHandler"</span><span class="kwrd">&gt;</span>
+  <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="SelectBeanClient"</span>
+      <span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.ADO.SelectBeanClient"</span><span class="kwrd">/&gt;</span>
+  <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="SelectBeanHandler"</span>
+      <span class="attr">class</span><span class="kwrd">="Seasar.Extension.ADO.Impl.BasicSelectHandler"</span><span class="kwrd">&gt;</span>
     <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="Sql"</span><span class="kwrd">&gt;</span><br />"SELECT empno, ename, job, mgr, hiredate, sal, comm, <br />deptno FROM emp WHERE empno = @empno"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
     <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="DataReaderHandler"</span><span class="kwrd">&gt;</span>
       <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.ADO.Impl.BeanDataReaderHandler"</span><span class="kwrd">&gt;</span>
@@ -188,8 +291,8 @@ DEBUG 2006-06-19 23:26:59,984 [9] 論理的なコネクションを閉じまし�
 <span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
 </pre>
 
-<h4>Seasar.Examples.Reference.ADO.SelectBeanClient</h4>
-C#
+			<h3>Seasar.Examples.Reference.ADO.SelectBeanClient</h3>
+			<p class="kindCode">C#</p>
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <pre class="csharpcode">
 <span class="kwrd">using</span> System;
@@ -201,7 +304,8 @@ C#
 {
     <span class="kwrd">public</span> <span class="kwrd">class</span> SelectBeanClient
     {
-        <span class="kwrd">private</span> <span class="kwrd">const</span> <span class="kwrd">string</span> PATH = <span class="str">"Seasar.Examples/Reference/ADO/SelectBean.dicon"</span>;
+        <span class="kwrd">private</span> <span class="kwrd">const</span> <span class="kwrd">string</span> PATH = 
+            <span class="str">"Seasar.Examples/Reference/ADO/SelectBean.dicon"</span>;
 
         <span class="kwrd">public</span> <span class="kwrd">void</span> Main()
         {
@@ -209,8 +313,10 @@ C#
             container.Init();
             <span class="kwrd">try</span>
             {
-                ISelectHandler handler = (ISelectHandler) container.GetComponent(<span class="str">"SelectBeanHandler"</span>);
-                Employee result = (Employee) handler.Execute(<span class="kwrd">new</span> <span class="kwrd">object</span>[] { 7788 });
+                ISelectHandler handler = (ISelectHandler)
+                    container.GetComponent(<span class="str">"SelectBeanHandler"</span>);
+                Employee result = (Employee)
+                    handler.Execute(<span class="kwrd">new</span> <span class="kwrd">object</span>[] { 7788 });
                 Console.Out.WriteLine(result);
             }
             <span class="kwrd">finally</span>
@@ -222,33 +328,34 @@ C#
 }
 </pre>
 
-<h4>実行結果</h4>
-<pre>
+			<h3>実行結果</h3>
+<pre class="csharpcode">
 DEBUG 2006-06-19 23:34:54,234 [9] 論理的なコネクションを取得しました
 DEBUG 2006-06-19 23:34:54,249 [9] 論理的なコネクションを閉じました
 7788, SCOTT, ANALYST, 7566, 1982/12/09 0:00:00, 3000, , 20, 
 </pre>
 
-<h3><a name="DictionaryListDataReaderHandler">検索処理(DictionaryList)</a></h3>
-<p>複数件のDictionaryを取得することもできます。DataReaderHandlerにはDictionaryListDataReaderHandlerを使います。</p>
-
-<h4>Seasar.Examples.Reference.ADO.SelectDictionaryList.dicon</h4>
+			<h2><a name="DictionaryListDataReaderHandler">検索処理(DictionaryList)</a></h2>
+			<p>　複数件のDictionaryを取得することもできます。DataReaderHandlerにはDictionaryListDataReaderHandlerを使います。</p>
+			<h3>Seasar.Examples.Reference.ADO.SelectDictionaryList.dicon</h3>
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <pre class="csharpcode">
 <span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
   <span class="kwrd">&lt;</span><span class="html">include</span> <span class="attr">path</span><span class="kwrd">="Seasar.Examples/Ado.dicon"</span> <span class="kwrd">/&gt;</span>
   <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="SelectDictionaryListClient"</span> <br /><span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.ADO.SelectDictionaryListClient"</span><span class="kwrd">/&gt;</span>
   <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="SelectDictionaryListHandler"</span> <br /><span class="attr">class</span><span class="kwrd">="Seasar.Extension.ADO.Impl.BasicSelectHandler"</span><span class="kwrd">&gt;</span>
-    <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="Sql"</span><span class="kwrd">&gt;</span><br />"SELECT empno, ename, job, mgr, hiredate, sal, comm, deptno FROM emp"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="Sql"</span><span class="kwrd">&gt;</span><br />"SELECT empno, ename, job, mgr, hiredate, sal, comm, deptno FROM emp"
+    <span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
     <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="DataReaderHandler"</span><span class="kwrd">&gt;</span>
-      <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.ADO.Impl.DictionaryListDataReaderHandler"</span><span class="kwrd">/&gt;</span>
+      <span class="kwrd">&lt;</span><span class="html">component</span>
+<span class="attr">class</span><span class="kwrd">="Seasar.Extension.ADO.Impl.DictionaryListDataReaderHandler"</span><span class="kwrd">/&gt;</span>
     <span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
   <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
 <span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
 </pre>
 
-<h4>Seasar.Examples.Reference.ADO.SelectDictionaryListClient</h4>
-C#
+			<h3>Seasar.Examples.Reference.ADO.SelectDictionaryListClient</h3>
+			<p class="kindCode">C#</p>
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <pre class="csharpcode">
 <span class="kwrd">using</span> System;
@@ -261,7 +368,8 @@ C#
 {
     <span class="kwrd">public</span> <span class="kwrd">class</span> SelectDictionaryListClient
     {
-        <span class="kwrd">private</span> <span class="kwrd">const</span> <span class="kwrd">string</span> PATH = <span class="str">"Seasar.Examples/Reference/ADO/SelectDictionaryList.dicon"</span>;
+        <span class="kwrd">private</span> <span class="kwrd">const</span> <span class="kwrd">string</span>
+            PATH = <span class="str">"Seasar.Examples/Reference/ADO/SelectDictionaryList.dicon"</span>;
 
         <span class="kwrd">public</span> <span class="kwrd">void</span> Main()
         {
@@ -269,12 +377,13 @@ C#
             container.Init();
             <span class="kwrd">try</span>
             {
-                ISelectHandler handler = 
-                    SelectHandler) container.GetComponent(<span class="str">"SelectDictionaryListHandler"</span>);
+                ISelectHandler handler = (ISelectHandler)
+                    container.GetComponent(<span class="str">"SelectDictionaryListHandler"</span>);
                 IList result = (IList) handler.Execute(<span class="kwrd">null</span>);
                 <span class="kwrd">for</span> (<span class="kwrd">int</span> i = 0; i &lt; result.Count; ++i)
                 {
-                    Console.Out.WriteLine(DictionaryUtil.ToDecorateString((IDictionary) result[i]));
+                    Console.Out.WriteLine(DictionaryUtil.ToDecorateString(
+                        (IDictionary) result[i]));
                 }
             }
             <span class="kwrd">finally</span>
@@ -286,60 +395,64 @@ C#
 }
 </pre>
 
-<h4>実行結果</h4>
-<pre>
+			<h3>実行結果</h3>
+<pre class="csharpcode">
 DEBUG 2006-06-19 23:43:24,749 [9] 論理的なコネクションを取得しました
 DEBUG 2006-06-19 23:43:24,765 [9] 論理的なコネクションを閉じました
-ename=SMITH, hiredate=1980/12/17 0:00:00, comm=null, deptno=20, job=CLERK, empno=7369,
- sal=800.00, mgr=7902
-ename=ALLEN, hiredate=1981/02/20 0:00:00, comm=300.00, deptno=30, job=SALESMAN, empno=7499,
- sal=1600.00, mgr=7698
-ename=WARD, hiredate=1981/02/22 0:00:00, comm=500.00, deptno=30, job=SALESMAN, empno=7521,
- sal=1250.00, mgr=7698
-ename=JONES, hiredate=1981/04/02 0:00:00, comm=null, deptno=20, job=MANAGER, empno=7566,
- sal=2975.00, mgr=7839
-ename=MARTIN, hiredate=1981/09/28 0:00:00, comm=1400.00, deptno=30, job=SALESMAN, empno=7654,
- sal=1250.00, mgr=7698
-ename=BLAKE, hiredate=1981/05/01 0:00:00, comm=null, deptno=30, job=MANAGER, empno=7698,
- sal=2850.00, mgr=7839
-ename=CLARK, hiredate=1981/06/09 0:00:00, comm=null, deptno=10, job=MANAGER, empno=7782,
- sal=2450.00, mgr=7839
-ename=SCOTT, hiredate=1982/12/09 0:00:00, comm=null, deptno=20, job=ANALYST, empno=7788,
- sal=3000.00, mgr=7566
-ename=KING, hiredate=1981/11/17 0:00:00, comm=null, deptno=10, job=PRESIDENT, empno=7839,
- sal=5000.00, mgr=null
-ename=TURNER, hiredate=1981/09/08 0:00:00, comm=0.00, deptno=30, job=SALESMAN, empno=7844,
- sal=1500.00, mgr=7698
-ename=ADAMS, hiredate=1983/01/12 0:00:00, comm=null, deptno=20, job=CLERK, empno=7876,
- sal=1100.00, mgr=7788
-ename=JAMES, hiredate=1981/12/03 0:00:00, comm=null, deptno=30, job=CLERK, empno=7900,
- sal=950.00, mgr=7698
-ename=FORD, hiredate=1981/12/03 0:00:00, comm=null, deptno=20, job=ANALYST, empno=7902,
- sal=3000.00, mgr=7566
-ename=MILLER, hiredate=1982/01/23 0:00:00, comm=null, deptno=10, job=CLERK, empno=7934,
- sal=1300.00, mgr=7782
+ename=SMITH, hiredate=1980/12/17 0:00:00, comm=null, deptno=20, 
+ job=CLERK, empno=7369, sal=800.00, mgr=7902
+ename=ALLEN, hiredate=1981/02/20 0:00:00, comm=300.00, deptno=30,
+ job=SALESMAN, empno=7499, sal=1600.00, mgr=7698
+ename=WARD, hiredate=1981/02/22 0:00:00, comm=500.00, deptno=30,
+ job=SALESMAN, empno=7521, sal=1250.00, mgr=7698
+ename=JONES, hiredate=1981/04/02 0:00:00, comm=null, deptno=20, 
+ job=MANAGER, empno=7566, sal=2975.00, mgr=7839
+ename=MARTIN, hiredate=1981/09/28 0:00:00, comm=1400.00, deptno=30,
+ job=SALESMAN, empno=7654, sal=1250.00, mgr=7698
+ename=BLAKE, hiredate=1981/05/01 0:00:00, comm=null, deptno=30,
+ job=MANAGER, empno=7698, sal=2850.00, mgr=7839
+ename=CLARK, hiredate=1981/06/09 0:00:00, comm=null, deptno=10,
+ job=MANAGER, empno=7782, sal=2450.00, mgr=7839
+ename=SCOTT, hiredate=1982/12/09 0:00:00, comm=null, deptno=20,
+ job=ANALYST, empno=7788, sal=3000.00, mgr=7566
+ename=KING, hiredate=1981/11/17 0:00:00, comm=null, deptno=10,
+ job=PRESIDENT, empno=7839, sal=5000.00, mgr=null
+ename=TURNER, hiredate=1981/09/08 0:00:00, comm=0.00, deptno=30,
+ job=SALESMAN, empno=7844, sal=1500.00, mgr=7698
+ename=ADAMS, hiredate=1983/01/12 0:00:00, comm=null, deptno=20,
+ job=CLERK, empno=7876, sal=1100.00, mgr=7788
+ename=JAMES, hiredate=1981/12/03 0:00:00, comm=null, deptno=30,
+ job=CLERK, empno=7900, sal=950.00, mgr=7698
+ename=FORD, hiredate=1981/12/03 0:00:00, comm=null, deptno=20,
+ job=ANALYST, empno=7902, sal=3000.00, mgr=7566
+ename=MILLER, hiredate=1982/01/23 0:00:00, comm=null, deptno=10,
+ job=CLERK, empno=7934, sal=1300.00, mgr=7782
 </pre>
 
-<h3><a name="DictionaryDataReaderHandler">検索処理(Dictionary)</a></h3>
-<p>1件のDictionaryを取得することもできます。DataReaderHandlerにはDictionaryDataReaderHandlerを使います。</p>
+			<h2><a name="DictionaryDataReaderHandler"</a>検索処理(Dictionary)</h2>
+			<p>　1件のDictionaryを取得することもできます。DataReaderHandlerにはDictionaryDataReaderHandlerを使います。</p>
+			<h3>Seasar.Examples.Reference.ADO.SelectDictionary.dicon</h3>
 
-<h4>Seasar.Examples.Reference.ADO.SelectDictionary.dicon</h4>
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <pre class="csharpcode">
 <span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
   <span class="kwrd">&lt;</span><span class="html">include</span> <span class="attr">path</span><span class="kwrd">="Seasar.Examples/Ado.dicon"</span> <span class="kwrd">/&gt;</span>
-  <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="SelectDictionaryClient"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.ADO.SelectDictionaryClient"</span><span class="kwrd">/&gt;</span>
-  <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="SelectDictionaryHandler"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.ADO.Impl.BasicSelectHandler"</span><span class="kwrd">&gt;</span>
+  <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="SelectDictionaryClient"</span>
+      <span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.ADO.SelectDictionaryClient"</span><span class="kwrd">/&gt;</span>
+  <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="SelectDictionaryHandler"</span>
+      <span class="attr">class</span><span class="kwrd">="Seasar.Extension.ADO.Impl.BasicSelectHandler"</span><span class="kwrd">&gt;</span>
     <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="Sql"</span><span class="kwrd">&gt;</span><br />"SELECT empno, ename, job, mgr, hiredate, sal, comm, deptno <br />FROM emp WHERE empno = @empno"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
     <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="DataReaderHandler"</span><span class="kwrd">&gt;</span>
-      <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.ADO.Impl.DictionaryDataReaderHandler"</span><span class="kwrd">/&gt;</span>
+      <span class="kwrd">&lt;</span><span class="html">component</span>
+          <span class="attr">class</span><span class="kwrd">="Seasar.Extension.ADO.Impl.DictionaryDataReaderHandler"</span><span class="kwrd">/&gt;</span>
     <span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
   <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
 <span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
 </pre>
 
-<h4>Seasar.Examples.Reference.ADO.SelectDictionaryClient</h4>
-C#
+			<h3>Seasar.Examples.Reference.ADO.SelectDictionaryClient</h3>
+			<p class="kindCode">C#</p>
+			
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <pre class="csharpcode">
 <span class="kwrd">using</span> System;
@@ -352,7 +465,8 @@ C#
 {
     <span class="kwrd">public</span> <span class="kwrd">class</span> SelectDictionaryClient
     {
-        <span class="kwrd">private</span> <span class="kwrd">const</span> <span class="kwrd">string</span> PATH = <span class="str">"Seasar.Examples/Reference/ADO/SelectDictionary.dicon"</span>;
+        <span class="kwrd">private</span> <span class="kwrd">const</span> <span class="kwrd">string</span> PATH =
+            <span class="str">"Seasar.Examples/Reference/ADO/SelectDictionary.dicon"</span>;
 
         <span class="kwrd">public</span> <span class="kwrd">void</span> Main()
         {
@@ -360,9 +474,10 @@ C#
             container.Init();
             <span class="kwrd">try</span>
             {
-                ISelectHandler handler =
-                    (ISelectHandler) container.GetComponent(<span class="str">"SelectDictionaryHandler"</span>);
-                IDictionary result = (IDictionary) handler.Execute(<span class="kwrd">new</span> <span class="kwrd">object</span>[] { 7788 });
+                ISelectHandler handler = (ISelectHandler)
+                    container.GetComponent(<span class="str">"SelectDictionaryHandler"</span>);
+                IDictionary result = (IDictionary)
+                    handler.Execute(<span class="kwrd">new</span> <span class="kwrd">object</span>[] { 7788 });
                 Console.Out.WriteLine(DictionaryUtil.ToDecorateString(result));
             }
             <span class="kwrd">finally</span>
@@ -374,50 +489,44 @@ C#
 }
 </pre>
 
-<h4>実行結果</h4>
-<pre>
+			<h3>実行結果</h3>
+			
+<pre class="csharpcode">
 DEBUG 2006-06-19 23:46:25,640 [9] 論理的なコネクションを取得しました
 DEBUG 2006-06-19 23:46:25,656 [9] 論理的なコネクションを閉じました
-ename=SCOTT, hiredate=1982/12/09 0:00:00, comm=null, deptno=20, job=ANALYST, empno=7788,
- sal=3000.00, mgr=7566
+ename=SCOTT, hiredate=1982/12/09 0:00:00, comm=null, deptno=20,
+ job=ANALYST, empno=7788, sal=3000.00, mgr=7566
 </pre>
 
-<h3><a name="BasicUpdateHandler">更新処理</a></h3>
-<p>更新するためにはBasicUpdateHandlerを使います。次のようなプロパティが用意されています。</p>
+			<h2><a name="BasicUpdateHandler">更新処理</a></h2>
+			<p>　更新するためにはBasicUpdateHandlerを使います。次のようなプロパティが用意されています。</p>
+			<h3>Seasar.Extension.ADO.Impl.BasicUpdateHandler</h3>
+			
+			<table border="0" cellspacing="1">
+				<tr><th>プロパティ</th><th>説明</th><th>S2Containerでの設定例</th></tr>
+				<tr><td>DataSource</td><td>DataSource</td><td>通常自動的に設定されます。</td></tr>	
+				<tr><td>Sql</td><td>実行したSQL文</td><td>"UPDATE emp SET ename = @ename WHERE empno = @empno "</td></tr>
+			</table>
 
-<h4>Seasar.Extension.ADO.Impl.BasicUpdateHandler</h4>
-<table border="1">
-<tr bgcolor="#d1f3f4" align="center">
-<th width="96">プロパティ</th>
-<th width="167">説明</th>
-<th width="461">S2Containerでの設定例</th>
-</tr>
-<tr>
-<td>DataSource</td>
-<td>DataSource</td>
-<td>通常自動的に設定されます。</td>
-</tr>
-<tr>
-<td>Sqｌ</td>
-<td>実行したいSQL文</td>
-<td>&quot;UPDATE emp SET ename = @ename WHERE empno = @empno &quot;</td>
-</tr>
-</table>
+			<h3>Seasar.Examples.Reference.ADO.Update.dicon</h3>
 
-<h4>Seasar.Examples.Reference.ADO.Update.dicon</h4>
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <pre class="csharpcode">
 <span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
   <span class="kwrd">&lt;</span><span class="html">include</span> <span class="attr">path</span><span class="kwrd">="Seasar.Examples/Ado.dicon"</span> <span class="kwrd">/&gt;</span>
-  <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="UpdateClient"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.ADO.UpdateClient"</span><span class="kwrd">/&gt;</span>
-  <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="UpdateHandler"</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.ADO.Impl.BasicUpdateHandler"</span><span class="kwrd">&gt;</span>
-    <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="Sql"</span><span class="kwrd">&gt;</span>"UPDATE emp SET ename = @ename WHERE empno = @empno"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+  <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="UpdateClient"</span>
+      <span class="attr">class</span><span class="kwrd">="Seasar.Examples.Reference.ADO.UpdateClient"</span><span class="kwrd">/&gt;</span>
+  <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="UpdateHandler"</span>
+     <span class="attr">class</span><span class="kwrd">="Seasar.Extension.ADO.Impl.BasicUpdateHandler"</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="Sql"</span><span class="kwrd">&gt;</span>
+        "UPDATE emp SET ename = @ename WHERE empno = @empno"
+    <span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
   <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
 <span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span>
 </pre>
 
-<h4>Seasar.Examples.Reference.ADO.UpdateClient</h4>
-C#
+			<h3>Seasar.Examples.Reference.ADO.UpdateClient</h3>
+			<p class="kindCode">C#</p>
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <pre class="csharpcode">
 <span class="kwrd">using</span> System;
@@ -429,7 +538,8 @@ C#
 {
     <span class="kwrd">public</span> <span class="kwrd">class</span> UpdateClient
     {
-        <span class="kwrd">private</span> <span class="kwrd">const</span> <span class="kwrd">string</span> PATH = <span class="str">"Seasar.Examples/Reference/ADO/Update.dicon"</span>;
+        <span class="kwrd">private</span> <span class="kwrd">const</span> <span class="kwrd">string</span> PATH =
+            <span class="str">"Seasar.Examples/Reference/ADO/Update.dicon"</span>;
 
         <span class="kwrd">public</span> <span class="kwrd">void</span> Main()
         {
@@ -437,8 +547,10 @@ C#
             container.Init();
             <span class="kwrd">try</span>
             {
-                IUpdateHandler handler = (IUpdateHandler) container.GetComponent(<span class="str">"UpdateHandler"</span>);
-                <span class="kwrd">int</span> result = (<span class="kwrd">int</span>) handler.Execute(<span class="kwrd">new</span> <span class="kwrd">object</span>[] { <span class="str">"SCOTT"</span>, 7788 });
+                IUpdateHandler handler = (IUpdateHandler)
+                    container.GetComponent(<span class="str">"UpdateHandler"</span>);
+                <span class="kwrd">int</span> result = (<span class="kwrd">int</span>) handler.Execute(
+                    <span class="kwrd">new</span> <span class="kwrd">object</span>[] { <span class="str">"SCOTT"</span>, 7788 });
                 Console.Out.WriteLine(result);
             }
             <span class="kwrd">finally</span>
@@ -449,60 +561,70 @@ C#
     }
 }
 </pre>
-<h4>実行結果</h4>
-<pre>
+
+			<h3>実行結果</h3>
+<pre class="csharpcode">
 DEBUG 2006-06-19 23:55:46,999 [9] 論理的なコネクションを取得しました
 DEBUG 2006-06-19 23:55:47,031 [9] 論理的なコネクションを閉じました
 1
 </pre>
 
-<h2><a name="NullValue">NULL値の扱いについて</a></h2>
-<p>NET Framework型とデータベースの列を対応させる場合、列にNULL値が格納されていると例外が発生する場合があります。
-.NET Framework型がSystem.Int32等の構造体の場合、NULLを表現できないからです。
-</p>
-<p>列にNULL値が格納される場合、
-<ul>
-<li><a href="#NullValueNHibernate">NHibernateContribのNullables</a></li>
-<li><a href="#NullValueSqlTypes">System.Data.SqlTypesのNull</a></li>
-<li><a href="#NullValueNullable">System.Nullable(.NET 2.0以降)</a></li>
-</ul>
-の方法を使用します。データベースのデータ型と各方法の対応を次の表に示します。
-<p></p>
-<table border="1">
-<tr bgcolor="#d1f3f4" align="center">
-<th>System.Data.DbType</th><th>.NET Framework型</th><th>Nullables</th><th>System.Data.SqlTypes</th><th>System.Nullable</th></tr>
-<tr>
-<td>Boolean</td><td>Boolean</td><td>NullableBoolean</td><td>SqlBoolean</td><td>Nullable&lt;Boolean&gt;</td></tr>
-<td>Byte</td><td>Byte</td><td>NullableByte</td><td>SqlByte</td><td>Nullable&lt;Byte&gt;</td></tr>
-<td>Binary</td><td>Byte[]</td><td>NullableByte</td><td>SqlBinary</td><td>Nullable&lt;Byte&gt;</td></tr>
-<td>DateTime</td><td>DateTime</td><td>NullableDateTime</td><td>SqlDateTime</td><td>Nullable&lt;DateTime&gt;</td></tr>
-<td>Decimal</td><td>Decimal</td><td>NullableDecimal</td><td>SqlDecimal</td><td>Nullable&lt;Decimal&gt;</td></tr>
-<td>Double</td><td>Double</td><td>NullableDouble</td><td>SqlDouble</td><td>Nullable&lt;Double&gt;</td></tr>
-<td>Single</td><td>Single</td><td>NullableSingle</td><td>SqlSingle</td><td>Nullable&lt;Single&gt;</td></tr>
-<td>Guid</td><td>Guid</td><td>NullableGuid</td><td>SqlGuid</td><td>Nullable&lt;Guid&gt;</td></tr>
-<td>Int16</td><td>Int16</td><td>NullableInt16</td><td>SqlInt16</td><td>Nullable&lt;Int16&gt;</td></tr>
-<td>Int32</td><td>Int32</td><td>NullableInt32</td><td>SqlInt32</td><td>Nullable&lt;Int32&gt;</td></tr>
-<td>Int64</td><td>Int64</td><td>NullableInt64</td><td>SqlInt64</td><td>Nullable&lt;Int64&gt;</td></tr>
-<td>String</td><td>String</td><td>-</td><td>SqlString</td><td>-</td></tr>
-<td><span style="text-decoration:line-through">Time</span></td><td><span style="text-decoration:line-through">TimeSpan</span></td><td>-</td><td>-</td><td><span style="text-decoration:line-through">Nullable&lt;TimeSpan&gt;</span></td></tr>
-<td>SByte</td><td>SByte</td><td>NullableSByte</td><td>-</td><td>Nullable&lt;SByte&gt;</td></tr>
-</table>
+		</div>
+	</div>
 
-<h3><a name="NullValueNHibernate">NHibernateContribのNullables</a></h3>
-<p>NHibernateContribのNullablesを利用する場合、以下のファイル(アセンブリ)への参照を追加する必要があります。
-<ul>
-<li>s2container.net/lib/Nullables.dll</li>
-</ul>
-<p></p>
-<p>ソースファイルからは、次のように使用します。
-<ul>
-<li>Nullables名前空間をインポートする必要があります。</li>
-<li>NULLであるか確認する場合、HasValueプロパティを使用します。</li>
-<li>値を取り出す場合、Valueプロパティを使用します。</li>
-</ul>
-<p></p>
+<!-- ############################################# NULL値の扱いについて ######################################################### -->
 
-C#
+	<div class="content">
+		<a name="NullValue" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>NULL値の扱いについて</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p>　NET Framework型とデータベースの列を対応させる場合、列にNULL値が格納されていると例外が発生する場合があります。
+			.NET Framework型がSystem.Int32等の構造体の場合、NULLを表現できないからです。 </p>
+			<p>　列にNULL値が格納される場合、 以下の３つの方法を使用します。</p>
+			<ul>
+				<li><a href="#NullValueNHibernate">NHibernateContribのNullables</a></li>
+				<li><a href="#NullValueSqlTypes">System.Data.SqlTypesのNull</a></li>
+				<li><a href="#NullValueNullable">System.Nullable(.NET 2.0以降)</a></li>
+			</ul>
+
+			<p>　データベースのデータ型と各方法の対応を次の表に示します。</p>
+			<table border="0" cellspacing="1">
+				<tr><th>System.Data.DbType</th><th>.NET Framework型</th><th>Nullables</th><th>System.Data.SqlTypes</th><th>System.Nullable</th></tr>
+				<tr><td>Boolean</td><td>Boolean</td><td>NullableBoolean</td><td>SqlBoolean</td><td>Nullable&lt;Boolean&gt;</td></tr>
+				<tr><td>Byte</td><td>Byte</td><td>NullableByte</td><td>SqlByte</td><td>Nullable&lt;Byte&gt;</td></tr>
+				<tr><td>Binary</td><td>Byte[]</td><td>NullableByte</td><td>SqlBinary</td><td>Nullable&lt;Byte&gt;</td></tr>
+				<tr><td>DateTime</td><td>DateTime</td><td>NullableDateTime</td><td>SqlDateTime</td><td>Nullable&lt;DateTime&gt;</td></tr>
+				<tr><td>Decimal</td><td>Decimal</td><td>NullableDecimal</td><td>SqlDecimal</td><td>Nullable&lt;Decimal&gt;</td></tr>
+				<tr><td>Double</td><td>Double</td><td>NullableDouble</td><td>SqlDouble</td><td>Nullable&lt;Double&gt;</td></tr>
+				<tr><td>Single</td><td>Single</td><td>NullableSingle</td><td>SqlSingle</td><td>Nullable&lt;Single&gt;</td></tr>
+				<tr><td>Guid</td><td>Guid</td><td>NullableGuid</td><td>SqlGuid</td><td>Nullable&lt;Guid&gt;</td></tr>
+				<tr><td>Int16</td><td>Int16</td><td>NullableInt16</td><td>SqlInt16</td><td>Nullable&lt;Int16&gt;</td></tr>
+				<tr><td>Int32</td><td>Int32</td><td>NullableInt32</td><td>SqlInt32</td><td>Nullable&lt;Int32&gt;</td></tr>
+				<tr><td>Int64</td><td>Int64</td><td>NullableInt64</td><td>SqlInt64</td><td>Nullable&lt;Int64&gt;</td></tr>
+				<tr><td>String</td><td>String</td><td>-</td><td>SqlString</td><td>-</td></tr>
+				<tr><td><span style="text-decoration:line-through">Time</span></td><td><span style="text-decoration:line-through">TimeSpan</span></td><td>-</td><td>-</td><td><span style="text-decoration:line-through">Nullable&lt;TimeSpan&gt;</span></td></tr>
+				<tr><td>SByte</td><td>SByte</td><td>NullableSByte</td><td>-</td><td>Nullable&lt;SByte&gt;</td></tr>
+			</table>
+			
+			<h2><a name="NullValueNHibernate">NHibernateContribのNullables</a></h2>
+			<p>　NHibernateContribのNullablesを利用する場合、以下のファイル(アセンブリ)への参照を追加する必要があります。</p>
+			<ul><li>s2container.net/lib/Nullables.dll</li></ul>
+			<p>　ソースファイルからは、次のように使用します。</p>
+			<ul>
+				<li>Nullables名前空間をインポートする必要があります。</li>
+				<li>NULLであるか確認する場合、HasValueプロパティを使用します。</li>
+				<li>値を取り出す場合、Valueプロパティを使用します。</li>
+			</ul>
+			
+			<p class="kindCode">C#</p>
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <pre class="csharpcode">
 <span class="kwrd">using</span> System.Text;
@@ -531,24 +653,24 @@ C#
         <span class="kwrd">public</span> <span class="kwrd">override</span> <span class="kwrd">string</span> ToString()
         {
             StringBuilder buf = <span class="kwrd">new</span> StringBuilder();
-            buf.Append(id.HasValue ? id.Value.ToString() : <span class="str">"NULL"</span>).Append(<span class="str">", "</span>);
-            buf.Append(boolType.HasValue ? boolType.Value.ToString() : <span class="str">"NULL"</span>).Append(<span class="str">", "</span>);
+            buf.Append(id.HasValue ?
+                id.Value.ToString() : <span class="str">"NULL"</span>).Append(<span class="str">", "</span>);
+            buf.Append(boolType.HasValue ?
+                boolType.Value.ToString() : <span class="str">"NULL"</span>).Append(<span class="str">", "</span>);
             <span class="kwrd">return</span> buf.ToString();
         }
     }
 }
 </pre>
 
-<h3><a name="NullValueSqlTypes">System.Data.SqlTypesのNull</a></h3>
-<p>ソースファイルからは、次のように使用します。
-<ul>
-<li>System.Data.SqlTypes名前空間をインポートする必要があります。</li>
-<li>NULLであるか確認する場合、IsNullプロパティを使用します。</li>
-<li>値を取り出す場合、Valueプロパティを使用します。</li>
-</ul>
-<p></p>
-
-C#
+			<h2><a name="NullValueSqlTypes">System.Data.SqlTypesのNull</a></h2>
+			<p>　ソースファイルからは、次のように使用します。 </p>
+			<ul>
+				<li>System.Data.SqlTypes名前空間をインポートする必要があります。</li>
+				<li>NULLであるか確認する場合、IsNullプロパティを使用します。</li>
+				<li>値を取り出す場合、Valueプロパティを使用します。</li>
+			</ul>
+			<p class="kindCode">C#</p>
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <pre class="csharpcode">
 <span class="kwrd">using</span> System.Data.SqlTypes;
@@ -577,25 +699,25 @@ C#
         <span class="kwrd">public</span> <span class="kwrd">override</span> <span class="kwrd">string</span> ToString()
         {
             StringBuilder buf = <span class="kwrd">new</span> StringBuilder();
-            buf.Append(!id.IsNull ? id.Value.ToString() : <span class="str">"NULL"</span>).Append(<span class="str">", "</span>);
-            buf.Append(!boolType.IsNull ? boolType.Value.ToString() : <span class="str">"NULL"</span>).Append(<span class="str">", "</span>);
+            buf.Append(!id.IsNull ?
+                id.Value.ToString() : <span class="str">"NULL"</span>).Append(<span class="str">", "</span>);
+            buf.Append(!boolType.IsNull ?
+                boolType.Value.ToString() : <span class="str">"NULL"</span>).Append(<span class="str">", "</span>);
             <span class="kwrd">return</span> buf.ToString();
         }
     }
 }
 </pre>
-
-<h3><a name="NullValueNullable">System.Nullable(.NET 2.0以降)</a></h3>
-<p>.NET Framework 2.0以降を使用している場合、Nullable型を使用することが可能です。</p>
-<p>ソースファイルからは、次のように使用します。
-<ul>
-<li>System名前空間をインポートする必要があります。</li>
-<li>NULLであるか確認する場合、HasValueプロパティを使用します。</li>
-<li>値を取り出す場合、Valueプロパティを使用します。</li>
-</ul>
-<p></p>
-
-C#
+		
+			<h2><a name="NullValueNullable">System.Nullable(.NET 2.0以降)</a></h2>
+			<p>　ソースファイルからは、次のように使用します。 </p>
+			<ul>
+				<li>System名前空間をインポートする必要があります。</li>
+				<li>NULLであるか確認する場合、HasValueプロパティを使用します。</li>
+				<li>値を取り出す場合、Valueプロパティを使用します。</li>
+			</ul>
+			<p class="kindCode">C#</p>
+			
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <pre class="csharpcode">
 <span class="kwrd">using</span> System;
@@ -624,53 +746,71 @@ C#
         <span class="kwrd">public</span> <span class="kwrd">override</span> <span class="kwrd">string</span> ToString()
         {
             StringBuilder buf = <span class="kwrd">new</span> StringBuilder();
-            buf.Append(id.HasValue ? id.Value.ToString() : <span class="str">"NULL"</span>).Append(<span class="str">", "</span>);
-            buf.Append(boolType.HasValue ? boolType.Value.ToString() : <span class="str">"NULL"</span>).Append(<span class="str">", "</span>);
+            buf.Append(id.HasValue ? 
+                id.Value.ToString() : <span class="str">"NULL"</span>).Append(<span class="str">", "</span>);
+            buf.Append(boolType.HasValue ? 
+                boolType.Value.ToString() : <span class="str">"NULL"</span>).Append(<span class="str">", "</span>);
             <span class="kwrd">return</span> buf.ToString();
         }
     }
 }
 </pre>
+		</div>
+	</div>
+	
+<!-- ############################################# パラメータマーカー(@, :, ?)の扱い ######################################################### -->
 
-<h2><a name="ParameterMark">パラメータマーカー(@, :, ?)の扱い</a></h2>
-<p>SQL文に埋め込むパラメータマーカーは、ADO.NETのデータプロパイダによって異なります。
-(SqlClientは"@parmname"、OracleClientは":parmname"、OleDbは、"?"、Odbcは、"?")</p>
-<p>S2ADOではデータプロパイダごとにパラメータマーカーを自動的に切り替えるため、データプロパイダに依存しないSQL文の作成を可能にしています。
-</p>
-<p>例えば、次のようになります。
-<table border="1">
-<tr bgcolor="#d1f3f4" align="center">
-<th>データプロバイダ</th>
-<th>SQL文</th>
-</tr>
-<tr>
-<td>(ユーザが記述したSQL文)</td>
-<td>SELECT * FROM emp WHERE empno = @empno OR empno = :empno OR empno = ?</td>
-</tr>
-<tr>
-<td>SqlClient</td>
-<td>SELECT * FROM emp WHERE empno = @0 OR empno = @1 OR empno = @2</td>
-</tr>
-<tr>
-<td>OracleClient</td>
-<td>SELECT * FROM emp WHERE empno = :0 OR empno = :1 OR empno = :2</td>
-</tr>
-<tr>
-<td>OleDb</td>
-<td>SELECT * FROM emp WHERE empno = ? OR empno = ? OR empno = ?</td>
-</tr>
-<tr>
-<td>Odbc</td>
-<td>SELECT * FROM emp WHERE empno = ? OR empno = ? OR empno = ?</td>
-</tr>
-</table>
-<p></p>
-<p>※SQL文に複数のパラメータマーカーを混在することは可能ですが､可読性の点から単一のパラメータマーカーを使用してください。</p>
+	<div class="content">
+		<a name="ParameterMark" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>パラメータマーカー(@, :, ?)の扱い</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　SQL文に埋め込むパラメータマーカーは、ADO.NETのデータプロパイダによって異なります。
+			(SqlClientは"@parmname"、OracleClientは":parmname"、OleDbは、"?"、Odbcは、"?")</p>
+			<p>　S2ADOではデータプロパイダごとにパラメータマーカーを自動的に切り替えるため、
+			データプロパイダに依存しないSQL文の作成を可能にしています。 </p>
+			<p>　例えば、次のようになります。 </p>
+			
+			<table border="0" cellspacing="1">
+				<tr><th>データプロバイダ</th><th>SQL文</th></tr>
+				<tr><td>(ユーザが記述したSQL文)</td><td>SELECT * FROM emp WHERE empno = @empno OR empno = :empno OR empno = ?</td></tr>
+				<tr><td>SqlClient</td><td>SELECT * FROM emp WHERE empno = @0 OR empno = @1 OR empno = @2</td></tr>
+				<tr><td>OracleClient</td><td>SELECT * FROM emp WHERE empno = :0 OR empno = :1 OR empno = :2</td></tr>
+				<tr><td>OleDb</td><td>SELECT * FROM emp WHERE empno = ? OR empno = ? OR empno = ?</td></tr>
+				<tr><td>Odbc</td><td>SELECT * FROM emp WHERE empno = ? OR empno = ? OR empno = ?</td></tr>
+			</table>
+			
+			<p>　※SQL文に複数のパラメータマーカーを混在することは可能ですが､可読性の点から単一のパラメータマーカーを使用してください。</p>
+		
+		</div>
+	</div>
+	
+<!-- ############################################# OracleのUnicode問題(バージョン1.2.9以降) ######################################################### -->
 
-<h2><a name="OracleUnicode">OracleのUnicode問題(バージョン1.2.9以降)</a></h2>
-<p>OracleのJDBC Driverは、Unicodeのマッピングに一部問題があり、～が化けてしまいます。
-この問題に対処するには、Ado.diconにOracleDataReaderFactoryの設定を追加します。</p>
-
+	<div class="content">
+		<a name="OracleUnicode" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>OracleのUnicode問題(バージョン1.2.9以降)</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　Oracle Data Provider .NET(ODP.NET)は、Unicodeのマッピングに一部問題があり、
+			～が化けてしまいます。この問題に対処するには、Ado.diconにOracleDataReaderFactoryの設定を追加します。</p>
+			
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <pre class="csharpcode">
 <span class="kwrd">&lt;</span><span class="html">components</span> <span class="attr">namespace</span><span class="kwrd">="Ado"</span><span class="kwrd">&gt;</span>
@@ -678,33 +818,51 @@ C#
   <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.ADO.Impl.OracleDataReaderFactory"</span> <span class="kwrd">/&gt;</span>
 <span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span></pre>
 
-<h2><a name="BooleanToInt">Booleanの扱い(バージョン1.2.9以降)</a></h2>
-<p>Oracleのようにbool型に対応していないRDBMSもあります。
-この問題に対処するには、Ado.diconにBooleanToIntCommandFactoryの設定を追加します。</p>
+		</div>
+	</div>
+	
+<!-- ############################################# Booleanの扱い(バージョン1.2.9以降) ######################################################### -->
 
+	<div class="content">
+		<a name="BooleanToInt" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>Booleanの扱い(バージョン1.2.9以降)</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　Oracleのようにbool型に対応していないRDBMSもあります。
+			この問題に対処するには、Ado.diconにBooleanToIntCommandFactoryの設定を追加します。</p>
+			
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <pre class="csharpcode">
 <span class="kwrd">&lt;</span><span class="html">components</span> <span class="attr">namespace</span><span class="kwrd">="Ado"</span><span class="kwrd">&gt;</span>
   ....
   <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="Seasar.Extension.ADO.Impl.BooleanToIntCommandFactory"</span> <span class="kwrd">/&gt;</span>
 <span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span></pre>
+		
+		</div>
+	</div>
+	
+	
+<!-- div.contents -->
+</div>
+<br class="clear" />
+<!-- div.middle -->
+</div>
 
+<div class="bottom">
+	<hr />
+	<div class="copyright">
+		&#169; Copyright The Seasar Project and the others 2004-2007, all rights reserved.
+	</div>
+</div>
 
-<!-- document end -->
-<!-- don't edit start -->
-</td>
-<td width="14"><img height="14" width="14" src="images/spacer.gif" alt=""></td>
-</tr><tr>
-<td width="14"><img height="30" width="14" src="images/spacer.gif" alt=""></td>
-<td width="766"><img height="30" width="592" src="images/spacer.gif" alt=""></td>
-</tr><tr>
-<td width="14"><img height="14" width="14" src="images/spacer.gif" alt=""></td>
-<td class="copyright" width="766">&#169; Copyright The Seasar Project and the others 2004-2007, all rights reserved.</td>
-</tr></table>
-<td class="backright" align="left" valign="top">&nbsp;</td></tr><tr>
-<td class="backunder" align="left"  valign="top" width="780" height="16">&nbsp;</td>
-<td class="backcorner" align="left" valign="top" height="16">&nbsp;</td>
-</tr></table>
 </body>
-<!-- don't edit end -->
+
 </html>
