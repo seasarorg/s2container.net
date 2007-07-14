@@ -10,7 +10,7 @@ namespace Seasar.Quill.Examples
 {
     public partial class Form1 : Form
     {
-        protected ICulcLogic culcLogic = null;
+        
         
         public Form1()
         {
@@ -18,11 +18,6 @@ namespace Seasar.Quill.Examples
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            int ret = culcLogic.Plus(1, 2);
-            Console.WriteLine(ret);
-        }
 
     }
 }
