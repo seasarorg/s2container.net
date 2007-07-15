@@ -117,6 +117,7 @@
 				<li><a href="#S2Unit">S2Unit.NETのセットアップ</a></li>
 				<li><a href="#Seasar.DynamicProxy">Seasar.DynamicProxyのセットアップ</a></li>
 				<li><a href="#Examples">Examples</a></li>
+				<li><a href="#quill">Quillのセットアップ</a></li>
 			</ul>
 		</div>
 	</div>
@@ -160,7 +161,7 @@
 		</div>
 		<div class="contentBody">
 			<p>　S2Container.NETを利用する場合には以下のファイル(アセンブリ)への参照を追加する必要があります。
-			 なお、buildディレクトリにあるSeasar.dllとja-JPディレクトリは同じディレクトリに配置してください。</p>
+			 なお、buildディレクトリにあるja-JPディレクトリはSeasar.dllと同じディレクトリに配置してください。</p>
 			<ul>
 				<li>s2container.net/build/Seasar.dll</li>
 				<li>s2container.net/lib/log4net.dll</li>
@@ -401,6 +402,53 @@ log4net.Config.XmlConfigurator.Configure( _
 			<p>　Examplesでは一部、SQL Server 2000（もしくは MSDE 2000）を必要とする機能があります。
 			その機能を試す場合には、s2container.net/data/setUpDemo.batを実行し、Examples用のデータベースを作成します。
 			そして、Seasar.ExamplesのAdo.diconのデータベースへの接続文字列をお使いの環境に合わせて変更して下さい。 </p>
+		</div>
+	</div>
+	
+<!-- ############################################# Quillのセットアップ ######################################################### -->
+	<div class="content">
+		<a name="quill" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>Quillのセットアップ</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			
+			<p>　Quillを利用する場合には以下のファイル(アセンブリ)への参照を追加する必要があります。</p>
+			<ul>
+				<li>s2container.net/build/Seasar.Quill.dll</li>
+			</ul>
+			<p>　なお、以下のファイル・ディレクトリをSeasar.Quill.dllと同じディレクトリに配置してください。</p>
+			<table border="0" cellspacing="1">
+				<tr><th>ディレクトリ</th><th>説明</th></tr>
+				<tr>
+					<td>s2container.net/build/Seasar.dll</td>
+					<td>Interceptorを作成したり、Seasar.dllに含まれるInterceptorを利用する場合は
+					参照の追加を行ってください</td>
+				</tr>
+				<tr>
+					<td>s2container.net/build/Seasar.DynamicProxy.dll</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>s2container.net/build/ja-JP/</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>s2container.net/lib/log4net.dll</td>
+					<td></td>
+				</tr>
+			</table>
+			
+			<p>　Seasar.Quill.QuillControlを使う場合はツールボックスに登録する必要があります。
+			「ツールボックスアイテムの選択」からSeasar.Quill.dllを選択してください。</p>
+			
+			
 		</div>
 	</div>
 
