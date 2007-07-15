@@ -32,6 +32,8 @@ namespace Seasar.Tests.Quill
         [Test]
         public void TestGetComponent_S2ContainerÇ™çÏê¨Ç≥ÇÍÇƒÇ¢Ç»Ç¢èÍçá()
         {
+            SingletonS2ContainerFactory.Container = null;
+
             try
             {
                 SingletonS2ContainerConnector.GetComponent("hoge", typeof(string));
@@ -58,6 +60,10 @@ namespace Seasar.Tests.Quill
             {
                 Assert.AreEqual("EQLL0010", ex.MessageCode);
             }
+            finally
+            {
+                SingletonS2ContainerFactory.Container = null;
+            }
         }
 
         [Test]
@@ -79,6 +85,10 @@ namespace Seasar.Tests.Quill
             {
                 Assert.AreEqual("EQLL0011", ex.MessageCode);
             }
+            finally
+            {
+                SingletonS2ContainerFactory.Container = null;
+            }
         }
 
         [Test]
@@ -91,6 +101,7 @@ namespace Seasar.Tests.Quill
 
             Hoge hoge = (Hoge) SingletonS2ContainerConnector.GetComponent("hoge", null);
             Assert.IsNotNull(hoge);
+            SingletonS2ContainerFactory.Container = null;
         }
 
         [Test]
@@ -103,6 +114,7 @@ namespace Seasar.Tests.Quill
 
             Hoge hoge = (Hoge)SingletonS2ContainerConnector.GetComponent("hoge");
             Assert.IsNotNull(hoge);
+            SingletonS2ContainerFactory.Container = null;
         }
 
         [Test]
@@ -116,6 +128,7 @@ namespace Seasar.Tests.Quill
             IHoge hoge = (IHoge)SingletonS2ContainerConnector.GetComponent(
                 "hoge", typeof(IHoge));
             Assert.IsNotNull(hoge);
+            SingletonS2ContainerFactory.Container = null;
         }
 
         #endregion

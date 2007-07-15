@@ -19,7 +19,7 @@
 using System.Text;
 using Seasar.Dao.Attrs;
 
-namespace Seasar.Quill.Examples
+namespace Seasar.Quill.Examples.Entity
 {
     [Table("EMP2")]
     public class Employee

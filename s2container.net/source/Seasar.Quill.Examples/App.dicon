@@ -4,7 +4,6 @@
 
 <components>
 
-  <include path="Seasar.Quill.Examples.OleDbMDBEx.dicon"/>
-
+	<include path="Seasar.Quill.Examples.OleDbMDBEx.dicon"/>
 
 </components>

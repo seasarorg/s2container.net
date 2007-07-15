@@ -21,6 +21,9 @@ using System.Collections.Generic;
 using Seasar.Framework.Aop;
 using Seasar.Framework.Aop.Proxy;
 using System.Reflection;
+using System.Collections;
+using Seasar.Framework.Container;
+using Seasar.Framework.Container.Impl;
 
 namespace Seasar.Quill
 {
@@ -139,8 +142,20 @@ namespace Seasar.Quill
         protected virtual void CreateProxyObject(
             Type componentType, Type receiptType, IAspect[] aspects)
         {
+            // S2Container.NETのコンポーネント定義を作成する
+            // これはS2Dao.NETでIComponentDefからDaoのTypeを取得しているのに
+            // 対応する為。(今後、もっと適切な方法で対応する必要あり)
+            IComponentDef componentDef = new ComponentDefImpl(componentType);
+
+            // DynamicAopProxyに渡す為のパラメータ
+            Hashtable parameters = new Hashtable();
+
+            // コンポーネント定義をパラメータとしてセットする
+            parameters[ContainerConstants.COMPONENT_DEF_NAME] = componentDef;
+
             // DynamicAopProxyを作成する
-            DynamicAopProxy aopProxy = new DynamicAopProxy(componentType, aspects);
+            DynamicAopProxy aopProxy = 
+                new DynamicAopProxy(componentType, aspects, parameters);
 
             // ProxyObjectを作成する
             componentObjects[componentType] = aopProxy.Create();

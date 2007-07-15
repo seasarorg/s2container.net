@@ -69,17 +69,11 @@ namespace Seasar.Quill
                 return;
             }
 
-            Debug.WriteLine(MessageUtil.GetSimpleMessage("IQLL0001",
-                new object[] { DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff") } ));
-
             // QuilInjectorのインスタンスを取得する
             QuillInjector injector = QuillInjector.GetInstance();
 
             // 親コンテナに対してDIを行う
             injector.Inject(Parent);
-
-            Debug.WriteLine(MessageUtil.GetSimpleMessage("IQLL0002",
-                            new object[] { DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff") }));
         }
 
         #endregion
