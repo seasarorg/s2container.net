@@ -218,10 +218,10 @@ namespace Seasar.Tests.Quill.Util
                 typeof(AspectHoge3).GetMethod("Hoge"));
 
             Assert.AreEqual(2, aspectAttrs.Length);
-            Assert.AreEqual(typeof(TraceInterceptor), aspectAttrs[0].InterceptorType);
-            Assert.IsNull(aspectAttrs[0].ComponentName);
-            Assert.IsNull(aspectAttrs[1].InterceptorType);
-            Assert.AreEqual("Hogeceptor", aspectAttrs[1].ComponentName);
+            Assert.IsNull(aspectAttrs[0].InterceptorType);
+            Assert.AreEqual("Hogeceptor", aspectAttrs[0].ComponentName);
+            Assert.IsNull(aspectAttrs[1].ComponentName);
+            Assert.AreEqual(typeof(TraceInterceptor), aspectAttrs[1].InterceptorType);
         }
 
         #endregion
@@ -240,12 +240,12 @@ namespace Seasar.Tests.Quill.Util
             public void Hoge() { }
         }
 
-        [Aspect(typeof(TraceInterceptor))]
-        [Aspect("Hogeceptor")]
+        [Aspect(typeof(TraceInterceptor), 1)]
+        [Aspect("Hogeceptor", 2)]
         private class AspectHoge3
         {
-            [Aspect(typeof(TraceInterceptor))]
-            [Aspect("Hogeceptor")]
+            [Aspect(typeof(TraceInterceptor), 2)]
+            [Aspect("Hogeceptor", 1)]
             public void Hoge() { }
         }
 
