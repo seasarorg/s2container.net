@@ -118,8 +118,22 @@
 
 			<ul>
 				<li><a href="#setup">セットアップ</a></li>
-				<li><a href="#di">DIを利用する</a></li>
-				<li><a href="#aop">AOPを利用する</a></li>
+				<li>
+					<a href="#di">DIを利用する</a>
+					<ul>
+						<li><a href="#di_quill">Quillでインスタンスを管理するオブジェクトをDIする</a></li>
+						<li><a href="#di_s2">S2Containerでインスタンスを管理するオブジェクトをDIする</a></li>
+						<li><a href="#di_notice">注意点</a></li>
+					</ul>
+				</li>
+				<li>
+					<a href="#aop">AOPを利用する</a>
+					<ul>
+						<li><a href="#aop_quill">Quillでインスタンスを管理するInterceptorを使用する</a></li>
+						<li><a href="#aop_s2">S2Containerでインスタンスを管理するInterceptorを使用する</a></li>
+						<li><a href="#aop_notice">注意点</a></li>
+					</ul>
+				</li>
 				<li><a href="#form">Windowsアプリケーションから簡単にQuillを利用する
 			</ul>
 			
@@ -160,17 +174,195 @@
 			<br class="clear" />
 		</div>
 		<div class="contentBody">
-		
+
+			<h2><a name="di_quill">Quillでインスタンスを管理するオブジェクトをDIする</a></h2>
+
 			<p>　DIを行う為にはSeasar.Quill.QuillInjectorクラスのInjectメソッドに、DIを行わせたいオブジェクトを渡します。</p>
 			<p>　QuillInjectorはInjectメソッドに渡されたオブジェクトのフィールドから自動的に判断して、
 			必要なオブジェクトをフィールドにバインドします。その際にあらかじめ設定ファイルでコンポーネントを登録しておく必要はありません。
-			フィールドの型にSeasar.Quill.Attrs.ImplementationAttribute属性クラスが設定されている場合に、
+			フィールドの型にSeasar.Quill.Attrs.ImplementationAttributeクラスが属性として設定されている場合に、
 			バインドすべきと判断して自動的にバインドを行います。</p>
 			<p>　初めてバインドされるオブジェクトは新しくインスタンス化されますが、
 			一度バインドされたオブジェクトは以後同じインスタンスがバインドされることになります。
 			つまりQuillでバインドするためにインスタンス化されるオブジェクトは全てsingletonになります。
 			これはQuillがステートレスな業務ロジックを構築することを目的に作られたからです。</p>
+			<p>　下記の例ではIEmployeeLogicインターフェースの実装クラスであるEmployeeLogicクラスを
+			Form1のフィールドにバインドします。もしEmployeeLogicクラスがフィールドを持ち、
+			そのフィールドの型にImplementationAttributeクラスが属性として設定されていれば連鎖的にバインディングが行われていきます。</p>
 			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">static</span> <span class="kwrd">class</span> Program
+{
+    [STAThread]
+    <span class="kwrd">static</span> <span class="kwrd">void</span> Main()
+    {
+        Form1 form = <span class="kwrd">new</span> Form1();
+
+        QuillInjector injector = QuillInjector.GetInstance();
+        injector.Inject(form);
+        ・・(略)・・
+    }
+}
+
+
+<span class="kwrd">public</span> <span class="kwrd">partial</span> <span class="kwrd">class</span> Form1 : Form
+{
+    <span class="rem">// IEmployeeLogicの実装クラスであるEmployeeLogicのインスタンスがバインドされる</span>
+    <span class="kwrd">protected</span> IEmployeeLogic employeeLogic;
+    
+    <span class="kwrd">public</span> Form1()
+    {
+            InitializeComponent();
+    }
+    ・・(略)・・
+}
+
+
+[Implementation(<span class="kwrd">typeof</span>(EmpployeeLogic))]
+<span class="kwrd">public</span> <span class="kwrd">interface</span> IEmployeeLogic
+{
+    ・・(略)・・
+}
+
+
+<span class="kwrd">public</span> <span class="kwrd">class</span> EmployeeLogic : IEmployeeLogic
+{
+    ・・(略)・・
+}</pre>
+
+			<p>　上記のようなインターフェースを用意せずに直接クラスのインスタンスをバインディングする場合は、
+			下記のようにImplementationAttributeクラスに引数を指定しません。</p>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">public</span> <span class="kwrd">partial</span> <span class="kwrd">class</span> Form1 : Form
+{
+    <span class="rem">// EmployeeLogicのインスタンスがバインドされる</span>
+    <span class="kwrd">protected</span> EmployeeLogic employeeLogic;
+    
+    <span class="kwrd">public</span> Form1()
+    {
+            InitializeComponent();
+    }
+    ・・(略)・・
+}
+
+
+[Implementation]
+<span class="kwrd">public</span> <span class="kwrd">class</span> EmployeeLogic
+{
+    ・・(略)・・
+}</pre>
+
+			<p>　また下記のように引数無しのImplementationAttributeクラスをインターフェースに指定して、
+			Aspectで実装を持たせることもできます。</p>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">public</span> <span class="kwrd">partial</span> <span class="kwrd">class</span> Form1 : Form
+{
+    <span class="rem">// Aspectによって拡張された型のインスタンスがバインドされる</span>
+    <span class="kwrd">protected</span> IEmployeeLogic employeeLogic;
+    
+    <span class="kwrd">public</span> Form1()
+    {
+            InitializeComponent();
+    }
+    ・・(略)・・
+}
+
+
+[Implementation]
+[Aspect(<span class="kwrd">typeof</span>(HogeInterceptor))]
+<span class="kwrd">public</span> <span class="kwrd">interface</span> IEmployeeLogic
+{
+    ・・(略)・・
+}</pre>
+
+			<h2><a name="di_s2">S2Containerでインスタンスを管理するオブジェクトをDIする</a></h2>
+			
+			<p>　フィールドにSeasar.Quill.Attrs.BindingAttributeクラスが属性として指定されている場合は、
+			S2Containerでインスタンスを管理するオブジェクトをバインディングします。
+			BindingAttributeクラスの引数にはS2Containerのコンポーネント名を指定します。</p>
+			<p>　下記の例ではS2Containerにコンポーネント名"empLogic"として定義されているコンポーネントのインスタンスを
+			 Form1のフィールドにバインドします。</p>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">static</span> <span class="kwrd">class</span> Program
+{
+    [STAThread]
+    <span class="kwrd">static</span> <span class="kwrd">void</span> Main()
+    {
+
+        <span class="rem">// 定義(dicon)ファイルをセットする</span>
+        SingletonS2ContainerFactory.ConfigPath = <span class="str">"App.dicon"</span>;
+
+        <span class="rem">// S2Containerを初期化する</span>
+        SingletonS2ContainerFactory.Init();
+
+        Form1 form = <span class="kwrd">new</span> Form1();
+
+        QuillInjector injector = QuillInjector.GetInstance();
+        injector.Inject(form);
+        ・・(略)・・
+    }
+}
+
+
+<span class="kwrd">public</span> <span class="kwrd">partial</span> <span class="kwrd">class</span> Form1 : Form
+{
+    [Binding(<span class="str">"empLogic"</span>)]
+    <span class="kwrd">protected</span> IEmployeeLogic employeeLogic;
+    
+    <span class="kwrd">public</span> Form1()
+    {
+            InitializeComponent();
+    }
+    ・・(略)・・
+}
+
+
+<span class="kwrd">public</span> <span class="kwrd">interface</span> IEmployeeLogic
+{
+    ・・(略)・・
+}
+
+
+<span class="kwrd">public</span> <span class="kwrd">class</span> EmployeeLogic : IEmployeeLogic
+{
+    ・・(略)・・
+}</pre>
+
+			<p class="kindCode">App.dicon</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;?</span><span class="html">xml</span> <span class="attr">version</span><span class="kwrd">="1.0"</span> <span class="attr">encoding</span><span class="kwrd">="utf-8"</span> ?<span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;!</span><span class="html">DOCTYPE</span> <span class="attr">components</span> <span class="attr">PUBLIC</span> <span class="kwrd">"-//SEASAR2.1//DTD S2Container//EN"</span>
+<span class="kwrd">"http://www.seasar.org/dtd/components21.dtd"</span><span class="kwrd">&gt;</span>
+
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="empLogic"</span>
+        <span class="attr">class</span><span class="kwrd">="HogeNamespace.EmployeeLogic"</span> <span class="kwrd">/&gt;</span>
+
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span></pre>
+			
+
+			<h2><a name="di_notice">注意点</a></h2>
+			<ul>
+				<li>バインディングさせるために用意するフィールドのアクセス修飾子はprotectedかpublicにします
+				（Aspectを利用しない場合はprivateでも可）</li>
+				<li>Quillでインスタンスを管理するオブジェクトのインスタンスはsingletonになります</li>
+				<li>Quillでインスタンスを管理するオブジェクトはインターフェース1つに実装クラス2つという場合に、
+				動的に実装クラスを切り替えるといったことはできません
+				（ImplementationAttributeの引数を変更して静的に変更することは可能です）
+				そのような場合はS2Containerで実装クラスを切り替える仕組みを作成する必要があります</li>
+				<li>QuillからS2Containerを利用する場合、
+				SingletonS2ContainerFactoryから取得できるS2Containerのみを利用することができます</li>
+			</ul>
+
 		</div>
 	</div>
 	
