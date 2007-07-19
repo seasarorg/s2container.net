@@ -9,6 +9,7 @@
 S2Dao.NET 1.1.0
 2007/07/20
 - [DAONET-52]VersionNoをNullable型に対応させる
+- [DAONET-53]ページング機能の実装
 - [DAONET-55]S2Dao.NETをSeasar.NETソリューションに追加
 
 S2Container.NET 1.2.9
