@@ -131,6 +131,8 @@
 					<ul>
 						<li><a href="#aop_quill">Quillでインスタンスを管理するInterceptorを使用する</a></li>
 						<li><a href="#aop_s2">S2Containerでインスタンスを管理するInterceptorを使用する</a></li>
+						<li><a href="#aop_interceptor">Interceptorの作成方法</a></li>
+						<li><a href="#aop_ordinal">Interceptorが呼び出される順番</a></li>
 						<li><a href="#aop_notice">注意点</a></li>
 					</ul>
 				</li>
@@ -175,13 +177,16 @@
 		</div>
 		<div class="contentBody">
 
-			<h2><a name="di_quill">Quillでインスタンスを管理するオブジェクトをDIする</a></h2>
-
 			<p>　DIを行う為にはSeasar.Quill.QuillInjectorクラスのInjectメソッドに、DIを行わせたいオブジェクトを渡します。</p>
 			<p>　QuillInjectorはInjectメソッドに渡されたオブジェクトのフィールドから自動的に判断して、
-			必要なオブジェクトをフィールドにバインドします。その際にあらかじめ設定ファイルでコンポーネントを登録しておく必要はありません。
-			フィールドの型にSeasar.Quill.Attrs.ImplementationAttributeクラスが属性として設定されている場合に、
-			バインドすべきと判断して自動的にバインドを行います。</p>
+			必要なオブジェクトをフィールドにバインドします。その際にあらかじめ設定ファイルでコンポーネントを登録しておく必要はありません。</p>
+			<p>　QuillではQuillでインスタンスを管理するオブジェクトとS2Containerでインスタンスを管理するオブジェクトをDIすることができます。</p>
+			
+			<h2><a name="di_quill">Quillでインスタンスを管理するオブジェクトをDIする</a></h2>
+
+			<p>　Quillでインスタンスを管理するオブジェクトをDIする場合は、
+			フィールドの型にSeasar.Quill.Attrs.ImplementationAttributeクラスを属性として設定します。
+			Quillは設定された属性からバインドすべきと判断して自動的にバインドを行います。</p>
 			<p>　初めてバインドされるオブジェクトは新しくインスタンス化されますが、
 			一度バインドされたオブジェクトは以後同じインスタンスがバインドされることになります。
 			つまりQuillでバインドするためにインスタンス化されるオブジェクトは全てsingletonになります。
@@ -365,7 +370,310 @@
 
 		</div>
 	</div>
+
+<!-- ############################################# AOPを利用する ######################################################### -->
+	<div class="content">
+		<a name="aop" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>AOPを利用する</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　QuillでAOPを利用する為にはSeasar.Quill.Attrs.AspectAttributeクラスを属性として設定します。
+			AspectAttributeクラスはクラス・インターフェース、メソッドに設定することができます。
+			ただしQuillによってインスタンス化されたオブジェクトにのみ設定が有効となります。</p>
+			<p>　AspectAttributeクラスの第1引数にはInterceptorを指定します。
+			Quillでインスタンスを管理するInterceptorを指定する場合はInterceptorのTypeクラスを指定します。
+			S2Containerでインスタンスを管理するInterceptorを指定する場合はInterceptorのコンポーネント名を指定します。</p>
+			<p>　クラス・インターフェースにAspectAttributeクラスを設定した場合は、
+			クラス・インターフェースに含まれるメソッドにAspectが適用されます。
+			ただしインターフェースに定義されたメソッド、virtualキーワードが指定されたメソッドが対象となります。</p>
+			<p>　メソッドにAspectAttributeクラスを設定することでメソッド毎にAspectを適用することができます。
+			ただしインターフェースに定義されたメソッド、virtualキーワードが指定されたメソッドにしか設定することはできません。</p>
+			
+			<h2><a name="aop_quill">Quillでインスタンスを管理するInterceptorを使用する</a></h2>
+			<p>　Quillでインスタンスを管理するInterceptorを使用する場合は、
+			Seasar.Quill.Attrs.AspectAttributeクラスを属性として、
+			第1引数にInterceptorのTypeクラスを指定します。</p>
+			<p>　Interceptorのインスタンスは必ずsingletonになります。</p>
+			<p>　下記の例ではEmployeeLogicのGetEmployeeByEmpNoにAspectを適用します。
+			InterceptorのインスタンスはQuillで管理されます。</p>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">static</span> <span class="kwrd">class</span> Program
+{
+    [STAThread]
+    <span class="kwrd">static</span> <span class="kwrd">void</span> Main()
+    {
+        Form1 form = <span class="kwrd">new</span> Form1();
+
+        QuillInjector injector = QuillInjector.GetInstance();
+        injector.Inject(form);
+        ・・(略)・・
+    }
+}
+
+
+<span class="kwrd">public</span> <span class="kwrd">partial</span> <span class="kwrd">class</span> Form1 : Form
+{
+    <span class="rem">// EmployeeLogicのインスタンスがバインドされる</span>
+    <span class="kwrd">protected</span> EmployeeLogic employeeLogic;
+    
+    <span class="kwrd">public</span> Form1()
+    {
+            InitializeComponent();
+    }
+    ・・(略)・・
+}
+
+
+[Implementation]
+<span class="kwrd">public</span> <span class="kwrd">class</span> EmployeeLogic
+{
+        [Aspect(<span class="kwrd">typeof</span>(ConsoleWriteInterceptor))]
+        <span class="kwrd">public</span> <span class="kwrd">virtual</span> Employee GetEmployeeByEmpNo(<span class="kwrd">int</span> empNo)
+        {
+            Console.WriteLine(<span class="str">"メソッドが呼び出されました"</span>);
+        }
+    ・・(略)・・
+}
+
+
+<span class="kwrd">public</span> <span class="kwrd">class</span> ConsoleWriteInterceptor : IMethodInterceptor
+{
+    <span class="preproc">#region</span> IMethodInterceptor メンバ
+
+    <span class="kwrd">public</span> <span class="kwrd">object</span> Invoke(IMethodInvocation invocation)
+    {
+        MethodBase method = invocation.Method;
+        Console.WriteLine(<span class="str">"メソッドを開始します"</span>);
+
+        <span class="rem">// 実際の処理を実行する</span>
+        <span class="kwrd">object</span> ret = invocation.Proceed();
+
+        Console.WriteLine(<span class="str">"メソッドを終了します"</span>);
+
+        <span class="kwrd">return</span> ret;
+    }
+
+    <span class="preproc">#endregion</span>
+}</pre>
+
+			<p>　EmployeeLogicのGetEmployeeByEmpNoをForm1から実行すると下記のようなメッセージがコンソールに出力されます。</p>
+			
+<pre class="csharpcode">
+メソッドを開始します
+メソッドが呼び出されました
+メソッドを終了します
+</pre>
+			
+			
+			<h2><a name="aop_s2">S2Containerでインスタンスを管理するInterceptorを使用する</a></h2>
+			<p>　S2Containerでインスタンスを管理するInterceptorを使用する場合は、
+			Seasar.Quill.Attrs.AspectAttributeクラスを属性として、
+			第1引数にInterceptorのコンポーネント名を指定します。</p>
+			<p>　下記の例ではEmployeeLogicのGetEmployeeByEmpNoにAspectを適用します。
+			InterceptorのインスタンスはS2Containerで管理されます。</p>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">static</span> <span class="kwrd">class</span> Program
+{
+    [STAThread]
+    <span class="kwrd">static</span> <span class="kwrd">void</span> Main()
+    {
+        <span class="rem">// 定義(dicon)ファイルをセットする</span>
+        SingletonS2ContainerFactory.ConfigPath = <span class="str">"App.dicon"</span>;
+
+        <span class="rem">// S2Containerを初期化する</span>
+        SingletonS2ContainerFactory.Init();
+
+        Form1 form = <span class="kwrd">new</span> Form1();
+
+        QuillInjector injector = QuillInjector.GetInstance();
+        injector.Inject(form);
+        ・・(略)・・
+    }
+}
+
+
+<span class="kwrd">public</span> <span class="kwrd">partial</span> <span class="kwrd">class</span> Form1 : Form
+{
+    <span class="rem">// EmployeeLogicのインスタンスがバインドされる</span>
+    <span class="kwrd">protected</span> EmployeeLogic employeeLogic;
+    
+    <span class="kwrd">public</span> Form1()
+    {
+            InitializeComponent();
+    }
+    ・・(略)・・
+}
+
+
+[Implementation]
+<span class="kwrd">public</span> <span class="kwrd">class</span> EmployeeLogic
+{
+        [Aspect(<span class="str">"consoleInterceptor"</span>)]
+        <span class="kwrd">public</span> <span class="kwrd">virtual</span> Employee GetEmployeeByEmpNo(<span class="kwrd">int</span> empNo)
+        {
+            Console.WriteLine(<span class="str">"メソッドが呼び出されました"</span>);
+        }
+    ・・(略)・・
+}
+
+
+<span class="kwrd">public</span> <span class="kwrd">class</span> ConsoleWriteInterceptor : IMethodInterceptor
+{
+    <span class="preproc">#region</span> IMethodInterceptor メンバ
+
+    <span class="kwrd">public</span> <span class="kwrd">object</span> Invoke(IMethodInvocation invocation)
+    {
+        MethodBase method = invocation.Method;
+        Console.WriteLine(<span class="str">"メソッドを開始します"</span>);
+
+        <span class="rem">// 実際の処理を実行する</span>
+        <span class="kwrd">object</span> ret = invocation.Proceed();
+
+        Console.WriteLine(<span class="str">"メソッドを終了します"</span>);
+
+        <span class="kwrd">return</span> ret;
+    }
+
+    <span class="preproc">#endregion</span>
+}</pre>
+
+			<p class="kindCode">App.dicon</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;?</span><span class="html">xml</span> <span class="attr">version</span><span class="kwrd">="1.0"</span> <span class="attr">encoding</span><span class="kwrd">="utf-8"</span> ?<span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;!</span><span class="html">DOCTYPE</span> <span class="attr">components</span> <span class="attr">PUBLIC</span> <span class="kwrd">"-//SEASAR2.1//DTD S2Container//EN"</span>
+<span class="kwrd">"http://www.seasar.org/dtd/components21.dtd"</span><span class="kwrd">&gt;</span>
+
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="consoleInterceptor"</span>
+        <span class="attr">class</span><span class="kwrd">="HogeNamespace.ConsoleWriteInterceptor"</span> <span class="kwrd">/&gt;</span>
+
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span></pre>
+			
+			<p>　EmployeeLogicのGetEmployeeByEmpNoをForm1から実行すると下記のようなメッセージがコンソールに出力されます。</p>
+			
+<pre class="csharpcode">
+メソッドを開始します
+メソッドが呼び出されました
+メソッドを終了します
+</pre>
+			
+
+			<h2><a name="aop_interceptor">Interceptorの作成方法</a></h2>
+			<p>　Interceptorの作成方法はS2AOP.NETと同じです。下記のドキュメントを参照して下さい。</p>
+			<p>　<a href="aop-reference.html#OriginalInterceptor">AOP - (3) 独自実装によるInterceptor</a></p>
+			
+			<h2><a name="aop_ordinal">Interceptorが呼び出される順番</a></h2>
+			<p>　クラス・インタフェースに設定されたInterceptorは、メソッドに設定されたInterceptorより先に呼び出されます。
+			クラス・インターフェースに複数のAspectAttributeクラスが設定された場合、
+			もしくはメソッドに複数のAspectAttributeクラスが設定された場合は、
+			AspectAttributeクラスの第2引数に並び順を指定して呼び出される順番を制御することができます。
+			数字の小さい方が先に呼び出されます。第2引数を省略した場合は0が設定されたと判断します。
+			ただしメソッドに指定したInterceptorをクラス･インターフェースに設定されたInterceptorより先に呼び出すことはできません。</p>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+[Implementation]
+<span class="kwrd">public</span> <span class="kwrd">class</span> EmployeeLogic
+{
+        [Aspect(<span class="str">"consoleInterceptor"</span>, 1)]
+        [Aspect(<span class="kwrd">typeof</span>(TraceInterceptor), 2)]
+        <span class="kwrd">public</span> <span class="kwrd">virtual</span> Employee GetEmployeeByEmpNo(<span class="kwrd">int</span> empNo)
+        {
+            ・・(略)・・
+        }
+    ・・(略)・・
+}</pre>
+			
+			<h2><a name="aop_notice">注意点</a></h2>
+			<ul>
+				<li>Aspectを適用する為にはインターフェースに定義されたメソッド、virtualキーワードが指定されたメソッドである必要があります</li>
+				<li>Aspectを適用するクラスとメソッドはpublicである必要があります</li>
+				<li>staticキーワードが指定されたクラス・メソッドにはAspectを適用できません</li>
+				<li>Interceptorのインスタンスはsingletonです</li>
+				<li>S2Dao.NETやトランザクションを利用する場合はS2Containerに登録したInterceptorを使うようにしてください
+				（配布物のSeasarソリューションに含まれるSeasar.Quill.Examplesプロジェクトに使用例があります）</li>
+			</ul>
+			
+		</div>
+	</div>
 	
+<!-- ############################################# Windowsアプリケーションから簡単にQuillを利用する ######################################################### -->
+	<div class="content">
+		<a name="form" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>Windowsアプリケーションから簡単にQuillを利用する</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　Seasar.Quill.QuillInjectorクラスのInjectメソッドを用いてDIを行ってきましたが、
+			ツールボックスからコントロール（Seasar.Quill.QuillControl）をFormに貼り付けるだけで簡単にDIを利用することもできます。</p>
+			<p>　Seasar.Quill.QuillControlを使う場合はツールボックスに登録する必要があります。
+			「ツールボックスアイテムの選択」からSeasar.Quill.dllを選択してください。</p>
+			<p>　下記はForm1のフィールドにCulcLogicをバインドする例です。</p>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+Public <span class="kwrd">partial</span> <span class="kwrd">class</span> Form1 : Form
+{
+    <span class="kwrd">protected</span> CulcLogic culcLogic = <span class="kwrd">null</span>;
+
+    <span class="kwrd">private</span> <span class="kwrd">void</span> button1_Click(<span class="kwrd">object</span> sender, EventArgs s)
+    {
+        <span class="kwrd">int</span> ret = culcLogic.Plus(1, 2);
+        Console.WriteLine(“戻り値：” + ret);
+    }
+}
+
+
+[Implementation]
+Public <span class="kwrd">class</span> CulcLogic
+{
+    [Aspect(<span class="kwrd">typeof</span>(ConsoleWriteInterceptor))]
+    <span class="kwrd">public</span> <span class="kwrd">virtual</span> <span class="kwrd">int</span> Plus(<span class="kwrd">int</span> x, <span class="kwrd">int</span> y)
+    {
+        Console.WriteLine(“Plusが呼ばれました”);
+        <span class="kwrd">return</span> x + y;
+    }
+}</pre>
+
+			<p>　次にデザイナでQuillControlをForm1に貼り付けます。</p>
+			<p><img src="images/quillControl1.png" /></p>
+			<p>　これでフィールドのculcLogicにAspectが適用されたインスタンスがDIされるようになります。
+			実行して「Plusを呼ぶ」ボタンを押すとコンソールにメッセージが出力されます。</p>
+			<p><img src="images/quillControl2.png" /></p>
+			
+<pre class="csharpCode">
+メソッドを開始します
+Plusが呼ばれました
+メソッドを終了します
+戻り値：3
+</pre>
+
+
+
+			
+		</div>
+	</div>
 	
 <!-- div.contents -->
 </div>
