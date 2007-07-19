@@ -44,7 +44,7 @@ using System.Runtime.CompilerServices;
 // 下にあるように、'*' を使って、すべての値を指定するか、
 // ビルドおよびリビジョン番号を既定値にすることができます。
 
-[assembly: AssemblyVersion("1.2.9.0")]
+[assembly: AssemblyVersion("1.3.0.0")]
 
 //
 // アセンブリに署名するには、使用するキーを指定しなければなりません。 
@@ -76,4 +76,4 @@ using System.Runtime.CompilerServices;
 #if NET_1_1
 [assembly: AssemblyKeyFile("..\\..\\..\\Seasar.snk")]
 #endif
-[assembly: AssemblyFileVersionAttribute("1.2.9")]
+[assembly: AssemblyFileVersionAttribute("1.3.0")]
