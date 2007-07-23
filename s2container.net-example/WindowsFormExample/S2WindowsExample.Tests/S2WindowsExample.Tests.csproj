@@ -30,35 +30,31 @@
   <ItemGroup>
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\net2.0\log4net.dll</HintPath>
+      <HintPath>..\lib\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="MbUnit.Framework, Version=2.3.0.0, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5">
+    <Reference Include="MbUnit.Framework, Version=1.0.2445.37068, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\net2.0\MbUnit.Framework.dll</HintPath>
+      <HintPath>..\lib\MbUnit.Framework.dll</HintPath>
     </Reference>
     <Reference Include="Nullables, Version=1.0.0.0, Culture=neutral, PublicKeyToken=154fdcb44c4484fc">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\net2.0\Nullables.dll</HintPath>
+      <HintPath>..\lib\Nullables.dll</HintPath>
     </Reference>
-    <Reference Include="Seasar, Version=1.2.4.0, Culture=neutral, PublicKeyToken=1d0d0c484d50ca62, processorArchitecture=MSIL">
+    <Reference Include="Seasar, Version=1.2.9.0, Culture=neutral, PublicKeyToken=1d0d0c484d50ca62, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\net2.0\Seasar.dll</HintPath>
+      <HintPath>..\lib\Seasar.dll</HintPath>
     </Reference>
-    <Reference Include="Seasar.Dao, Version=1.0.0.1, Culture=neutral, PublicKeyToken=73a7c921d802e17e, processorArchitecture=MSIL">
+    <Reference Include="Seasar.Dao, Version=1.0.4.1, Culture=neutral, PublicKeyToken=73a7c921d802e17e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\net2.0\Seasar.Dao.dll</HintPath>
+      <HintPath>..\lib\Seasar.Dao.dll</HintPath>
     </Reference>
-    <Reference Include="Seasar.DynamicProxy, Version=1.2.4.0, Culture=neutral, PublicKeyToken=1d0d0c484d50ca62, processorArchitecture=MSIL">
+    <Reference Include="Seasar.DynamicProxy, Version=1.2.9.0, Culture=neutral, PublicKeyToken=1d0d0c484d50ca62, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\net2.0\Seasar.DynamicProxy.dll</HintPath>
+      <HintPath>..\lib\Seasar.DynamicProxy.dll</HintPath>
     </Reference>
-    <Reference Include="Seasar.Unit, Version=1.2.4.0, Culture=neutral, PublicKeyToken=1d0d0c484d50ca62, processorArchitecture=MSIL">
+    <Reference Include="Seasar.Unit, Version=1.2.9.0, Culture=neutral, PublicKeyToken=1d0d0c484d50ca62, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\net2.0\Seasar.Unit.dll</HintPath>
-    </Reference>
-    <Reference Include="Seasar.Windows, Version=1.2.4.0, Culture=neutral, PublicKeyToken=1d0d0c484d50ca62, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\net2.0\Seasar.Windows.dll</HintPath>
+      <HintPath>..\lib\Seasar.Unit.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

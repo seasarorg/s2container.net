@@ -1,17 +1,24 @@
+#region Copyright
+
 /*
- * Created by: 
- * Created: 2006年9月23日
+ * Copyright 2005-2007 the Seasar Foundation and the Others.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
  */
 
-#if NET_1_1
-// NET 1.1
-using System.Collections;
-#else
-// NET 2.0
+#endregion
+
 using System.Collections.Generic;
-using Seasar.WindowsExample.Logics.Dto;
-using Seasar.WindowsExample.Logics.Service;
-#endif
 using System.IO;
 using System.Reflection;
 using log4net;
@@ -20,6 +27,7 @@ using log4net.Util;
 using MbUnit.Framework;
 using Seasar.Extension.Unit;
 using Seasar.WindowsExample.Logics.Dao;
+using Seasar.WindowsExample.Logics.Dto;
 
 namespace Seasar.WindowsExample.Tests
 {
@@ -47,7 +55,7 @@ namespace Seasar.WindowsExample.Tests
 
             XmlConfigurator.Configure(LogManager.GetRepository(), info);
         }
-        
+
         /// <summary>
         /// DAOのテスト
         /// </summary>
@@ -55,20 +63,11 @@ namespace Seasar.WindowsExample.Tests
         public void TestDao()
         {
             Include(PATH);
-            
+
             IGenderDao dao = (IGenderDao) GetComponent(typeof (IGenderDao));
 
-#if NET_1_1
-            // NET 1.1
-            
-            IList list = dao.GetAll();
-            Assert.AreEqual(2, list.Count, "Count");
-#else
-            // NET 2.0
-            
             IList<GenderDto> list = dao.GetAll();
             Assert.AreEqual(2, list.Count, "Count");
-#endif            
         }
     }
 }

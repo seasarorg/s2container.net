@@ -1,7 +1,7 @@
 #region Copyright
 
 /*
- * Copyright 2005-2006 the Seasar Foundation and the Others.
+ * Copyright 2005-2007 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,23 +19,13 @@
 #endregion
 
 using System;
-#if NET_1_1
-// NET 1.1
-using System.Collections;
-#else
-// NET 2.0
 using System.Collections.Generic;
-#endif
 using System.IO;
 using System.Reflection;
 using log4net;
 using log4net.Config;
 using log4net.Util;
 using MbUnit.Framework;
-#if NET_1_1
-// NET 1.1
-using Nullables;
-#endif
 using Seasar.Extension.Unit;
 using Seasar.WindowsExample.Logics.Dao;
 using Seasar.WindowsExample.Logics.Dto;
@@ -80,21 +70,14 @@ namespace Seasar.WindowsExample.Tests
             Assert.IsNotNull(dao, "NotNull");
 
             // 一覧で取得する
-#if NET_1_1
-            // NET 1.1
-            
-            IList list = dao.GetAll();
-            Assert.AreEqual(5, list.Count, "Count");
-#else
-            // NET 2.0
-            
+
             IList<EmployeeDto> list = dao.GetAll();
             Assert.AreEqual(5, list.Count, "Count");
-#endif
+
             int i = 0;
             foreach (EmployeeDto dto in list)
             {
-                if ( i == 2 )
+                if (i == 2)
                 {
                     Assert.AreEqual(3, dto.Id.Value, "Id");
                     Assert.AreEqual("佐藤愛子", dto.Name, "Name");
@@ -141,43 +124,22 @@ namespace Seasar.WindowsExample.Tests
 
             // 挿入のテスト
             EmployeeDto data = new EmployeeDto();
-#if NET_1_1
-            // NET 1.1
-            data.Code = "060006";
-            data.Name = "後藤六郎";
-            data.EntryDay = new NullableDateTime(new DateTime(2006, 4, 1, 0, 0, 0));
-            data.Gender = 1;
-            data.DeptNo = 1;
-#else
-            // NET 2.0
             data.Code = "060006";
             data.Name = "後藤六郎";
             data.EntryDay = new DateTime(2006, 4, 1, 0, 0, 0);
             data.Gender = 1;
             data.DeptNo = 1;
-#endif
 
             Assert.AreEqual(1, dao.InsertData(data), "Insert");
 
             // 更新のテスト
             int id = dao.GetId("060006");
-#if NET_1_1
-            // NET 1.1
-            data.Id = id;
-            data.Code = "060006";
-            data.Name = "五島六郎";
-            data.EntryDay = new NullableDateTime(new DateTime(2006, 4, 1, 0, 0, 0));
-            data.Gender = 1;
-            data.DeptNo = 2;
-#else
-            // NET 2.0
             data.Id = id;
             data.Code = "060006";
             data.Name = "五島六郎";
             data.EntryDay = new DateTime(2006, 4, 1, 0, 0, 0);
             data.Gender = 1;
             data.DeptNo = 2;
-#endif
 
             Assert.AreEqual(1, dao.UpdateData(data), "Update");
 
@@ -198,17 +160,9 @@ namespace Seasar.WindowsExample.Tests
             data.Id = id;
 
             Assert.AreEqual(1, dao.DeleteData(data), "Delete");
-#if NET_1_1
-            // NET 1.1
-            
-            IList list = dao.GetAll();
-            Assert.AreEqual(5, list.Count, "Count");
-#else
-            // NET 2.0
-            
+
             IList<EmployeeDto> list = dao.GetAll();
             Assert.AreEqual(5, list.Count, "Count");
-#endif
         }
 
         /// <summary>
@@ -223,21 +177,12 @@ namespace Seasar.WindowsExample.Tests
             IEmployeeCSVDao dao = (IEmployeeCSVDao) GetComponent(typeof (IEmployeeCSVDao));
             Assert.IsNotNull(dao, "NotNull");
 
-#if NET_1_1
-            // NET 1.1
-            
-            IList list = dao.GetAll();
-            Assert.AreEqual(5, list.Count, "Count");
-#else
-            // NET 2.0
-            
             IList<EmployeeCsvDto> list = dao.GetAll();
             Assert.AreEqual(5, list.Count, "Count");
-#endif
             int i = 0;
             foreach (EmployeeCsvDto dto in list)
             {
-                if ( i == 2 )
+                if (i == 2)
                 {
                     Assert.AreEqual("佐藤愛子", dto.Name, "Name");
                     Assert.AreEqual("010003", dto.Code, "Code");
@@ -268,21 +213,13 @@ namespace Seasar.WindowsExample.Tests
             IEmployeeListService service = (IEmployeeListService) GetComponent(typeof (IEmployeeListService));
             Assert.IsNotNull(service, "NotNull");
 
-#if NET_1_1
-            // NET 1.1
-            
-            IList list = service.GetAll();
-            Assert.AreEqual(5, list.Count, "Count");
-#else
-            // NET 2.0
-            
+
             IList<EmployeeDto> list = service.GetAll();
             Assert.AreEqual(5, list.Count, "Count");
-#endif
             int i = 0;
             foreach (EmployeeDto dto in list)
             {
-                if ( i == 2 )
+                if (i == 2)
                 {
                     Assert.AreEqual(3, dto.Id.Value, "Id");
                     Assert.AreEqual("佐藤愛子", dto.Name, "Name");
@@ -326,45 +263,23 @@ namespace Seasar.WindowsExample.Tests
 
             // 挿入のテスト
             data = new EmployeeDto();
-#if NET_1_1
-            // NET 1.1
-            data.Code = "060006";
-            data.Name = "後藤六郎";
-            data.EntryDay = new NullableDateTime(new DateTime(2006, 4, 1, 0, 0, 0));
-            data.Gender = 1;
-            data.DeptNo = 1;
-#else
-            // NET 2.0
-            
+
             data.Code = "060006";
             data.Name = "後藤六郎";
             data.EntryDay = new DateTime(2006, 4, 1, 0, 0, 0);
             data.Gender = 1;
             data.DeptNo = 1;
-#endif
 
             Assert.AreEqual(1, service.ExecUpdate(data), "Insert");
 
             // 更新のテスト
             data = new EmployeeDto();
-#if NET_1_1
-            // NET 1.1
-            data.Id = 2;
-            data.Code = "999999";
-            data.Name = "鈴木二郎";
-            data.EntryDay = new NullableDateTime(new DateTime(1999, 5, 1, 0, 0, 0));
-            data.Gender = 1;
-            data.DeptNo = 2;
-#else
-            // NET 2.0
-            
             data.Id = 2;
             data.Code = "999999";
             data.Name = "鈴木二郎";
             data.EntryDay = new DateTime(1999, 5, 1, 0, 0, 0);
             data.Gender = 1;
             data.DeptNo = 2;
-#endif
 
             Assert.AreEqual(1, service.ExecUpdate(data), "Update");
 

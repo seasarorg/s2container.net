@@ -1,7 +1,7 @@
 #region Copyright
 
 /*
- * Copyright 2005-2006 the Seasar Foundation and the Others.
+ * Copyright 2005-2007 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,13 +18,7 @@
 
 #endregion
 
-#if NET_1_1
-// NET 1.1
-using System.Collections;
-#else
-// NET 2.0
 using System.Collections.Generic;
-#endif
 using System.IO;
 using System.Reflection;
 using log4net;
@@ -75,21 +69,14 @@ namespace Seasar.WindowsExample.Tests
             Assert.IsNotNull(dao, "NotNull");
 
             // ˆê——‚ÌƒeƒXƒg
-#if NET_1_1
-            // NET 1.1
-            
-            IList list = dao.GetAll();
-            Assert.AreEqual(3, list.Count, "Count");
-#else
-            // NET 2.0
-            
+
             IList<DepartmentDto> list = dao.GetAll();
             Assert.AreEqual(3, list.Count, "Count");
-#endif
+
             int i = 0;
             foreach (DepartmentDto dto in list)
             {
-                if ( i == 1 )
+                if (i == 1)
                 {
                     Assert.AreEqual(2, dto.Id.Value, "ID");
                     Assert.AreEqual("0002", dto.Code, "Code");
@@ -149,17 +136,8 @@ namespace Seasar.WindowsExample.Tests
             data.Id = id;
             Assert.AreEqual(1, dao.DeleteData(data), "Delete");
 
-#if NET_1_1
-            // NET 1.1
-            
-            IList list = dao.GetAll();
-            Assert.AreEqual(3, list.Count, "Count");
-#else
-            // NET 2.0
-            
             IList<DepartmentDto> list = dao.GetAll();
             Assert.AreEqual(3, list.Count, "Count");
-#endif
         }
 
         /// <summary>
@@ -173,17 +151,8 @@ namespace Seasar.WindowsExample.Tests
             IDepartmentListService service = (IDepartmentListService) GetComponent(typeof (IDepartmentListService));
             Assert.IsNotNull(service, "NotNull");
 
-#if NET_1_1
-            // NET 1.1
-            
-            IList list = service.GetAll();
-            Assert.AreEqual(3, list.Count, "Count");
-#else
-            // NET 2.0
-            
             IList<DepartmentDto> list = service.GetAll();
             Assert.AreEqual(3, list.Count, "Count");
-#endif
         }
 
         /// <summary>

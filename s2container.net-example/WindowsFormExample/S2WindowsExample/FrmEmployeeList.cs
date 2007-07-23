@@ -1,4 +1,24 @@
-﻿using System;
+﻿#region Copyright
+
+/*
+ * Copyright 2005-2007 the Seasar Foundation and the Others.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ */
+
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Windows.Forms;
@@ -14,14 +34,9 @@ namespace Seasar.WindowsExample.Forms
     public partial class FrmEmployeeList : Form
     {
         /// <summary>
-        /// 画面ディスパッチャー
+        /// 例外エラーメッセージ書式
         /// </summary>
-        private IFormDispatcher _dispatcher;
-
-        /// <summary>
-        /// 社員一覧サービス
-        /// </summary>
-        private IEmployeeListService _service;
+        private const string EXCEPTION_MSG_FORMAT = "予期できないエラーが発生しました。詳細を確認してください。（{0}）";
 
         /// <summary>
         /// ログ(log4net)
@@ -30,9 +45,14 @@ namespace Seasar.WindowsExample.Forms
             LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         /// <summary>
-        /// 例外エラーメッセージ書式
+        /// 画面ディスパッチャー
         /// </summary>
-        private const string EXCEPTION_MSG_FORMAT = "予期できないエラーが発生しました。詳細を確認してください。（{0}）";
+        private IFormDispatcher _dispatcher;
+
+        /// <summary>
+        /// 社員一覧サービス
+        /// </summary>
+        private IEmployeeListService _service;
 
         /// <summary>
         /// コンストラクタ
@@ -66,7 +86,7 @@ namespace Seasar.WindowsExample.Forms
 
                 _ShowList();
             }
-            catch ( Exception ex )
+            catch (Exception ex)
             {
                 logger.ErrorFormat(EXCEPTION_MSG_FORMAT, ex.Message);
                 MessageBox.Show(ex.Message, Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -86,15 +106,15 @@ namespace Seasar.WindowsExample.Forms
 
                 _InitializeSaveDialog();
 
-                if ( dlgSave.ShowDialog(this) == DialogResult.OK )
+                if (dlgSave.ShowDialog(this) == DialogResult.OK)
                 {
-                    if ( _service.OutputCSV(dlgSave.FileName) > 0 )
+                    if (_service.OutputCSV(dlgSave.FileName) > 0)
                         MessageBox.Show("出力しました", Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     else
                         MessageBox.Show("出力するデータがありませんでした", Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
-            catch ( Exception ex )
+            catch (Exception ex)
             {
                 logger.ErrorFormat(EXCEPTION_MSG_FORMAT, ex.Message);
                 MessageBox.Show(String.Format(EXCEPTION_MSG_FORMAT, ex.Message), Text,
@@ -126,7 +146,7 @@ namespace Seasar.WindowsExample.Forms
 
                 _ShowList();
             }
-            catch ( Exception ex )
+            catch (Exception ex)
             {
                 logger.ErrorFormat(EXCEPTION_MSG_FORMAT, ex.Message);
                 MessageBox.Show(String.Format(EXCEPTION_MSG_FORMAT, ex.Message), Text,
@@ -148,7 +168,7 @@ namespace Seasar.WindowsExample.Forms
 
                 _ShowList();
             }
-            catch ( Exception ex )
+            catch (Exception ex)
             {
                 logger.ErrorFormat(EXCEPTION_MSG_FORMAT, ex.Message);
                 MessageBox.Show(ex.Message, Text,
