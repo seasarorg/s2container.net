@@ -51,8 +51,12 @@ namespace Seasar.S2FormExample.Forms
         [STAThread]
         private static void Main()
         {
+            FrmSplash splash = new FrmSplash();
             try
             {
+                splash.Show();
+                Application.DoEvents();
+
                 FileInfo info = new FileInfo(
                     string.Format("{0}.exe.config", SystemInfo.AssemblyShortName(
                                                         Assembly.GetExecutingAssembly())));
@@ -84,6 +88,8 @@ namespace Seasar.S2FormExample.Forms
                     SingletonS2ContainerFactory.Init();
                     IS2Container container = SingletonS2ContainerFactory.Container;
 
+                    splash.Hide();
+
                     ApplicationContext context
                         = (ApplicationContext) container.GetComponent(typeof (S2ApplicationContext));
                     Application.Run(context);
@@ -92,6 +98,8 @@ namespace Seasar.S2FormExample.Forms
                 }
                 else
                 {
+                    splash.Hide();
+
                     logger.Info("二重起動済み");
                     MessageBox.Show("このアプリケーションはすでに起動しています", "Main",
                                     MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -102,6 +110,7 @@ namespace Seasar.S2FormExample.Forms
             }
             catch ( ApplicationException ex )
             {
+                splash.Close();
                 MessageBox.Show(ex.Message, "Main",
                                 MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
@@ -110,6 +119,8 @@ namespace Seasar.S2FormExample.Forms
             {
                 logger.Debug("エラー:" + e.Message, e);
             }
+
+            splash.Close();
             logger.Info("終了");
         }
     }
