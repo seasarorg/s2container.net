@@ -98,6 +98,7 @@ namespace Seasar.S2FormExample.Forms
                 }
                 else
                 {
+                    this.DataSource = null;
                     throw new ApplicationException("登録に失敗しました");
                 }
             }

@@ -30,12 +30,10 @@ namespace Seasar.S2FormExample.Logics.Service
     [Implementation(typeof (DepartmentListServiceImpl))]
     public interface IDepartmentListService : IBaseService
     {
-        // サンプルなので、次のメソッドを用意しているが、IBaseServiceで用意しているので本当は不要
-
         /// <summary>
         /// 部門を一覧で取得する
         /// </summary>
-        /// <returns>部門一覧</returns>
+        /// <returns>部門一覧Page</returns>
         DepartmentListPage GetAll();
     }
 }

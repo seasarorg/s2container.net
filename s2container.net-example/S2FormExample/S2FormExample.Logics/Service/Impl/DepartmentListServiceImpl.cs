@@ -40,7 +40,7 @@ namespace Seasar.S2FormExample.Logics.Service.Impl
         /// <summary>
         /// •”–å‚ðˆê——‚ÅŽæ“¾‚·‚é
         /// </summary>
-        /// <returns>•”–åˆê——</returns>
+        /// <returns>•”–åˆê——Page</returns>
         public DepartmentListPage GetAll()
         {
             DepartmentListPage page = new DepartmentListPage();

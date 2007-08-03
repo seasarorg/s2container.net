@@ -27,7 +27,7 @@ using Seasar.S2FormExample.Logics.Page;
 namespace Seasar.S2FormExample.Logics.Service.Impl
 {
     /// <summary>
-    /// 社員登録用サービス用インターフェイス
+    /// 社員登録用サービス用実装クラス
     /// </summary>
     public class EmployeeEditServiceImpl : BaseServiceImpl, IEmployeeEditService
     {
@@ -43,8 +43,7 @@ namespace Seasar.S2FormExample.Logics.Service.Impl
         {
             ;
         }
-
-
+        
         /// <summary>
         /// 社員DAO
         /// </summary>

@@ -50,6 +50,26 @@ namespace Seasar.S2FormExample.Logics.Service.Impl
             ;
         }
 
+        /// <summary>
+        /// 部門DAO
+        /// </summary>
+        /// <remarks>S2Unitでテストするために追加(Injection用)</remarks>
+        public IDepartmentDao DaoOfDept
+        {
+            get { return daoOfDept; }
+            set { daoOfDept = value; }
+        }
+
+        /// <summary>
+        /// 性別DAO
+        /// </summary>
+        /// <remarks>S2Unitでテストするために追加(Injection用)</remarks>
+        public IGenderDao DaoOfGender
+        {
+            get { return daoOfGender; }
+            set { daoOfGender = value; }
+        }
+
         #region IBaseService Members
 
         /// <summary>

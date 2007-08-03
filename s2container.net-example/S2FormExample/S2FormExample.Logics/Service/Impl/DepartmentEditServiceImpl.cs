@@ -58,10 +58,10 @@ namespace Seasar.S2FormExample.Logics.Service.Impl
         #region IDepartmentEditService Members
 
         /// <summary>
-        /// 部門データを取得する
+        /// 部門編集Pageを取得する
         /// </summary>
         /// <param name="id">部門ID</param>
-        /// <returns>部門データ</returns>
+        /// <returns>部門編集Page</returns>
         public DepartmentEditPage GetData(int id)
         {
             DepartmentEditPage page = new DepartmentEditPage();
@@ -82,9 +82,9 @@ namespace Seasar.S2FormExample.Logics.Service.Impl
         }
 
         /// <summary>
-        /// 部門データを登録する
+        /// 部門を登録する
         /// </summary>
-        /// <param name="dto">部門データ</param>
+        /// <param name="dto">登録部門編集Page</param>
         /// <returns>登録件数</returns>
         [Aspect("LocalRequiredTx")]
         public virtual int ExecUpdate(DepartmentEditPage dto)

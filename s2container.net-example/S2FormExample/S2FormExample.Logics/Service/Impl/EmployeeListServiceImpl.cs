@@ -54,6 +54,33 @@ namespace Seasar.S2FormExample.Logics.Service.Impl
             ;
         }
 
+        /// <summary>
+        /// CSV用社員DAO
+        /// </summary>
+        public IEmployeeCSVDao DaoOfCsv
+        {
+            get { return daoOfCsv; }
+            set { daoOfCsv = value; }
+        }
+
+        /// <summary>
+        /// 社員DAO
+        /// </summary>
+        public IEmployeeDao DaoOfEmployee
+        {
+            get { return daoOfEmployee; }
+            set { daoOfEmployee = value; }
+        }
+
+        /// <summary>
+        /// 出力用DAO
+        /// </summary>
+        public IOutputCSVDao DaoOfOutput
+        {
+            get { return daoOfOutput; }
+            set { daoOfOutput = value; }
+        }
+
         #region IEmployeeListService Members
 
         /// <summary>
@@ -109,7 +136,7 @@ namespace Seasar.S2FormExample.Logics.Service.Impl
         /// <returns>出力件数</returns>
         public int OutputCSV(string path)
         {
-            if (path == "")
+            if (string.IsNullOrEmpty(path))
                 throw new ArgumentNullException("path");
 
             IList<EmployeeCsvDto> list = daoOfCsv.GetAll();

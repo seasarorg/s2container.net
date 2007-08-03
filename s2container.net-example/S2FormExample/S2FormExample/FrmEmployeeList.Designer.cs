@@ -230,7 +230,7 @@ namespace Seasar.S2FormExample.Forms
             // 
             // txtGenderId
             // 
-            this.txtGenderId.ImeMode = System.Windows.Forms.ImeMode.Alpha;
+            this.txtGenderId.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.txtGenderId.Location = new System.Drawing.Point(75, 28);
             this.txtGenderId.Name = "txtGenderId";
             this.txtGenderId.Size = new System.Drawing.Size(43, 19);

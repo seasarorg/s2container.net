@@ -56,6 +56,11 @@ namespace Seasar.S2FormExample.Logics.Dao
         [Sql("select n_id from t_emp where s_code = /*code*/'000001'")]
         int GetId(string code);
 
+        /// <summary>
+        /// «•Ê‚ÅŒŸõ‚·‚é
+        /// </summary>
+        /// <param name="gender">«•ÊID</param>
+        /// <returns>Ğˆõˆê——</returns>
         [Query("n_gender = /*gender*/1")]
         IList<EmployeeDto> FindByGender(int gender);
 

@@ -49,7 +49,7 @@ namespace Seasar.S2FormExample.Logics.Dao.Impl
         /// <returns>èoóÕåèêî</returns>
         public int OutputEmployeeList(string path, IList<EmployeeCsvDto> list)
         {
-            if (path == "")
+            if (String.IsNullOrEmpty(path))
                 throw new ArgumentNullException("path");
             if (list == null)
                 throw new ArgumentNullException("list");
@@ -83,7 +83,7 @@ namespace Seasar.S2FormExample.Logics.Dao.Impl
                 }
                 catch (Exception ex)
                 {
-                    if (writer != null) writer.Close();
+                    writer.Close();
                     throw ex;
                 }
             }

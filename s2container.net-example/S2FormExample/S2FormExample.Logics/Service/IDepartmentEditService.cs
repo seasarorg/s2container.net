@@ -31,16 +31,16 @@ namespace Seasar.S2FormExample.Logics.Service
     public interface IDepartmentEditService : IBaseService
     {
         /// <summary>
-        /// 部門データを取得する
+        /// 部門編集Pageを取得する
         /// </summary>
         /// <param name="id">部門ID</param>
-        /// <returns>部門データ</returns>
+        /// <returns>部門編集Page</returns>
         DepartmentEditPage GetData(int id);
 
         /// <summary>
-        /// 部門データを登録する
+        /// 部門を登録する
         /// </summary>
-        /// <param name="dto">登録部門データ</param>
+        /// <param name="dto">登録部門編集Page</param>
         /// <returns>登録件数</returns>
         int ExecUpdate(DepartmentEditPage dto);
 
