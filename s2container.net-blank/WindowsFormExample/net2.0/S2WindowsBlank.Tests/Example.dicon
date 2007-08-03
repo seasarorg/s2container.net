@@ -3,9 +3,7 @@
 "http://www.seasar.org/dtd/components21.dtd">
 <components >
     
-    <include path="ExampleLogics.dicon" />
-    
-    <!-- ここから -->
+    <include path="Example.dicon" />
     
     <component name="AppContext" class="Seasar.Windows.S2ApplicationContext" >
        <arg>container</arg>
@@ -15,16 +13,8 @@
     
     <component name="FormInterceptorr" class="Seasar.Windows.AOP.Interceptors.FormInterceptor" />
     
-    <component name="Dispatcher" class="Seasar.WindowsBlank.Forms.IFormDispatcher">
-	    <!-- pointcutは命名規則に従ってつけたメソッド名を正規表現で表示する -->
-		<aspect pointcut="Show.*">
-		   <component class="Seasar.Windows.AOP.Interceptors.FormInterceptor" />
-		</aspect>
-    </component>
     
-    <!-- ここまではCopy&Pasteで使う。 -->
-    
-    <!-- ここからはWindowForm -->
+    <!-- ここからはWindowForm。この下に追加する。 -->
   <!--
     <component name="FrmMain" class="Seasar.WindowsExample.Forms.FrmMainMenu" />
   -->

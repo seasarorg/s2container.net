@@ -1,5 +1,6 @@
 using System;
 using System.Windows.Forms;
+using Seasar.Quill.Attrs;
 using Seasar.Windows.Attr;
 
 namespace Seasar.WindowsBlank.Forms
@@ -16,6 +17,8 @@ namespace Seasar.WindowsBlank.Forms
     /// メソッド(または対象フォーム)と名前空間を変更し、使いまわしてもよい。
     /// </newpara>
     /// </remarks>
+    [Implementation]
+    [Aspect("FormInterceptorr")]
     public interface IFormDispatcher
     {
         
