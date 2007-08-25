@@ -27,9 +27,9 @@ namespace Seasar.Dao.Dbms
             get { return "_mdb"; }
         }
 
-        public override string GetSequenceNextValString(string sequenceName)
+        public override string IdentitySelectString
         {
-            return "select gen_id( " + sequenceName + ", 1 ) from RDB$DATABASE";
+            get { return "select @@identity"; }
         }
 
         public override KindOfDbms Dbms
