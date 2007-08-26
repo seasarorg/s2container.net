@@ -89,7 +89,7 @@ namespace Seasar.Extension.DataSets.Types
             {
                 return false;
             }
-            return arg1.Equals(arg2);
+            return arg1 != null ? arg1.Equals(arg2) : arg1 == arg2;
         }
 
         protected bool IsNullable(object value)
@@ -104,7 +104,6 @@ namespace Seasar.Extension.DataSets.Types
             }
             if (value is INullableType)
             {
-                INullableType nt = (INullableType) value;
                 if (!((INullableType) value).HasValue)
                 {
                     return true;
