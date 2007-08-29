@@ -35,7 +35,7 @@ namespace Seasar.Dao.Impl
             _dataReaderFactory = dataReaderFactory;
         }
 
-        public IDataReaderHandler DataReaderHandler
+        public virtual IDataReaderHandler DataReaderHandler
         {
             get { return _dataReaderHandler; }
         }

@@ -46,12 +46,12 @@ namespace Seasar.Dao.Impl
 
         #region IRelationPropertyType ƒƒ“ƒo
 
-        public int RelationNo
+        public virtual int RelationNo
         {
             get { return _relationNo; }
         }
 
-        public int KeySize
+        public virtual int KeySize
         {
             get
             {
@@ -62,7 +62,7 @@ namespace Seasar.Dao.Impl
             }
         }
 
-        public string GetMyKey(int index)
+        public virtual string GetMyKey(int index)
         {
             if (_myKeys.Length > 0)
                 return _myKeys[index];
@@ -70,7 +70,7 @@ namespace Seasar.Dao.Impl
                 return _beanMetaData.GetPrimaryKey(index);
         }
 
-        public string GetYourKey(int index)
+        public virtual string GetYourKey(int index)
         {
             if (_yourKeys.Length > 0)
                 return _yourKeys[index];
@@ -78,7 +78,7 @@ namespace Seasar.Dao.Impl
                 return _beanMetaData.GetPrimaryKey(index);
         }
 
-        public bool IsYourKey(string columnName)
+        public virtual bool IsYourKey(string columnName)
         {
             for (int i = 0; i < KeySize; ++i)
             {
@@ -88,7 +88,7 @@ namespace Seasar.Dao.Impl
             return false;
         }
 
-        public IBeanMetaData BeanMetaData
+        public virtual IBeanMetaData BeanMetaData
         {
             get { return _beanMetaData; }
         }
