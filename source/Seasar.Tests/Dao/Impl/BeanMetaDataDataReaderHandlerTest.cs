@@ -38,7 +38,7 @@ namespace Seasar.Tests.Dao.Impl
         public void TestHandle()
         {
             IDataReaderHandler handler = new BeanMetaDataDataReaderHandler(
-                CreateBeanMetaData(typeof(Employee)));
+                CreateBeanMetaData(typeof(Employee)), new RowCreatorImpl());
             string sql = "select emp.*, dept.deptno as deptno_0, dept.dname as dname_0 " +
                 "from emp, dept where empno = 7788 and emp.deptno = dept.deptno";
             Employee ret;
@@ -66,7 +66,7 @@ namespace Seasar.Tests.Dao.Impl
         public void TestHandle2()
         {
             IDataReaderHandler handler = new BeanMetaDataDataReaderHandler(
-                CreateBeanMetaData(typeof(Employee)));
+                CreateBeanMetaData(typeof(Employee)), new RowCreatorImpl());
             string sql = "select ename, job from emp where empno = 7788";
             Employee ret;
             using (IDbConnection con = Connection)
@@ -91,7 +91,7 @@ namespace Seasar.Tests.Dao.Impl
         public void TestHandle3()
         {
             IDataReaderHandler handler = new BeanMetaDataDataReaderHandler(
-                CreateBeanMetaData(typeof(Employee)));
+                CreateBeanMetaData(typeof(Employee)), new RowCreatorImpl());
             string sql = "select ename, dept.dname as dname_0 " +
                 "from emp, dept where empno = 7788 and emp.deptno = dept.deptno";
             Employee ret;
@@ -121,7 +121,7 @@ namespace Seasar.Tests.Dao.Impl
         public void TestMappingByPropertyName()
         {
             IDataReaderHandler handler = new BeanMetaDataDataReaderHandler(
-                CreateBeanMetaData(typeof(Employee)));
+                CreateBeanMetaData(typeof(Employee)), new RowCreatorImpl());
             string sql = "select job as jobname from emp where empno = 7788";
             Employee ret;
             using (IDbConnection con = Connection)

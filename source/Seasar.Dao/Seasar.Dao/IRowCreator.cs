@@ -19,28 +19,27 @@
 using System;
 using System.Collections;
 using System.Data;
+using System.Reflection;
+using Seasar.Extension.ADO;
+using Seasar.Framework.Util;
 
 namespace Seasar.Dao.Impl
 {
-    public class BeanGenericListMetaDataDataReaderHandler
-        : BeanListMetaDataDataReaderHandler
+    public interface IRowCreator
     {
-        public BeanGenericListMetaDataDataReaderHandler(
-            IBeanMetaData beanMetaData, IRowCreator rowCreator)
-            : base(beanMetaData, rowCreator)
-        {
-        }
+        /// <summary>
+        /// 1行分のオブジェクトを作成する
+        /// </summary>
+        /// <param name="reader">IDataReader</param>
+        /// <param name="columns">Columnのメタデータ</param>
+        /// <returns>1行分のEntity型のオブジェクト</returns>
+        object CreateRow(IDataReader reader, IColumnMetaData[] columns, Type beanType);
 
-        public override object Handle(IDataReader dataReader)
-        {
-            Type generic = typeof(System.Collections.Generic.List<>);
-            Type constructed = generic.MakeGenericType(BeanMetaData.BeanType);
-
-            object list = Activator.CreateInstance(constructed);
-
-            Handle(dataReader, (IList) list);
-
-            return list;
-        }
+        /// <summary>
+        /// Columnのメタデータを作成する
+        /// </summary>
+        /// <param name="columnNames">カラム名のリスト</param>
+        /// <returns>Columnのメタデータの配列</returns>
+        IColumnMetaData[] CreateColumnMetaData(IList columnNames, IBeanMetaData beanMetaData);
     }
 }

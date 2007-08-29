@@ -36,7 +36,7 @@ namespace Seasar.Tests.Dao.Impl
         {
             TestBeanMetaData beanMetaData = new TestBeanMetaData(typeof(TestBean));
 
-            TestDataReaderHandler handler = new TestDataReaderHandler(beanMetaData);
+            TestDataReaderHandler handler = new TestDataReaderHandler(beanMetaData, new RowCreatorImpl());
 
             IList columnNames = new CaseInsentiveSet();
             columnNames.Add("emp_no");
@@ -53,8 +53,8 @@ namespace Seasar.Tests.Dao.Impl
 
         private class TestDataReaderHandler : AbstractBeanMetaDataDataReaderHandler
         {
-            public TestDataReaderHandler(IBeanMetaData beanMetaData)
-                : base(beanMetaData)
+            public TestDataReaderHandler(IBeanMetaData beanMetaData, IRowCreator rowCreator)
+                : base(beanMetaData, rowCreator)
             {
             }
 

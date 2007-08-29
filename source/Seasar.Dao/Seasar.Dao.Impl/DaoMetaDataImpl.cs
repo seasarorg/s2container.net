@@ -300,11 +300,7 @@ namespace Seasar.Dao.Impl
             {
                 return CreateBeanArrayMetaDataDataReaderHandler(bmd);
             }
-#if NET_1_1
-            else if (typeof(IList).IsAssignableFrom(retType))
-#else
             else if (!retType.IsGenericType && typeof(IList).IsAssignableFrom(retType))
-#endif
             {
                 return CreateBeanListMetaDataDataReaderHandler(bmd);
             }
@@ -317,7 +313,6 @@ namespace Seasar.Dao.Impl
             {
                 return CreateBeanArrayMetaDataDataReaderHandler(bmd);
             }
-#if !NET_1_1
             else if (retType.IsGenericType
                 && (retType.GetGenericTypeDefinition().Equals(
                     typeof(System.Collections.Generic.IList<>))
@@ -326,7 +321,6 @@ namespace Seasar.Dao.Impl
             {
                 return CreateBeanGenericListMetaDataDataReaderHandler(bmd);
             }
-#endif
             else
             {
                 return CreateObjectDataReaderHandler();
@@ -335,28 +329,31 @@ namespace Seasar.Dao.Impl
 
         protected virtual BeanListMetaDataDataReaderHandler CreateBeanListMetaDataDataReaderHandler(IBeanMetaData bmd)
         {
-            return new BeanListMetaDataDataReaderHandler(bmd);
+            return new BeanListMetaDataDataReaderHandler(bmd, CreateRowCreator());
         }
 
         protected virtual BeanMetaDataDataReaderHandler CreateBeanMetaDataDataReaderHandler(IBeanMetaData bmd)
         {
-            return new BeanMetaDataDataReaderHandler(bmd);
+            return new BeanMetaDataDataReaderHandler(bmd, CreateRowCreator());
         }
 
         protected virtual BeanArrayMetaDataDataReaderHandler CreateBeanArrayMetaDataDataReaderHandler(IBeanMetaData bmd)
         {
-            return new BeanArrayMetaDataDataReaderHandler(bmd);
+            return new BeanArrayMetaDataDataReaderHandler(bmd, CreateRowCreator());
         }
 
-#if !NET_1_1
         protected virtual BeanGenericListMetaDataDataReaderHandler CreateBeanGenericListMetaDataDataReaderHandler(IBeanMetaData bmd)
         {
-            return new BeanGenericListMetaDataDataReaderHandler(bmd);
+            return new BeanGenericListMetaDataDataReaderHandler(bmd, CreateRowCreator());
         }
-#endif
+
         protected virtual ObjectDataReaderHandler CreateObjectDataReaderHandler()
         {
             return new ObjectDataReaderHandler();
+        }
+
+        protected virtual IRowCreator CreateRowCreator() {// [DAONET-56] (2007/08/29)
+            return new RowCreatorImpl();
         }
 
         protected virtual bool IsBeanTypeAssignable(Type type)
@@ -722,19 +719,19 @@ namespace Seasar.Dao.Impl
         public ISqlCommand CreateFindCommand(string query)
         {
             return CreateSelectDynamicCommand(new BeanListMetaDataDataReaderHandler(
-                _beanMetaData), query);
+                _beanMetaData, CreateRowCreator()), query);
         }
 
         public ISqlCommand CreateFindArrayCommand(string query)
         {
             return CreateSelectDynamicCommand(new BeanArrayMetaDataDataReaderHandler(
-                _beanMetaData), query);
+                _beanMetaData, CreateRowCreator()), query);
         }
 
         public ISqlCommand CreateFindBeanCommand(string query)
         {
             return CreateSelectDynamicCommand(new BeanMetaDataDataReaderHandler(
-                _beanMetaData), query);
+                _beanMetaData, CreateRowCreator()), query);
         }
 
         public ISqlCommand CreateFindObjectCommand(string query)

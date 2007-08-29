@@ -26,8 +26,8 @@ namespace Seasar.Dao.Impl
     public class BeanListMetaDataDataReaderHandler
         : AbstractBeanMetaDataDataReaderHandler
     {
-        public BeanListMetaDataDataReaderHandler(IBeanMetaData beanMetaData)
-            : base(beanMetaData)
+        public BeanListMetaDataDataReaderHandler(IBeanMetaData beanMetaData, IRowCreator rowCreator)
+            : base(beanMetaData, rowCreator)
         {
         }
 
@@ -44,12 +44,17 @@ namespace Seasar.Dao.Impl
         {
             IList columnNames = CreateColumnNames(dataReader.GetSchemaTable());
 
-            IColumnMetaData[] columns = CreateColumnMetaData(columnNames);
+            IColumnMetaData[] columns = null;// [DAONET-56] (2007/08/29)
 
             int relSize = BeanMetaData.RelationPropertyTypeSize;
             RelationRowCache relRowCache = new RelationRowCache(relSize);
             while (dataReader.Read())
             {
+                // Lazy initialization because if the result is zero, the cache is unused.
+                if (columns == null) {
+                    columns = CreateColumnMetaData(columnNames);
+                }
+
                 object row = CreateRow(dataReader, columns);
                 for (int i = 0; i < relSize; ++i)
                 {
