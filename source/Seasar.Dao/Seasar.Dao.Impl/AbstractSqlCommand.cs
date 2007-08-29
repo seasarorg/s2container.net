@@ -35,12 +35,12 @@ namespace Seasar.Dao.Impl
             _commandFactory = commandFactory;
         }
 
-        public IDataSource DataSource
+        public virtual IDataSource DataSource
         {
             get { return _dataSource; }
         }
 
-        public ICommandFactory CommandFactory
+        public virtual ICommandFactory CommandFactory
         {
             get { return _commandFactory; }
         }
@@ -51,7 +51,7 @@ namespace Seasar.Dao.Impl
             set { _sql = value; }
         }
 
-        public Type NotSingleRowUpdatedExceptionType
+        public virtual Type NotSingleRowUpdatedExceptionType
         {
             get { return _notSingleRowUpdatedExceptionType; }
             set { _notSingleRowUpdatedExceptionType = value; }

@@ -72,7 +72,7 @@ namespace Seasar.Dao.Impl
             Initialize(dbMetaData, dbms);
         }
 
-        public void Initialize(IDatabaseMetaData dbMetaData, IDbms dbms)
+        public virtual void Initialize(IDatabaseMetaData dbMetaData, IDbms dbms)
         {
             _beanAnnotationReader = AnnotationReaderFactory.CreateBeanAnnotationReader(BeanType);
             SetupTableName(BeanType);
@@ -83,7 +83,7 @@ namespace Seasar.Dao.Impl
             SetupPropertiesByColumnName();
         }
 
-        protected IAnnotationReaderFactory AnnotationReaderFactory
+        protected virtual IAnnotationReaderFactory AnnotationReaderFactory
         {
             get { return _annotationReaderFactory; }
             set { _annotationReaderFactory = value; }
@@ -96,47 +96,47 @@ namespace Seasar.Dao.Impl
             get { return _tableName; }
         }
 
-        public IPropertyType VersionNoPropertyType
+        public virtual IPropertyType VersionNoPropertyType
         {
             get { return GetPropertyType(_versionNoPropertyName); }
         }
 
-        public string VersionNoPropertyName
+        public virtual string VersionNoPropertyName
         {
             get { return _versionNoPropertyName; }
         }
 
-        public string VersionNoBindingName
+        public virtual string VersionNoBindingName
         {
             get { return _versionNoBindingName; }
         }
 
-        public bool HasVersionNoPropertyType
+        public virtual bool HasVersionNoPropertyType
         {
             get { return HasPropertyType(_versionNoPropertyName); }
         }
 
-        public IPropertyType TimestampPropertyType
+        public virtual IPropertyType TimestampPropertyType
         {
             get { return GetPropertyType(_timestampPropertyName); }
         }
 
-        public string TimestampPropertyName
+        public virtual string TimestampPropertyName
         {
             get { return _timestampPropertyName; }
         }
 
-        public string TimestampBindingName
+        public virtual string TimestampBindingName
         {
             get { return _timestampBindingName; }
         }
 
-        public bool HasTimestampPropertyType
+        public virtual bool HasTimestampPropertyType
         {
             get { return HasPropertyType(_timestampPropertyName); }
         }
 
-        public string ConvertFullColumnName(string alias)
+        public virtual string ConvertFullColumnName(string alias)
         {
             if (HasPropertyTypeByColumnName(alias))
                 return _tableName + "." + alias;
@@ -160,7 +160,7 @@ namespace Seasar.Dao.Impl
             return rpt.PropertyName + "." + columnName;
         }
 
-        public IPropertyType GetPropertyTypeByAliasName(string aliasName)
+        public virtual IPropertyType GetPropertyTypeByAliasName(string aliasName)
         {
             if (HasPropertyTypeByColumnName(aliasName))
                 return GetPropertyTypeByColumnName(aliasName);
@@ -184,7 +184,7 @@ namespace Seasar.Dao.Impl
             return rpt.BeanMetaData.GetPropertyTypeByAliasName(columnName);
         }
 
-        public IPropertyType GetPropertyTypeByColumnName(string columnName)
+        public virtual IPropertyType GetPropertyTypeByColumnName(string columnName)
         {
             IPropertyType propertyType = (IPropertyType) _propertyTypesByColumnName[columnName];
             if (propertyType == null)
@@ -193,12 +193,12 @@ namespace Seasar.Dao.Impl
             return propertyType;
         }
 
-        public bool HasPropertyTypeByColumnName(string columnName)
+        public virtual bool HasPropertyTypeByColumnName(string columnName)
         {
             return _propertyTypesByColumnName[columnName] != null;
         }
 
-        public bool HasPropertyTypeByAliasName(string aliasName)
+        public virtual bool HasPropertyTypeByAliasName(string aliasName)
         {
             if (HasPropertyTypeByColumnName(aliasName)) return true;
             int index = aliasName.LastIndexOf('_');
@@ -219,12 +219,12 @@ namespace Seasar.Dao.Impl
             return rpt.BeanMetaData.HasPropertyTypeByColumnName(columnName);
         }
 
-        public int RelationPropertyTypeSize
+        public virtual int RelationPropertyTypeSize
         {
             get { return _relationProeprtyTypes.Count; }
         }
 
-        public IRelationPropertyType GetRelationPropertyType(int index)
+        public virtual IRelationPropertyType GetRelationPropertyType(int index)
         {
             return (IRelationPropertyType) _relationProeprtyTypes[index];
         }
@@ -241,22 +241,22 @@ namespace Seasar.Dao.Impl
             throw new PropertyNotFoundRuntimeException(BeanType, propertyName);
         }
 
-        public int PrimaryKeySize
+        public virtual int PrimaryKeySize
         {
             get { return _primaryKeys.Length; }
         }
 
-        public string GetPrimaryKey(int index)
+        public virtual string GetPrimaryKey(int index)
         {
             return _primaryKeys[index];
         }
 
-        public IIdentifierGenerator IdentifierGenerator
+        public virtual IIdentifierGenerator IdentifierGenerator
         {
             get { return _identifierGenerator; }
         }
 
-        public string AutoSelectList
+        public virtual string AutoSelectList
         {
             get
             {
@@ -270,7 +270,7 @@ namespace Seasar.Dao.Impl
             }
         }
 
-        public bool IsRelation
+        public virtual bool IsRelation
         {
             get { return _relation; }
         }

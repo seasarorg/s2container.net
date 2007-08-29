@@ -51,7 +51,7 @@ namespace Seasar.Dao.Impl
             Initialize();
         }
 
-        public void Initialize()
+        public virtual void Initialize()
         {
             SetupPropertyType();
         }
@@ -105,7 +105,7 @@ namespace Seasar.Dao.Impl
 
         #endregion
 
-        protected void SetupPropertyType()
+        protected virtual void SetupPropertyType()
         {
             foreach (PropertyInfo pi in _beanType.GetProperties())
             {
@@ -114,7 +114,7 @@ namespace Seasar.Dao.Impl
             }
         }
 
-        protected IPropertyType CreatePropertyType(PropertyInfo pi)
+        protected virtual IPropertyType CreatePropertyType(PropertyInfo pi)
         {
             string columnName = _beanAnnotationReader.GetColumn(pi);
             if (columnName == null)
@@ -126,7 +126,7 @@ namespace Seasar.Dao.Impl
             return pt;
         }
 
-        protected void AddPropertyType(IPropertyType propertyType)
+        protected virtual void AddPropertyType(IPropertyType propertyType)
         {
             _propertyTypes.Add(propertyType.PropertyName, propertyType);
         }

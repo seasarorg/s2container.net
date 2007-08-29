@@ -44,26 +44,26 @@ namespace Seasar.Dao.Impl
             }
         }
 
-        public string[] ArgNames
+        public virtual string[] ArgNames
         {
             get { return _argNames; }
             set { _argNames = value; }
         }
 
-        public Type[] ArgTypes
+        public virtual Type[] ArgTypes
         {
             get { return _argTypes; }
             set { _argTypes = value; }
         }
 
-        protected ICommandContext Apply(object[] args)
+        protected virtual ICommandContext Apply(object[] args)
         {
             ICommandContext ctx = CreateCommandContext(args);
             _rootNode.Accept(ctx);
             return ctx;
         }
 
-        protected ICommandContext CreateCommandContext(object[] args)
+        protected virtual ICommandContext CreateCommandContext(object[] args)
         {
             ICommandContext ctx = GetCommandContext();
             if (args != null)
@@ -87,7 +87,7 @@ namespace Seasar.Dao.Impl
             return ctx;
         }
 
-        private ICommandContext GetCommandContext()
+        protected virtual ICommandContext GetCommandContext()
         {
             return new CommandContextImpl();
         }
