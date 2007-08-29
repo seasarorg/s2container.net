@@ -39,7 +39,7 @@ namespace Seasar.Tests.Dao.Impl
         public void TestHandle()
         {
             IDataReaderHandler handler = new BeanGenericListMetaDataDataReaderHandler(
-                CreateBeanMetaData(typeof(Employee)), new RowCreatorImpl());
+                CreateBeanMetaData(typeof(Employee)), new RowCreatorImpl(), new RelationRowCreatorImpl());
 
             string sql = "select * from emp";
             using (IDbConnection con = Connection)
@@ -68,7 +68,7 @@ namespace Seasar.Tests.Dao.Impl
         public void TestHandle2()
         {
             IDataReaderHandler handler = new BeanGenericListMetaDataDataReaderHandler(
-                CreateBeanMetaData(typeof(Employee)), new RowCreatorImpl());
+                CreateBeanMetaData(typeof(Employee)), new RowCreatorImpl(), new RelationRowCreatorImpl());
 
             string sql = "select emp.*, dept.dname as dname_0 from emp, dept where emp.deptno = dept.deptno and emp.deptno = 20";
             using (IDbConnection con = Connection)
@@ -101,7 +101,7 @@ namespace Seasar.Tests.Dao.Impl
         public void TestHandle3()
         {
             IDataReaderHandler handler = new BeanGenericListMetaDataDataReaderHandler(
-                CreateBeanMetaData(typeof(Employee)), new RowCreatorImpl());
+                CreateBeanMetaData(typeof(Employee)), new RowCreatorImpl(), new RelationRowCreatorImpl());
 
             string sql = "select emp.*, dept.deptno as deptno_0, dept.dname as dname_0 from emp, dept where dept.deptno = 20 and emp.deptno = dept.deptno";
             using (IDbConnection con = Connection)

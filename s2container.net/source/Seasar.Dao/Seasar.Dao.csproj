@@ -263,6 +263,7 @@
     </Compile>
     <Compile Include="Seasar.Dao.Impl\FieldAnnotationReaderFactory.cs" />
     <Compile Include="Seasar.Dao.Impl\RowCreatorImpl.cs" />
+    <Compile Include="Seasar.Dao.Impl\RelationRowCreatorImpl.cs" />
     <Compile Include="Seasar.Dao.Interceptors\S2DaoInterceptor.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -375,6 +376,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Seasar.Dao\IAnnotationReaderFactory.cs" />
+    <Compile Include="Seasar.Dao\IRelationRowCreator.cs" />
     <EmbeddedResource Include="DAOMessages.ja-JP.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>

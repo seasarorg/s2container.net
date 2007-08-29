@@ -16,7 +16,7 @@
  */
 #endregion
 
-using System.Collections;
+using System.Collections.Generic;
 using System.Data;
 using System.Reflection;
 using Seasar.Extension.ADO;
@@ -26,25 +26,26 @@ namespace Seasar.Dao.Impl
     public class BeanListMetaDataDataReaderHandler
         : AbstractBeanMetaDataDataReaderHandler
     {
-        public BeanListMetaDataDataReaderHandler(IBeanMetaData beanMetaData, IRowCreator rowCreator)
-            : base(beanMetaData, rowCreator)
+        public BeanListMetaDataDataReaderHandler(IBeanMetaData beanMetaData, IRowCreator rowCreator, IRelationRowCreator relationRowCreator)
+            : base(beanMetaData, rowCreator, relationRowCreator)
         {
         }
 
         public override object Handle(IDataReader dataReader)
         {
-            ArrayList list = new ArrayList();
+            System.Collections.ArrayList list = new System.Collections.ArrayList();
 
             Handle(dataReader, list);
 
             return list;
         }
 
-        protected void Handle(IDataReader dataReader, IList list)
+        protected void Handle(IDataReader dataReader, System.Collections.IList list)
         {
-            IList columnNames = CreateColumnNames(dataReader.GetSchemaTable());
+            System.Collections.IList columnNames = CreateColumnNames(dataReader.GetSchemaTable());
 
             IColumnMetaData[] columns = null;// [DAONET-56] (2007/08/29)
+            IDictionary<string, IDictionary<string, IColumnMetaData>> relationColumnMetaData = null;
 
             int relSize = BeanMetaData.RelationPropertyTypeSize;
             RelationRowCache relRowCache = new RelationRowCache(relSize);
@@ -54,6 +55,9 @@ namespace Seasar.Dao.Impl
                 if (columns == null) {
                     columns = CreateColumnMetaData(columnNames);
                 }
+                if (relationColumnMetaData == null) {
+                    relationColumnMetaData = CreateRelationColumnMetaData(columnNames);
+                }
 
                 object row = CreateRow(dataReader, columns);
                 for (int i = 0; i < relSize; ++i)
@@ -62,7 +66,7 @@ namespace Seasar.Dao.Impl
                     if (rpt == null) continue;
 
                     object relRow = null;
-                    Hashtable relKeyValues = new Hashtable();
+                    System.Collections.Hashtable relKeyValues = new System.Collections.Hashtable();
                     RelationKey relKey = CreateRelationKey(dataReader, rpt, columnNames,
                         relKeyValues);
                     if (relKey != null)
@@ -71,7 +75,7 @@ namespace Seasar.Dao.Impl
                         if (relRow == null)
                         {
                             relRow = CreateRelationRow(dataReader, rpt, columnNames,
-                                relKeyValues);
+                                relKeyValues, relationColumnMetaData);
                             relRowCache.AddRelationRow(i, relKey, relRow);
                         }
                     }
@@ -86,9 +90,9 @@ namespace Seasar.Dao.Impl
         }
 
         protected RelationKey CreateRelationKey(IDataReader reader,
-            IRelationPropertyType rpt, IList columnNames, Hashtable relKeyValues)
+            IRelationPropertyType rpt, System.Collections.IList columnNames, System.Collections.Hashtable relKeyValues)
         {
-            ArrayList keyList = new ArrayList();
+            System.Collections.ArrayList keyList = new System.Collections.ArrayList();
             IBeanMetaData bmd = rpt.BeanMetaData;
             for (int i = 0; i < rpt.KeySize; ++i)
             {
