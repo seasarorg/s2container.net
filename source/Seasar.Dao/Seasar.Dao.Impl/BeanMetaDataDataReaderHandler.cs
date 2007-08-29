@@ -16,7 +16,7 @@
  */
 #endregion
 
-using System.Collections;
+using System.Collections.Generic;
 using System.Data;
 using System.Reflection;
 
@@ -25,8 +25,8 @@ namespace Seasar.Dao.Impl
     public class BeanMetaDataDataReaderHandler
         : AbstractBeanMetaDataDataReaderHandler
     {
-        public BeanMetaDataDataReaderHandler(IBeanMetaData beanMetaData, IRowCreator rowCreator)
-            : base(beanMetaData, rowCreator)
+        public BeanMetaDataDataReaderHandler(IBeanMetaData beanMetaData, IRowCreator rowCreator, IRelationRowCreator relationRowCreator)
+            : base(beanMetaData, rowCreator, relationRowCreator)
         {
         }
 
@@ -34,8 +34,9 @@ namespace Seasar.Dao.Impl
         {
             if (dataReader.Read())
             {
-                IList columnNames = CreateColumnNames(dataReader.GetSchemaTable());
+                System.Collections.IList columnNames = CreateColumnNames(dataReader.GetSchemaTable());
                 IColumnMetaData[] columns = CreateColumnMetaData(columnNames);
+                IDictionary<string, IDictionary<string, IColumnMetaData>> relationColumnMetaData = CreateRelationColumnMetaData(columnNames);
                 object row = CreateRow(dataReader, columns);
                 for (int i = 0; i < BeanMetaData.RelationPropertyTypeSize; ++i)
                 {
@@ -43,7 +44,7 @@ namespace Seasar.Dao.Impl
                         .GetRelationPropertyType(i);
                     if (rpt == null) continue;
                     object relationRow = CreateRelationRow(dataReader, rpt,
-                        columnNames, null);
+                        columnNames, null, relationColumnMetaData);
                     if (relationRow != null)
                     {
                         PropertyInfo pi = rpt.PropertyInfo;

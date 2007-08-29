@@ -17,7 +17,7 @@
 #endregion
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Data;
 using System.Reflection;
 using Seasar.Extension.ADO;
@@ -25,7 +25,7 @@ using Seasar.Framework.Util;
 
 namespace Seasar.Dao
 {
-    public interface IRowCreator
+    public interface IRelationRowCreator
     {
         /// <summary>
         /// 1行分のオブジェクトを作成する
@@ -33,13 +33,15 @@ namespace Seasar.Dao
         /// <param name="reader">IDataReader</param>
         /// <param name="columns">Columnのメタデータ</param>
         /// <returns>1行分のEntity型のオブジェクト</returns>
-        object CreateRow(IDataReader reader, IColumnMetaData[] columns, Type beanType);
+        object CreateRelationRow(IDataReader reader, IRelationPropertyType rpt,
+            System.Collections.IList columnNames, System.Collections.Hashtable relKeyValues,
+            IDictionary<string, IDictionary<string, IColumnMetaData>> columnMetaDataDic);
 
         /// <summary>
         /// Columnのメタデータを作成する
         /// </summary>
         /// <param name="columnNames">カラム名のリスト</param>
         /// <returns>Columnのメタデータの配列</returns>
-        IColumnMetaData[] CreateColumnMetaData(IList columnNames, IBeanMetaData beanMetaData);
+        IDictionary<string, IDictionary<string, IColumnMetaData>> CreateRelationColumnMetaData(System.Collections.IList columnNames, IBeanMetaData beanMetaData);
     }
 }

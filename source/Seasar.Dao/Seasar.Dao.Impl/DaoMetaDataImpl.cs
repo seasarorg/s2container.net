@@ -329,22 +329,22 @@ namespace Seasar.Dao.Impl
 
         protected virtual BeanListMetaDataDataReaderHandler CreateBeanListMetaDataDataReaderHandler(IBeanMetaData bmd)
         {
-            return new BeanListMetaDataDataReaderHandler(bmd, CreateRowCreator());
+            return new BeanListMetaDataDataReaderHandler(bmd, CreateRowCreator(), CreateRelationRowCreator());
         }
 
         protected virtual BeanMetaDataDataReaderHandler CreateBeanMetaDataDataReaderHandler(IBeanMetaData bmd)
         {
-            return new BeanMetaDataDataReaderHandler(bmd, CreateRowCreator());
+            return new BeanMetaDataDataReaderHandler(bmd, CreateRowCreator(), CreateRelationRowCreator());
         }
 
         protected virtual BeanArrayMetaDataDataReaderHandler CreateBeanArrayMetaDataDataReaderHandler(IBeanMetaData bmd)
         {
-            return new BeanArrayMetaDataDataReaderHandler(bmd, CreateRowCreator());
+            return new BeanArrayMetaDataDataReaderHandler(bmd, CreateRowCreator(), CreateRelationRowCreator());
         }
 
         protected virtual BeanGenericListMetaDataDataReaderHandler CreateBeanGenericListMetaDataDataReaderHandler(IBeanMetaData bmd)
         {
-            return new BeanGenericListMetaDataDataReaderHandler(bmd, CreateRowCreator());
+            return new BeanGenericListMetaDataDataReaderHandler(bmd, CreateRowCreator(), CreateRelationRowCreator());
         }
 
         protected virtual ObjectDataReaderHandler CreateObjectDataReaderHandler()
@@ -354,6 +354,10 @@ namespace Seasar.Dao.Impl
 
         protected virtual IRowCreator CreateRowCreator() {// [DAONET-56] (2007/08/29)
             return new RowCreatorImpl();
+        }
+
+        protected virtual IRelationRowCreator CreateRelationRowCreator() {// [DAONET-56] (2007/08/29)
+            return new RelationRowCreatorImpl();
         }
 
         protected virtual bool IsBeanTypeAssignable(Type type)
@@ -719,19 +723,19 @@ namespace Seasar.Dao.Impl
         public ISqlCommand CreateFindCommand(string query)
         {
             return CreateSelectDynamicCommand(new BeanListMetaDataDataReaderHandler(
-                _beanMetaData, CreateRowCreator()), query);
+                _beanMetaData, CreateRowCreator(), CreateRelationRowCreator()), query);
         }
 
         public ISqlCommand CreateFindArrayCommand(string query)
         {
             return CreateSelectDynamicCommand(new BeanArrayMetaDataDataReaderHandler(
-                _beanMetaData, CreateRowCreator()), query);
+                _beanMetaData, CreateRowCreator(), CreateRelationRowCreator()), query);
         }
 
         public ISqlCommand CreateFindBeanCommand(string query)
         {
             return CreateSelectDynamicCommand(new BeanMetaDataDataReaderHandler(
-                _beanMetaData, CreateRowCreator()), query);
+                _beanMetaData, CreateRowCreator(), CreateRelationRowCreator()), query);
         }
 
         public ISqlCommand CreateFindObjectCommand(string query)
