@@ -39,7 +39,7 @@ namespace Seasar.Tests.Dao.Impl
         {
             SelectDynamicCommand cmd = new SelectDynamicCommand(DataSource,
                 BasicCommandFactory.INSTANCE,
-                new BeanMetaDataDataReaderHandler(CreateBeanMetaData(typeof(Employee))),
+                new BeanMetaDataDataReaderHandler(CreateBeanMetaData(typeof(Employee)), new RowCreatorImpl()),
                 BasicDataReaderFactory.INSTANCE);
             cmd.Sql = "SELECT * FROM emp WHERE empno = /*empno*/1234";
             cmd.ArgNames = new string[] { "empno" };

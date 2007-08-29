@@ -262,6 +262,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Seasar.Dao.Impl\FieldAnnotationReaderFactory.cs" />
+    <Compile Include="Seasar.Dao.Impl\RowCreatorImpl.cs" />
     <Compile Include="Seasar.Dao.Interceptors\S2DaoInterceptor.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -369,6 +370,7 @@
     <Compile Include="Seasar.Dao\KindOfDbms.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Dao\IRowCreator.cs" />
     <Compile Include="Seasar.Dao\TokenType.cs">
       <SubType>Code</SubType>
     </Compile>

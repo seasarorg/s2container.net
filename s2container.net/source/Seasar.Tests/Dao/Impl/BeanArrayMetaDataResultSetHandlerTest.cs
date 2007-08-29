@@ -38,7 +38,7 @@ namespace Seasar.Tests.Dao.Impl
         public void TestHandle()
         {
             IDataReaderHandler handler = new BeanArrayMetaDataDataReaderHandler(
-                CreateBeanMetaData(typeof(Employee)));
+                CreateBeanMetaData(typeof(Employee)), new RowCreatorImpl());
 
             string sql = "select * from emp";
             using (IDbConnection con = Connection)

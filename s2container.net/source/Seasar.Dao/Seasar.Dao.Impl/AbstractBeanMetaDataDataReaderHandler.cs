@@ -29,9 +29,17 @@ namespace Seasar.Dao.Impl
     {
         private readonly IBeanMetaData _beanMetaData;
 
-        public AbstractBeanMetaDataDataReaderHandler(IBeanMetaData beanMetaData)
+        protected IRowCreator _rowCreator;// [DAONET-56] (2007/08/29)
+
+        /// <summary>
+        /// コンストラクタ。
+        /// </summary>
+        /// <param name="beanMetaData">Bean meta data. (NotNull)</param>
+        /// <param name="rowCreator">Row creator. (NotNull)</param>
+        public AbstractBeanMetaDataDataReaderHandler(IBeanMetaData beanMetaData, IRowCreator rowCreator)
         {
             _beanMetaData = beanMetaData;
+            _rowCreator = rowCreator;
         }
 
         public IBeanMetaData BeanMetaData
@@ -46,91 +54,7 @@ namespace Seasar.Dao.Impl
         /// <returns>Columnのメタデータの配列</returns>
         protected virtual IColumnMetaData[] CreateColumnMetaData(IList columnNames)
         {
-#if NET_1_1
-            IDictionary names = null;
-            ArrayList columnMetaDataList = new ArrayList();
-#else
-            System.Collections.Generic.IDictionary<string, string> names = null;
-            System.Collections.Generic.List<IColumnMetaData> columnMetaDataList =
-                new System.Collections.Generic.List<IColumnMetaData>();
-#endif
-
-            for (int i = 0; i < _beanMetaData.PropertyTypeSize; ++i)
-            {
-                IPropertyType pt = _beanMetaData.GetPropertyType(i);
-                string columnName;
-
-                columnName = FindColumnName(columnNames, pt.ColumnName);
-
-                if (columnName != null)
-                {
-                    columnMetaDataList.Add(new ColumnMetaDataImpl(pt, columnName));
-                    continue;
-                }
-
-                columnName = FindColumnName(columnNames, pt.PropertyName);
-
-                if (columnName != null)
-                {
-                    columnMetaDataList.Add(new ColumnMetaDataImpl(pt, columnName));
-                    continue;
-                }
-
-                if (!pt.IsPersistent)
-                {
-                    if (names == null)
-                    {
-#if NET_1_1
-                        names = new Hashtable();
-#else
-                        names = new System.Collections.Generic.Dictionary<string, string>();
-#endif
-                        foreach (string name in columnNames)
-                        {
-                            names[name.Replace("_", string.Empty).ToUpper()] = name;
-                        }
-                    }
-#if NET_1_1
-                    if (names.Contains(pt.ColumnName.ToUpper()))
-                    {
-                        columnMetaDataList.Add(new ColumnMetaDataImpl(
-                            pt, (string) names[pt.ColumnName.ToUpper()]));
-                    }
-#else
-                    if (names.ContainsKey(pt.ColumnName.ToUpper()))
-                    {
-                        columnMetaDataList.Add(new ColumnMetaDataImpl(
-                            pt, names[pt.ColumnName.ToUpper()]));
-                    }
-#endif
-
-                }
-            }
-
-#if NET_1_1
-            return (IColumnMetaData[]) columnMetaDataList.ToArray(typeof(IColumnMetaData));
-#else
-            return columnMetaDataList.ToArray();
-#endif
-
-        }
-
-        /// <summary>
-        /// カラム名のリストから大文字小文字を区別せずに一致するカラム名を探す
-        /// </summary>
-        /// <param name="columnNames">検索対象のカラム名のリスト</param>
-        /// <param name="columnName">探し出すカラム名</param>
-        /// <returns>見つかったカラム名（カラム名のリストから取得したカラム名）</returns>
-        protected virtual string FindColumnName(IList columnNames, string columnName)
-        {
-            foreach (string realColumnName in columnNames)
-            {
-                if (string.Compare(realColumnName, columnName, true) == 0)
-                {
-                    return realColumnName;
-                }
-            }
-            return null;
+            return _rowCreator.CreateColumnMetaData(columnNames, _beanMetaData);
         }
 
         /// <summary>
@@ -141,15 +65,7 @@ namespace Seasar.Dao.Impl
         /// <returns>1行分のEntity型のオブジェクト</returns>
         protected virtual object CreateRow(IDataReader reader, IColumnMetaData[] columns)
         {
-            object row = ClassUtil.NewInstance(_beanMetaData.BeanType);
-
-            foreach (IColumnMetaData column in columns)
-            {
-                object value = column.ValueType.GetValue(reader, column.ColumnName);
-                column.PropertyInfo.SetValue(row, value, null);
-            }
-
-            return row;
+            return _rowCreator.CreateRow(reader, columns, _beanMetaData.BeanType);
         }
 
         protected virtual object CreateRelationRow(IDataReader reader, IRelationPropertyType rpt,
@@ -176,6 +92,9 @@ namespace Seasar.Dao.Impl
             for (int i = 0; i < bmd.PropertyTypeSize; ++i)
             {
                 IPropertyType pt = bmd.GetPropertyType(i);
+                if (!IsTargetProperty(pt)) {
+                    continue;
+                }
                 string columnName = pt.ColumnName + "_" + rpt.RelationNo;
                 if (!columnNames.Contains(columnName)) continue;
                 if (row == null) row = CreateRelationRow(rpt);
@@ -193,6 +112,10 @@ namespace Seasar.Dao.Impl
                 if (value != null) pi.SetValue(row, value, null);
             }
             return row;
+        }
+
+        protected virtual bool IsTargetProperty(IPropertyType pt) {// [DAONET-56] (2007/08/29)
+            return pt.PropertyInfo.CanWrite;
         }
 
         protected virtual object CreateRelationRow(IRelationPropertyType rpt)

@@ -24,8 +24,8 @@ namespace Seasar.Dao.Impl
     public class BeanArrayMetaDataDataReaderHandler
         : BeanListMetaDataDataReaderHandler
     {
-        public BeanArrayMetaDataDataReaderHandler(IBeanMetaData beanMetaData)
-            : base(beanMetaData)
+        public BeanArrayMetaDataDataReaderHandler(IBeanMetaData beanMetaData, IRowCreator rowCreator)
+            : base(beanMetaData, rowCreator)
         {
         }
 
