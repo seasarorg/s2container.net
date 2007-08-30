@@ -48,7 +48,6 @@ namespace Seasar.Tests.Dao.Impl
             Assert.AreEqual(typeof(Employee), rsh.BeanMetaData.BeanType, "3");
         }
 
-#if !NET_1_1
         [Test, S2]
         public void TestSelectGenericList1()
         {
@@ -70,7 +69,6 @@ namespace Seasar.Tests.Dao.Impl
             BeanGenericListMetaDataDataReaderHandler rsh = (BeanGenericListMetaDataDataReaderHandler) cmd.DataReaderHandler;
             Assert.AreEqual(typeof(Employee), rsh.BeanMetaData.BeanType, "3");
         }
-#endif
 
         [Test, S2]
         public void TestSelectBeanArray()
@@ -283,7 +281,11 @@ namespace Seasar.Tests.Dao.Impl
             Assert.IsTrue(emps.Count > 0, "1");
             foreach (Employee2 emp in emps)
             {
-                Assert.IsNotNull(emp.Department2);
+                // [DAONET-56]のPerformance改善のため、
+                // 空Entityは作成しないようにした。
+                // これでJava版S2Daoと同じ仕様になる。[DAO-7]
+                // Assert.IsNotNull(emp.Department2);
+                Assert.IsNull(emp.Department2);
             }
         }
 
