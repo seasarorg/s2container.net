@@ -40,8 +40,12 @@ namespace Seasar.Dao.Impl
             set
             {
                 base.Sql = value;
-                _rootNode = new SqlParserImpl(value).Parse();
+                _rootNode = CreateSqlParser(value).Parse();
             }
+        }
+
+        protected virtual ISqlParser CreateSqlParser(string sqlString) {
+            return new SqlParserImpl(sqlString);
         }
 
         public virtual string[] ArgNames
