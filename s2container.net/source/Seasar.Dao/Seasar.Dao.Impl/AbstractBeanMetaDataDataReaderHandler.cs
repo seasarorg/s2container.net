@@ -16,6 +16,7 @@
  */
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Reflection;
@@ -72,13 +73,13 @@ namespace Seasar.Dao.Impl
         }
 
         /// <summary>
-        /// 関連オブジェクトのColumnのメタデータを作成する
+        /// 関連オブジェクトのプロパティキャッシュを作成する
         /// </summary>
         /// <param name="columnNames">カラム名のリスト (NotNull)</param>
-        /// <returns>関連オブジェクトのColumnのメタデータのDictionary (NotNull)</returns>
-        protected virtual IDictionary<string, IDictionary<string, IColumnMetaData>> CreateRelationColumnMetaData(System.Collections.IList columnNames)
+        /// <returns>関連オブジェクトのプロパティキャッシュ (NotNull)</returns>
+        protected virtual IDictionary<string, IDictionary<string, IPropertyType>> CreateRelationPropertyCache(System.Collections.IList columnNames)
         {
-            return _relationRowCreator.CreateRelationColumnMetaData(columnNames, _beanMetaData);
+            return _relationRowCreator.CreateRelationPropertyCache(columnNames, _beanMetaData);
         }
 
         /// <summary>
@@ -88,11 +89,11 @@ namespace Seasar.Dao.Impl
         /// <param name="rpt">Relation property type. (NotNull)</param>
         /// <param name="columnNames">The list of column name. (NotNull)</param>
         /// <param name="relKeyValues">The hashtable of rel key values. (NotNull)</param>
-        /// <param name="relationColumnMetaDataCache">The dictionary of relation column meta data cache. (NotNull)</param>
+        /// <param name="relationColumnMetaDataCache">The dictionary of relation property cache. (NotNull)</param>
         /// <returns>1行分のEntity型のオブジェクト (Nullable)</returns>
         protected virtual object CreateRelationRow(IDataReader reader, IRelationPropertyType rpt,
             System.Collections.IList columnNames, System.Collections.Hashtable relKeyValues,
-            IDictionary<string, IDictionary<string, IColumnMetaData>> relationColumnMetaDataCache)
+            IDictionary<String, IDictionary<String, IPropertyType>> relationColumnMetaDataCache)
         {
             return _relationRowCreator.CreateRelationRow(reader, rpt, columnNames, relKeyValues, relationColumnMetaDataCache);
         }

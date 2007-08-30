@@ -177,22 +177,34 @@ namespace Seasar.Dao.Parser
             string s = _tokenizer.SkipToken();
             if (s.StartsWith("(") && s.EndsWith(")"))
             {
-                Peek().AddChild(new ParenBindVariableNode(expr));
+                Peek().AddChild(CreateParenBindVariableNode(expr));
             }
             else if (expr.StartsWith("$"))
             {
-                Peek().AddChild(new EmbeddedValueNode(expr.Substring(1)));
+                Peek().AddChild(CreateEmbeddedValueNode(expr.Substring(1)));
             }
             else
             {
-                Peek().AddChild(new BindVariableNode(expr));
+                Peek().AddChild(CreateBindVariableNode(expr));
             }
         }
 
         protected void ParseBindVariable()
         {
             string expr = _tokenizer.Token;
-            Peek().AddChild(new BindVariableNode(expr));
+            Peek().AddChild(CreateBindVariableNode(expr));
+        }
+
+        protected ParenBindVariableNode CreateParenBindVariableNode(string expr) {
+            return new ParenBindVariableNode(expr);
+        }
+
+        protected EmbeddedValueNode CreateEmbeddedValueNode(string expr) {
+            return new EmbeddedValueNode(expr);
+        }
+
+        protected BindVariableNode CreateBindVariableNode(string expr) {
+            return new BindVariableNode(expr);
         }
 
         protected INode Pop()
