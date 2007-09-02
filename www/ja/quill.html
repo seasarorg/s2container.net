@@ -136,7 +136,8 @@
 						<li><a href="#aop_notice">注意点</a></li>
 					</ul>
 				</li>
-				<li><a href="#form">Windowsアプリケーションから簡単にQuillを利用する
+				<li><a href="#form">Windowsアプリケーションから簡単にQuillを利用する</li>
+				<li><a href="#dispose">アンマネージ リソースを解放する</li>
 			</ul>
 			
 		</div>
@@ -671,6 +672,33 @@ Plusが呼ばれました
 
 
 
+			
+		</div>
+	</div>
+	
+<!-- ############################################# アンマネージ リソースを解放する ######################################################### -->
+	<div class="content">
+		<a name="dispose" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>アンマネージ リソースを解放する</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　バインドされるために Quill によってインスタンス化されたオブジェクトのインスタンスは、 singleton として保持されます。
+			バインドされるためにインスタンス化されたオブジェクトが System.IDisposable インターフェースを実装している場合は
+			Quill から Dispose メソッドを呼び出すことができます。</p>
+
+			<p>　以下のように QuillInjector の Dispose メソッドを呼び出して、アンマネージ リソースを解放します。</p>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+QuillInjector.GetInstance().Dispose();</pre>
 			
 		</div>
 	</div>
