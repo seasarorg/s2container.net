@@ -31,7 +31,7 @@ namespace Seasar.Quill
     /// でQuillInjectorのインスタンスを作成して、
     /// <see cref="Seasar.Quill.QuillInjector.Inject"/>を使用してDIを行う。
     /// </remarks>
-    public class QuillInjector
+    public class QuillInjector : IDisposable
     {
         // QuillInjectorの唯一のインスタンス
         private static QuillInjector quillInjector = new QuillInjector();
@@ -214,5 +214,18 @@ namespace Seasar.Quill
             target.GetType().InvokeMember(field.Name, bindingFlags, null, target,
                 new object[] { component.GetComponentObject(field.FieldType) });
         }
+
+        #region IDisposable メンバ
+
+        /// <summary>
+        /// 保持しているQuillContainerのDisposeを呼び出す
+        /// </summary>
+        public void Dispose()
+        {
+            // 保持しているQuillContainerのDisposeを呼び出す
+            container.Dispose();
+        }
+
+        #endregion
     }
 }
