@@ -23,7 +23,7 @@ using System.Reflection;
 // 情報を変更するには、これらの属性値を変更してください。
 //
 [assembly : AssemblyTitle("S2Windows.NET")]
-[assembly: AssemblyDescription("S2Windows.NET 1.3.0")]
+[assembly: AssemblyDescription("S2Windows.NET 1.3.1")]
 [assembly : AssemblyConfiguration("")]
 [assembly : AssemblyCompany("")]
 [assembly : AssemblyProduct("S2Windows.NET")]
@@ -42,7 +42,7 @@ using System.Reflection;
 // 下にあるように、'*' を使って、すべての値を指定するか、
 // ビルドおよびリビジョン番号を既定値にすることができます。
 
-[assembly: AssemblyVersion("1.3.0.0")]
+[assembly: AssemblyVersion("1.3.1.0")]
 
 //
 // アセンブリに署名するには、使用するキーを指定しなければなりません。 
@@ -71,7 +71,7 @@ using System.Reflection;
 //
 [assembly: AssemblyDelaySign(false)]
 [assembly: AssemblyKeyName("")]
-[assembly: AssemblyFileVersionAttribute("1.3.0")]
+[assembly: AssemblyFileVersionAttribute("1.3.1")]
 
 #if NET_1_1
 [assembly: AssemblyKeyFile("..\\..\\..\\Seasar.snk")]

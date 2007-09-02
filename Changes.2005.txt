@@ -1,9 +1,11 @@
 ﻿S2Container.NET 1.3.1
-2007/??/??
+2007/9/3
 - [CONTAINERNET-67]Quill で Dispose パターンを実装する
 
 S2Dao.NET 1.1.1
-2007/??/??
+2007/9/3
+- [DAONET-56]検索結果Mapping時のPerformanceTuningについて(Mapping無関係のPropertyを除外する)
+- [DAONET-58]MDB利用時に自動生成されたID列が取得できない
 - [DAONET-59]S2Assert.AreEqual で NullReference エラーが発生する
 
 S2Container.NET 1.3.0
