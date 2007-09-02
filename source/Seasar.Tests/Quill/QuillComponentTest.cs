@@ -167,5 +167,56 @@ namespace Seasar.Tests.Quill
         }
 
         #endregion
+
+        #region Disposeのテスト
+
+        [Test]
+        public void TestDispose_コンポーネントがIDisposableを実装している場合()
+        {
+            Type type = typeof(DisposableClass);
+
+            QuillComponent component = new QuillComponent(type, type, new IAspect[0]);
+
+            component.Dispose();
+
+            DisposableClass disposable =
+                (DisposableClass)component.GetComponentObject(type);
+
+            Assert.IsTrue(disposable.Disposed);
+        }
+
+        [Test]
+        public void TestDispose_コンポーネントがIDisposableを実装していない場合()
+        {
+            Type type = typeof(NotDisposableClass);
+
+            QuillComponent component = new QuillComponent(type, type, new IAspect[0]);
+
+            component.Dispose();
+        }
+
+        #endregion
+
+        #region Disposeのテストで使用する内部クラス
+
+        public class NotDisposableClass
+        {
+        }
+
+        public class DisposableClass : IDisposable
+        {
+            public bool Disposed = false;
+
+            #region IDisposable メンバ
+
+            public void Dispose()
+            {
+                Disposed = true;
+            }
+
+            #endregion
+        }
+
+        #endregion
     }
 }

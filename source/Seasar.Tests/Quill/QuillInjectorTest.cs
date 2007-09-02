@@ -262,5 +262,46 @@ namespace Seasar.Tests.Quill
         }
 
         #endregion
+
+        #region Disposeのテスト
+
+        [Test]
+        public void TestDispose()
+        {
+            DisposableTarget target = new DisposableTarget();
+            Inject(target);
+
+            Assert.IsFalse(target.DisposableClass.Disposed);
+
+            Dispose();
+
+            Assert.IsTrue(target.DisposableClass.Disposed);
+        }
+
+        #endregion
+
+        #region Disposeのテストで使用する内部クラス
+
+        public class DisposableTarget
+        {
+            public DisposableClass DisposableClass;
+        }
+
+        [Implementation]
+        public class DisposableClass : IDisposable
+        {
+            public bool Disposed = false;
+
+            #region IDisposable メンバ
+
+            public void Dispose()
+            {
+                Disposed = true;
+            }
+
+            #endregion
+        }
+
+        #endregion 
     }
 }

@@ -34,7 +34,7 @@ namespace Seasar.Quill
     /// コンストラクタで初期化を行う際にコンポーネントのオブジェクト
     /// をインスタンス化する
     /// </remarks>
-    public class QuillComponent
+    public class QuillComponent : IDisposable
     {
         /// <summary>
         /// コンポーネントのType
@@ -190,5 +190,24 @@ namespace Seasar.Quill
                 return null;
             }
         }
+
+        #region IDisposable メンバ
+
+        /// <summary>
+        /// コンポーネントがIDisposableを実装している場合はDisposeを呼び出す
+        /// </summary>
+        public virtual void Dispose()
+        {
+            // IDisposableを実装している場合はキャストする(実装していない場合はnull)
+            IDisposable disposable = componentObjects[componentType] as IDisposable;
+
+            if (disposable != null)
+            {
+                // IDisposableを実装している場合はDisposeを呼び出す
+                disposable.Dispose();
+            }
+        }
+
+        #endregion
     }
 }
