@@ -120,5 +120,14 @@ namespace Seasar.Tests.Extension.DataSets.Impl
             DataTable ret = dataSet.Tables["TEST_TABLE"];
             Assert.AreEqual(DataRowState.Added, ret.Rows[0].RowState);
         }
+
+        [Test]
+        public void TestInvalidColumn()
+        {
+            XlsReader reader = new XlsReader("./Extension/DataSets.Impl/XlsReaderTest_InvalidColumn.xls");
+            DataTable dt = reader.Read().Tables["table"];
+            Assert.AreEqual(1, dt.Columns.Count);
+            Assert.AreEqual("INF01", dt.Columns[0].ColumnName);
+        }
     }
 }

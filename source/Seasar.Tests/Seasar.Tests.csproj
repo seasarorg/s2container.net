@@ -169,6 +169,9 @@
     <EmbeddedResource Include="Dao\Impl\IEmployeeDao_UpdateSqlFileEncodingUTF8.sql" />
     <EmbeddedResource Include="Dao\Interceptors\IEmployeeDao_Insert.sql" />
     <EmbeddedResource Include="Dao\Pager\PagerDataReaderWrapperTest.dicon" />
+    <None Include="Extension\DataSets.Impl\XlsReaderTest_InvalidColumn.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Extension\Unit\S2TestCaseTest_ReadXlsWriteDbTx.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
