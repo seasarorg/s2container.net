@@ -142,6 +142,9 @@ namespace Seasar.Quill
         /// </summary>
         public virtual void Destroy()
         {
+            // アンマネージリソースを解放する
+            Dispose();
+
             componentObjects[componentType] = null;
 
             if (componentType != null && !componentType.Equals(receiptType))
