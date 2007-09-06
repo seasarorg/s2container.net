@@ -53,6 +53,26 @@ namespace Seasar.Tests.Quill
             Assert.IsNull(ret);
         }
 
+        [Test]
+        public void TestGetComponentObject_Destroy済みの場合()
+        {
+            QuillComponent component = new QuillComponent(
+                typeof(ArrayList), typeof(ArrayList), new IAspect[] { });
+
+            component.Destroy();
+
+            try
+            {
+                component.GetComponentObject(typeof(ArrayList));
+                Assert.Fail();
+            }
+            catch (QuillApplicationException ex)
+            {
+                Assert.AreEqual("EQLL0018", ex.MessageCode);
+            }
+
+        }
+
         #endregion
 
         #region QuillComponentのテスト
@@ -195,6 +215,26 @@ namespace Seasar.Tests.Quill
             component.Dispose();
         }
 
+        [Test]
+        public void TestDispose_Destroy済みの場合()
+        {
+            Type type = typeof(DisposableClass);
+
+            QuillComponent component = new QuillComponent(type, type, new IAspect[0]);
+
+            component.Destroy();
+
+            try
+            {
+                component.Dispose();
+                Assert.Fail();
+            }
+            catch (QuillApplicationException ex)
+            {
+                Assert.AreEqual("EQLL0018", ex.MessageCode);
+            }
+        }
+
         #endregion
 
         #region Disposeのテストで使用する内部クラス
@@ -215,6 +255,42 @@ namespace Seasar.Tests.Quill
             }
 
             #endregion
+        }
+
+        #endregion
+
+        #region Destoryのテスト
+
+        [Test]
+        public void TestDestroy()
+        {
+            QuillComponent component = new QuillComponent(
+                typeof(ArrayList), typeof(ArrayList), new IAspect[] { });
+
+            component.Destroy();
+
+            Assert.IsNull(component.ComponentType);
+            Assert.IsNull(component.ReceiptType);
+
+            try
+            {
+                component.GetComponentObject(typeof(ArrayList));
+                Assert.Fail();
+            }
+            catch (QuillApplicationException ex)
+            {
+                Assert.AreEqual("EQLL0018", ex.MessageCode);
+            }
+
+            try
+            {
+                component.Dispose();
+                Assert.Fail();
+            }
+            catch (QuillApplicationException ex)
+            {
+                Assert.AreEqual("EQLL0018", ex.MessageCode);
+            }
         }
 
         #endregion
