@@ -174,4 +174,7 @@
   <data name="EQLL0017" xml:space="preserve">
     <value>{0} にパラメータ無しでpublicであるコンストラクタがありません</value>
   </data>
+  <data name="EQLL0018" xml:space="preserve">
+    <value>Destoryされているため呼び出されたメソッドは無効です</value>
+  </data>
 </root>
