@@ -291,6 +291,8 @@ namespace Seasar.Tests.Quill
             {
                 Assert.AreEqual("EQLL0018", ex.MessageCode);
             }
+
+            component.Destroy();
         }
 
         #endregion
