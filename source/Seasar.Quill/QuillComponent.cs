@@ -142,6 +142,11 @@ namespace Seasar.Quill
         /// </summary>
         public virtual void Destroy()
         {
+            if (componentObjects == null)
+            {
+                return;
+            }
+
             // アンマネージリソースを解放する
             Dispose();
 
