@@ -100,6 +100,12 @@ namespace Seasar.Quill
         /// </param>
         public virtual void Inject(object target)
         {
+            if (container == null)
+            {
+                // Destroyされている場合は例外を発生する
+                throw new QuillApplicationException("EQLL0018");
+            }
+
             // フィールドを取得する
             FieldInfo[] fields = target.GetType().GetFields(
                 BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
@@ -110,6 +116,22 @@ namespace Seasar.Quill
                 // フィールドにオブジェクトを注入する
                 InjectField(target, field);
             }
+        }
+
+        /// <summary>
+        /// QuillInjectorが持つ参照を破棄する
+        /// </summary>
+        public virtual void Destroy()
+        {
+            if (container == null)
+            {
+                return;
+            }
+
+            // QuillContainerが持つ参照を破棄する
+            container.Destroy();
+
+            container = null;
         }
 
         /// <summary>
@@ -220,7 +242,7 @@ namespace Seasar.Quill
         /// <summary>
         /// 保持しているQuillContainerのDisposeを呼び出す
         /// </summary>
-        public void Dispose()
+        public virtual void Dispose()
         {
             // 保持しているQuillContainerのDisposeを呼び出す
             container.Dispose();
