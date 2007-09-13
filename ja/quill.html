@@ -138,6 +138,7 @@
 				</li>
 				<li><a href="#form">Windowsアプリケーションから簡単にQuillを利用する</li>
 				<li><a href="#dispose">アンマネージ リソースを解放する</li>
+				<li><a href="#destroy">Quill が保持するオブジェクトの参照を破棄する</li>
 			</ul>
 			
 		</div>
@@ -699,6 +700,33 @@ Plusが呼ばれました
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <pre class="csharpcode">
 QuillInjector.GetInstance().Dispose();</pre>
+			
+		</div>
+	</div>
+	
+<!-- ############################################# Quill が保持するオブジェクトの参照を破棄する ######################################################### -->
+	<div class="content">
+		<a name="destroy" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>Quill が保持するオブジェクトの参照を破棄する</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　バインドされるために Quill によってインスタンス化されたオブジェクトのインスタンスは、 singleton として保持されます。
+			しかし Quill が保持するオブジェクトの参照を破棄することができます。</p>
+
+			<p>　以下のように QuillInjector の Destroy メソッドを呼び出して、Quill が保持するオブジェクトの参照を破棄します。
+			破棄するオブジェクトが System.IDisposable を実装している場合は参照を破棄する前に Dispose メソッドが呼び出されます。</p>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+QuillInjector.GetInstance().Destroy();</pre>
 			
 		</div>
 	</div>
