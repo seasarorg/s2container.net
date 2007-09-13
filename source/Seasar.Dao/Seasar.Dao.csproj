@@ -201,6 +201,8 @@
     <Compile Include="Seasar.Dao.Impl\BeanArrayMetaDataDataReaderHandler.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Dao.Impl\BeanDataSetMetaDataDataReaderHandler.cs" />
+    <Compile Include="Seasar.Dao.Impl\BeanDataTableMetaDataDataReaderHandler.cs" />
     <Compile Include="Seasar.Dao.Impl\BeanGenericListMetaDataDataReaderHandler.cs" />
     <Compile Include="Seasar.Dao.Impl\BeanListMetaDataDataReaderHandler.cs">
       <SubType>Code</SubType>

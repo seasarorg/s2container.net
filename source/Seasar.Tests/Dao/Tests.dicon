@@ -7,6 +7,10 @@
   <component class="Seasar.Tests.Dao.Impl.IStoredProcedureTestDao">
     <aspect>Dao.Interceptor</aspect>
   </component>
+
+  <component class="Seasar.Tests.Dao.Impl.IEmployeeDataSetDao">
+	<aspect>Dao.Interceptor</aspect>
+  </component>
   
   <component class="Seasar.Tests.Dao.Interceptors.IEmployeeDao">
     <aspect>Dao.Interceptor</aspect>
@@ -19,4 +23,5 @@
   <component class="Seasar.Tests.Dao.Interceptors.IDepartmentAutoDao">
     <aspect>Dao.Interceptor</aspect>
   </component>
+
 </components>
