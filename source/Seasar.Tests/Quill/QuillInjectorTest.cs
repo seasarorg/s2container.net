@@ -53,6 +53,17 @@ namespace Seasar.Tests.Quill
             Assert.AreSame(injector1, injector2);
         }
 
+        [Test]
+        public void TestGetInstance_DestroyçœÇ›ÇÃèÍçá()
+        {
+            QuillInjector injector1 = QuillInjector.GetInstance();
+            QuillInjector.GetInstance().Destroy();
+            QuillInjector injector2 = QuillInjector.GetInstance();
+
+            Assert.IsNotNull(injector2);
+            Assert.AreNotSame(injector1, injector2);
+        }
+
         #endregion
 
         #region InjectFieldÇÃÉeÉXÉg
