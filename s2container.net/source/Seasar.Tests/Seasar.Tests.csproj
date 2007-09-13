@@ -169,6 +169,17 @@
     <EmbeddedResource Include="Dao\Impl\IEmployeeDao_UpdateSqlFileEncodingUTF8.sql" />
     <EmbeddedResource Include="Dao\Interceptors\IEmployeeDao_Insert.sql" />
     <EmbeddedResource Include="Dao\Pager\PagerDataReaderWrapperTest.dicon" />
+    <None Include="Dao\Impl\EmployeeDataSet.xsc">
+      <DependentUpon>EmployeeDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Dao\Impl\EmployeeDataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>EmployeeDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Dao\Impl\EmployeeDataSet.xss">
+      <DependentUpon>EmployeeDataSet.xsd</DependentUpon>
+    </None>
     <None Include="Extension\DataSets.Impl\XlsReaderTest_InvalidColumn.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -207,6 +218,10 @@
     <EmbeddedResource Include="Framework\Unit\ddd.dicon" />
     <EmbeddedResource Include="Framework\Unit\empty.dicon" />
     <EmbeddedResource Include="Framework\Unit\S2FrameworkTestCaseTest_ado.dicon" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Seasar.snk" />
     <EmbeddedResource Include="Dao\Tests.dicon" />
     <EmbeddedResource Include="Tx.dicon" />
@@ -241,6 +256,11 @@
     <Compile Include="Dao\Impl\Employee3.cs" />
     <Compile Include="Dao\Impl\Employee4.cs" />
     <Compile Include="Dao\Impl\Employee5.cs" />
+    <Compile Include="Dao\Impl\EmployeeDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EmployeeDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Dao\Impl\EmployeeNullable.cs" />
     <Compile Include="Dao\Impl\EmployeeSearchCondition.cs" />
     <Compile Include="Dao\Impl\EmployeeVersionNo.cs" />
@@ -259,6 +279,7 @@
     <Compile Include="Dao\Impl\IEmployee8Dao.cs" />
     <Compile Include="Dao\Impl\IEmployeeAutoDao.cs" />
     <Compile Include="Dao\Impl\IEmployeeDao.cs" />
+    <Compile Include="Dao\Impl\IEmployeeDataSetDao.cs" />
     <Compile Include="Dao\Impl\IEmployeeNullableAutoDao.cs" />
     <Compile Include="Dao\Impl\IEmployeeVersionNoDao.cs" />
     <Compile Include="Dao\Impl\IFormUseHistoryDao.cs" />
@@ -270,6 +291,7 @@
     <Compile Include="Dao\Impl\IStoredProcedureTestDao.cs" />
     <Compile Include="Dao\Impl\IUnderscoreEntityDao.cs" />
     <Compile Include="Dao\Impl\RelationKeyTest.cs" />
+    <Compile Include="Dao\Impl\SelectAutoCommandTest.cs" />
     <Compile Include="Dao\Impl\SelectDynamicCommandTest.cs" />
     <Compile Include="Dao\Impl\UnderscoreEntity.cs" />
     <Compile Include="Dao\Impl\UpdateAutoStaticCommandTest.cs" />
@@ -363,6 +385,11 @@
     <Compile Include="Framework\Container.Deployer\SessionComponentDeployerWebPage.aspx.cs">
       <DependentUpon>SessionComponentDeployerWebPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Quill\AspectBuilderTest.cs" />
     <Compile Include="Quill\QuillComponentTest.cs" />
