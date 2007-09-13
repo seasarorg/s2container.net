@@ -33,8 +33,8 @@ namespace Seasar.Quill
     /// </remarks>
     public class QuillInjector : IDisposable
     {
-        // QuillInjectorの唯一のインスタンス
-        private static QuillInjector quillInjector = new QuillInjector();
+        // QuillInjectorのインスタンス
+        private static QuillInjector quillInjector;
 
         // QuillInjector内で使用するQuillContainer
         protected QuillContainer container;
@@ -64,14 +64,19 @@ namespace Seasar.Quill
         /// QuillInjectorのインスタンスを取得する場合は当メソッドを使用する。
         /// </para>
         /// <para>
-        /// 当メソッドで取得するQuillInjectorのインスタンスはアプリケーション内で
-        /// 唯一のインスタンスとなる。
+        /// 基本的に同じインスタンスを返すが、DestroyメソッドによってQuillが持つ
+        /// 参照が破棄されている場合は新しいQuillInjectorのインスタンスを作成する。
         /// </para>
         /// </remarks>
         /// <returns>QuillInjectorのインスタンス</returns>
         public static QuillInjector GetInstance()
         {
-            // 唯一であるQuillInjectorのインスタンスを返す
+            if (quillInjector == null)
+            {
+                quillInjector = new QuillInjector();
+            }
+
+            // QuillInjectorのインスタンスを返す
             return quillInjector;
         }
 
@@ -132,6 +137,7 @@ namespace Seasar.Quill
             container.Destroy();
 
             container = null;
+            quillInjector = null;
         }
 
         /// <summary>
