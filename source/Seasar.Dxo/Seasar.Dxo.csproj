@@ -1,0 +1,105 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0C7A87F7-786E-43FB-846C-DE1583622A79}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Seasar.Dxo</RootNamespace>
+    <AssemblyName>Seasar.Dxo</AssemblyName>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>Seasar.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Nullables, Version=1.0.0.0, Culture=neutral, PublicKeyToken=154fdcb44c4484fc">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\net2.0\Nullables.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Annotation\ConversionRuleAttribute.cs" />
+    <Compile Include="Annotation\DatePatternAttribute.cs" />
+    <Compile Include="Converter\AbstractPropertyConverter.cs" />
+    <Compile Include="Converter\ConverterFactory.cs" />
+    <Compile Include="Converter\ConvertEventArgs.cs" />
+    <Compile Include="Converter\Impl\ArrayConverter.cs" />
+    <Compile Include="Converter\Impl\AssignableConverter.cs" />
+    <Compile Include="Converter\Impl\BooleanConverter.cs" />
+    <Compile Include="Converter\Impl\CharConverter.cs" />
+    <Compile Include="Converter\Impl\ConvertibleConverter.cs" />
+    <Compile Include="Converter\Impl\DateTimeConverter.cs" />
+    <Compile Include="Converter\Impl\DictionaryConverter.cs" />
+    <Compile Include="Converter\Impl\EnumConverter.cs" />
+    <Compile Include="Converter\Impl\GenericsCollectionConverter.cs" />
+    <Compile Include="Converter\Impl\GenericsDictionaryConverter.cs" />
+    <Compile Include="Converter\Impl\GenericsListConverter.cs" />
+    <Compile Include="Converter\Impl\ImageConverter.cs" />
+    <Compile Include="Converter\Impl\ListConverter.cs" />
+    <Compile Include="Converter\Impl\StringConverter.cs" />
+    <Compile Include="Converter\Impl\TypeConverterConverter.cs" />
+    <Compile Include="Converter\IPropertyConverter.cs" />
+    <Compile Include="DxoMessages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DxoMessages.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Exception\DxoException.cs" />
+    <Compile Include="Interceptor\DxoInterceptor.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="Seasar.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DxoMessages.ja-JP.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DxoMessages.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DxoMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Seasar\Seasar.csproj">
+      <Project>{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}</Project>
+      <Name>Seasar</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
