@@ -113,6 +113,10 @@
       <Project>{474715CA-5C99-4C50-ADFA-FB628824DFF0}</Project>
       <Name>Seasar.Dao</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Seasar.Dxo\Seasar.Dxo.csproj">
+      <Project>{0C7A87F7-786E-43FB-846C-DE1583622A79}</Project>
+      <Name>Seasar.Dxo</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Seasar.DynamicProxy\Seasar.DynamicProxy.csproj">
       <Project>{063DED73-CA16-4038-904D-5A18A630843D}</Project>
       <Name>Seasar.DynamicProxy</Name>
@@ -180,6 +184,7 @@
     <None Include="Dao\Impl\EmployeeDataSet.xss">
       <DependentUpon>EmployeeDataSet.xsd</DependentUpon>
     </None>
+    <None Include="Dxo\dxo.dicon" />
     <None Include="Extension\DataSets.Impl\XlsReaderTest_InvalidColumn.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -318,6 +323,15 @@
     <Compile Include="Dao\Parser\SqlParserTest.cs" />
     <Compile Include="Dao\Parser\SqlTokenizerTest.cs" />
     <Compile Include="Dao\Unit\S2DaoTestCase.cs" />
+    <Compile Include="Dxo\BeanA.cs" />
+    <Compile Include="Dxo\Department.cs" />
+    <Compile Include="Dxo\Employee.cs" />
+    <Compile Include="Dxo\EmployeePage.cs" />
+    <Compile Include="Dxo\IBeanToBeanDxo.cs" />
+    <Compile Include="Dxo\ICollectionDxo.cs" />
+    <Compile Include="Dxo\IEmployeeDxo.cs" />
+    <Compile Include="Dxo\S2DxoTest.cs" />
+    <Compile Include="Dxo\TargetBean.cs" />
     <Compile Include="Extension\ADO.Impl\BasicDbParameterParserTest.cs" />
     <Compile Include="Extension\ADO.Impl\BasicSelectHandlerTest.cs" />
     <Compile Include="Extension\ADO.Impl\BasicUpdateHandlerTest.cs" />
