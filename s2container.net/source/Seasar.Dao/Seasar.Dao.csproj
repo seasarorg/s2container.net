@@ -161,6 +161,7 @@
     <Compile Include="Seasar.Dao.Dbms\PostgreSQL.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Dao.Dbms\SQLite.cs" />
     <Compile Include="Seasar.Dao.Dbms\Standard.cs">
       <SubType>Code</SubType>
     </Compile>

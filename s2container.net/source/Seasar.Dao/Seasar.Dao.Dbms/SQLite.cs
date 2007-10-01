@@ -16,18 +16,23 @@
  */
 #endregion
 
-namespace Seasar.Dao
+namespace Seasar.Dao.Dbms
 {
-    public enum KindOfDbms
+    public class SQLite : Standard
     {
-        None,
-        MSSQLServer,
-        DB2,
-        MySQL,
-        Oracle,
-        PostgreSQL,
-        Firebird,
-        MDB,
-        SQLite,
+        public override string Suffix
+        {
+            get { return "_sqlite"; }
+        }
+
+        public override string IdentitySelectString
+        {
+            get { return "select last_insert_rowid()"; }
+        }
+
+        public override KindOfDbms Dbms
+        {
+            get { return KindOfDbms.SQLite; }
+        }
     }
 }
