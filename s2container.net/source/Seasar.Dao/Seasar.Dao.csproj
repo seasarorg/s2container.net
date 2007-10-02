@@ -306,6 +306,7 @@
     </Compile>
     <Compile Include="Seasar.Dao.Pager\DefaultPagerCondition.cs" />
     <Compile Include="Seasar.Dao.Pager\IPagerCondition.cs" />
+    <Compile Include="Seasar.Dao.Pager\OraclePagerDataReaderFactoryRowNumberWrapper.cs" />
     <Compile Include="Seasar.Dao.Pager\PagerAttribute.cs" />
     <Compile Include="Seasar.Dao.Pager\PagerContext.cs" />
     <Compile Include="Seasar.Dao.Pager\PagerDataReaderFactoryLimitOffsetWrapper.cs" />
