@@ -4,6 +4,7 @@
 S2Dao.NET 1.1.2
 2007/10/??
 - [DAONET-62]SQLite対応
+- [DAONET-63]S2PagerのOracle ROW_NUMBER対応
 
 S2Container.NET 1.3.1
 2007/9/3
