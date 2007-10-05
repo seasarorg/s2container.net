@@ -19,7 +19,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Reflection;
 using Seasar.Extension.ADO;
 using Seasar.Framework.Util;
 
@@ -39,6 +38,7 @@ namespace Seasar.Dao.Impl
         /// </summary>
         /// <param name="beanMetaData">Bean meta data. (NotNull)</param>
         /// <param name="rowCreator">Row creator. (NotNull)</param>
+        /// <param name="relationRowCreator">Relation row creator. (NotNull)</param>
         public AbstractBeanMetaDataDataReaderHandler(IBeanMetaData beanMetaData, IRowCreator rowCreator, IRelationRowCreator relationRowCreator)
         {
             _beanMetaData = beanMetaData;
@@ -100,7 +100,8 @@ namespace Seasar.Dao.Impl
 
 
 
-        protected virtual bool IsTargetProperty(IPropertyType pt) {// [DAONET-56] (2007/08/29)
+        protected virtual bool IsTargetProperty(IPropertyType pt)
+        {// [DAONET-56] (2007/08/29)
             return pt.PropertyInfo.CanWrite;
         }
 
@@ -122,7 +123,7 @@ namespace Seasar.Dao.Impl
 
         #region IDataReaderHandler ÉÅÉìÉo
 
-        public virtual object Handle(System.Data.IDataReader dataReader)
+        public virtual object Handle(IDataReader dataReader)
         {
             return null;
         }

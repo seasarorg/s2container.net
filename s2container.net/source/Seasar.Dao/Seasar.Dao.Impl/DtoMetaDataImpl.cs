@@ -29,15 +29,8 @@ namespace Seasar.Dao.Impl
     public class DtoMetaDataImpl : IDtoMetaData
     {
         private Type _beanType;
-
-#if NET_1_1
-        private readonly Hashtable _propertyTypes = new Hashtable(
-            CaseInsensitiveHashCodeProvider.Default, CaseInsensitiveComparer.Default);
-#else
         private readonly Hashtable _propertyTypes = new Hashtable(
             StringComparer.OrdinalIgnoreCase);
-#endif
-
         protected IBeanAnnotationReader _beanAnnotationReader;
 
         protected DtoMetaDataImpl()

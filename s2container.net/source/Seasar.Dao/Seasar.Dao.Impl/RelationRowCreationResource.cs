@@ -19,14 +19,12 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Reflection;
 using Seasar.Extension.ADO;
-using Seasar.Framework.Util;
 
 namespace Seasar.Dao.Impl
 {
-    public class RelationRowCreationResource {
-
+    public class RelationRowCreationResource
+    {
         // ===================================================================================
         //                                                                           Attribute
         //                                                                           =========
@@ -244,67 +242,67 @@ namespace Seasar.Dao.Impl
         //                                                                            ========
         public IDataReader DataReader {
             get { return dataReader; }
-            set { this.dataReader = value; }
+            set { dataReader = value; }
         }
 
         public Object Row {
             get { return row; }
-            set { this.row = value; }
+            set { row = value; }
         }
 
         public IRelationPropertyType RelationPropertyType {
             get { return relationPropertyType; }
-            set { this.relationPropertyType = value; }
+            set { relationPropertyType = value; }
         }
 
         public System.Collections.IList ColumnNames {
             get { return columnNames; }
-            set { this.columnNames = value; }
+            set { columnNames = value; }
         }
 
         public System.Collections.Hashtable RelKeyValues {
             get { return relKeyValues; }
-            set { this.relKeyValues = value; }
+            set { relKeyValues = value; }
         }
 
         public IDictionary<String, IDictionary<String, IPropertyType>> RelationPropertyCache {
             get { return relationPropertyCache; }
-            set { this.relationPropertyCache = value; }
+            set { relationPropertyCache = value; }
         }
 
         public String BaseSuffix {
             get { return baseSuffix; }
-            set { this.baseSuffix = value; }
+            set { baseSuffix = value; }
         }
 
         public String RelationNoSuffix {
             get { return relationNoSuffix; }
-            set { this.relationNoSuffix = value; }
+            set { relationNoSuffix = value; }
         }
 
         public int LimitRelationNestLevel {
             get { return limitRelationNestLevel; }
-            set { this.limitRelationNestLevel = value; }
+            set { limitRelationNestLevel = value; }
         }
 
         public int CurrentRelationNestLevel {
             get { return currentRelationNestLevel; }
-            set { this.currentRelationNestLevel = value; }
+            set { currentRelationNestLevel = value; }
         }
 
         public IPropertyType CurrentPropertyType {
             get { return currentPropertyType; }
-            set { this.currentPropertyType = value; }
+            set { currentPropertyType = value; }
         }
 
         public int ValidValueCount {
             get { return validValueCount; }
-            set { this.validValueCount = value; }
+            set { validValueCount = value; }
         }
 
         public bool IsCreateDeadLink {
             get { return createDeadLink; }
-            set { this.createDeadLink = value; }
+            set { createDeadLink = value; }
         }
     }
 }

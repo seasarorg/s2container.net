@@ -94,6 +94,5 @@ namespace Seasar.Dao.Impl
         }
 
         #endregion
-
     }
 }

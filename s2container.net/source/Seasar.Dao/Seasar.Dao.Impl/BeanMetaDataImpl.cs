@@ -33,15 +33,8 @@ namespace Seasar.Dao.Impl
     {
         private static readonly Logger _logger = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         protected string _tableName;
-
-#if NET_1_1
-        private Hashtable _propertyTypesByColumnName = new Hashtable(
-            CaseInsensitiveHashCodeProvider.Default, CaseInsensitiveComparer.Default);
-#else
         protected Hashtable _propertyTypesByColumnName =
             new Hashtable(StringComparer.OrdinalIgnoreCase);
-#endif
-
         protected ArrayList _relationProeprtyTypes = new ArrayList();
         protected string[] _primaryKeys = new string[0];
         protected string _autoSelectList;
