@@ -31,11 +31,7 @@ namespace Seasar.Tests.Framework.Xml
 
             Assert.AreEqual("Seasar.Tests.test.dicon", section.ConfigPath);
 
-#if NET_1_1
-            Assert.AreEqual(3, section.Assemblys.Count);
-#else
-            Assert.AreEqual(4, section.Assemblys.Count);
-#endif
+            Assert.AreEqual(5, section.Assemblys.Count);
 
             Assert.AreEqual("Seasar.Tests", (string) section.Assemblys[0]);
             Assert.AreEqual("Seasar", (string) section.Assemblys[1]);
