@@ -19,8 +19,6 @@
 using System;
 using System.Collections.Generic;
 using Seasar.Framework.Aop;
-using Seasar.Framework.Aop.Proxy;
-using System.Collections;
 
 namespace Seasar.Quill
 {
