@@ -204,7 +204,6 @@
     <EmbeddedResource Include="Framework\Container.Factory\bbb.dicon" />
     <EmbeddedResource Include="Framework\Container.Factory\ccc.dicon" />
     <EmbeddedResource Include="Framework\Container.Factory\ComponentsTagHandlerTest.dicon" />
-    <EmbeddedResource Include="Framework\Container.Factory\ComponentTagHandlerTest.2003.dicon" />
     <EmbeddedResource Include="Framework\Container.Factory\ComponentTagHandlerTest.dicon" />
     <EmbeddedResource Include="Framework\Container.Factory\DestroyMethodTagHandlerTest.dicon" />
     <EmbeddedResource Include="Framework\Container.Factory\IncludeTagHandlerTest.dicon" />

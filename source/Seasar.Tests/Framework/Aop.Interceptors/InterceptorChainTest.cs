@@ -18,13 +18,11 @@
 
 using System;
 using System.Diagnostics;
-using System.Reflection;
 using MbUnit.Framework;
 using Seasar.Framework.Aop;
 using Seasar.Framework.Aop.Impl;
 using Seasar.Framework.Aop.Interceptors;
 using Seasar.Framework.Aop.Proxy;
-using Seasar.Framework.Log;
 
 namespace Seasar.Tests.Framework.Aop.Interceptors
 {

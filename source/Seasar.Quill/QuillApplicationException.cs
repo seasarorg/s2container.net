@@ -16,10 +16,7 @@
  */
 #endregion
 
-
 using System;
-using Seasar.Framework.Message;
-using System.Reflection;
 using Seasar.Quill.Util;
 
 namespace Seasar.Quill
@@ -55,9 +52,9 @@ namespace Seasar.Quill
         /// </summary>
         /// <param name="messageCode">メッセージコード</param>
         public QuillApplicationException(string messageCode)
-			: this(messageCode,null,null)
-		{
-		}
+            : this(messageCode, null, null)
+        {
+        }
 
         /// <summary>
         /// メッセージコードとメッセージを指定してQuillApplicationExceptionを初期化する
@@ -79,10 +76,10 @@ namespace Seasar.Quill
         /// </summary>
         /// <param name="messageCode">メッセージコード</param>
         /// <param name="args">メッセージ中に埋め込む文字列の配列</param>
-		public QuillApplicationException(string messageCode,object[] args)
-			: this(messageCode,args,null)
-		{
-		}
+        public QuillApplicationException(string messageCode, object[] args)
+            : this(messageCode, args, null)
+        {
+        }
 
         /// <summary>
         /// メッセージコード・メッセージ中に埋め込む文字列の配列・元となった例外
@@ -92,14 +89,15 @@ namespace Seasar.Quill
         /// <param name="args">メッセージ中に埋め込む値の配列</param>
         /// <param name="cause">元となった例外</param>
         public QuillApplicationException(
-            string messageCode, object[] args, Exception cause) : base(null, cause)
-		{
+            string messageCode, object[] args, Exception cause)
+            : base(null, cause)
+        {
             // メッセージコードをセットする
             this.messageCode = messageCode;
 
             // メッセージ中に埋め込む値の配列をセットする
             this.args = args;
-            
+
             // メッセージをセットする
             simpleMessage = MessageUtil.GetSimpleMessage(messageCode, args);
 

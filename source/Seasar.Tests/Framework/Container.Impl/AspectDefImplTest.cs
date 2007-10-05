@@ -16,7 +16,6 @@
  */
 #endregion
 
-using System;
 using MbUnit.Framework;
 using Seasar.Framework.Aop.Interceptors;
 using Seasar.Framework.Container;

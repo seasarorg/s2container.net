@@ -16,8 +16,6 @@
  */
 #endregion
 
-
-using System;
 using Seasar.Quill.Attrs;
 using Seasar.Quill.Examples.Entity;
 using Seasar.Quill.Examples.Dao;

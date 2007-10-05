@@ -16,7 +16,6 @@
  */
 #endregion
 
-
 using System;
 using System.Windows.Forms;
 using Seasar.Framework.Container.Factory;

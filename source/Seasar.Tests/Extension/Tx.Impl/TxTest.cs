@@ -28,7 +28,7 @@ namespace Seasar.Tests.Extension.Tx.Impl
         void throwException();
     }
 
-    [global::System.Serializable]
+    [Serializable]
     public class TxException : Exception
     {
         private bool wasInTx;

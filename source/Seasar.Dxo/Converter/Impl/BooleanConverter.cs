@@ -18,7 +18,6 @@
 
 #endregion
 
-
 using System;
 
 namespace Seasar.Dxo.Converter.Impl
