@@ -122,6 +122,10 @@ namespace Seasar.Dxo.Interceptor
 
                         return dest;
                     }
+                    else if(!source.GetType().IsGenericType && dest.GetType().GetInterface("IList") == typeof(IList))
+                    {
+                        return AssignFromObjectToList(source, dest);
+                    }
                     else
                     {
                         return AssignTo(source, dest);
@@ -188,6 +192,25 @@ namespace Seasar.Dxo.Interceptor
                     destList.Add(destObj);
                 }
             }
+            return dest;
+        }
+
+        /// <summary>
+        /// ObjectからIListへオブジェクトへのアサインを実施する
+        /// </summary>
+        /// <param name="source">変換オブジェクト</param>
+        /// <param name="dest">変換先配列</param>
+        protected virtual object AssignFromObjectToList(object source, object dest)
+        {
+            IList destList = dest as IList;
+            if (destList != null)
+            {
+                Type[] types = dest.GetType().GetGenericArguments();
+                object destObj = Activator.CreateInstance(types[0], false);
+                AssignTo(source, destObj);
+                destList.Add(destObj);
+            }
+
             return dest;
         }
 

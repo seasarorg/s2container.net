@@ -251,7 +251,31 @@ namespace Seasar.Tests.Dxo
                 if (i == 1) Assert.AreEqual("Scott", page.EName, "ENam2-" + i);
                 i++;
             }
-            
+        }
+
+        [Test, S2]
+        public void TestList2()
+        {
+            Include(PATH);
+            ICollectionDxo dxo = (ICollectionDxo)GetComponent(typeof(ICollectionDxo));
+
+            Department dept = new Department();
+            dept.DName = "Sales";
+            Employee emp = new Employee();
+            emp.EName = "Mike Smith";
+            emp.Department = dept;
+            IList<EmployeePage> list = new List<EmployeePage>();
+            EmployeePage targetPage = new EmployeePage();
+            targetPage.EName = "Scott";
+            targetPage.DName = "Sales";
+            targetPage.Id = 1;
+            list.Add(targetPage);
+            dxo.ConvertPonoToList(emp, list);
+            Assert.AreEqual(2, list.Count, "Count");
+            Assert.AreEqual("Mike Smith", list[1].EName, "EName");
+
+            List<EmployeePage> list2 = dxo.ConvertToIList(emp);
+            Assert.AreEqual(1, list2.Count, "Count2");
         }
 
         [Test, S2]
