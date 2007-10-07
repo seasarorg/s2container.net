@@ -30,10 +30,14 @@ namespace Seasar.Tests.Dxo
 
         List<EmployeePage> ConvertToList(IList<Employee> listData);
 
+        void ConvertPonoToList(Employee emp, IList<EmployeePage> listData);
+        List<EmployeePage> ConvertToIList(Employee emp);
+
         void ConvertToDictinary(Employee emp, IDictionary dict);
 
         Hashtable ConvertToHashtable(Employee emp);
 
         void ConvertToPONO(IDictionary dict, Employee emp);
+
     }
 }
