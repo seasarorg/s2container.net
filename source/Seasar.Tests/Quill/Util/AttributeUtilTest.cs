@@ -501,5 +501,134 @@ namespace Seasar.Tests.Quill.Util
         }
 
         #endregion
+
+        #region GetMockAttrのテスト
+
+        [Test]
+        public void TestGetMockAttr_Mock属性指定無し()
+        {
+            MockAttribute attr = AttributeUtil.GetMockAttr(typeof(TestGetMockAttrNon));
+            Assert.IsNull(attr);
+        }
+
+        [Test]
+        public void TestGetMockAttr_mockTypeがnull()
+        {
+            try
+            {
+                MockAttribute attr =
+                    AttributeUtil.GetMockAttr(typeof(TestGetMockAttrNull));
+                Assert.Fail();
+            }
+            catch (QuillApplicationException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Assert.AreEqual("EQLL0019", ex.MessageCode);
+            }
+        }
+
+        [Test]
+        public void TestGetMockAttr_mockTypeがインターフェース()
+        {
+            try
+            {
+                MockAttribute attr =
+                    AttributeUtil.GetMockAttr(typeof(TestGetMockAttrInterface));
+                Assert.Fail();
+            }
+            catch (QuillApplicationException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Assert.AreEqual("EQLL0020", ex.MessageCode);
+            }
+        }
+
+        [Test]
+        public void TestGetMockAttr_mockTypeが抽象クラス()
+        {
+            try
+            {
+                MockAttribute attr =
+                    AttributeUtil.GetMockAttr(typeof(TestGetMockAttrAbstract));
+                Assert.Fail();
+            }
+            catch (QuillApplicationException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Assert.AreEqual("EQLL0021", ex.MessageCode);
+            }
+        }
+
+        [Test]
+        public void TestGetMockAttr_mockTypeが代入不可能()
+        {
+            try
+            {
+                MockAttribute attr =
+                    AttributeUtil.GetMockAttr(typeof(TestGetMockAttrIsNotAssign));
+                Assert.Fail();
+            }
+            catch (QuillApplicationException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Assert.AreEqual("EQLL0022", ex.MessageCode);
+            }
+        }
+
+        [Test]
+        public void TestGetMockAttr_正常な属性()
+        {
+            MockAttribute attr =
+                AttributeUtil.GetMockAttr(typeof(TestGetMockAttrIsAssign));
+
+            Assert.AreEqual(typeof(TestGetMockAttrClass), attr.MockType);
+        }
+
+        #endregion
+
+        #region GetMockAttrのテストで使用する内部クラス
+
+        private interface TestGetMockAttrNon
+        {
+        }
+        
+        [Mock(null)]
+        private interface TestGetMockAttrNull
+        {
+        }
+
+        [Mock(typeof(TestGetMockAttrNon))]
+        private interface TestGetMockAttrInterface
+        {
+        }
+
+        private abstract class TestGetMockAttrAbstractClass
+        {
+        }
+        
+        [Mock(typeof(TestGetMockAttrAbstractClass))]
+        private interface TestGetMockAttrAbstract
+        {
+        }
+
+        private class TestGetMockAttrNotInterfaceClass
+        {
+        }
+
+        [Mock(typeof(TestGetMockAttrNotInterfaceClass))]
+        private interface TestGetMockAttrIsNotAssign
+        {
+        }
+
+        private class TestGetMockAttrClass : TestGetMockAttrIsAssign
+        {
+        }
+
+        [Mock(typeof(TestGetMockAttrClass))]
+        private interface TestGetMockAttrIsAssign
+        {
+        }
+
+        #endregion
     }
 }

@@ -45,6 +45,7 @@
     <Compile Include="Attrs\AspectAttribute.cs" />
     <Compile Include="Attrs\BindingAttribute.cs" />
     <Compile Include="Attrs\ImplementationAttribute.cs" />
+    <Compile Include="Attrs\MockAttribute.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -62,6 +63,7 @@
       <DependentUpon>QuillControl.cs</DependentUpon>
     </Compile>
     <Compile Include="SingletonS2ContainerConnector.cs" />
+    <Compile Include="Unit\MockInjector.cs" />
     <Compile Include="Util\AttributeUtil.cs" />
     <Compile Include="Util\MessageUtil.cs" />
     <Compile Include="Util\TypeUtil.cs" />

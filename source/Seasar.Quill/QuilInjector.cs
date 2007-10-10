@@ -57,7 +57,7 @@ namespace Seasar.Quill
         /// </summary>
         /// <remarks>
         /// <para>
-        /// QuillInjectorのコンストラクタのアクセス修飾子はprivateに設定されている為、
+        /// QuillInjectorのコンストラクタのアクセス修飾子はprotectedに設定されている為、
         /// 直接QuillInjectorのインスタンスを生成することはできない。
         /// </para>
         /// <para>
@@ -151,17 +151,19 @@ namespace Seasar.Quill
             // フィールドに設定されているバインディング属性を取得する
             BindingAttribute bindingAttr = AttributeUtil.GetBindingAttr(field);
 
-            // フィールドの型(Type)に設定されている実装を指定する属性を取得する
-            ImplementationAttribute implAttr = 
-                AttributeUtil.GetImplementationAttr(field.FieldType);
-
             if (bindingAttr != null)
             {
                 // バインディング属性が設定されている場合はS2Containerの
                 // コンポーネントをDIする
                 InjectField(target, field, bindingAttr);
+                return;
             }
-            else if (implAttr != null)
+
+            // フィールドの型(Type)に設定されている実装を指定する属性を取得する
+            ImplementationAttribute implAttr = 
+                AttributeUtil.GetImplementationAttr(field.FieldType);
+
+            if (implAttr != null)
             {
                 // 実装を指定する属性が設定されている場合はQuillの
                 // コンポーネントをDiする
@@ -170,12 +172,12 @@ namespace Seasar.Quill
         }
 
         /// <summary>
-        /// 指定するフィールドにDIを行う
+        /// フィールドにバインディング属性で指定されたコンポーネントをInjectする
         /// </summary>
         /// <remarks>S2ContainerのコンポーネントをDIする</remarks>
         /// <param name="target">DIが行われるオブジェクト</param>
         /// <param name="field">DIが行われるフィールド情報</param>
-        /// <param name="bindingAttr">DIするコンポーネントを指定するバインディング属性</param>
+        /// <param name="bindingAttr">DIするコンポーネントを指定するBinding属性</param>
         protected virtual void InjectField(
             object target, FieldInfo field, BindingAttribute bindingAttr)
         {
@@ -203,7 +205,7 @@ namespace Seasar.Quill
         }
 
         /// <summary>
-        /// 指定するフィールドにDIを行う
+        /// フィールドにImplementation属性で指定されたコンポーネントをInjectする
         /// </summary>
         /// <remarks>QuillのコンポーネントをDIする</remarks>
         /// <param name="target">DIが行われるオブジェクト</param>
@@ -228,6 +230,19 @@ namespace Seasar.Quill
                 implType = implAttr.ImplementationType;
             }
 
+            // フィールドに指定されたType(implType)のコンポーネントをInjectする
+            InjectField(target, field, implType);
+        }
+
+        /// <summary>
+        /// フィールドに指定されたType(implType)のコンポーネントをInjectする
+        /// </summary>
+        /// <remarks>QuillのコンポーネントをDIする</remarks>
+        /// <param name="target">DIが行われるオブジェクト</param>
+        /// <param name="field">DIが行われるフィールド情報</param>
+        /// <param name="implType">実装クラスのType</param>
+        protected virtual void InjectField(object target, FieldInfo field, Type implType)
+        {
             // 実装クラスのインスタンスを取得する
             QuillComponent component = container.GetComponent(field.FieldType, implType);
 
@@ -235,7 +250,7 @@ namespace Seasar.Quill
             Inject(component.GetComponentObject(implType));
 
             // フィールドに値をセットする為のBindingFlags
-            BindingFlags bindingFlags = BindingFlags.Public | 
+            BindingFlags bindingFlags = BindingFlags.Public |
                 BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetField;
 
             // フィールドに実装クラスのインスタンスを注入する

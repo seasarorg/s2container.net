@@ -1,4 +1,4 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
     <ProductVersion>8.0.50727</ProductVersion>
@@ -411,6 +411,7 @@
     <Compile Include="Quill\QuillContainerTest.cs" />
     <Compile Include="Quill\QuillInjectorTest.cs" />
     <Compile Include="Quill\SingletonS2ContainerConnectorTest.cs" />
+    <Compile Include="Quill\Unit\MockInjectorTest.cs" />
     <Compile Include="Quill\Util\AttributeUtilTest.cs" />
     <Compile Include="Quill\Util\MessageUtilTest.cs" />
     <Compile Include="Quill\Util\TypeUtilTest.cs" />
