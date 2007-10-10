@@ -177,4 +177,16 @@
   <data name="EQLL0018" xml:space="preserve">
     <value>Destoryされているため呼び出されたメソッドは無効です</value>
   </data>
+  <data name="EQLL0019" xml:space="preserve">
+    <value>Mock属性にクラスのTypeが指定されていません</value>
+  </data>
+  <data name="EQLL0020" xml:space="preserve">
+    <value>Mock属性にはインターフェースは指定できません({0} はインターフェースです)</value>
+  </data>
+  <data name="EQLL0021" xml:space="preserve">
+    <value>Mock属性には抽象クラスは指定できません({0} は抽象クラスです)</value>
+  </data>
+  <data name="EQLL0022" xml:space="preserve">
+    <value>Mock属性に代入のできない型が指定されています （{0}のMockクラスとして{1}が指定されています）</value>
+  </data>
 </root>

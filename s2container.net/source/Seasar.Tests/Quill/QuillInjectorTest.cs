@@ -108,6 +108,18 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
+        public void TestInjectField_Type()
+        {
+            container = new QuillContainer();
+            FieldInfo field = typeof(Target3).GetField("Hoge3");
+            Target3 target = new Target3();
+
+            this.InjectField(target, field, typeof(Hoge3));
+
+            Assert.IsNotNull(target.Hoge3);
+        }
+
+        [Test]
         public void TestInjectField_S2_‘ã“ü•s‰Â”\‚Èê‡()
         {
             container = new QuillContainer();
