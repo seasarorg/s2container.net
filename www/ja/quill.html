@@ -140,6 +140,7 @@
 				<li><a href="#form">Windowsアプリケーションから簡単にQuillを利用する</li>
 				<li><a href="#dispose">アンマネージ リソースを解放する</li>
 				<li><a href="#destroy">Quill が保持するオブジェクトの参照を破棄する</li>
+				<li><a href="#mock">テスト時に Mock を利用する</li>
 			</ul>
 			
 		</div>
@@ -728,6 +729,84 @@ QuillInjector.GetInstance().Dispose();</pre>
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <pre class="csharpcode">
 QuillInjector.GetInstance().Destroy();</pre>
+			
+		</div>
+	</div>
+	
+<!-- ############################################# テスト時にMockを利用する ######################################################### -->
+	<div class="content">
+		<a name="mock" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>テスト時に Mock を利用する</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　テストコードでリモートの処理を呼び出す部分等を Mock に置き換えたい場合があります。
+			そんな場合には QuillInjector の代わりに Seasar.Quill.Unit.MockInjector を使います。</p>
+			<p>　通常はインターフェースに Implementation 属性で実装クラスを指定しますが、
+			同じように Mock 属性(Seasar.Quill.Attrs.MockAttribute)で Mock クラスを指定することができます。
+			MockInjector を使用すると Mock 属性で Mock クラスが指定されている場合に、
+			Implementation 属性より優先して Mock クラスを Inject します。
+			Mock 属性が指定されていない場合は QuillInjector と同じ動作をします。</p>
+			<p>　以下はサンプルです。</p>
+			
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+[Implementation(<span class="kwrd">typeof</span>(RemoteLogic))]
+[Mock(<span class="kwrd">typeof</span>(MockRemoteLogic))]
+<span class="kwrd">public</span> <span class="kwrd">interface</span> IRemoteLogic
+{
+    <span class="kwrd">string</span> ExecuteRemote();
+}
+
+<span class="kwrd">public</span> <span class="kwrd">class</span> MockRemoteLogic : IRemoteLogic
+{
+    <span class="kwrd">public</span> <span class="kwrd">string</span> ExecuteRemote()
+    {
+        <span class="kwrd">return</span> <span class="str">"Mock です。"</span>;
+    }
+}
+
+<span class="kwrd">public</span> <span class="kwrd">class</span> CallRemoteLogic
+{
+    <span class="kwrd">protected</span> IRemoteLogic remoteLogic;
+
+    <span class="kwrd">public</span> <span class="kwrd">string</span> CallRemote()
+    {
+        <span class="kwrd">return</span> remoteLogic.ExecuteRemote();
+    }
+}</pre>
+
+			<p>　以下はテストクラスです。MockInjector を使っている為、Mock が使われます。</p>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="rem">// CallRemoteLogic のテストクラス</span>
+[TestFixture]
+<span class="kwrd">public</span> <span class="kwrd">class</span> CallRemoteLogicTest
+{
+    <span class="rem">// CallRemoteメソッドのテスト</span>
+    [Test]
+    <span class="kwrd">public</span> <span class="kwrd">void</span> TestCallRemote()
+    {
+        CallRemoteLogic logic = <span class="kwrd">new</span> CallRemoteLogic();
+        MockInjector.GetInstance().Inject(logic);
+
+        <span class="kwrd">string</span> ret = logic.ExecuteRemote();
+
+        Assert.AreEqual(<span class="str">"Mock です。"</span>, ret);
+    }
+}</pre>
+
+			<p>　MockInjector はもっともシンプルな QuillInjector のカスタマイズ例でもあります。
+			Quill(QuillInjector) はシンプルで機能が限定的です。
+			もし QuillInjector をカスタマイズしたいと考えた場合は MockInjector の実装を参考にしてください。</p>
 			
 		</div>
 	</div>
