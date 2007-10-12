@@ -17,8 +17,8 @@
 #endregion
 
 using System;
-using MbUnit.Framework;
 using Nullables;
+using MbUnit.Framework;
 using Seasar.Dao;
 using Seasar.Dao.Unit;
 using Seasar.Extension.Unit;

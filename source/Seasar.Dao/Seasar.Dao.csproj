@@ -255,6 +255,7 @@
     <Compile Include="Seasar.Dao.Impl\SelectDynamicCommand.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Dao.Impl\UpdateAutoDynamicCommand.cs" />
     <Compile Include="Seasar.Dao.Impl\UpdateAutoHandler.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -268,6 +269,7 @@
     <Compile Include="Seasar.Dao.Impl\RowCreatorImpl.cs" />
     <Compile Include="Seasar.Dao.Impl\RelationRowCreatorImpl.cs" />
     <Compile Include="Seasar.Dao.Impl\RelationRowCreationResource.cs" />
+    <Compile Include="Seasar.Dao.Impl\UpdateModifiedOnlyCommand.cs" />
     <Compile Include="Seasar.Dao.Interceptors\S2DaoInterceptor.cs">
       <SubType>Code</SubType>
     </Compile>

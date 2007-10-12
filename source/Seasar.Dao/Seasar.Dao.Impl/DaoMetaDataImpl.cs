@@ -45,6 +45,8 @@ namespace Seasar.Dao.Impl
         protected string[] _insertPrefixes = new string[] { "Insert", "Create", "Add" };
         protected string[] _updatePrefixes = new string[] { "Update", "Modify", "Store" };
         protected string[] _deletePrefixes = new string[] { "Delete", "Remove" };
+        protected string[] _modifiedOnlySuffixes = new string[] { "ModifiedOnly" };
+        protected string[] _unlessNullSuffixes = new string[] { "UnlessNull" };
 
         protected Type _daoType;
         protected Type _daoInterface;
@@ -257,6 +259,21 @@ namespace Seasar.Dao.Impl
             return cmd;
         }
 
+        protected virtual AbstractSqlCommand CreateUpdateAutoStaticCommand(IDataSource _dataSource, ICommandFactory _commandFactory, IBeanMetaData _beanMetaData, string[] propertyNames)
+        {
+            return new UpdateAutoStaticCommand(_dataSource, _commandFactory, _beanMetaData, propertyNames);
+        }
+
+        protected virtual AbstractSqlCommand CreateUpdateModifiedOnlyCommand(IDataSource _dataSource, ICommandFactory _commandFactory, IBeanMetaData _beanMetaData, string[] propertyNames)
+        {
+            return new UpdateModifiedOnlyCommand(_dataSource, _commandFactory, _beanMetaData, propertyNames);
+        }
+
+        protected virtual AbstractSqlCommand CreateUpdateAutoDynamicCommand(IDataSource _dataSource, ICommandFactory _commandFactory, IBeanMetaData _beanMetaData, string[] propertyNames)
+        {
+            return new UpdateAutoDynamicCommand(_dataSource, _commandFactory, _beanMetaData, propertyNames);
+        }
+
         protected static bool StartsWithBeginComment(string query)
         {
             if (query != null)
@@ -422,11 +439,25 @@ namespace Seasar.Dao.Impl
             CheckAutoUpdateMethod(mi);
             string[] propertyNames = GetPersistentPropertyNames(mi.Name);
             AbstractSqlCommand cmd;
-            if (IsUpdateSignatureForBean(mi))
-                cmd = new UpdateAutoStaticCommand(_dataSource, _commandFactory,
-                    _beanMetaData, propertyNames);
+            if ( IsUpdateSignatureForBean(mi) )
+            {
+                if ( IsUnlessNull(mi.Name) )
+                {
+                    cmd = CreateUpdateAutoDynamicCommand(_dataSource, _commandFactory, _beanMetaData, propertyNames);
+                } 
+                else if ( IsModifiedOnly(mi.Name) )
+                {
+                    cmd = CreateUpdateModifiedOnlyCommand(_dataSource, _commandFactory, _beanMetaData, propertyNames);
+                } 
+                else
+                {
+                    cmd = CreateUpdateAutoStaticCommand(_dataSource, _commandFactory, _beanMetaData, propertyNames);
+                }
+            } 
             else
+            {
                 throw new NotSupportedException("UpdateBatchAutoStaticCommand");
+            }
 
             _sqlCommands[mi.Name] = cmd;
         }
@@ -437,6 +468,7 @@ namespace Seasar.Dao.Impl
             string[] propertyNames = GetPersistentPropertyNames(mi.Name);
             ISqlCommand cmd;
             if (IsUpdateSignatureForBean(mi))
+                
                 cmd = new DeleteAutoStaticCommand(_dataSource, _commandFactory,
                     _beanMetaData, propertyNames);
             else
@@ -694,6 +726,24 @@ namespace Seasar.Dao.Impl
             foreach (string deleteName in _deletePrefixes)
             {
                 if (methodName.StartsWith(deleteName)) return true;
+            }
+            return false;
+        }
+
+        protected virtual bool IsUnlessNull(string methodName)
+        {
+            foreach ( string unlessNullSuffix in _unlessNullSuffixes )
+            {
+                if ( methodName.EndsWith(unlessNullSuffix) ) return true;
+            }
+            return false;
+        }
+
+        protected virtual bool IsModifiedOnly(string methodName)
+        {
+            foreach ( string modifiedOnlySuffix in _modifiedOnlySuffixes )
+            {
+                if ( methodName.EndsWith(modifiedOnlySuffix) ) return true;
             }
             return false;
         }
