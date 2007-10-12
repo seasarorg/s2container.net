@@ -150,6 +150,12 @@
   <data name="EDAO0011" xml:space="preserve">
     <value>Parameter Name({0}) not found</value>
   </data>
+  <data name="EDAO0012" xml:space="preserve">
+    <value>No UPDATE list</value>
+  </data>
+  <data name="EDAO0013" xml:space="preserve">
+    <value>Can not use update method of ModifiedOnly because property ({1}) not found in {0}</value>
+  </data>
   <data name="WDAO0001" xml:space="preserve">
     <value>Argument({0}) not found</value>
   </data>

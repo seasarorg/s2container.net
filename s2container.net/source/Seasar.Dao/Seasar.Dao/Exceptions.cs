@@ -278,4 +278,34 @@ namespace Seasar.Dao
             get { return _propertyType; }
         }
     }
+
+    [Serializable]
+    public class NotFoundModifiedPropertiesRuntimeException : SRuntimeException
+    {
+        private String _beanClassName;
+
+        public NotFoundModifiedPropertiesRuntimeException(
+                string beanClassName, string propertyName)
+            : base("EDAXXXXX", new Object[] { beanClassName, propertyName })
+        {
+            _beanClassName = beanClassName;
+        }
+
+        public String BeanClassName
+        {
+            get
+            {
+                return _beanClassName;
+            }
+        }
+    }
+
+    [Serializable]
+    public class NoUpdatePropertyTypeRuntimeException : SRuntimeException
+    {
+        public NoUpdatePropertyTypeRuntimeException()
+            : base("EDA00012")
+        {
+        }
+    }
 }

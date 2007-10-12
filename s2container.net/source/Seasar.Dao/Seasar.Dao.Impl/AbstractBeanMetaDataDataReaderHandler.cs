@@ -29,6 +29,8 @@ namespace Seasar.Dao.Impl
     {
         private readonly IBeanMetaData _beanMetaData;
 
+        private string[] _clearModifiedOnlyPropertyNamePrefixes = new string[] { "Clear" }; // [DAONET-57] 2007/10/02
+
         protected IRowCreator _rowCreator;// [DAONET-56] (2007/08/29)
 
         protected IRelationRowCreator _relationRowCreator;// [DAONET-56] (2007/08/29)
@@ -69,7 +71,12 @@ namespace Seasar.Dao.Impl
         /// <returns>1行分のEntity型のオブジェクト (NotNull)</returns>
         protected virtual object CreateRow(IDataReader reader, IColumnMetaData[] columns)
         {
-            return _rowCreator.CreateRow(reader, columns, _beanMetaData.BeanType);
+            object row = _rowCreator.CreateRow(reader, columns, _beanMetaData.BeanType);
+            if ( row != null )
+            {
+                BeanMetaData.ClearModifiedPropertyNames(row);
+            }
+            return row;
         }
 
         /// <summary>
@@ -95,10 +102,13 @@ namespace Seasar.Dao.Impl
             System.Collections.IList columnNames, System.Collections.Hashtable relKeyValues,
             IDictionary<String, IDictionary<String, IPropertyType>> relationColumnMetaDataCache)
         {
-            return _relationRowCreator.CreateRelationRow(reader, rpt, columnNames, relKeyValues, relationColumnMetaDataCache);
+            object relationRow = _relationRowCreator.CreateRelationRow(reader, rpt, columnNames, relKeyValues, relationColumnMetaDataCache);
+            if ( relationRow != null )
+            {
+                BeanMetaData.ClearModifiedPropertyNames(relationRow);
+            }
+            return relationRow;
         }
-
-
 
         protected virtual bool IsTargetProperty(IPropertyType pt)
         {// [DAONET-56] (2007/08/29)

@@ -42,6 +42,8 @@ namespace Seasar.Dao.Impl
         protected IIdentifierGenerator _identifierGenerator;
         protected string _versionNoPropertyName = "VersionNo";
         protected string _timestampPropertyName = "Timestamp";
+        protected string _modifiedPropertyNamesPropertyName = "ModifiedPropertyNames";
+        protected string _clearModifiedPropertyNamesMethodName = "ClearModifiedPropertyNames";
         protected string _versionNoBindingName;
         protected string _timestampBindingName;
         private IAnnotationReaderFactory _annotationReaderFactory;
@@ -72,6 +74,7 @@ namespace Seasar.Dao.Impl
             SetupVersionNoPropertyName(BeanType);
             SetupTimestampPropertyName(BeanType);
             SetupProperty(BeanType, dbMetaData, dbms);
+            SetupMethodInfo();
             SetupDatabaseMetaData(BeanType, dbMetaData, dbms);
             SetupPropertiesByColumnName();
         }
@@ -127,6 +130,26 @@ namespace Seasar.Dao.Impl
         public virtual bool HasTimestampPropertyType
         {
             get { return HasPropertyType(_timestampPropertyName); }
+        }
+
+        public virtual string ModifiedPropertyNamesPropertyName
+        {
+            get { return _modifiedPropertyNamesPropertyName; }
+        }
+
+        public virtual bool HasModifiedPropertyNamesPropertyName
+        {
+            get { return HasPropertyType(_modifiedPropertyNamesPropertyName); }
+        }
+
+        public virtual string ClearModifiedPropertyNamesMethodName
+        {
+            get { return _clearModifiedPropertyNamesMethodName; }
+        }
+
+        public virtual bool HasClearModifiedPropertyNamesMethodName
+        {
+            get { return HasMethodInfo(_clearModifiedPropertyNamesMethodName); }
         }
 
         public virtual string ConvertFullColumnName(string alias)
@@ -234,6 +257,30 @@ namespace Seasar.Dao.Impl
             throw new PropertyNotFoundRuntimeException(BeanType, propertyName);
         }
 
+        /// <summary>
+        /// entity内の更新フラグをOFFにする。
+        /// ClearModifiedPropertyNamesメソッドが存在する場合はそれを呼び出す。
+        /// 上記メソッドがなく、かつModifiedPropertyNamesプロパティがある場合は
+        /// そのプロパティの値がもつClear()メソッドを呼び出す。
+        /// どちらも持たない場合は何もせずに処理を終わる
+        /// </summary>
+        /// <remarks>DAONET-57</remarks>
+        /// <param name="bean">エンティティ</param>
+        public virtual void ClearModifiedPropertyNames(object bean)
+        {
+            if ( HasClearModifiedPropertyNamesMethodName )
+            {
+                MethodInfo mi = GetMethodInfo(ClearModifiedPropertyNamesMethodName);
+                mi.Invoke(bean, null);
+            }
+            else if ( HasModifiedPropertyNamesPropertyName )
+            {
+                IPropertyType pt = GetPropertyType(ModifiedPropertyNamesPropertyName);
+                IDictionary modifiedPropertyNames = (IDictionary)pt.PropertyInfo.GetValue(bean, null);
+                modifiedPropertyNames.Clear();
+            }
+        }
+
         public virtual int PrimaryKeySize
         {
             get { return _primaryKeys.Length; }
@@ -266,6 +313,19 @@ namespace Seasar.Dao.Impl
         public virtual bool IsRelation
         {
             get { return _relation; }
+        }
+
+        public virtual IDictionary GetModifiedPropertyNames(object bean) 
+        {
+            string propertyNames = _modifiedPropertyNamesPropertyName;
+            if ( !HasModifiedPropertyNamesPropertyName )
+            {
+                throw new NotFoundModifiedPropertiesRuntimeException(bean.GetType().Name, propertyNames);
+            }
+            IPropertyType modifiedPropertyType = GetPropertyType(propertyNames);
+            object value = modifiedPropertyType.PropertyInfo.GetValue(bean, null);
+            IDictionary names = (IDictionary)value;
+            return names;
         }
 
         #endregion

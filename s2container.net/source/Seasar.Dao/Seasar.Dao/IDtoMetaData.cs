@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Reflection;
 using Seasar.Extension.ADO;
 
 namespace Seasar.Dao
@@ -28,5 +29,10 @@ namespace Seasar.Dao
         IPropertyType GetPropertyType(int index);
         IPropertyType GetPropertyType(string propertyName);
         bool HasPropertyType(string propertyName);
+
+        int MethodInfoSize { get; }
+        MethodInfo GetMethodInfo(int index);
+        MethodInfo GetMethodInfo(string methodName);
+        bool HasMethodInfo(string methodName);
     }
 }

@@ -262,17 +262,20 @@
     <Compile Include="Dao\Impl\Employee3.cs" />
     <Compile Include="Dao\Impl\Employee4.cs" />
     <Compile Include="Dao\Impl\Employee5.cs" />
+    <Compile Include="Dao\Impl\EmployeeAutoDynamic.cs" />
     <Compile Include="Dao\Impl\EmployeeDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>EmployeeDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Dao\Impl\EmployeeModifiedOnly.cs" />
     <Compile Include="Dao\Impl\EmployeeNullable.cs" />
     <Compile Include="Dao\Impl\EmployeeSearchCondition.cs" />
     <Compile Include="Dao\Impl\EmployeeVersionNo.cs" />
     <Compile Include="Dao\Impl\FormUseHistory.cs" />
     <Compile Include="Dao\Impl\GenericNullableEntity.cs" />
     <Compile Include="Dao\Impl\IDepartmentAutoDao.cs" />
+    <Compile Include="Dao\Impl\IDepartmentAutoDynamicDao.cs" />
     <Compile Include="Dao\Impl\IDepartmentTotalSalaryDao.cs" />
     <Compile Include="Dao\Impl\IdTable.cs" />
     <Compile Include="Dao\Impl\IdTable2.cs" />
@@ -284,8 +287,10 @@
     <Compile Include="Dao\Impl\IEmployee7Dao.cs" />
     <Compile Include="Dao\Impl\IEmployee8Dao.cs" />
     <Compile Include="Dao\Impl\IEmployeeAutoDao.cs" />
+    <Compile Include="Dao\Impl\IEmployeeAutoDynamicDao.cs" />
     <Compile Include="Dao\Impl\IEmployeeDao.cs" />
     <Compile Include="Dao\Impl\IEmployeeDataSetDao.cs" />
+    <Compile Include="Dao\Impl\IEmployeeModifiedOnlyDao.cs" />
     <Compile Include="Dao\Impl\IEmployeeNullableAutoDao.cs" />
     <Compile Include="Dao\Impl\IEmployeeVersionNoDao.cs" />
     <Compile Include="Dao\Impl\IFormUseHistoryDao.cs" />
@@ -300,8 +305,10 @@
     <Compile Include="Dao\Impl\SelectAutoCommandTest.cs" />
     <Compile Include="Dao\Impl\SelectDynamicCommandTest.cs" />
     <Compile Include="Dao\Impl\UnderscoreEntity.cs" />
+    <Compile Include="Dao\Impl\UpdateAutoDynamicCommandTest.cs" />
     <Compile Include="Dao\Impl\UpdateAutoStaticCommandTest.cs" />
     <Compile Include="Dao\Impl\UpdateDynamicCommandTest.cs" />
+    <Compile Include="Dao\Impl\UpdateModifiedOnlyCommandTest.cs" />
     <Compile Include="Dao\Interceptors\Department.cs" />
     <Compile Include="Dao\Interceptors\Employee.cs" />
     <Compile Include="Dao\Interceptors\Hoge.cs" />
