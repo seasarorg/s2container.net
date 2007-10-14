@@ -5,6 +5,7 @@
 S2Dao.NET 1.1.2
 2007/10/??
 - [DAONET-57]Setterが呼ばれたColumnだけをUpdateするUpdateModifiedOnly()をSupportする。
+- [DAONET-60]検索(select)でDataSet型を返せるようにする
 - [DAONET-62]SQLite対応
 - [DAONET-63]S2PagerのOracle ROW_NUMBER対応
 

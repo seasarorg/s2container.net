@@ -926,6 +926,7 @@ namespace Seasar.Tests.Dao.Impl.EmployeeDataSetTableAdapters {
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
         private void InitConnection() {
             this._connection = new System.Data.OleDb.OleDbConnection();
+            this._connection.ConnectionString = global::Seasar.Tests.Properties.Settings.Default.s2dotnetdemoConnectionString1;
         }
         
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
