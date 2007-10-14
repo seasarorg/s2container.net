@@ -43,8 +43,7 @@ namespace Seasar.Tests.Dao.Impl
         [Test, S2]
         public void TestHandleDataTable()
         {
-            IDataReaderHandler handler = new BeanDataTableMetaDataDataReaderHandler(
-                null, new RowCreatorImpl(), new RelationRowCreatorImpl(), typeof(DataTable));
+            IDataReaderHandler handler = new BeanDataTableMetaDataDataReaderHandler(typeof(DataTable));
             
             string sql = "select emp.empno as uid, emp.*, dept.deptno as deptno_0, dept.dname as dname_0 " +
                 "from emp, dept where empno = 7788 and emp.deptno = dept.deptno";
@@ -79,9 +78,7 @@ namespace Seasar.Tests.Dao.Impl
         [Test, S2]
         public void TestHandleCustomDataTable()
         {
-            IDataReaderHandler handler = new BeanDataTableMetaDataDataReaderHandler(
-                CreateBeanMetaData(typeof(Employee)),
-                new RowCreatorImpl(), new RelationRowCreatorImpl(), typeof(EmployeeDataSet.EmpAndDeptDataTable));
+            IDataReaderHandler handler = new BeanDataTableMetaDataDataReaderHandler(typeof(EmployeeDataSet.EmpAndDeptDataTable));
 
             string sql = "select DEPT.DEPTNO, DEPT.DNAME, DEPT.LOC, EMP.EMPNO, " +
                 "EMP.ENAME, EMP.JOB, EMP.MGR, EMP.HIREDATE, EMP.SAL, EMP.COMM " +

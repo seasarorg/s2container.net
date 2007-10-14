@@ -2,22 +2,21 @@ using System;
 using System.Text;
 using System.Data;
 using System.Collections;
+using Seasar.Extension.ADO;
 
 namespace Seasar.Dao.Impl
 {
-    public class BeanDataSetMetaDataDataReaderHandler : AbstractBeanMetaDataDataReaderHandler
+    public class BeanDataSetMetaDataDataReaderHandler : IDataReaderHandler
     {
         protected const int DEFAULT_TABLE_NUM = 1;
         private Type _returnType;
 
-        public BeanDataSetMetaDataDataReaderHandler(IBeanMetaData beanMetaData, IRowCreator rowCreator, 
-            IRelationRowCreator relationRowCreator, Type returnType)
-            : base(beanMetaData, rowCreator, relationRowCreator)
+        public BeanDataSetMetaDataDataReaderHandler(Type returnType)
         {
             _returnType = returnType;
         }
 
-        public override object Handle(IDataReader dataReader)
+        public virtual object Handle(IDataReader dataReader)
         {
             DataSet dataSet = (DataSet)Activator.CreateInstance(_returnType);
             Handle(dataReader, dataSet);
