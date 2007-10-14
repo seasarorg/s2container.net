@@ -7,6 +7,7 @@ namespace Seasar.Dao.Impl
 {
     public class BeanDataSetMetaDataDataReaderHandler : AbstractBeanMetaDataDataReaderHandler
     {
+        protected const int DEFAULT_TABLE_NUM = 1;
         private Type _returnType;
 
         public BeanDataSetMetaDataDataReaderHandler(IBeanMetaData beanMetaData, IRowCreator rowCreator, 
@@ -23,11 +24,16 @@ namespace Seasar.Dao.Impl
             return dataSet;
         }
 
-        protected void Handle(IDataReader dataReader, DataSet dataSet)
+        protected virtual void Handle(IDataReader dataReader, DataSet dataSet)
         {
-            DataTable[] dataTables = new DataTable[dataSet.Tables.Count];
-            dataSet.Tables.CopyTo(dataTables, 0);
-            dataSet.Load(dataReader, LoadOption.OverwriteChanges, dataTables);
+            if ( dataSet.Tables.Count == 0 )
+            {
+                DataTable table = new DataTable();
+                dataSet.Tables.Add(table);
+            }
+            DataTable[] tables = new DataTable[dataSet.Tables.Count];
+            dataSet.Tables.CopyTo(tables, 0);
+            dataSet.Load(dataReader, LoadOption.OverwriteChanges, tables);
         }
     }
 }

@@ -1,4 +1,4 @@
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
     <ProductVersion>8.0.50727</ProductVersion>
@@ -248,6 +248,8 @@
     <Compile Include="Dao\Id\SequenceIdentifierGeneratorTest.cs" />
     <Compile Include="Dao\Impl\AbstractBeanMetaDataDataReaderHandlerTest.cs" />
     <Compile Include="Dao\Impl\BeanArrayMetaDataResultSetHandlerTest.cs" />
+    <Compile Include="Dao\Impl\BeanDataSetMetaDataDataReaderHandlerTest.cs" />
+    <Compile Include="Dao\Impl\BeanDataTableMetaDataDataReaderHandlerTest.cs" />
     <Compile Include="Dao\Impl\BeanGenericListMetaDataDataReaderHandlerTest.cs" />
     <Compile Include="Dao\Impl\BeanListMetaDataDataReaderHandlerTest.cs" />
     <Compile Include="Dao\Impl\BeanMetaDataDataReaderHandlerTest.cs" />
