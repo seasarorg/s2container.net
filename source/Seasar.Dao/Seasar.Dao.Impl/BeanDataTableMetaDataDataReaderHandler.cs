@@ -3,21 +3,20 @@ using System.Text;
 using System.Data;
 using Seasar.Framework.Util;
 using System.Collections;
+using Seasar.Extension.ADO;
 
 namespace Seasar.Dao.Impl
 {
-    public class BeanDataTableMetaDataDataReaderHandler : AbstractBeanMetaDataDataReaderHandler
+    public class BeanDataTableMetaDataDataReaderHandler : IDataReaderHandler
     {
         private Type _returnType;
 
-        public BeanDataTableMetaDataDataReaderHandler(IBeanMetaData beanMetaData, IRowCreator rowCreator, 
-            IRelationRowCreator relationRowCreator, Type returnType)
-            : base(beanMetaData, rowCreator, relationRowCreator)
+        public BeanDataTableMetaDataDataReaderHandler(Type returnType)
         {
             _returnType = returnType;
         }
 
-        public override object Handle(IDataReader dataReader)
+        public virtual object Handle(IDataReader dataReader)
         {
             DataTable table = (DataTable)Activator.CreateInstance(_returnType);
             table.Load(dataReader);

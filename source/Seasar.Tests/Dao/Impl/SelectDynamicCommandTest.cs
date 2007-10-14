@@ -58,7 +58,7 @@ namespace Seasar.Tests.Dao.Impl
         {
             SelectDynamicCommand cmd = new SelectDynamicCommand(DataSource,
                 BasicCommandFactory.INSTANCE,
-                new BeanDataTableMetaDataDataReaderHandler(CreateBeanMetaData(typeof(Employee)), new RowCreatorImpl(), new RelationRowCreatorImpl(), typeof(DataTable)),
+                new BeanDataTableMetaDataDataReaderHandler(typeof(DataTable)),
                 BasicDataReaderFactory.INSTANCE);
             cmd.Sql = "SELECT emp.empno,emp.ename,dept.deptno,dept.dname FROM emp left outer join dept on emp.deptno = dept.deptno where emp.empno = /*employeeNo*/7369";
             cmd.ArgNames = new string[] { "employeeNo" };
@@ -89,7 +89,7 @@ namespace Seasar.Tests.Dao.Impl
         {
             SelectDynamicCommand cmd = new SelectDynamicCommand(DataSource,
                 BasicCommandFactory.INSTANCE,
-                new BeanDataTableMetaDataDataReaderHandler(CreateBeanMetaData(typeof(Employee)), new RowCreatorImpl(), new RelationRowCreatorImpl(), typeof(EmployeeDataSet.EmpAndDeptDataTable)),
+                new BeanDataTableMetaDataDataReaderHandler(typeof(EmployeeDataSet.EmpAndDeptDataTable)),
                 BasicDataReaderFactory.INSTANCE);
             cmd.Sql = "SELECT emp.empno,emp.ename,dept.deptno,dept.dname FROM emp left outer join dept on emp.deptno = dept.deptno where emp.empno = /*employeeNo*/7369";
             cmd.ArgNames = new string[] { "employeeNo" };
@@ -120,7 +120,7 @@ namespace Seasar.Tests.Dao.Impl
         {
             SelectDynamicCommand cmd = new SelectDynamicCommand(DataSource,
                 BasicCommandFactory.INSTANCE,
-                new BeanDataSetMetaDataDataReaderHandler(CreateBeanMetaData(typeof(Employee)), new RowCreatorImpl(), new RelationRowCreatorImpl(), typeof(DataSet)),
+                new BeanDataSetMetaDataDataReaderHandler(typeof(DataSet)),
                 BasicDataReaderFactory.INSTANCE);
             cmd.Sql = "SELECT emp.empno,emp.ename,dept.deptno,dept.dname FROM emp left outer join dept on emp.deptno = dept.deptno where emp.empno = /*employeeNo*/7369";
             cmd.ArgNames = new string[] { "employeeNo" };
@@ -153,7 +153,7 @@ namespace Seasar.Tests.Dao.Impl
         {
             SelectDynamicCommand cmd = new SelectDynamicCommand(DataSource,
                 BasicCommandFactory.INSTANCE,
-                new BeanDataSetMetaDataDataReaderHandler(CreateBeanMetaData(typeof(Employee)), new RowCreatorImpl(), new RelationRowCreatorImpl(), typeof(EmployeeDataSet)),
+                new BeanDataSetMetaDataDataReaderHandler(typeof(EmployeeDataSet)),
                 BasicDataReaderFactory.INSTANCE);
             cmd.Sql = "SELECT emp.empno,emp.ename,dept.deptno,dept.dname FROM emp left outer join dept on emp.deptno = dept.deptno where emp.empno = /*employeeNo*/7369";
             cmd.ArgNames = new string[] { "employeeNo" };

@@ -355,12 +355,12 @@ namespace Seasar.Dao.Impl
 
         protected virtual BeanDataSetMetaDataDataReaderHandler CreateBeanDataSetMetaDataDataReaderHandler(IBeanMetaData bmd, Type returnType)
         {
-            return new BeanDataSetMetaDataDataReaderHandler(bmd, CreateRowCreator(), CreateRelationRowCreator(), returnType);
+            return new BeanDataSetMetaDataDataReaderHandler(returnType);
         }
 
         protected virtual BeanDataTableMetaDataDataReaderHandler CreateBeanDataTableMetaDataDataReaderHandler(IBeanMetaData bmd, Type returnType)
         {
-            return new BeanDataTableMetaDataDataReaderHandler(bmd, CreateRowCreator(), CreateRelationRowCreator(), returnType);
+            return new BeanDataTableMetaDataDataReaderHandler(returnType);
         }
 
         protected virtual BeanListMetaDataDataReaderHandler CreateBeanListMetaDataDataReaderHandler(IBeanMetaData bmd)
