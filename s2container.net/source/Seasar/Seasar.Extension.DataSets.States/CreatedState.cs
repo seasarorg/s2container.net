@@ -39,7 +39,7 @@ namespace Seasar.Extension.DataSets.States
             if (reference == null || !reference.IsAlive)
             {
                 sql = CreateSql(table);
-                _sqlCache.Add(table, new WeakReference(sql));
+                _sqlCache[table] = new WeakReference(sql);
             }
             else
             {
@@ -55,12 +55,10 @@ namespace Seasar.Extension.DataSets.States
             buf.Append("INSERT INTO ");
             buf.Append(table.TableName);
             buf.Append(" (");
-            int writableColumnSize = 0;
             foreach (DataColumn column in table.Columns)
             {
                 if (!column.ReadOnly)
                 {
-                    ++writableColumnSize;
                     buf.Append(column.ColumnName);
                     buf.Append(", ");
 
