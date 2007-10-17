@@ -39,7 +39,7 @@ namespace Seasar.Tests.Dxo
         /// <summary>
         /// Logic Log
         /// </summary>
-        private const string PATH = "Dxo/dxo.dicon";
+        private const string PATH = "Seasar.Tests.Dxo.dxo.dicon";
 
         [SetUp]
         public void SetUp()
