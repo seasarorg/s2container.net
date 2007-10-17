@@ -24,7 +24,7 @@ using System.Reflection;
 // 情報を変更するには、これらの属性値を変更してください。
 //
 [assembly: AssemblyTitle("S2Dao.NET")]
-[assembly: AssemblyDescription("S2Dao.NET 1.1.1")]
+[assembly: AssemblyDescription("S2Dao.NET")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("S2Dao.NET")]
@@ -43,7 +43,7 @@ using System.Reflection;
 // 下にあるように、'*' を使って、すべての値を指定するか、
 // ビルドおよびリビジョン番号を既定値にすることができます。
 
-[assembly: AssemblyVersion("1.1.1.0")]
+[assembly: AssemblyVersion("1.3.2.0")]
 
 //
 // アセンブリに署名するには、使用するキーを指定しなければなりません。 

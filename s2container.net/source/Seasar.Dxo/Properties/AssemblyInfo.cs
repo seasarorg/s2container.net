@@ -23,7 +23,7 @@ using System.Runtime.InteropServices;
 // アセンブリに関連付けられている情報を変更するには、
 // これらの属性値を変更してください。
 [assembly : AssemblyTitle("Seasar.Dxo")]
-[assembly : AssemblyDescription("Seasar.Dxo 1.3.1")]
+[assembly: AssemblyDescription("Seasar.Dxo")]
 [assembly : AssemblyConfiguration("")]
 [assembly : AssemblyCompany("")]
 [assembly : AssemblyProduct("Seasar.Dxo")]
@@ -48,7 +48,7 @@ using System.Runtime.InteropServices;
 //
 // すべての値を指定するか、下のように '*' を使ってリビジョンおよびビルド番号を 
 // 既定値にすることができます:
-[assembly : AssemblyVersion("1.3.1.0")]
+[assembly: AssemblyVersion("1.3.2.0")]
 //
 // アセンブリに署名するには、使用するキーを指定しなければなりません。 
 // アセンブリ署名に関する詳細については、Microsoft .NET Framework ドキュメントを参照してください。
@@ -76,6 +76,6 @@ using System.Runtime.InteropServices;
 //
 [assembly: AssemblyDelaySign(false)]
 [assembly: AssemblyKeyName("")]
-[assembly: AssemblyFileVersion("1.3.1.0")]
+[assembly: AssemblyFileVersion("1.3.2.0")]
 
 [assembly : CLSCompliant(true)]
