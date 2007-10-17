@@ -1,13 +1,23 @@
 ﻿S2Container.NET 1.3.2
-2007/10/??
-- [CONTAINERNET-71]PONOを相互交換するS2Dxo.NETを追加する
+2007/10/18
+** Bug
+    * [CONTAINERNET-69] - S2Unitで"F+数字"のパターンに一致するカラムを読み込まない
+    * [CONTAINERNET-73] - GC発生時にS2UnitのReadXlsWriteDbで例外が発生する
 
-S2Dao.NET 1.1.2
-2007/10/??
-- [DAONET-57]Setterが呼ばれたColumnだけをUpdateするUpdateModifiedOnly()をSupportする。
-- [DAONET-60]検索(select)でDataSet型を返せるようにする
-- [DAONET-62]SQLite対応
-- [DAONET-63]S2PagerのOracle ROW_NUMBER対応
+** New Feature
+    * [CONTAINERNET-68] - Quill でコンポーネントを破棄するための Destroy メソッドを実装する
+    * [CONTAINERNET-70] - [Quill] テスト時にMockに置き換えることができる機能を追加する
+    * [CONTAINERNET-71] - PONOを相互交換するS2Dxo.NETを追加する
+
+S2Dao.NET 1.3.2
+2007/10/18
+** Improvement
+    * [DAONET-57] - Setterが呼ばれたColumnだけをUpdateするUpdateModifiedOnly()をSupportする。
+    * [DAONET-60] - 検索(select)でDataSet型を返せるようにする
+    * [DAONET-63] - S2PagerのOracle ROW_NUMBER対応
+
+** New Feature
+    * [DAONET-62] - SQLite対応
 
 S2Container.NET 1.3.1
 2007/9/3
