@@ -149,11 +149,7 @@ namespace Seasar.Dao.Pager
                 throw new PagingParameterDefinitionException(pager.OffsetParameter);
             }
 
-            if (ci == -1)
-            {
-                throw new PagingParameterDefinitionException(pager.CountParameter);
-            }
-            if (parameters[ci].ParameterType.Name != "Int32&" || !parameters[ci].IsOut)
+            if (!(parameters[ci].ParameterType.Name == "Int32&" || parameters[ci].IsOut || parameters[ci].ParameterType.IsByRef))
             {
                 throw new PagingParameterDefinitionException(pager.CountParameter);
             }
