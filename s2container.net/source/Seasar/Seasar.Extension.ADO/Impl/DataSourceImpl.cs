@@ -16,157 +16,191 @@
  */
 #endregion
 
-using System;
 using System.Data;
-using System.Reflection;
-using Seasar.Framework.Util;
 
 namespace Seasar.Extension.ADO.Impl
 {
     public class DataSourceImpl : IDataSource
     {
-        private DataProvider _provider;
-        private string _connectionString;
+        private IDataSource _instance;
 
         public DataSourceImpl()
         {
         }
 
         public DataSourceImpl(DataProvider provider, string connectionString)
+            : this(new DataProviderDataSource(provider, connectionString))
         {
-            _provider = provider;
-            _connectionString = connectionString;
+        }
+
+        public DataSourceImpl(string providerInvariantName)
+            : this(new DbProviderFactoryDataSource(providerInvariantName))
+        {
+        }
+
+        public DataSourceImpl(IDataSource instance)
+        {
+            _instance = instance;
         }
 
         public DataProvider DataProvider
         {
-            set { _provider = value; }
-            get { return _provider; }
+            set
+            {
+                DataProviderDataSource ds = _instance as DataProviderDataSource;
+                if (ds == null)
+                {
+                    ds = new DataProviderDataSource();
+                    _instance = ds;
+                }
+                ds.DataProvider = value;
+            }
+            get
+            {
+                DataProviderDataSource ds = _instance as DataProviderDataSource;
+                if (ds == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return ds.DataProvider;
+                }
+            }
         }
 
         public string ConnectionString
         {
-            set { _connectionString = value; }
-            get { return _connectionString; }
+            set
+            {
+                DataProviderDataSource ds = _instance as DataProviderDataSource;
+                if (ds == null)
+                {
+                    ds = new DataProviderDataSource();
+                    _instance = ds;
+                }
+                ds.ConnectionString = value;
+            }
+            get
+            {
+                DataProviderDataSource ds = _instance as DataProviderDataSource;
+                if (ds == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return ds.ConnectionString;
+                }
+            }
+        }
+
+        public string ProviderInvariantName
+        {
+            set
+            {
+                DbProviderFactoryDataSource ds = _instance as DbProviderFactoryDataSource;
+                if (ds == null)
+                {
+                    ds = new DbProviderFactoryDataSource(value);
+                    _instance = ds;
+                }
+            }
+        }
+
+        public IDataSource Instance
+        {
+            get { return _instance; }
         }
 
         #region IDataSource ÉÅÉìÉo
 
-        public IDbConnection GetConnection()
+        public virtual IDbConnection GetConnection()
         {
-            IDbConnection cn = (IDbConnection) ClassUtil.NewInstance(ForName(_provider.ConnectionType));
-            cn.ConnectionString = _connectionString;
-            return cn;
+            return _instance.GetConnection();
+        }
+
+        public virtual void CloseConnection(IDbConnection connection)
+        {
+            _instance.CloseConnection(connection);
         }
 
         public IDbCommand GetCommand()
         {
-            return (IDbCommand) ClassUtil.NewInstance(ForName(_provider.CommandType));
+            return _instance.GetCommand();
         }
 
         public IDbCommand GetCommand(string cmdText)
         {
-            IDbCommand cmd = GetCommand();
-            cmd.CommandText = cmdText;
-            return cmd;
+            return _instance.GetCommand(cmdText);
         }
 
         public IDbCommand GetCommand(string cmdText, IDbConnection connection)
         {
-            IDbCommand cmd = GetCommand(cmdText);
-            cmd.Connection = connection;
-            return cmd;
+            return _instance.GetCommand(cmdText, connection);
         }
 
         public IDbCommand GetCommand(string cmdText,
             IDbConnection connection, IDbTransaction transaction)
         {
-            IDbCommand cmd = GetCommand(cmdText, connection);
-            cmd.Transaction = transaction;
-            return cmd;
+            return _instance.GetCommand(cmdText, connection, transaction);
         }
 
         public IDataParameter GetParameter()
         {
-            return (IDataParameter) ClassUtil.NewInstance(ForName(_provider.ParameterType));
+            return _instance.GetParameter();
         }
 
         public IDataParameter GetParameter(string name, DbType dataType)
         {
-            IDataParameter param = GetParameter();
-            param.ParameterName = name;
-            param.DbType = dataType;
-            return param;
+            return _instance.GetParameter(name, dataType);
         }
 
         public IDataParameter GetParameter(string name, object value)
         {
-            IDataParameter param = GetParameter();
-            param.ParameterName = name;
-            if (value == null)
-            {
-                param.Value = DBNull.Value;
-            }
-            else
-            {
-                param.Value = value;
-            }
-            return param;
+            return _instance.GetParameter(name, value);
         }
 
         public IDataParameter GetParameter(string name, DbType dataType, int size)
         {
-            Type[] argTypes = new Type[] { typeof(string), typeof(DbType), typeof(int) };
-            ConstructorInfo constructor = ClassUtil.GetConstructorInfo(ForName(_provider.ParameterType), argTypes);
-            return (IDataParameter) ConstructorUtil.NewInstance(constructor,
-                new object[] { name, dataType, size });
+            return _instance.GetParameter(name, dataType, size);
         }
 
         public IDataParameter GetParameter(string name, DbType dataType, int size, string srcColumn)
         {
-            IDataParameter param = GetParameter(name, dataType, size);
-            param.SourceColumn = srcColumn;
-            return param;
+            return _instance.GetParameter(name, dataType, size, srcColumn);
         }
 
         public IDataAdapter GetDataAdapter()
         {
-            return (IDataAdapter) ClassUtil.NewInstance(ForName(_provider.DataAdapterType));
+            return _instance.GetDataAdapter();
         }
 
         public IDataAdapter GetDataAdapter(IDbCommand selectCommand)
         {
-            Type[] argTypes = new Type[] { ForName(_provider.CommandType) };
-            ConstructorInfo constructor = ClassUtil.GetConstructorInfo(ForName(_provider.DataAdapterType), argTypes);
-            return (IDataAdapter) ConstructorUtil.NewInstance(constructor, new object[] { selectCommand });
+            return _instance.GetDataAdapter(selectCommand);
         }
 
         public IDataAdapter GetDataAdapter(string selectCommandText, string selectConnectionString)
         {
-            Type[] argTypes = new Type[] { typeof(string), typeof(string) };
-            ConstructorInfo constructor = ClassUtil.GetConstructorInfo(ForName(_provider.DataAdapterType), argTypes);
-            return (IDataAdapter) ConstructorUtil.NewInstance(constructor,
-                new object[] { selectCommandText, selectConnectionString });
+            return _instance.GetDataAdapter(selectCommandText, selectConnectionString);
         }
 
         public IDataAdapter GetDataAdapter(string selectCommandText, IDbConnection selectConnection)
         {
-            Type[] argTypes = new Type[] { typeof(string), ForName(_provider.ConnectionType) };
-            ConstructorInfo constructor = ClassUtil.GetConstructorInfo(ForName(_provider.DataAdapterType), argTypes);
-            return (IDataAdapter) ConstructorUtil.NewInstance(constructor,
-                new object[] { selectCommandText, selectConnection });
+            return _instance.GetDataAdapter(selectCommandText, selectConnection);
         }
 
         public virtual IDbTransaction GetTransaction()
         {
-            throw new NotSupportedException("GetTransaction");
+            return _instance.GetTransaction();
+        }
+
+        public virtual void SetTransaction(IDbCommand cmd)
+        {
+            _instance.SetTransaction(cmd);
         }
 
         #endregion
-
-        private static Type ForName(string name)
-        {
-            return ClassUtil.ForName(name, AppDomain.CurrentDomain.GetAssemblies());
-        }
     }
 }

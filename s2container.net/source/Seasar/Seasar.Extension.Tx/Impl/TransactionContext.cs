@@ -47,7 +47,7 @@ namespace Seasar.Extension.Tx.Impl
 
         public void OpenConnection()
         {
-            _connection = DataSourceUtil.GetConnection(_dataSource);
+            _connection = _dataSource.GetConnection();
         }
 
         public void Begin()

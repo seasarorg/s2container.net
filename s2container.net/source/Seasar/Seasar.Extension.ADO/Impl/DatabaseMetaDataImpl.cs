@@ -76,7 +76,7 @@ namespace Seasar.Extension.ADO.Impl
             lock(this)
             {
                 // IDbConnectionを取得する
-                IDbConnection cn = DataSourceUtil.GetConnection(_dataSource);
+                IDbConnection cn = _dataSource.GetConnection();
                 try
                 {
                     // テーブル定義情報を取得するためのSQLを作成する
@@ -86,7 +86,7 @@ namespace Seasar.Extension.ADO.Impl
                     IDbCommand cmd = _dataSource.GetCommand(sql, cn);
 
                     // Transactionの処理を行う
-                    DataSourceUtil.SetTransaction(_dataSource, cmd);
+                    _dataSource.SetTransaction(cmd);
 
                     // IDataAdapterを取得する
                     IDataAdapter adapter = _dataSource.GetDataAdapter(cmd);
@@ -116,7 +116,7 @@ namespace Seasar.Extension.ADO.Impl
                 finally
                 {
                     // IDbConnectionのClose処理を行う
-                    DataSourceUtil.CloseConnection(_dataSource, cn);
+                    _dataSource.CloseConnection(cn);
                 }
             }
         }

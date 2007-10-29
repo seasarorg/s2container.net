@@ -16,46 +16,53 @@
  */
 #endregion
 
-using System.Collections;
 using System.Data;
 using MbUnit.Framework;
-using Seasar.Extension.ADO;
-using Seasar.Extension.ADO.Impl;
 using Seasar.Extension.Unit;
-using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Extension.ADO.Impl
 {
     [TestFixture]
-    public class DictionaryDataReaderHandlerTest : S2TestCase
+    public class DataProviderDataSourceTest : S2TestCase
     {
         private const string PATH = "Seasar.Tests.Ado.dicon";
 
-        public void SetUpHandle()
+        public void SetUpGetCommand()
         {
             Include(PATH);
         }
 
-        [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
-        public void Handle()
+        [Test, S2]
+        public void GetCommand()
         {
-            IDataReaderHandler handler = new DictionaryDataReaderHandler();
-            string sql = "select * from emp where empno = 7788";
-            IDbConnection con = Connection;
-            IDbCommand cmd = con.CreateCommand();
-            cmd.CommandText = sql;
-            Hashtable ret = null;
-            DataSource.SetTransaction(cmd);	// Tx.Rollbackを指定しないと、DataSourceがセットされない
-            IDataReader reader = cmd.ExecuteReader();
-            try
+            using (IDbCommand cmd = DataSource.GetCommand())
             {
-                ret = (Hashtable) handler.Handle(reader);
+                Assert.IsNotNull(cmd);
             }
-            finally
-            {
-                reader.Close();
-            }
-            Assert.IsNotNull(ret, "1");
+        }
+
+        public void SetUpGetParameter()
+        {
+            Include(PATH);
+        }
+
+        [Test, S2]
+        public void GetParameter()
+        {
+            IDataParameter param = DataSource.GetParameter();
+            Assert.IsNotNull(param);
+        }
+
+        public void SetUpGetDataAdapter()
+        {
+            Include(PATH);
+        }
+
+        [Test, S2]
+        public void GetDataAdapter()
+        {
+            IDataAdapter da = DataSource.GetDataAdapter();
+            Assert.IsNotNull(da);
         }
     }
 }

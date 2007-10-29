@@ -299,6 +299,8 @@
     <Compile Include="Seasar.Extension.ADO\Impl\BeanGenericListDataReaderHandler.cs" />
     <Compile Include="Seasar.Extension.ADO\Impl\NoReplaceDbParameterParser.cs" />
     <Compile Include="Seasar.Extension.ADO\Impl\BasicDbParameterParser.cs" />
+    <Compile Include="Seasar.Extension.ADO\Impl\DataProviderDataSource.cs" />
+    <Compile Include="Seasar.Extension.ADO\Impl\DbProviderFactoryDataSource.cs" />
     <Compile Include="Seasar.Extension.ADO\IPropertyType.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -797,6 +799,7 @@
     <Compile Include="Seasar.Framework.Exceptions\TypeUnmatchRuntimeException.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Framework.Exceptions\ConfigurationManagerException.cs" />
     <Compile Include="Seasar.Framework.Log\Logger.cs">
       <SubType>Code</SubType>
     </Compile>

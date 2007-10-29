@@ -55,7 +55,7 @@ namespace Seasar.Dao.Impl
         public object Execute(object[] args, Type returnType)
         {
             if (DataSource == null) throw new EmptyRuntimeException("dataSource");
-            IDbConnection conn = DataSourceUtil.GetConnection(DataSource);
+            IDbConnection conn = DataSource.GetConnection();
 
             try
             {
@@ -112,7 +112,7 @@ namespace Seasar.Dao.Impl
             }
             finally
             {
-                DataSourceUtil.CloseConnection(DataSource, conn);
+                DataSource.CloseConnection(conn);
             }
         }
     }

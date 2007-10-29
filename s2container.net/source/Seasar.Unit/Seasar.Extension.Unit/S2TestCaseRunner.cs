@@ -102,7 +102,7 @@ namespace Seasar.Extension.Unit
             {
                 if (txDataSource.Context.Connection != null)
                 {
-                    DataSourceUtil.CloseConnection(txDataSource, txDataSource.Context.Connection);
+                    txDataSource.CloseConnection(txDataSource.Context.Connection);
                 }
             }
             if (_fixture.HasConnection)
