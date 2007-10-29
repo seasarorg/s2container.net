@@ -35,7 +35,17 @@ namespace Seasar.Extension.Tx.Impl
         {
         }
 
-        public new IDbConnection GetConnection()
+        public TxDataSource(string providerInvariantName)
+            : base(providerInvariantName)
+        {
+        }
+
+        public TxDataSource(IDataSource instance)
+            : base(instance)
+        {
+        }
+
+        public override IDbConnection GetConnection()
         {
             IDbConnection con;
             ITransactionContext tc = Context.Current;
@@ -45,9 +55,18 @@ namespace Seasar.Extension.Tx.Impl
             }
             else
             {
-                con = base.GetConnection();
+                con = Instance.GetConnection();
             }
             return con;
+        }
+
+        public override void CloseConnection(IDbConnection connection)
+        {
+            if (_context.IsInTransaction)
+            {
+                return;
+            }
+            base.CloseConnection(connection);
         }
 
         public ITransactionContext Context
@@ -59,6 +78,14 @@ namespace Seasar.Extension.Tx.Impl
         public override IDbTransaction GetTransaction()
         {
             return _context.Current.Transaction;
+        }
+
+        public override void SetTransaction(IDbCommand cmd)
+        {
+            if (Context.IsInTransaction)
+            {
+                cmd.Transaction = Context.Current.Transaction;
+            }
         }
     }
 }

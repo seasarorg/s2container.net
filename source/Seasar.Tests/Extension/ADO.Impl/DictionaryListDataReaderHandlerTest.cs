@@ -45,7 +45,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
             IDbCommand cmd = con.CreateCommand();
             cmd.CommandText = sql;
             IList ret;
-            DataSourceUtil.SetTransaction(DataSource, cmd);
+            DataSource.SetTransaction(cmd);
             IDataReader reader = cmd.ExecuteReader();
             try
             {

@@ -55,7 +55,7 @@ namespace Seasar.Dao.Impl
         public Hashtable Execute(object[] args)
         {
             if (DataSource == null) throw new EmptyRuntimeException("dataSource");
-            IDbConnection conn = DataSourceUtil.GetConnection(DataSource);
+            IDbConnection conn = DataSource.GetConnection();
 
             Hashtable ret = new Hashtable();
             try
@@ -113,7 +113,7 @@ namespace Seasar.Dao.Impl
             }
             finally
             {
-                DataSourceUtil.CloseConnection(DataSource, conn);
+                DataSource.CloseConnection(conn);
             }
         }
 

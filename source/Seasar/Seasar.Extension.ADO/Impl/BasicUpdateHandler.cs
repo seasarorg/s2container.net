@@ -63,7 +63,7 @@ namespace Seasar.Extension.ADO.Impl
             }
             finally
             {
-                DataSourceUtil.CloseConnection(DataSource, con);
+                DataSource.CloseConnection(con);
             }
         }
 

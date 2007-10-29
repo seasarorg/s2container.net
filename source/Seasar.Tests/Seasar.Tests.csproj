@@ -353,6 +353,8 @@
     <Compile Include="Extension\ADO.Impl\DictionaryListDataReaderHandlerTest.cs" />
     <Compile Include="Extension\ADO.Impl\Employee.cs" />
     <Compile Include="Extension\ADO.Impl\NoReplaceDbParameterParserTest.cs" />
+    <Compile Include="Extension\ADO.Impl\DbProviderFactoryDataSourceTest.cs" />
+    <Compile Include="Extension\ADO.Impl\DataProviderDataSourceTest.cs" />
     <Compile Include="Extension\BasicTypeBean.cs" />
     <Compile Include="Extension\DataSets.Impl\SqlDeleteTableWriterTest.cs" />
     <Compile Include="Extension\DataSets.Impl\SqlReloadReaderTest.cs" />

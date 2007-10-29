@@ -16,8 +16,9 @@
  */
 #endregion
 
-using System.Data;
 using MbUnit.Framework;
+using Seasar.Extension.ADO;
+using Seasar.Extension.ADO.Impl;
 using Seasar.Extension.Unit;
 
 namespace Seasar.Tests.Extension.ADO.Impl
@@ -25,44 +26,18 @@ namespace Seasar.Tests.Extension.ADO.Impl
     [TestFixture]
     public class DataSourceImplTest : S2TestCase
     {
-        private const string PATH = "Seasar.Tests.Ado.dicon";
-
-        public void SetUpGetCommand()
+        [Test, S2]
+        public void ConstructorDataProviderDataSource()
         {
-            Include(PATH);
+            DataSourceImpl ds = new DataSourceImpl(new DataProvider(), "dummy");
+            Assert.IsInstanceOfType(typeof(DataProviderDataSource), ds.Instance);
         }
 
         [Test, S2]
-        public void GetCommand()
+        public void ConstructorDbProviderFactoryDataSource()
         {
-            using (IDbCommand cmd = DataSource.GetCommand())
-            {
-                Assert.IsNotNull(cmd);
-            }
-        }
-
-        public void SetUpGetParameter()
-        {
-            Include(PATH);
-        }
-
-        [Test, S2]
-        public void GetParameter()
-        {
-            IDataParameter param = DataSource.GetParameter();
-            Assert.IsNotNull(param);
-        }
-
-        public void SetUpGetDataAdapter()
-        {
-            Include(PATH);
-        }
-
-        [Test, S2]
-        public void GetDataAdapter()
-        {
-            IDataAdapter da = DataSource.GetDataAdapter();
-            Assert.IsNotNull(da);
+            DataSourceImpl ds = new DataSourceImpl("provider");
+            Assert.IsInstanceOfType(typeof(DbProviderFactoryDataSource), ds.Instance);
         }
     }
 }
