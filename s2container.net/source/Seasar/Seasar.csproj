@@ -553,6 +553,14 @@
     <Compile Include="Seasar.Framework.Container\Assembler\ManualPropertyAssembler.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Framework.Container\AutoRegister\AbstractAutoRegister.cs" />
+    <Compile Include="Seasar.Framework.Container\AutoRegister\AbstractComponentTargetAutoRegister.cs" />
+    <Compile Include="Seasar.Framework.Container\AutoRegister\AspectAutoRegister.cs" />
+    <Compile Include="Seasar.Framework.Container\AutoRegister\AssemblyComponentAutoRegister.cs" />
+    <Compile Include="Seasar.Framework.Container\AutoRegister\ClassPattern.cs" />
+    <Compile Include="Seasar.Framework.Container\AutoRegister\AbstractComponentAutoRegister.cs" />
+    <Compile Include="Seasar.Framework.Container\AutoRegister\DefaultAutoNaming.cs" />
+    <Compile Include="Seasar.Framework.Container\AutoRegister\IAutoNaming.cs" />
     <Compile Include="Seasar.Framework.Container\ComponentNotFoundRuntimeException.cs">
       <SubType>Code</SubType>
     </Compile>

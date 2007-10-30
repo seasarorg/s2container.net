@@ -402,6 +402,11 @@
     <Compile Include="Framework\Container.Assembler\ExpressionConstructorAssemblerTest.cs" />
     <Compile Include="Framework\Container.Assembler\ManualConstructorAssemblerTest.cs" />
     <Compile Include="Framework\Container.Assembler\ManualPropertyAssemblerTest.cs" />
+    <Compile Include="Framework\Container.AutoRegister\AbstractComponentAutoRegisterTest.cs" />
+    <Compile Include="Framework\Container.AutoRegister\AspectAutoRegisterTest.cs" />
+    <Compile Include="Framework\Container.AutoRegister\AssemblyComponentAutoRegisterTest.cs" />
+    <Compile Include="Framework\Container.AutoRegister\ClassPatternTest.cs" />
+    <Compile Include="Framework\Container.AutoRegister\DefaultAutoNamingTest.cs" />
     <Compile Include="Framework\Container.Deployer\OuterComponentDeployerTest.cs" />
     <Compile Include="Framework\Container.Deployer\PrototypeComponentDeployerTest.cs" />
     <Compile Include="Framework\Container.Deployer\RequestComponentDeployerTest.cs" />
