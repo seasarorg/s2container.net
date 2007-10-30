@@ -135,6 +135,8 @@
 				<li><a href="#app.dicon">app.diconの役割</a></li>
 				<li><a href="#Aop">AOPの適用</a></li>
 				<li><a href="#Meta">メタデータ</a></li>
+				<li><a href="#ComponentAutoRegister">コンポーネントの自動登録</a></li>
+				<li><a href="#AspectAutoRegister">アスペクトの自動登録</a></li>
 			</ul>
 		</div>
 	</div>
@@ -1133,6 +1135,246 @@ END AspectTagHandlerTest+IFoo#GetHashCode() : 1168
 				<li>public IMetaDef[] GetMetaDefs(string name) </li>
 			</ul>
 
+		</div>
+	</div>
+	
+<!-- ############################################# コンポーネントの自動登録 ######################################################### -->
+	<div class="content">
+		<a name="ComponentAutoRegister" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>コンポーネントの自動登録 (1.3.3以降)</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			
+			<p>　<a href="#AutoBindingMode">自動バインディング</a>により DI の設定はほぼ自動化できます。
+			さらに、コンポーネントの登録も自動化してしまおうというのが、コンポーネントの自動登録です。</p>
+			<p>　下記のように AssemblyComponentAutoRegister
+			を登録することでコンポーネントの自動登録を行うことができます。
+			AssemblyComponentAutoRegister はアセンブリから名前空間とクラス名のパターンを元に登録対象を検索して登録を行います。</p>
+
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">component</span> 
+<span class="attr">class</span><span class="kwrd">="Seasar.Framework.Container.AutoRegister.AssemblyComponentAutoRegister"</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="AssemblyName"</span><span class="kwrd">&gt;</span>"HogeAssembly"<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">initMethod</span> <span class="attr">name</span><span class="kwrd">="AddClassPattern"</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">arg</span><span class="kwrd">&gt;</span>"Hoge.Fuga.Logic"<span class="kwrd">&lt;/</span><span class="html">arg</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">arg</span><span class="kwrd">&gt;</span>".*Logic"<span class="kwrd">&lt;/</span><span class="html">arg</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">initMethod</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">initMethod</span> <span class="attr">name</span><span class="kwrd">="RegisterAll"</span> <span class="kwrd">/&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span></pre>
+
+			<p>　Seasar.Framework.Container.AutoRegister.AssemblyComponentAutoRegister
+			には以下のプロパティとメソッドが用意されています。</p>
+
+			<p>
+			<table border="0" cellspacing="1">
+				<tr><th width="110">プロパティ</th><th>説明</th></tr>
+				<tr>
+					<td>InstanceMode</td>
+					<td>
+						<p>　自動登録されるコンポーネントに適用する InstanceMode を文字列で指定します。
+						デフォルトは "singleton" です。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>AutoBindingMode</td>
+					<td>
+						<p>　自動登録されるコンポーネントに適用する AutoBindingMode を文字列で指定します。
+						デフォルトは "auto" です。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>AutoNaming</td>
+					<td>
+						<p>　クラス名からコンポーネント名を自動的に決定するコンポーネントです。
+						Seasar.Framework.Container.AutoRegister.IAutoNaming
+						インターフェースを実装している必要があります。デフォルトは
+						Seasar.Framework.Container.AutoRegister.DefaultAutoNaming
+						クラスのインスタンスになります。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>AssemblyName</td>
+					<td>
+						<p>　自動登録するコンポーネントを検索するアセンブリの簡易名を文字列で指定します。
+						省略した場合はアプリケーションドメインに読み込まれている全てのアセンブリから検索を行います。</p>
+					</td>
+				</tr>
+			</table>
+			</p>
+			
+			<p>
+			<table border="0" cellspacing="1">
+				<tr><th width="130">メソッド</th><th>説明</th></tr>
+				<tr>
+					<td>AddClassPattern</td>
+					<td>
+						<p>　自動登録したいクラスパターンを登録します。最初の引数にはコンポーネントの名前空間を指定します。
+						子供の名前空間も再帰的に検索します。2番目の引数にはクラス名を指定します。
+						正規表現 (System.Text.RegularExpressions.Regex) が使えます。
+						「,」区切りで複数記述することもできます。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>AddIgnoreClassPattern</td>
+					<td>
+						<p>　自動登録したくないクラスパターンを登録します。最初の引数にはコンポーネントの名前空間を指定します。
+						子供の名前空間も再帰的に検索します。2番目の引数にはクラス名を指定します。
+						正規表現 (System.Text.RegularExpressions.Regex) が使えます。
+						「,」区切りで複数記述することもできます。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>RegisterAll</td>
+					<td>
+						<p>　AddClassPattern や AddIgnoreClassPattern を呼び出した後に RegisterAll
+						メソッドを呼び出してコンポーネントの自動登録を実行する必要があります。
+						initMehtod タグで指定してください。引数はありません。 
+						<span class="important">(Java の Seasar2 では呼び出す必要はありませんが .NET では必要となります)</span></p>
+					</td>
+				</tr>
+			</table>
+			</p>
+
+			<h2>DefaultAutoNaming による名前の決定</h2>
+			<p>　自動登録されるコンポーネントの名前は Seasar.Framework.Container.AutoRegister.IAutoNaming
+			インターフェースを実装したクラスを用意することで自由にカスタマイズすることが可能ですが、デフォルトでは
+			Seasar.Framework.Container.AutoRegister.DefaultAutoNaming クラスが用意されます。</p>
+			<p> DefaultAutoNamingはインターフェースの場合はプリフィックスの "I"
+			を取り除いたインターフェース名（名前空間は含まない）をコンポーネント名とします。
+			（ただし2文字目が大文字の場合のみ1文字目をプリフィックスと判断します）
+			クラスの場合は名前空間を含まないクラス名をコンポーネント名とします。</p>
+
+		</div>
+	</div>
+	
+	<!-- ############################################# アスペクトの自動登録 ######################################################### -->
+	<div class="content">
+		<a name="AspectAutoRegister" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>アスペクトの自動登録 (1.3.3以降)</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+		
+			<p>　<a href="#ComponentAutoRegister">コンポーネントの自動登録</a>により、コンポーネントの登録は自動化できました。
+			さらに、アスペクトの登録も自動化してしまおうというのが、アスペクトの自動登録です。アスペクトについては
+			<a href="aop-reference.html#aspectTag">aspect タグ</a>を参照してください。</p>
+
+		<p>　下記のように AspectAutoRegister を登録することでアスペクトの自動登録を行うことができます。
+		AspectAutoRegister は名前空間とクラス名のパターンを元に登録対象のコンポーネントを検索して登録を行います。</p>
+		
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="Seasar.Framework.Container.AutoRegister.AspectAutoRegister"</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="Interceptor"</span><span class="kwrd">&gt;</span>TraceInterceptor<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">initMethod</span> <span class="attr">name</span><span class="kwrd">="AddClassPattern"</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">arg</span><span class="kwrd">&gt;</span>"Hoge.Fuga.Logic"<span class="kwrd">&lt;/</span><span class="html">arg</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">arg</span><span class="kwrd">&gt;</span>".*Logic"<span class="kwrd">&lt;/</span><span class="html">arg</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">initMethod</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">initMethod</span> <span class="attr">name</span><span class="kwrd">="RegisterAll"</span> <span class="kwrd">/&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+
+<span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">name</span><span class="kwrd">="TraceInterceptor"</span>
+    <span class="attr">class</span><span class="kwrd">="Seasar.Framework.Aop.Interceptors.TraceInterceptor"</span> <span class="kwrd">/&gt;</span></pre>
+
+
+			<p>　アスペクトの自動設定を行う為には、設定の順番に注意が必要です。
+			アスペクトの自動登録の設定はアスペクトを適用するコンポーネントの定義より後に記述する必要があります。
+			また、アスペクトが適用されたコンポーネントを DI して利用するコンポーネントは、
+			アスペクトの自動登録の設定より後に記述する必要があります。</p>
+			<p>　この制限は、通常 Dicon ファイルを解析するタイミングでアスペクトの設定を行いますが、
+			アスペクトの自動登録を利用した場合はコンポーネントの初期化のタイミングでアスペクトの設定を行うために発生するものです。</p>
+		
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+    <span class="rem">&lt;!-- 1.コンポーネントの自動登録等、アスペクト自動登録の対象となるコンポーネント --&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span>=
+<span class="kwrd">"Seasar.Framework.Container.AutoRegister.AssemblyComponentAutoRegister"</span><span class="kwrd">&gt;</span>
+        ...
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+
+    <span class="rem">&lt;!-- 2.アスペクトの自動登録 --&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">=
+"Seasar.Framework.Container.AutoRegister.AspectAutoRegister"</span><span class="kwrd">&gt;</span>
+        ...
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+
+    <span class="rem">&lt;!-- 3.アスペクトが適用されたコンポーネントを利用するコンポーネント --&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="..."</span><span class="kwrd">&gt;</span>
+        ...
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+    ...
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span></pre>
+		
+		<p>　Seasar.Framework.Container.AutoRegister.AspectAutoRegister には以下のプロパティとメソッドが用意されています。</p>
+		
+			<p>
+			<table border="0" cellspacing="1">
+				<tr><th width="110">プロパティ</th><th>説明</th></tr>
+				<tr>
+					<td>Interceptor</td>
+					<td>
+						<p>　インターセプタを指定します。複数のインターセプタを指定したい場合は InterceptorChain を使ってください。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>Pointcut</td>
+					<td>
+						<p>　インターセプタを適用するメソッドをカンマ区切りで指定します。
+						Pointcutを指定しない場合は、アスペクトが適用可能な全てのメソッドが対象になります。
+						メソッド名には正規表現 (System.Text.RegularExpressions.Regex) も使えます。</p>
+					</td>
+				</tr>
+			</table>
+			</p>
+			
+			<p>
+			<table border="0" cellspacing="1">
+				<tr><th width="130">メソッド</th><th>説明</th></tr>
+				<tr>
+					<td>AddClassPattern</td>
+					<td>
+						<p>　自動登録したいクラスパターンを登録します。最初の引数にはコンポーネントの名前空間を指定します。
+						子供の名前空間も再帰的に検索します。2番目の引数にはクラス名を指定します。
+						正規表現 (System.Text.RegularExpressions.Regex) が使えます。
+						「,」区切りで複数記述することもできます。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>AddIgnoreClassPattern</td>
+					<td>
+						<p>　自動登録したくないクラスパターンを登録します。最初の引数にはコンポーネントの名前空間を指定します。
+						子供の名前空間も再帰的に検索します。2番目の引数にはクラス名を指定します。
+						正規表現 (System.Text.RegularExpressions.Regex) が使えます。
+						「,」区切りで複数記述することもできます。</p>
+					</td>
+				</tr>
+				<tr>
+					<td>RegisterAll</td>
+					<td>
+						<p>　AddClassPattern や AddIgnoreClassPattern を呼び出した後に RegisterAll
+						メソッドを呼び出してアスペクトの自動登録を実行する必要があります。
+						initMehtod タグで指定してください。引数はありません。 
+						<span class="important">(Java の Seasar2 では呼び出す必要はありませんが .NET では必要となります)</span></p>
+					</td>
+				</tr>
+			</table>
+			</p>
+		
 		</div>
 	</div>
 
