@@ -1,4 +1,17 @@
-﻿S2Container.NET 1.3.2
+﻿S2Container.NET 1.3.3
+2007/11/03
+** Improvement
+    * [CONTAINERNET-75] - データプロバイダの指定方法を改善する
+
+** New Feature
+    * [CONTAINERNET-72] - コンポーネント・アスペクトを自動登録する機能を追加する
+
+S2Dao.NET 1.3.3
+2007/11/03
+** Bug
+    * [DAONET-64] - S2PagerでVB.NET経由の呼び出しに対応する
+
+S2Container.NET 1.3.2
 2007/10/18
 ** Bug
     * [CONTAINERNET-69] - S2Unitで"F+数字"のパターンに一致するカラムを読み込まない
