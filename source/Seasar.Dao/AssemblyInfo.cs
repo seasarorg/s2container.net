@@ -43,7 +43,7 @@ using System.Reflection;
 // 下にあるように、'*' を使って、すべての値を指定するか、
 // ビルドおよびリビジョン番号を既定値にすることができます。
 
-[assembly: AssemblyVersion("1.3.2.0")]
+[assembly: AssemblyVersion("1.3.3.0")]
 
 //
 // アセンブリに署名するには、使用するキーを指定しなければなりません。 
