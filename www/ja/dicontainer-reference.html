@@ -1170,6 +1170,27 @@ END AspectTagHandlerTest+IFoo#GetHashCode() : 1168
     <span class="kwrd">&lt;</span><span class="html">initMethod</span> <span class="attr">name</span><span class="kwrd">="RegisterAll"</span> <span class="kwrd">/&gt;</span>
 <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span></pre>
 
+			<p>　コンポーネントの自動設定を行う為には、設定の順番に注意が必要です。
+			自動登録されたコンポーネントを DI して利用するコンポーネントは、自動登録の設定より後に記述する必要があります。</p>
+			<p>　この制限は、通常 Dicon ファイルを解析するタイミングでコンポーネントの登録が行われますが、
+			自動登録を利用した場合はコンテナの初期化のタイミングでコンポーネントの登録を行うために発生するものです。</p>
+		
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
+    <span class="rem">&lt;!-- 1.コンポーネントの自動登録 --&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span>=
+<span class="kwrd">"Seasar.Framework.Container.AutoRegister.AssemblyComponentAutoRegister"</span><span class="kwrd">&gt;</span>
+        ...
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+
+    <span class="rem">&lt;!-- 2.自動登録されたコンポーネントを利用するコンポーネント --&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="..."</span><span class="kwrd">&gt;</span>
+        ...
+    <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
+    ...
+<span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span></pre>
+
 			<p>　Seasar.Framework.Container.AutoRegister.AssemblyComponentAutoRegister
 			には以下のプロパティとメソッドが用意されています。</p>
 
@@ -1204,7 +1225,10 @@ END AspectTagHandlerTest+IFoo#GetHashCode() : 1168
 					<td>AssemblyName</td>
 					<td>
 						<p>　自動登録するコンポーネントを検索するアセンブリの簡易名を文字列で指定します。
-						省略した場合はアプリケーションドメインに読み込まれている全てのアセンブリから検索を行います。</p>
+						省略した場合はアプリケーションドメインに読み込まれている全てのアセンブリから検索を行います。
+						アセンブリの簡易名は Visual Studio でプロジェクトのプロパティを表示すると確認することができます。
+						下図の赤枠で囲まれた「アセンブリ名」がアセンブリの簡易名になります。
+						<br /><img src="images/assemblyName.png" /></p>
 					</td>
 				</tr>
 			</table>
@@ -1301,7 +1325,7 @@ END AspectTagHandlerTest+IFoo#GetHashCode() : 1168
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <pre class="csharpcode">
 <span class="kwrd">&lt;</span><span class="html">components</span><span class="kwrd">&gt;</span>
-    <span class="rem">&lt;!-- 1.コンポーネントの自動登録等、アスペクト自動登録の対象となるコンポーネント --&gt;</span>
+    <span class="rem">&lt;!-- 1.コンポーネントの自動登録 --&gt;</span>
     <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span>=
 <span class="kwrd">"Seasar.Framework.Container.AutoRegister.AssemblyComponentAutoRegister"</span><span class="kwrd">&gt;</span>
         ...
@@ -1313,7 +1337,7 @@ END AspectTagHandlerTest+IFoo#GetHashCode() : 1168
         ...
     <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
 
-    <span class="rem">&lt;!-- 3.アスペクトが適用されたコンポーネントを利用するコンポーネント --&gt;</span>
+    <span class="rem">&lt;!-- 3.自動登録でアスペクトが適用されたコンポーネントを利用するコンポーネント --&gt;</span>
     <span class="kwrd">&lt;</span><span class="html">component</span> <span class="attr">class</span><span class="kwrd">="..."</span><span class="kwrd">&gt;</span>
         ...
     <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span>
