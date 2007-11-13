@@ -1,4 +1,5 @@
 #region Copyright
+
 /*
  * Copyright 2005-2007 the Seasar Foundation and the Others.
  *
@@ -14,12 +15,13 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+
 #endregion
 
 using System;
 using System.Data;
-using System.Data.OleDb;
 using System.Data.Odbc;
+using System.Data.OleDb;
 using System.Reflection;
 using System.Resources;
 using Seasar.Extension.ADO;
@@ -42,31 +44,39 @@ namespace Seasar.Dao.Dbms
 
         public static IDbms GetDbms(IDataSource dataSource)
         {
-            // IDbConnectionをDataSourceから取得する
-            IDbConnection cn = dataSource.GetConnection();
-
-            //IDbmsの実装クラスを取得するためのKey
-            string dbmsKey;
-
-            if (cn is OleDbConnection)
+            IDbConnection cn = null;
+            try
             {
-                // OleDbConnectionの場合はKeyをType名とProvider名から作成する
-                OleDbConnection oleDbCn = cn as OleDbConnection;
-                dbmsKey = cn.GetType().Name + "_" + oleDbCn.Provider;
-            }
-            else if (cn is OdbcConnection)
-            {
-                // OdbcConnectionの場合はKeyをType名とDriver名から作成する
-                OdbcConnection odbcCn = cn as OdbcConnection;
-                dbmsKey = cn.GetType().Name + "_" + odbcCn.Driver;
-            }
-            else
-            {
-                dbmsKey = cn.GetType().Name;
-            }
+                // IDbConnectionをDataSourceから取得する
+                cn = dataSource.GetConnection();
 
-            // KeyからIDbms実装クラスのインスタンスを取得する
-            return GetDbms(dbmsKey);
+                //IDbmsの実装クラスを取得するためのKey
+                string dbmsKey;
+
+                if (cn is OleDbConnection)
+                {
+                    // OleDbConnectionの場合はKeyをType名とProvider名から作成する
+                    OleDbConnection oleDbCn = cn as OleDbConnection;
+                    dbmsKey = cn.GetType().Name + "_" + oleDbCn.Provider;
+                }
+                else if (cn is OdbcConnection)
+                {
+                    // OdbcConnectionの場合はKeyをType名とDriver名から作成する
+                    OdbcConnection odbcCn = cn as OdbcConnection;
+                    dbmsKey = cn.GetType().Name + "_" + odbcCn.Driver;
+                }
+                else
+                {
+                    dbmsKey = cn.GetType().Name;
+                }
+
+                // KeyからIDbms実装クラスのインスタンスを取得する
+                return GetDbms(dbmsKey);
+            }
+            finally
+            {
+                dataSource.CloseConnection(cn);
+            }
         }
 
         /// <summary>
