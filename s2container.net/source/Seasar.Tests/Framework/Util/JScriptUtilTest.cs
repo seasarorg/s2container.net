@@ -21,6 +21,7 @@ using MbUnit.Framework;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Impl;
 using Seasar.Framework.Util;
+using System.Configuration;
 
 namespace Seasar.Tests.Framework.Util
 {
@@ -95,6 +96,24 @@ namespace Seasar.Tests.Framework.Util
         {
             Assert.AreEqual("Hello", JScriptUtil.Evaluate(
                 "appSettings['message']", null));
+        }
+
+        [Test]
+        public void TestConnectionStrings()
+        {
+            ConnectionStringSettings settings = (ConnectionStringSettings)
+                JScriptUtil.Evaluate("connectionStrings['provider']", null);
+
+            Assert.AreEqual(
+                "Server=(local);database=s2dotnetdemo;Integrated Security=SSPI", 
+                settings.ConnectionString);
+            
+            Assert.AreEqual("System.Data.SqlClient", settings.ProviderName);
+
+            Assert.AreEqual(
+                "Server=(local);database=s2dotnetdemo;Integrated Security=SSPI",
+                JScriptUtil.Evaluate(
+                "connectionStrings['provider'].ConnectionString", null));
         }
 
         [Test]
