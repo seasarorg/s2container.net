@@ -42,7 +42,7 @@ namespace Seasar.Framework.Util
                 {
                     public static function Eval(expr : String,unsafe : boolean,
                         self : Object,out : Object,err : Object, container : Object,
-                        appSettings : Object) : Object 
+                        appSettings : Object, connectionStrings : Object) : Object 
                     {
                         if (unsafe)
                         {
@@ -94,13 +94,16 @@ namespace Seasar.Framework.Util
             }
 
             NameValueCollection appSettings = ConfigurationManager.AppSettings;
+            ConnectionStringSettingsCollection connectionStrings = 
+                ConfigurationManager.ConnectionStrings;
+            
 #endif
 
             try
             {
                 return _evaluateType.InvokeMember("Eval", BindingFlags.InvokeMethod,
                     null, null, new object[] {exp,true, ctx["self"], ctx["out"], ctx["err"], root,
-                    appSettings});
+                    appSettings, connectionStrings});
             }
             catch (Exception ex)
             {
