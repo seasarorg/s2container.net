@@ -20,16 +20,13 @@ using System;
 using System.Configuration;
 using System.Data;
 using System.Data.Common;
-using System.Reflection;
 using Seasar.Framework.Exceptions;
-using Seasar.Framework.Log;
 using Seasar.Framework.Util;
 
 namespace Seasar.Extension.ADO.Impl
 {
     public class DbProviderFactoryDataSource : IDataSource
     {
-        private static readonly Logger _logger = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private readonly ConnectionStringSettings _settings;
         private readonly DbProviderFactory _dbProviderFactory;
 
@@ -56,21 +53,9 @@ namespace Seasar.Extension.ADO.Impl
 
         public virtual IDbConnection GetConnection()
         {
-            try
-            {
-                IDbConnection cn = _dbProviderFactory.CreateConnection();
-                cn.ConnectionString = _settings.ConnectionString;
-                if (cn.State != ConnectionState.Open)
-                {
-                    cn.Open();
-                    _logger.Log("DSSR0007", null);
-                }
-                return cn;
-            }
-            catch (Exception ex)
-            {
-                throw new SQLRuntimeException(ex);
-            }
+            IDbConnection cn = _dbProviderFactory.CreateConnection();
+            cn.ConnectionString = _settings.ConnectionString;
+            return cn;
         }
 
         public virtual void CloseConnection(IDbConnection connection)
@@ -157,7 +142,7 @@ namespace Seasar.Extension.ADO.Impl
         public IDataAdapter GetDataAdapter(IDbCommand selectCommand)
         {
             DbDataAdapter ret = _dbProviderFactory.CreateDataAdapter();
-            ret.SelectCommand = (DbCommand) selectCommand;
+            ret.SelectCommand = (DbCommand)selectCommand;
             return ret;
         }
 

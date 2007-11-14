@@ -74,7 +74,7 @@ namespace Seasar.Extension.ADO.Impl
                 {
                     throw new EmptyRuntimeException("_dataSource");
                 }
-                return _dataSource.GetConnection();
+                return DataSourceUtil.GetConnection(_dataSource);
             }
         }
 

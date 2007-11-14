@@ -55,7 +55,7 @@ namespace Seasar.Dao.Impl
         public Hashtable Execute(object[] args)
         {
             if (DataSource == null) throw new EmptyRuntimeException("dataSource");
-            IDbConnection conn = DataSource.GetConnection();
+            IDbConnection conn = DataSourceUtil.GetConnection(DataSource);
 
             Hashtable ret = new Hashtable();
             try

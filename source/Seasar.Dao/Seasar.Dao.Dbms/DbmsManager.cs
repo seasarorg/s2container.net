@@ -44,39 +44,31 @@ namespace Seasar.Dao.Dbms
 
         public static IDbms GetDbms(IDataSource dataSource)
         {
-            IDbConnection cn = null;
-            try
+            // IDbConnectionをDataSourceから取得する
+            IDbConnection cn = dataSource.GetConnection();
+
+            //IDbmsの実装クラスを取得するためのKey
+            string dbmsKey;
+
+            if (cn is OleDbConnection)
             {
-                // IDbConnectionをDataSourceから取得する
-                cn = dataSource.GetConnection();
-
-                //IDbmsの実装クラスを取得するためのKey
-                string dbmsKey;
-
-                if (cn is OleDbConnection)
-                {
-                    // OleDbConnectionの場合はKeyをType名とProvider名から作成する
-                    OleDbConnection oleDbCn = cn as OleDbConnection;
-                    dbmsKey = cn.GetType().Name + "_" + oleDbCn.Provider;
-                }
-                else if (cn is OdbcConnection)
-                {
-                    // OdbcConnectionの場合はKeyをType名とDriver名から作成する
-                    OdbcConnection odbcCn = cn as OdbcConnection;
-                    dbmsKey = cn.GetType().Name + "_" + odbcCn.Driver;
-                }
-                else
-                {
-                    dbmsKey = cn.GetType().Name;
-                }
-
-                // KeyからIDbms実装クラスのインスタンスを取得する
-                return GetDbms(dbmsKey);
+                // OleDbConnectionの場合はKeyをType名とProvider名から作成する
+                OleDbConnection oleDbCn = cn as OleDbConnection;
+                dbmsKey = cn.GetType().Name + "_" + oleDbCn.Provider;
             }
-            finally
+            else if (cn is OdbcConnection)
             {
-                dataSource.CloseConnection(cn);
+                // OdbcConnectionの場合はKeyをType名とDriver名から作成する
+                OdbcConnection odbcCn = cn as OdbcConnection;
+                dbmsKey = cn.GetType().Name + "_" + odbcCn.Driver;
             }
+            else
+            {
+                dbmsKey = cn.GetType().Name;
+            }
+
+            // KeyからIDbms実装クラスのインスタンスを取得する
+            return GetDbms(dbmsKey);
         }
 
         /// <summary>
@@ -96,7 +88,7 @@ namespace Seasar.Dao.Dbms
             Type type = typeName == null ? typeof(Standard) : Type.GetType(typeName);
 
             // IDbms実装クラスのインスタンスを作成して返す
-            return (IDbms) Activator.CreateInstance(type, false);
+            return (IDbms)Activator.CreateInstance(type, false);
         }
     }
 }
