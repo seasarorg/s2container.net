@@ -36,7 +36,7 @@ namespace Seasar.Extension.DataSets.Impl
         {
             _dataSource = dataSource;
             _table = table;
-            IDbConnection con = _dataSource.GetConnection();
+            IDbConnection con = DataSourceUtil.GetConnection(DataSource);
             try
             {
                 IDatabaseMetaData dbMetaData = new DatabaseMetaDataImpl(DataSource);

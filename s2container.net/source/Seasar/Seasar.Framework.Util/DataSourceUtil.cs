@@ -19,19 +19,35 @@
 using System;
 using System.Data;
 using Seasar.Extension.ADO;
+using Seasar.Framework.Exceptions;
+using Seasar.Framework.Log;
 
 namespace Seasar.Framework.Util
 {
     public sealed class DataSourceUtil
     {
+        private static readonly Logger _logger = Logger.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private DataSourceUtil()
         {
         }
 
-        [Obsolete("IDataSource.GetConnection")]
         public static IDbConnection GetConnection(IDataSource dataSource)
         {
-            return dataSource.GetConnection();
+            try
+            {
+                IDbConnection cn = dataSource.GetConnection();
+                if (cn.State != ConnectionState.Open)
+                {
+                    cn.Open();
+                    _logger.Log("DSSR0007", null);
+                }
+                return cn;
+            }
+            catch (Exception ex)
+            {
+                throw new SQLRuntimeException(ex);
+            }
         }
 
         [Obsolete("IDataSource.CloseConnection")]

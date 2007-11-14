@@ -76,7 +76,7 @@ namespace Seasar.Extension.ADO.Impl
             lock(this)
             {
                 // IDbConnectionを取得する
-                IDbConnection cn = _dataSource.GetConnection();
+                IDbConnection cn = DataSourceUtil.GetConnection(_dataSource);
                 try
                 {
                     // テーブル定義情報を取得するためのSQLを作成する

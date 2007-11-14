@@ -54,7 +54,7 @@ namespace Seasar.Extension.Unit
                 {
                     return _connection;
                 }
-                _connection = _dataSource.GetConnection();
+                _connection = DataSourceUtil.GetConnection(_dataSource);
                 return _connection;
             }
         }
