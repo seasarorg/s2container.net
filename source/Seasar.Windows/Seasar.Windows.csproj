@@ -111,6 +111,7 @@
     <Compile Include="Seasar.Windows.Util\Validator.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Windows\DefaultFormNaming.cs" />
     <Compile Include="Seasar.Windows\S2ApplicationContext.cs">
       <SubType>Code</SubType>
     </Compile>
