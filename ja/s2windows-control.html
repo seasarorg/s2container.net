@@ -269,6 +269,8 @@
 
         ApplicationContext context = (ApplicationContext)
             container.GetComponent(typeof ( S2ApplicationContext ));
+        if (context.MainForm == null)
+            context.MainForm = (System.Windows.Forms.Form)container.GetComponent("MainForm");
         Application.Run(context);
     }
 }
@@ -312,6 +314,7 @@
    <span class="kwrd">&lt;</span><span class="html">property</span> <span class="attr">name</span><span class="kwrd">="MainForm"</span><span class="kwrd">&gt;</span>frmHoge<span class="kwrd">&lt;/</span><span class="html">property</span><span class="kwrd">&gt;</span>
 <span class="kwrd">&lt;/</span><span class="html">component</span><span class="kwrd">&gt;</span></pre>
 
+			<p>　WindowsFormをS2Containerに自動登録したときには、IAutoNamingインターフェイスの実装クラスであるSeasar.Windows.DefaultFormNamingクラスを利用します。このクラスはMainFormNameプロパティで指定したWindowsFormクラスをLabelプロパティ名でs2containerにコンポーネントの自動登録時に登録します。</p>
 			<p>　AOPによる画面遷移の設定は次のように行います。画面遷移用インターフェイスのメソッドに対し、
 			Seasar.Windows.AOP.Interceptors.FormInterceptorでpointcutを設定します。 </p>
 			
