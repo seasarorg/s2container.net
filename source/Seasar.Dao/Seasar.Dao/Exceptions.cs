@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Reflection;
 using System.Runtime.Serialization;
 using Seasar.Framework.Exceptions;
 
@@ -282,11 +283,11 @@ namespace Seasar.Dao
     [Serializable]
     public class NotFoundModifiedPropertiesRuntimeException : SRuntimeException
     {
-        private String _beanClassName;
+        private readonly string _beanClassName;
 
         public NotFoundModifiedPropertiesRuntimeException(
                 string beanClassName, string propertyName)
-            : base("EDAXXXXX", new Object[] { beanClassName, propertyName })
+            : base("EDAXXXXX", new object[] { beanClassName, propertyName })
         {
             _beanClassName = beanClassName;
         }
@@ -305,6 +306,15 @@ namespace Seasar.Dao
     {
         public NoUpdatePropertyTypeRuntimeException()
             : base("EDA00012")
+        {
+        }
+    }
+
+    [Serializable]
+    public class SqlFileNotFoundRuntimeException : SRuntimeException
+    {
+        public SqlFileNotFoundRuntimeException(Type daoType, MethodInfo daoMethod, string fileName)
+            : base("EDAO0025", new object[] { daoType.Name, daoMethod.Name, fileName })
         {
         }
     }

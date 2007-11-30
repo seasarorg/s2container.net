@@ -91,13 +91,29 @@ namespace Seasar.Tests.Dao.Impl
         }
 
         [Test, S2]
-        public void TestSelectObject()
+        public void TestSelectCountBySqlFile1()
         {
             IDaoMetaData dmd = CreateDaoMetaData(typeof(IEmployeeDao));
             SelectDynamicCommand cmd = (SelectDynamicCommand) dmd.GetSqlCommand("GetCount");
             Assert.IsNotNull(cmd, "1");
             Assert.AreEqual(typeof(ObjectDataReaderHandler), cmd.DataReaderHandler.GetType(), "2");
             Assert.AreEqual("SELECT count(*) FROM emp", cmd.Sql, "3");
+            object ret = cmd.Execute(new object[] { });
+            Assert.IsTrue(ret is int, "4");
+            Assert.AreEqual(14, ret, "5");
+        }
+
+        [Test, S2]
+        public void TestSelectCountBySqlFile2()
+        {
+            IDaoMetaData dmd = CreateDaoMetaData(typeof(IEmployeeDao));
+            SelectDynamicCommand cmd = (SelectDynamicCommand)dmd.GetSqlCommand("GetCount2");
+            Assert.IsNotNull(cmd, "1");
+            Assert.AreEqual(typeof(ObjectDataReaderHandler), cmd.DataReaderHandler.GetType(), "2");
+            Assert.AreEqual("SELECT count(*) FROM emp", cmd.Sql, "3");
+            object ret = cmd.Execute(new object[] { });
+            Assert.IsTrue(ret is int, "4");
+            Assert.AreEqual(14, ret, "5");
         }
 
         [Test, S2]
