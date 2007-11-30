@@ -18,17 +18,25 @@
 
 using System;
 
-namespace Seasar.Dao
+namespace Seasar.Dao.Attrs
 {
-    public interface IDaoAnnotationReader
+    [AttributeUsage(AttributeTargets.Method)]
+    public class SqlFileAttribute : Attribute
     {
-        string GetQuery(string name);
-        Type GetBeanType();
-        string[] GetNoPersistentProps(string methodName);
-        string[] GetPersistentProps(string methodName);
-        string GetSql(string name, IDbms dbms);
-        string GetProcedure(string name);
-        bool IsSqlFile(string methodName);
-        string GetSqlFilePath(string methodName);
+        private readonly string _fileName;
+
+        public SqlFileAttribute()
+        {
+        }
+
+        public SqlFileAttribute(string fileName)
+        {
+            _fileName = fileName;
+        }
+
+        public string FileName
+        {
+            get { return _fileName; }
+        }
     }
 }

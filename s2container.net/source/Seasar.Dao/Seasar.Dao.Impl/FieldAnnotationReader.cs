@@ -100,11 +100,11 @@ namespace Seasar.Dao.Impl
         /// <summary>
         /// プロシージャ名を取得する
         /// </summary>
-        /// <param name="name">メソッド名</param>
+        /// <param name="methodName">メソッド名</param>
         /// <returns>プロシージャ名</returns>
-        public string GetProcedure(string name)
+        public string GetProcedure(string methodName)
         {
-            MethodInfo mi = _daoBeanType.GetMethod(name);
+            MethodInfo mi = _daoBeanType.GetMethod(methodName);
             ProcedureAttribute procedureAttribute = AttributeUtil.GetProcedureAttribute(mi);
             if (procedureAttribute != null)
             {
@@ -114,6 +114,20 @@ namespace Seasar.Dao.Impl
             {
                 return null;
             }
+        }
+
+        public bool IsSqlFile(string methodName)
+        {
+            MethodInfo mi = _daoBeanType.GetMethod(methodName);
+            SqlFileAttribute sqlFileAttrs = AttributeUtil.GetSqlFileAttribute(mi);
+            return sqlFileAttrs == null ? false : true;
+        }
+
+        public string GetSqlFilePath(string methodName)
+        {
+            MethodInfo mi = _daoBeanType.GetMethod(methodName);
+            SqlFileAttribute sqlFileAttrs = AttributeUtil.GetSqlFileAttribute(mi);
+            return sqlFileAttrs == null ? null : sqlFileAttrs.FileName;
         }
 
         #endregion

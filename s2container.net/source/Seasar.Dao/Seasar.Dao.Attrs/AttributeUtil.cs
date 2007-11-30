@@ -105,5 +105,10 @@ namespace Seasar.Dao.Attrs
         {
             return Attribute.GetCustomAttribute(mi, typeof(ProcedureAttribute)) as ProcedureAttribute;
         }
+
+        public static SqlFileAttribute GetSqlFileAttribute(MethodInfo mi)
+        {
+            return Attribute.GetCustomAttribute(mi, typeof(SqlFileAttribute)) as SqlFileAttribute;
+        }
     }
 }

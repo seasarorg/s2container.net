@@ -186,6 +186,7 @@
       <DependentUpon>EmployeeDataSet.xsd</DependentUpon>
     </None>
     <EmbeddedResource Include="Dxo\dxo.dicon" />
+    <EmbeddedResource Include="Dao\Impl\SqlFile\GetCount.sql" />
     <None Include="Extension\DataSets.Impl\XlsReaderTest_InvalidColumn.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

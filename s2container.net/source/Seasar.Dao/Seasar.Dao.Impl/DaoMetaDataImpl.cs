@@ -139,40 +139,74 @@ namespace Seasar.Dao.Impl
 
         protected virtual void SetupMethod(MethodInfo mi)
         {
+            SetupMethodByAttribute(mi);
+
+            if (!CompletedSetupMethod(mi))
+            {
+                SetupMethodBySqlFile(mi);
+            }
+
+            if (!CompletedSetupMethod(mi) && _annotationReader.IsSqlFile(mi.Name))
+            {
+                String fileName = GetSqlFilePath(mi) + ".sql";
+                throw new SqlFileNotFoundRuntimeException(_daoType, mi, fileName);
+            }
+
+            if (!CompletedSetupMethod(mi))
+            {
+                SetupMethodByAuto(mi);
+            }
+        }
+
+        protected virtual void SetupMethodByAttribute(MethodInfo mi)
+        {
             string sql = _annotationReader.GetSql(mi.Name, _dbms);
             if (sql != null)
             {
                 SetupMethodByManual(mi, sql);
                 return;
             }
-            if (sql == null)
+
+            string procedureName = _annotationReader.GetProcedure(mi.Name);
+            if (procedureName != null)
             {
-                sql = _annotationReader.GetProcedure(mi.Name);
-                if (sql != null)
-                {
-                    SetupProcedure(mi, sql);
-                    return;
-                }
+                SetupProcedure(mi, procedureName);
+                return;
             }
-            string baseName = _daoInterface.FullName + "_" + mi.Name;
+        }
+
+        protected virtual void SetupMethodBySqlFile(MethodInfo mi)
+        {
+            string baseName = GetSqlFilePath(mi);
             string dbmsPath = baseName + _dbms.Suffix + ".sql";
             string standardPath = baseName + ".sql";
             Assembly asm = _daoInterface.Assembly;
-
             if (ResourceUtil.IsExist(dbmsPath, asm))
             {
-                sql = ReadText(dbmsPath, asm);
+                string sql = ReadText(dbmsPath, asm);
                 SetupMethodByManual(mi, sql);
             }
             else if (ResourceUtil.IsExist(standardPath, asm))
             {
-                sql = ReadText(standardPath, asm);
+                string sql = ReadText(standardPath, asm);
                 SetupMethodByManual(mi, sql);
+            }
+        }
+
+        protected virtual string GetSqlFilePath(MethodInfo mi)
+        {
+            string baseName;
+            string fileByAttribute = _annotationReader.GetSqlFilePath(mi.Name);
+            if (StringUtil.IsEmpty(fileByAttribute))
+            {
+                baseName = _daoInterface.FullName + "_" + mi.Name;
             }
             else
             {
-                SetupMethodByAuto(mi);
+                fileByAttribute = fileByAttribute.Replace('/', '.');
+                baseName = Regex.Replace(fileByAttribute, ".sql$", string.Empty);
             }
+            return baseName;
         }
 
         protected virtual void SetupMethodByManual(MethodInfo mi, string sql)
@@ -782,6 +816,10 @@ namespace Seasar.Dao.Impl
             {
                 return _beanMetaData;
             }
+        }
+
+        protected bool CompletedSetupMethod(MethodInfo mi) {
+            return HasSqlCommand(mi.Name);
         }
 
         public virtual bool HasSqlCommand(string methodName)
