@@ -105,7 +105,6 @@ namespace Seasar.Dao.Impl
             object relationRow = _relationRowCreator.CreateRelationRow(reader, rpt, columnNames, relKeyValues, relationColumnMetaDataCache);
             if ( relationRow != null )
             {
-                //BeanMetaData.ClearModifiedPropertyNames(relationRow);
                 rpt.BeanMetaData.ClearModifiedPropertyNames(relationRow);
             }
             return relationRow;
