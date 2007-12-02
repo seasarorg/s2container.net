@@ -259,6 +259,7 @@
     <Compile Include="Dao\Impl\Department.cs" />
     <Compile Include="Dao\Impl\Department2.cs" />
     <Compile Include="Dao\Impl\DepartmentTotalSalary.cs" />
+    <Compile Include="Dao\Impl\DepartmentModifiedOnly.cs" />
     <Compile Include="Dao\Impl\Employee.cs" />
     <Compile Include="Dao\Impl\Employee2.cs" />
     <Compile Include="Dao\Impl\Employee3.cs" />

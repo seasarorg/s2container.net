@@ -25,12 +25,21 @@ using Seasar.Dao.Unit;
 using Seasar.Extension.ADO;
 using Seasar.Extension.Unit;
 using Seasar.Framework.Util;
+using Seasar.Dao.Attrs;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
 
 namespace Seasar.Tests.Dao.Impl
 {
     [TestFixture]
     public class AbstractBeanMetaDataDataReaderHandlerTest : S2DaoTestCase
     {
+        public void SetUp()
+        {
+            Include("Seasar.Tests.Dao.Tests.dicon");
+        }
+
         [Test, S2]
         public void TestCreateColumnMetaData()
         {
@@ -51,6 +60,31 @@ namespace Seasar.Tests.Dao.Impl
 
         }
 
+        [Test, S2]
+        public void TestCreateRelationRow()
+        {
+            //  ## Arrange ##
+            IDaoMetaData daoMetaData = CreateDaoMetaData(typeof(IEmployeeModifiedOnlyDao));
+            IBeanMetaData beanMetaData = daoMetaData.BeanMetaData;
+
+            TestDataReaderHandler handler = new TestDataReaderHandler(beanMetaData, new RowCreatorImpl(), new RelationRowCreatorImpl());
+            const String TEST_SQL = "SELECT EMP.EMPNO, EMP.ENAME, EMP.JOB, EMP.DEPTNO, DEPT.DEPTNO AS DEPTNO_0, DEPT.DNAME AS DNAME_0 FROM EMP LEFT OUTER JOIN DEPT ON EMP.DEPTNO = DEPT.DEPTNO";
+            IDbCommand command = CommandFactory.CreateCommand(Connection, TEST_SQL);
+            IDataReader reader = command.ExecuteReader();
+            Assert.IsTrue(reader.Read());
+
+            //  ## Act ##
+            object result = handler.CallCreateRelationRow(reader, beanMetaData.GetRelationPropertyType(0), null);
+
+            //  ## Assert ##
+            Assert.IsNotNull(result);
+            DepartmentModifiedOnly relEntity = result as DepartmentModifiedOnly;
+            Assert.IsNotNull(relEntity);
+            Assert.IsTrue(relEntity.Deptno > 0);
+            Assert.IsFalse(string.IsNullOrEmpty(relEntity.Dname));
+            Assert.IsEmpty(relEntity.ModifiedPropertyNames);
+        }
+
         private class TestDataReaderHandler : AbstractBeanMetaDataDataReaderHandler
         {
             public TestDataReaderHandler(IBeanMetaData beanMetaData, IRowCreator rowCreator, IRelationRowCreator relationRowCreator)
@@ -61,6 +95,13 @@ namespace Seasar.Tests.Dao.Impl
             public IColumnMetaData[] TestCreateColumnMetaData(IList columnNames)
             {
                 return base.CreateColumnMetaData(columnNames);
+            }
+
+            public object CallCreateRelationRow(IDataReader reader, IRelationPropertyType rpt, Hashtable relKeyValues)
+            {
+                IList columnNames = CreateColumnNames(reader.GetSchemaTable());
+                IDictionary<String, IDictionary<String, IPropertyType>> relationColumnMetaDataCache = CreateRelationPropertyCache(columnNames);
+                return CreateRelationRow(reader, rpt, columnNames, relKeyValues, relationColumnMetaDataCache);
             }
         }
 
@@ -94,5 +135,27 @@ namespace Seasar.Tests.Dao.Impl
                 get { return _empname; }
             }
         }
+
+        private class TestRelationBean
+        {
+
+            private int _relPkId;
+
+            public int RelPkId
+            {
+                get { return _relPkId; }
+                set { _relPkId = value; }
+            }
+
+            private TestBean _parentBean;
+
+            [Relno(0)]
+            public TestBean ParentBean
+            {
+                get { return _parentBean; }
+                set { _parentBean = value; }
+            }
+        }
+
     }
 }
