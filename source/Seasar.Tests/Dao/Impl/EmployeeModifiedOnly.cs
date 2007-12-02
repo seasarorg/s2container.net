@@ -16,7 +16,15 @@ namespace Seasar.Tests.Dao.Impl
         private NullableDateTime _hiredate;
         private Nullable<int> _sal;
         private string _dummy;
+        private DepartmentModifiedOnly _department;
         private IDictionary _modifiedPropertyNames = new Hashtable();
+
+        [Relno(0)]
+        public DepartmentModifiedOnly Department
+        {
+            set { _department = value; }
+            get { return _department; }
+        }
 
         public long Empno
         {
