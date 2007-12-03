@@ -26,6 +26,17 @@ namespace Seasar.Extension.ADO.Impl
 
         public object Handle(IDataReader dataReader)
         {
+            // 【固定でreturn null;としている理由】
+            // BasicSelectHandler#Execute()において
+            // - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+            // if (_dataReaderHandler is ObjectDataReaderHandler) {
+            //     return CommandFactory.ExecuteScalar(DataSource, cmd);
+            // }
+            // - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+            // という処理を行っているためである。
+            // ObjectDataReaderHandlerというクラス自体は単なるマーカークラスであり、
+            // その実装自体に特に意味を持っていない。
+            // 
             return null;
         }
 
