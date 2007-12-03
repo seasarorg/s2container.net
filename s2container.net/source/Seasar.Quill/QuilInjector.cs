@@ -40,6 +40,18 @@ namespace Seasar.Quill
         protected QuillContainer container;
 
         /// <summary>
+        /// QuillInjector内で使用するQuillContainer
+        /// (取得専用）
+        /// </summary>
+        public QuillContainer Container
+        {
+            get
+            {
+                return container;
+            }
+        }
+
+        /// <summary>
         /// QuillInjectorを初期化するコンストラクタ
         /// </summary>
         /// <remarks>

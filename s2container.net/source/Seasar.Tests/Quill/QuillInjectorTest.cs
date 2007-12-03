@@ -51,6 +51,7 @@ namespace Seasar.Tests.Quill
             QuillInjector injector2 = QuillInjector.GetInstance();
 
             Assert.AreSame(injector1, injector2);
+            Assert.IsNotNull(injector1.Container);
         }
 
         [Test]
