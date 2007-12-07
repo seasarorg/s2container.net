@@ -181,6 +181,7 @@
     <Compile Include="Seasar.Dao.Id\SequenceIdentifierGenerator.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Dao.Impl\AbstractAutoDynamicCommand.cs" />
     <Compile Include="Seasar.Dao.Impl\AbstractAutoHandler.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -236,6 +237,7 @@
     </Compile>
     <Compile Include="Seasar.Dao.Impl\FieldBeanAnnotationReader.cs" />
     <Compile Include="Seasar.Dao.Impl\HashtableBasicProcedureHandler.cs" />
+    <Compile Include="Seasar.Dao.Impl\InsertAutoDynamicCommand.cs" />
     <Compile Include="Seasar.Dao.Impl\InsertAutoHandler.cs">
       <SubType>Code</SubType>
     </Compile>
