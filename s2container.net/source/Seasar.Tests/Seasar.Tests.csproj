@@ -271,6 +271,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>EmployeeDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Dao\Impl\EmployeeDefault.cs" />
     <Compile Include="Dao\Impl\EmployeeModifiedOnly.cs" />
     <Compile Include="Dao\Impl\EmployeeNullable.cs" />
     <Compile Include="Dao\Impl\EmployeeSearchCondition.cs" />
@@ -293,6 +294,7 @@
     <Compile Include="Dao\Impl\IEmployeeAutoDynamicDao.cs" />
     <Compile Include="Dao\Impl\IEmployeeDao.cs" />
     <Compile Include="Dao\Impl\IEmployeeDataSetDao.cs" />
+    <Compile Include="Dao\Impl\IEmployeeDefaultDao.cs" />
     <Compile Include="Dao\Impl\IEmployeeModifiedOnlyDao.cs" />
     <Compile Include="Dao\Impl\IEmployeeNullableAutoDao.cs" />
     <Compile Include="Dao\Impl\IEmployeeVersionNoDao.cs" />
@@ -301,6 +303,7 @@
     <Compile Include="Dao\Impl\IIdTableAuto2Dao.cs" />
     <Compile Include="Dao\Impl\IIdTableAutoDao.cs" />
     <Compile Include="Dao\Impl\IIllegalEmployeeAutoDao.cs" />
+    <Compile Include="Dao\Impl\InsertAutoDynamicCommandTest.cs" />
     <Compile Include="Dao\Impl\InsertAutoStaticCommandTest.cs" />
     <Compile Include="Dao\Impl\IStoredProcedureTestDao.cs" />
     <Compile Include="Dao\Impl\IUnderscoreEntityDao.cs" />

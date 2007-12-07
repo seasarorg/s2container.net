@@ -34,7 +34,7 @@ namespace Seasar.Dao.Impl
         {
         }
 
-        protected override IPropertyType[] CreateUpdatePropertyTypes(IBeanMetaData bmd, object bean, 
+        protected override IPropertyType[] CreateTargetPropertyTypes(IBeanMetaData bmd, object bean, 
             string[] propertyNames)
         {
             IDictionary modifiedPropertyNames = bmd.GetModifiedPropertyNames(bean);

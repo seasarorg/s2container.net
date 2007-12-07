@@ -26,6 +26,13 @@ using Seasar.Extension.Unit;
 
 namespace Seasar.Tests.Dao.Impl
 {
+    /// <summary>
+    /// 内部的にはInsertAutoStaticCommandは使用していませんが、
+    /// 通常のInsertのためにも兼ねてこのテストも残してあります。
+    /// (Insertを実行するとInsertAutoDynamicCommandが
+    /// 必ず使われるようになっているため）
+    /// [DAONET-3]
+    /// </summary>
     [TestFixture]
     public class InsertAutoStaticCommandTest : S2DaoTestCase
     {

@@ -313,9 +313,17 @@ namespace Seasar.Dao.Impl
             return new DeleteAutoStaticCommand(dataSource, commandFactory, beanMetaData, propertyNames);
         }
 
+        /// <summary>
+        /// 現在は使用していません。(DAONET-3)
+        /// </summary>
         protected virtual AbstractSqlCommand CreateInsertAutoStaticCommand(MethodInfo methodInfo, IDataSource dataSource, ICommandFactory commandFactory, IBeanMetaData beanMetaData, string[] propertyNames)
         {
             return new InsertAutoStaticCommand(dataSource, commandFactory, beanMetaData, propertyNames);
+        }
+
+        protected virtual AbstractSqlCommand CreateInsertAutoDynamicCommand(MethodInfo methodInfo, IDataSource dataSource, ICommandFactory commandFactory, IBeanMetaData beanMetaData, string[] propertyNames)
+        {
+            return new InsertAutoDynamicCommand(dataSource, commandFactory, beanMetaData, propertyNames);
         }
 
         protected static bool StartsWithBeginComment(string query)
@@ -471,9 +479,17 @@ namespace Seasar.Dao.Impl
             string[] propertyNames = GetPersistentPropertyNames(mi.Name);
             ISqlCommand cmd;
             if ( IsUpdateSignatureForBean(mi) )
-                cmd = CreateInsertAutoStaticCommand(mi, _dataSource, _commandFactory, _beanMetaData, propertyNames);
+            {
+                //  [DAONET-3]
+                //  nullのプロパティをINSERTの対象に含めない
+                //  Java版と合わせる為、InsertAutoStaticCommandは使用しません。
+                //cmd = CreateInsertAutoStaticCommand(mi, _dataSource, _commandFactory, _beanMetaData, propertyNames);
+                cmd = CreateInsertAutoDynamicCommand(mi, _dataSource, _commandFactory, _beanMetaData, propertyNames);
+            } 
             else
+            {
                 throw new NotSupportedException("InsertBatchAutoStaticCommand");
+            }
             _sqlCommands[mi.Name] = cmd;
         }
 
