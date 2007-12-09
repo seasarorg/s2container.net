@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
+"http://www.seasar.org/dtd/components21.dtd">
+
+<components namespace="Ado">
+  <component name="dataSource" class="Seasar.Extension.ADO.IDataSource">
+    <aspect>
+      <component class="Seasar.Framework.Aop.Interceptors.MockInterceptor">
+      </component>
+    </aspect>
+  </component>
+  <component name="transactionContext" class="Seasar.Extension.Tx.ITransactionContext">
+    <aspect>
+      <component class="Seasar.Framework.Aop.Interceptors.MockInterceptor">
+      </component>
+    </aspect>
+  </component>
+
+</components>

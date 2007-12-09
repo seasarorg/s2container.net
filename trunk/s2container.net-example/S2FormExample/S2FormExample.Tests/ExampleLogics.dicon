@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
+"http://www.seasar.org/dtd/components21.dtd">
+<components >
+
+    <!-- S2Unitテスト用のdiconファイル -->
+    
+	<include path="Ex.dicon"/>
+	
+	<!-- DAO -->
+  <component name="departmentDao" class="Seasar.S2FormExample.Logics.Dao.IDepartmentDao">
+    <aspect>Ex.DaoInterceptor</aspect>
+  </component>
+
+  <component name="genderDao" class="Seasar.S2FormExample.Logics.Dao.IGenderDao">
+    <aspect>Ex.DaoInterceptor</aspect>
+  </component>
+  
+  <component name="employeeDao" class="Seasar.S2FormExample.Logics.Dao.IEmployeeDao">
+    <aspect>Ex.DaoInterceptor</aspect>
+  </component>
+  
+  <component name="employeeCSVDao" class="Seasar.S2FormExample.Logics.Dao.IEmployeeCSVDao">
+    <aspect>Ex.DaoInterceptor</aspect>
+	</component>
+	
+  <component name="outputCSVDao" class="Seasar.S2FormExample.Logics.Dao.Impl.OutputCSVDaoImpl"/>
+	
+  <!-- Logic -->
+  <component class="Seasar.S2FormExample.Logics.Service.Impl.DepartmentListServiceImpl"/>
+    
+  <component class="Seasar.S2FormExample.Logics.Service.Impl.DepartmentEditServiceImpl">
+    <aspect pointcut="ExecUpdate">Ex.LocalRequiredTx</aspect>
+    <aspect pointcut="ExecDelete">Ex.LocalRequiredTx</aspect>
+  </component>
+    
+  <component class="Seasar.S2FormExample.Logics.Service.Impl.EmployeeListServiceImpl"/>
+    
+  <component class="Seasar.S2FormExample.Logics.Service.Impl.EmployeeEditServiceImpl">
+    <aspect pointcut="ExecUpdate">Ex.LocalRequiredTx</aspect>
+    <aspect pointcut="ExecDelete">Ex.LocalRequiredTx</aspect>
+  </component>
+  
+</components>

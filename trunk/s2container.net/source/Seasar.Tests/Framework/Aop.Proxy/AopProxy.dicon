@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE components PUBLIC "-//SEASAR//DTD S2Container//EN"
+"http://www.seasar.org/dtd/components.dtd">
+<components>
+
+  <component class="Seasar.Tests.Framework.Aop.Proxy.AopProxyTest+HelloImpl4" instance="prototype">
+    <aspect pointcut="Greeting">HelloInterceptor</aspect>
+  </component>
+
+  <component name="HelloInterceptor" class="Seasar.Tests.Framework.Aop.Proxy.AopProxyTest+HelloInterceptor" />
+
+</components>
