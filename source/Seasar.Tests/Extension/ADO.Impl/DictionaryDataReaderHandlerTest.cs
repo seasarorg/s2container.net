@@ -45,7 +45,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
             IDbCommand cmd = con.CreateCommand();
             cmd.CommandText = sql;
             Hashtable ret = null;
-            DataSourceUtil.SetTransaction(DataSource, cmd);	// Tx.Rollbackを指定しないと、DataSourceがセットされない
+            DataSource.SetTransaction(cmd);	// Tx.Rollbackを指定しないと、DataSourceがセットされない
             IDataReader reader = cmd.ExecuteReader();
             try
             {

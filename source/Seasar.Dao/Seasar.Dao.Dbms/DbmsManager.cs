@@ -1,4 +1,5 @@
 #region Copyright
+
 /*
  * Copyright 2005-2007 the Seasar Foundation and the Others.
  *
@@ -14,12 +15,13 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+
 #endregion
 
 using System;
 using System.Data;
-using System.Data.OleDb;
 using System.Data.Odbc;
+using System.Data.OleDb;
 using System.Reflection;
 using System.Resources;
 using Seasar.Extension.ADO;
@@ -86,7 +88,7 @@ namespace Seasar.Dao.Dbms
             Type type = typeName == null ? typeof(Standard) : Type.GetType(typeName);
 
             // IDbms実装クラスのインスタンスを作成して返す
-            return (IDbms) Activator.CreateInstance(type, false);
+            return (IDbms)Activator.CreateInstance(type, false);
         }
     }
 }

@@ -19,9 +19,6 @@
 using System;
 using System.Collections;
 using System.Data;
-using System.Reflection;
-using Seasar.Extension.ADO;
-using Seasar.Framework.Util;
 
 namespace Seasar.Dao
 {
@@ -32,6 +29,7 @@ namespace Seasar.Dao
         /// </summary>
         /// <param name="reader">IDataReader</param>
         /// <param name="columns">Columnのメタデータ</param>
+        /// <param name="beanType">オブジェクトの型</param>
         /// <returns>1行分のEntity型のオブジェクト</returns>
         object CreateRow(IDataReader reader, IColumnMetaData[] columns, Type beanType);
 
@@ -39,6 +37,7 @@ namespace Seasar.Dao
         /// Columnのメタデータを作成する
         /// </summary>
         /// <param name="columnNames">カラム名のリスト</param>
+        /// <param name="beanMetaData">メタ情報</param>
         /// <returns>Columnのメタデータの配列</returns>
         IColumnMetaData[] CreateColumnMetaData(IList columnNames, IBeanMetaData beanMetaData);
     }

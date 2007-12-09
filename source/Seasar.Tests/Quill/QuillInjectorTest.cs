@@ -36,15 +36,33 @@ namespace Seasar.Tests.Quill
         {
         }
 
+        public override void Dispose()
+        {
+            // MbUnitがDisposeを呼び出すのでDisposeをoverrideしておく
+        }
+
         #region GetInstanceのテスト
 
         [Test]
         public void TestGetInstance()
         {
+            container = new QuillContainer();
             QuillInjector injector1 = QuillInjector.GetInstance();
             QuillInjector injector2 = QuillInjector.GetInstance();
 
             Assert.AreSame(injector1, injector2);
+            Assert.IsNotNull(injector1.Container);
+        }
+
+        [Test]
+        public void TestGetInstance_Destroy済みの場合()
+        {
+            QuillInjector injector1 = QuillInjector.GetInstance();
+            QuillInjector.GetInstance().Destroy();
+            QuillInjector injector2 = QuillInjector.GetInstance();
+
+            Assert.IsNotNull(injector2);
+            Assert.AreNotSame(injector1, injector2);
         }
 
         #endregion
@@ -54,6 +72,7 @@ namespace Seasar.Tests.Quill
         [Test]
         public void TestInjectField_Quill_型がクラスの場合()
         {
+            container = new QuillContainer();
             ImplementationAttribute attr = new ImplementationAttribute();
             FieldInfo field = typeof(Target1).GetField("Hoge1");
             Target1 target = new Target1();
@@ -66,6 +85,7 @@ namespace Seasar.Tests.Quill
         [Test]
         public void TestInjectField_Quill_型がインターフェースで実装クラスが指定されていない場合()
         {
+            container = new QuillContainer();
             ImplementationAttribute attr = new ImplementationAttribute();
             FieldInfo field = typeof(Target2).GetField("Hoge2");
             Target2 target = new Target2();
@@ -78,6 +98,7 @@ namespace Seasar.Tests.Quill
         [Test]
         public void TestInjectField_Quill_型がインターフェースで実装クラスが指定されている場合()
         {
+            container = new QuillContainer();
             ImplementationAttribute attr = new ImplementationAttribute(typeof(Hoge3));
             FieldInfo field = typeof(Target3).GetField("Hoge3");
             Target3 target = new Target3();
@@ -88,12 +109,25 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
+        public void TestInjectField_Type()
+        {
+            container = new QuillContainer();
+            FieldInfo field = typeof(Target3).GetField("Hoge3");
+            Target3 target = new Target3();
+
+            this.InjectField(target, field, typeof(Hoge3));
+
+            Assert.IsNotNull(target.Hoge3);
+        }
+
+        [Test]
         public void TestInjectField_S2_代入不可能な場合()
         {
-            IS2Container container = new S2ContainerImpl();
+            container = new QuillContainer();
+            IS2Container s2Container = new S2ContainerImpl();
             IComponentDef def = new ComponentDefImpl(typeof(Hoge1), "hoge3");
-            container.Register(def);
-            SingletonS2ContainerFactory.Container = container;
+            s2Container.Register(def);
+            SingletonS2ContainerFactory.Container = s2Container;
 
             BindingAttribute attr = new BindingAttribute("hoge3");
             Target4 target = new Target4();
@@ -113,10 +147,11 @@ namespace Seasar.Tests.Quill
         [Test]
         public void TestInjectField_S2_正常な場合()
         {
-            IS2Container container = new S2ContainerImpl();
+            container = new QuillContainer();
+            IS2Container s2Container = new S2ContainerImpl();
             IComponentDef def = new ComponentDefImpl(typeof(Hoge3), "hoge3");
-            container.Register(def);
-            SingletonS2ContainerFactory.Container = container;
+            s2Container.Register(def);
+            SingletonS2ContainerFactory.Container = s2Container;
 
             BindingAttribute attr = new BindingAttribute("hoge3");
             Target5 target = new Target5();
@@ -124,28 +159,30 @@ namespace Seasar.Tests.Quill
 
             this.InjectField(target, field, attr);
 
-            Assert.AreSame(container.GetComponent("hoge3"), target.Hoge3);
+            Assert.AreSame(s2Container.GetComponent("hoge3"), target.Hoge3);
         }
 
         [Test]
         public void TestInjectField_Binding属性が設定されている場合()
         {
-            IS2Container container = new S2ContainerImpl();
+            container = new QuillContainer();
+            IS2Container s2Container = new S2ContainerImpl();
             IComponentDef def = new ComponentDefImpl(typeof(Hoge3), "hoge3");
-            container.Register(def);
-            SingletonS2ContainerFactory.Container = container;
+            s2Container.Register(def);
+            SingletonS2ContainerFactory.Container = s2Container;
 
             Target5 target = new Target5();
             FieldInfo field = typeof(Target5).GetField("Hoge3");
 
             this.InjectField(target, field);
 
-            Assert.AreSame(container.GetComponent("hoge3"), target.Hoge3);
+            Assert.AreSame(s2Container.GetComponent("hoge3"), target.Hoge3);
         }
 
         [Test]
         public void TestInjectField_Implementation属性が設定されている場合()
         {
+            container = new QuillContainer();
             FieldInfo field = typeof(Target3).GetField("Hoge3");
             Target3 target = new Target3();
 
@@ -213,12 +250,30 @@ namespace Seasar.Tests.Quill
         [Test]
         public void TestInject()
         {
+            container = new QuillContainer();
             Target10 target = new Target10();
             Inject(target);
 
             Assert.IsNotNull(target.Hoge10, "1");
             Assert.IsNotNull(target.Hoge11, "2");
             Assert.IsNotNull(target.Hoge12, "3");
+        }
+
+        [Test]
+        public void TestInject_Destroy済みの場合()
+        {
+            container = new QuillContainer();
+            Target10 target = new Target10();
+            Destroy();
+            try
+            {
+                Inject(target);
+                Assert.Fail();
+            }
+            catch (QuillApplicationException ex)
+            {
+                Assert.AreEqual("EQLL0018", ex.MessageCode);
+            }
         }
 
         #endregion
@@ -258,6 +313,79 @@ namespace Seasar.Tests.Quill
 
         [Implementation()]
         public class Hoge12
+        {
+        }
+
+        #endregion
+
+        #region Disposeのテスト
+
+        [Test]
+        public void TestDispose()
+        {
+            container = new QuillContainer();
+            DisposableTarget target = new DisposableTarget();
+            Inject(target);
+
+            Assert.IsFalse(target.DisposableClass.Disposed);
+
+            base.Dispose();
+
+            Assert.IsTrue(target.DisposableClass.Disposed);
+        }
+
+        #endregion
+
+        #region Disposeのテストで使用する内部クラス
+
+        public class DisposableTarget
+        {
+            public DisposableClass DisposableClass;
+        }
+
+        [Implementation]
+        public class DisposableClass : IDisposable
+        {
+            public bool Disposed = false;
+
+            #region IDisposable メンバ
+
+            public void Dispose()
+            {
+                Disposed = true;
+            }
+
+            #endregion
+        }
+
+        #endregion 
+
+        #region Destroyのテスト
+
+        [Test]
+        public void TestDestroy()
+        {
+            container = new QuillContainer();
+            Destroy();
+
+            try
+            {
+                Inject(new DestroyHoge());
+                Assert.Fail();
+            }
+            catch(QuillApplicationException ex)
+            {
+                Assert.AreEqual("EQLL0018", ex.MessageCode);
+            }
+
+            Destroy();
+        }
+
+        #endregion
+
+        #region Destroyのテストで使用する内部クラス
+
+        private class DestroyHoge
         {
         }
 

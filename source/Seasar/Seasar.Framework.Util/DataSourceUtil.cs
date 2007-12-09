@@ -19,8 +19,6 @@
 using System;
 using System.Data;
 using Seasar.Extension.ADO;
-using Seasar.Extension.ADO.Impl;
-using Seasar.Extension.Tx.Impl;
 using Seasar.Framework.Exceptions;
 using Seasar.Framework.Log;
 
@@ -52,50 +50,16 @@ namespace Seasar.Framework.Util
             }
         }
 
+        [Obsolete("IDataSource.CloseConnection")]
         public static void CloseConnection(IDataSource dataSource, IDbConnection cn)
         {
-            try
-            {
-                if (dataSource is TxDataSource)
-                {
-                    TxDataSource txDataSoure = dataSource as TxDataSource;
-                    if (txDataSoure.Context.IsInTransaction)
-                    {
-                        return;
-                    }
-                }
-                if (dataSource is ConnectionHolderDataSource)
-                {
-                    ConnectionHolderDataSource holderDataSource = dataSource as ConnectionHolderDataSource;
-                    if (!holderDataSource.IsHolderConnection)
-                    {
-                        CloseConnection(holderDataSource.Current, cn);
-                    }
-                    return;
-                }
-                ConnectionUtil.Close(cn);
-            }
-            catch (Exception ex)
-            {
-                throw new SQLRuntimeException(ex);
-            }
+            dataSource.CloseConnection(cn);
         }
 
+        [Obsolete("IDataSource.SetTransaction")]
         public static void SetTransaction(IDataSource dataSource, IDbCommand cmd)
         {
-            if (dataSource is TxDataSource)
-            {
-                TxDataSource txDataSource = dataSource as TxDataSource;
-                if (txDataSource.Context.IsInTransaction)
-                {
-                    cmd.Transaction = txDataSource.Context.Current.Transaction;
-                }
-            }
-            if (dataSource is ConnectionHolderDataSource)
-            {
-                ConnectionHolderDataSource holderDataSource = dataSource as ConnectionHolderDataSource;
-                SetTransaction(holderDataSource.Current, cmd);
-            }
+            dataSource.SetTransaction(cmd);
         }
     }
 }

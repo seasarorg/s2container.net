@@ -116,7 +116,7 @@ namespace Seasar.Dao.Impl
             {
                 ConnectionHolderDataSource holderDataSoure = DataSource as ConnectionHolderDataSource;
                 holderDataSoure.ReleaseConnection();
-                DataSourceUtil.CloseConnection(holderDataSoure, connection);
+                holderDataSoure.CloseConnection(connection);
             }
         }
 

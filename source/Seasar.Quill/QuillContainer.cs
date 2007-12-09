@@ -19,7 +19,6 @@
 using System;
 using System.Collections.Generic;
 using Seasar.Framework.Aop;
-using Seasar.Framework.Aop.Proxy;
 
 namespace Seasar.Quill
 {
@@ -31,7 +30,7 @@ namespace Seasar.Quill
     /// 格納するコンポーネントのインスタンスは1度生成されると
     /// 同じものが使用される(singleton)</para>
     /// </remarks>
-    public class QuillContainer
+    public class QuillContainer : IDisposable
     {
         // 作成済みにコンポーネントを格納する
         protected IDictionary<Type, QuillComponent> components =
@@ -78,6 +77,12 @@ namespace Seasar.Quill
         /// <returns>Quillコンポーネント</returns>
         public virtual QuillComponent GetComponent(Type type, Type implType)
         {
+            if (components == null)
+            {
+                // Destroyされている場合は例外を発生する
+                throw new QuillApplicationException("EQLL0018");
+            }
+
             lock (components)
             {
                 // 既に作成済みのインスタンスであるか確認する
@@ -107,5 +112,55 @@ namespace Seasar.Quill
                 return component;
             }
         }
+
+        /// <summary>
+        /// QuillContainerが持つ参照を破棄する
+        /// </summary>
+        public virtual void Destroy()
+        {
+            if (components == null)
+            {
+                return;
+            }
+
+            // 保持しているQuillComponentを反復処理する為の列挙子を取得する
+            IEnumerator<QuillComponent> componentValues =
+                components.Values.GetEnumerator();
+
+            while (componentValues.MoveNext())
+            {
+                // QuillComponentのDestroyを呼び出す
+                componentValues.Current.Destroy();
+            }
+
+            components = null;
+            aspectBuilder = null;
+        }
+
+        #region IDisposable メンバ
+
+        /// <summary>
+        /// 保持しているQuillComponentのDisposeを呼び出す
+        /// </summary>
+        public virtual void Dispose()
+        {
+            if (components == null)
+            {
+                // Destroyされている場合は例外を発生する
+                throw new QuillApplicationException("EQLL0018");
+            }
+
+            // 保持しているQuillComponentを反復処理する為の列挙子を取得する
+            IEnumerator<QuillComponent> componentValues = 
+                components.Values.GetEnumerator();
+
+            while (componentValues.MoveNext())
+            {
+                // QuillComponentのDisposeを呼び出す
+                componentValues.Current.Dispose();
+            }
+        }
+
+        #endregion
     }
 }

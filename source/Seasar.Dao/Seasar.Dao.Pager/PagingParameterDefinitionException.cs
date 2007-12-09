@@ -7,7 +7,7 @@ namespace Seasar.Dao.Pager
     [Serializable]
     public class PagingParameterDefinitionException : SRuntimeException
     {
-        private string _parameterName;
+        private readonly string _parameterName;
 
         public PagingParameterDefinitionException(string parameterName)
             : this(parameterName, null)

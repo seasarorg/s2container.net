@@ -91,6 +91,7 @@
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
+    <Reference Include="System.configuration" />
     <Reference Include="System.Data">
       <Name>System.Data</Name>
     </Reference>
@@ -112,6 +113,10 @@
     <ProjectReference Include="..\Seasar.Dao\Seasar.Dao.csproj">
       <Project>{474715CA-5C99-4C50-ADFA-FB628824DFF0}</Project>
       <Name>Seasar.Dao</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Seasar.Dxo\Seasar.Dxo.csproj">
+      <Project>{0C7A87F7-786E-43FB-846C-DE1583622A79}</Project>
+      <Name>Seasar.Dxo</Name>
     </ProjectReference>
     <ProjectReference Include="..\Seasar.DynamicProxy\Seasar.DynamicProxy.csproj">
       <Project>{063DED73-CA16-4038-904D-5A18A630843D}</Project>
@@ -169,6 +174,22 @@
     <EmbeddedResource Include="Dao\Impl\IEmployeeDao_UpdateSqlFileEncodingUTF8.sql" />
     <EmbeddedResource Include="Dao\Interceptors\IEmployeeDao_Insert.sql" />
     <EmbeddedResource Include="Dao\Pager\PagerDataReaderWrapperTest.dicon" />
+    <None Include="Dao\Impl\EmployeeDataSet.xsc">
+      <DependentUpon>EmployeeDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Dao\Impl\EmployeeDataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>EmployeeDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Dao\Impl\EmployeeDataSet.xss">
+      <DependentUpon>EmployeeDataSet.xsd</DependentUpon>
+    </None>
+    <EmbeddedResource Include="Dxo\dxo.dicon" />
+    <EmbeddedResource Include="Dao\Impl\SqlFile\GetCount.sql" />
+    <None Include="Extension\DataSets.Impl\XlsReaderTest_InvalidColumn.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Extension\Unit\S2TestCaseTest_ReadXlsWriteDbTx.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -183,7 +204,6 @@
     <EmbeddedResource Include="Framework\Container.Factory\bbb.dicon" />
     <EmbeddedResource Include="Framework\Container.Factory\ccc.dicon" />
     <EmbeddedResource Include="Framework\Container.Factory\ComponentsTagHandlerTest.dicon" />
-    <EmbeddedResource Include="Framework\Container.Factory\ComponentTagHandlerTest.2003.dicon" />
     <EmbeddedResource Include="Framework\Container.Factory\ComponentTagHandlerTest.dicon" />
     <EmbeddedResource Include="Framework\Container.Factory\DestroyMethodTagHandlerTest.dicon" />
     <EmbeddedResource Include="Framework\Container.Factory\IncludeTagHandlerTest.dicon" />
@@ -204,6 +224,10 @@
     <EmbeddedResource Include="Framework\Unit\ddd.dicon" />
     <EmbeddedResource Include="Framework\Unit\empty.dicon" />
     <EmbeddedResource Include="Framework\Unit\S2FrameworkTestCaseTest_ado.dicon" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Seasar.snk" />
     <EmbeddedResource Include="Dao\Tests.dicon" />
     <EmbeddedResource Include="Tx.dicon" />
@@ -224,6 +248,8 @@
     <Compile Include="Dao\Id\SequenceIdentifierGeneratorTest.cs" />
     <Compile Include="Dao\Impl\AbstractBeanMetaDataDataReaderHandlerTest.cs" />
     <Compile Include="Dao\Impl\BeanArrayMetaDataResultSetHandlerTest.cs" />
+    <Compile Include="Dao\Impl\BeanDataSetMetaDataDataReaderHandlerTest.cs" />
+    <Compile Include="Dao\Impl\BeanDataTableMetaDataDataReaderHandlerTest.cs" />
     <Compile Include="Dao\Impl\BeanGenericListMetaDataDataReaderHandlerTest.cs" />
     <Compile Include="Dao\Impl\BeanListMetaDataDataReaderHandlerTest.cs" />
     <Compile Include="Dao\Impl\BeanMetaDataDataReaderHandlerTest.cs" />
@@ -233,17 +259,27 @@
     <Compile Include="Dao\Impl\Department.cs" />
     <Compile Include="Dao\Impl\Department2.cs" />
     <Compile Include="Dao\Impl\DepartmentTotalSalary.cs" />
+    <Compile Include="Dao\Impl\DepartmentModifiedOnly.cs" />
     <Compile Include="Dao\Impl\Employee.cs" />
     <Compile Include="Dao\Impl\Employee2.cs" />
     <Compile Include="Dao\Impl\Employee3.cs" />
     <Compile Include="Dao\Impl\Employee4.cs" />
     <Compile Include="Dao\Impl\Employee5.cs" />
+    <Compile Include="Dao\Impl\EmployeeAutoDynamic.cs" />
+    <Compile Include="Dao\Impl\EmployeeDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EmployeeDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\Impl\EmployeeDefault.cs" />
+    <Compile Include="Dao\Impl\EmployeeModifiedOnly.cs" />
     <Compile Include="Dao\Impl\EmployeeNullable.cs" />
     <Compile Include="Dao\Impl\EmployeeSearchCondition.cs" />
     <Compile Include="Dao\Impl\EmployeeVersionNo.cs" />
     <Compile Include="Dao\Impl\FormUseHistory.cs" />
     <Compile Include="Dao\Impl\GenericNullableEntity.cs" />
     <Compile Include="Dao\Impl\IDepartmentAutoDao.cs" />
+    <Compile Include="Dao\Impl\IDepartmentAutoDynamicDao.cs" />
     <Compile Include="Dao\Impl\IDepartmentTotalSalaryDao.cs" />
     <Compile Include="Dao\Impl\IdTable.cs" />
     <Compile Include="Dao\Impl\IdTable2.cs" />
@@ -255,7 +291,11 @@
     <Compile Include="Dao\Impl\IEmployee7Dao.cs" />
     <Compile Include="Dao\Impl\IEmployee8Dao.cs" />
     <Compile Include="Dao\Impl\IEmployeeAutoDao.cs" />
+    <Compile Include="Dao\Impl\IEmployeeAutoDynamicDao.cs" />
     <Compile Include="Dao\Impl\IEmployeeDao.cs" />
+    <Compile Include="Dao\Impl\IEmployeeDataSetDao.cs" />
+    <Compile Include="Dao\Impl\IEmployeeDefaultDao.cs" />
+    <Compile Include="Dao\Impl\IEmployeeModifiedOnlyDao.cs" />
     <Compile Include="Dao\Impl\IEmployeeNullableAutoDao.cs" />
     <Compile Include="Dao\Impl\IEmployeeVersionNoDao.cs" />
     <Compile Include="Dao\Impl\IFormUseHistoryDao.cs" />
@@ -263,14 +303,18 @@
     <Compile Include="Dao\Impl\IIdTableAuto2Dao.cs" />
     <Compile Include="Dao\Impl\IIdTableAutoDao.cs" />
     <Compile Include="Dao\Impl\IIllegalEmployeeAutoDao.cs" />
+    <Compile Include="Dao\Impl\InsertAutoDynamicCommandTest.cs" />
     <Compile Include="Dao\Impl\InsertAutoStaticCommandTest.cs" />
     <Compile Include="Dao\Impl\IStoredProcedureTestDao.cs" />
     <Compile Include="Dao\Impl\IUnderscoreEntityDao.cs" />
     <Compile Include="Dao\Impl\RelationKeyTest.cs" />
+    <Compile Include="Dao\Impl\SelectAutoCommandTest.cs" />
     <Compile Include="Dao\Impl\SelectDynamicCommandTest.cs" />
     <Compile Include="Dao\Impl\UnderscoreEntity.cs" />
+    <Compile Include="Dao\Impl\UpdateAutoDynamicCommandTest.cs" />
     <Compile Include="Dao\Impl\UpdateAutoStaticCommandTest.cs" />
     <Compile Include="Dao\Impl\UpdateDynamicCommandTest.cs" />
+    <Compile Include="Dao\Impl\UpdateModifiedOnlyCommandTest.cs" />
     <Compile Include="Dao\Interceptors\Department.cs" />
     <Compile Include="Dao\Interceptors\Employee.cs" />
     <Compile Include="Dao\Interceptors\Hoge.cs" />
@@ -293,6 +337,15 @@
     <Compile Include="Dao\Parser\SqlParserTest.cs" />
     <Compile Include="Dao\Parser\SqlTokenizerTest.cs" />
     <Compile Include="Dao\Unit\S2DaoTestCase.cs" />
+    <Compile Include="Dxo\BeanA.cs" />
+    <Compile Include="Dxo\Department.cs" />
+    <Compile Include="Dxo\Employee.cs" />
+    <Compile Include="Dxo\EmployeePage.cs" />
+    <Compile Include="Dxo\IBeanToBeanDxo.cs" />
+    <Compile Include="Dxo\ICollectionDxo.cs" />
+    <Compile Include="Dxo\IEmployeeDxo.cs" />
+    <Compile Include="Dxo\S2DxoTest.cs" />
+    <Compile Include="Dxo\TargetBean.cs" />
     <Compile Include="Extension\ADO.Impl\BasicDbParameterParserTest.cs" />
     <Compile Include="Extension\ADO.Impl\BasicSelectHandlerTest.cs" />
     <Compile Include="Extension\ADO.Impl\BasicUpdateHandlerTest.cs" />
@@ -306,6 +359,8 @@
     <Compile Include="Extension\ADO.Impl\DictionaryListDataReaderHandlerTest.cs" />
     <Compile Include="Extension\ADO.Impl\Employee.cs" />
     <Compile Include="Extension\ADO.Impl\NoReplaceDbParameterParserTest.cs" />
+    <Compile Include="Extension\ADO.Impl\DbProviderFactoryDataSourceTest.cs" />
+    <Compile Include="Extension\ADO.Impl\DataProviderDataSourceTest.cs" />
     <Compile Include="Extension\BasicTypeBean.cs" />
     <Compile Include="Extension\DataSets.Impl\SqlDeleteTableWriterTest.cs" />
     <Compile Include="Extension\DataSets.Impl\SqlReloadReaderTest.cs" />
@@ -353,6 +408,11 @@
     <Compile Include="Framework\Container.Assembler\ExpressionConstructorAssemblerTest.cs" />
     <Compile Include="Framework\Container.Assembler\ManualConstructorAssemblerTest.cs" />
     <Compile Include="Framework\Container.Assembler\ManualPropertyAssemblerTest.cs" />
+    <Compile Include="Framework\Container.AutoRegister\AbstractComponentAutoRegisterTest.cs" />
+    <Compile Include="Framework\Container.AutoRegister\AspectAutoRegisterTest.cs" />
+    <Compile Include="Framework\Container.AutoRegister\AssemblyComponentAutoRegisterTest.cs" />
+    <Compile Include="Framework\Container.AutoRegister\ClassPatternTest.cs" />
+    <Compile Include="Framework\Container.AutoRegister\DefaultAutoNamingTest.cs" />
     <Compile Include="Framework\Container.Deployer\OuterComponentDeployerTest.cs" />
     <Compile Include="Framework\Container.Deployer\PrototypeComponentDeployerTest.cs" />
     <Compile Include="Framework\Container.Deployer\RequestComponentDeployerTest.cs" />
@@ -361,11 +421,17 @@
       <DependentUpon>SessionComponentDeployerWebPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Quill\AspectBuilderTest.cs" />
     <Compile Include="Quill\QuillComponentTest.cs" />
     <Compile Include="Quill\QuillContainerTest.cs" />
     <Compile Include="Quill\QuillInjectorTest.cs" />
     <Compile Include="Quill\SingletonS2ContainerConnectorTest.cs" />
+    <Compile Include="Quill\Unit\MockInjectorTest.cs" />
     <Compile Include="Quill\Util\AttributeUtilTest.cs" />
     <Compile Include="Quill\Util\MessageUtilTest.cs" />
     <Compile Include="Quill\Util\TypeUtilTest.cs" />

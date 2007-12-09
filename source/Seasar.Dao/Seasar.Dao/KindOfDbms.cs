@@ -27,6 +27,7 @@ namespace Seasar.Dao
         Oracle,
         PostgreSQL,
         Firebird,
-        MDB
+        MDB,
+        SQLite,
     }
 }

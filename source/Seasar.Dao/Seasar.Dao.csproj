@@ -134,6 +134,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Seasar.Dao.Attrs\IDType.cs" />
+    <Compile Include="Seasar.Dao.Attrs\SqlFileAttribute.cs" />
     <Compile Include="Seasar.Dao.Context\CommandContextImpl.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -161,6 +162,7 @@
     <Compile Include="Seasar.Dao.Dbms\PostgreSQL.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Dao.Dbms\SQLite.cs" />
     <Compile Include="Seasar.Dao.Dbms\Standard.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -179,6 +181,7 @@
     <Compile Include="Seasar.Dao.Id\SequenceIdentifierGenerator.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Dao.Impl\AbstractAutoDynamicCommand.cs" />
     <Compile Include="Seasar.Dao.Impl\AbstractAutoHandler.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -201,6 +204,8 @@
     <Compile Include="Seasar.Dao.Impl\BeanArrayMetaDataDataReaderHandler.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Dao.Impl\BeanDataSetMetaDataDataReaderHandler.cs" />
+    <Compile Include="Seasar.Dao.Impl\BeanDataTableMetaDataDataReaderHandler.cs" />
     <Compile Include="Seasar.Dao.Impl\BeanGenericListMetaDataDataReaderHandler.cs" />
     <Compile Include="Seasar.Dao.Impl\BeanListMetaDataDataReaderHandler.cs">
       <SubType>Code</SubType>
@@ -232,6 +237,7 @@
     </Compile>
     <Compile Include="Seasar.Dao.Impl\FieldBeanAnnotationReader.cs" />
     <Compile Include="Seasar.Dao.Impl\HashtableBasicProcedureHandler.cs" />
+    <Compile Include="Seasar.Dao.Impl\InsertAutoDynamicCommand.cs" />
     <Compile Include="Seasar.Dao.Impl\InsertAutoHandler.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -252,6 +258,7 @@
     <Compile Include="Seasar.Dao.Impl\SelectDynamicCommand.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Dao.Impl\UpdateAutoDynamicCommand.cs" />
     <Compile Include="Seasar.Dao.Impl\UpdateAutoHandler.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -264,6 +271,8 @@
     <Compile Include="Seasar.Dao.Impl\FieldAnnotationReaderFactory.cs" />
     <Compile Include="Seasar.Dao.Impl\RowCreatorImpl.cs" />
     <Compile Include="Seasar.Dao.Impl\RelationRowCreatorImpl.cs" />
+    <Compile Include="Seasar.Dao.Impl\RelationRowCreationResource.cs" />
+    <Compile Include="Seasar.Dao.Impl\UpdateModifiedOnlyCommand.cs" />
     <Compile Include="Seasar.Dao.Interceptors\S2DaoInterceptor.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -302,6 +311,7 @@
     </Compile>
     <Compile Include="Seasar.Dao.Pager\DefaultPagerCondition.cs" />
     <Compile Include="Seasar.Dao.Pager\IPagerCondition.cs" />
+    <Compile Include="Seasar.Dao.Pager\OraclePagerDataReaderFactoryRowNumberWrapper.cs" />
     <Compile Include="Seasar.Dao.Pager\PagerAttribute.cs" />
     <Compile Include="Seasar.Dao.Pager\PagerContext.cs" />
     <Compile Include="Seasar.Dao.Pager\PagerDataReaderFactoryLimitOffsetWrapper.cs" />

@@ -150,6 +150,18 @@
   <data name="EDAO0011" xml:space="preserve">
     <value>パラメータ名({0})が無効または見つかりません。</value>
   </data>
+  <data name="EDAO0012" xml:space="preserve">
+    <value>更新可能なカラムが見つかりません。</value>
+  </data>
+  <data name="EDAO0013" xml:space="preserve">
+    <value>{0}に更新されたプロパティコレクションのプロパティ({1})が見つからないため、更新カラムのみのUPDATEができません。</value>
+  </data>
+  <data name="EDAO0014" xml:space="preserve">
+    <value>Nullではないカラムがありません。</value>
+  </data>
+  <data name="EDAO0025" xml:space="preserve">
+    <value>SQLファイルが見つかりません。(Dao={0}, method={1}, file={2})</value>
+  </data>
   <data name="WDAO0001" xml:space="preserve">
     <value>引数({0})が見つかりません。</value>
   </data>

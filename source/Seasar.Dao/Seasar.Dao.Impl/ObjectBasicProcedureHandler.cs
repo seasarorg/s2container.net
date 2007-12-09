@@ -69,6 +69,7 @@ namespace Seasar.Dao.Impl
                 {
                     object ret = null;
                     cmd = GetCommand(conn, ProcedureName);
+                    int cnt = 0;
 
                     // パラメータをセットし、返値を取得する
                     if (returnType != typeof(void))
@@ -82,6 +83,7 @@ namespace Seasar.Dao.Impl
 
                         IDbDataParameter param = (IDbDataParameter) cmd.Parameters[returnParamName];
                         ret = param.Value;
+                        cnt = 1;
                     }
                     else
                     {
@@ -95,7 +97,7 @@ namespace Seasar.Dao.Impl
                         if (ArgumentDirection[i] == ParameterDirection.InputOutput ||
                              ArgumentDirection[i] == ParameterDirection.Output)
                         {
-                            args[i] = ((IDataParameter) cmd.Parameters[i]).Value;
+                            args[i] = ((IDataParameter) cmd.Parameters[i+cnt]).Value;
                         }
                     }
 
@@ -112,7 +114,7 @@ namespace Seasar.Dao.Impl
             }
             finally
             {
-                DataSourceUtil.CloseConnection(DataSource, conn);
+                DataSource.CloseConnection(conn);
             }
         }
     }

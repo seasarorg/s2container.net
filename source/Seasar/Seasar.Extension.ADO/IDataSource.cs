@@ -23,6 +23,7 @@ namespace Seasar.Extension.ADO
     public interface IDataSource
     {
         IDbConnection GetConnection();
+        void CloseConnection(IDbConnection connection);
 
         IDbCommand GetCommand();
         IDbCommand GetCommand(string cmdText);
@@ -41,5 +42,6 @@ namespace Seasar.Extension.ADO
         IDataAdapter GetDataAdapter(string selectCommandText, IDbConnection selectConnection);
 
         IDbTransaction GetTransaction();
+        void SetTransaction(IDbCommand cmd);
     }
 }

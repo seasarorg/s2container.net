@@ -49,7 +49,7 @@ namespace Seasar.Framework.Util
         {
             try
             {
-                DataSourceUtil.SetTransaction(dataSource, cmd);
+                dataSource.SetTransaction(cmd);
                 return cmd.ExecuteReader();
             }
             catch (Exception ex)
@@ -62,7 +62,7 @@ namespace Seasar.Framework.Util
         {
             try
             {
-                DataSourceUtil.SetTransaction(dataSource, cmd);
+                dataSource.SetTransaction(cmd);
                 return cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -75,7 +75,7 @@ namespace Seasar.Framework.Util
         {
             try
             {
-                DataSourceUtil.SetTransaction(dataSource, cmd);
+                dataSource.SetTransaction(cmd);
                 return cmd.ExecuteScalar();
             }
             catch (Exception ex)

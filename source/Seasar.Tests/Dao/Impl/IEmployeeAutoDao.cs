@@ -59,6 +59,8 @@ namespace Seasar.Tests.Dao.Impl
         [PersistentProps("deptno")]
         void Update3(Employee employee);
 
+        void UpdateUnlessNull(Employee employee);
+
         void Delete(Employee employee);
     }
 }

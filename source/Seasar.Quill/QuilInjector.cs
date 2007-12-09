@@ -31,13 +31,25 @@ namespace Seasar.Quill
     /// でQuillInjectorのインスタンスを作成して、
     /// <see cref="Seasar.Quill.QuillInjector.Inject"/>を使用してDIを行う。
     /// </remarks>
-    public class QuillInjector
+    public class QuillInjector : IDisposable
     {
-        // QuillInjectorの唯一のインスタンス
-        private static QuillInjector quillInjector = new QuillInjector();
+        // QuillInjectorのインスタンス
+        private static QuillInjector quillInjector;
 
         // QuillInjector内で使用するQuillContainer
         protected QuillContainer container;
+
+        /// <summary>
+        /// QuillInjector内で使用するQuillContainer
+        /// (取得専用）
+        /// </summary>
+        public QuillContainer Container
+        {
+            get
+            {
+                return container;
+            }
+        }
 
         /// <summary>
         /// QuillInjectorを初期化するコンストラクタ
@@ -57,21 +69,26 @@ namespace Seasar.Quill
         /// </summary>
         /// <remarks>
         /// <para>
-        /// QuillInjectorのコンストラクタのアクセス修飾子はprivateに設定されている為、
+        /// QuillInjectorのコンストラクタのアクセス修飾子はprotectedに設定されている為、
         /// 直接QuillInjectorのインスタンスを生成することはできない。
         /// </para>
         /// <para>
         /// QuillInjectorのインスタンスを取得する場合は当メソッドを使用する。
         /// </para>
         /// <para>
-        /// 当メソッドで取得するQuillInjectorのインスタンスはアプリケーション内で
-        /// 唯一のインスタンスとなる。
+        /// 基本的に同じインスタンスを返すが、DestroyメソッドによってQuillが持つ
+        /// 参照が破棄されている場合は新しいQuillInjectorのインスタンスを作成する。
         /// </para>
         /// </remarks>
         /// <returns>QuillInjectorのインスタンス</returns>
         public static QuillInjector GetInstance()
         {
-            // 唯一であるQuillInjectorのインスタンスを返す
+            if (quillInjector == null)
+            {
+                quillInjector = new QuillInjector();
+            }
+
+            // QuillInjectorのインスタンスを返す
             return quillInjector;
         }
 
@@ -100,6 +117,12 @@ namespace Seasar.Quill
         /// </param>
         public virtual void Inject(object target)
         {
+            if (container == null)
+            {
+                // Destroyされている場合は例外を発生する
+                throw new QuillApplicationException("EQLL0018");
+            }
+
             // フィールドを取得する
             FieldInfo[] fields = target.GetType().GetFields(
                 BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
@@ -113,6 +136,23 @@ namespace Seasar.Quill
         }
 
         /// <summary>
+        /// QuillInjectorが持つ参照を破棄する
+        /// </summary>
+        public virtual void Destroy()
+        {
+            if (container == null)
+            {
+                return;
+            }
+
+            // QuillContainerが持つ参照を破棄する
+            container.Destroy();
+
+            container = null;
+            quillInjector = null;
+        }
+
+        /// <summary>
         /// 指定するフィールドにDIする
         /// </summary>
         /// <remarks>QuillもしくはS2ContainerのコンポーネントをDIする</remarks>
@@ -123,17 +163,19 @@ namespace Seasar.Quill
             // フィールドに設定されているバインディング属性を取得する
             BindingAttribute bindingAttr = AttributeUtil.GetBindingAttr(field);
 
-            // フィールドの型(Type)に設定されている実装を指定する属性を取得する
-            ImplementationAttribute implAttr = 
-                AttributeUtil.GetImplementationAttr(field.FieldType);
-
             if (bindingAttr != null)
             {
                 // バインディング属性が設定されている場合はS2Containerの
                 // コンポーネントをDIする
                 InjectField(target, field, bindingAttr);
+                return;
             }
-            else if (implAttr != null)
+
+            // フィールドの型(Type)に設定されている実装を指定する属性を取得する
+            ImplementationAttribute implAttr = 
+                AttributeUtil.GetImplementationAttr(field.FieldType);
+
+            if (implAttr != null)
             {
                 // 実装を指定する属性が設定されている場合はQuillの
                 // コンポーネントをDiする
@@ -142,12 +184,12 @@ namespace Seasar.Quill
         }
 
         /// <summary>
-        /// 指定するフィールドにDIを行う
+        /// フィールドにバインディング属性で指定されたコンポーネントをInjectする
         /// </summary>
         /// <remarks>S2ContainerのコンポーネントをDIする</remarks>
         /// <param name="target">DIが行われるオブジェクト</param>
         /// <param name="field">DIが行われるフィールド情報</param>
-        /// <param name="bindingAttr">DIするコンポーネントを指定するバインディング属性</param>
+        /// <param name="bindingAttr">DIするコンポーネントを指定するBinding属性</param>
         protected virtual void InjectField(
             object target, FieldInfo field, BindingAttribute bindingAttr)
         {
@@ -175,7 +217,7 @@ namespace Seasar.Quill
         }
 
         /// <summary>
-        /// 指定するフィールドにDIを行う
+        /// フィールドにImplementation属性で指定されたコンポーネントをInjectする
         /// </summary>
         /// <remarks>QuillのコンポーネントをDIする</remarks>
         /// <param name="target">DIが行われるオブジェクト</param>
@@ -200,6 +242,19 @@ namespace Seasar.Quill
                 implType = implAttr.ImplementationType;
             }
 
+            // フィールドに指定されたType(implType)のコンポーネントをInjectする
+            InjectField(target, field, implType);
+        }
+
+        /// <summary>
+        /// フィールドに指定されたType(implType)のコンポーネントをInjectする
+        /// </summary>
+        /// <remarks>QuillのコンポーネントをDIする</remarks>
+        /// <param name="target">DIが行われるオブジェクト</param>
+        /// <param name="field">DIが行われるフィールド情報</param>
+        /// <param name="implType">実装クラスのType</param>
+        protected virtual void InjectField(object target, FieldInfo field, Type implType)
+        {
             // 実装クラスのインスタンスを取得する
             QuillComponent component = container.GetComponent(field.FieldType, implType);
 
@@ -207,12 +262,25 @@ namespace Seasar.Quill
             Inject(component.GetComponentObject(implType));
 
             // フィールドに値をセットする為のBindingFlags
-            BindingFlags bindingFlags = BindingFlags.Public | 
+            BindingFlags bindingFlags = BindingFlags.Public |
                 BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetField;
 
             // フィールドに実装クラスのインスタンスを注入する
             target.GetType().InvokeMember(field.Name, bindingFlags, null, target,
                 new object[] { component.GetComponentObject(field.FieldType) });
         }
+
+        #region IDisposable メンバ
+
+        /// <summary>
+        /// 保持しているQuillContainerのDisposeを呼び出す
+        /// </summary>
+        public virtual void Dispose()
+        {
+            // 保持しているQuillContainerのDisposeを呼び出す
+            container.Dispose();
+        }
+
+        #endregion
     }
 }

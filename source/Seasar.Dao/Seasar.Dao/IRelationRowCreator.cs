@@ -19,9 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Reflection;
 using Seasar.Extension.ADO;
-using Seasar.Framework.Util;
 
 namespace Seasar.Dao
 {
@@ -30,18 +28,17 @@ namespace Seasar.Dao
         /// <summary>
         /// 1行分のオブジェクトを作成する
         /// </summary>
-        /// <param name="reader">IDataReader</param>
-        /// <param name="columns">Columnのメタデータ</param>
         /// <returns>1行分のEntity型のオブジェクト</returns>
         object CreateRelationRow(IDataReader reader, IRelationPropertyType rpt,
             System.Collections.IList columnNames, System.Collections.Hashtable relKeyValues,
-            IDictionary<string, IDictionary<string, IColumnMetaData>> columnMetaDataDic);
+            IDictionary<String, IDictionary<String, IPropertyType>> relationPropertyCache);
 
         /// <summary>
-        /// Columnのメタデータを作成する
+        /// 関連のプロパティキャッシュを作成する
         /// </summary>
         /// <param name="columnNames">カラム名のリスト</param>
-        /// <returns>Columnのメタデータの配列</returns>
-        IDictionary<string, IDictionary<string, IColumnMetaData>> CreateRelationColumnMetaData(System.Collections.IList columnNames, IBeanMetaData beanMetaData);
+        /// <param name="bmd">メタ情報</param>
+        /// <returns>関連のプロパティキャッシュ</returns>
+        IDictionary<String, IDictionary<String, IPropertyType>> CreateRelationPropertyCache(System.Collections.IList columnNames, IBeanMetaData bmd);
     }
 }

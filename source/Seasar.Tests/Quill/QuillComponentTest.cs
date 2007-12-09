@@ -53,6 +53,26 @@ namespace Seasar.Tests.Quill
             Assert.IsNull(ret);
         }
 
+        [Test]
+        public void TestGetComponentObject_Destroy済みの場合()
+        {
+            QuillComponent component = new QuillComponent(
+                typeof(ArrayList), typeof(ArrayList), new IAspect[] { });
+
+            component.Destroy();
+
+            try
+            {
+                component.GetComponentObject(typeof(ArrayList));
+                Assert.Fail();
+            }
+            catch (QuillApplicationException ex)
+            {
+                Assert.AreEqual("EQLL0018", ex.MessageCode);
+            }
+
+        }
+
         #endregion
 
         #region QuillComponentのテスト
@@ -164,6 +184,115 @@ namespace Seasar.Tests.Quill
             private Hoge3()
             {
             }
+        }
+
+        #endregion
+
+        #region Disposeのテスト
+
+        [Test]
+        public void TestDispose_コンポーネントがIDisposableを実装している場合()
+        {
+            Type type = typeof(DisposableClass);
+
+            QuillComponent component = new QuillComponent(type, type, new IAspect[0]);
+
+            component.Dispose();
+
+            DisposableClass disposable =
+                (DisposableClass)component.GetComponentObject(type);
+
+            Assert.IsTrue(disposable.Disposed);
+        }
+
+        [Test]
+        public void TestDispose_コンポーネントがIDisposableを実装していない場合()
+        {
+            Type type = typeof(NotDisposableClass);
+
+            QuillComponent component = new QuillComponent(type, type, new IAspect[0]);
+
+            component.Dispose();
+        }
+
+        [Test]
+        public void TestDispose_Destroy済みの場合()
+        {
+            Type type = typeof(DisposableClass);
+
+            QuillComponent component = new QuillComponent(type, type, new IAspect[0]);
+
+            component.Destroy();
+
+            try
+            {
+                component.Dispose();
+                Assert.Fail();
+            }
+            catch (QuillApplicationException ex)
+            {
+                Assert.AreEqual("EQLL0018", ex.MessageCode);
+            }
+        }
+
+        #endregion
+
+        #region Disposeのテストで使用する内部クラス
+
+        public class NotDisposableClass
+        {
+        }
+
+        public class DisposableClass : IDisposable
+        {
+            public bool Disposed = false;
+
+            #region IDisposable メンバ
+
+            public void Dispose()
+            {
+                Disposed = true;
+            }
+
+            #endregion
+        }
+
+        #endregion
+
+        #region Destoryのテスト
+
+        [Test]
+        public void TestDestroy()
+        {
+            QuillComponent component = new QuillComponent(
+                typeof(ArrayList), typeof(ArrayList), new IAspect[] { });
+
+            component.Destroy();
+
+            Assert.IsNull(component.ComponentType);
+            Assert.IsNull(component.ReceiptType);
+
+            try
+            {
+                component.GetComponentObject(typeof(ArrayList));
+                Assert.Fail();
+            }
+            catch (QuillApplicationException ex)
+            {
+                Assert.AreEqual("EQLL0018", ex.MessageCode);
+            }
+
+            try
+            {
+                component.Dispose();
+                Assert.Fail();
+            }
+            catch (QuillApplicationException ex)
+            {
+                Assert.AreEqual("EQLL0018", ex.MessageCode);
+            }
+
+            component.Destroy();
         }
 
         #endregion

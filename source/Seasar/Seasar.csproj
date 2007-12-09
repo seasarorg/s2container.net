@@ -299,6 +299,8 @@
     <Compile Include="Seasar.Extension.ADO\Impl\BeanGenericListDataReaderHandler.cs" />
     <Compile Include="Seasar.Extension.ADO\Impl\NoReplaceDbParameterParser.cs" />
     <Compile Include="Seasar.Extension.ADO\Impl\BasicDbParameterParser.cs" />
+    <Compile Include="Seasar.Extension.ADO\Impl\DataProviderDataSource.cs" />
+    <Compile Include="Seasar.Extension.ADO\Impl\DbProviderFactoryDataSource.cs" />
     <Compile Include="Seasar.Extension.ADO\IPropertyType.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -551,6 +553,14 @@
     <Compile Include="Seasar.Framework.Container\Assembler\ManualPropertyAssembler.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Framework.Container\AutoRegister\AbstractAutoRegister.cs" />
+    <Compile Include="Seasar.Framework.Container\AutoRegister\AbstractComponentTargetAutoRegister.cs" />
+    <Compile Include="Seasar.Framework.Container\AutoRegister\AspectAutoRegister.cs" />
+    <Compile Include="Seasar.Framework.Container\AutoRegister\AssemblyComponentAutoRegister.cs" />
+    <Compile Include="Seasar.Framework.Container\AutoRegister\ClassPattern.cs" />
+    <Compile Include="Seasar.Framework.Container\AutoRegister\AbstractComponentAutoRegister.cs" />
+    <Compile Include="Seasar.Framework.Container\AutoRegister\DefaultAutoNaming.cs" />
+    <Compile Include="Seasar.Framework.Container\AutoRegister\IAutoNaming.cs" />
     <Compile Include="Seasar.Framework.Container\ComponentNotFoundRuntimeException.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -797,6 +807,7 @@
     <Compile Include="Seasar.Framework.Exceptions\TypeUnmatchRuntimeException.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Framework.Exceptions\ConfigurationManagerException.cs" />
     <Compile Include="Seasar.Framework.Log\Logger.cs">
       <SubType>Code</SubType>
     </Compile>

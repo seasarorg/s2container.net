@@ -155,7 +155,7 @@ namespace Seasar.Tests.Extension
 
         public override int GetHashCode()
         {
-            return (int) this.Id;
+            return (int) Id;
         }
 
         public override string ToString()

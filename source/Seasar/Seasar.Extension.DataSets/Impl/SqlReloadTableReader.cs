@@ -44,7 +44,7 @@ namespace Seasar.Extension.DataSets.Impl
             }
             finally
             {
-                DataSourceUtil.CloseConnection(dataSource, con);
+                _dataSource.CloseConnection(con);
             }
             SetUp();
         }

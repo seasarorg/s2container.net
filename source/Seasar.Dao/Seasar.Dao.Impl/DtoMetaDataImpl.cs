@@ -30,13 +30,11 @@ namespace Seasar.Dao.Impl
     {
         private Type _beanType;
 
-#if NET_1_1
-        private readonly Hashtable _propertyTypes = new Hashtable(
-            CaseInsensitiveHashCodeProvider.Default, CaseInsensitiveComparer.Default);
-#else
         private readonly Hashtable _propertyTypes = new Hashtable(
             StringComparer.OrdinalIgnoreCase);
-#endif
+
+        private readonly Hashtable _methodInfos = new Hashtable(
+            StringComparer.OrdinalIgnoreCase);
 
         protected IBeanAnnotationReader _beanAnnotationReader;
 
@@ -54,6 +52,7 @@ namespace Seasar.Dao.Impl
         public virtual void Initialize()
         {
             SetupPropertyType();
+            SetupMethodInfo();
         }
 
         #region IDtoMetaData メンバ
@@ -78,6 +77,14 @@ namespace Seasar.Dao.Impl
             }
         }
 
+        public int MethodInfoSize
+        {
+            get
+            {
+                return _methodInfos.Count;
+            }
+        }
+
         public IBeanAnnotationReader BeanAnnotationReader
         {
             set { _beanAnnotationReader = value; }
@@ -90,6 +97,13 @@ namespace Seasar.Dao.Impl
             return (IPropertyType) _propertyTypes[enu.Current];
         }
 
+        public MethodInfo GetMethodInfo(int index)
+        {
+            IEnumerator enu = _methodInfos.Keys.GetEnumerator();
+            for ( int i = -1; i < index; ++i ) enu.MoveNext();
+            return (MethodInfo)_methodInfos[enu.Current];
+        }
+
         public IPropertyType GetPropertyType(string propertyName)
         {
             IPropertyType propertyType = (IPropertyType) _propertyTypes[propertyName];
@@ -98,9 +112,22 @@ namespace Seasar.Dao.Impl
             return propertyType;
         }
 
+        public MethodInfo GetMethodInfo(string methodName)
+        {
+            MethodInfo methodInfo = (MethodInfo)_methodInfos[methodName];
+            if ( methodInfo == null )
+                throw new MethodNotFoundRuntimeException(_beanType, methodName, null);
+            return methodInfo;
+        }
+
         public bool HasPropertyType(string propertyName)
         {
             return _propertyTypes.Contains(propertyName);
+        }
+
+        public bool HasMethodInfo(string methodName)
+        {
+            return _methodInfos.Contains(methodName);
         }
 
         #endregion
@@ -111,6 +138,14 @@ namespace Seasar.Dao.Impl
             {
                 IPropertyType pt = CreatePropertyType(pi);
                 AddPropertyType(pt);
+            }
+        }
+
+        protected virtual void SetupMethodInfo()
+        {
+            foreach ( MethodInfo mi in _beanType.GetMethods() )
+            {
+                AddMethodInfo(mi);
             }
         }
 
@@ -129,6 +164,15 @@ namespace Seasar.Dao.Impl
         protected virtual void AddPropertyType(IPropertyType propertyType)
         {
             _propertyTypes.Add(propertyType.PropertyName, propertyType);
+        }
+
+        protected virtual void AddMethodInfo(MethodInfo methodInfo)
+        {
+            //  引数をもたないメソッド情報のみ保持
+            if ( methodInfo.GetParameters().Length == 0 )
+            {
+                _methodInfos.Add(methodInfo.Name, methodInfo);
+            }
         }
     }
 }

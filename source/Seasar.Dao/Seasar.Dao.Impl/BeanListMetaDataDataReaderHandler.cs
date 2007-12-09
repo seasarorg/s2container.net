@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Reflection;
 using Seasar.Extension.ADO;
+using System;
 
 namespace Seasar.Dao.Impl
 {
@@ -45,7 +46,7 @@ namespace Seasar.Dao.Impl
             System.Collections.IList columnNames = CreateColumnNames(dataReader.GetSchemaTable());
 
             IColumnMetaData[] columns = null;// [DAONET-56] (2007/08/29)
-            IDictionary<string, IDictionary<string, IColumnMetaData>> relationColumnMetaData = null;
+            IDictionary<String, IDictionary<String, IPropertyType>> relationPropertyCache = null;
 
             int relSize = BeanMetaData.RelationPropertyTypeSize;
             RelationRowCache relRowCache = new RelationRowCache(relSize);
@@ -55,8 +56,8 @@ namespace Seasar.Dao.Impl
                 if (columns == null) {
                     columns = CreateColumnMetaData(columnNames);
                 }
-                if (relationColumnMetaData == null) {
-                    relationColumnMetaData = CreateRelationColumnMetaData(columnNames);
+                if (relationPropertyCache == null) {
+                    relationPropertyCache = CreateRelationPropertyCache(columnNames);
                 }
 
                 object row = CreateRow(dataReader, columns);
@@ -75,7 +76,7 @@ namespace Seasar.Dao.Impl
                         if (relRow == null)
                         {
                             relRow = CreateRelationRow(dataReader, rpt, columnNames,
-                                relKeyValues, relationColumnMetaData);
+                                relKeyValues, relationPropertyCache);
                             relRowCache.AddRelationRow(i, relKey, relRow);
                         }
                     }

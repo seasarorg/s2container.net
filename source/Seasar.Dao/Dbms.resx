@@ -66,4 +66,7 @@
 	<data name="OdbcConnection_DB2CLI.DLL">
 		<value>Seasar.Dao.Dbms.DB2</value>
 	</data>
+	<data name="SQLiteConnection">
+		<value>Seasar.Dao.Dbms.SQLite</value>
+	</data>
 </root>

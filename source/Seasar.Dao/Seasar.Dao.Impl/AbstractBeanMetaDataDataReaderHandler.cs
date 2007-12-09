@@ -16,9 +16,9 @@
  */
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Reflection;
 using Seasar.Extension.ADO;
 using Seasar.Framework.Util;
 
@@ -29,6 +29,8 @@ namespace Seasar.Dao.Impl
     {
         private readonly IBeanMetaData _beanMetaData;
 
+        private string[] _clearModifiedOnlyPropertyNamePrefixes = new string[] { "Clear" }; // [DAONET-57] 2007/10/02
+
         protected IRowCreator _rowCreator;// [DAONET-56] (2007/08/29)
 
         protected IRelationRowCreator _relationRowCreator;// [DAONET-56] (2007/08/29)
@@ -38,6 +40,7 @@ namespace Seasar.Dao.Impl
         /// </summary>
         /// <param name="beanMetaData">Bean meta data. (NotNull)</param>
         /// <param name="rowCreator">Row creator. (NotNull)</param>
+        /// <param name="relationRowCreator">Relation row creator. (NotNull)</param>
         public AbstractBeanMetaDataDataReaderHandler(IBeanMetaData beanMetaData, IRowCreator rowCreator, IRelationRowCreator relationRowCreator)
         {
             _beanMetaData = beanMetaData;
@@ -68,17 +71,22 @@ namespace Seasar.Dao.Impl
         /// <returns>1行分のEntity型のオブジェクト (NotNull)</returns>
         protected virtual object CreateRow(IDataReader reader, IColumnMetaData[] columns)
         {
-            return _rowCreator.CreateRow(reader, columns, _beanMetaData.BeanType);
+            object row = _rowCreator.CreateRow(reader, columns, _beanMetaData.BeanType);
+            if ( row != null )
+            {
+                BeanMetaData.ClearModifiedPropertyNames(row);
+            }
+            return row;
         }
 
         /// <summary>
-        /// 関連オブジェクトのColumnのメタデータを作成する
+        /// 関連オブジェクトのプロパティキャッシュを作成する
         /// </summary>
         /// <param name="columnNames">カラム名のリスト (NotNull)</param>
-        /// <returns>関連オブジェクトのColumnのメタデータのDictionary (NotNull)</returns>
-        protected virtual IDictionary<string, IDictionary<string, IColumnMetaData>> CreateRelationColumnMetaData(System.Collections.IList columnNames)
+        /// <returns>関連オブジェクトのプロパティキャッシュ (NotNull)</returns>
+        protected virtual IDictionary<string, IDictionary<string, IPropertyType>> CreateRelationPropertyCache(System.Collections.IList columnNames)
         {
-            return _relationRowCreator.CreateRelationColumnMetaData(columnNames, _beanMetaData);
+            return _relationRowCreator.CreateRelationPropertyCache(columnNames, _beanMetaData);
         }
 
         /// <summary>
@@ -88,18 +96,22 @@ namespace Seasar.Dao.Impl
         /// <param name="rpt">Relation property type. (NotNull)</param>
         /// <param name="columnNames">The list of column name. (NotNull)</param>
         /// <param name="relKeyValues">The hashtable of rel key values. (NotNull)</param>
-        /// <param name="relationColumnMetaDataCache">The dictionary of relation column meta data cache. (NotNull)</param>
+        /// <param name="relationColumnMetaDataCache">The dictionary of relation property cache. (NotNull)</param>
         /// <returns>1行分のEntity型のオブジェクト (Nullable)</returns>
         protected virtual object CreateRelationRow(IDataReader reader, IRelationPropertyType rpt,
             System.Collections.IList columnNames, System.Collections.Hashtable relKeyValues,
-            IDictionary<string, IDictionary<string, IColumnMetaData>> relationColumnMetaDataCache)
+            IDictionary<String, IDictionary<String, IPropertyType>> relationColumnMetaDataCache)
         {
-            return _relationRowCreator.CreateRelationRow(reader, rpt, columnNames, relKeyValues, relationColumnMetaDataCache);
+            object relationRow = _relationRowCreator.CreateRelationRow(reader, rpt, columnNames, relKeyValues, relationColumnMetaDataCache);
+            if ( relationRow != null )
+            {
+                rpt.BeanMetaData.ClearModifiedPropertyNames(relationRow);
+            }
+            return relationRow;
         }
 
-
-
-        protected virtual bool IsTargetProperty(IPropertyType pt) {// [DAONET-56] (2007/08/29)
+        protected virtual bool IsTargetProperty(IPropertyType pt)
+        {// [DAONET-56] (2007/08/29)
             return pt.PropertyInfo.CanWrite;
         }
 
@@ -121,7 +133,7 @@ namespace Seasar.Dao.Impl
 
         #region IDataReaderHandler メンバ
 
-        public virtual object Handle(System.Data.IDataReader dataReader)
+        public virtual object Handle(IDataReader dataReader)
         {
             return null;
         }

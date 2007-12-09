@@ -56,6 +56,25 @@ namespace Seasar.Tests.Quill
                 component2.GetComponentObject(typeof(Hoge2)));
         }
 
+        [Test]
+        public void TestGetComponent_Destroy済みの場合()
+        {
+            QuillContainer container = new QuillContainer();
+            container.GetComponent(typeof(Hoge2));
+
+            container.Destroy();
+
+            try
+            {
+                container.GetComponent(typeof(Hoge2));
+                Assert.Fail();
+            }
+            catch (QuillApplicationException ex)
+            {
+                Assert.AreEqual("EQLL0018", ex.MessageCode);
+            }
+        }
+
         #endregion
 
         #region GetComponentのテストで使用する内部クラス・インターフェース
@@ -78,8 +97,122 @@ namespace Seasar.Tests.Quill
                 return null;
             }
         }
-        
+
         #endregion
 
+        #region Disposeのテスト
+
+        [Test]
+        public void TestDispose()
+        {
+            QuillContainer container = new QuillContainer();
+            QuillComponent component = 
+                container.GetComponent(typeof(NotDisposableClass));
+            QuillComponent component2 = container.GetComponent(typeof(DisposableClass));
+
+            container.Dispose();
+
+            DisposableClass disposable = 
+                (DisposableClass) component2.GetComponentObject(typeof(DisposableClass));
+
+            Assert.IsTrue(disposable.Disposed);
+        }
+
+        [Test]
+        public void TestDispose_Destroy済みの場合()
+        {
+            QuillContainer container = new QuillContainer();
+            container.GetComponent(typeof(DisposableClass));
+
+            container.Destroy();
+
+            try
+            {
+                container.GetComponent(typeof(DisposableClass));
+                Assert.Fail();
+            }
+            catch (QuillApplicationException ex)
+            {
+                Assert.AreEqual("EQLL0018", ex.MessageCode);
+            }
+        }
+
+        #endregion
+
+        #region Disposeのテストで使用する内部クラス
+
+        public class NotDisposableClass
+        {
+        }
+
+        public class DisposableClass : IDisposable
+        {
+            public bool Disposed = false;
+
+            #region IDisposable メンバ
+
+            public void Dispose()
+            {
+                Disposed = true;
+            }
+
+            #endregion
+        }
+
+        #endregion
+
+        #region Destroyのテスト
+
+        [Test]
+        public void TestDestroy()
+        {
+
+            QuillContainer container = new QuillContainer();
+            container.GetComponent(typeof(HogeDestroy));
+
+            container.Destroy();
+
+            try
+            {
+                container.GetComponent(typeof(HogeDestroy));
+                Assert.Fail();
+            }
+            catch (QuillApplicationException ex)
+            {
+                Assert.AreEqual("EQLL0018", ex.MessageCode);
+            }
+
+            try
+            {
+                container.Dispose();
+                Assert.Fail();
+            }
+            catch (QuillApplicationException ex)
+            {
+                Assert.AreEqual("EQLL0018", ex.MessageCode);
+            }
+
+            container.Destroy();
+        }
+
+        #endregion
+
+        #region Destroyのテストで使用する内部クラス
+
+        [Aspect(typeof(HogeDestoryInterceptor))]
+        public interface HogeDestroy
+        {
+            void Fuga();
+        }
+
+        public class HogeDestoryInterceptor : IMethodInterceptor
+        {
+            public object Invoke(IMethodInvocation invocation)
+            {
+                return null;
+            }
+        }
+
+        #endregion 
     }
 }

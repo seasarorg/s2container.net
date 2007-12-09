@@ -34,7 +34,7 @@ namespace Seasar.Quill
     /// コンストラクタで初期化を行う際にコンポーネントのオブジェクト
     /// をインスタンス化する
     /// </remarks>
-    public class QuillComponent
+    public class QuillComponent : IDisposable
     {
         /// <summary>
         /// コンポーネントのType
@@ -55,6 +55,8 @@ namespace Seasar.Quill
         protected Dictionary<Type, object> componentObjects = 
             new Dictionary<Type, object>(2);
 
+        #region プロパティ
+
         /// <summary>
         /// コンポーネントのTypeを取得する
         /// </summary>
@@ -72,6 +74,10 @@ namespace Seasar.Quill
         {
             get { return receiptType; }
         }
+
+        #endregion
+
+        #region コンストラクタ
 
         /// <summary>
         /// QuillComponentを初期化するコンストラクタ
@@ -99,6 +105,93 @@ namespace Seasar.Quill
             }
         }
 
+        #endregion
+
+        #region public メソッド
+
+        /// <summary>
+        /// コンポーネントのオブジェクトを取得する
+        /// </summary>
+        /// <param name="type">コンポーネントを受け取るフィールドのType</param>
+        /// <returns>
+        /// コンポーネントのオブジェクト
+        /// <para>typeに対応するオブジェクトがない場合はnullを返す</para>
+        /// </returns>
+        public virtual object GetComponentObject(Type type)
+        {
+            if (componentObjects == null)
+            {
+                // Destroyされている場合は例外を発生する
+                throw new QuillApplicationException("EQLL0018");
+            }
+
+            if (componentObjects.ContainsKey(type))
+            {
+                // 対応するオブジェクトを格納している場合は返す
+                return componentObjects[type];
+            }
+            else
+            {
+                // 対応するオブジェクトを格納していない場合はnullを返す
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// QuillComponentが持つ参照を破棄する
+        /// </summary>
+        public virtual void Destroy()
+        {
+            if (componentObjects == null)
+            {
+                return;
+            }
+
+            // アンマネージリソースを解放する
+            Dispose();
+
+            componentObjects[componentType] = null;
+
+            if (componentType != null && !componentType.Equals(receiptType))
+            {
+                // 受け側の型が異なる場合は受け側の型で格納されているオブジェクトへの参照も破棄する
+                componentObjects[receiptType] = null;
+            }
+
+            componentObjects = null;
+            componentType = null;
+            receiptType = null;
+        }
+
+        #region IDisposable メンバ
+
+        /// <summary>
+        /// コンポーネントがIDisposableを実装している場合はDisposeを呼び出す
+        /// </summary>
+        public virtual void Dispose()
+        {
+            if (componentObjects == null)
+            {
+                // Destroyされている場合は例外を発生する
+                throw new QuillApplicationException("EQLL0018");
+            }
+
+            // IDisposableを実装している場合はキャストする(実装していない場合はnull)
+            IDisposable disposable = componentObjects[componentType] as IDisposable;
+
+            if (disposable != null)
+            {
+                // IDisposableを実装している場合はDisposeを呼び出す
+                disposable.Dispose();
+            }
+        }
+
+        #endregion
+
+        #endregion
+
+        #region protected メソッド
+
         /// <summary>
         /// 実装クラスのインスタンスを作成する
         /// </summary>
@@ -121,7 +214,7 @@ namespace Seasar.Quill
 
             // インスタンスを作成する
             object obj = Activator.CreateInstance(componentType);
-            
+
             // 実装クラスの型で格納する
             componentObjects[componentType] = obj;
 
@@ -154,7 +247,7 @@ namespace Seasar.Quill
             parameters[ContainerConstants.COMPONENT_DEF_NAME] = componentDef;
 
             // DynamicAopProxyを作成する
-            DynamicAopProxy aopProxy = 
+            DynamicAopProxy aopProxy =
                 new DynamicAopProxy(componentType, aspects, parameters);
 
             // ProxyObjectを作成する
@@ -169,26 +262,6 @@ namespace Seasar.Quill
             }
         }
 
-        /// <summary>
-        /// コンポーネントのオブジェクトを取得する
-        /// </summary>
-        /// <param name="type">コンポーネントを受け取るフィールドのType</param>
-        /// <returns>
-        /// コンポーネントのオブジェクト
-        /// <para>typeに対応するオブジェクトがない場合はnullを返す</para>
-        /// </returns>
-        public virtual object GetComponentObject(Type type)
-        {
-            if (componentObjects.ContainsKey(type))
-            {
-                // 対応するオブジェクトを格納している場合は返す
-                return componentObjects[type];
-            }
-            else
-            {
-                // 対応するオブジェクトを格納していない場合はnullを返す
-                return null;
-            }
-        }
+        #endregion
     }
 }

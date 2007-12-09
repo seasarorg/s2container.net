@@ -16,6 +16,7 @@
  */
 #endregion
 
+using System.Collections;
 using Seasar.Extension.ADO;
 
 namespace Seasar.Dao
@@ -44,5 +45,7 @@ namespace Seasar.Dao
         IIdentifierGenerator IdentifierGenerator { get; }
         string AutoSelectList { get; }
         bool IsRelation { get; }
+        IDictionary GetModifiedPropertyNames(object bean);
+        void ClearModifiedPropertyNames(object bean);
     }
 }

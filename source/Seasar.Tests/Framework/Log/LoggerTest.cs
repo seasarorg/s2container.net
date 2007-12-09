@@ -48,7 +48,7 @@ namespace Seasar.Tests.Framework.Log
         [Test]
         public void TestGetLogger()
         {
-            Assert.AreEqual(_logger, Logger.GetLogger(this.GetType()));
+            Assert.AreEqual(_logger, Logger.GetLogger(GetType()));
         }
 
         [Test]

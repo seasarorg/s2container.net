@@ -39,6 +39,14 @@ namespace Seasar.Extension.ADO.Impl
             return _holderConnection;
         }
 
+        public virtual void CloseConnection(IDbConnection connection)
+        {
+            if (!IsHolderConnection)
+            {
+                Current.CloseConnection(connection);
+            }
+        }
+
         public IDbCommand GetCommand()
         {
             return _dataSource.GetCommand();
@@ -108,6 +116,11 @@ namespace Seasar.Extension.ADO.Impl
         public virtual IDbTransaction GetTransaction()
         {
             return _dataSource.GetTransaction();
+        }
+
+        public virtual void SetTransaction(IDbCommand cmd)
+        {
+            Current.SetTransaction(cmd);
         }
 
         public IDataSource Current

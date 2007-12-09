@@ -12,9 +12,14 @@
   </component>
 
   <!-- データソース -->
+  <!--
   <component name="SqlDataSource" class="Seasar.Extension.Tx.Impl.TxDataSource">
     <property name="DataProvider">Ex.SqlClient</property>
-    <property name="ConnectionString">"Server=(local);database=s2dotnetdemo;Integrated Security=SSPI"</property>
+    <property name="ConnectionString">"Server=localhost\\SQLEXPRESS;database=s2dotnetdemo;Integrated Security=SSPI"</property>
+  </component>
+  -->
+  <component name="SqlDataSource" class="Seasar.Extension.Tx.Impl.TxDataSource">
+    <property name="ProviderInvariantName">"provider"</property>
   </component>
 
   <!-- S2Dao.NETのDaoInterceptorとそれに必要なコンポーネント -->

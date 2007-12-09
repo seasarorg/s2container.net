@@ -34,7 +34,7 @@ namespace Seasar.Quill.Util
         /// 実装クラスを指定する為に設定されている属性
         /// (<see cref="Seasar.Quill.Attrs.ImplementationAttribute"/>)を取得する
         /// </summary>
-        /// <param name="type">属性を確認するType</param>
+        /// <param name="type">属性を確認するクラスもしくはインターフェースのType</param>
         /// <returns>実装クラスが指定された属性</returns>
         public static ImplementationAttribute GetImplementationAttr(Type type)
         {
@@ -216,6 +216,63 @@ namespace Seasar.Quill.Util
 
             // Binding属性を返す
             return bindingAttr;
+        }
+
+        #endregion
+
+        #region MockAttribute
+
+        /// <summary>
+        /// Mockを指定する為に設定されている属性
+        /// (<see cref="Seasar.Quill.Attrs.MockAttribute"/>)を取得する
+        /// </summary>
+        /// <param name="type">属性を確認するクラスのType</param>
+        /// <returns>Mockクラスが指定された属性</returns>
+        public static MockAttribute GetMockAttr(Type type)
+        {
+            // 実装クラスを指定する属性を取得する
+            MockAttribute mockAttr = (MockAttribute)Attribute.GetCustomAttribute(
+                type, typeof(MockAttribute));
+
+            if (mockAttr == null)
+            {
+                // Mock属性が指定されていない場合はnullを返す
+                return null;
+            }
+
+            // Mock属性に指定されたMockクラスのType
+            Type mockType = mockAttr.MockType;
+
+            if (mockType == null)
+            {
+                // クラスのMock属性にクラスが指定されていない場合は例外をスローする
+                throw new QuillApplicationException("EQLL0019",
+                    new object[] {  });
+            }
+
+            if (mockType.IsInterface)
+            {
+                // Mock属性にインターフェースが指定されている場合は例外をスローする
+                throw new QuillApplicationException("EQLL0020", 
+                    new object[] { mockType.FullName });
+            }
+
+            if (mockType.IsAbstract)
+            {
+                // Mock属性に抽象クラスが指定されている場合は例外をスローする
+                throw new QuillApplicationException("EQLL0021",
+                    new object[] { mockType.FullName });
+            }
+
+            if (!type.IsAssignableFrom(mockType))
+            {
+                // 代入不可能なクラスが指定されている場合は例外をスローする
+                throw new QuillApplicationException("EQLL0022",
+                    new object[] { type.FullName, mockType.FullName });
+            }
+
+            // Mockクラスを指定する属性を返す
+            return mockAttr;
         }
 
         #endregion

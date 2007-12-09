@@ -25,7 +25,7 @@ using System.Runtime.InteropServices;
 // アセンブリに関連付けられている情報を変更するには、
 // これらの属性値を変更してください。
 [assembly: AssemblyTitle("Seasar.Quill")]
-[assembly: AssemblyDescription("S2Container.NET 1.3.0")]
+[assembly: AssemblyDescription("Simple DI + AOP")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Seasar.Quill")]
@@ -50,5 +50,5 @@ using System.Runtime.InteropServices;
 //
 // すべての値を指定するか、下のように '*' を使ってリビジョンおよびビルド番号を 
 // 既定値にすることができます:
-[assembly: AssemblyVersion("1.3.0.0")]
-[assembly: AssemblyFileVersion("1.3.0.0")]
+[assembly: AssemblyVersion("1.3.5.0")]
+[assembly: AssemblyFileVersion("1.3.5.0")]

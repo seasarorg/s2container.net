@@ -37,7 +37,11 @@ namespace Seasar.Tests.Dao.Impl
         [Query("empno=/*empno*/")]
         Employee GetEmployee(int empno);
 
+        [SqlFile]
         int GetCount();
+
+        [SqlFile("Seasar.Tests/Dao.Impl.SqlFile.GetCount.sql")]
+        int GetCount2();
 
         void Update(Employee employee);
 

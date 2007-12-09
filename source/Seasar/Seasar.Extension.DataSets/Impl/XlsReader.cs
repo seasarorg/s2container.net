@@ -27,7 +27,7 @@ namespace Seasar.Extension.DataSets.Impl
     public class XlsReader : IDataReader
     {
         private const int DEFAULT_BUFFER_SIZE = 1024 * 4;
-        private static readonly Regex ILLIGAL_COLUMN_NAME_PATTERN = new Regex("F[0-9]+$", RegexOptions.Compiled);
+        private static readonly Regex ILLIGAL_COLUMN_NAME_PATTERN = new Regex("^F[0-9]+$", RegexOptions.Compiled);
         private static readonly Regex WORK_SHEET_PREFIX_PATTERN = new Regex(@"^#[0-9]+\s+.+$", RegexOptions.Compiled);
         private readonly DataSet _dataSet;
 
@@ -47,7 +47,7 @@ namespace Seasar.Extension.DataSets.Impl
             using (Stream fs = new FileStream(tempPath, FileMode.Create, FileAccess.Write))
             {
                 byte[] b = new byte[DEFAULT_BUFFER_SIZE];
-                int n = 0;
+                int n;
                 while (0 < (n = stream.Read(b, 0, b.Length)))
                 {
                     fs.Write(b, 0, n);
@@ -91,7 +91,7 @@ namespace Seasar.Extension.DataSets.Impl
 
                 foreach (DataRow row in tableList.Rows)
                 {
-                    string tableName = (string) row["TABLE_NAME"];
+                    string tableName = (string)row["TABLE_NAME"];
                     if (!tableName.EndsWith("$") && !tableName.EndsWith("$'"))
                     {
                         continue;
@@ -152,6 +152,7 @@ namespace Seasar.Extension.DataSets.Impl
                     isRemove = true;
                 }
 
+                // カラム名未入力時、F01, F02 ... のカラムを取得する場合があるので無視する。
                 if (ILLIGAL_COLUMN_NAME_PATTERN.IsMatch(columnName))
                 {
                     isRemove = true;

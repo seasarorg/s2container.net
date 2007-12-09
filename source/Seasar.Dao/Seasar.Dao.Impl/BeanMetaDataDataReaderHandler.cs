@@ -19,6 +19,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Reflection;
+using Seasar.Extension.ADO;
 
 namespace Seasar.Dao.Impl
 {
@@ -36,7 +37,7 @@ namespace Seasar.Dao.Impl
             {
                 System.Collections.IList columnNames = CreateColumnNames(dataReader.GetSchemaTable());
                 IColumnMetaData[] columns = CreateColumnMetaData(columnNames);
-                IDictionary<string, IDictionary<string, IColumnMetaData>> relationColumnMetaData = CreateRelationColumnMetaData(columnNames);
+                IDictionary<string, IDictionary<string, IPropertyType>> relationPropertyCache = CreateRelationPropertyCache(columnNames);
                 object row = CreateRow(dataReader, columns);
                 for (int i = 0; i < BeanMetaData.RelationPropertyTypeSize; ++i)
                 {
@@ -44,7 +45,7 @@ namespace Seasar.Dao.Impl
                         .GetRelationPropertyType(i);
                     if (rpt == null) continue;
                     object relationRow = CreateRelationRow(dataReader, rpt,
-                        columnNames, null, relationColumnMetaData);
+                        columnNames, null, relationPropertyCache);
                     if (relationRow != null)
                     {
                         PropertyInfo pi = rpt.PropertyInfo;

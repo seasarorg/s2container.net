@@ -86,7 +86,7 @@ namespace Seasar.Extension.ADO.Impl
                     IDbCommand cmd = _dataSource.GetCommand(sql, cn);
 
                     // Transaction‚Ìˆ—‚ğs‚¤
-                    DataSourceUtil.SetTransaction(_dataSource, cmd);
+                    _dataSource.SetTransaction(cmd);
 
                     // IDataAdapter‚ğæ“¾‚·‚é
                     IDataAdapter adapter = _dataSource.GetDataAdapter(cmd);
@@ -116,7 +116,7 @@ namespace Seasar.Extension.ADO.Impl
                 finally
                 {
                     // IDbConnection‚ÌCloseˆ—‚ğs‚¤
-                    DataSourceUtil.CloseConnection(_dataSource, cn);
+                    _dataSource.CloseConnection(cn);
                 }
             }
         }
