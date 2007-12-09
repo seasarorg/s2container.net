@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
+"http://www.seasar.org/dtd/components21.dtd">
+<components >
+    
+    <include path="Ex.dicon" />
+        
+    <component name="AppContext" class="Seasar.Windows.S2ApplicationContext" >
+       <arg>container</arg>
+       <!-- MainFormを初期起動フォームに変更します。 -->
+       <property name="MainForm">FrmMain</property>
+    </component>
+    
+    <!-- 画面遷移用ディスパッチャー -->
+    <component name="FormInterceptorr" class="Seasar.Windows.AOP.Interceptors.FormInterceptor" />
+         
+    <!-- ここからはWindowForm。この下を修正します。 -->
+    
+    <component name="FrmMain" class="Seasar.S2FormExample.Forms.FrmMainMenu" />
+    <component class="Seasar.S2FormExample.Forms.FrmDepartmentEdit" />
+    <component class="Seasar.S2FormExample.Forms.FrmDepartmentList" />
+    <component class="Seasar.S2FormExample.Forms.FrmEmployeeEdit" />
+    <component class="Seasar.S2FormExample.Forms.FrmEmployeeList" />
+
+</components>

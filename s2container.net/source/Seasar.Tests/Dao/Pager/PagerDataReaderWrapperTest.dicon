@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN" "http://www.seasar.org/dtd/components21.dtd">
+
+<components namespace="Pager">
+  <include path="Seasar.Tests.Ado.dicon"/>
+  <include path="Seasar.Tests.LocalTx.dicon" />
+
+  <component name="commandFactory" class="Seasar.Extension.ADO.Impl.BasicCommandFactory" />
+  <component name="dataReaderFactory" class="Seasar.Dao.Pager.PagerDataReaderFactoryWrapper" >
+    <arg>
+      <component class="Seasar.Extension.ADO.Impl.BasicDataReaderFactory" />
+    </arg>
+    <arg>commandFactory</arg>
+  </component>
+  <component class="Seasar.Dao.Impl.FieldAnnotationReaderFactory" />
+  <component class="Seasar.Dao.Pager.PagingDaoMetaDataFactory" />
+  <component name="Interceptor" class="Seasar.Dao.Pager.PagerS2DaoInterceptorWrapper">
+    <arg>
+      <component class="Seasar.Dao.Interceptors.S2DaoInterceptor" />
+    </arg>
+  </component>
+  <component class="Seasar.Tests.Dao.Pager.IEmployeeDao" >
+    <aspect>Pager.Interceptor</aspect>
+  </component>
+</components>

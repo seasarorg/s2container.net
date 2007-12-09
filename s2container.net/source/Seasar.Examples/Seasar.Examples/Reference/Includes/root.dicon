@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
+"http://www.seasar.org/dtd/components21.dtd">
+<components>
+  <include path="Seasar.Examples/Reference/Includes/aaa.dicon"/>
+  <include path="Seasar.Examples/Reference/Includes/bbb.dicon"/>
+
+  <component name="root" class="Seasar.Examples.Reference.Includes.Impl.HelloClientImpl"/>
+
+  <component name="Include" class="Seasar.Examples.Reference.Includes.HelloClientInvoker">
+    <property name="Root">root</property>
+    <property name="Aaa">aaa</property>
+    <property name="Bbb">bbb</property>
+  </component>
+</components>
