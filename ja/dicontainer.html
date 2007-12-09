@@ -68,6 +68,7 @@
 				<li><a href="s2windows.html">S2Windows.NET</a></li>
 				<li><a href="jscript.html">JScript.NET式</a></li>
 				<li><a href="quill.html">Quillで簡単DI+AOP</a></li>
+				<li><a href="s2dxo.html">S2DXO</a></li>
 			</ul>
 		</div>
 	</div>
@@ -100,6 +101,72 @@
 	</div>
 
 </div><!-- div.left -->
+
+<!-- ############################################# 2つの DIContainer ######################################################### -->
+
+<div class="contents">
+	
+	<div class="content">
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>2つの DIContainer</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+
+			<p>　S2Container.NET は S2Container と Quill という2つの DIContainer を提供しています。
+			それぞれの特徴は下表の通りです。</p>
+			<table border="0" cellspacing="1">
+				<tr><th width="12%">&nbsp;</th><th width="44%">S2Container</th><th width="44%">Quill</th></tr>
+				<tr>
+				    <th>生い立ち</th>
+					<td>従来の Java から移植された DIContainer</td>
+					<td>S2Container.NET オリジナルの DIContainer</td>
+				</tr>
+				<tr>
+				    <th>設定方法</th>
+					<td>XML（Dicon ファイル）</td>
+					<td>属性</td>
+				</tr>
+				<tr>
+					<th>機能</th>
+					<td>Quill に比べると多機能</td>
+					<td>ステートレスな業務ロジックを構築する為の最小限の機能</td>
+				</tr>
+				<tr>
+					<th>インスタンスモード</th>
+					<td>singleton, prototype, request, session, outer</td>
+					<td>singleton</td>
+				</tr>
+				<tr>
+					<th>DI の種類</th>
+					<td>コンストラクタ・インジェクション, プロパティ・インジェクション, メソッド・インジェクション</td>
+					<td>フィールド・インジェクション</td>
+				</tr>
+				<tr>
+					<th>AOP の<br/>種類</th>
+					<td>RealProxy（透過プロキシ）, DynamicProxy（型の拡張）</td>
+					<td>DynamicProxy（型の拡張）</td>
+				</tr>
+				<tr>
+					<th>使い分け</th>
+					<td>Java の Seasar2 の利用経験が有り同じように利用したい場合や、細かく DI を制御したい場合、
+					Dicon ファイルを置き換えることで実装を切り替えたい場合</td>
+					<td>シンプルな DI と AOP 利用したい場合（細かく DI を行いたい場合は Quill をカスタマイズするか
+					S2Container のコンポーネントを呼び出すことができます）</td>
+				</tr>
+			</table>
+			
+			<p>S2Container に関するドキュメントは下記の目次を参照してください。
+			Quill に関するドキュメントは<a href="quill.html">「Quillで簡単DI+AOP」</a>を参照してください。</p>
+
+		</div>
+	</div>
+</div>
 
 <!-- ############################################# コンテンツ ######################################################### -->
 
@@ -136,6 +203,8 @@
 						<li><a href="dicontainer-reference.html#app.dicon">app.diconの役割</a></li>
 						<li><a href="dicontainer-reference.html#Aop">AOPの適用</a></li>
 						<li><a href="dicontainer-reference.html#Meta">メタデータ</a></li>
+						<li><a href="dicontainer-reference.html#ComponentAutoRegister">コンポーネントの自動登録</a></li>
+						<li><a href="dicontainer-reference.html#AspectAutoRegister">アスペクトの自動登録</a></li>
 					</ul>
 				</li>
 				<li>
