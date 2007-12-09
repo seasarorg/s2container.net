@@ -1,4 +1,17 @@
-﻿S2Container.NET 1.3.4
+﻿S2Container.NET 1.3.5
+2007/12/10
+** Improvement
+    * [CONTAINERNET-78] - QuillInjector に QuillContainer を取得するメソッドを追加する
+
+S2Dao.NET 1.3.5
+2007/12/10
+** Improvement
+    * [DAONET-3] - [seasar-dotnet:238] 自動生成するInsert文からEntityのnullであるPropertyを除外する
+    * [DAONET-21] - SQLファイルの名前空間を指定できるようにする
+    * [DAONET-57] - Setterが呼ばれたColumnだけをUpdateするUpdateModifiedOnly()をSupportする。
+    * [DAONET-67] - クラスの生成をファクトリメソッド化・virtualを付与などの拡張のためのリファクタ
+
+S2Container.NET 1.3.4
 2007/11/21
 ** Improvement
     * [CONTAINERNET-77] - WindowsFormを自動登録したときの起動Formを指定するコンポーネントを追加する
