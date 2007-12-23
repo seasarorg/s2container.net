@@ -4,6 +4,7 @@ using System.Text;
 using Seasar.Extension.ADO;
 using System.Collections;
 using Nullables;
+using System.Data.SqlTypes;
 
 namespace Seasar.Dao.Impl
 {
@@ -79,12 +80,21 @@ namespace Seasar.Dao.Impl
             }
             
             object value = pt.PropertyInfo.GetValue(bean, null);
+
+            //  for normal type include Nullable<T>
             if(value == null)
             {
                 return false;
             }
-                
+
+            //  for Nullables.INullableType
             if ( value is INullableType && ( (INullableType)value ).HasValue == false )
+            {
+                return false;
+            }
+
+            //  for Sytem.Data.SqlTypes.INullable
+            if ( value is INullable && ( (INullable)value ).IsNull )
             {
                 return false;
             }

@@ -50,9 +50,9 @@ namespace Seasar.Dao.Impl
         protected override bool IsTargetProperty(IPropertyType pt, string timestampPropertyName, string versionNoPropertyName, object bean)
         {
             IIdentifierGenerator identifierGenerator = BeanMetaData.IdentifierGenerator;
-            if (pt.IsPrimaryKey && identifierGenerator.IsSelfGenerate == false )
+            if ( pt.IsPrimaryKey )
             {
-                return false;
+                return identifierGenerator.IsSelfGenerate;
             }
             return base.IsTargetProperty(pt, timestampPropertyName, versionNoPropertyName, bean);
         }

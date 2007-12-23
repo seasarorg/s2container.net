@@ -45,7 +45,7 @@ namespace Seasar.Tests.Dao.Impl
         {
             IDataReaderHandler handler = new BeanDataTableMetaDataDataReaderHandler(typeof(DataTable));
             
-            string sql = "select emp.empno as uid, emp.*, dept.deptno as deptno_0, dept.dname as dname_0 " +
+            string sql = "select emp.empno as empno, dept.deptno as deptno_0, dept.dname as dname_0 " +
                 "from emp, dept where empno = 7788 and emp.deptno = dept.deptno";
             DataTable ret;
             using ( IDbConnection con = Connection )
@@ -61,11 +61,11 @@ namespace Seasar.Tests.Dao.Impl
                 }
             }
             Assert.IsNotNull(ret, "1");
-            Assert.IsTrue(ret.Rows.Count > 0);
-            Assert.IsTrue(ret.Columns.Count > 0);
-            Assert.IsTrue(ret.Columns.Contains("EMPNO"));
-            Assert.IsTrue(ret.Columns.Contains("uid"));
-            Assert.IsTrue(ret.Columns.Contains("deptno_0"));
+            Assert.IsTrue(ret.Rows.Count > 0, "1");
+            Assert.IsTrue(ret.Columns.Count > 0, "2");
+            Assert.IsTrue(ret.Columns.Contains("EMPNO"), "EMPNO");
+            Assert.IsTrue(ret.Columns.Contains("dname_0"), "dname_0");
+            Assert.IsTrue(ret.Columns.Contains("deptno_0"), "deptno_0");
             foreach ( DataRow row in ret.Rows )
             {
                 foreach ( DataColumn col in ret.Columns )

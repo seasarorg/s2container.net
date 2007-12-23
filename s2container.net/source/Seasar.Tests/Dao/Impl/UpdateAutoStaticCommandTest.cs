@@ -47,6 +47,10 @@ namespace Seasar.Tests.Dao.Impl
         [Test, S2(Tx.Rollback)]
         public void TestExecuteWithUnderscoreTx()
         {
+            if ( Dbms.Dbms == KindOfDbms.Oracle )
+            {
+                Assert.Ignore("Oracle‚Å‚Í[_]‚ªæ“ª‚É‚­‚éSQL‚ğÀs‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢");
+            }
             IDaoMetaData dmd = CreateDaoMetaData(typeof(IUnderscoreEntityDao));
             ISqlCommand cmd = dmd.GetSqlCommand("Update");
             ISqlCommand cmd2 = dmd.GetSqlCommand("GetUnderScoreEntity");
