@@ -26,6 +26,7 @@ using Seasar.Dao.Impl;
 using Seasar.Dao.Unit;
 using Seasar.Extension.ADO.Impl;
 using Seasar.Extension.Unit;
+using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Dao.Impl
 {
@@ -99,7 +100,23 @@ namespace Seasar.Tests.Dao.Impl
             Assert.AreEqual(typeof(ObjectDataReaderHandler), cmd.DataReaderHandler.GetType(), "2");
             Assert.AreEqual("SELECT count(*) FROM emp", cmd.Sql, "3");
             object ret = cmd.Execute(new object[] { });
-            Assert.IsTrue(ret is int, "4");
+            //  Oracle‚Å‚ÍCOUNT‚ÌŒ‹‰Ê‚ªDecimal‚Å•Ô‚Á‚Ä‚­‚é‚½‚ß
+            if ( Dbms.Dbms == KindOfDbms.Oracle )
+            {
+                try
+                {
+                    object ret4oracle = ConversionUtil.ConvertTargetType(ret, typeof(int));
+                    Assert.IsTrue(ret4oracle is int, "4-1");
+                }
+                catch ( InvalidCastException)
+                {
+                    Assert.Fail("4-2");
+                }
+            }
+            else
+            {
+                Assert.IsTrue(ret is int, "4-3");
+            }
             Assert.AreEqual(14, ret, "5");
         }
 
@@ -112,7 +129,22 @@ namespace Seasar.Tests.Dao.Impl
             Assert.AreEqual(typeof(ObjectDataReaderHandler), cmd.DataReaderHandler.GetType(), "2");
             Assert.AreEqual("SELECT count(*) FROM emp", cmd.Sql, "3");
             object ret = cmd.Execute(new object[] { });
-            Assert.IsTrue(ret is int, "4");
+            //  Oracle‚Å‚ÍCOUNT‚ÌŒ‹‰Ê‚ªDecimal‚Å•Ô‚Á‚Ä‚­‚é‚½‚ß
+            if ( Dbms.Dbms == KindOfDbms.Oracle )
+            {
+                try
+                {
+                    object ret4oracle = ConversionUtil.ConvertTargetType(ret, typeof(int));
+                    Assert.IsTrue(ret4oracle is int, "4-1");
+                }
+                catch ( InvalidCastException )
+                {
+                    Assert.Fail("4-2");
+                }
+            } else
+            {
+                Assert.IsTrue(ret is int, "4-3");
+            }
             Assert.AreEqual(14, ret, "5");
         }
 
