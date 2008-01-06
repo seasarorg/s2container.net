@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Seasar.Extension.ADO;
 using System.Collections;
 using Nullables;
@@ -8,13 +6,13 @@ using System.Data.SqlTypes;
 
 namespace Seasar.Dao.Impl
 {
-	public abstract class AbstractAutoDynamicCommand : AbstractSqlCommand
-	{
+    public abstract class AbstractAutoDynamicCommand : AbstractSqlCommand
+    {
         private const int NO_UPDATE = 0;
 
-        private IBeanMetaData _beanMetaData;
+        private readonly IBeanMetaData _beanMetaData;
 
-        private String[] _propertyNames;
+        private readonly string[] _propertyNames;
 
         public AbstractAutoDynamicCommand(IDataSource dataSource, ICommandFactory commandFactory,
             IBeanMetaData beanMetaData, string[] propertyNames)
@@ -31,14 +29,14 @@ namespace Seasar.Dao.Impl
             string[] propertyNames = PropertyNames;
             IPropertyType[] propertyTypes = CreateTargetPropertyTypes(bmd,
                 bean, propertyNames);
-            if(CanExecute(bean, bmd, propertyTypes, propertyNames) == false)
+            if (CanExecute(bean, bmd, propertyTypes, propertyNames) == false)
             {
                 return NO_UPDATE;
             }
             AbstractAutoHandler handler = CreateAutoHandler(DataSource, CommandFactory, bmd, propertyTypes);
             handler.Sql = SetupSql(bmd, propertyTypes);
             int i = handler.Execute(args);
-            if ( i < 1 )
+            if (i < 1)
             {
                 throw new NotSingleRowUpdatedRuntimeException(args[0], i);
             }
@@ -55,10 +53,10 @@ namespace Seasar.Dao.Impl
             IList types = new ArrayList();
             string timestampPropertyName = bmd.TimestampPropertyName;
             string versionNoPropertyName = bmd.VersionNoPropertyName;
-            for ( int i = 0; i < propertyNames.Length; ++i )
+            for (int i = 0; i < propertyNames.Length; ++i)
             {
                 IPropertyType pt = bmd.GetPropertyType(propertyNames[i]);
-                if ( IsTargetProperty(pt, timestampPropertyName, versionNoPropertyName, bean) )
+                if (IsTargetProperty(pt, timestampPropertyName, versionNoPropertyName, bean))
                 {
                     types.Add(pt);
                 }
@@ -69,32 +67,32 @@ namespace Seasar.Dao.Impl
             return propertyTypes;
         }
 
-        protected virtual bool IsTargetProperty(IPropertyType pt, string timestampPropertyName, 
+        protected virtual bool IsTargetProperty(IPropertyType pt, string timestampPropertyName,
             string versionNoPropertyName, object bean)
         {
             string propertyName = pt.PropertyName;
-            if ( propertyName.Equals(timestampPropertyName, StringComparison.CurrentCultureIgnoreCase)
+            if (propertyName.Equals(timestampPropertyName, StringComparison.CurrentCultureIgnoreCase)
                         || propertyName.Equals(versionNoPropertyName, StringComparison.CurrentCultureIgnoreCase))
             {
                 return true;
             }
-            
+
             object value = pt.PropertyInfo.GetValue(bean, null);
 
             //  for normal type include Nullable<T>
-            if(value == null)
+            if (value == null)
             {
                 return false;
             }
 
             //  for Nullables.INullableType
-            if ( value is INullableType && ( (INullableType)value ).HasValue == false )
+            if (value is INullableType && ((INullableType)value).HasValue == false)
             {
                 return false;
             }
 
             //  for Sytem.Data.SqlTypes.INullable
-            if ( value is INullable && ( (INullable)value ).IsNull )
+            if (value is INullable && ((INullable)value).IsNull)
             {
                 return false;
             }
@@ -104,14 +102,14 @@ namespace Seasar.Dao.Impl
 
         protected virtual bool CanExecute(object bean, IBeanMetaData bmd, IPropertyType[] propertyTypes, string[] propertyNames)
         {
-            if ( propertyTypes.Length == 0 )
+            if (propertyTypes.Length == 0)
             {
                 return false;
             }
             return true;
         }
 
-        
+
         public IBeanMetaData BeanMetaData
         {
             get { return _beanMetaData; }
@@ -121,5 +119,5 @@ namespace Seasar.Dao.Impl
         {
             get { return _propertyNames; }
         }
-	}
+    }
 }
