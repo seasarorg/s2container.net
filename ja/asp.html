@@ -114,7 +114,7 @@
 				<li><a href="#S2HttpModule">S2HttpModuleを追加する</a></li>
 				<li><a href="#global">Global.asaxを編集する</a></li>
 				<li><a href="#WebForm">ASP.NETのWebフォームを登録する</a></li>
-				<li><a href="#request">リクエストの自動バインディング</a></li>
+				<li><a href="#request">リクエストのバインディング</a></li>
 			</ul>
 		</div>
 	</div>
@@ -230,13 +230,13 @@
 		</div>
 	</div>
 	
-<!-- ############################################# リクエストの自動バインディング ######################################################### -->
+<!-- ############################################# リクエストのバインディング ######################################################### -->
 
 	<div class="content">
 		<a name="request" />
 		<div class="contentHeader">
 			<div class="contentHeader1">
-				<h1>リクエストの自動バインディング</h1>
+				<h1>リクエストのバインディング</h1>
 			</div>
 			<div class="contentHeader2">
 				<a href="#top"><img src="images/up.png" />上へ</a>
@@ -245,14 +245,11 @@
 		</div>
 		<div class="contentBody">
 		
-			<p>　コンポーネントに対して、HttpRequestを自動的にバインディングすることが出来ます。
-			そのためには、コンポーネントに、HttpRequest Request { set; }のプロパティを定義します。
-			そうすると、S2Containerが自動的にリクエストを設定します。
+			<p>　コンポーネントに対して、HttpRequestをバインディングすることが出来ます。
+			HttpRequest、HttpResponse、HttpSessionState、HttpApplicationは、それぞれrequest、
+			response、session、httpApplicationという名前のコンポーネントとして登録されています。
+			プロパティ・バインディングやコンストラクタ・バインディングで使ってください。自動バインディングは行われません。
 			また、<a href="#S2HttpModule">S2HttpModule</a>をWeb.configに定義する必要があります。</p>
-			
-			<p>　同様にHttpResponse、HttpSessionもプロパティ（setアクセサ）を定義するだけで、自動バインディングすることが出来ます。
-			また、HttpRequest、HttpResponse、HttpSessionState、HttpApplicationをそれぞれrequest、
-			response、session、httpApplicationという名前のコンポーネントとしてアクセスできるようになります。</p>
 
 		</div>
 	</div>
