@@ -81,10 +81,6 @@ namespace Seasar.Extension.ADO.Impl
                 case BindVariableType.ColonWithParam:
                     ret = GetChangeSignCommandText(original, ":");
                     break;
-                case BindVariableType.ColonWithParamToLower:
-                    ret = GetChangeSignCommandText(original, ":");
-                    ret = ret.ToLower();
-                    break;
                 default:
                     ret = original;
                     break;
@@ -102,9 +98,6 @@ namespace Seasar.Extension.ADO.Impl
                     sign = "?";
                     break;
                 case BindVariableType.ColonWithParam:
-                    sign = ":";
-                    break;
-                case BindVariableType.ColonWithParamToLower:
                     sign = ":";
                     break;
                 default:

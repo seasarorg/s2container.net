@@ -154,10 +154,14 @@ namespace Seasar.Dao.Impl
                         columnName = "?" + columnName;
                         break;
                     case BindVariableType.ColonWithParam:
-                        columnName = string.Empty + columnName;
-                        break;
-                    case BindVariableType.ColonWithParamToLower:
-                        columnName = ":" + columnName.ToLower();
+                        if ("OracleCommand".Equals(name))
+                        {
+                            columnName = string.Empty + columnName;
+                        }
+                        else
+                        {
+                            columnName = ":" + columnName;
+                        }
                         break;
                     default:
                         columnName = "@" + columnName;

@@ -54,7 +54,7 @@ namespace Seasar.Framework.Util
             }
             else if ("NpgsqlCommand".Equals(name))
             {
-                return BindVariableType.ColonWithParamToLower;
+                return BindVariableType.ColonWithParam;
             }
             else if ("FbCommand".Equals(name))
             {
