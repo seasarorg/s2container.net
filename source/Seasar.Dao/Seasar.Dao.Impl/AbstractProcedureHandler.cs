@@ -154,7 +154,7 @@ namespace Seasar.Dao.Impl
                         columnName = "?" + columnName;
                         break;
                     case BindVariableType.ColonWithParam:
-                        if ("OracleCommand".Equals(name))
+                        if ("OracleCommand".Equals(command.GetType().Name))
                         {
                             columnName = string.Empty + columnName;
                         }
