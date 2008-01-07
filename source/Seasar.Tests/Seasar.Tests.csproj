@@ -315,6 +315,8 @@
     <Compile Include="Dao\Impl\UpdateAutoStaticCommandTest.cs" />
     <Compile Include="Dao\Impl\UpdateDynamicCommandTest.cs" />
     <Compile Include="Dao\Impl\UpdateModifiedOnlyCommandTest.cs" />
+    <Compile Include="Dao\Impl\EmployeeTimestamp.cs" />
+    <Compile Include="Dao\Impl\IEmployeeTimestampDao.cs" />
     <Compile Include="Dao\Interceptors\Department.cs" />
     <Compile Include="Dao\Interceptors\Employee.cs" />
     <Compile Include="Dao\Interceptors\Hoge.cs" />

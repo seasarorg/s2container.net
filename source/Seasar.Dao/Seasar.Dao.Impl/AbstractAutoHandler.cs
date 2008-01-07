@@ -19,6 +19,7 @@
 using System;
 using System.Collections;
 using System.Data;
+using System.Data.SqlTypes;
 using System.Reflection;
 using Seasar.Extension.ADO;
 using Seasar.Extension.ADO.Impl;
@@ -287,6 +288,10 @@ namespace Seasar.Dao.Impl
                 varList.Add(Timestamp);
             }
 #endif
+            else if (pt.PropertyType == typeof(SqlDateTime))
+            {
+                varList.Add(new SqlDateTime(Timestamp));
+            }
             else
             {
                 throw new WrongPropertyTypeOfTimestampException(pt.PropertyName, pt.PropertyType.Name);
@@ -309,6 +314,10 @@ namespace Seasar.Dao.Impl
                 pi.SetValue(bean, new DateTime?(Timestamp), null);
             }
 #endif
+            else if (pi.PropertyType == typeof(SqlDateTime))
+            {
+                pi.SetValue(bean, new SqlDateTime(Timestamp), null);
+            }
             else
             {
                 throw new WrongPropertyTypeOfTimestampException(pi.Name, pi.PropertyType.Name);
