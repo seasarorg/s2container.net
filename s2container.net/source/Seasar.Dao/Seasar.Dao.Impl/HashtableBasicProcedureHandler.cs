@@ -152,10 +152,14 @@ namespace Seasar.Dao.Impl
                     paramName = "?" + paramName;
                     break;
                 case BindVariableType.ColonWithParam:
-                    paramName = string.Empty + paramName;
-                    break;
-                case BindVariableType.ColonWithParamToLower:
-                    paramName = ":" + paramName.ToLower();
+                    if ("OracleCommand".Equals(command.GetType().Name))
+                    {
+                        paramName = string.Empty + paramName;
+                    }
+                    else
+                    {
+                        paramName = ":" + paramName;
+                    }
                     break;
                 default:
                     paramName = "@" + paramName;
