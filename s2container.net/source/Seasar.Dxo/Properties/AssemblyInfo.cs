@@ -1,6 +1,6 @@
 ﻿#region Copyright
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ using System.Runtime.InteropServices;
 [assembly : AssemblyConfiguration("")]
 [assembly : AssemblyCompany("")]
 [assembly : AssemblyProduct("Seasar.Dxo")]
-[assembly: AssemblyCopyright("c Copyright The Seasar Foundation and the others 2005-2007, all rights reserved.")]
+[assembly: AssemblyCopyright("c Copyright The Seasar Foundation and the others 2005-2008, all rights reserved.")]
 [assembly : AssemblyTrademark("")]
 [assembly : AssemblyCulture("")]
 

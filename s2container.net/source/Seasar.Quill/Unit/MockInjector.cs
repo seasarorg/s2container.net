@@ -1,6 +1,6 @@
 #region Copyright
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@
  */
 #endregion
 
-using System;
 using System.Reflection;
 using Seasar.Quill.Attrs;
 using Seasar.Quill.Util;
@@ -37,8 +36,8 @@ namespace Seasar.Quill.Unit
         /// <remarks>
         /// <see cref="GetInstance"/>からインスタンスを生成する
         /// </remarks>
-        /// <seealso cref="Seasar.Quill.Util.MockInjector.GetInstance"/>
-        protected MockInjector() : base()
+        /// <seealso cref="Seasar.Quill.Unit.MockInjector.GetInstance"/>
+        protected MockInjector()
         {
         }
 

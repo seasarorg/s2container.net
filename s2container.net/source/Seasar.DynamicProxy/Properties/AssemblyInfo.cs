@@ -28,7 +28,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Seasar.DynamicProxy")]
-[assembly: AssemblyCopyright("c Copyright The Seasar Foundation and the others 2005-2007, all rights reserved.")]
+[assembly: AssemblyCopyright("c Copyright The Seasar Foundation and the others 2005-2008, all rights reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
