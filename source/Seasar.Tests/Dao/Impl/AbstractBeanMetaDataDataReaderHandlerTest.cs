@@ -1,6 +1,6 @@
 #region Copyright
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,6 @@ using Seasar.Framework.Util;
 using Seasar.Dao.Attrs;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
 
 namespace Seasar.Tests.Dao.Impl
 {
@@ -135,27 +134,5 @@ namespace Seasar.Tests.Dao.Impl
                 get { return _empname; }
             }
         }
-
-        private class TestRelationBean
-        {
-
-            private int _relPkId;
-
-            public int RelPkId
-            {
-                get { return _relPkId; }
-                set { _relPkId = value; }
-            }
-
-            private TestBean _parentBean;
-
-            [Relno(0)]
-            public TestBean ParentBean
-            {
-                get { return _parentBean; }
-                set { _parentBean = value; }
-            }
-        }
-
     }
 }

@@ -1,6 +1,6 @@
 #region Copyright
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,7 @@
  */
 #endregion
 
-using System;
-using System.Diagnostics;
 using MbUnit.Framework;
-using Nullables;
 using Seasar.Dao;
 using Seasar.Dao.Unit;
 using Seasar.Extension.Unit;
