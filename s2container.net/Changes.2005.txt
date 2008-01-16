@@ -1,4 +1,17 @@
-﻿S2Container.NET 1.3.5
+﻿S2Container.NET 1.3.6
+2008/01/16
+** Bug
+    * [CONTAINERNET-81] - NpgSQLを使うと発行するSQLが小文字になる
+    
+S2Dao.NET 1.3.6
+2008/01/16
+** Bug
+    * [DAONET-72] - [seasar-dotnet:696] シーケンスを使った ID をもつテーブルへのinsertに失敗する。
+** Task
+    * [DAONET-71] - SQLServer以外用のテーブル構造、テストデータもdemo.sqlに合わせる
+    * [DAONET-74] - Timestampプロパティの型にSqlDateTimeを追加する
+
+S2Container.NET 1.3.5
 2007/12/10
 ** Improvement
     * [CONTAINERNET-78] - QuillInjector に QuillContainer を取得するメソッドを追加する
