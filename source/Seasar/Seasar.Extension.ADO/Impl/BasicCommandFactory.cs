@@ -23,7 +23,10 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using Seasar.Framework.Util;
+
+#if NHIBERNATE_NULLABLES
 using Nullables;
+#endif
 
 namespace Seasar.Extension.ADO.Impl
 {
@@ -153,6 +156,7 @@ namespace Seasar.Extension.ADO.Impl
                     return GetBindVariableText(pi.GetValue(bindVariable, null));
                 }
             }
+#if NHIBERNATE_NULLABLES
             else if (bindVariable is INullableType)
             {
                 INullableType nullable = bindVariable as INullableType;
@@ -166,6 +170,7 @@ namespace Seasar.Extension.ADO.Impl
                     return GetBindVariableText(pi.GetValue(bindVariable, null));
                 }
             }
+#endif
             else if (bindVariable is string)
             {
                 return "'" + bindVariable + "'";

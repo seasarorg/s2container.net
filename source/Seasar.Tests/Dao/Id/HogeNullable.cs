@@ -16,6 +16,8 @@
  */
 #endregion
 
+#if NHIBERNATE_NULLABLES
+
 using Seasar.Dao.Attrs;
 
 namespace Seasar.Tests.Dao.Id
@@ -92,3 +94,5 @@ namespace Seasar.Tests.Dao.Id
         }
     }
 }
+
+#endif

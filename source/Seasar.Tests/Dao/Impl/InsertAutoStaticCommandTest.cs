@@ -19,7 +19,6 @@
 using System;
 using System.Diagnostics;
 using MbUnit.Framework;
-using Nullables;
 using Seasar.Dao;
 using Seasar.Dao.Unit;
 using Seasar.Extension.Unit;
@@ -72,7 +71,7 @@ namespace Seasar.Tests.Dao.Impl
                 emp.Empno = 98;
                 emp.Ename = "hoge";
                 emp.Deptno = 1;
-                emp.NullableNextRestDate = NullableDateTime.Parse("2000/01/01");
+                emp.NullableNextRestDate = DateTime.Parse("2000/01/01");
                 int count = (int) cmd.Execute(new object[] { emp });
                 Assert.AreEqual(1, count, "2");
             }

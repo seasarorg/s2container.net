@@ -19,7 +19,6 @@
 using System;
 using System.Collections;
 using System.Text;
-using Nullables;
 using Seasar.Dao.Attrs;
 
 namespace Seasar.Tests.Dao.Impl
@@ -30,8 +29,8 @@ namespace Seasar.Tests.Dao.Impl
         private long _empno;
         private string _ename;
         private string _job;
-        private NullableInt32 _mgr;
-        private NullableDateTime _hiredate;
+        private int? _mgr;
+        private DateTime? _hiredate;
         private Nullable<int> _sal;
         private string _dummy;
         private DepartmentModifiedOnly _department;
@@ -71,7 +70,7 @@ namespace Seasar.Tests.Dao.Impl
             get { return _job; }
         }
 
-        public NullableInt32 Mgr
+        public int? Mgr
         {
             set 
             {
@@ -81,7 +80,7 @@ namespace Seasar.Tests.Dao.Impl
             get { return _mgr; }
         }
 
-        public NullableDateTime Hiredate
+        public DateTime? Hiredate
         {
             set 
             {
@@ -152,8 +151,8 @@ namespace Seasar.Tests.Dao.Impl
         private long _empno;
         private string _ename;
         private string _job;
-        private NullableInt32 _mgr;
-        private NullableDateTime _hiredate;
+        private int? _mgr;
+        private DateTime? _hiredate;
         private Nullable<int> _sal;
         private string _dummy;
         private IDictionary _modifiedPropertyNames = new Hashtable();
@@ -185,7 +184,7 @@ namespace Seasar.Tests.Dao.Impl
             get { return _job; }
         }
 
-        public NullableInt32 Mgr
+        public int? Mgr
         {
             set
             {
@@ -195,7 +194,7 @@ namespace Seasar.Tests.Dao.Impl
             get { return _mgr; }
         }
 
-        public NullableDateTime Hiredate
+        public DateTime? Hiredate
         {
             set
             {
@@ -261,8 +260,8 @@ namespace Seasar.Tests.Dao.Impl
         private long _empno;
         private string _ename;
         private string _job;
-        private NullableInt32 _mgr;
-        private NullableDateTime hiredate;
+        private int? _mgr;
+        private DateTime? hiredate;
         private Nullable<int> _sal;
         private byte[] _password;
         private string _dummy;
@@ -287,13 +286,13 @@ namespace Seasar.Tests.Dao.Impl
             get { return _job; }
         }
 
-        public NullableInt32 Mgr
+        public int? Mgr
         {
             set { _mgr = value; }
             get { return _mgr; }
         }
 
-        public NullableDateTime Hiredate
+        public DateTime? Hiredate
         {
             set { hiredate = value; }
             get { return hiredate; }
@@ -359,8 +358,8 @@ namespace Seasar.Tests.Dao.Impl
         private long _empno;
         private string _ename;
         private string _job;
-        private NullableInt32 _mgr;
-        private NullableDateTime hiredate;
+        private int? _mgr;
+        private DateTime? hiredate;
         private Nullable<int> _sal;
         private byte[] _password;
         private string _dummy;
@@ -384,13 +383,13 @@ namespace Seasar.Tests.Dao.Impl
             get { return _job; }
         }
 
-        public NullableInt32 Mgr
+        public int? Mgr
         {
             set { _mgr = value; }
             get { return _mgr; }
         }
 
-        public NullableDateTime Hiredate
+        public DateTime? Hiredate
         {
             set { hiredate = value; }
             get { return hiredate; }

@@ -20,7 +20,10 @@ using System;
 using System.Data.SqlTypes;
 using MbUnit.Framework;
 using Seasar.Framework.Util;
+
+#if NHIBERNATE_NULLABLES
 using Nullables;
+#endif
 
 namespace Seasar.Tests.Framework.Util
 {
@@ -171,6 +174,7 @@ namespace Seasar.Tests.Framework.Util
             Assert.AreEqual(new SqlBoolean(true), ret, "3");
         }
 
+#if NHIBERNATE_NULLABLES
         [Test]
         public void TestConvertNHibernateNullable_NullableBoolean()
         {
@@ -316,6 +320,7 @@ namespace Seasar.Tests.Framework.Util
             ret = (NullableSingle) ConversionUtil.ConvertNHibernateNullable(1.2f, typeof(NullableSingle));
             Assert.AreEqual(new NullableSingle(1.2f), ret, "3");
         }
+#endif
 
 #if !NET_1_1
 

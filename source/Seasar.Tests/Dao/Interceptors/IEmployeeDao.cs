@@ -19,7 +19,6 @@
 using System.Collections;
 using System.Data.SqlTypes;
 using Seasar.Dao.Attrs;
-using Nullables;
 
 namespace Seasar.Tests.Dao.Interceptors
 {
@@ -63,7 +62,7 @@ namespace Seasar.Tests.Dao.Interceptors
         int Update(Employee employee);
 
         [Sql("select empno from EMP /*IF emp.Ename != null*/ where ename=/*emp.Ename*/'1' /*END*/")]
-        NullableInt32 GetEmpnoByEmp(Employee emp);
+        int? GetEmpnoByEmp(Employee emp);
 
         [Sql("select empno from EMP /*IF hoge.Parent.Val != null*/ where ename=/*hoge.Parent.Val*/'1' /*END*/")]
         SqlInt32 GetEmpnoByHoge(Hoge hoge);

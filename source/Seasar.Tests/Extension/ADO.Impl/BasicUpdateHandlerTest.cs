@@ -23,7 +23,6 @@ using log4net;
 using log4net.Config;
 using log4net.Util;
 using MbUnit.Framework;
-using Nullables;
 using Seasar.Extension.ADO.Impl;
 using Seasar.Extension.Unit;
 
@@ -52,7 +51,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
             string sql = "update emp set ename = @ename, comm = @comm where empno = @empno";
             BasicUpdateHandler handler = new BasicUpdateHandler(DataSource, sql);
             object[] args = new object[] { "SCOTT", null, 7788 };
-            Type[] argTypes = new Type[] { typeof(string), typeof(NullableInt32), typeof(int) };
+            Type[] argTypes = new Type[] { typeof(string), typeof(Nullable<int>), typeof(int) };
             string[] argNames = new string[] { "ename", "comm", "empno" };
             int ret = handler.Execute(args, argTypes, argNames);
             Assert.AreEqual(1, ret, "1");

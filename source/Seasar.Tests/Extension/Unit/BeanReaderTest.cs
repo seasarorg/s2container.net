@@ -80,6 +80,7 @@ namespace Seasar.Tests.Extension.Unit
             Assert.AreEqual(typeof(DateTime), columns["datetimetype"].DataType);
         }
 
+#if NHIBERNATE_NULLABLES
         [Test]
         public void TestReadNHibernateNullableType()
         {
@@ -185,9 +186,9 @@ namespace Seasar.Tests.Extension.Unit
             Assert.AreEqual(typeof(string), columns["stringtype"].DataType);
             Assert.AreEqual(typeof(DateTime), columns["datetimetype"].DataType);
         }
+#endif
 
 #if !NET_1_1
-
         [Test]
         public void TestReadNullableType()
         {

@@ -16,6 +16,8 @@
  */
 #endregion
 
+#if NHIBERNATE_NULLABLES
+
 using System;
 using Nullables;
 
@@ -42,3 +44,5 @@ namespace Seasar.Extension.ADO.Types
         }
     }
 }
+
+#endif

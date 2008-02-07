@@ -25,7 +25,10 @@ using Seasar.Extension.ADO;
 using Seasar.Extension.ADO.Impl;
 using Seasar.Framework.Log;
 using Seasar.Framework.Util;
+
+#if NHIBERNATE_NULLABLES
 using Nullables;
+#endif
 
 namespace Seasar.Dao.Impl
 {
@@ -278,10 +281,12 @@ namespace Seasar.Dao.Impl
             {
                 varList.Add(Timestamp);
             }
+#if NHIBERNATE_NULLABLES
             else if (pt.PropertyType == typeof(Nullables.NullableDateTime))
             {
                 varList.Add(new Nullables.NullableDateTime(Timestamp));
             }
+#endif
 #if !NET_1_1
             else if (pt.PropertyType == typeof(DateTime?))
             {
@@ -304,10 +309,12 @@ namespace Seasar.Dao.Impl
             {
                 pi.SetValue(bean, Timestamp, null);
             }
+#if NHIBERNATE_NULLABLES
             else if (pi.PropertyType == typeof(Nullables.NullableDateTime))
             {
                 pi.SetValue(bean, new Nullables.NullableDateTime(Timestamp), null);
             }
+#endif
 #if !NET_1_1
             else if (pi.PropertyType == typeof(DateTime?))
             {
@@ -327,7 +334,8 @@ namespace Seasar.Dao.Impl
         protected void SetupVersionNoValiableList(IList varList, IPropertyType pt, object bean)
         {
             object value = pt.PropertyInfo.GetValue(bean, null);
-            if (value is INullableType) 
+#if NHIBERNATE_NULLABLES
+            if (value is INullableType)
             {
                 INullableType nullableValue = (INullableType)value;
                 if (nullableValue.HasValue) 
@@ -339,6 +347,7 @@ namespace Seasar.Dao.Impl
                     value = 0;
                 }
             }
+#endif
             int intValue = Convert.ToInt32(value) + 1;
             VersionNo = intValue;
             varList.Add(ConversionUtil.ConvertTargetType(VersionNo, pt.PropertyInfo.PropertyType));
