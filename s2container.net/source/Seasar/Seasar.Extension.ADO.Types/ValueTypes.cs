@@ -20,7 +20,10 @@ using System;
 using System.Collections;
 using System.Data;
 using System.Data.SqlTypes;
+
+#if NHIBERNATE_NULLABLES
 using Nullables;
+#endif
 
 namespace Seasar.Extension.ADO.Types
 {
@@ -41,6 +44,7 @@ namespace Seasar.Extension.ADO.Types
         public readonly static IValueType GUID = new GuidType();
         public readonly static IValueType OBJECT = new ObjectType();
 
+#if NHIBERNATE_NULLABLES
         public readonly static IValueType NHIBERNATE_NULLABLE_CHAR = new NHibernateNullableCharType();
         public readonly static IValueType NHIBERNATE_NULLABLE_BYTE = new NHibernateNullableByteType();
         public readonly static IValueType NHIBERNATE_NULLABLE_SBYTE = new NHibernateNullableSByteType();
@@ -54,6 +58,9 @@ namespace Seasar.Extension.ADO.Types
         public readonly static IValueType NHIBERNATE_NULLABLE_BINARY = new NHibernateNullableBinaryType();
         public readonly static IValueType NHIBERNATE_NULLABLE_BOOLEAN = new NHibernateNullableBooleanType();
         public readonly static IValueType NHIBERNATE_NULLABLE_GUID = new NHibernateNullableGuidType();
+        private readonly static NullableByte[] NHIBERNATE_NULLABLE_BYTE_ARRAY = new NullableByte[0];
+        public readonly static Type NHIBERNATE_NULLABLE_BYTE_ARRAY_TYPE = NHIBERNATE_NULLABLE_BYTE_ARRAY.GetType();
+#endif
 
         public readonly static IValueType SQL_STRING = new SqlStringType();
         public readonly static IValueType SQL_BYTE = new SqlByteType();
@@ -69,7 +76,6 @@ namespace Seasar.Extension.ADO.Types
         public readonly static IValueType SQL_GUID = new SqlGuidType();
 
         private readonly static byte[] BYTE_ARRAY = new byte[0];
-        private readonly static NullableByte[] NHIBERNATE_NULLABLE_BYTE_ARRAY = new NullableByte[0];
 
 #if !NET_1_1
         public readonly static IValueType NULLABLE_BYTE = new NullableByteType();
@@ -91,7 +97,6 @@ namespace Seasar.Extension.ADO.Types
 #endif
 
         public readonly static Type BYTE_ARRAY_TYPE = BYTE_ARRAY.GetType();
-        public readonly static Type NHIBERNATE_NULLABLE_BYTE_ARRAY_TYPE = NHIBERNATE_NULLABLE_BYTE_ARRAY.GetType();
 
         private static readonly Hashtable _types = new Hashtable();
 
@@ -125,6 +130,7 @@ namespace Seasar.Extension.ADO.Types
             RegisterValueType(typeof(SqlMoney), SQL_DECIMAL);
             RegisterValueType(typeof(SqlGuid), SQL_GUID);
 
+#if NHIBERNATE_NULLABLES
             RegisterValueType(typeof(NullableChar), NHIBERNATE_NULLABLE_CHAR);
             RegisterValueType(typeof(NullableByte), NHIBERNATE_NULLABLE_BYTE);
             RegisterValueType(typeof(NullableSByte), NHIBERNATE_NULLABLE_SBYTE);
@@ -138,6 +144,7 @@ namespace Seasar.Extension.ADO.Types
             RegisterValueType(NHIBERNATE_NULLABLE_BYTE_ARRAY_TYPE, NHIBERNATE_NULLABLE_BINARY);
             RegisterValueType(typeof(NullableBoolean), NHIBERNATE_NULLABLE_BOOLEAN);
             RegisterValueType(typeof(NullableGuid), NHIBERNATE_NULLABLE_GUID);
+#endif
 
 #if !NET_1_1
             RegisterValueType(NULLABLE_BYTE_ARRAY_TYPE, NULLABLE_BINARY);

@@ -1,7 +1,23 @@
+#region Copyright
+/*
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ */
+#endregion
+
 using System;
-using System.Collections.Generic;
 using System.Text;
-using Nullables;
 using Seasar.Dao.Attrs;
 
 namespace Seasar.Tests.Dao.Impl
@@ -12,8 +28,8 @@ namespace Seasar.Tests.Dao.Impl
         private long _empno;
         private string _ename;
         private string _job;
-        private NullableInt32 _mgr;
-        private NullableDateTime hiredate;
+        private int? _mgr;
+        private DateTime? hiredate;
         private Nullable<int> _sal;
         private byte[] _password;
         private string _dummy;
@@ -37,13 +53,13 @@ namespace Seasar.Tests.Dao.Impl
             get { return _job; }
         }
 
-        public NullableInt32 Mgr
+        public int? Mgr
         {
             set { _mgr = value; }
             get { return _mgr; }
         }
 
-        public NullableDateTime Hiredate
+        public DateTime? Hiredate
         {
             set { hiredate = value; }
             get { return hiredate; }
@@ -98,8 +114,8 @@ namespace Seasar.Tests.Dao.Impl
         private long _empno;
         private string _ename;
         private string _job;
-        private NullableInt32 _mgr;
-        private NullableDateTime hiredate;
+        private int? _mgr;
+        private DateTime? hiredate;
         private Nullable<int> _sal;
         private byte[] _password;
         private string _dummy;
@@ -125,13 +141,13 @@ namespace Seasar.Tests.Dao.Impl
             get { return _job; }
         }
 
-        public NullableInt32 Mgr
+        public int? Mgr
         {
             set { _mgr = value; }
             get { return _mgr; }
         }
 
-        public NullableDateTime Hiredate
+        public DateTime? Hiredate
         {
             set { hiredate = value; }
             get { return hiredate; }

@@ -18,7 +18,6 @@
 
 using System;
 using System.Threading;
-using Nullables;
 using MbUnit.Framework;
 using Seasar.Dao;
 using Seasar.Dao.Unit;
@@ -87,7 +86,7 @@ namespace Seasar.Tests.Dao.Impl
             }
             {
                 EmployeeNullable emp = (EmployeeNullable) cmd2.Execute(new object[] { 100 });
-                emp.NullableNextRestDate = NullableDateTime.Parse("2006/01/01");
+                emp.NullableNextRestDate = DateTime.Parse("2006/01/01");
                 int count = (int) cmd.Execute(new object[] { emp });
                 Assert.AreEqual(1, count, "2");
             }
@@ -178,6 +177,7 @@ namespace Seasar.Tests.Dao.Impl
             Assert.AreEqual(1, count, "1");
         }
 
+#if NHIBERNATE_NULLABLES
         [Test, S2(Tx.Rollback)]
         public void TestExecuteNullableDecimalVersionNoTx()
         {
@@ -215,6 +215,8 @@ namespace Seasar.Tests.Dao.Impl
             Assert.IsTrue(emp.VersionNo.HasValue);
             Assert.AreEqual(1, emp.VersionNo.Value);
         }
+#endif
+
 #if !NET_1_1
         [Test, S2(Tx.Rollback)]
         public void TestExecuteGenericNullableDecimalVersionNoTx()

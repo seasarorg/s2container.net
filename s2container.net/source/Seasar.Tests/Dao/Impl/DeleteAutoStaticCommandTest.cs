@@ -69,6 +69,7 @@ namespace Seasar.Tests.Dao.Impl
             cmd.Execute(new object[] { dept });
         }
 
+#if NHIBERNATE_NULLABLES
         [Test, S2(Tx.Rollback)]
         public void TestExecuteNullableDecimalVersionNoTx()
         {
@@ -100,6 +101,8 @@ namespace Seasar.Tests.Dao.Impl
             object result = delCmd.Execute(new object[] { emp.EmpNo });
             Assert.IsNull(result);
         }
+#endif
+
 #if !NET_1_1
         [Test, S2(Tx.Rollback)]
         public void TestExecuteGenericNullableDecimalVersionNoTx()

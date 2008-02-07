@@ -16,17 +16,13 @@
  */
 #endregion
 
-using System;
-using System.Collections;
 using System.Text;
 using Seasar.Extension.ADO;
-using Seasar.Framework.Log;
-using Nullables;
 
 namespace Seasar.Dao.Impl
 {
-	public class UpdateAutoDynamicCommand : AbstractAutoDynamicCommand
-	{
+    public class UpdateAutoDynamicCommand : AbstractAutoDynamicCommand
+    {
         public UpdateAutoDynamicCommand(IDataSource dataSource, ICommandFactory commandFactory,
             IBeanMetaData beanMetaData, string[] propertyNames)
             : base(dataSource, commandFactory, beanMetaData, propertyNames)

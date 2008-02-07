@@ -18,7 +18,6 @@
 
 using System.Collections;
 using System.Data.SqlTypes;
-using Nullables;
 using Seasar.Dao.Attrs;
 
 namespace Seasar.Dao.Examples.AutoSelect
@@ -35,7 +34,7 @@ namespace Seasar.Dao.Examples.AutoSelect
         SqlInt16 GetActiveByDeptno(int deptno);
 
         [Sql("select active from dept2 where deptno=/*deptno*/")]
-        NullableInt16 GetActiveByDeptno2(int deptno);
+        int? GetActiveByDeptno2(int deptno);
 
         [Sql("select dname from dept2 where deptno=/*deptno*/")]
         string GetDnameByDeptno(int deptno);

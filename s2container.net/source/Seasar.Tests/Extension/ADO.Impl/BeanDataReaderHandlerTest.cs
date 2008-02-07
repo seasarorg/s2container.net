@@ -121,6 +121,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
             Assert.AreEqual(new DateTime(1980, 12, 17, 12, 34, 56), ret.DateTimeType);
         }
 
+#if NHIBERNATE_NULLABLES
         public void SetUpHandleNHibernateNullableType()
         {
             Include(PATH);
@@ -192,9 +193,9 @@ namespace Seasar.Tests.Extension.ADO.Impl
             Assert.IsNull(ret.StringType);
             Assert.IsFalse(ret.DateTimeType.HasValue);
         }
+#endif
 
 #if !NET_1_1
-
         public void SetUpHandleNullableType()
         {
             Include(PATH);

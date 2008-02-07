@@ -19,8 +19,11 @@
 using System;
 using Seasar.Extension.ADO;
 using System.Collections;
-using Nullables;
 using System.Data.SqlTypes;
+
+#if NHIBERNATE_NULLABLES
+using Nullables;
+#endif
 
 namespace Seasar.Dao.Impl
 {
@@ -103,11 +106,13 @@ namespace Seasar.Dao.Impl
                 return false;
             }
 
+#if NHIBERNATE_NULLABLES
             //  for Nullables.INullableType
             if (value is INullableType && ((INullableType)value).HasValue == false)
             {
                 return false;
             }
+#endif
 
             //  for Sytem.Data.SqlTypes.INullable
             if (value is INullable && ((INullable)value).IsNull)

@@ -18,7 +18,6 @@
 
 using System;
 using System.Text;
-using Nullables;
 
 namespace Seasar.Examples.Reference.ADO
 {
@@ -31,17 +30,17 @@ namespace Seasar.Examples.Reference.ADO
 
         private string _job;
 
-        private NullableInt16 _mgr;
+        private short? _mgr;
 
-        private NullableDateTime _hiredate;
+        private DateTime? _hiredate;
 
-        private NullableSingle _sal;
+        private float? _sal;
 
-        private NullableSingle _comm;
+        private float? _comm;
 
-        private NullableInt32 _deptno;
+        private int? _deptno;
 
-        private NullableDateTime _tstamp;
+        private DateTime? _tstamp;
 
         public Employee()
         {
@@ -51,12 +50,12 @@ namespace Seasar.Examples.Reference.ADO
             long empno,
             string ename,
             string job,
-            NullableInt16 mgr,
-            NullableDateTime hiredate,
-            NullableSingle sal,
-            NullableSingle comm,
-            NullableInt32 deptno,
-            NullableDateTime tstamp
+            short? mgr,
+            DateTime? hiredate,
+            float? sal,
+            float? comm,
+            int? deptno,
+            DateTime? tstamp
             )
         {
             _empno = empno;
@@ -88,37 +87,37 @@ namespace Seasar.Examples.Reference.ADO
             get { return _job; }
         }
 
-        public NullableInt16 Mgr
+        public short? Mgr
         {
             set { _mgr = value; }
             get { return _mgr; }
         }
 
-        public NullableDateTime Hiredate
+        public DateTime? Hiredate
         {
             set { _hiredate = value; }
             get { return _hiredate; }
         }
 
-        public NullableSingle Sal
+        public float? Sal
         {
             set { _sal = value; }
             get { return _sal; }
         }
 
-        public NullableSingle Comm
+        public float? Comm
         {
             set { _comm = value; }
             get { return _comm; }
         }
 
-        public NullableInt32 Deptno
+        public int? Deptno
         {
             set { _deptno = value; }
             get { return _deptno; }
         }
 
-        public NullableDateTime Tstamp
+        public DateTime? Tstamp
         {
             set { _tstamp = value; }
             get { return _tstamp; }

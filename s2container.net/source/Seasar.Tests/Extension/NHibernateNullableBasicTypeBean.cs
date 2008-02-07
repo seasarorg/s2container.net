@@ -16,6 +16,8 @@
  */
 #endregion
 
+#if NHIBERNATE_NULLABLES
+
 using System;
 using System.Text;
 using Nullables;
@@ -178,3 +180,5 @@ namespace Seasar.Tests.Extension
         }
     }
 }
+
+#endif

@@ -36,7 +36,7 @@ namespace Seasar.Tests.Dao.Impl
         private SqlSingle _comm;
         private int _deptno;
         private DateTime _tstamp = DateTime.Now;
-        private Nullables.NullableDateTime _nullableNextRestDate;
+        private DateTime? _nullableNextRestDate;
 
         public long Empno
         {
@@ -93,7 +93,7 @@ namespace Seasar.Tests.Dao.Impl
             get { return _tstamp; }
         }
 
-        public Nullables.NullableDateTime NullableNextRestDate
+        public DateTime? NullableNextRestDate
         {
             set { _nullableNextRestDate = value; }
             get { return _nullableNextRestDate; }

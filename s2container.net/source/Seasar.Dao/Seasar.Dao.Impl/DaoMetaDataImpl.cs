@@ -721,9 +721,9 @@ namespace Seasar.Dao.Impl
 
             buf.Append(propertyName);
 
-            if (valueType is NHibernateNullableBaseType)
+            if (valueType is SqlBaseType)
             {
-                buf.Append(".HasValue == true");
+                buf.Append(".IsNull == false");
             }
 #if !NET_1_1
             else if (valueType is NullableBaseType)
@@ -731,10 +731,12 @@ namespace Seasar.Dao.Impl
                 buf.Append(".HasValue == true");
             }
 #endif
-            else if (valueType is SqlBaseType)
+#if NHIBERNATE_NULLABLES
+            else if (valueType is NHibernateNullableBaseType)
             {
-                buf.Append(".IsNull == false");
+                buf.Append(".HasValue == true");
             }
+#endif
             else
             {
                 buf.Append(" != null");

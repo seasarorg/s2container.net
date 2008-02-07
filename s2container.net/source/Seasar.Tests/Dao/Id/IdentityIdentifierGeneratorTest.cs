@@ -51,6 +51,7 @@ namespace Seasar.Tests.Dao.Id
             Assert.IsTrue(hoge.Id > 0);
         }
 
+#if NHIBERNATE_NULLABLES
         [Test, S2(Tx.Rollback)]
         public void TestGetGeneratedNullableValue()
         {
@@ -101,6 +102,8 @@ namespace Seasar.Tests.Dao.Id
                 Trace.WriteLine(hoge.Id);
             }
         }
+#endif
+
 #if !NET_1_1
         [Test, S2(Tx.Rollback)]
         public void TestGetGeneratedSystemNullableValue()
