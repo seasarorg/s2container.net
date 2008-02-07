@@ -51,6 +51,7 @@
 		<div class="menuBody">
 			<ul>
 				<li><a href="setup.html">セットアップ</a></li>
+				<li><a href="update-operation.html">移行</a></li>
 				<li><a href="dicontainer.html">DIContainer</a></li>
 				<li><a href="aop.html">AOP</a></li>
 				<li><a href="asp.html">ASP.NETでの利用</a></li>
@@ -125,7 +126,7 @@
 				
 				<li><a href="#NullValue">NULL値の扱い</a>
 				<ul>
-					<li><a href="#NullValueNHibernate">NHibernateContribのNullables</a></li>
+					<li><a href="#NullValueNHibernate">NHibernateContribのNullables(バージョン1.3.7から廃止)</a></li>
 					<li><a href="#NullValueSqlTypes">System.Data.SqlTypesのNull</a></li>
 					<li><a href="#NullValueNullable">System.Nullable(.NET 2.0以降)</a></li>
 				</ul>
@@ -589,9 +590,9 @@ DEBUG 2006-06-19 23:55:47,031 [9] 論理的なコネクションを閉じまし�
 		<div class="contentBody">
 			<p>　NET Framework型とデータベースの列を対応させる場合、列にNULL値が格納されていると例外が発生する場合があります。
 			.NET Framework型がSystem.Int32等の構造体の場合、NULLを表現できないからです。 </p>
-			<p>　列にNULL値が格納される場合、 以下の３つの方法を使用します。</p>
+			<p>　列にNULL値が格納される場合、 以下の2つの方法を使用します。</p>
 			<ul>
-				<li><a href="#NullValueNHibernate">NHibernateContribのNullables</a></li>
+				<li><a href="#NullValueNHibernate">NHibernateContribのNullables(バージョン1.3.7から廃止)</a></li>
 				<li><a href="#NullValueSqlTypes">System.Data.SqlTypesのNull</a></li>
 				<li><a href="#NullValueNullable">System.Nullable(.NET 2.0以降)</a></li>
 			</ul>
@@ -615,7 +616,7 @@ DEBUG 2006-06-19 23:55:47,031 [9] 論理的なコネクションを閉じまし�
 				<tr><td>SByte</td><td>SByte</td><td>NullableSByte</td><td>-</td><td>Nullable&lt;SByte&gt;</td></tr>
 			</table>
 			
-			<h2><a name="NullValueNHibernate">NHibernateContribのNullables</a></h2>
+			<h2><a name="NullValueNHibernate">NHibernateContribのNullables(バージョン1.3.7から廃止)</a></h2>
 			<p>　NHibernateContribのNullablesを利用する場合、以下のファイル(アセンブリ)への参照を追加する必要があります。</p>
 			<ul><li>s2container.net/lib/Nullables.dll</li></ul>
 			<p>　ソースファイルからは、次のように使用します。</p>
