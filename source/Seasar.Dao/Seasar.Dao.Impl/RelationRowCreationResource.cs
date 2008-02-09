@@ -61,20 +61,20 @@ namespace Seasar.Dao.Impl
         /** Current property type. This variable is temporary. */
         protected IPropertyType currentPropertyType;
 
-        /** The temporary variable for relation property type. */
-        protected IRelationPropertyType tmpRelationPropertyType;
-
-        /** The temporary variable for base suffix. */
-        protected String tmpBaseSuffix;
-
-        /** The temporary variable for relation no suffix. */
-        protected String tmpRelationNoSuffix;
-
         /** The count of valid value. */
         protected int validValueCount;
 
         /** Does it create dead link? */
         protected bool createDeadLink;
+
+        /** The backup of relation property type. */
+        protected Stack<IRelationPropertyType> backupRelationPropertyType = new Stack<IRelationPropertyType>();
+
+        /** The backup of base suffix. */
+        protected Stack<String> backupBaseSuffix = new Stack<String>();
+
+        /** The backup of relation suffix. */
+        protected Stack<String> backupRelationSuffix = new Stack<String>();
 
         // ===================================================================================
         //                                                                            Behavior
@@ -102,11 +102,11 @@ namespace Seasar.Dao.Impl
         }
 
         public virtual void BackupRelationPropertyType() {
-            tmpRelationPropertyType = relationPropertyType;
+            backupRelationPropertyType.Push(RelationPropertyType);
         }
 
         public virtual void RestoreRelationPropertyType() {
-            relationPropertyType = tmpRelationPropertyType;
+            RelationPropertyType = backupRelationPropertyType.Pop();
         }
 
         // -----------------------------------------------------
@@ -192,19 +192,19 @@ namespace Seasar.Dao.Impl
         }
 
         protected virtual void BackupBaseSuffix() {
-            tmpBaseSuffix = baseSuffix;
+            backupBaseSuffix.Push(BaseSuffix);
         }
 
         protected virtual void RestoreBaseSuffix() {
-            baseSuffix = tmpBaseSuffix;
+            BaseSuffix = backupBaseSuffix.Pop();
         }
 
         protected virtual void BackupRelationNoSuffix() {
-            tmpRelationNoSuffix = relationNoSuffix;
+            backupRelationSuffix.Push(RelationNoSuffix);
         }
 
         protected virtual void RestoreRelationNoSuffix() {
-            relationNoSuffix = tmpRelationNoSuffix;
+            RelationNoSuffix = backupRelationSuffix.Pop();
         }
 
         // -----------------------------------------------------
