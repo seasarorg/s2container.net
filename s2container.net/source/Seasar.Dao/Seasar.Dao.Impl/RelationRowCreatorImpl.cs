@@ -290,6 +290,11 @@ namespace Seasar.Dao.Impl
             // 「一つも無い」という状態がCacheされることになる。。
             res.InitializePropertyCacheElement();
 
+            if (!IsPropertyRelation(res)) {
+                return;
+            }
+
+            // Set up property cache about current beanMetaData.
             IBeanMetaData nextBmd = res.GetRelationBeanMetaData();
             for (int i = 0; i < nextBmd.PropertyTypeSize; ++i) {
                 IPropertyType pt = nextBmd.GetPropertyType(i);
@@ -298,19 +303,21 @@ namespace Seasar.Dao.Impl
                     continue;
                 }
                 SetupPropertyCacheElement(res);
-                if (res.HasNextRelationProperty() && res.HasNextRelationLevel()) {
-                    res.BackupRelationPropertyType();
-                    res.IncrementCurrentRelationNestLevel();
-                    try {
-                        SetupNextPropertyCache(res, nextBmd);
-                    } finally {
-                        res.RestoreRelationPropertyType();
-                        res.DecrementCurrentRelationNestLevel();
-                    }
+            }
+
+            // Set up next relation.
+            if (res.HasNextRelationProperty() && res.HasNextRelationLevel()) {
+                res.BackupRelationPropertyType();
+                res.IncrementCurrentRelationNestLevel();
+                try {
+                    SetupNextPropertyCache(res, nextBmd);
+                } finally {
+                    res.RestoreRelationPropertyType();
+                    res.DecrementCurrentRelationNestLevel();
                 }
             }
         }
-        
+
         protected virtual void SetupPropertyCacheElement(RelationRowCreationResource res) {
             String columnName = res.BuildRelationColumnName();
             if (!res.ContainsColumnName(columnName)) {
@@ -366,6 +373,14 @@ namespace Seasar.Dao.Impl
         // ===================================================================================
         //                                                                     Extension Point
         //                                                                     ===============
+        protected virtual bool IsPropertyRelation(RelationRowCreationResource res) {
+            // - - - - - - - - - - - - - - - - - - - - - - - -
+            // Extension Point!
+            //  --> 該当のRelationを処理対象とするか否か。
+            // - - - - - - - - - - - - - - - - - - - - - - - -
+            return true;
+        }
+        
         protected virtual bool IsTargetProperty(RelationRowCreationResource res) {
             // - - - - - - - - - - - - - - - - - - - - - - - -
             // Extension Point!
