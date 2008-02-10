@@ -68,13 +68,13 @@ namespace Seasar.Dao.Impl
         protected bool createDeadLink;
 
         /** The backup of relation property type. */
-        protected Stack<IRelationPropertyType> relationPropertyTypeBackup = new Stack<IRelationPropertyType>();
+        protected Stack<IRelationPropertyType> relationPropertyTypeBackup;
 
         /** The backup of base suffix. */
-        protected Stack<String> baseSuffixBackup = new Stack<String>();
+        protected Stack<String> baseSuffixBackup;
 
         /** The backup of relation suffix. */
-        protected Stack<String> relationNoSuffixBackup = new Stack<String>();
+        protected Stack<String> relationNoSuffixBackup;
 
         // ===================================================================================
         //                                                                            Behavior
