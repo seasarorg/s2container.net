@@ -200,10 +200,14 @@ namespace Seasar.Dao.Impl
                 value = valueType.GetValue(res.DataReader, columnName);
             }
             if (value != null) {
-                res.IncrementValidValueCount();
-                PropertyInfo pd = pt.PropertyInfo;
-                pd.SetValue(res.Row, value, null);
+                RegisterRelationValidValue(res, pt, value);
             }
+        }
+
+        protected virtual void RegisterRelationValidValue(RelationRowCreationResource res, IPropertyType pt, Object value) {
+            res.IncrementValidValueCount();
+            PropertyInfo pd = pt.PropertyInfo;
+            pd.SetValue(res.Row, value, null);
         }
 
         // -----------------------------------------------------

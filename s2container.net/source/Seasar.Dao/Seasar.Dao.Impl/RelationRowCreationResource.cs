@@ -40,7 +40,7 @@ namespace Seasar.Dao.Impl
         /** The set of column name. */
         protected System.Collections.IList columnNames;
 
-        /** The map of rel key values. */
+        /** The map of relation key values. */
         protected System.Collections.Hashtable relKeyValues;
 
         /** The map of relation property cache. */
@@ -68,13 +68,13 @@ namespace Seasar.Dao.Impl
         protected bool createDeadLink;
 
         /** The backup of relation property type. */
-        protected Stack<IRelationPropertyType> backupRelationPropertyType = new Stack<IRelationPropertyType>();
+        protected Stack<IRelationPropertyType> relationPropertyTypeBackup = new Stack<IRelationPropertyType>();
 
         /** The backup of base suffix. */
-        protected Stack<String> backupBaseSuffix = new Stack<String>();
+        protected Stack<String> baseSuffixBackup = new Stack<String>();
 
         /** The backup of relation suffix. */
-        protected Stack<String> backupRelationSuffix = new Stack<String>();
+        protected Stack<String> relationNoSuffixBackup = new Stack<String>();
 
         // ===================================================================================
         //                                                                            Behavior
@@ -102,11 +102,18 @@ namespace Seasar.Dao.Impl
         }
 
         public virtual void BackupRelationPropertyType() {
-            backupRelationPropertyType.Push(RelationPropertyType);
+            GetOrCreateRelationPropertyTypeBackup().Push(RelationPropertyType);
         }
 
         public virtual void RestoreRelationPropertyType() {
-            RelationPropertyType = backupRelationPropertyType.Pop();
+            RelationPropertyType = GetOrCreateRelationPropertyTypeBackup().Pop();
+        }
+
+        public virtual Stack<IRelationPropertyType> GetOrCreateRelationPropertyTypeBackup() {
+            if (relationPropertyTypeBackup == null) {
+                relationPropertyTypeBackup = new Stack<IRelationPropertyType>();
+            }
+            return relationPropertyTypeBackup;
         }
 
         // -----------------------------------------------------
@@ -192,19 +199,33 @@ namespace Seasar.Dao.Impl
         }
 
         protected virtual void BackupBaseSuffix() {
-            backupBaseSuffix.Push(BaseSuffix);
+            GetOrCreateBaseSuffixBackup().Push(BaseSuffix);
         }
 
         protected virtual void RestoreBaseSuffix() {
-            BaseSuffix = backupBaseSuffix.Pop();
+            BaseSuffix = GetOrCreateBaseSuffixBackup().Pop();
+        }
+
+        public virtual Stack<String> GetOrCreateBaseSuffixBackup() {
+            if (baseSuffixBackup == null) {
+                baseSuffixBackup = new Stack<String>();
+            }
+            return baseSuffixBackup;
         }
 
         protected virtual void BackupRelationNoSuffix() {
-            backupRelationSuffix.Push(RelationNoSuffix);
+            GetOrCreateRelationNoSuffixBackup().Push(RelationNoSuffix);
         }
 
         protected virtual void RestoreRelationNoSuffix() {
-            RelationNoSuffix = backupRelationSuffix.Pop();
+            RelationNoSuffix = GetOrCreateRelationNoSuffixBackup().Pop();
+        }
+
+        public virtual Stack<String> GetOrCreateRelationNoSuffixBackup() {
+            if (relationNoSuffixBackup == null) {
+                relationNoSuffixBackup = new Stack<String>();
+            }
+            return relationNoSuffixBackup;
         }
 
         // -----------------------------------------------------
