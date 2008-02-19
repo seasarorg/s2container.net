@@ -45,5 +45,15 @@ namespace Seasar.Tests.Properties {
                 return ((string)(this["s2dotnetdemoConnectionString1"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(local);Initial Catalog=s2dotnetdemo;Integrated Security=True")]
+        public string s2dotnetdemoConnectionString2 {
+            get {
+                return ((string)(this["s2dotnetdemoConnectionString2"]));
+            }
+        }
     }
 }

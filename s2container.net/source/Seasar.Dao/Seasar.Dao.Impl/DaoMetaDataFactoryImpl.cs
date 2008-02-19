@@ -31,7 +31,7 @@ namespace Seasar.Dao.Impl
         protected readonly ICommandFactory _commandFactory;
         protected readonly IDataReaderFactory _dataReaderFactory;
         protected readonly IAnnotationReaderFactory _readerFactory;
-        protected readonly IDatabaseMetaData _dbMetaData;
+        protected IDatabaseMetaData _dbMetaData;
         protected string _sqlFileEncoding = Encoding.Default.WebName;
         protected string[] _insertPrefixes;
         protected string[] _updatePrefixes;
@@ -45,7 +45,11 @@ namespace Seasar.Dao.Impl
             _commandFactory = commandFactory;
             _readerFactory = readerFactory;
             _dataReaderFactory = dataReaderFactory;
-            _dbMetaData = new DatabaseMetaDataImpl(dataSource);
+        }
+
+        public IDatabaseMetaData DBMetaData
+        {
+            set { _dbMetaData = value; }
         }
 
         public string[] InsertPrefixes
@@ -90,12 +94,16 @@ namespace Seasar.Dao.Impl
 
         protected virtual IDaoMetaData CreateDaoMetaData(Type daoType)
         {
-            DaoMetaDataImpl dmd = new DaoMetaDataImpl();
+            DaoMetaDataImpl dmd = CreateDaoMetaDataImpl();
             dmd.DaoType = daoType;
             dmd.DataSource = _dataSource;
             dmd.CommandFactory = _commandFactory;
             dmd.DataReaderFactory = _dataReaderFactory;
             dmd.AnnotationReaderFactory = _readerFactory;
+            if (_dbMetaData == null)
+            {
+                _dbMetaData = new DatabaseMetaDataImpl(_dataSource);
+            }
             dmd.DatabaseMetaData = _dbMetaData;
             if (_sqlFileEncoding != null)
             {
@@ -115,6 +123,11 @@ namespace Seasar.Dao.Impl
             }
             dmd.Initialize();
             return dmd;
+        }
+
+        protected virtual DaoMetaDataImpl CreateDaoMetaDataImpl()
+        {
+            return new DaoMetaDataImpl();
         }
     }
 }
