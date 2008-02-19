@@ -185,6 +185,17 @@
     </None>
     <EmbeddedResource Include="Dxo\dxo.dicon" />
     <EmbeddedResource Include="Dao\Impl\SqlFile\GetCount.sql" />
+    <None Include="Extension\ADO.Impl\S2DotNetDemoDataSet.xsc">
+      <DependentUpon>S2DotNetDemoDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Extension\ADO.Impl\S2DotNetDemoDataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>S2DotNetDemoDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Extension\ADO.Impl\S2DotNetDemoDataSet.xss">
+      <DependentUpon>S2DotNetDemoDataSet.xsd</DependentUpon>
+    </None>
     <None Include="Extension\DataSets.Impl\XlsReaderTest_InvalidColumn.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -361,6 +372,11 @@
     <Compile Include="Extension\ADO.Impl\NoReplaceDbParameterParserTest.cs" />
     <Compile Include="Extension\ADO.Impl\DbProviderFactoryDataSourceTest.cs" />
     <Compile Include="Extension\ADO.Impl\DataProviderDataSourceTest.cs" />
+    <Compile Include="Extension\ADO.Impl\S2DotNetDemoDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>S2DotNetDemoDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Extension\BasicTypeBean.cs" />
     <Compile Include="Extension\DataSets.Impl\SqlDeleteTableWriterTest.cs" />
     <Compile Include="Extension\DataSets.Impl\SqlReloadReaderTest.cs" />
