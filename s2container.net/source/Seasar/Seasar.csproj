@@ -298,6 +298,8 @@
     <Compile Include="Seasar.Extension.ADO\Impl\BasicDbParameterParser.cs" />
     <Compile Include="Seasar.Extension.ADO\Impl\DataProviderDataSource.cs" />
     <Compile Include="Seasar.Extension.ADO\Impl\DbProviderFactoryDataSource.cs" />
+    <Compile Include="Seasar.Extension.ADO\Impl\AbstractSelectableDataSourceProxy.cs" />
+    <Compile Include="Seasar.Extension.ADO\Impl\SelectableDataSourceProxyWithContainer.cs" />
     <Compile Include="Seasar.Extension.ADO\IPropertyType.cs">
       <SubType>Code</SubType>
     </Compile>

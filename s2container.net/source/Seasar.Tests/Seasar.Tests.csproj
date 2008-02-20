@@ -196,6 +196,7 @@
     <None Include="Extension\ADO.Impl\S2DotNetDemoDataSet.xss">
       <DependentUpon>S2DotNetDemoDataSet.xsd</DependentUpon>
     </None>
+    <EmbeddedResource Include="Extension\ADO.Impl\SelectableDataSourceProxyWithContainer.dicon" />
     <None Include="Extension\DataSets.Impl\XlsReaderTest_InvalidColumn.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -377,6 +378,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>S2DotNetDemoDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Extension\ADO.Impl\SelectableDataSourceProxyWithContainerTest.cs" />
     <Compile Include="Extension\BasicTypeBean.cs" />
     <Compile Include="Extension\DataSets.Impl\SqlDeleteTableWriterTest.cs" />
     <Compile Include="Extension\DataSets.Impl\SqlReloadReaderTest.cs" />
