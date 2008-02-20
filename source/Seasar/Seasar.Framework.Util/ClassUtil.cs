@@ -65,6 +65,17 @@ namespace Seasar.Framework.Util
             return null;
         }
 
+        /// <summary>
+        /// 現在使用可能なアセンブリの中から、
+        /// クラス名を使って型を取得する
+        /// </summary>
+        /// <param name="className">名前空間を含むクラス名</param>
+        /// <returns>該当する型</returns>
+        public static Type ForName(string className)
+        {
+            return ForName(className, AppDomain.CurrentDomain.GetAssemblies());
+        }
+
         public static object NewInstance(Type type)
         {
             return Activator.CreateInstance(type);
