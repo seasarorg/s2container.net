@@ -16,13 +16,11 @@
  */
 #endregion
 
-using System;
 using MbUnit.Framework;
 using Seasar.Extension.ADO;
 using Seasar.Extension.ADO.Impl;
 using Seasar.Extension.Tx.Impl;
 using Seasar.Framework.Container;
-using Seasar.Framework.Container.Factory;
 using Seasar.Framework.Container.Impl;
 
 namespace Seasar.Tests.Extension.ADO.Impl
