@@ -95,5 +95,57 @@ namespace Seasar.Quill
                 throw new QuillApplicationException("EQLL0011", new string[] { }, ex);
             }
         }
+
+        /// <summary>
+        /// S2Containerのコンポーネントをコンポーネント名を指定して取得します
+        /// </summary>
+        /// <remarks>
+        /// see cref="Seasar.Framework.Container.Factory.SingletonS2ContainerFactory"/>
+        /// で作成された<see cref="Seasar.Framework.Container.IS2Container"/>
+        /// からコンポーネントを取得します
+        /// </remarks>
+        /// <param name="componentType">コンポーネントの型</param>
+        /// <returns>コンポーネントのインスタンス</returns>
+        public static object GetComponent(Type componentType)
+        {
+            if ( !SingletonS2ContainerFactory.HasContainer )
+            {
+                // S2Containerが作成されていない場合は例外をスローします
+                throw new QuillApplicationException("EQLL0009");
+            }
+
+            // S2Containerを取得する
+            IS2Container container = SingletonS2ContainerFactory.Container;
+
+            if ( !container.HasComponentDef(componentType) )
+            {
+                // S2Containerにコンポーネントが登録されていない場合は例外をスローする
+                throw new QuillApplicationException("EQLL0010",
+                    new string[] { componentType.Name });
+            }
+
+            try
+            {
+                // S2Containerから取得したコンポーネントを返す
+                return container.GetComponent(componentType);
+            }
+            catch ( Exception ex )
+            {
+                // コンポーネントの取得で例外が発生した場合は例外をスローする
+                throw new QuillApplicationException("EQLL0011", new string[] { }, ex);
+            }
+        }
+
+        /// <summary>
+        /// S2Container上に指定したコンポーネントが存在するか
+        /// </summary>
+        /// <param name="componentKey"></param>
+        /// <returns>true=存在する、false=存在しない</returns>
+        public static bool HasComponentDef(object componentKey)
+        {
+            // S2Containerを取得する
+            IS2Container container = SingletonS2ContainerFactory.Container;
+            return container.HasComponentDef(componentKey);
+        }
     }
 }

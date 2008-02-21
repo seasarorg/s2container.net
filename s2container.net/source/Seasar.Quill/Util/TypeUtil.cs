@@ -49,5 +49,15 @@ namespace Seasar.Quill.Util
                 return obj.GetType();
             }
         }
+
+        /// <summary>
+        /// –¼Ì‚É–¼‘O‹óŠÔ‚ğŠÜ‚Ş‚©‚Ç‚¤‚©”»’è
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static bool HasNamespace(string name)
+        {
+            return name.Contains(".");
+        }
     }
 }

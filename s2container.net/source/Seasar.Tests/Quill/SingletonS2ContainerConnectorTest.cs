@@ -16,11 +16,10 @@
  */
 #endregion
 
-using System;
 using MbUnit.Framework;
-using Seasar.Quill;
-using Seasar.Framework.Container.Impl;
 using Seasar.Framework.Container.Factory;
+using Seasar.Framework.Container.Impl;
+using Seasar.Quill;
 
 namespace Seasar.Tests.Quill
 {

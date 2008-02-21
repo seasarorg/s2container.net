@@ -18,9 +18,10 @@
 
 using System;
 using MbUnit.Framework;
-using Seasar.Quill;
 using Seasar.Framework.Aop;
+using Seasar.Quill;
 using Seasar.Quill.Attrs;
+using Seasar.Quill.Database.DataSource.Impl;
 
 namespace Seasar.Tests.Quill
 {
@@ -214,5 +215,24 @@ namespace Seasar.Tests.Quill
         }
 
         #endregion 
+
+        #region RegistDataSource
+
+        [Test]
+        public void TestRegistDataSource()
+        {
+            //  ## Assert ##
+            QuillContainer container = new QuillContainer();
+
+            //  ## Assert ##
+            QuillComponent qc = container.GetComponent(typeof(SelectableDataSourceProxyWithDictionary));
+            Assert.AreEqual(typeof(SelectableDataSourceProxyWithDictionary), qc.ComponentType, "1");
+            SelectableDataSourceProxyWithDictionary ds = (SelectableDataSourceProxyWithDictionary)qc.GetComponentObject(
+                typeof(SelectableDataSourceProxyWithDictionary));
+            Assert.IsNotNull(ds, "2");
+            Assert.GreaterEqualThan(2, ds.DataSourceCollection.Count);
+        }
+
+        #endregion
     }
 }

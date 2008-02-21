@@ -18,11 +18,15 @@
 
 using System;
 using System.Collections.Generic;
-using Seasar.Framework.Aop;
 using System.Reflection;
-using Seasar.Quill.Attrs;
-using Seasar.Quill.Util;
+using Seasar.Extension.ADO;
+using Seasar.Framework.Aop;
 using Seasar.Framework.Aop.Impl;
+using Seasar.Quill.Attrs;
+using Seasar.Quill.Dao;
+using Seasar.Quill.Database.DataSource.Impl;
+using Seasar.Quill.Database.Tx;
+using Seasar.Quill.Util;
 
 namespace Seasar.Quill
 {
@@ -41,6 +45,11 @@ namespace Seasar.Quill
         // AspectBuilder内で使用するQuillContainer
         // (Interceptorを取得する為に使用する)
         protected QuillContainer container;
+
+        /// <summary>
+        /// DaoSetting型情報
+        /// </summary>
+        protected Type _daoSettingType = null;
 
         /// <summary>
         /// AspectBuilderを初期化するためのコンストラクタ
@@ -64,8 +73,29 @@ namespace Seasar.Quill
             // Aspectのリスト
             List<IAspect> aspectList = new List<IAspect>();
 
+            // typeで宣言されているメソッドを取得する
+            MethodInfo[] methods = type.GetMethods(BindingFlags.Public | 
+                BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
+
+            CreateFromAspectAttribute(type, methods, aspectList);
+            CreateFromTransactionAttribute(type, methods, aspectList);
+            CreateFromS2DaoAttribute(type, methods, aspectList);
+
+            // Aspectの配列を返す
+            return aspectList.ToArray();
+        }
+
+        /// <summary>
+        /// Aspect属性からアスペクトを作成する
+        /// </summary>
+        /// <param name="targetType"></param>
+        /// <param name="methods"></param>
+        /// <param name="aspectList"></param>
+        protected virtual void CreateFromAspectAttribute(
+            Type targetType, MethodInfo[] methods, List<IAspect> aspectList)
+        {
             // Typeに指定されたAspectを指定する属性を取得する
-            AspectAttribute[] attrsByType = AttributeUtil.GetAspectAttrs(type);
+            AspectAttribute[] attrsByType = AttributeUtil.GetAspectAttrs(targetType);
 
             // Typeに指定されているAspectの件数分、Aspectをリストに追加する
             foreach (AspectAttribute attrByType in attrsByType)
@@ -77,15 +107,56 @@ namespace Seasar.Quill
                 aspectList.Add(aspect);
             }
 
-            // typeで宣言されているメソッドを取得する
-            MethodInfo[] methods = type.GetMethods(BindingFlags.Public | 
-                BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
-
             // Methodに指定されているAspectをリストに追加する
             aspectList.AddRange(CreateAspectList(methods));
+        }
 
-            // Aspectの配列を返す
-            return aspectList.ToArray();
+        /// <summary>
+        /// Transaction属性からアスペクトを作成する
+        /// </summary>
+        /// <param name="targetType"></param>
+        /// <param name="methods"></param>
+        /// <param name="aspectList"></param>
+        protected virtual void CreateFromTransactionAttribute(
+            Type targetType, MethodInfo[] methods, List<IAspect> aspectList)
+        {
+            //  Typeに指定されたトランザクションを指定する属性を取得する
+            TransactionAttribute txAttrByTypte = AttributeUtil.GetTransactionAttr(targetType);
+            if (txAttrByTypte != null)
+            {
+                IAspect txAspect = CreateTxAspect(txAttrByTypte);
+                if (txAspect != null)
+                {
+                    aspectList.Add(txAspect);
+                }
+            }
+
+            // Methodに指定されているTransaction用Aspectをリストに追加する
+            aspectList.AddRange(CreateTxAspectList(methods));
+        }
+
+        /// <summary>
+        /// S2Dao属性からアスペクトを作成する
+        /// </summary>
+        /// <param name="targetType"></param>
+        /// <param name="methods"></param>
+        /// <param name="aspectList"></param>
+        protected virtual void CreateFromS2DaoAttribute(
+            Type targetType, MethodInfo[] methods, List<IAspect> aspectList)
+        {
+            //  Typeに指定されたDaoInterceptorを指定する属性を取得する
+            S2DaoAttribute daoAttrByTypte = AttributeUtil.GetS2DaoAttr(targetType);
+            if (daoAttrByTypte != null)
+            {
+                IAspect daoAspect = CreateS2DaoAspect(daoAttrByTypte);
+                if (daoAspect != null)
+                {
+                    aspectList.Add(daoAspect);
+                }
+            }
+
+            // Methodに指定されているTransaction用Aspectをリストに追加する
+            aspectList.AddRange(CreateS2DaoAspectList(methods));
         }
 
         /// <summary>
@@ -167,6 +238,120 @@ namespace Seasar.Quill
         /// <param name="methodNames">
         /// Interceptor毎にpointcutとなるメソッド名を格納したコレクション
         /// </param>
+        /// <param name="methodName">メソッド名</param>
+        /// <param name="aspectAttr">Aspect属性</param>
+        protected virtual IAspect[] CreateTxAspectList(MethodInfo[] methods)
+        {
+            IDictionary<IMethodInterceptor, List<string>> methodNames =
+                new Dictionary<IMethodInterceptor, List<string>>();
+            foreach ( MethodInfo method in methods )
+            {
+                TransactionAttribute txAttr = AttributeUtil.GetTransactionAttrByMethod(method);
+                if ( txAttr != null )
+                {
+                    AddMethodNamesForTxPointcut(methodNames, method.Name, txAttr);
+                }
+            }
+
+            // Aspectのリスト
+            List<IAspect> txList = new List<IAspect>();
+
+            // Interceptorの件数分、Aspectを作成する
+            foreach ( IMethodInterceptor interceptor in methodNames.Keys )
+            {
+                // Interceptorとメソッド名の配列からAspectを作成する
+                IAspect aspect = CreateAspect(
+                    interceptor, methodNames[interceptor].ToArray());
+
+                // Aspectのリストに追加する
+                txList.Add(aspect);
+            }
+
+            // Aspectのリストを返す
+            return txList.ToArray();
+        }
+
+        /// <summary>
+        /// 全てのメソッドにAspectが有効となるAspect定義を作成する
+        /// </summary>
+        /// <param name="aspectAttr">Aspectを設定する属性</param>
+        /// <returns>全てのメソッドにAspectが有効となるAspect定義</returns>
+        protected virtual IAspect CreateTxAspect(TransactionAttribute txAttr)
+        {
+            // Interceptorを作成する
+            IMethodInterceptor interceptor = GetMethodInterceptor(txAttr);
+
+            // InterceptorからAspectを作成する
+            // (Pointcutは指定しないので全てのメソッドが対象となる)
+            IAspect aspect = new AspectImpl(interceptor);
+
+            // Aspectを返す
+            return aspect;
+        }
+
+        /// <summary>
+        /// メソッド情報から追加するためのAspectのリストを作成する
+        /// </summary>
+        /// <param name="methodNames">
+        /// Interceptor毎にpointcutとなるメソッド名を格納したコレクション
+        /// </param>
+        /// <param name="methodName">メソッド名</param>
+        /// <param name="aspectAttr">Aspect属性</param>
+        protected virtual IAspect[] CreateS2DaoAspectList(MethodInfo[] methods)
+        {
+            IDictionary<IMethodInterceptor, List<string>> methodNames =
+                new Dictionary<IMethodInterceptor, List<string>>();
+            foreach (MethodInfo method in methods)
+            {
+                S2DaoAttribute daoAttr = AttributeUtil.GetS2DaoAttrByMethod(method);
+                if (daoAttr != null)
+                {
+                    AddMethodNamesForS2DaoPointcut(methodNames, method.Name, daoAttr);
+                }
+            }
+
+            // Aspectのリスト
+            List<IAspect> daoList = new List<IAspect>();
+
+            // Interceptorの件数分、Aspectを作成する
+            foreach (IMethodInterceptor interceptor in methodNames.Keys)
+            {
+                // Interceptorとメソッド名の配列からAspectを作成する
+                IAspect aspect = CreateAspect(
+                    interceptor, methodNames[interceptor].ToArray());
+
+                // Aspectのリストに追加する
+                daoList.Add(aspect);
+            }
+
+            // Aspectのリストを返す
+            return daoList.ToArray();
+        }
+
+        /// <summary>
+        /// 全てのメソッドにAspectが有効となるAspect定義を作成する
+        /// </summary>
+        /// <param name="aspectAttr">Aspectを設定する属性</param>
+        /// <returns>全てのメソッドにAspectが有効となるAspect定義</returns>
+        protected virtual IAspect CreateS2DaoAspect(S2DaoAttribute daoAttr)
+        {
+            // Interceptorを作成する
+            IMethodInterceptor interceptor = GetMethodInterceptor(daoAttr);
+
+            // InterceptorからAspectを作成する
+            // (Pointcutは指定しないので全てのメソッドが対象となる)
+            IAspect aspect = new AspectImpl(interceptor);
+
+            // Aspectを返す
+            return aspect;
+        }
+
+        /// <summary>
+        /// Aspect属性を確認してPointcutを作成する為のメソッド名を追加する
+        /// </summary>
+        /// <param name="methodNames">
+        /// Interceptor毎にpointcutとなるメソッド名を格納したコレクション
+        /// </param>
         /// <param name="method">メソッド情報</param>
         protected void AddMethodNamesForPointcut(
             IDictionary<IMethodInterceptor, List<string>> methodNames, MethodInfo method)
@@ -209,6 +394,56 @@ namespace Seasar.Quill
         }
 
         /// <summary>
+        /// Aspect属性を確認してPointcutを作成する為のメソッド名を追加する
+        /// </summary>
+        /// <param name="methodNames">
+        /// Interceptor毎にpointcutとなるメソッド名を格納したコレクション
+        /// </param>
+        /// <param name="methodName">メソッド名</param>
+        /// <param name="aspectAttr">Aspect属性</param>
+        protected void AddMethodNamesForTxPointcut(
+            IDictionary<IMethodInterceptor, List<string>> methodNames,
+             string methodName, TransactionAttribute txAttr)
+        {
+            // インターセプターを取得する
+            IMethodInterceptor interceptor = GetMethodInterceptor(txAttr);
+
+            if ( !methodNames.ContainsKey(interceptor) )
+            {
+                // 始めてのInterceptorの場合はstringのリストを初期化する
+                methodNames.Add(interceptor, new List<string>());
+            }
+
+            // メソッド名を追加する
+            methodNames[interceptor].Add(methodName);
+        }
+
+        /// <summary>
+        /// Aspect属性を確認してPointcutを作成する為のメソッド名を追加する
+        /// </summary>
+        /// <param name="methodNames">
+        /// Interceptor毎にpointcutとなるメソッド名を格納したコレクション
+        /// </param>
+        /// <param name="methodName">メソッド名</param>
+        /// <param name="aspectAttr">Aspect属性</param>
+        protected void AddMethodNamesForS2DaoPointcut(
+            IDictionary<IMethodInterceptor, List<string>> methodNames,
+             string methodName, S2DaoAttribute daoAttr)
+        {
+            // インターセプターを取得する
+            IMethodInterceptor interceptor = GetMethodInterceptor(daoAttr);
+
+            if (!methodNames.ContainsKey(interceptor))
+            {
+                // 始めてのInterceptorの場合はstringのリストを初期化する
+                methodNames.Add(interceptor, new List<string>());
+            }
+
+            // メソッド名を追加する
+            methodNames[interceptor].Add(methodName);
+        }
+
+        /// <summary>
         /// Aspect属性からインターセプターを取得する
         /// </summary>
         /// <param name="aspectAttr">Aspect属性</param>
@@ -234,7 +469,6 @@ namespace Seasar.Quill
                 // されていない場合は例外をスローする
                 throw new QuillApplicationException("EQLL0013");
             }
-
         }
 
         /// <summary>
@@ -290,5 +524,82 @@ namespace Seasar.Quill
             }
         }
 
+        /// <summary>
+        /// Aspect属性からインターセプターを取得する
+        /// </summary>
+        /// <param name="aspectAttr">Aspect属性</param>
+        /// <returns>インターセプター</returns>
+        protected virtual IMethodInterceptor GetMethodInterceptor(
+            TransactionAttribute txAttr)
+        {
+            Type settingType = txAttr.TransactionSettingType;
+            if (settingType == null)
+            {
+                // トランザクション設定が指定されていない場合は
+                // 例外をスローする
+                throw new QuillApplicationException("EQLL0013");
+            }
+
+            QuillComponent txSettingQComponent = container.GetComponent(settingType);
+            ITransactionSetting txSetting = 
+                (ITransactionSetting)txSettingQComponent.GetComponentObject(settingType);
+            if (txSetting.IsNeedSetup())
+            {
+                //  DataSourceの取得
+                QuillComponent dsQComponent = container.GetComponent(
+                    typeof(SelectableDataSourceProxyWithDictionary));
+                SelectableDataSourceProxyWithDictionary dataSource =
+                     (SelectableDataSourceProxyWithDictionary)dsQComponent.GetComponentObject(
+                    typeof(SelectableDataSourceProxyWithDictionary));
+                //  トランザクションの設定
+                txSetting.Setup(dataSource);
+            }
+
+            if (txSetting.TransactionInterceptor == null)
+            {
+                //  Interceptorが作られていない場合は例外とする
+                throw new QuillApplicationException("EQLL0024");
+            }
+            return txSetting.TransactionInterceptor;
+        }
+
+        /// <summary>
+        /// Aspect属性からインターセプターを取得する
+        /// </summary>
+        /// <param name="aspectAttr">Aspect属性</param>
+        /// <returns>インターセプター</returns>
+        protected virtual IMethodInterceptor GetMethodInterceptor(
+            S2DaoAttribute daoAttr)
+        {
+            Type settingType = daoAttr.DaoSettingType;
+            if (settingType == null)
+            {
+                // 使用するHandlerが指定されていない場合は
+                // 例外をスローする
+                throw new QuillApplicationException("EQLL0013");
+            }
+
+            QuillComponent daoSettingQComponent = container.GetComponent(settingType);
+            IDaoSetting daoSetting = (IDaoSetting)daoSettingQComponent.GetComponentObject(
+                settingType);
+
+            if (daoSetting.IsNeedSetup())
+            {
+                //  DataSourceの取得
+                QuillComponent dsQComponent = container.GetComponent(
+                    typeof(SelectableDataSourceProxyWithDictionary));
+                IDataSource dataSource = (IDataSource)dsQComponent.GetComponentObject(
+                    typeof(SelectableDataSourceProxyWithDictionary));
+                //  DaoInterceptor等の設定
+                daoSetting.Setup(dataSource);
+            }
+
+            if (daoSetting.DaoInterceptor == null)
+            {
+                //  Interceptorが作られていない場合は例外とする
+                throw new QuillApplicationException("EQLL0023");
+            }
+            return daoSetting.DaoInterceptor;
+        }
     }
 }

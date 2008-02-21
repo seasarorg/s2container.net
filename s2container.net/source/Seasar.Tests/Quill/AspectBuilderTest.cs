@@ -17,14 +17,14 @@
 #endregion
 
 using System;
-using MbUnit.Framework;
-using Seasar.Quill;
-using Seasar.Framework.Aop;
-using Seasar.Framework.Container.Impl;
-using Seasar.Framework.Container.Factory;
-using Seasar.Quill.Attrs;
 using System.Collections.Generic;
 using System.Reflection;
+using MbUnit.Framework;
+using Seasar.Framework.Aop;
+using Seasar.Framework.Container.Factory;
+using Seasar.Framework.Container.Impl;
+using Seasar.Quill;
+using Seasar.Quill.Attrs;
 
 namespace Seasar.Tests.Quill
 {
