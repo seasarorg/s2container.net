@@ -18,7 +18,9 @@
 
 using System;
 using System.Collections.Generic;
+using Seasar.Extension.ADO;
 using Seasar.Framework.Aop;
+using Seasar.Quill.Database.DataSource.Impl;
 
 namespace Seasar.Quill
 {
@@ -46,6 +48,9 @@ namespace Seasar.Quill
         {
             // QuillContainer内で使用するAspectBuilderを作成する
             aspectBuilder = new AspectBuilder(this);
+
+            //  DataSourceが定義されていればQuillContainerに登録する
+            RegistDataSource();
         }
 
         /// <summary>
@@ -135,6 +140,36 @@ namespace Seasar.Quill
 
             components = null;
             aspectBuilder = null;
+        }
+
+        /// <summary>
+        /// データソースを登録
+        /// </summary>
+        public virtual void RegistDataSource()
+        {
+            DataSourceBuilder builder = new DataSourceBuilder();
+            IDictionary<string, IDataSource> dataSources = builder.CreateDataSources();
+            //  データソースが定義されていなければQuillContainerには何も追加しない
+            if ( dataSources.Count == 0 )
+            {
+                return;
+            }
+
+            QuillComponent dsComponent = GetComponent(
+                typeof(SelectableDataSourceProxyWithDictionary));
+            SelectableDataSourceProxyWithDictionary dataSourceProxy =
+                (SelectableDataSourceProxyWithDictionary)dsComponent.GetComponentObject(
+                typeof(SelectableDataSourceProxyWithDictionary));
+            //  データソースの定義があれば登録
+            foreach ( KeyValuePair<string, IDataSource> dataSourcePair in dataSources )
+            {
+                if ( string.IsNullOrEmpty(dataSourceProxy.GetDataSourceName()) )
+                {
+                    //  最初のデータソースをデフォルトのデータソースとする
+                    dataSourceProxy.SetDataSourceName(dataSourcePair.Key);
+                }
+                dataSourceProxy.RegistDataSource(dataSourcePair.Key, dataSourcePair.Value);
+            }
         }
 
         #region IDisposable メンバ

@@ -186,6 +186,128 @@ namespace Seasar.Quill.Util
 
         #endregion
 
+        #region TransactionAttribute
+
+        /// <summary>
+        /// Transactionを指定する為にクラスやインターフェースに設定されている属性
+        /// (<see cref="Seasar.Quill.Attrs.TransactionAttribute"/>)を取得する
+        /// </summary>
+        /// <param name="type">属性を確認するType</param>
+        /// <returns>Aspectが指定された属性の配列</returns>
+        public static TransactionAttribute GetTransactionAttr(Type type)
+        {
+            if ( !type.IsPublic && !type.IsNestedPublic )
+            {
+                // メソッドを宣言するクラスがpublicではない場合は例外をスローする
+                throw new QuillApplicationException("EQLL0016", new object[] {
+                    type.FullName });
+            }
+
+            // Aspectを指定する属性を取得して返す
+            return GetTransactionAttrByMember(type);
+        }
+
+        /// <summary>
+        /// Aspectを指定する為にメソッドに設定されている属性
+        /// (<see cref="Seasar.Quill.Attrs.TransactionAttribute"/>)を取得する
+        /// </summary>
+        /// <param name="method">属性を確認するメソッド</param>
+        /// <returns>Aspectが指定された属性の配列</returns>
+        public static TransactionAttribute GetTransactionAttrByMethod(MethodInfo method)
+        {
+            // Aspectを指定する属性を取得する
+            TransactionAttribute attr = GetTransactionAttrByMember(method);
+            if ( attr == null )
+            {
+                // Aspect属性が指定されていない場合はnullを返す
+                return null;
+            }
+
+            ValidateMethodInfo(method);
+
+            // Aspectを指定する属性を返す
+            return attr;
+        }
+
+        /// <summary>
+        /// Aspectを指定する為にメンバに設定されている属性
+        /// (<see cref="Seasar.Quill.Attrs.TransactionAttribute"/>)を取得する
+        /// </summary>
+        /// <param name="member">属性を確認するメンバ</param>
+        /// <returns>Aspectが指定された属性の配列</returns>
+        public static TransactionAttribute GetTransactionAttrByMember(MemberInfo member)
+        {
+            // Aspectを指定する属性を取得する
+            TransactionAttribute attr =
+                (TransactionAttribute)Attribute.GetCustomAttribute(
+                member, typeof(TransactionAttribute));
+
+            return attr;
+        }
+
+        #endregion
+
+        #region S2DaoAttribute
+
+        /// <summary>
+        /// DaoInterceptorを指定する為にクラスやインターフェースに設定されている属性
+        /// (<see cref="Seasar.Quill.Attrs.S2DaoAttribute"/>)を取得する
+        /// </summary>
+        /// <param name="type">属性を確認するType</param>
+        /// <returns>Aspectが指定された属性の配列</returns>
+        public static S2DaoAttribute GetS2DaoAttr(Type type)
+        {
+            if (!type.IsPublic && !type.IsNestedPublic)
+            {
+                // メソッドを宣言するクラスがpublicではない場合は例外をスローする
+                throw new QuillApplicationException("EQLL0016", new object[] {
+                    type.FullName });
+            }
+
+            // Aspectを指定する属性を取得して返す
+            return GetS2DaoAttrByMember(type);
+        }
+
+        /// <summary>
+        /// Aspectを指定する為にメソッドに設定されている属性
+        /// (<see cref="Seasar.Quill.Attrs.S2DaoAttribute"/>)を取得する
+        /// </summary>
+        /// <param name="method">属性を確認するメソッド</param>
+        /// <returns>Aspectが指定された属性の配列</returns>
+        public static S2DaoAttribute GetS2DaoAttrByMethod(MethodInfo method)
+        {
+            // Aspectを指定する属性を取得する
+            S2DaoAttribute attr = GetS2DaoAttrByMember(method);
+            if (attr == null)
+            {
+                // Aspect属性が指定されていない場合はnullを返す
+                return null;
+            }
+
+            ValidateMethodInfo(method);
+
+            // Aspectを指定する属性を返す
+            return attr;
+        }
+
+        /// <summary>
+        /// Aspectを指定する為にメンバに設定されている属性
+        /// (<see cref="Seasar.Quill.Attrs.S2DaoAttribute"/>)を取得する
+        /// </summary>
+        /// <param name="member">属性を確認するメンバ</param>
+        /// <returns>Aspectが指定された属性の配列</returns>
+        public static S2DaoAttribute GetS2DaoAttrByMember(MemberInfo member)
+        {
+            // Aspectを指定する属性を取得する
+            S2DaoAttribute attr =
+                (S2DaoAttribute)Attribute.GetCustomAttribute(
+                member, typeof(S2DaoAttribute));
+
+            return attr;
+        }
+
+        #endregion
+
         #region BindingAttribute
 
         /// <summary>
@@ -302,6 +424,46 @@ namespace Seasar.Quill.Util
                 // xとyが等しい場合は0, xがyより大きい場合は正の値,
                 // xがyより小さい場合は負の値を返す
                 return x.Ordinal - y.Ordinal;
+            }
+        }
+
+        #endregion
+
+        #region Validate
+
+        /// <summary>
+        /// メソッドにAspectを適用できるか検証
+        /// </summary>
+        /// <param name="method">検証対象のメソッド情報</param>
+        private static void ValidateMethodInfo(MethodInfo method)
+        {
+            if ( !method.DeclaringType.IsPublic && !method.DeclaringType.IsNestedPublic )
+            {
+                // メソッドを宣言するクラスがpublicではない場合は例外をスローする
+                throw new QuillApplicationException("EQLL0016", new object[] {
+                    method.DeclaringType.FullName });
+            }
+
+            if ( method.IsStatic )
+            {
+                // メソッドがstaticの場合は例外をスローする
+                throw new QuillApplicationException("EQLL0005", new object[] {
+                    method.DeclaringType.FullName, method.Name });
+            }
+
+            if ( !method.IsPublic )
+            {
+                // メソッドがpublicではない場合は例外をスローする
+                throw new QuillApplicationException("EQLL0006", new object[] {
+                    method.DeclaringType.FullName, method.Name });
+            }
+
+            if ( !method.IsVirtual )
+            {
+                // メソッドがvirtualかインターフェースのメソッド
+                // ではない場合は例外をスローする
+                throw new QuillApplicationException("EQLL0007", new object[] {
+                    method.DeclaringType.FullName, method.Name });
             }
         }
 
