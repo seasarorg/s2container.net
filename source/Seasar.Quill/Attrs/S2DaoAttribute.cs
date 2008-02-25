@@ -74,9 +74,9 @@ namespace Seasar.Quill.Attrs
         /// (IDaoSetting実装クラスではない場合実行時例外を投げます）
         /// </summary>
         /// <param name="handlerType"></param>
-        public S2DaoAttribute(Type daoInterceptorType)
+        public S2DaoAttribute(Type settingType)
         {
-            SetSettingType(daoInterceptorType);
+            SetSettingType(settingType);
         }
 
         /// <summary>

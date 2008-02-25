@@ -1,4 +1,4 @@
-#region Copyright
+﻿#region Copyright
 /*
  * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
@@ -16,25 +16,21 @@
  */
 #endregion
 
-using Seasar.Quill.Attrs;
-using Seasar.Quill.Examples.Entity;
-using Seasar.Quill.Examples.Dao;
+using Seasar.Extension.ADO;
 
-namespace Seasar.Quill.Examples.Logic
+namespace Seasar.Quill.Database.Provider
 {
-    [Implementation]
-    public class EmployeeLogic
+    /// <summary>
+    /// MySQL用データプロバイダ設定クラス
+    /// </summary>
+    public class MySQL : DataProvider
     {
-        protected IEmployeeDao employeeDao;
-
-        [Transaction]
-        [Aspect(typeof(ConsoleWriteInterceptor), 1)]
-        //[Aspect("LocalRequiredTx", 2)]
-        public virtual Employee GetEmployeeByEmpNo(int empNo)
+        public MySQL()
         {
-            Employee emp = employeeDao.GetByEmpNo(empNo);
-
-            return emp;
+            ConnectionType = "MySql.Data.MySqlClient.MySqlConnection";
+            CommandType = "MySql.Data.MySqlClient.MySqlCommand";
+            ParameterType = "MySql.Data.MySqlClient.MySqlParameter";
+            DataAdapterType = "MySql.Data.MySqlClient.MySqlDataAdapter";
         }
     }
 }

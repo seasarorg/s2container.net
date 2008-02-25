@@ -25,7 +25,6 @@ using Seasar.Framework.Aop.Interceptors;
 using Seasar.Quill;
 using Seasar.Quill.Attrs;
 using Seasar.Quill.Dao;
-using Seasar.Quill.Dao.Impl;
 using Seasar.Tests.Dao.Impl;
 
 namespace Seasar.Tests.Quill.Attr
@@ -39,10 +38,8 @@ namespace Seasar.Tests.Quill.Attr
             using (QuillContainer container = new QuillContainer())
             {
                 object[] attrs = typeof(IWithS2DaoAttr0).GetCustomAttributes(false);
-                Assert.AreEqual(1, attrs.Length);
-                Assert.IsTrue(attrs[0] is S2DaoAttribute);
-                Assert.AreEqual(typeof(TypicalDaoSetting).Name,
-                    ((S2DaoAttribute)attrs[0]).DaoSettingType.Name);
+                Assert.AreEqual(2, attrs.Length);
+                Assert.IsTrue(attrs[0] is S2DaoAttribute || attrs[1] is S2DaoAttribute);
             }
         }
 
@@ -102,12 +99,14 @@ namespace Seasar.Tests.Quill.Attr
         }
     }
 
+    [Transaction]
     [S2Dao]
     public interface IWithS2DaoAttr0
     {
         Employee GetEmployee();
     }
 
+    [Transaction]
     [S2Dao]
     [Bean(typeof(Employee))]
     public interface IWithS2DaoAttr1
@@ -115,12 +114,14 @@ namespace Seasar.Tests.Quill.Attr
         Employee GetEmployee();
     }
 
+    [Transaction]
     [S2Dao(typeof(CustomDaoSetting))]
     public interface IWithS2DaoAttr2
     {
         string Hoge();
     }
 
+    [Transaction]
     [Bean(typeof(Employee))]
     public interface IWithS2DaoMethod
     {

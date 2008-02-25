@@ -1,4 +1,4 @@
-#region Copyright
+﻿#region Copyright
 /*
  * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
@@ -16,25 +16,21 @@
  */
 #endregion
 
-using Seasar.Quill.Attrs;
-using Seasar.Quill.Examples.Entity;
-using Seasar.Quill.Examples.Dao;
+using Seasar.Extension.ADO;
 
-namespace Seasar.Quill.Examples.Logic
+namespace Seasar.Quill.Database.Provider
 {
-    [Implementation]
-    public class EmployeeLogic
+    /// <summary>
+    /// OleDb用データプロバイダ設定クラス
+    /// </summary>
+    public class OleDb : DataProvider
     {
-        protected IEmployeeDao employeeDao;
-
-        [Transaction]
-        [Aspect(typeof(ConsoleWriteInterceptor), 1)]
-        //[Aspect("LocalRequiredTx", 2)]
-        public virtual Employee GetEmployeeByEmpNo(int empNo)
+        public OleDb()
         {
-            Employee emp = employeeDao.GetByEmpNo(empNo);
-
-            return emp;
+            ConnectionType = "System.Data.OleDb.OleDbConnection";
+            CommandType = "System.Data.OleDb.OleDbCommand";
+            ParameterType = "System.Data.OleDb.OleDbParameter";
+            DataAdapterType = "System.Data.OleDb.OleDbDataAdapter";
         }
     }
 }

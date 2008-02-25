@@ -12,7 +12,7 @@
   </component>
 
   <!-- データソース -->
-  <component name="SqlDataSource" class="Seasar.Extension.Tx.Impl.TxDataSource">
+  <component name="DataSource" class="Seasar.Extension.Tx.Impl.TxDataSource">
     <property name="DataProvider">OleDb</property>
     <property name="ConnectionString">"Provider=Microsoft.Jet.OLEDB.4.0;User ID=admin;Data Source=./s2dotnetdemo.mdb"</property>
   </component>
@@ -26,14 +26,14 @@
       class="Seasar.Dao.Interceptors.S2DaoInterceptor"/>
 
   <!-- ローカルトランザクション用のインターセプター -->
-  <component name="LocalRequiredTx" class="Seasar.Extension.Tx.TransactionInterceptor">
-    <arg>
-      <component class="Seasar.Extension.Tx.Impl.LocalRequiredTxHandler" />
-    </arg>
-    <property name="TransactionStateHandler">TransactionContext</property>
-  </component>
+<component name="LocalRequiredTx" class="Seasar.Extension.Tx.TransactionInterceptor">
+	<arg>
+		<component class="Seasar.Extension.Tx.Impl.LocalRequiredTxHandler" />
+	</arg>
+	<property name="TransactionStateHandler">TransactionContext</property>
+</component>
 
-  <!-- ローカルトランザクション用のインターセプターで使用します -->
+<!-- ローカルトランザクション用のインターセプターで使用します -->
   <component name="TransactionContext" class="Seasar.Extension.Tx.Impl.TransactionContext">
     <property name="IsolationLevel">System.Data.IsolationLevel.ReadCommitted</property>
   </component>
