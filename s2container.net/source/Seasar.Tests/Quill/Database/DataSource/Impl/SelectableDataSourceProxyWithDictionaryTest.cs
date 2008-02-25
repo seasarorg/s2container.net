@@ -22,6 +22,8 @@ using Seasar.Extension.ADO.Impl;
 using Seasar.Extension.Tx.Impl;
 using Seasar.Framework.Container;
 using Seasar.Quill.Database.DataSource.Impl;
+using System.Threading;
+using System;
 
 namespace Seasar.Tests.Quill.Database.DataSource.Impl
 {
@@ -34,7 +36,7 @@ namespace Seasar.Tests.Quill.Database.DataSource.Impl
             //  ## Arrange ##
             const string DS_NAME = "HOGE_DATASOURCE";
             SelectableDataSourceProxyWithDictionary ds = new SelectableDataSourceProxyWithDictionary();
-
+            
             //  ## Act ##
             ds.SetDataSourceName(DS_NAME);
 
@@ -90,6 +92,42 @@ namespace Seasar.Tests.Quill.Database.DataSource.Impl
                 }
             }
         }
+
+        /// <summary>
+        /// 別スレッドで設定したデータソース名を参照できるかテスト
+        /// </summary>
+        [Test]
+        public void TestMultiThread()
+        {
+            Thread t1 = new Thread(Invoke_SetDSName);
+            Thread t2 = new Thread(Invoke_GetDSName);
+
+            SelectableDataSourceProxyWithDictionary ds = new SelectableDataSourceProxyWithDictionary();
+            t1.Start(ds);
+            t1.Join();
+            t2.Start(ds);
+            t2.Join();
+            Assert.IsFalse(string.IsNullOrEmpty(ds.GetDataSourceName()));
+        }
+
+        #region マルチスレッド実行用デリゲートメソッド
+
+        private void Invoke_SetDSName(object ds)
+        {
+            SelectableDataSourceProxyWithDictionary proxy = (SelectableDataSourceProxyWithDictionary)ds;
+            proxy.SetDataSourceName("Hoge");
+            Console.WriteLine("dataSourceName={0}, ThreadId={1}",
+                proxy.GetDataSourceName(), Thread.CurrentThread.ManagedThreadId);
+        }
+
+        private void Invoke_GetDSName(object ds)
+        {
+            SelectableDataSourceProxyWithDictionary proxy = (SelectableDataSourceProxyWithDictionary)ds;
+            Console.WriteLine("dataSourceName={0}, ThreadId={1}",
+                proxy.GetDataSourceName(), Thread.CurrentThread.ManagedThreadId);
+        }
+
+        #endregion
 
         #region テスト用IDataSource実装クラス
 

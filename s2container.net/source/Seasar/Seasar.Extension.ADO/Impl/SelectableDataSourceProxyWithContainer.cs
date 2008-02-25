@@ -17,6 +17,7 @@
 #endregion
 
 using Seasar.Framework.Container;
+using System;
 
 namespace Seasar.Extension.ADO.Impl
 {
@@ -25,6 +26,15 @@ namespace Seasar.Extension.ADO.Impl
     /// </summary>
 	public class SelectableDataSourceProxyWithContainer : AbstractSelectableDataSourceProxy
 	{
+        /// <summary>
+        /// データソース名
+        /// </summary>
+        /// <remarks>
+        /// static,スレッド毎に一意のデータソース名を保持する場合は
+        /// IDataSourceSelector実装クラスを作成して実装して下さい
+        /// </remarks>
+        private string _dataSourceName;
+
         private IS2Container _container = null;
 
         public IS2Container Container
@@ -49,6 +59,16 @@ namespace Seasar.Extension.ADO.Impl
             {
                 throw new ComponentNotFoundRuntimeException(dataSourceName);
             }
+        }
+
+        public override string GetDataSourceName()
+        {
+            return _dataSourceName;
+        }
+
+        public override void SetDataSourceName(string dataSourceName)
+        {
+            _dataSourceName = dataSourceName;
         }
     }
 }

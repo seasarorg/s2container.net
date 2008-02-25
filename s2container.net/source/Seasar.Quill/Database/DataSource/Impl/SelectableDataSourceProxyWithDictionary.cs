@@ -30,6 +30,15 @@ namespace Seasar.Quill.Database.DataSource.Impl
     [Implementation]
     public class SelectableDataSourceProxyWithDictionary : AbstractSelectableDataSourceProxy
     {
+        /// <summary>
+        /// データソース名
+        /// </summary>
+        /// <remarks>
+        /// static,スレッド毎に一意のデータソース名を保持する場合は
+        /// IDataSourceSelector実装クラスを作成して実装して下さい
+        /// </remarks>
+        private string _dataSourceName;
+
         private IDataSourceSelector _dataSourceSelector = null;
 
         /// <summary>
@@ -67,12 +76,16 @@ namespace Seasar.Quill.Database.DataSource.Impl
                 //  データソース名決定のカスタム用
                 return DataSourceSelector.SelectDataSourceName(DataSourceCollection.Keys);
             }
-            return base.GetDataSourceName();
+            return _dataSourceName;
+        }
+
+        public override void SetDataSourceName(string dataSourceName)
+        {
+            _dataSourceName = dataSourceName;
         }
 
         public override IDataSource GetDataSource(string dataSourceName)
         {
-            System.Console.WriteLine(dataSourceName);
             if ( DataSourceCollection.ContainsKey(dataSourceName) )
             {
                 return DataSourceCollection[dataSourceName];

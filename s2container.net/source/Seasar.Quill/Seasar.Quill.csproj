@@ -58,6 +58,14 @@
     <Compile Include="Dao\IDaoSetting.cs" />
     <Compile Include="Dao\Impl\AbstractDaoSetting.cs" />
     <Compile Include="Dao\Impl\TypicalDaoSetting.cs" />
+    <Compile Include="Database\Provider\DB2.cs" />
+    <Compile Include="Database\Provider\Firebird.cs" />
+    <Compile Include="Database\Provider\MySQL.cs" />
+    <Compile Include="Database\Provider\ODP.cs" />
+    <Compile Include="Database\Provider\OleDb.cs" />
+    <Compile Include="Database\Provider\Oracle.cs" />
+    <Compile Include="Database\Provider\PostgreSQL.cs" />
+    <Compile Include="Database\Provider\SqlServer.cs" />
     <Compile Include="Database\Tx\Impl\AbstractTransactionSetting.cs" />
     <Compile Include="Database\Tx\Impl\TypicalTransactionSetting.cs" />
     <Compile Include="Database\Tx\ITransactionSetting.cs" />
@@ -86,6 +94,7 @@
     <Compile Include="Util\AttributeUtil.cs" />
     <Compile Include="Util\MessageUtil.cs" />
     <Compile Include="Util\TypeUtil.cs" />
+    <Compile Include="Xml\DataSourceSection.cs" />
     <Compile Include="Xml\QuillSection.cs" />
     <Compile Include="Xml\QuillSectionHandler.cs" />
   </ItemGroup>

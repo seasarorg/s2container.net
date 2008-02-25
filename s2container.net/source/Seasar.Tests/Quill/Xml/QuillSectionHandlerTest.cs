@@ -16,6 +16,8 @@
  */
 #endregion
 
+using System;
+using System.Collections;
 using MbUnit.Framework;
 using Seasar.Quill.Xml;
 
@@ -34,6 +36,22 @@ namespace Seasar.Tests.Quill.Xml
             Assert.IsNotNull(section, "1");
             Assert.AreEqual("TypicalDaoSetting", section.DaoSetting, "2");
             Assert.AreEqual("TypicalTransactionSetting", section.TransactionSetting, "3");
+
+            IList dataSources = section.DataSources;
+            Assert.IsTrue(dataSources.Count > 0);
+            foreach (object item in dataSources)
+            {
+                Assert.IsTrue(item is DataSourceSection);
+                DataSourceSection dsSection = (DataSourceSection)item;
+                Assert.IsFalse(string.IsNullOrEmpty(dsSection.ConnectionString));
+                Console.WriteLine("connectionString={0}", dsSection.ConnectionString);
+                Assert.IsFalse(string.IsNullOrEmpty(dsSection.DataSourceClassName));
+                Console.WriteLine("dataSourceNameClass={0}", dsSection.DataSourceClassName);
+                Assert.IsFalse(string.IsNullOrEmpty(dsSection.DataSourceName));
+                Console.WriteLine("dataSourceName={0}", dsSection.DataSourceName);
+                Assert.IsFalse(string.IsNullOrEmpty(dsSection.ProviderName));
+                Console.WriteLine("providerName={0}", dsSection.ProviderName);
+            }
         }
     }
 }

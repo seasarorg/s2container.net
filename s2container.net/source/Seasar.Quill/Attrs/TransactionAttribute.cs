@@ -32,13 +32,13 @@ namespace Seasar.Quill.Attrs
        AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
     public class TransactionAttribute : Attribute
     {
-        private Type _handlerType = null;
+        private Type _transactionSettingType = null;
 
         public virtual Type TransactionSettingType
         {
             get
             {
-                return _handlerType;
+                return _transactionSettingType;
             }
         }
 
@@ -53,7 +53,7 @@ namespace Seasar.Quill.Attrs
             {
                 //  属性引数による指定もapp.configにも設定がなければ
                 //  デフォルトのトランザクション設定を使う
-                SetHandlerType(typeof(TypicalTransactionSetting));
+                SetSettingType(typeof(TypicalTransactionSetting));
             }
             else
             {
@@ -65,7 +65,7 @@ namespace Seasar.Quill.Attrs
                         QuillConstants.NAMESPACE_TXSETTING, typeName);
                 }
                 Type settingType = ClassUtil.ForName(typeName);
-                    SetHandlerType(settingType);
+                    SetSettingType(settingType);
             }
         }
 
@@ -75,9 +75,9 @@ namespace Seasar.Quill.Attrs
         /// (AbstractQuillTransactionInterceptorサブクラスではない場合実行時例外を投げます）
         /// </summary>
         /// <param name="handlerType"></param>
-        public TransactionAttribute(Type handlerType)
+        public TransactionAttribute(Type settingType)
         {
-            SetHandlerType(handlerType);
+            SetSettingType(settingType);
         }
 
         /// <summary>
@@ -85,11 +85,11 @@ namespace Seasar.Quill.Attrs
         /// </summary>
         /// <param name="type"></param>
         /// <exception cref="">ITransactionSetting実装クラスでないとき</exception>
-        protected virtual void SetHandlerType(Type type)
+        protected virtual void SetSettingType(Type type)
         {
             if(typeof(ITransactionSetting).IsAssignableFrom(type))
             {
-                _handlerType = type;
+                _transactionSettingType = type;
             }
             else
             {

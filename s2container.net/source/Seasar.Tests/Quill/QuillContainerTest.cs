@@ -230,7 +230,7 @@ namespace Seasar.Tests.Quill
             SelectableDataSourceProxyWithDictionary ds = (SelectableDataSourceProxyWithDictionary)qc.GetComponentObject(
                 typeof(SelectableDataSourceProxyWithDictionary));
             Assert.IsNotNull(ds, "2");
-            Assert.GreaterEqualThan(2, ds.DataSourceCollection.Count);
+            Assert.GreaterEqualThan(ds.DataSourceCollection.Count, 9);
         }
 
         #endregion

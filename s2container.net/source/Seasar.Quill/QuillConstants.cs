@@ -27,9 +27,16 @@ namespace Seasar.Quill
         public const string QUILL_CONFIG = "quill";
         public const string CONFIG_DAO_SETTING_KEY = "daoSetting";
         public const string CONFIG_TX_SETTING_KEY = "transactionSetting";
+        public const string CONFIG_DATASOURCES_KEY = "dataSources";
+        public const string CONFIG_DATASOURCE_KEY = "dataSource";
+        public const string CONFIG_CONNECTION_STRING_KEY = "connectionString";
+        public const string CONFIG_PROVIDER = "provider";
+        public const string CONFIG_DATASOURCE_CLASS_KEY = "class";
+        public const string CONFIG_DATASOURCE_NAME_ATTR = "name";
 
         public const string NAMESPACE_PROVIDER = "Seasar.Quill.Database.Provider";
         public const string NAMESPACE_DAOSETTING = "Seasar.Quill.Dao.Impl";
         public const string NAMESPACE_TXSETTING = "Seasar.Quill.Database.Tx.Impl";
+        public const string NAMESPACE_DATASOURCE = "Seasar.Extension.ADO.Impl";
     }
 }

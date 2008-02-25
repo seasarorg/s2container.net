@@ -30,33 +30,17 @@ namespace Seasar.Extension.ADO.Impl
     /// </summary>
     public abstract class AbstractSelectableDataSourceProxy : IDataSource
 	{
-        private readonly LocalDataStoreSlot _slot = Thread.AllocateDataSlot();
-
-        protected LocalDataStoreSlot Slot
-        {
-            get
-            {
-                return _slot;
-            }
-        }
-
         /// <summary>
-        /// ローカルデータメモリスロットからデータソース名の取得
+        /// 使用するデータソース名の取得
         /// </summary>
         /// <returns></returns>
-        public virtual string GetDataSourceName()
-        {
-            return (string)Thread.GetData(_slot);
-        }
+        public abstract string GetDataSourceName();
 
         /// <summary>
         /// ローカルデータメモリスロットにデータソース名を設定
         /// </summary>
         /// <param name="dataSourceName"></param>
-        public virtual void SetDataSourceName(string dataSourceName)
-        {
-            Thread.SetData(_slot, dataSourceName);
-        }
+        public abstract void SetDataSourceName(string dataSourceName);
 
         /// <summary>
         /// データソースの取得

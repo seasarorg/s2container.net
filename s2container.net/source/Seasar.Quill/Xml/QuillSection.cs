@@ -18,6 +18,7 @@
 
 using System;
 using System.Xml.Serialization;
+using System.Collections;
 
 namespace Seasar.Quill.Xml
 {
@@ -29,8 +30,8 @@ namespace Seasar.Quill.Xml
     public class QuillSection
     {
         private string _daoSetting = null;
-
         private string _transactionSetting = null;
+        private IList _dataSources = new ArrayList();
 
         [XmlElement(QuillConstants.CONFIG_DAO_SETTING_KEY)]
         public string DaoSetting
@@ -44,6 +45,14 @@ namespace Seasar.Quill.Xml
         {
             set { _transactionSetting = value; }
             get { return _transactionSetting; }
+        }
+
+        [XmlArray(QuillConstants.CONFIG_DATASOURCES_KEY)]
+        [XmlArrayItem(QuillConstants.CONFIG_DATASOURCE_KEY, typeof(DataSourceSection))]
+        public IList DataSources
+        {
+            set { _dataSources = value; }
+            get { return _dataSources; }
         }
     }
 }
