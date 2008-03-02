@@ -21,41 +21,41 @@ using System;
 namespace Seasar.Quill.Attrs
 {
     /// <summary>
-    /// À‘•ƒNƒ‰ƒX‚ğw’è‚·‚é‘®«ƒNƒ‰ƒX
+    /// å®Ÿè£…ã‚¯ãƒ©ã‚¹ã‚’æŒ‡å®šã™ã‚‹å±æ€§ã‚¯ãƒ©ã‚¹
     /// </summary>
     /// <remarks>
-    /// ƒNƒ‰ƒXEƒCƒ“ƒ^[ƒtƒF[ƒX‚Éİ’è‚·‚é‚±‚Æ‚ª‚Å‚«‚éB
-    /// (•¡”İ’è‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢)
+    /// ã‚¯ãƒ©ã‚¹ãƒ»ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã«è¨­å®šã™ã‚‹ã“ã¨ãŒã§ãã‚‹ã€‚
+    /// (è¤‡æ•°è¨­å®šã™ã‚‹ã“ã¨ã¯ã§ããªã„)
     /// </remarks>
     [AttributeUsage(AttributeTargets.Interface | AttributeTargets.Class,
        AllowMultiple = false)]
     public class ImplementationAttribute : Attribute
     {
-        // À‘•ƒNƒ‰ƒX‚ÌType
+        // å®Ÿè£…ã‚¯ãƒ©ã‚¹ã®Type
         protected Type implementationType;
 
         /// <summary>
-        /// ‘®«‚ªw’è‚³‚ê‚Ä‚¢‚éƒNƒ‰ƒX©g‚ğÀ‘•ƒNƒ‰ƒX‚Æ‚µ‚Ä
-        /// ImplementationAttribute‚ğ‰Šú‰»‚·‚éƒRƒ“ƒXƒgƒ‰ƒNƒ^
+        /// å±æ€§ãŒæŒ‡å®šã•ã‚Œã¦ã„ã‚‹ã‚¯ãƒ©ã‚¹è‡ªèº«ã‚’å®Ÿè£…ã‚¯ãƒ©ã‚¹ã¨ã—ã¦
+        /// ImplementationAttributeã‚’åˆæœŸåŒ–ã™ã‚‹ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
         /// </summary>
         public ImplementationAttribute()
         {
         }
 
         /// <summary>
-        /// À‘•ƒNƒ‰ƒX‚ÌType‚ğw’è‚µ‚ÄImplementationAttribute‚ğ
-        /// ‰Šú‰»‚·‚éƒRƒ“ƒXƒgƒ‰ƒNƒ^
+        /// å®Ÿè£…ã‚¯ãƒ©ã‚¹ã®Typeã‚’æŒ‡å®šã—ã¦ImplementationAttributeã‚’
+        /// åˆæœŸåŒ–ã™ã‚‹ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
         /// </summary>
-        /// <param name="implementationType">À‘•ƒNƒ‰ƒX‚ÌType</param>
+        /// <param name="implementationType">å®Ÿè£…ã‚¯ãƒ©ã‚¹ã®Type</param>
         public ImplementationAttribute(Type implementationType)
         {
             this.implementationType = implementationType;
         }
 
         /// <summary>
-        /// À‘•ƒNƒ‰ƒX‚ÌType‚ğ•Ô‚·
+        /// å®Ÿè£…ã‚¯ãƒ©ã‚¹ã®Typeã‚’è¿”ã™
         /// </summary>
-        /// <value>À‘•ƒNƒ‰ƒX‚ÌType</value>
+        /// <value>å®Ÿè£…ã‚¯ãƒ©ã‚¹ã®Type</value>
         public Type ImplementationType
         {
             get { return implementationType; }

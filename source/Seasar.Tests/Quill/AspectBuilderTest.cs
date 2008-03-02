@@ -25,6 +25,7 @@ using Seasar.Framework.Container.Factory;
 using Seasar.Framework.Container.Impl;
 using Seasar.Quill;
 using Seasar.Quill.Attrs;
+using Seasar.Quill.Exception;
 
 namespace Seasar.Tests.Quill
 {
@@ -35,10 +36,10 @@ namespace Seasar.Tests.Quill
             : base(null)
         { }
         
-        #region GetMethodInterceptor‚ÌƒeƒXƒg
+        #region GetMethodInterceptorã®ãƒ†ã‚¹ãƒˆ
 
         [Test]
-        public void TestGetMethodInterceptor_Quill_IMethodInterceptor‚É‘ã“ü‚Å‚«‚È‚¢ê‡()
+        public void TestGetMethodInterceptor_Quill_IMethodInterceptorã«ä»£å…¥ã§ããªã„å ´åˆ()
         {
             this.container = new QuillContainer();
 
@@ -54,7 +55,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestGetMethodInterceptor_Quill_³í‚Èê‡()
+        public void TestGetMethodInterceptor_Quill_æ­£å¸¸ãªå ´åˆ()
         {
             this.container = new QuillContainer();
 
@@ -65,7 +66,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestGetMethodInterceptor_S2_IMethodInterceptor‚É‘ã“ü‚Å‚«‚È‚¢ê‡()
+        public void TestGetMethodInterceptor_S2_IMethodInterceptorã«ä»£å…¥ã§ããªã„å ´åˆ()
         {
             S2ContainerImpl container = new S2ContainerImpl();
             ComponentDefImpl def = new ComponentDefImpl(typeof(Hoge1), "hoge");
@@ -86,7 +87,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestGetMethodInterceptor_S2_³í‚Èê‡()
+        public void TestGetMethodInterceptor_S2_æ­£å¸¸ãªå ´åˆ()
         {
             S2ContainerImpl container = new S2ContainerImpl();
             ComponentDefImpl def = new ComponentDefImpl(typeof(HogeInterceptor), "hoge");
@@ -101,7 +102,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestGetMethodInterceptor_Aspect‘®«‚Éƒpƒ‰ƒ[ƒ^‚ªİ’è‚³‚ê‚Ä‚¢‚È‚¢ê‡()
+        public void TestGetMethodInterceptor_Aspectå±æ€§ã«ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãŒè¨­å®šã•ã‚Œã¦ã„ãªã„å ´åˆ()
         {
             this.container = new QuillContainer();
 
@@ -121,7 +122,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestGetMethodInterceptor_Aspect‘®«‚ÉInterceptorType‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡()
+        public void TestGetMethodInterceptor_Aspectå±æ€§ã«InterceptorTypeãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹å ´åˆ()
         {
             this.container = new QuillContainer();
 
@@ -134,7 +135,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestGetMethodInterceptor_Aspect‘®«‚ÉcomponentName‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡()
+        public void TestGetMethodInterceptor_Aspectå±æ€§ã«componentNameãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹å ´åˆ()
         {
             S2ContainerImpl container = new S2ContainerImpl();
             ComponentDefImpl def = new ComponentDefImpl(typeof(HogeInterceptor), "hoge");
@@ -152,7 +153,7 @@ namespace Seasar.Tests.Quill
 
         #endregion
 
-        #region GetMethodInterceptor‚ÌƒeƒXƒg‚Åg—p‚·‚é“à•”ƒNƒ‰ƒX
+        #region GetMethodInterceptorã®ãƒ†ã‚¹ãƒˆã§ä½¿ç”¨ã™ã‚‹å†…éƒ¨ã‚¯ãƒ©ã‚¹
 
         public class Hoge1
         {
@@ -168,10 +169,10 @@ namespace Seasar.Tests.Quill
 
         #endregion
 
-        #region AddMethodNamesForPointcut‚ÌƒeƒXƒg
+        #region AddMethodNamesForPointcutã®ãƒ†ã‚¹ãƒˆ
 
         [Test]
-        public void TestAddMethodNamesForPointcut_‰‚ß‚ÄInterceptor‚Épointcut‚ªİ’è‚³‚ê‚éê‡()
+        public void TestAddMethodNamesForPointcut_åˆã‚ã¦Interceptorã«pointcutãŒè¨­å®šã•ã‚Œã‚‹å ´åˆ()
         {
             this.container = new QuillContainer();
 
@@ -188,7 +189,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestAddMehtodNamesForPointcut_Šù‚ÉInterceptor‚Épointcut‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡()
+        public void TestAddMehtodNamesForPointcut_æ—¢ã«Interceptorã«pointcutãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹å ´åˆ()
         {
             this.container = new QuillContainer();
 
@@ -234,7 +235,7 @@ namespace Seasar.Tests.Quill
 
         #endregion
 
-        #region AddMethodNamesForPointcut‚ÌƒeƒXƒg‚Åg—p‚·‚é“à•”ƒNƒ‰ƒX
+        #region AddMethodNamesForPointcutã®ãƒ†ã‚¹ãƒˆã§ä½¿ç”¨ã™ã‚‹å†…éƒ¨ã‚¯ãƒ©ã‚¹
 
         public class Hoge2
         {
@@ -255,10 +256,10 @@ namespace Seasar.Tests.Quill
 
         #endregion
 
-        #region CreateAspect‚ÌƒeƒXƒg
+        #region CreateAspectã®ãƒ†ã‚¹ãƒˆ
 
         [Test]
-        public void TestCreateAspect_‘S‚Ä‚Ìƒƒ\ƒbƒh‚Å—LŒø‚ÈAspect‚ğì¬‚·‚éê‡()
+        public void TestCreateAspect_å…¨ã¦ã®ãƒ¡ã‚½ãƒƒãƒ‰ã§æœ‰åŠ¹ãªAspectã‚’ä½œæˆã™ã‚‹å ´åˆ()
         {
             this.container = new QuillContainer();
             AspectAttribute attr = new AspectAttribute(typeof(HogeInterceptor3));
@@ -273,7 +274,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestCreateAspect_ƒƒ\ƒbƒh–¼‚ğw’è‚µ‚Ä—LŒø‚ÈAspect‚ğì¬‚·‚éê‡()
+        public void TestCreateAspect_ãƒ¡ã‚½ãƒƒãƒ‰åã‚’æŒ‡å®šã—ã¦æœ‰åŠ¹ãªAspectã‚’ä½œæˆã™ã‚‹å ´åˆ()
         {
             this.container = new QuillContainer();
 
@@ -290,7 +291,7 @@ namespace Seasar.Tests.Quill
 
         #endregion
 
-        #region CreateAspect‚ÌƒeƒXƒg‚Åg—p‚·‚é“à•”ƒNƒ‰ƒX
+        #region CreateAspectã®ãƒ†ã‚¹ãƒˆã§ä½¿ç”¨ã™ã‚‹å†…éƒ¨ã‚¯ãƒ©ã‚¹
 
         public class HogeInterceptor3 : IMethodInterceptor
         {
@@ -302,10 +303,10 @@ namespace Seasar.Tests.Quill
 
         #endregion
 
-        #region CreateAspectList‚ÌƒeƒXƒg
+        #region CreateAspectListã®ãƒ†ã‚¹ãƒˆ
 
         [Test]
-        public void TestCreateAspectList_Aspect‚ª“K—p‚³‚ê‚Ä‚¢‚È‚¢ê‡()
+        public void TestCreateAspectList_AspectãŒé©ç”¨ã•ã‚Œã¦ã„ãªã„å ´åˆ()
         {
             this.container = new QuillContainer();
             MethodInfo[] methods = typeof(Hoge3).GetMethods();
@@ -316,7 +317,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestCreateAspectList_Aspect‚ª“K—p‚³‚ê‚éê‡()
+        public void TestCreateAspectList_AspectãŒé©ç”¨ã•ã‚Œã‚‹å ´åˆ()
         {
             this.container = new QuillContainer();
             MethodInfo[] methods = typeof(Hoge4).GetMethods();
@@ -340,7 +341,7 @@ namespace Seasar.Tests.Quill
 
         #endregion
 
-        #region CreateAspectList‚ÌƒeƒXƒg‚Åg—p‚·‚é“à•”ƒNƒ‰ƒX
+        #region CreateAspectListã®ãƒ†ã‚¹ãƒˆã§ä½¿ç”¨ã™ã‚‹å†…éƒ¨ã‚¯ãƒ©ã‚¹
 
         public class Hoge3
         {
@@ -380,10 +381,10 @@ namespace Seasar.Tests.Quill
 
         #endregion
 
-        #region CreateAspects‚ÌƒeƒXƒg
+        #region CreateAspectsã®ãƒ†ã‚¹ãƒˆ
 
         [Test]
-        public void TestCreateAspects_Aspect‚ª“K—p‚³‚ê‚È‚¢ê‡()
+        public void TestCreateAspects_AspectãŒé©ç”¨ã•ã‚Œãªã„å ´åˆ()
         {
             this.container = new QuillContainer();
             IAspect[] aspects = this.CreateAspects(typeof(Hoge5));
@@ -392,7 +393,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestCreateAspects_Aspect‚ª“K—p‚³‚ê‚éê‡()
+        public void TestCreateAspects_AspectãŒé©ç”¨ã•ã‚Œã‚‹å ´åˆ()
         {
             this.container = new QuillContainer();
             IAspect[] aspects = this.CreateAspects(typeof(Hoge6));
@@ -402,7 +403,7 @@ namespace Seasar.Tests.Quill
 
         #endregion
 
-        #region CreateAspects‚ÌƒeƒXƒg‚Åg—p‚·‚é“à•”ƒNƒ‰ƒX
+        #region CreateAspectsã®ãƒ†ã‚¹ãƒˆã§ä½¿ç”¨ã™ã‚‹å†…éƒ¨ã‚¯ãƒ©ã‚¹
 
         public class Hoge5
         {

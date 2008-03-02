@@ -17,13 +17,14 @@
 #endregion
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using Seasar.Framework.Aop;
 using Seasar.Framework.Aop.Proxy;
-using System.Reflection;
-using System.Collections;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Impl;
+using Seasar.Quill.Exception;
 
 namespace Seasar.Quill
 {
@@ -77,7 +78,7 @@ namespace Seasar.Quill
 
         #endregion
 
-        #region コンストラクタ
+        #region 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ
 
         /// <summary>
         /// QuillComponentを初期化するコンストラクタ

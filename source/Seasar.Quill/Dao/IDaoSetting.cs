@@ -1,4 +1,4 @@
-﻿#region Copyright
+#region Copyright
 /*
  * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
@@ -30,6 +30,11 @@ namespace Seasar.Quill.Dao
     {
         IDaoMetaDataFactory DaoMetaDataFactory { get; }
         IMethodInterceptor DaoInterceptor { get; }
+
+        /// <summary>
+        /// 使用するデータソース登録名
+        /// </summary>
+        string DataSourceName { get; }
 
         /// <summary>
         /// Dao関係の設定を行います

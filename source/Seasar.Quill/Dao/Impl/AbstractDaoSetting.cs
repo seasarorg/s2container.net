@@ -1,4 +1,4 @@
-﻿#region Copyright
+#region Copyright
 /*
  * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
@@ -33,16 +33,23 @@ namespace Seasar.Quill.Dao.Impl
 
         protected IMethodInterceptor _daoInterceptor = null;
 
+        protected string _dataSourceName = null;
+
         #region IDaoSetting メンバ
 
-        public IDaoMetaDataFactory DaoMetaDataFactory
+        public virtual IDaoMetaDataFactory DaoMetaDataFactory
         {
             get { return _daoMetaDataFactory; }
         }
 
-        public IMethodInterceptor DaoInterceptor
+        public virtual IMethodInterceptor DaoInterceptor
         {
             get { return _daoInterceptor; }
+        }
+
+        public virtual string DataSourceName
+        {
+            get { return _dataSourceName; }
         }
 
         public void Setup(IDataSource dataSource)

@@ -19,7 +19,7 @@
 using System;
 using Seasar.Quill.Util;
 
-namespace Seasar.Quill
+namespace Seasar.Quill.Exception
 {
     /// <summary>
     /// Quillでアプリケーションエラーが発生した場合にスローされる例外クラス
@@ -89,7 +89,7 @@ namespace Seasar.Quill
         /// <param name="args">メッセージ中に埋め込む値の配列</param>
         /// <param name="cause">元となった例外</param>
         public QuillApplicationException(
-            string messageCode, object[] args, Exception cause)
+            string messageCode, object[] args, System.Exception cause)
             : base(null, cause)
         {
             // メッセージコードをセットする

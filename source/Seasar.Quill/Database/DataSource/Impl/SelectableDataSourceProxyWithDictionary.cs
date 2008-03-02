@@ -24,6 +24,7 @@ using Seasar.Extension.Tx.Impl;
 using Seasar.Framework.Container;
 using Seasar.Quill.Attrs;
 using Seasar.Quill.Database.DataSource.Selector;
+using System;
 
 namespace Seasar.Quill.Database.DataSource.Impl
 {
@@ -33,11 +34,8 @@ namespace Seasar.Quill.Database.DataSource.Impl
         /// <summary>
         /// データソース名
         /// </summary>
-        /// <remarks>
-        /// static,スレッド毎に一意のデータソース名を保持する場合は
-        /// IDataSourceSelector実装クラスを作成して実装して下さい
-        /// </remarks>
-        private string _dataSourceName;
+        [ThreadStatic]
+        private static string _dataSourceName;
 
         private IDataSourceSelector _dataSourceSelector = null;
 
@@ -75,6 +73,15 @@ namespace Seasar.Quill.Database.DataSource.Impl
             {
                 //  データソース名決定のカスタム用
                 return DataSourceSelector.SelectDataSourceName(DataSourceCollection.Keys);
+            }
+
+            //  データソース名が未設定の場合は一番最初のキーに対応するデータソース名を使う
+            if (string.IsNullOrEmpty(_dataSourceName))
+            {
+                foreach (string dsname in DataSourceCollection.Keys)
+                {
+                    return dsname;
+                }
             }
             return _dataSourceName;
         }

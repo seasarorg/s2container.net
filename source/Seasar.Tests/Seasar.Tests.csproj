@@ -86,6 +86,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\net2.0\MbUnit.Framework.dll</HintPath>
     </Reference>
+    <Reference Include="MySql.Data, Version=1.0.10.1, Culture=neutral, PublicKeyToken=c5687fc88969c44d" />
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -447,7 +448,10 @@
     <Compile Include="Quill\AspectBuilderTest.cs" />
     <Compile Include="Quill\Attr\S2DaoAttributeTest.cs" />
     <Compile Include="Quill\Attr\TransactionAttributeTest.cs" />
+    <Compile Include="Quill\Dao\Interceptor\DataSourceSelectInterceptorTest.cs" />
     <Compile Include="Quill\Database\DataSource\Impl\SelectableDataSourceProxyWithDictionaryTest.cs" />
+    <Compile Include="Quill\Database\Provider\MySQLTest.cs" />
+    <Compile Include="Quill\Database\Provider\SqlServerTest.cs" />
     <Compile Include="Quill\QuillComponentTest.cs" />
     <Compile Include="Quill\QuillContainerTest.cs" />
     <Compile Include="Quill\QuillInjectorTest.cs" />

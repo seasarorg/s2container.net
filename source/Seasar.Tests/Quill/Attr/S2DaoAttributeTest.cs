@@ -24,7 +24,8 @@ using Seasar.Framework.Aop;
 using Seasar.Framework.Aop.Interceptors;
 using Seasar.Quill;
 using Seasar.Quill.Attrs;
-using Seasar.Quill.Dao;
+using Seasar.Quill.Dao.Impl;
+using Seasar.Quill.Exception;
 using Seasar.Tests.Dao.Impl;
 
 namespace Seasar.Tests.Quill.Attr
@@ -67,7 +68,7 @@ namespace Seasar.Tests.Quill.Attr
                     typeof(IWithS2DaoAttr2));
                 Assert.IsNotNull(actual, "11");
                 string ret = actual.Hoge();
-                Assert.AreEqual("InterceptorCalled", ret, "12");              
+                Assert.AreEqual("InterceptorCalled", ret, "12");
             }
             {
                 //  ## Act ##
@@ -116,6 +117,7 @@ namespace Seasar.Tests.Quill.Attr
 
     [Transaction]
     [S2Dao(typeof(CustomDaoSetting))]
+    [Bean(typeof(Employee))]
     public interface IWithS2DaoAttr2
     {
         string Hoge();
@@ -139,32 +141,28 @@ namespace Seasar.Tests.Quill.Attr
     }
 
 
-    public class CustomDaoSetting : IDaoSetting
+    public class CustomDaoSetting : TypicalDaoSetting
     {
-        #region IDaoSetting メンバ
-
-        public Seasar.Dao.IDaoMetaDataFactory DaoMetaDataFactory
+        public override IMethodInterceptor DaoInterceptor
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                return new TestInterceptor();
+            }
+        }
+        public override string DataSourceName
+        {
+            get
+            {
+                return "Hoge1";
+            }
         }
 
-        private IMethodInterceptor _daoInterceptor = new TestInterceptor();
-        public IMethodInterceptor DaoInterceptor
-        {
-            get { return _daoInterceptor; }
-        }
-
-        public void Setup(IDataSource dataSource)
+        protected override void SetupDao(IDataSource dataSource)
         {
             Console.WriteLine("Setup is called.");
+            base.SetupDao(dataSource);
         }
-
-        public bool IsNeedSetup()
-        {
-            return true;
-        }
-
-        #endregion
     }
 
     public class Huga

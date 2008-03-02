@@ -22,16 +22,17 @@ using Seasar.Framework.Aop;
 using Seasar.Quill;
 using Seasar.Quill.Attrs;
 using Seasar.Quill.Database.DataSource.Impl;
+using Seasar.Quill.Exception;
 
 namespace Seasar.Tests.Quill
 {
     [TestFixture]
 	public class QuillContainerTest
     {
-        #region GetComponent‚ÌƒeƒXƒg
+        #region GetComponentã®ãƒ†ã‚¹ãƒˆ
 
         [Test]
-        public void TestGetComponent_ƒCƒ“ƒ^[ƒtƒF[ƒX‚ÉAspect‚ª“K—p‚³‚ê‚Ä‚¢‚È‚¢ê‡()
+        public void TestGetComponent_ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã«AspectãŒé©ç”¨ã•ã‚Œã¦ã„ãªã„å ´åˆ()
         {
             QuillContainer container = new QuillContainer();
 
@@ -47,7 +48,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestGetComponent_³í‚Èê‡()
+        public void TestGetComponent_æ­£å¸¸ãªå ´åˆ()
         {
             QuillContainer container = new QuillContainer();
             QuillComponent component = container.GetComponent(typeof(Hoge2));
@@ -58,7 +59,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestGetComponent_DestroyÏ‚İ‚Ìê‡()
+        public void TestGetComponent_Destroyæ¸ˆã¿ã®å ´åˆ()
         {
             QuillContainer container = new QuillContainer();
             container.GetComponent(typeof(Hoge2));
@@ -78,7 +79,7 @@ namespace Seasar.Tests.Quill
 
         #endregion
 
-        #region GetComponent‚ÌƒeƒXƒg‚Åg—p‚·‚é“à•”ƒNƒ‰ƒXEƒCƒ“ƒ^[ƒtƒF[ƒX
+        #region GetComponentã®ãƒ†ã‚¹ãƒˆã§ä½¿ç”¨ã™ã‚‹å†…éƒ¨ã‚¯ãƒ©ã‚¹ãƒ»ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹
 
         public interface Hoge1
         {
@@ -101,7 +102,7 @@ namespace Seasar.Tests.Quill
 
         #endregion
 
-        #region Dispose‚ÌƒeƒXƒg
+        #region Disposeã®ãƒ†ã‚¹ãƒˆ
 
         [Test]
         public void TestDispose()
@@ -120,7 +121,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestDispose_DestroyÏ‚İ‚Ìê‡()
+        public void TestDispose_Destroyæ¸ˆã¿ã®å ´åˆ()
         {
             QuillContainer container = new QuillContainer();
             container.GetComponent(typeof(DisposableClass));
@@ -140,7 +141,7 @@ namespace Seasar.Tests.Quill
 
         #endregion
 
-        #region Dispose‚ÌƒeƒXƒg‚Åg—p‚·‚é“à•”ƒNƒ‰ƒX
+        #region Disposeã®ãƒ†ã‚¹ãƒˆã§ä½¿ç”¨ã™ã‚‹å†…éƒ¨ã‚¯ãƒ©ã‚¹
 
         public class NotDisposableClass
         {
@@ -150,7 +151,7 @@ namespace Seasar.Tests.Quill
         {
             public bool Disposed = false;
 
-            #region IDisposable ƒƒ“ƒo
+            #region IDisposable ãƒ¡ãƒ³ãƒ
 
             public void Dispose()
             {
@@ -162,7 +163,7 @@ namespace Seasar.Tests.Quill
 
         #endregion
 
-        #region Destroy‚ÌƒeƒXƒg
+        #region Destroyã®ãƒ†ã‚¹ãƒˆ
 
         [Test]
         public void TestDestroy()
@@ -198,7 +199,7 @@ namespace Seasar.Tests.Quill
 
         #endregion
 
-        #region Destroy‚ÌƒeƒXƒg‚Åg—p‚·‚é“à•”ƒNƒ‰ƒX
+        #region Destroyã®ãƒ†ã‚¹ãƒˆã§ä½¿ç”¨ã™ã‚‹å†…éƒ¨ã‚¯ãƒ©ã‚¹
 
         [Aspect(typeof(HogeDestoryInterceptor))]
         public interface HogeDestroy
@@ -230,7 +231,7 @@ namespace Seasar.Tests.Quill
             SelectableDataSourceProxyWithDictionary ds = (SelectableDataSourceProxyWithDictionary)qc.GetComponentObject(
                 typeof(SelectableDataSourceProxyWithDictionary));
             Assert.IsNotNull(ds, "2");
-            Assert.GreaterEqualThan(ds.DataSourceCollection.Count, 9);
+            Assert.GreaterEqualThan(ds.DataSourceCollection.Count, 7);
         }
 
         #endregion

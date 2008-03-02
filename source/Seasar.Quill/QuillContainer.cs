@@ -21,6 +21,8 @@ using System.Collections.Generic;
 using Seasar.Extension.ADO;
 using Seasar.Framework.Aop;
 using Seasar.Quill.Database.DataSource.Impl;
+using Seasar.Quill.Exception;
+using Seasar.Quill.Util;
 
 namespace Seasar.Quill
 {
@@ -149,25 +151,18 @@ namespace Seasar.Quill
         {
             DataSourceBuilder builder = new DataSourceBuilder();
             IDictionary<string, IDataSource> dataSources = builder.CreateDataSources();
-            //  データソースが定義されていなければQuillContainerには何も追加しない
+            // データソースの定義がなければ以後の処理は行わない
             if ( dataSources.Count == 0 )
             {
                 return;
             }
 
-            QuillComponent dsComponent = GetComponent(
-                typeof(SelectableDataSourceProxyWithDictionary));
             SelectableDataSourceProxyWithDictionary dataSourceProxy =
-                (SelectableDataSourceProxyWithDictionary)dsComponent.GetComponentObject(
-                typeof(SelectableDataSourceProxyWithDictionary));
+                (SelectableDataSourceProxyWithDictionary)ComponentUtil.GetComponent(
+                this, typeof(SelectableDataSourceProxyWithDictionary));
             //  データソースの定義があれば登録
             foreach ( KeyValuePair<string, IDataSource> dataSourcePair in dataSources )
             {
-                if ( string.IsNullOrEmpty(dataSourceProxy.GetDataSourceName()) )
-                {
-                    //  最初のデータソースをデフォルトのデータソースとする
-                    dataSourceProxy.SetDataSourceName(dataSourcePair.Key);
-                }
                 dataSourceProxy.RegistDataSource(dataSourcePair.Key, dataSourcePair.Value);
             }
         }

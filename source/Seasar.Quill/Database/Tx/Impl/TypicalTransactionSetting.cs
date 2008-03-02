@@ -1,4 +1,4 @@
-﻿#region Copyright
+#region Copyright
 /*
  * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
@@ -53,7 +53,6 @@ namespace Seasar.Quill.Database.Tx.Impl
             //  TransactionInterceptor
             LocalRequiredTxHandler handler = new LocalRequiredTxHandler();
             handler.Context = txContext;
-            //RequiredTxHandler handler = new RequiredTxHandler();
             _transactionInterceptor = new TransactionInterceptor(handler);
             ((TransactionInterceptor)_transactionInterceptor).TransactionStateHandler
                 = txContext;

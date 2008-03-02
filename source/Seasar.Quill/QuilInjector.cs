@@ -1,4 +1,4 @@
-﻿#region Copyright
+#region Copyright
 /*
  * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
@@ -19,6 +19,7 @@
 using System;
 using System.Reflection;
 using Seasar.Quill.Attrs;
+using Seasar.Quill.Exception;
 using Seasar.Quill.Util;
 
 namespace Seasar.Quill

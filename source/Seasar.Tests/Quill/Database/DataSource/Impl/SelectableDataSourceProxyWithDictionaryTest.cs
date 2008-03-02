@@ -16,14 +16,14 @@
  */
 #endregion
 
+using System;
+using System.Threading;
 using MbUnit.Framework;
 using Seasar.Extension.ADO;
 using Seasar.Extension.ADO.Impl;
 using Seasar.Extension.Tx.Impl;
 using Seasar.Framework.Container;
 using Seasar.Quill.Database.DataSource.Impl;
-using System.Threading;
-using System;
 
 namespace Seasar.Tests.Quill.Database.DataSource.Impl
 {

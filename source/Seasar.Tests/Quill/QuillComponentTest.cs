@@ -17,22 +17,22 @@
 #endregion
 
 using System;
-using MbUnit.Framework;
-using Seasar.Quill;
-using Seasar.Framework.Aop;
 using System.Collections;
+using MbUnit.Framework;
+using Seasar.Framework.Aop;
 using Seasar.Framework.Aop.Impl;
-using Seasar.Framework.Aop.Interceptors;
+using Seasar.Quill;
+using Seasar.Quill.Exception;
 
 namespace Seasar.Tests.Quill
 {
     [TestFixture]
 	public class QuillComponentTest
     {
-        #region GetComponentObject‚ÌƒeƒXƒg
+        #region GetComponentObjectã®ãƒ†ã‚¹ãƒˆ
 
         [Test]
-        public void TestGetComponentObject_ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒIƒuƒWƒFƒNƒg‚ª‘¶İ‚·‚éê‡()
+        public void TestGetComponentObject_ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒå­˜åœ¨ã™ã‚‹å ´åˆ()
         {
             QuillComponent component = new QuillComponent(
                 typeof(ArrayList), typeof(ArrayList), new IAspect[] { });
@@ -43,7 +43,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestGetComponentObject_ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒIƒuƒWƒFƒNƒg‚ª‘¶İ‚µ‚È‚¢ê‡()
+        public void TestGetComponentObject_ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒå­˜åœ¨ã—ãªã„å ´åˆ()
         {
             QuillComponent component = new QuillComponent(
                 typeof(ArrayList), typeof(ArrayList), new IAspect[] { });
@@ -54,7 +54,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestGetComponentObject_DestroyÏ‚İ‚Ìê‡()
+        public void TestGetComponentObject_Destroyæ¸ˆã¿ã®å ´åˆ()
         {
             QuillComponent component = new QuillComponent(
                 typeof(ArrayList), typeof(ArrayList), new IAspect[] { });
@@ -75,10 +75,10 @@ namespace Seasar.Tests.Quill
 
         #endregion
 
-        #region QuillComponent‚ÌƒeƒXƒg
+        #region QuillComponentã®ãƒ†ã‚¹ãƒˆ
 
         [Test]
-        public void TestQuillComponent_Aspect‚ª“K—p‚³‚ê‚Ä‚¢‚éê‡()
+        public void TestQuillComponent_AspectãŒé©ç”¨ã•ã‚Œã¦ã„ã‚‹å ´åˆ()
         {
             IAspect aspect = new AspectImpl(new HogeInterceptor());
 
@@ -91,7 +91,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestQuillComponent_Aspect‚ª“K—p‚³‚ê‚Ä‚¨‚èó‚¯‘¤‚ÌŒ^‚ªˆÙ‚È‚éê‡()
+        public void TestQuillComponent_AspectãŒé©ç”¨ã•ã‚Œã¦ãŠã‚Šå—ã‘å´ã®å‹ãŒç•°ãªã‚‹å ´åˆ()
         {
             IAspect aspect = new AspectImpl(new HogeInterceptor());
 
@@ -104,7 +104,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestQuillComponent_Aspect‚ª“K—p‚³‚ê‚Ä‚¢‚È‚¢ê‡()
+        public void TestQuillComponent_AspectãŒé©ç”¨ã•ã‚Œã¦ã„ãªã„å ´åˆ()
         {
             QuillComponent component = new QuillComponent(
                 typeof(Hoge1), typeof(Hoge1), new IAspect[0]);
@@ -115,7 +115,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestQuillComponent_Aspect‚ğ“K—p‚Åƒpƒ‰ƒ[ƒ^–³‚µ‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ª‚È‚¢ê‡()
+        public void TestQuillComponent_Aspectã‚’é©ç”¨ã§ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ç„¡ã—ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ãŒãªã„å ´åˆ()
         {
             try
             {
@@ -131,7 +131,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestQuillComponent_Aspect‚ğ“K—p‚Åpublic‚ÈƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ª‚È‚¢ê‡()
+        public void TestQuillComponent_Aspectã‚’é©ç”¨ã§publicãªã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ãŒãªã„å ´åˆ()
         {
             try
             {
@@ -148,7 +148,7 @@ namespace Seasar.Tests.Quill
 
         #endregion
 
-        #region QuillComponent‚ÌƒeƒXƒg‚Åg—p‚·‚é“à•”ƒNƒ‰ƒX
+        #region QuillComponentã®ãƒ†ã‚¹ãƒˆã§ä½¿ç”¨ã™ã‚‹å†…éƒ¨ã‚¯ãƒ©ã‚¹
 
         public class Hoge1 : IHoge1
         {
@@ -188,10 +188,10 @@ namespace Seasar.Tests.Quill
 
         #endregion
 
-        #region Dispose‚ÌƒeƒXƒg
+        #region Disposeã®ãƒ†ã‚¹ãƒˆ
 
         [Test]
-        public void TestDispose_ƒRƒ“ƒ|[ƒlƒ“ƒg‚ªIDisposable‚ğÀ‘•‚µ‚Ä‚¢‚éê‡()
+        public void TestDispose_ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒIDisposableã‚’å®Ÿè£…ã—ã¦ã„ã‚‹å ´åˆ()
         {
             Type type = typeof(DisposableClass);
 
@@ -206,7 +206,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestDispose_ƒRƒ“ƒ|[ƒlƒ“ƒg‚ªIDisposable‚ğÀ‘•‚µ‚Ä‚¢‚È‚¢ê‡()
+        public void TestDispose_ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒIDisposableã‚’å®Ÿè£…ã—ã¦ã„ãªã„å ´åˆ()
         {
             Type type = typeof(NotDisposableClass);
 
@@ -216,7 +216,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestDispose_DestroyÏ‚İ‚Ìê‡()
+        public void TestDispose_Destroyæ¸ˆã¿ã®å ´åˆ()
         {
             Type type = typeof(DisposableClass);
 
@@ -237,7 +237,7 @@ namespace Seasar.Tests.Quill
 
         #endregion
 
-        #region Dispose‚ÌƒeƒXƒg‚Åg—p‚·‚é“à•”ƒNƒ‰ƒX
+        #region Disposeã®ãƒ†ã‚¹ãƒˆã§ä½¿ç”¨ã™ã‚‹å†…éƒ¨ã‚¯ãƒ©ã‚¹
 
         public class NotDisposableClass
         {
@@ -247,7 +247,7 @@ namespace Seasar.Tests.Quill
         {
             public bool Disposed = false;
 
-            #region IDisposable ƒƒ“ƒo
+            #region IDisposable ãƒ¡ãƒ³ãƒ
 
             public void Dispose()
             {
@@ -259,7 +259,7 @@ namespace Seasar.Tests.Quill
 
         #endregion
 
-        #region Destory‚ÌƒeƒXƒg
+        #region Destoryã®ãƒ†ã‚¹ãƒˆ
 
         [Test]
         public void TestDestroy()

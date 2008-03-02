@@ -7,14 +7,14 @@ using Seasar.Extension.Tx;
 namespace Seasar.Quill.Tx
 {
     /// <summary>
-    /// Quill—pTransactionInterceptor
-    /// ‚â‚Á‚Ä‚¢‚é‚±‚Æ‚ÍS2Container‚ÌTransactionInterceptor‚Æ
-    /// ‘S‚­“¯‚¶
+    /// Quillç”¨TransactionInterceptor
+    /// ã‚„ã£ã¦ã„ã‚‹ã“ã¨ã¯S2Containerã®TransactionInterceptorã¨
+    /// å…¨ãåŒã˜
     /// </summary>
     public class QuillTransactionInterceptor : IMethodInterceptor
     {
         /// <summary>
-        /// –{—ˆ‚ÌTransactionInterceptor‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ•Û‚·‚é
+        /// æœ¬æ¥ã®TransactionInterceptorã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ä¿æŒã™ã‚‹
         /// </summary>
         private TransactionInterceptor s2daoTxInterceptor = null;
 
@@ -22,17 +22,17 @@ namespace Seasar.Quill.Tx
         private ITransactionStateHandler tansactionstatehandler = null;
 
         /// <summary>
-        /// S2Dao‚ÌTransactionInterceptor‚ğ—˜—p‚·‚é
-        /// iTransactionInterceptor‚ÌTransactionHandler‚Ìreadonly‚É
-        /// ‚±‚¾‚í‚ç‚È‚¯‚ê‚ÎATransactionInterceptor‚ğg‚í‚È‚¢è‚à‚ ‚èj
+        /// S2Daoã®TransactionInterceptorã‚’åˆ©ç”¨ã™ã‚‹
+        /// ï¼ˆTransactionInterceptorã®TransactionHandlerã®readonlyã«
+        /// ã“ã ã‚ã‚‰ãªã‘ã‚Œã°ã€TransactionInterceptorã‚’ä½¿ã‚ãªã„æ‰‹ã‚‚ã‚ã‚Šï¼‰
         /// </summary>
         /// <param name="invocation"></param>
         /// <returns></returns>
         public object Invoke(IMethodInvocation invocation)
         {
-            //  S2Dao‚ÌTransactionInterceptor‚ª‚È‚©‚Á‚½‚çƒCƒ“ƒXƒ^ƒ“ƒX¶¬
-            //  –{ƒNƒ‰ƒX‚ğQuillComponent‚Æ‚µ‚Äˆµ‚¤ê‡‚Ísingleton
-            //  “à•”‚Å•Û‚·‚éTransactionInterceptor‚àÀ¿“I‚Ésingleton‚Æ‚È‚é
+            //  S2Daoã®TransactionInterceptorãŒãªã‹ã£ãŸã‚‰ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ç”Ÿæˆ
+            //  æœ¬ã‚¯ãƒ©ã‚¹ã‚’QuillComponentã¨ã—ã¦æ‰±ã†å ´åˆã¯singleton
+            //  å†…éƒ¨ã§ä¿æŒã™ã‚‹TransactionInterceptorã‚‚å®Ÿè³ªçš„ã«singletonã¨ãªã‚‹
             if ( s2daoTxInterceptor == null )
             {
                 s2daoTxInterceptor = new TransactionInterceptor(TransactionHandler);

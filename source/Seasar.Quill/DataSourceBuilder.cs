@@ -30,38 +30,41 @@ using Seasar.Quill.Xml;
 namespace Seasar.Quill
 {
     /// <summary>
-    /// DataSource‚ğ\’z‚·‚éƒNƒ‰ƒX
+    /// DataSourceã‚’æ§‹ç¯‰ã™ã‚‹ã‚¯ãƒ©ã‚¹
     /// </summary>
     public class DataSourceBuilder
     {
         private const string DEFALT_DATASOURCE_NAME = "DataSource";
 
         /// <summary>
-        /// DataProvider‚ÌƒLƒƒƒbƒVƒ…
+        /// DataProviderã®ã‚­ãƒ£ãƒƒã‚·ãƒ¥
         /// </summary>
         protected readonly IDictionary<string, DataProvider> _providerCash
             = new Dictionary<string, DataProvider>();
 
         /// <summary>
-        /// app.config,dicon‚Ì’è‹`‚©‚çIDataSource‚ÌCollection‚ğ¶¬
+        /// app.config,diconã®å®šç¾©ã‹ã‚‰IDataSourceã®Collectionã‚’ç”Ÿæˆ
         /// </summary>
         /// <returns></returns>
         public virtual IDictionary<string, IDataSource> CreateDataSources()
         {
             IDictionary<string, IDataSource> dataSources = new Dictionary<string, IDataSource>();
 
-            //  App.config‚ÉConnectionString‚Ì‹Lq‚ª‚ ‚ê‚Î‚»‚±‚©‚çæ“¾
-            SetupByConnectionStringSection(dataSources);
+            //  App.configã«quillã‚»ã‚¯ã‚·ãƒ§ãƒ³ã®è¨˜è¿°ãŒã‚ã‚Œã°ãã“ã‹ã‚‰å–å¾—
             SetupByQuillSection(dataSources);
-
             if (dataSources.Count > 0)
             {
-                //  app.config•ª‚Ìƒf[ƒ^ƒ\[ƒX’è‹`‚ª‚ ‚ê‚Î
-                //  ˆÈ~‚Ìdicon‚Íg‚í‚È‚¢
                 return dataSources;
             }
 
-            //  App.config‚Éƒf[ƒ^‚ª‚È‚¯‚ê‚Îdicon‚©‚çæ“¾
+            //  App.configã«ConnectionStringã®è¨˜è¿°ãŒã‚ã‚Œã°ãã“ã‹ã‚‰å–å¾—
+            SetupByConnectionStringSection(dataSources);
+            if (dataSources.Count > 0)
+            {
+                return dataSources;
+            }
+
+            //  App.configã«ãƒ‡ãƒ¼ã‚¿ãŒãªã‘ã‚Œã°diconã‹ã‚‰å–å¾—
             if ( SingletonS2ContainerConnector.HasComponentDef(DEFALT_DATASOURCE_NAME) )
             {
                 dataSources[DEFALT_DATASOURCE_NAME] = 
@@ -78,7 +81,7 @@ namespace Seasar.Quill
         }
 
         /// <summary>
-        /// app.config‚ÌconnectionStringƒZƒNƒVƒ‡ƒ“î•ñ‚©‚çƒf[ƒ^ƒ\[ƒX‚ğ¶¬‚·‚é
+        /// app.configã®connectionStringã‚»ã‚¯ã‚·ãƒ§ãƒ³æƒ…å ±ã‹ã‚‰ãƒ‡ãƒ¼ã‚¿ã‚½ãƒ¼ã‚¹ã‚’ç”Ÿæˆã™ã‚‹
         /// </summary>
         /// <param name="dataSources"></param>
         protected virtual void SetupByConnectionStringSection(
@@ -96,7 +99,7 @@ namespace Seasar.Quill
         }
 
         /// <summary>
-        /// app.config‚ÌQuillƒZƒNƒVƒ‡ƒ“î•ñ‚©‚çƒf[ƒ^ƒ\[ƒX‚ğ¶¬‚·‚é
+        /// app.configã®Quillã‚»ã‚¯ã‚·ãƒ§ãƒ³æƒ…å ±ã‹ã‚‰ãƒ‡ãƒ¼ã‚¿ã‚½ãƒ¼ã‚¹ã‚’ç”Ÿæˆã™ã‚‹
         /// </summary>
         /// <param name="dataSources"></param>
         protected virtual void SetupByQuillSection(IDictionary<string, IDataSource> dataSources)
@@ -110,7 +113,7 @@ namespace Seasar.Quill
                     {
                         DataSourceSection dsSection = (DataSourceSection)item;
 
-                        //  ƒf[ƒ^ƒ\[ƒX
+                        //  ãƒ‡ãƒ¼ã‚¿ã‚½ãƒ¼ã‚¹
                         string dataSourceClassName = dsSection.DataSourceClassName;
                         if(string.IsNullOrEmpty(dataSourceClassName))
                         {
@@ -119,13 +122,13 @@ namespace Seasar.Quill
 
                         if(TypeUtil.HasNamespace(dataSourceClassName) == false)
                         {
-                            //  –¼‘O‹óŠÔ‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡‚ÍŠù’è‚Ì
-                            //  –¼‘O‹óŠÔ‚ğg—p‚·‚é
+                            //  åå‰ç©ºé–“ãŒæŒ‡å®šã•ã‚Œã¦ã„ãªã„å ´åˆã¯æ—¢å®šã®
+                            //  åå‰ç©ºé–“ã‚’ä½¿ç”¨ã™ã‚‹
                             dataSourceClassName = string.Format("{0}.{1}",
                                 QuillConstants.NAMESPACE_DATASOURCE, dataSourceClassName);
                         }
 
-                        //  ƒvƒƒoƒCƒ_
+                        //  ãƒ—ãƒ­ãƒã‚¤ãƒ€
                         string providerName = dsSection.ProviderName;
                         if(string.IsNullOrEmpty(providerName))
                         {
@@ -134,20 +137,20 @@ namespace Seasar.Quill
 
                         if(TypeUtil.HasNamespace(providerName) == false)
                         {
-                            //  –¼‘O‹óŠÔ‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡‚ÍŠù’è‚Ì
-                            //  –¼‘O‹óŠÔ‚ğg—p‚·‚é
+                            //  åå‰ç©ºé–“ãŒæŒ‡å®šã•ã‚Œã¦ã„ãªã„å ´åˆã¯æ—¢å®šã®
+                            //  åå‰ç©ºé–“ã‚’ä½¿ç”¨ã™ã‚‹
                             providerName = string.Format("{0}.{1}",
                                 QuillConstants.NAMESPACE_PROVIDER, providerName);
                         }
 
-                        //  Ú‘±•¶š—ñ
+                        //  æ¥ç¶šæ–‡å­—åˆ—
                         string connectionString = dsSection.ConnectionString;
                         if(string.IsNullOrEmpty(connectionString))
                         {
                             throw new ArgumentException("(ConnectionString=Empty)");
                         }
 
-                        //  ƒNƒ‰ƒX‘g‚İ—§‚Ä
+                        //  ã‚¯ãƒ©ã‚¹çµ„ã¿ç«‹ã¦
                         DataProvider provider = (DataProvider)ClassUtil.NewInstance(
                             ClassUtil.ForName(providerName));
                         ConstructorInfo constructorInfo = ClassUtil.GetConstructorInfo(ClassUtil.ForName(
