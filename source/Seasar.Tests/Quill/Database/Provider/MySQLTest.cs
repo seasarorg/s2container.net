@@ -23,7 +23,7 @@
 
 namespace Seasar.Tests.Quill.Database.Provider
 {
-    //  MySQL.Dataをインストールしている場合のみ
+    //  MySQL.Dataを参照設定に追加している場合のみ実行可能
     //[TestFixture]
     //public class MySQLTest
     //{
