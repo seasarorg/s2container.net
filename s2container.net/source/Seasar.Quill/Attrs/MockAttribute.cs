@@ -21,31 +21,31 @@ using System;
 namespace Seasar.Quill.Attrs
 {
     /// <summary>
-    /// Mock‚ğw’è‚·‚é‘®«ƒNƒ‰ƒX
+    /// Mockã‚’æŒ‡å®šã™ã‚‹å±æ€§ã‚¯ãƒ©ã‚¹
     /// </summary>
     /// <remarks>
-    /// ƒCƒ“ƒ^[ƒtƒF[ƒX‚Éİ’è‚·‚é‚±‚Æ‚ª‚Å‚«‚éBi•¡”İ’è‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢j
+    /// ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã«è¨­å®šã™ã‚‹ã“ã¨ãŒã§ãã‚‹ã€‚ï¼ˆè¤‡æ•°è¨­å®šã™ã‚‹ã“ã¨ã¯ã§ããªã„ï¼‰
     /// </remarks>
     [AttributeUsage(AttributeTargets.Interface, AllowMultiple = false)]
     public class MockAttribute : Attribute
     {
-        // MockƒNƒ‰ƒX‚ÌType
+        // Mockã‚¯ãƒ©ã‚¹ã®Type
         protected Type mockType;
 
         /// <summary>
-        /// MockƒNƒ‰ƒX‚ÌType‚ğw’è‚µ‚ÄMockAttribute‚ğ
-        /// ‰Šú‰»‚·‚éƒRƒ“ƒXƒgƒ‰ƒNƒ^
+        /// Mockã‚¯ãƒ©ã‚¹ã®Typeã‚’æŒ‡å®šã—ã¦MockAttributeã‚’
+        /// åˆæœŸåŒ–ã™ã‚‹ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
         /// </summary>
-        /// <param name="mockType">MockƒNƒ‰ƒX‚ÌType</param>
+        /// <param name="mockType">Mockã‚¯ãƒ©ã‚¹ã®Type</param>
         public MockAttribute(Type mockType)
         {
             this.mockType = mockType;
         }
 
         /// <summary>
-        /// MockƒNƒ‰ƒX‚ÌType‚ğ•Ô‚·
+        /// Mockã‚¯ãƒ©ã‚¹ã®Typeã‚’è¿”ã™
         /// </summary>
-        /// <value>MockƒNƒ‰ƒX‚ÌType</value>
+        /// <value>Mockã‚¯ãƒ©ã‚¹ã®Type</value>
         public Type MockType
         {
             get { return mockType; }

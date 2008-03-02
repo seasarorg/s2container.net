@@ -23,6 +23,7 @@ using Seasar.Framework.Aop.Interceptors;
 using Seasar.Quill;
 using Seasar.Quill.Attrs;
 using Seasar.Quill.Database.Tx.Impl;
+using Seasar.Quill.Exception;
 using Seasar.Tests.Dao.Impl;
 
 namespace Seasar.Tests.Quill.Attr

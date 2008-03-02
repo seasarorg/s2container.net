@@ -22,49 +22,49 @@ using System.Windows.Forms;
 namespace Seasar.Quill
 {
     /// <summary>
-    /// eƒRƒ“ƒeƒi‚ÉDI‚ð—LŒø‚É‚·‚éˆ×‚ÌƒRƒ“ƒgƒ[ƒ‹ƒNƒ‰ƒX
+    /// è¦ªã‚³ãƒ³ãƒ†ãƒŠã«DIã‚’æœ‰åŠ¹ã«ã™ã‚‹ç‚ºã®ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã‚¯ãƒ©ã‚¹
     /// </summary>
     public partial class QuillControl : UserControl, ISupportInitialize
     {
         /// <summary>
-        /// QuillControl‚ð‰Šú‰»‚·‚éƒRƒ“ƒXƒgƒ‰ƒNƒ^
+        /// QuillControlã‚’åˆæœŸåŒ–ã™ã‚‹ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
         /// </summary>
         public QuillControl()
         {
-            // ƒfƒtƒHƒ‹ƒg‚Å”ñ•\Ž¦‚Ìó‘Ô‚Æ‚·‚é
+            // ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§éžè¡¨ç¤ºã®çŠ¶æ…‹ã¨ã™ã‚‹
             this.Visible = false;
 
-            // ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì‰Šú‰»ˆ—‚ðs‚¤
+            // ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®åˆæœŸåŒ–å‡¦ç†ã‚’è¡Œã†
             InitializeComponent();
         }
 
-        #region ISupportInitialize ƒƒ“ƒo
+        #region ISupportInitialize ãƒ¡ãƒ³ãƒ
 
         /// <summary>
-        /// ƒRƒ“ƒgƒ[ƒ‹‚Ì‰Šú‰»‚ªŠJŽn‚³‚ê‚é‚ÆŒÄ‚Ño‚³‚ê‚éƒƒ\ƒbƒh
+        /// ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã®åˆæœŸåŒ–ãŒé–‹å§‹ã•ã‚Œã‚‹ã¨å‘¼ã³å‡ºã•ã‚Œã‚‹ãƒ¡ã‚½ãƒƒãƒ‰
         /// </summary>
         public void BeginInit()
         {
         }
 
         /// <summary>
-        /// ƒRƒ“ƒgƒ[ƒ‹‚Ì‰Šú‰»‚ªI—¹‚·‚é‚ÆŒÄ‚Ño‚³‚ê‚éƒƒ\ƒbƒh
+        /// ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ«ã®åˆæœŸåŒ–ãŒçµ‚äº†ã™ã‚‹ã¨å‘¼ã³å‡ºã•ã‚Œã‚‹ãƒ¡ã‚½ãƒƒãƒ‰
         /// </summary>
         /// <remarks>
-        /// QuillInjector‚ðŽg—p‚µ‚ÄDI‚ðs‚¤B
+        /// QuillInjectorã‚’ä½¿ç”¨ã—ã¦DIã‚’è¡Œã†ã€‚
         /// </remarks>
         public void EndInit()
         {
             if (DesignMode)
             {
-                // ƒfƒUƒCƒ“ƒ‚[ƒh‚Ìê‡‚ÍDI‚Ís‚í‚È‚¢
+                // ãƒ‡ã‚¶ã‚¤ãƒ³ãƒ¢ãƒ¼ãƒ‰ã®å ´åˆã¯DIã¯è¡Œã‚ãªã„
                 return;
             }
 
-            // QuilInjector‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ðŽæ“¾‚·‚é
+            // QuilInjectorã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã™ã‚‹
             QuillInjector injector = QuillInjector.GetInstance();
 
-            // eƒRƒ“ƒeƒi‚É‘Î‚µ‚ÄDI‚ðs‚¤
+            // è¦ªã‚³ãƒ³ãƒ†ãƒŠã«å¯¾ã—ã¦DIã‚’è¡Œã†
             injector.Inject(Parent);
         }
 

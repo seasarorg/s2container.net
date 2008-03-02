@@ -23,35 +23,35 @@ using Seasar.Framework.Aop.Proxy;
 namespace Seasar.Quill.Util
 {
     /// <summary>
-    /// Type���������[�e�B���e�B�N���X
+    /// Typeを扱うユーティリティクラス
     /// </summary>
     public static class TypeUtil
     {
         /// <summary>
-        /// �w�肳�ꂽ�I�u�W�F�N�g��Type���擾����
+        /// 指定されたオブジェクトのTypeを取得する
         /// </summary>
         /// <remarks>
-        /// �I�u�W�F�N�g�����߃v���L�V�̏ꍇ��AopProxy����Type���擾����
+        /// オブジェクトが透過プロキシの場合はAopProxyからTypeを取得する
         /// </remarks>
-        /// <param name="obj">�I�u�W�F�N�g</param>
+        /// <param name="obj">オブジェクト</param>
         /// <returns>Type</returns>
         public static Type GetType(object obj)
         {
             if (RemotingServices.IsTransparentProxy(obj))
             {
-                // ���߃v���L�V�̏ꍇ��AopProxy����Type���擾����
+                // 透過プロキシの場合はAopProxyからTypeを取得する
                 AopProxy aopProxy = RemotingServices.GetRealProxy(obj) as AopProxy;
                 return aopProxy.TargetType;
             }
             else
             {
-                // ���߃v���L�V�ł͂Ȃ��ꍇ�͒ʏ�̕��@��Type���擾����
+                // 透過プロキシではない場合は通常の方法でTypeを取得する
                 return obj.GetType();
             }
         }
 
         /// <summary>
-        /// ���̂ɖ��O��Ԃ��܂ނ��ǂ�������
+        /// 名称に名前空間を含むかどうか判定
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>

@@ -21,31 +21,31 @@ using System;
 namespace Seasar.Quill.Attrs
 {
     /// <summary>
-    /// S2Container‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ğƒoƒCƒ“ƒfƒBƒ“ƒO‚·‚é‚½‚ß‚Ì‘®«ƒNƒ‰ƒX
+    /// S2Containerã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ãƒã‚¤ãƒ³ãƒ‡ã‚£ãƒ³ã‚°ã™ã‚‹ãŸã‚ã®å±æ€§ã‚¯ãƒ©ã‚¹
     /// </summary>
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
     public class BindingAttribute : Attribute
     {
         /// <summary>
-        /// S2Container‚É‚¨‚¯‚éƒRƒ“ƒ|[ƒlƒ“ƒg–¼
+        /// S2Containerã«ãŠã‘ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆå
         /// </summary>
         protected string componentName;
 
         /// <summary>
-        /// S2Container‚É‚¨‚¯‚éƒRƒ“ƒ|[ƒlƒ“ƒg–¼‚ğw’è‚µ‚Ä
-        /// BindingAttribute‚ğ‰Šú‰»‚·‚éƒRƒ“ƒXƒgƒ‰ƒNƒ^
+        /// S2Containerã«ãŠã‘ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆåã‚’æŒ‡å®šã—ã¦
+        /// BindingAttributeã‚’åˆæœŸåŒ–ã™ã‚‹ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
         /// </summary>
-        /// <param name="componentName">S2Container‚É‚¨‚¯‚éƒRƒ“ƒ|[ƒlƒ“ƒg–¼</param>
+        /// <param name="componentName">S2Containerã«ãŠã‘ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆå</param>
         public BindingAttribute(string componentName)
         {
-            // ƒRƒ“ƒ|[ƒlƒ“ƒg–¼‚ğƒZƒbƒg‚·‚é
+            // ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆåã‚’ã‚»ãƒƒãƒˆã™ã‚‹
             this.componentName = componentName;
         }
 
         /// <summary>
-        /// S2Container‚É‚¨‚¯‚éƒRƒ“ƒ|[ƒlƒ“ƒg–¼‚ğæ“¾‚·‚é
+        /// S2Containerã«ãŠã‘ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆåã‚’å–å¾—ã™ã‚‹
         /// </summary>
-        /// <value>S2Container‚É‚¨‚¯‚éƒRƒ“ƒ|[ƒlƒ“ƒg–¼</value>
+        /// <value>S2Containerã«ãŠã‘ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆå</value>
         public string ComponentName
         {
             get { return componentName; }

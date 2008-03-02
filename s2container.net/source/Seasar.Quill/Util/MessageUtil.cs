@@ -16,66 +16,67 @@
  */
 #endregion
 
-using System.Resources;
 using System.Reflection;
+using System.Resources;
+using Seasar.Quill.Exception;
 
 namespace Seasar.Quill.Util
 {
     /// <summary>
-    /// Quill‚Åì¬‚³‚ê‚éƒƒbƒZ[ƒW‚ğˆµ‚¤ƒNƒ‰ƒX
+    /// Quillã§ä½œæˆã•ã‚Œã‚‹ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’æ‰±ã†ã‚¯ãƒ©ã‚¹
     /// </summary>
     public class MessageUtil
     {
         /// <summary>
-        /// Quill‚Åg—p‚·‚éƒƒbƒZ[ƒW‚ğŠi”[‚µ‚Ä‚¢‚éResourceManager
+        /// Quillã§ä½¿ç”¨ã™ã‚‹ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’æ ¼ç´ã—ã¦ã„ã‚‹ResourceManager
         /// </summary>
         private static readonly ResourceManager MESSAGES_RESOURCE_MANAGER = 
             new ResourceManager("Seasar.Quill.QLLMessages", 
             Assembly.GetExecutingAssembly());
 
-        // object‚Ì‹ó‚Ì”z—ñ
+        // objectã®ç©ºã®é…åˆ—
         private static readonly object[] EMPTY_ARRAY = new object[0];
 
         /// <summary>
-        /// ƒƒbƒZ[ƒWƒR[ƒh‚ğŠÜ‚Ü‚È‚¢ƒƒbƒZ[ƒW‚ğæ“¾‚·‚é
+        /// ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚³ãƒ¼ãƒ‰ã‚’å«ã¾ãªã„ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å–å¾—ã™ã‚‹
         /// </summary>
-        /// <param name="messageCode">ƒƒbƒZ[ƒWƒR[ƒh</param>
-        /// <param name="arguments">ƒƒbƒZ[ƒW’†‚É–„‚ß‚Ş’l‚Ì”z—ñ</param>
-        /// <returns>ƒƒbƒZ[ƒWƒR[ƒh‚ğŠÜ‚Ü‚È‚¢ƒƒbƒZ[ƒW</returns>
+        /// <param name="messageCode">ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚³ãƒ¼ãƒ‰</param>
+        /// <param name="arguments">ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ä¸­ã«åŸ‹ã‚è¾¼ã‚€å€¤ã®é…åˆ—</param>
+        /// <returns>ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚³ãƒ¼ãƒ‰ã‚’å«ã¾ãªã„ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸</returns>
         public static string GetSimpleMessage(string messageCode, object[] arguments)
         {
-            // ƒƒbƒZ[ƒW‚ÌƒtƒH[ƒ}ƒbƒg‚ğResourceManager‚©‚çæ“¾‚·‚é
+            // ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚’ResourceManagerã‹ã‚‰å–å¾—ã™ã‚‹
             string format = MESSAGES_RESOURCE_MANAGER.GetString(messageCode);
 
             if (format == null)
             {
-                // ƒƒbƒZ[ƒW‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡‚Í—áŠO‚ğƒXƒ[‚·‚é
+                // ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒè¦‹ã¤ã‹ã‚‰ãªã„å ´åˆã¯ä¾‹å¤–ã‚’ã‚¹ãƒ­ãƒ¼ã™ã‚‹
                 throw new QuillApplicationException(
                     "EQLL0000", "message not found.");
             }
 
             if (arguments == null)
             {
-                // ƒƒbƒZ[ƒW’†‚É–„‚ß‚Ş’l‚ªnull‚Ìê‡‚Í‹ó‚Ì”z—ñ‚É•ÏŠ·‚·‚é
+                // ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ä¸­ã«åŸ‹ã‚è¾¼ã‚€å€¤ãŒnullã®å ´åˆã¯ç©ºã®é…åˆ—ã«å¤‰æ›ã™ã‚‹
                 arguments = EMPTY_ARRAY;
             }
             
-            // ƒtƒH[ƒ}ƒbƒg‚É’l‚ğ–„‚ß‚İƒƒbƒZ[ƒW‚ğì¬‚·‚é
+            // ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã«å€¤ã‚’åŸ‹ã‚è¾¼ã¿ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’ä½œæˆã™ã‚‹
             string message = string.Format(format, arguments);
 
-            // ƒƒbƒZ[ƒW‚ğ•Ô‚·
+            // ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’è¿”ã™
             return message;
         }
 
         /// <summary>
-        /// ƒƒbƒZ[ƒWƒR[ƒh‚ğŠÜ‚ŞƒƒbƒZ[ƒW‚ğæ“¾‚·‚é
+        /// ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚³ãƒ¼ãƒ‰ã‚’å«ã‚€ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’å–å¾—ã™ã‚‹
         /// </summary>
-        /// <param name="messageCode">ƒƒbƒZ[ƒWƒR[ƒh</param>
-        /// <param name="arguments">ƒƒbƒZ[ƒW’†‚É–„‚ß‚Ş’l‚Ì”z—ñ</param>
-        /// <returns>ƒƒbƒZ[ƒWƒR[ƒh‚ğŠÜ‚Ü‚È‚¢ƒƒbƒZ[ƒW</returns>
+        /// <param name="messageCode">ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚³ãƒ¼ãƒ‰</param>
+        /// <param name="arguments">ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ä¸­ã«åŸ‹ã‚è¾¼ã‚€å€¤ã®é…åˆ—</param>
+        /// <returns>ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚³ãƒ¼ãƒ‰ã‚’å«ã¾ãªã„ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸</returns>
         public static string GetMessage(string messageCode, object[] arguments)
         {
-            // ƒƒbƒZ[ƒWƒR[ƒh•t‚«‚ÌƒƒbƒZ[ƒW‚ğ•Ô‚·
+            // ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚³ãƒ¼ãƒ‰ä»˜ãã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’è¿”ã™
             return "[" + messageCode + "]" + GetSimpleMessage(messageCode, arguments);
         }
     }

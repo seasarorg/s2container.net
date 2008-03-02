@@ -29,10 +29,10 @@ namespace Seasar.Tests.Quill.Util
     [TestFixture]
 	public class TypeUtilTest
     {
-        #region GetType‚ÌƒeƒXƒg
+        #region GetTypeã®ãƒ†ã‚¹ãƒˆ
 
         [Test]
-        public void TestGetType_“§‰ßƒvƒƒLƒV‚Ìê‡()
+        public void TestGetType_é€éãƒ—ãƒ­ã‚­ã‚·ã®å ´åˆ()
         {
             Hoge hoge = new Hoge();
             IAspect aspect = new AspectImpl(new TraceInterceptor());
@@ -47,7 +47,7 @@ namespace Seasar.Tests.Quill.Util
         }
 
         [Test]
-        public void TestGetType_“§‰ßƒvƒƒLƒV‚Å‚È‚¢ê‡()
+        public void TestGetType_é€éãƒ—ãƒ­ã‚­ã‚·ã§ãªã„å ´åˆ()
         {
             Hoge hoge = new Hoge();
 
@@ -58,7 +58,7 @@ namespace Seasar.Tests.Quill.Util
 
         #endregion
 
-        #region GetType‚ÌƒeƒXƒg‚Åg—p‚·‚é“à•”ƒNƒ‰ƒX
+        #region GetTypeã®ãƒ†ã‚¹ãƒˆã§ä½¿ç”¨ã™ã‚‹å†…éƒ¨ã‚¯ãƒ©ã‚¹
 
         private class Hoge : MarshalByRefObject
         {

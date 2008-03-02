@@ -1,4 +1,4 @@
-﻿#region Copyright
+#region Copyright
 /*
  * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
@@ -20,6 +20,7 @@ using System;
 using Seasar.Framework.Util;
 using Seasar.Quill.Dao;
 using Seasar.Quill.Dao.Impl;
+using Seasar.Quill.Exception;
 using Seasar.Quill.Util;
 using Seasar.Quill.Xml;
 

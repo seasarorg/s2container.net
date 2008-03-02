@@ -21,13 +21,13 @@ using System.Collections.Generic;
 namespace Seasar.Quill.Database.DataSource.Selector
 {
     /// <summary>
-    /// •¡”‚ÌDataSource‚©‚çg—p‚·‚é‚à‚Ì‚ğ‘I‘ğ‚·‚é
-    /// ƒƒWƒbƒN‚ğ‹Lq‚·‚é‚½‚ß‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX
+    /// è¤‡æ•°ã®DataSourceã‹ã‚‰ä½¿ç”¨ã™ã‚‹ã‚‚ã®ã‚’é¸æŠã™ã‚‹
+    /// ãƒ­ã‚¸ãƒƒã‚¯ã‚’è¨˜è¿°ã™ã‚‹ãŸã‚ã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹
     /// </summary>
     public interface IDataSourceSelector
     {
         /// <summary>
-        /// g—p‚·‚éƒf[ƒ^ƒ\[ƒX–¼‚ğ•Ô‚µ‚Ü‚·
+        /// ä½¿ç”¨ã™ã‚‹ãƒ‡ãƒ¼ã‚¿ã‚½ãƒ¼ã‚¹åã‚’è¿”ã—ã¾ã™
         /// </summary>
         /// <param name="dataSourceNames"></param>
         /// <returns></returns>

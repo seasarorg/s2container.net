@@ -22,11 +22,12 @@ using Seasar.Quill.Database.Tx;
 using Seasar.Quill.Database.Tx.Impl;
 using Seasar.Quill.Util;
 using Seasar.Quill.Xml;
+using Seasar.Quill.Exception;
 
 namespace Seasar.Quill.Attrs
 {
     /// <summary>
-    /// ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‹«ŠE‚ğw’è‚·‚é‚½‚ß‚Ì‘®«
+    /// ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³å¢ƒç•Œã‚’æŒ‡å®šã™ã‚‹ãŸã‚ã®å±æ€§
     /// </summary>
     [AttributeUsage(AttributeTargets.Interface |
        AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
@@ -43,16 +44,16 @@ namespace Seasar.Quill.Attrs
         }
 
         /// <summary>
-        /// ƒfƒtƒHƒ‹ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^
-        /// (QuillLocalRequiredTxInterceptor‚ğg‚¢‚Ü‚·)
+        /// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+        /// (QuillLocalRequiredTxInterceptorã‚’ä½¿ã„ã¾ã™)
         /// </summary>
         public TransactionAttribute()
         {
             QuillSection section = QuillSectionHandler.GetQuillSection();
             if (section == null || string.IsNullOrEmpty(section.TransactionSetting))
             {
-                //  ‘®«ˆø”‚É‚æ‚éw’è‚àapp.config‚É‚àİ’è‚ª‚È‚¯‚ê‚Î
-                //  ƒfƒtƒHƒ‹ƒg‚Ìƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“İ’è‚ğg‚¤
+                //  å±æ€§å¼•æ•°ã«ã‚ˆã‚‹æŒ‡å®šã‚‚app.configã«ã‚‚è¨­å®šãŒãªã‘ã‚Œã°
+                //  ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³è¨­å®šã‚’ä½¿ã†
                 SetSettingType(typeof(TypicalTransactionSetting));
             }
             else
@@ -60,7 +61,7 @@ namespace Seasar.Quill.Attrs
                 string typeName = section.TransactionSetting;
                 if (TypeUtil.HasNamespace(typeName) == false)
                 {
-                    //  –¼‘O‹óŠÔ‚È‚µ‚Ìê‡‚ÍŠù’è‚Ì–¼‘O‹óŠÔ‚©‚ç
+                    //  åå‰ç©ºé–“ãªã—ã®å ´åˆã¯æ—¢å®šã®åå‰ç©ºé–“ã‹ã‚‰
                     typeName = string.Format("{0}.{1}",
                         QuillConstants.NAMESPACE_TXSETTING, typeName);
                 }
@@ -70,9 +71,9 @@ namespace Seasar.Quill.Attrs
         }
 
         /// <summary>
-        /// ƒJƒXƒ^ƒ€ƒRƒ“ƒXƒgƒ‰ƒNƒ^
-        /// (w’è‚µ‚½Interceptor‚ğg‚¢‚Ü‚·)
-        /// (AbstractQuillTransactionInterceptorƒTƒuƒNƒ‰ƒX‚Å‚Í‚È‚¢ê‡Às—áŠO‚ğ“Š‚°‚Ü‚·j
+        /// ã‚«ã‚¹ã‚¿ãƒ ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+        /// (æŒ‡å®šã—ãŸInterceptorã‚’ä½¿ã„ã¾ã™)
+        /// (AbstractQuillTransactionInterceptorã‚µãƒ–ã‚¯ãƒ©ã‚¹ã§ã¯ãªã„å ´åˆå®Ÿè¡Œæ™‚ä¾‹å¤–ã‚’æŠ•ã’ã¾ã™ï¼‰
         /// </summary>
         /// <param name="handlerType"></param>
         public TransactionAttribute(Type settingType)
@@ -81,10 +82,10 @@ namespace Seasar.Quill.Attrs
         }
 
         /// <summary>
-        /// g—p‚·‚éƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“İ’èƒNƒ‰ƒX‚Ìİ’è
+        /// ä½¿ç”¨ã™ã‚‹ãƒˆãƒ©ãƒ³ã‚¶ã‚¯ã‚·ãƒ§ãƒ³è¨­å®šã‚¯ãƒ©ã‚¹ã®è¨­å®š
         /// </summary>
         /// <param name="type"></param>
-        /// <exception cref="">ITransactionSettingÀ‘•ƒNƒ‰ƒX‚Å‚È‚¢‚Æ‚«</exception>
+        /// <exception cref="">ITransactionSettingå®Ÿè£…ã‚¯ãƒ©ã‚¹ã§ãªã„ã¨ã</exception>
         protected virtual void SetSettingType(Type type)
         {
             if(typeof(ITransactionSetting).IsAssignableFrom(type))
