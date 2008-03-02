@@ -16,10 +16,10 @@
  */
 #endregion
 
-using MbUnit.Framework;
-using MySql.Data.MySqlClient;
-using Seasar.Framework.Util;
-using Seasar.Quill.Database.Provider;
+//using MbUnit.Framework;
+//using MySql.Data.MySqlClient;
+//using Seasar.Framework.Util;
+//using Seasar.Quill.Database.Provider;
 
 namespace Seasar.Tests.Quill.Database.Provider
 {

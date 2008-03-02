@@ -86,7 +86,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\net2.0\MbUnit.Framework.dll</HintPath>
     </Reference>
-    <Reference Include="MySql.Data, Version=1.0.10.1, Culture=neutral, PublicKeyToken=c5687fc88969c44d" />
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
