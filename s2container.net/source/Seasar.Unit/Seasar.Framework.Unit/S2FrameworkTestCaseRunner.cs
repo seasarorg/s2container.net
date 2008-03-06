@@ -33,8 +33,8 @@ namespace Seasar.Framework.Unit
     public class S2FrameworkTestCaseRunner
     {
         private static readonly Logger _logger = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private S2FrameworkTestCaseBase _fixture;
-        private MethodInfo _method;
+        protected S2FrameworkTestCaseBase _fixture;
+        protected MethodInfo _method;
         private IS2Container _container;
         private IList _bindedFields;
         private Hashtable _errors;
@@ -42,6 +42,7 @@ namespace Seasar.Framework.Unit
         protected IS2Container Container
         {
             get { return _container; }
+            set { _container = value; }
         }
 
         public virtual object Run(IRunInvoker invoker, object o, IList args)
@@ -358,7 +359,7 @@ namespace Seasar.Framework.Unit
             }
         }
 
-        private void ExceptionHandler(Exception e)
+        protected void ExceptionHandler(Exception e)
         {
             if (_errors == null)
             {
