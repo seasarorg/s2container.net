@@ -456,6 +456,7 @@
     <Compile Include="Quill\QuillInjectorTest.cs" />
     <Compile Include="Quill\SingletonS2ContainerConnectorTest.cs" />
     <Compile Include="Quill\Unit\MockInjectorTest.cs" />
+    <Compile Include="Quill\Unit\QuillTestCaseTest.cs" />
     <Compile Include="Quill\Util\AttributeUtilTest.cs" />
     <Compile Include="Quill\Util\MessageUtilTest.cs" />
     <Compile Include="Quill\Util\TypeUtilTest.cs" />

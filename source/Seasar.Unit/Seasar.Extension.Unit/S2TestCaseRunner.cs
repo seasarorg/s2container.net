@@ -31,7 +31,7 @@ namespace Seasar.Extension.Unit
     {
         private static readonly string DATASOURCE_NAME = string.Format("Ado{0}DataSource", ContainerConstants.NS_SEP);
 
-        private S2TestCase _fixture;
+        //private S2TestCase _fixture;
         private Tx _tx;
         private ITransactionContext _tc;
         private IDataSource _dataSource;
@@ -79,7 +79,7 @@ namespace Seasar.Extension.Unit
             base.TearDownBeforeContainerDestroy();
         }
 
-        protected void SetupDataSource()
+        protected virtual void SetupDataSource()
         {
             if (Container.HasComponentDef(DATASOURCE_NAME))
             {
@@ -91,11 +91,11 @@ namespace Seasar.Extension.Unit
             }
             if (_fixture != null && _dataSource != null)
             {
-                _fixture.SetDataSource(_dataSource);
+                ((S2TestCase)_fixture).SetDataSource(_dataSource);
             }
         }
 
-        protected void TearDownDataSource()
+        protected virtual void TearDownDataSource()
         {
             TxDataSource txDataSource = _dataSource as TxDataSource;
             if (txDataSource != null)
@@ -105,14 +105,16 @@ namespace Seasar.Extension.Unit
                     txDataSource.CloseConnection(txDataSource.Context.Connection);
                 }
             }
-            if (_fixture.HasConnection)
+
+            S2TestCase fixture = _fixture as S2TestCase;
+            if (fixture != null)
             {
-                ConnectionUtil.Close(_fixture.Connection);
-                _fixture.SetConnection(null);
-            }
-            if (_fixture != null)
-            {
-                _fixture.SetDataSource(null);
+                if (fixture.HasConnection)
+                {
+                    ConnectionUtil.Close(fixture.Connection);
+                    fixture.SetConnection(null);
+                }
+                fixture.SetDataSource(null);
             }
             _dataSource = null;
         }
