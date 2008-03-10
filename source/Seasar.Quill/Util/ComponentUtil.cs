@@ -42,9 +42,13 @@ namespace Seasar.Quill.Util
             QuillComponent qc = container.GetComponent(componentType);
             object retComponent = qc.GetComponentObject(componentType);
             //  実質的にありえないが念のためチェック
-            if (retComponent == null || componentType.IsAssignableFrom(retComponent.GetType()) == false)
+            if (retComponent == null)
             {
-                throw new QuillComponentInvalidCastException(componentType);
+                throw new QuillInvalidClassException(componentType);
+            }
+            else if(componentType.IsAssignableFrom(retComponent.GetType()) == false)
+            {
+                throw new QuillInvalidClassException(retComponent.GetType(), componentType);
             }
             return retComponent;
         }
@@ -64,9 +68,13 @@ namespace Seasar.Quill.Util
             QuillComponent qc = container.GetComponent(interfaceType, implType);
             object retComponent = qc.GetComponentObject(interfaceType);
             //  実質的にありえないが念のためチェック
-            if (retComponent == null || interfaceType.IsAssignableFrom(retComponent.GetType()) == false)
+            if (retComponent == null)
             {
-                throw new QuillComponentInvalidCastException(interfaceType);
+                throw new QuillInvalidClassException(interfaceType);
+            }
+            else if (interfaceType.IsAssignableFrom(retComponent.GetType()) == false)
+            {
+                throw new QuillInvalidClassException(retComponent.GetType(), interfaceType);
             }
             return retComponent;
         }

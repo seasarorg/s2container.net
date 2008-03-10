@@ -20,14 +20,24 @@ using System;
 
 namespace Seasar.Quill.Exception
 {
-    public class QuillComponentInvalidCastException : QuillApplicationException
+    public class QuillInvalidClassException : QuillApplicationException
     {
         /// <summary>
-        /// コンポーネントの型を指定してQuillComponentInvalidCastExceptionを初期化する
+        /// Quillアプリケーションとして無効なクラスが指定された場合の例外
         /// </summary>
-        /// <param name="componentType"></param>
-        public QuillComponentInvalidCastException(Type componentType) : base
-            (string.Format("ComponentType = {0}", componentType.Name))
+        /// <param name="componentType">指定された型(not null)</param>
+        /// <param name="needType">実際に必要な型(not null)</param>
+        public QuillInvalidClassException(Type componentType, Type needType) : base(
+            "EQLL0027", new object[] { componentType.Name, needType.Name })
+        {
+        }
+
+        /// <summary>
+        /// Quillアプリケーションとして無効なクラスが指定された場合の例外
+        /// </summary>
+        /// <param name="needType">実際に必要な型(not null)</param>
+        public QuillInvalidClassException(Type needType)
+            : base("EQLL0027", new object[] { "null", needType.Name })
         {
         }
 
@@ -36,7 +46,7 @@ namespace Seasar.Quill.Exception
         /// </summary>
         /// <param name="messageCode">メッセージコード</param>
         /// <param name="message">メッセージ</param>
-        public QuillComponentInvalidCastException(string messageCode, string message) : base(messageCode, message)
+        public QuillInvalidClassException(string messageCode, string message) : base(messageCode, message)
         {
         }
 
@@ -46,7 +56,7 @@ namespace Seasar.Quill.Exception
         /// </summary>
         /// <param name="messageCode">メッセージコード</param>
         /// <param name="args">メッセージ中に埋め込む文字列の配列</param>
-        public QuillComponentInvalidCastException(string messageCode, object[] args)
+        public QuillInvalidClassException(string messageCode, object[] args)
             : this(messageCode, args, null)
         {
         }
@@ -58,7 +68,7 @@ namespace Seasar.Quill.Exception
         /// <param name="messageCode">メッセージコード</param>
         /// <param name="args">メッセージ中に埋め込む値の配列</param>
         /// <param name="cause">元となった例外</param>
-        public QuillComponentInvalidCastException(
+        public QuillInvalidClassException(
             string messageCode, object[] args, System.Exception cause)
             : base(messageCode, args, cause)
         {

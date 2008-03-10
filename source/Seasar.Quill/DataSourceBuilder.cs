@@ -26,6 +26,9 @@ using Seasar.Framework.Container.Factory;
 using Seasar.Framework.Util;
 using Seasar.Quill.Util;
 using Seasar.Quill.Xml;
+using System.Text.RegularExpressions;
+using Seasar.Quill.Database.DataSource.Connection;
+using Seasar.Quill.Exception;
 
 namespace Seasar.Quill
 {
@@ -37,10 +40,9 @@ namespace Seasar.Quill
         private const string DEFALT_DATASOURCE_NAME = "DataSource";
 
         /// <summary>
-        /// DataProviderのキャッシュ
+        /// 文字列("で囲まれているか)判定するための正規表現
         /// </summary>
-        protected readonly IDictionary<string, DataProvider> _providerCash
-            = new Dictionary<string, DataProvider>();
+        private readonly Regex _regexIsString = new Regex("^\".*\"$");
 
         /// <summary>
         /// app.config,diconの定義からIDataSourceのCollectionを生成
@@ -144,8 +146,30 @@ namespace Seasar.Quill
                         }
 
                         //  接続文字列
-                        string connectionString = dsSection.ConnectionString;
-                        if(string.IsNullOrEmpty(connectionString))
+                        string configString = dsSection.ConnectionString;
+                        string connectionString = configString;
+                        if (_regexIsString.IsMatch(configString))
+                        {
+                            //  最初と最後の「"」を取り除く
+                            connectionString = configString.Substring(1, configString.Length - 2);
+                        }
+                        else
+                        {
+                            //  「"」で囲まれていない場合はクラスが指定されていると見なす
+                            Type connectionStringType = ClassUtil.ForName(configString);
+                            object connectionStringInstance = ClassUtil.NewInstance(connectionStringType);
+                            if (typeof(IConnectionString).IsAssignableFrom(connectionStringType))
+                            {
+                                connectionString = ((IConnectionString)connectionStringInstance).GetConnectionString();
+                            }
+                            else
+                            {
+                                throw new QuillInvalidClassException(
+                                    connectionStringType, typeof(IConnectionString));
+                            }
+                        }
+                        //  接続文字列が設定されていない
+                        if (string.IsNullOrEmpty(connectionString))
                         {
                             throw new ArgumentException("(ConnectionString=Empty)");
                         }

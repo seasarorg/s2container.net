@@ -361,7 +361,6 @@ namespace Seasar.Tests.Dao.Impl
         private int? _mgr;
         private DateTime? hiredate;
         private Nullable<int> _sal;
-        private byte[] _password;
         private string _dummy;
 
         public long Empno

@@ -59,6 +59,7 @@
     <Compile Include="Dao\Impl\AbstractDaoSetting.cs" />
     <Compile Include="Dao\Impl\TypicalDaoSetting.cs" />
     <Compile Include="Dao\Interceptor\DataSourceSelectInterceptor.cs" />
+    <Compile Include="Database\DataSource\Connection\IConnectionString.cs" />
     <Compile Include="Database\Provider\DB2.cs" />
     <Compile Include="Database\Provider\Firebird.cs" />
     <Compile Include="Database\Provider\MySQL.cs" />
@@ -73,7 +74,7 @@
     <Compile Include="DataSourceBuilder.cs" />
     <Compile Include="Database\DataSource\Selector\IDataSourceSelector.cs" />
     <Compile Include="Database\DataSource\Impl\SelectableDataSourceProxyWithDictionary.cs" />
-    <Compile Include="Exception\QuillComponentInvalidCastException.cs" />
+    <Compile Include="Exception\QuillInvalidClassException.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
