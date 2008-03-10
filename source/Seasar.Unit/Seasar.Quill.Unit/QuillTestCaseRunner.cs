@@ -27,6 +27,7 @@ using Seasar.Extension.Unit;
 using Seasar.Framework.Container.Factory;
 using Seasar.Framework.Util;
 using Seasar.Quill.Database.DataSource.Impl;
+using Seasar.Quill.Exception;
 
 namespace Seasar.Quill.Unit
 {
@@ -39,6 +40,10 @@ namespace Seasar.Quill.Unit
         public new object Run(IRunInvoker invoker, object o, IList args, Tx tx)
         {
             _tx = tx;
+            if (typeof(QuillTestCase).IsAssignableFrom(o.GetType()) == false)
+            {
+                throw new QuillInvalidClassException(o.GetType(), typeof(QuillTestCase));
+            }
             _fixture = o as QuillTestCase;
             return Run(invoker, o, args);
         }
