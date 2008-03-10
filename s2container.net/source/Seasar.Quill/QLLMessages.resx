@@ -201,4 +201,7 @@
   <data name="EQLL0026" xml:space="preserve">
     <value>ITransactionSetting実装クラスではないため、TransactionInterceptorを適用できません。type={0}</value>
   </data>
+  <data name="EQLL0027" xml:space="preserve">
+    <value>{0}は{1}の実装、または継承クラスではありません。</value>
+  </data>
 </root>

@@ -451,6 +451,7 @@
     <Compile Include="Quill\Database\DataSource\Impl\SelectableDataSourceProxyWithDictionaryTest.cs" />
     <Compile Include="Quill\Database\Provider\MySQLTest.cs" />
     <Compile Include="Quill\Database\Provider\SqlServerTest.cs" />
+    <Compile Include="Quill\DataSourceBuilderTest.cs" />
     <Compile Include="Quill\QuillComponentTest.cs" />
     <Compile Include="Quill\QuillContainerTest.cs" />
     <Compile Include="Quill\QuillInjectorTest.cs" />
