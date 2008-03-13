@@ -53,6 +53,11 @@ namespace Seasar.Extension.ADO.Impl
             return base.ExecuteNonQuery();
         }
 
+        public override IDataParameterCollection Parameters
+        {
+            get { return _parameters; }
+        }
+
         public override IDbDataParameter CreateParameter()
         {
             return new BooleanToIntParameter(base.CreateParameter());

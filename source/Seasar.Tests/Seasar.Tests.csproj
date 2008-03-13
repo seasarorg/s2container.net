@@ -1,7 +1,7 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{6D6327B1-4252-470A-A76B-8E923F34AB7C}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -379,6 +379,7 @@
       <DependentUpon>S2DotNetDemoDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="Extension\ADO.Impl\SelectableDataSourceProxyWithContainerTest.cs" />
+    <Compile Include="Extension\ADO.Impl\BooleanToIntCommandFactoryTest.cs" />
     <Compile Include="Extension\BasicTypeBean.cs" />
     <Compile Include="Extension\DataSets.Impl\SqlDeleteTableWriterTest.cs" />
     <Compile Include="Extension\DataSets.Impl\SqlReloadReaderTest.cs" />
