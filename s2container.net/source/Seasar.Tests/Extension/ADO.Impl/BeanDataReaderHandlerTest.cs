@@ -108,7 +108,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
             }
 
             Assert.AreEqual(1, ret.Id);
-            Assert.AreEqual(true, ret.BoolType);
+            Assert.AreEqual(false, ret.BoolType);
             Assert.AreEqual(SByte.MinValue, ret.SbyteType);
             Assert.AreEqual(Byte.MaxValue, ret.ByteType);
             Assert.AreEqual(Int16.MaxValue, ret.Int16Type);
@@ -219,7 +219,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
             }
 
             Assert.AreEqual(1, ret.Id.Value);
-            Assert.AreEqual(true, ret.BoolType.Value);
+            Assert.AreEqual(false, ret.BoolType.Value);
             Assert.AreEqual(SByte.MinValue, ret.SbyteType.Value);
             Assert.AreEqual(Byte.MaxValue, ret.ByteType.Value);
             Assert.AreEqual(Int16.MaxValue, ret.Int16Type.Value);
@@ -293,7 +293,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
             }
 
             Assert.AreEqual(1, ret.Id.Value);
-            Assert.AreEqual(true, ret.BoolType.Value);
+            Assert.AreEqual(false, ret.BoolType.Value);
             Assert.AreEqual(SByte.MinValue, ret.SbyteType, "SqlTypeではSByteをサポートしていない。");
             Assert.AreEqual(Byte.MaxValue, ret.ByteType.Value);
             Assert.AreEqual(Int16.MaxValue, ret.Int16Type.Value);
