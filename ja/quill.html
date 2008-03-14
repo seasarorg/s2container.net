@@ -138,6 +138,15 @@
 						<li><a href="#aop_notice">注意点</a></li>
 					</ul>
 				</li>
+				<li>
+					<a href="#nodicon">diconファイルを書かずにSeasarの機能を利用する</a>
+					<ul>
+						<li><a href="#nodicon_config">データソースの設定</a></li>
+						<li><a href="#nodicon_s2dao">S2Daoを利用してDBアクセス</a></li>
+						<li><a href="#nodicon_tx">トランザクションをかける</a></li>
+						<li><a href="#nodicon_ut">Quillを利用した単体テスト</a></li>
+					</ul>
+				</li>
 				<li><a href="#form">Windowsアプリケーションから簡単にQuillを利用する</li>
 				<li><a href="#dispose">アンマネージ リソースを解放する</li>
 				<li><a href="#destroy">Quill が保持するオブジェクトの参照を破棄する</li>
@@ -616,6 +625,71 @@
 		</div>
 	</div>
 	
+<!-- ############################################# Windowsアプリケーションから簡単にQuillを利用する ######################################################### -->
+	<div class="content">
+		<a name="nodicon" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>diconファイルを書かずにSeasarの機能を利用する</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png"/>上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<h2><a name="nodicon_config">データソースの設定</a></h2>
+			<p>　設定ファイル(<strong>App.config</strong>)の「<strong>quill</strong>」タグ内に下記の設定を記述することでデータソースを使うことができます。<br/>
+			各データソースの定義は「<strong>dataSource</strong>」タグに記述し、<br/>
+			複数データソースを定義する場合は「<strong>dataSources</strong>」タグ内に<br/>
+			各データソースの設定を書いていきます。</p>
+			<h3>・データソース名</h3>
+			<p>データソースをアプリケーション中で一意に識別するための名前です。</p>
+			<h3>・プロバイダクラス名</h3>
+			<p>　ADO.NET上で使うクラス名を保持するDataProvider継承クラス名です。<br/>
+			独自のプロバイダクラスを使う場合は名前空間付きで指定します。<br/>
+			Quill内にあらかじめ定義されているプロバイダクラスを使用する場合は<br/>
+			クラス名のみの指定で使用可能です。</p>
+			<p>以下のプロバイダがQuill内に定義されています。</p>
+			<table border="0" cellspacing="1">
+				<tr><th width="140">プロバイダ</th><th>説明</th></tr>
+				<tr><td>SqlServer</td><td>SQLServer用プロバイダクラス</td></tr>
+				<p><td>ODP</td><td>ODP.NET(Oracle)用プロバイダクラス</td></tr>
+				<p><td>Oracle</td><td>Oracle用プロバイダクラス</td></tr>
+				<p><td>DB2</td><td>DB2用プロバイダクラス</td></tr>
+				<p><td>MySQL</td><td>MySQL用プロバイダクラス</td></tr>
+				<p><td>PostgreSQL</td><td>PostgreSQL用プロバイダクラス</td></tr>
+				<p><td>Firebird</td><td>Firebird用プロバイダクラス)</td></tr>
+				<p><td>OleDb</td><td>OleDb用プロバイダクラス)</td></tr>
+			</table>
+			<h3>・接続文字列</h3>
+			<p>　クラスを指定する方法と文字列を直接書く方法があります。</p>
+			<p>　クラスを指定する場合は<br/>
+			Seasar.Quill.Database.DataSource.Connection.IConnectionStringインターフェースを<br/>
+			実装し、「connectionString」タグにクラス名を名前空間付きで指定して下さい。</p>
+			<p>文字列で直接書く場合は接続文字列を「"」で囲って指定して下さい。</p><!--"-->
+			<p>データソースは以下の優先順序でQuill内に保持されます。</p>
+			<table border="0" cellspacing="1">
+				<tr><td>App.config内quillタグ上の「dataSources」、「dataSource」の設定</td></tr>
+				<tr><td>App.config内ConnectionStringsタグの設定</td></tr>
+				<tr><td>XXX.dicon内に記述された設定</td></tr>
+			</table>
+			<h3>・データソースクラス名</h3>
+			<p>Seasar.Extension.ADO.Impl.DataSourceImplや<br/>
+			Seasar.Extension.Tx.Impl.TxDataSourceなどのIDataSource実装クラス名を<br/>
+			名前空間付きで指定します。</p>
+			<p>使用可能なデータソースはS2Container.NETと同じです。</p>
+			<p>トランザクションを利用する場合は必ずTxDataSource、またはその継承クラスを<br/>
+			使用して下さい。</p>
+		</div>
+	</div>
+			<!--
+					<ul>
+						<li><a href="#nodicon_config">データソースの設定</a></li>
+						<li><a href="#nodicon_s2dao">S2Daoを利用してDBアクセス</a></li>
+						<li><a href="#nodicon_tx">トランザクションをかける</a></li>
+						<li><a href="#nodicon_ut">Quillを利用した単体テスト</a></li>
+					</ul>-->
 <!-- ############################################# Windowsアプリケーションから簡単にQuillを利用する ######################################################### -->
 	<div class="content">
 		<a name="form" />
