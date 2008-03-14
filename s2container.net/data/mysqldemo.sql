@@ -137,7 +137,7 @@ INSERT INTO `s2dotnetdemo`.`DEPT2` VALUES (20, 'RESEARCH', 1);
 INSERT INTO `s2dotnetdemo`.`DEPT2` VALUES (30, 'SALES',    0);
 INSERT INTO `s2dotnetdemo`.`BASICTYPE` VALUES (
     1,
-    1,
+    0,
     255,
     -128,
     32767,
