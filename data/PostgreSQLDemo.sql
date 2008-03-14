@@ -143,7 +143,7 @@ INSERT INTO DEPT2 VALUES (20, 'RESEARCH', true);
 INSERT INTO DEPT2 VALUES (30, 'SALES',    false);
 INSERT INTO BASICTYPE VALUES (
     1,
-    true,
+    false,
     255,
     -128,
     32767,
