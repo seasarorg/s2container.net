@@ -292,18 +292,18 @@ namespace Seasar.Tests.Extension.ADO.Impl
                 reader.Close();
             }
 
-            Assert.AreEqual(1, ret.Id.Value);
-            Assert.AreEqual(false, ret.BoolType.Value);
+            Assert.AreEqual(1, ret.Id.Value,"1");
+            Assert.AreEqual(false, ret.BoolType.Value, "2");
             Assert.AreEqual(SByte.MinValue, ret.SbyteType, "SqlTypeÇ≈ÇÕSByteÇÉTÉ|Å[ÉgÇµÇƒÇ¢Ç»Ç¢ÅB");
-            Assert.AreEqual(Byte.MaxValue, ret.ByteType.Value);
-            Assert.AreEqual(Int16.MaxValue, ret.Int16Type.Value);
-            Assert.AreEqual(Int32.MaxValue, ret.Int32Type.Value);
-            Assert.AreEqual(Int64.MaxValue, ret.Int64Type.Value);
-            Assert.AreEqual(9999999999999999999999999999m, ret.DecimalType.Value);
-            Assert.AreEqual(9.876543, ret.SingleType.Value);
-            Assert.AreEqual(9.87654321098765, ret.DoubleType.Value);
-            Assert.AreEqual(@"í|\ñ˜Å`", ret.StringType.Value);
-            Assert.AreEqual(new DateTime(1980, 12, 17, 12, 34, 56), ret.DateTimeType.Value);
+            Assert.AreEqual(Byte.MaxValue, ret.ByteType.Value, "3");
+            Assert.AreEqual(Int16.MaxValue, ret.Int16Type.Value, "4");
+            Assert.AreEqual(Int32.MaxValue, ret.Int32Type.Value, "5");
+            Assert.AreEqual(Int64.MaxValue, ret.Int64Type.Value, "6");
+            Assert.AreEqual(9999999999999999999999999999m, ret.DecimalType.Value, "7");
+            Assert.AreEqual(9.876543, ret.SingleType.Value, "8");
+            Assert.AreEqual(9.87654321098765, ret.DoubleType.Value, "9");
+            Assert.AreEqual(@"í|\ñ˜Å`", ret.StringType.Value, "10");
+            Assert.AreEqual(new DateTime(1980, 12, 17, 12, 34, 56), ret.DateTimeType.Value, "11");
         }
 
         public void SetUpHandleSqlTypeNullValue()
