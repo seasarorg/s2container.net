@@ -88,12 +88,12 @@ namespace Seasar.Tests.Extension.ADO.Impl
             BasicTypeBean ret = (BasicTypeBean) handler.Execute(new object[] { 1 });
             Trace.WriteLine(ToStringUtil.ToString(ret));
             Assert.IsFalse(ret.BoolType, "1");
-            Assert.AreEqual(int.MaxValue, ret.Int32Type, "1");
+            Assert.AreEqual(int.MaxValue, ret.Int32Type, "2");
 
             BasicTypeBean retTrue = (BasicTypeBean) handler.Execute(new object[] { 3 });
             Trace.WriteLine(ToStringUtil.ToString(ret));
-            Assert.IsTrue(retTrue.BoolType, "1");
-            Assert.AreEqual(5, retTrue.Int32Type, "1");
+            Assert.IsTrue(retTrue.BoolType, "3");
+            Assert.AreEqual(5, retTrue.Int32Type, "4");
         }
     }
 }
