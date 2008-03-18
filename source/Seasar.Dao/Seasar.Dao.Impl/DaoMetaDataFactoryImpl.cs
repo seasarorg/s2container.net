@@ -45,10 +45,12 @@ namespace Seasar.Dao.Impl
             _commandFactory = commandFactory;
             _readerFactory = readerFactory;
             _dataReaderFactory = dataReaderFactory;
+            _dbMetaData = new DatabaseMetaDataImpl(_dataSource);
         }
 
         public IDatabaseMetaData DBMetaData
         {
+            get { return _dbMetaData; }
             set { _dbMetaData = value; }
         }
 
@@ -100,10 +102,6 @@ namespace Seasar.Dao.Impl
             dmd.CommandFactory = _commandFactory;
             dmd.DataReaderFactory = _dataReaderFactory;
             dmd.AnnotationReaderFactory = _readerFactory;
-            if (_dbMetaData == null)
-            {
-                _dbMetaData = new DatabaseMetaDataImpl(_dataSource);
-            }
             dmd.DatabaseMetaData = _dbMetaData;
             if (_sqlFileEncoding != null)
             {
