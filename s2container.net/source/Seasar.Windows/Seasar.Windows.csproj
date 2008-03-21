@@ -101,6 +101,7 @@
     <Compile Include="Seasar.Windows.AOP\Interceptors\FormInterceptor.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Windows.AOP\Interceptors\QuillFormInterceptor.cs" />
     <Compile Include="Seasar.Windows.Attr\ControlAttribute.cs" />
     <Compile Include="Seasar.Windows.Attr\ControlModifierAttribute.cs" />
     <Compile Include="Seasar.Windows.Attr\TargetFormAttribute.cs">
@@ -133,6 +134,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Seasar.Quill\Seasar.Quill.csproj">
+      <Project>{4C1D6F42-4178-4C68-8277-B2978BF784FF}</Project>
+      <Name>Seasar.Quill</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Seasar\Seasar.csproj">
       <Project>{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}</Project>
       <Name>Seasar</Name>
