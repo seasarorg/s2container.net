@@ -1,67 +1,19 @@
-#region Copyright
-/*
- * Copyright 2005-2008 the Seasar Foundation and the Others.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
- * either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
- */
-#endregion
-
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Windows.Forms;
 using Seasar.Framework.Aop;
 using Seasar.Framework.Aop.Interceptors;
-using Seasar.Framework.Container;
+using Seasar.Quill;
 using Seasar.Windows.Attr;
-
-using System.Collections.Generic;
 
 namespace Seasar.Windows.AOP.Interceptors
 {
     /// <summary>
-    /// 指定されたFormを表示するInterceptor
+    /// 指定されたFormを表示するQuill用Interceptor
     /// </summary>
-    public class FormInterceptor : AbstractInterceptor
+    public class QuillFormInterceptor : AbstractInterceptor
     {
-        /// <summary>
-        /// DIコンテナ
-        /// </summary>
-        private readonly IS2Container _container;
-
-        /// <summary>
-        /// 返り値用プロパティ名
-        /// </summary>
-        private string _returnPropertyName;
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="container">DIコンテナ</param>
-        public FormInterceptor(IS2Container container)
-        {
-            _container = container;
-            _returnPropertyName = string.Empty;
-        }
-
-        /// <summary>
-        /// 返り値用プロパティ名
-        /// </summary>
-        public string Property
-        {
-            get { return _returnPropertyName; }
-            set { _returnPropertyName = value; }
-        }
-
         /// <summary>
         /// 
         /// </summary>
@@ -95,25 +47,33 @@ namespace Seasar.Windows.AOP.Interceptors
                 if (o is TargetFormAttribute)
                 {
                     // 戻り値のプロパティ名を取得する
-                    TargetFormAttribute attribute = (TargetFormAttribute) o;
+                    TargetFormAttribute attribute = (TargetFormAttribute)o;
                     Type formType = attribute.FormType;
-                    Form form = (Form) _container.GetComponent(formType);
-                    if (form == null)
-                        throw new NullReferenceException(SWFMessages.ASWF0001);
-                    
 
-                    string propertyName;
-                    if (attribute.ReturnPropertyName != string.Empty)
+                    // Formオブジェクトの取得
+                    QuillInjector injector = QuillInjector.GetInstance();
+                    QuillContainer container = injector.Container;
+                    QuillComponent component = container.GetComponent(formType);
+                    Form form;
+                    if (component != null)
                     {
-                        propertyName = attribute.ReturnPropertyName;
+                        form = (Form) component.GetComponentObject(formType);
+                        if (form == null)
+                        {
+                            form = (Form)Activator.CreateInstance(formType);
+                            injector.Inject(form);
+                        }
                     }
                     else
                     {
-                        if (_returnPropertyName != null)
-                            propertyName = _returnPropertyName;
-                        else
-                            propertyName = string.Empty;
+                        form = (Form)Activator.CreateInstance(formType);
+                        injector.Inject(form);
                     }
+
+                    // 戻り値プロパティ名の取得
+                    string propertyName = String.Empty;
+                    if (attribute.ReturnPropertyName != String.Empty)
+                        propertyName = attribute.ReturnPropertyName;
 
                     // フォームに値をセットする
                     PropertyInfo[] infos = form.GetType().GetProperties();
@@ -137,9 +97,8 @@ namespace Seasar.Windows.AOP.Interceptors
                     {
                         retOfReplace = form.ShowDialog();
                         ret = retOfReplace;
-
                         // WindowsFormから戻り値用プロパティから値を取得する
-                        if (propertyName != string.Empty)
+                        if (propertyName != String.Empty)
                         {
                             PropertyInfo propInfo = form.GetType().GetProperty(propertyName);
                             if (propInfo != null)
