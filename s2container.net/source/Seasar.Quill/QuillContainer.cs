@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using Seasar.Extension.ADO;
 using Seasar.Framework.Aop;
+using Seasar.Framework.Xml;
 using Seasar.Quill.Database.DataSource.Impl;
 using Seasar.Quill.Exception;
 using Seasar.Quill.Util;
@@ -48,6 +49,9 @@ namespace Seasar.Quill
         /// </summary>
         public QuillContainer()
         {
+            //  アセンブリをロードする
+            RegistAssembly();
+
             // QuillContainer内で使用するAspectBuilderを作成する
             aspectBuilder = new AspectBuilder(this);
 
@@ -164,6 +168,27 @@ namespace Seasar.Quill
             foreach ( KeyValuePair<string, IDataSource> dataSourcePair in dataSources )
             {
                 dataSourceProxy.RegistDataSource(dataSourcePair.Key, dataSourcePair.Value);
+            }
+        }
+
+        /// <summary>
+        /// アセンブリをロードする
+        /// </summary>
+        protected virtual void RegistAssembly()
+        {
+            S2Section section = S2SectionHandler.GetS2Section();
+            if (section != null && section.Assemblys != null && section.Assemblys.Count > 0)
+            {
+                //  設定ファイルに書かれたアセンブリ名を取得する
+                foreach (object item in section.Assemblys)
+                {
+                    string assemblyName = item as string;
+                    if (!string.IsNullOrEmpty(assemblyName))
+                    {
+                        //  指定されたアセンブリをロードする
+                        AppDomain.CurrentDomain.Load(assemblyName);
+                    }
+                }
             }
         }
 
