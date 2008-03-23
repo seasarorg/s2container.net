@@ -33,6 +33,8 @@ namespace Seasar.Quill
         public const string CONFIG_PROVIDER = "provider";
         public const string CONFIG_DATASOURCE_CLASS_KEY = "class";
         public const string CONFIG_DATASOURCE_NAME_ATTR = "name";
+        public const string CONFIG_ASSEMBLYS_KEY = "assemblys";
+        public const string CONFIG_ASSEMBLY_KEY = "assembly";
 
         public const string NAMESPACE_PROVIDER = "Seasar.Quill.Database.Provider";
         public const string NAMESPACE_DAOSETTING = "Seasar.Quill.Dao.Impl";

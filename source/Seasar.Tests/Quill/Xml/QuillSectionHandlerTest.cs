@@ -33,24 +33,31 @@ namespace Seasar.Tests.Quill.Xml
             QuillSection section = QuillSectionHandler.GetQuillSection();
 
             //  ## Assert ##
-            Assert.IsNotNull(section, "1");
-            Assert.AreEqual("TypicalDaoSetting", section.DaoSetting, "2");
-            Assert.AreEqual("TypicalTransactionSetting", section.TransactionSetting, "3");
+            Assert.IsNotNull(section, "セクション情報取得");
+            Assert.AreEqual("TypicalDaoSetting", section.DaoSetting, "標準S2Dao設定取得");
+            Assert.AreEqual("TypicalTransactionSetting", section.TransactionSetting, "標準トランザクション設定取得");
 
             IList dataSources = section.DataSources;
-            Assert.IsTrue(dataSources.Count > 0);
+            Assert.IsTrue(dataSources.Count > 0, "データソースの設定が取得されている");
             foreach (object item in dataSources)
             {
-                Assert.IsTrue(item is DataSourceSection);
+                Assert.IsTrue(item is DataSourceSection, "dataSourceセクションとして取得されている");
                 DataSourceSection dsSection = (DataSourceSection)item;
-                Assert.IsFalse(string.IsNullOrEmpty(dsSection.ConnectionString));
+                Assert.IsFalse(string.IsNullOrEmpty(dsSection.ConnectionString), "接続文字列が取得されている");
                 Console.WriteLine("connectionString={0}", dsSection.ConnectionString);
-                Assert.IsFalse(string.IsNullOrEmpty(dsSection.DataSourceClassName));
+                Assert.IsFalse(string.IsNullOrEmpty(dsSection.DataSourceClassName), "データソースクラス名が取得されている");
                 Console.WriteLine("dataSourceNameClass={0}", dsSection.DataSourceClassName);
-                Assert.IsFalse(string.IsNullOrEmpty(dsSection.DataSourceName));
+                Assert.IsFalse(string.IsNullOrEmpty(dsSection.DataSourceName), "データソス名が設定されている");
                 Console.WriteLine("dataSourceName={0}", dsSection.DataSourceName);
-                Assert.IsFalse(string.IsNullOrEmpty(dsSection.ProviderName));
+                Assert.IsFalse(string.IsNullOrEmpty(dsSection.ProviderName), "プロバイダクラス名が取得されている");
                 Console.WriteLine("providerName={0}", dsSection.ProviderName);
+            }
+
+            IList assemblys = section.Assemblys;
+            Assert.IsTrue(assemblys.Count > 0, "アセンブリ情報が取得されている");
+            foreach (object item in assemblys)
+            {
+                Assert.IsFalse(string.IsNullOrEmpty(item as string), "アセンブリ名が取得されている");
             }
         }
     }
