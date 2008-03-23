@@ -17,8 +17,8 @@
 #endregion
 
 using System;
-using System.Xml.Serialization;
 using System.Collections;
+using System.Xml.Serialization;
 
 namespace Seasar.Quill.Xml
 {
@@ -32,7 +32,11 @@ namespace Seasar.Quill.Xml
         private string _daoSetting = null;
         private string _transactionSetting = null;
         private IList _dataSources = new ArrayList();
+        private IList _assemblys = new ArrayList();
 
+        /// <summary>
+        /// S2Dao関係設定クラス
+        /// </summary>
         [XmlElement(QuillConstants.CONFIG_DAO_SETTING_KEY)]
         public string DaoSetting
         {
@@ -40,6 +44,9 @@ namespace Seasar.Quill.Xml
             get { return _daoSetting; }
         }
 
+        /// <summary>
+        /// トランザクション関係設定クラス
+        /// </summary>
         [XmlElement(QuillConstants.CONFIG_TX_SETTING_KEY)]
         public string TransactionSetting
         {
@@ -47,12 +54,26 @@ namespace Seasar.Quill.Xml
             get { return _transactionSetting; }
         }
 
+        /// <summary>
+        /// データソースリスト
+        /// </summary>
         [XmlArray(QuillConstants.CONFIG_DATASOURCES_KEY)]
         [XmlArrayItem(QuillConstants.CONFIG_DATASOURCE_KEY, typeof(DataSourceSection))]
         public IList DataSources
         {
             set { _dataSources = value; }
             get { return _dataSources; }
+        }
+
+        /// <summary>
+        /// アセンブリリスト
+        /// </summary>
+        [XmlArray(QuillConstants.CONFIG_ASSEMBLYS_KEY)]
+        [XmlArrayItem(QuillConstants.CONFIG_ASSEMBLY_KEY, typeof(string))]
+        public IList Assemblys
+        {
+            set { _assemblys = value; }
+            get { return _assemblys; }
         }
     }
 }

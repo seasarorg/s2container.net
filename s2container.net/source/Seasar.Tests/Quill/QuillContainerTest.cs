@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Reflection;
 using MbUnit.Framework;
 using Seasar.Framework.Aop;
 using Seasar.Quill;
@@ -217,21 +218,55 @@ namespace Seasar.Tests.Quill
 
         #endregion 
 
-        #region RegistDataSource
+        #region RegistDataSource データソース登録テスト
 
         [Test]
         public void TestRegistDataSource()
         {
-            //  ## Assert ##
             QuillContainer container = new QuillContainer();
 
-            //  ## Assert ##
             QuillComponent qc = container.GetComponent(typeof(SelectableDataSourceProxyWithDictionary));
             Assert.AreEqual(typeof(SelectableDataSourceProxyWithDictionary), qc.ComponentType, "1");
             SelectableDataSourceProxyWithDictionary ds = (SelectableDataSourceProxyWithDictionary)qc.GetComponentObject(
                 typeof(SelectableDataSourceProxyWithDictionary));
             Assert.IsNotNull(ds, "2");
             Assert.GreaterEqualThan(ds.DataSourceCollection.Count, 7);
+        }
+
+        #endregion
+
+        #region RegistAssembly アセンブリ登録テスト
+
+        [Test]
+        public void TestRegistAssembly()
+        {
+            //  アセンブリ情報がまだロードされていないことを確認
+            const string ASSEMBLY_1 = "Seasar.Tests";
+            const string ASSEMBLY_2 = "Seasar.Dxo";
+            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                Assert.AreNotEqual(ASSEMBLY_1, assembly.GetName().Name, assembly.GetName().Name);
+                Assert.AreNotEqual(ASSEMBLY_2, assembly.GetName().Name, assembly.GetName().Name);
+            }
+
+            QuillContainer container = new QuillContainer();
+
+            //  アセンブリ情報がロードされていることを確認
+            bool isIncludeAssembly1 = false;
+            bool isIncludeAssembly2 = false;
+            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                if (assembly.GetName().Name.Equals(ASSEMBLY_1))
+                {
+                    isIncludeAssembly1 = true;
+                }
+                else if (assembly.GetName().Name.Equals(ASSEMBLY_2))
+                {
+                    isIncludeAssembly2 = true;
+                }
+            }
+            Assert.IsTrue(isIncludeAssembly1, "アセンブリ１が登録されている");
+            Assert.IsTrue(isIncludeAssembly2, "アセンブリ２が登録されている");
         }
 
         #endregion

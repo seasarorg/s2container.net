@@ -20,10 +20,10 @@ using System;
 using System.Collections.Generic;
 using Seasar.Extension.ADO;
 using Seasar.Framework.Aop;
-using Seasar.Framework.Xml;
 using Seasar.Quill.Database.DataSource.Impl;
 using Seasar.Quill.Exception;
 using Seasar.Quill.Util;
+using Seasar.Quill.Xml;
 
 namespace Seasar.Quill
 {
@@ -176,7 +176,7 @@ namespace Seasar.Quill
         /// </summary>
         protected virtual void RegistAssembly()
         {
-            S2Section section = S2SectionHandler.GetS2Section();
+            QuillSection section = QuillSectionHandler.GetQuillSection();
             if (section != null && section.Assemblys != null && section.Assemblys.Count > 0)
             {
                 //  設定ファイルに書かれたアセンブリ名を取得する
