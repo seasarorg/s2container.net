@@ -141,10 +141,13 @@
 				<li>
 					<a href="#nodicon">diconファイルを書かずにSeasarの機能を利用する</a>
 					<ul>
+						<li><a href="#nodicon_advantage">diconファイルを使わないことによる利点</a></li>
 						<li><a href="#nodicon_config">データソースの設定</a></li>
+						<li><a href="#nodicon_assembly">アセンブリの設定</a></li>
 						<li><a href="#nodicon_s2dao">S2Daoを利用してDBアクセス</a></li>
 						<li><a href="#nodicon_tx">トランザクションをかける</a></li>
-						<li><a href="#nodicon_ut">Quillを利用した単体テスト</a></li>
+						<li><a href="#nodicon_notice">注意点</a></li>
+						<!--<li><a href="#nodicon_ut">Quillを利用した単体テスト</a></li>-->
 					</ul>
 				</li>
 				<li><a href="#form">Windowsアプリケーションから簡単にQuillを利用する</li>
@@ -625,7 +628,7 @@
 		</div>
 	</div>
 	
-<!-- ############################################# Windowsアプリケーションから簡単にQuillを利用する ######################################################### -->
+<!-- ############################################# diconファイルを書かずにSeasarの機能を利用する ######################################################### -->
 	<div class="content">
 		<a name="nodicon" />
 		<div class="contentHeader">
@@ -638,58 +641,339 @@
 			<br class="clear" />
 		</div>
 		<div class="contentBody">
+			<h2><a name="nodicon_advantage">diconファイルを使わないことによる利点</a></h2>
+			<p>　QuillではS2Daoやトランザクションの設定も含めてdiconファイルを書かずに<br/>
+			属性を使用することでDI+AOPを利用することができます。</p>
+			<p>　その利点は大まかに以下のものが挙げられます。</p>
+			<ul>
+				<li>＜タイプセーフ＞<br/>
+				　・文字列で定義していた項目をコンパイル対象となる属性で定義しているため</li>
+				<li>＜diconファイルへの「埋め込まれたリソース」の設定を意識しなくてもよくなる＞</li>
+				<li>＜遅延初期化で起動が速い＞<br/>
+				　DIコンテナの初期化をアプリケーション起動時よりも遅らせることが<br/>
+				　できるため、初回起動時のコストが低くなる。</li>
+			</ul>
 			<h2><a name="nodicon_config">データソースの設定</a></h2>
-			<p>　設定ファイル(<strong>App.config</strong>)の「<strong>quill</strong>」タグ内に下記の設定を記述することでデータソースを使うことができます。<br/>
-			各データソースの定義は「<strong>dataSource</strong>」タグに記述し、<br/>
-			複数データソースを定義する場合は「<strong>dataSources</strong>」タグ内に<br/>
+			<p>　設定ファイル(<strong>App.config</strong>)の「<font color="#009900">quill</font>」セクション内に下記の設定を記述することで<br/>
+			データソースを設定することができます。<br/>
+			各データソースの定義は「<font color="#009900">dataSource</font>」タグに記述し、<br/>
+			複数データソースを定義する場合は「<font color="#009900">dataSources</font>」タグ内に<br/>
 			各データソースの設定を書いていきます。</p>
-			<h3>・データソース名</h3>
-			<p>データソースをアプリケーション中で一意に識別するための名前です。</p>
-			<h3>・プロバイダクラス名</h3>
-			<p>　ADO.NET上で使うクラス名を保持するDataProvider継承クラス名です。<br/>
+			<p>　<font color="#009900">dataSources</font>で定義されたデータソースは<br/>
+			<font color="#0000ff">Seasar.Quill.Database.DataSource.Impl.SelectableDataSourceProxyWithDictionary</font>という<br/>
+			クラスのインスタンスでQuillコンテナ内に保持し、DBアクセス時に使用します。</p>
+			<p>　<font color="009900">dataSource</font>タグ内で設定する内容は以下の通りです。</p>
+			<h3>・<u>データソース名</u></h3>
+			<p>　データソースをアプリケーション中で一意に識別するための名前です。</p>
+			<h3>・<u>プロバイダクラス名</u></h3>
+			<p>　ADO.NET上で使うクラス名を保持する<font color="#0000ff">Seasar.Extension.ADO.DataProvider</font>継承クラス名です。<br/>
 			独自のプロバイダクラスを使う場合は名前空間付きで指定します。<br/>
 			Quill内にあらかじめ定義されているプロバイダクラスを使用する場合は<br/>
 			クラス名のみの指定で使用可能です。</p>
-			<p>以下のプロバイダがQuill内に定義されています。</p>
+			<p>　以下のプロバイダがQuill内に定義されています。</p>
 			<table border="0" cellspacing="1">
 				<tr><th width="140">プロバイダ</th><th>説明</th></tr>
 				<tr><td>SqlServer</td><td>SQLServer用プロバイダクラス</td></tr>
-				<p><td>ODP</td><td>ODP.NET(Oracle)用プロバイダクラス</td></tr>
-				<p><td>Oracle</td><td>Oracle用プロバイダクラス</td></tr>
-				<p><td>DB2</td><td>DB2用プロバイダクラス</td></tr>
-				<p><td>MySQL</td><td>MySQL用プロバイダクラス</td></tr>
-				<p><td>PostgreSQL</td><td>PostgreSQL用プロバイダクラス</td></tr>
-				<p><td>Firebird</td><td>Firebird用プロバイダクラス)</td></tr>
-				<p><td>OleDb</td><td>OleDb用プロバイダクラス)</td></tr>
+				<tr><td>ODP</td><td>ODP.NET(Oracle)用プロバイダクラス</td></tr>
+				<tr><td>Oracle</td><td>Oracle用プロバイダクラス</td></tr>
+				<tr><td>DB2</td><td>DB2用プロバイダクラス</td></tr>
+				<tr><td>MySQL</td><td>MySQL用プロバイダクラス</td></tr>
+				<tr><td>PostgreSQL</td><td>PostgreSQL用プロバイダクラス</td></tr>
+				<tr><td>Firebird</td><td>Firebird用プロバイダクラス)</td></tr>
+				<tr><td>OleDb</td><td>OleDb用プロバイダクラス)</td></tr>
 			</table>
-			<h3>・接続文字列</h3>
-			<p>　クラスを指定する方法と文字列を直接書く方法があります。</p>
+			<h3>・<u>接続文字列</u></h3>
+			<p>　<u>クラスを指定する</u>方法と<u>文字列を直接書く</u>方法があります。</p>
 			<p>　クラスを指定する場合は<br/>
-			Seasar.Quill.Database.DataSource.Connection.IConnectionStringインターフェースを<br/>
-			実装し、「connectionString」タグにクラス名を名前空間付きで指定して下さい。</p>
-			<p>文字列で直接書く場合は接続文字列を「"」で囲って指定して下さい。</p><!--"-->
-			<p>データソースは以下の優先順序でQuill内に保持されます。</p>
-			<table border="0" cellspacing="1">
-				<tr><td>App.config内quillタグ上の「dataSources」、「dataSource」の設定</td></tr>
-				<tr><td>App.config内ConnectionStringsタグの設定</td></tr>
-				<tr><td>XXX.dicon内に記述された設定</td></tr>
-			</table>
-			<h3>・データソースクラス名</h3>
-			<p>Seasar.Extension.ADO.Impl.DataSourceImplや<br/>
-			Seasar.Extension.Tx.Impl.TxDataSourceなどのIDataSource実装クラス名を<br/>
+			<font color="#0000ff">Seasar.Quill.Database.DataSource.Connection.IConnectionString</font>インターフェースを<br/>
+			実装し、「<font color="#009900">connectionString</font>」タグにクラス名を名前空間付きで指定して下さい。</p>
+			<p>　文字列で直接書く場合は接続文字列を「&quot;」で囲って指定して下さい。</p><!--"-->
+			<p>　データソースは以下の優先順序でQuill内に保持されます。</p>
+			<li>１．App.config内<font color="#009900">quill</font>セクションの<font color="#009900">dataSources</font>、<font color="#009900">dataSource</font>の設定</li>
+			<li>２．App.config内<font color="#009900">ConnectionStrings</font>セクションの設定</li>
+			<li>３．XXX.dicon内に記述された設定</li>
+			<h3>・<u>データソースクラス名</u></h3>
+			<p>　Seasar.Extension.ADO.Impl.DataSourceImplや<br/>
+			Seasar.Extension.Tx.Impl.TxDataSourcelなどの<br/>
+			<font color="#0000ff">Seasar.Extension.ADO.IDataSource</font>実装クラス名を<br/>
 			名前空間付きで指定します。</p>
-			<p>使用可能なデータソースはS2Container.NETと同じです。</p>
-			<p>トランザクションを利用する場合は必ずTxDataSource、またはその継承クラスを<br/>
-			使用して下さい。</p>
+			<p>　<b>※使用可能なデータソースはS2Container.NETと同じです。</b></p>
+			<p>※<u>トランザクションを利用する</u>場合は必ず<br/>
+			<font color="#0000ff">Seasar.Extension.Tx.Impl.TxDataSourcel.TxDataSource</font>、<br/>
+			またはその継承クラスを使用して下さい。</font></p>
+			<p>　下記は設定ファイル(App.config)の設定例です。</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+&lt;quill&gt;
+    &lt;!-- (他設定は省略) --&gt;
+    &lt;!-- データソース設定 --&gt;
+    &lt;dataSources&gt;
+        &lt;dataSource name=&quot;ds&quot;&gt;
+            &lt;provider&gt;SqlServer&lt;/provider&gt;
+            &lt;connectionString&gt;&quot;Server=localhost(途中略)&quot;&lt;/connectionString&gt;
+            &lt;class&gt;Seasar.Extension.Tx.Impl.TxDataSource&lt;/class&gt;
+        &lt;/dataSource&gt;
+    &lt;/dataSources&gt;
+&lt;/quill&gt;
+</pre>
+			<h2><a name="nodicon_assembly">アセンブリの設定</a></h2>
+			<p>　SQLServer以外のデータベースを使用する（上記データソースの設定でSqlServer以外の<br/>
+			プロバイダを利用する）場合は<b>App.config</b>で<font color="#009900">quill</font>セクションの「<font color="#009900">assemblys</font>」、「<font color="#009900">assembly</font>」を<br/>
+			使って参照するアセンブリを指定する必要があります。</p>
+			<p>　アセンブリの設定例（Oracle Data Providerを使用する場合）</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<p><pre class="csharpcode">
+&lt;quill&gt;
+    &lt;!-- （省略） --&gt;
+    &lt;!-- ロードするアセンブリ名 --&gt;
+    &lt;assemblys&gt;
+      &lt;assembly&gt;Seasar.Dao&lt;/assembly&gt;      
+      &lt;!-- Oracle Data Provider for .NET を使用する場合に必要です。 --&gt;
+      &lt;assembly&gt;Oracle.DataAccess, version=10.2.0.100, Culture=neutral, <br/>
+          PublicKeyToken=89b483f429c47342&lt;/assembly&gt;
+    &lt;/assemblys&gt;
+    &lt;!-- （省略） --&gt;
+&lt;/quill&gt;
+</pre></p>
+			<h2><a name="nodicon_s2dao">S2Daoを利用してDBアクセス</a></h2>
+			<p>　S2Dao.NETの機能を利用して検索、更新などのDBアクセスを行いたい場合は<br/>
+			<font color="#0000ff"><b>S2Dao属性</b></font>を使用します。</p>
+			<h3>・<u>適用範囲</u></h3>
+			<p>　S2Dao属性は<b>クラス、インターフェース</b>、<b>メソッド</b>に対して付けることができます。</br>
+			それぞれのS2Dao(S2DaoInterceptor)の適用範囲は以下の通りです。
+			<table border="0" cellspacing="1">
+				<tr><th>指定箇所</th><th>適用範囲</th></tr>
+				<tr><td>クラス、インターフェース</td><td>クラス、インターフェース内の全てのメソッド(public以外も含む)</td></tr>
+				<tr><td>メソッド</td><td>指定したメソッド(public以外も含む)</td></tr>
+			</table>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<p><pre class="csharpcode">
+// クラス、インターフェースに対して設定する場合
+[S2Dao]
+[Bean(typeof(Hoge))]
+public interface IHogeDao {
+    Employee GetHoge(int hogeNo); // S2DaoInterceptorが適用される
+    void Update(Hoge entity);     // S2DaoInterceptorが適用される
+}
+
+// メソッドに対して設定する場合
+[Bean(typeof(Hoge))]
+public interface IHogeDao {
+    [S2Dao]
+    Employee GetHoge(int hogeNo); // S2DaoInterceptorが適用される
+    
+    void DoSomething();  // このメソッドにはS2DaoInterceptorは適用されない
+}
+</pre></p>
+			<h3>・<u>設定</u></h3>
+			<h4><b>・標準の設定を使う</b></h4>
+			<p>　S2Dao属性を引数なしで設定し、App.configにも設定の記述がない場合<br/>
+			S2Daoの標準的な設定が使われます。</br>
+			具体的には以下のクラスのインスタンスがQuill内で生成され使用されます。</p>
+			<p><li>Seasar.Extension.ADO.Impl.BasicCommandFactory</li>
+			<li>Seasar.Extension.ADO.Impl.BasicDataReaderFactory</li>
+			<li>Seasar.Dao.Impl.FieldAnnotationReaderFactory</li>
+			<li>Seasar.Dao.Interceptor.S2DaoInterceptor</li></p>
+			<h4><b>・カスタムした設定を使う</b></h4>
+			<p>　独自に拡張した設定を使用する場合、<br/>
+			<font color="#0000ff">Seasar.Quill.Dao.IDaoSetting</font>実装クラスを作成し<br/>
+			後述の方法でカスタム設定の適用範囲を定義します。</p>
+			<p>　IDaoSettingは以下のプロパティ、メソッドをもっています。</p>
+			<p><table border="0" cellspacing="1">
+				<tr><th width="130">プロパティ名</th><th width="300">説明</th><th>戻り値Null</th></tr>
+				<tr><td>DaoMetaDataFactory</td><td>IDaoMetaDataFactory実装クラス</td><td>×不可</td></tr>
+				<tr><td>DaoInterceptor</td><td>IMethodInterceptor実装クラス</td><td>×不可</td></tr>
+				<tr><td>DataSourceName</td><td>使用するデータソース名<br/>
+				（App.configの<font color="009900">dataSource</font>タグで設定したもの）</td><td>○可能</td></tr>
+			</table></p>
+			<p><table border="0" cellspacing="1">
+				<tr><th width="130">メソッド名</th><th width="300">説明</th></tr>
+				<tr><td>Setup</td><td>S2DaoInterceptorなどの設定などを行う</td></tr>
+				<tr><td>IsNeedSetup</td><td>Setupメソッドを呼ぶかどうかを返す</td></tr>
+			</table></p>
+			<p>※<font color="#0000ff">Seasar.Quill.Dao.Impl.AbstractDaoSetting</font>（IDaoSettingを実装する抽象クラス）を使うと<br/>
+			　プロパティの定義とIsNeedSetupの実装を省略できます。</p>
+			<p>AbstractDaoSettingを継承した実装例</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<p><pre class="csharpcode">
+/// <summary>
+/// 一般的なDaoSetting実装クラス
+/// </summary>
+public class TypicalDaoSetting : AbstractDaoSetting
+{
+    protected override void SetupDao(IDataSource dataSource)
+    {
+        BasicCommandFactory commandFacoty = new BasicCommandFactory();
+        BasicDataReaderFactory dataReaderFactory =
+            new BasicDataReaderFactory(commandFacoty);
+        FieldAnnotationReaderFactory annotationReaderFactory =
+            new FieldAnnotationReaderFactory();
+        _daoMetaDataFactory = new DaoMetaDataFactoryImpl(
+            dataSource, commandFacoty, annotationReaderFactory, dataReaderFactory);
+        _daoInterceptor = new S2DaoInterceptor(_daoMetaDataFactory);
+    }
+}
+</pre></p>
+			<h5>カスタム設定を全てのS2Dao属性に一括して適用する</h5>
+			<p>　App.configの「<font color="#009900">quill</font>」セクション内に「<font color="#009900">daoSetting</font>」タグを<br/>
+			記述し、その中に作成した設定クラスを名前空間付で書きます(「&quot;」は不要）。</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<p><pre class="csharpcode">
+&lt;quill&gt;
+    &lt;!-- S2Dao設定 --&gt;
+    &lt;daoSetting&gt;Hoge.CustomDaoSetting&lt;/daoSetting&gt;
+    &lt;!-- (他設定は省略) --&gt;
+&lt;/quill&gt;
+</pre></p>
+			<h5>カスタム設定をS2Dao属性ごとに適用する</h5>
+			<p　>S2Dao属性の引数にtypeof(カスタム設定クラス)の戻り値を渡します。</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<p><pre class="csharpcode">
+[Bean(typeof(Hoge))]
+public interface IHogeDao
+{
+    [S2Dao(typeof(CustomDaoSetting))]
+    Hoge GetHoge(int hogeNo);
+}
+</pre></p>
+		<p>※S2Dao属性に渡した型のインスタンスはQuillコンテナの中に一つしか作られませんが<br/>
+		　SetupメソッドはIsNeedSetupの戻り値がtrueであれば設定されたS2Dao属性の数だけ呼ばれます。</p>
+		<p>S2Daoの設定は以下の優先順で適用されます。</p>
+		<li>１．S2Dao属性の引数で指定されたS2Dao設定クラス</li>
+		<li>２．App.configの<font color="#009900">daoSetting</font>タグで定義されたS2Dao設定クラス</li>
+		<li>３．標準設定</li>
+		
+		<h2><a name="nodicon_tx">トランザクションをかける</a></h2>
+		<p>　トランザクションをかける箇所を指定したい場合は<br/>
+		<font color="#0000ff"><b>Transaction属性</b></font>を使用します。</p>
+		<h3>・<u>適用範囲</u></h3>
+			<p>Transaction属性は<b>クラス、インターフェース</b>、<b>メソッド</b>に対して付けることができます。</br>
+			それぞれのトランザクション(TransactionInterceptor)の適用範囲は以下の通りです。
+			<table border="0" cellspacing="1">
+				<tr><th>指定箇所</th><th>適用範囲</th></tr>
+				<tr><td>クラス、インターフェース</td><td>クラス、インターフェース内の全てのメソッド(public以外も含む)</td></tr>
+				<tr><td>メソッド</td><td>指定したメソッド(public以外も含む)</td></tr>
+			</table>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+// クラス、インターフェースに対して設定する場合
+[Transaction]
+public interface IHogeBhv {
+    Employee GetHoge(int hogeNo); // トランザクションが適用される
+    void Update(Hoge entity);     // トランザクションが適用される
+}
+
+// メソッドに対して設定する場合
+public interface IHogeBhv {
+    [Transaction]
+    void Update(Hoge entity);     // トランザクションが適用される
+    
+    void DoSomething();  // このメソッドにはトランザクションは適用されない
+}
+</pre>
+			<h3>・<u>設定</u></h3>
+			<h4><b>・標準の設定を使う</b></h4>
+			<p>Transaction属性を引数なしで設定し、App.configにも設定の記述がない場合<br/>
+			S2Daoにおけるトランザクションの標準的な設定が使われます。</br>
+			具体的には以下のクラスのインスタンスがQuill内で生成され使用されます。</p>
+			<p><li>Seasar.Extension.Tx.Impl.TransactionContext</li>
+			<li>Seasar.Extension.Tx.Impl.LocalRequiredTxHandler</li>
+			<li>Seasar.Extension.Tx.TransactionInterceptor</li></p>
+			<h4><b>・カスタムした設定を使う</b></h4>
+			<p>　独自に拡張した設定を使用する場合、<br/>
+			<font color="#0000ff">Seasar.Quill.Database.Tx.ITransactionSetting</font>実装クラスを作成し<br/>
+			後述の方法でカスタム設定の適用範囲を定義します。</p>
+			<p>　ITransactionSettingは以下のプロパティ、メソッドをもっています。</p>
+			<p><table border="0" cellspacing="1">
+				<tr><th width="130">プロパティ名</th><th width="300">説明</th><th>戻り値Null</th></tr>
+				<tr><td>TransactionContext</td><td>ITransactionContext実装クラス</td><td>×不可</td></tr>
+				<tr><td>TransactionInterceptor</td><td>IMethodInterceptor実装クラス</td><td>×不可</td></tr>
+			</table></p>
+			<p><table border="0" cellspacing="1">
+				<tr><th width="130">メソッド名</th><th width="300">説明</th></tr>
+				<tr><td>Setup</td><td>TransactionInterceptorなどの設定などを行う</td></tr>
+				<tr><td>IsNeedSetup</td><td>Setupメソッドを呼ぶかどうかを返す</td></tr>
+			</table></p>
+			<p>※<font color="#0000ff">Seasar.Quill.Database.Tx.Impl.AbstractTransactionSetting</font><br/>
+			　（ITransactionSettingを実装する抽象クラス）を使うと<br/>
+			　プロパティの定義とIsNeedSetupの実装を省略できます。</p>
+			<p>AbstractTransactionSettingを継承した実装例</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<p><pre class="csharpcode">
+/// <summary>
+/// 一般的なトランザクションの設定クラス
+/// </summary>
+public class TypicalTransactionSetting : AbstractTransactionSetting
+{
+    protected override void SetupTransaction(IDataSource dataSource)
+    {
+        //  TransactionContext
+        _transactionContext = new TransactionContext();
+        TransactionContext txContext = (TransactionContext)_transactionContext;
+        txContext.DataSouce = dataSource;
+        txContext.IsolationLevel = IsolationLevel.ReadCommitted;
+
+        //  TransactionContextを使用するデータソースにも設定
+        Type dataSourceType = dataSource.GetType();
+        if (typeof(SelectableDataSourceProxyWithDictionary).IsAssignableFrom(
+            dataSourceType))
+        {
+            ((SelectableDataSourceProxyWithDictionary)dataSource).SetTransactionContext(
+                txContext);
+        }
+        else if (typeof(TxDataSource).IsAssignableFrom(dataSourceType))
+        {
+            ((TxDataSource)dataSource).Context = txContext;
+        }
+
+        //  TransactionInterceptor
+        LocalRequiredTxHandler handler = new LocalRequiredTxHandler();
+        handler.Context = txContext;
+        _transactionInterceptor = new TransactionInterceptor(handler);
+        ((TransactionInterceptor)_transactionInterceptor).TransactionStateHandler
+            = txContext;
+    }
+}
+</pre></p>
+			<h5>カスタム設定を全てのTransaction属性に一括して適用する</h5>
+			<p>　App.configの「<font color="#009900">quill</font>」セクション内に「<font color="#009900">transactionSetting</font>」タグを<br/>
+			記述し、その中に作成した設定クラスを名前空間付で書きます(「&quot;」は不要）。</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<p><pre class="csharpcode">
+&lt;quill&gt;
+    &lt;!-- Transaction設定 --&gt;
+    &lt;transactionSetting&gt;Hoge.CustomTransactionSetting&lt;/transactionSetting&gt;
+    &lt;!-- (他設定は省略) --&gt;
+&lt;/quill&gt;
+</pre></p>
+			<h5>カスタム設定をTransaction属性ごとに適用する</h5>
+			<p>　Transaction属性の引数にtypeof(カスタム設定クラス)の戻り値を渡します。</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<p><pre class="csharpcode">
+public interface IHogeBhv
+{
+    [Transaction(typeof(CustomTransactionSetting))]
+    void Update(Hoge entity);
+}
+</pre></p>
+		<p>※Transaction属性に渡した型のインスタンスはQuillコンテナの中に一つしか作られませんが<br/>
+		　SetupメソッドはIsNeedSetupの戻り値がtrueであれば設定されたTransaction属性の数だけ呼ばれます。</p>
+		<p>　Transactionの設定は以下の優先順で適用されます。</p>
+		<li>１．Transaction属性の引数で指定されたTransaction設定クラス</li>
+		<li>２．App.configの<font color="#009900">transactionSetting</font>タグで定義されたTransaction設定クラス</li>
+		<li>３．標準設定</li>
+		
+		<h2><a name="nodicon_notice">注意点</a></h2>
+		<ul>
+		<li>データソースに<font color="#0000ff">TxDataSource</font>を使う場合は必ず<font color="#0000ff"><b>Transaction属性</b></font>を<br/>
+		どこかで使用していることが必要になります。<br/>
+		（TxDataSourceを使用=トランザクションが使われることが前提のため）</li>
+		<li><font color="#0000ff"><b>S2Dao属性</b></font>、<font color="#0000ff"><b>Transaction属性</b></font>が設定されている箇所には<br/>
+		Interceptor(Aspect)が適用されます。そのため「<a href="#aop_notice">AOP利用の注意点</a>」と<br/>
+		同様の制約があります。</li>
+		</ul>
 		</div>
 	</div>
-			<!--
-					<ul>
-						<li><a href="#nodicon_config">データソースの設定</a></li>
-						<li><a href="#nodicon_s2dao">S2Daoを利用してDBアクセス</a></li>
-						<li><a href="#nodicon_tx">トランザクションをかける</a></li>
-						<li><a href="#nodicon_ut">Quillを利用した単体テスト</a></li>
-					</ul>-->
 <!-- ############################################# Windowsアプリケーションから簡単にQuillを利用する ######################################################### -->
 	<div class="content">
 		<a name="form" />
