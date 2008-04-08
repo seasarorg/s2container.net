@@ -56,17 +56,20 @@ namespace Seasar.Framework.Container.Util
         /// ÇªÇÍà»äOÇÃèÍçáÇÕpropertyTypeÇ™Interfaceå^Ç≈Ç†ÇÍÇŒóLå¯Ç∆Ç∑ÇÈÅB</returns>
         public static bool IsSuitable(Type propertyType, object component, string propertyName)
         {
-            if (component is System.Windows.Forms.Form
-                    && ("AcceptButton".Equals(propertyName)
-                        || "CancelButton".Equals(propertyName)
-                        || "Site".Equals(propertyName)))
+            if (component is System.Windows.Forms.Control
+                    && "Site".Equals(propertyName))
             {
                 return false;
             }
-            else
+
+            if (component is System.Windows.Forms.Form
+                    && ("AcceptButton".Equals(propertyName)
+                        || "CancelButton".Equals(propertyName)))
             {
-                return IsSuitable(propertyType);
+                return false;
             }
+
+            return IsSuitable(propertyType);
         }
 
         public static bool IsAuto(string mode)

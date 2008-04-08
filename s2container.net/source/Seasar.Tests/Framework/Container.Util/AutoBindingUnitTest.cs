@@ -27,6 +27,13 @@ namespace Seasar.Tests.Framework.Container.Util
     public class AutoBindingUtilTest
     {
         [Test]
+        public void TestIsSuitable_Controlクラスの場合()
+        {
+            Assert.IsFalse(AutoBindingUtil.IsSuitable(typeof(ISite), new Control(), "Site"));
+            Assert.IsTrue(AutoBindingUtil.IsSuitable(typeof(ISite), new Control(), "Test"));
+        }
+
+        [Test]
         public void TestIsSuitable_Formクラスの場合()
         {
             Assert.IsFalse(AutoBindingUtil.IsSuitable(typeof(ISite), new Form(), "Site"));
