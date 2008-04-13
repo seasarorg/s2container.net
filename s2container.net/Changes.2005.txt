@@ -1,4 +1,18 @@
-﻿S2Container.NET 1.3.7
+﻿S2Container.NET 1.3.8
+2008/04/13
+** Bug
+	* [CONTAINERNET-91] - S2Containerを使わずQuill単独で動かす場合、アセンブリ情報がロードされていない
+** Improvement
+	* [CONTAINERNET-92] - ControlのSiteプロパティを自動バインディング対象外にする
+** New Feature
+	* [CONTAINERNET-90] - S2Windows.NETをQuillに対応させる
+
+S2Dao.NET 1.3.8
+2008/04/13
+** Bug
+    * [DAONET-75] - DaoMetaDataFactoryImplでDBMetaDataプロパティの警告
+
+S2Container.NET 1.3.7
 2008/03/13
 ** Bug
 	* [CONTAINERNET-86] - RelationRowCreatorを他のフレームワークが拡張した場合の不具合
