@@ -23,26 +23,13 @@ using System.Reflection;
 // 情報を変更するには、これらの属性値を変更してください。
 //
 [assembly: AssemblyTitle("S2Container.NET")]
-[assembly: AssemblyDescription("S2Container.NET 1.3.7")]
+[assembly: AssemblyDescription("S2Container.NET")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("S2Container.NET")]
 [assembly: AssemblyCopyright("c Copyright The Seasar Foundation and the others 2005-2008, all rights reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-
-//
-// アセンブリのバージョン情報は、以下の 4 つの属性で構成されます :
-//
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
-//
-// 下にあるように、'*' を使って、すべての値を指定するか、
-// ビルドおよびリビジョン番号を既定値にすることができます。
-
-[assembly: AssemblyVersion("1.3.7.0")]
 
 //
 // アセンブリに署名するには、使用するキーを指定しなければなりません。 
@@ -71,8 +58,6 @@ using System.Reflection;
 //
 [assembly: AssemblyDelaySign(false)]
 [assembly: AssemblyKeyName("")]
-[assembly: AssemblyFileVersionAttribute("1.3.7")]
 
-#if NET_1_1
-[assembly: AssemblyKeyFile("..\\..\\..\\Seasar.snk")]
-#endif
+[assembly: AssemblyVersion("1.3.8.0")]
+[assembly: AssemblyFileVersionAttribute("1.3.8")]
