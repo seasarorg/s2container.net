@@ -39,16 +39,6 @@ using System.Runtime.InteropServices;
 // 次の GUID は、このプロジェクトが COM に公開される場合の、typelib の ID です
 [assembly : Guid("4782e760-85c6-4c21-813f-93fb67bc4a0a")]
 
-// アセンブリのバージョン情報は、以下の 4 つの値で構成されています:
-//
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
-//
-// すべての値を指定するか、下のように '*' を使ってリビジョンおよびビルド番号を 
-// 既定値にすることができます:
-[assembly: AssemblyVersion("1.3.7.0")]
 //
 // アセンブリに署名するには、使用するキーを指定しなければなりません。 
 // アセンブリ署名に関する詳細については、Microsoft .NET Framework ドキュメントを参照してください。
@@ -76,6 +66,8 @@ using System.Runtime.InteropServices;
 //
 [assembly: AssemblyDelaySign(false)]
 [assembly: AssemblyKeyName("")]
-[assembly: AssemblyFileVersion("1.3.7.0")]
 
 [assembly : CLSCompliant(true)]
+
+[assembly: AssemblyVersion("1.3.8.0")]
+[assembly: AssemblyFileVersionAttribute("1.3.8")]

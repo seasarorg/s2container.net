@@ -17,7 +17,6 @@
 #endregion
 
 using System.Reflection;
-using System.Runtime.CompilerServices;
 
 //
 // アセンブリに関する一般情報は以下の 
@@ -32,19 +31,6 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]		
-
-//
-// アセンブリのバージョン情報は、以下の 4 つの属性で構成されます :
-//
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
-//
-// 下にあるように、'*' を使って、すべての値を指定するか、
-// ビルドおよびリビジョン番号を既定値にすることができます。
-
-[assembly: AssemblyVersion("1.3.7.0")]
 
 //
 // アセンブリに署名するには、使用するキーを指定しなければなりません。 
@@ -74,8 +60,6 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyDelaySign(false)]
 [assembly: AssemblyKeyName("")]
 [assembly: log4net.Config.XmlConfigurator(Watch=true)]
-[assembly: AssemblyFileVersionAttribute("1.3.7")]
 
-#if NET_1_1
-[assembly: AssemblyKeyFile("..\\..\\..\\Seasar.snk")]
-#endif
+[assembly: AssemblyVersion("1.3.8.0")]
+[assembly: AssemblyFileVersionAttribute("1.3.8")]

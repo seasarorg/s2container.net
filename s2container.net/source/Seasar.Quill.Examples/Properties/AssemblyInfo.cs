@@ -1,5 +1,22 @@
-﻿using System.Reflection;
-using System.Runtime.CompilerServices;
+﻿#region Copyright
+/*
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ */
+#endregion
+
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 // アセンブリに関する一般情報は以下の属性セットをとおして制御されます。 
@@ -22,12 +39,5 @@ using System.Runtime.InteropServices;
 // 次の GUID は、このプロジェクトが COM に公開される場合の、typelib の ID です
 [assembly: Guid("ebd42a47-2f22-4299-b71d-4f5fb82c70e7")]
 
-// アセンブリのバージョン情報は、以下の 4 つの値で構成されています:
-//
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
-//
-[assembly: AssemblyVersion("1.3.7.0")]
-[assembly: AssemblyFileVersion("1.3.7.0")]
+[assembly: AssemblyVersion("1.3.8.0")]
+[assembly: AssemblyFileVersionAttribute("1.3.8")]

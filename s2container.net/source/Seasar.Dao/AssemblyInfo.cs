@@ -33,19 +33,6 @@ using System.Reflection;
 [assembly: AssemblyCulture("")]
 
 //
-// アセンブリのバージョン情報は、以下の 4 つの属性で構成されます :
-//
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
-//
-// 下にあるように、'*' を使って、すべての値を指定するか、
-// ビルドおよびリビジョン番号を既定値にすることができます。
-
-[assembly: AssemblyVersion("1.3.7.0")]
-
-//
 // アセンブリに署名するには、使用するキーを指定しなければなりません。 
 // アセンブリ署名に関する詳細については、Microsoft .NET Framework ドキュメントを参照してください。
 //
@@ -73,7 +60,5 @@ using System.Reflection;
 [assembly: AssemblyDelaySign(false)]
 [assembly: AssemblyKeyName("")]
 
-#if NET_1_1
-[assembly: AssemblyKeyFile("..\\..\\..\\Seasar.Dao.snk")]
-#endif
-[assembly: AssemblyFileVersionAttribute("1.3.7.0")]
+[assembly: AssemblyVersion("1.3.8.0")]
+[assembly: AssemblyFileVersionAttribute("1.3.8")]

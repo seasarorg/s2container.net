@@ -17,7 +17,6 @@
 #endregion
 
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // アセンブリに関する一般情報は以下の属性セットをとおして制御されます。 
@@ -40,14 +39,5 @@ using System.Runtime.InteropServices;
 // 次の GUID は、このプロジェクトが COM に公開される場合の、typelib の ID です
 [assembly: Guid("f925f0ca-8440-4e2b-9f5b-25a99fae77c3")]
 
-// アセンブリのバージョン情報は、以下の 4 つの値で構成されています:
-//
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
-//
-// すべての値を指定するか、下のように '*' を使ってリビジョンおよびビルド番号を 
-// 既定値にすることができます:
-[assembly: AssemblyVersion("1.3.7.0")]
-[assembly: AssemblyFileVersion("1.3.7")]
+[assembly: AssemblyVersion("1.3.8.0")]
+[assembly: AssemblyFileVersionAttribute("1.3.8")]
