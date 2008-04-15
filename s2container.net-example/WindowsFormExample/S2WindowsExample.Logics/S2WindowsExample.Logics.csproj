@@ -32,10 +32,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="Nullables, Version=1.0.0.0, Culture=neutral, PublicKeyToken=154fdcb44c4484fc">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Nullables.dll</HintPath>
-    </Reference>
     <Reference Include="Seasar, Version=1.2.9.0, Culture=neutral, PublicKeyToken=1d0d0c484d50ca62, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Seasar.dll</HintPath>
