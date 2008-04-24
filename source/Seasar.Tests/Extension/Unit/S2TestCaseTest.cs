@@ -25,7 +25,10 @@ using log4net;
 using log4net.Config;
 using log4net.Util;
 using MbUnit.Framework;
+using Seasar.Extension.ADO;
+using Seasar.Extension.ADO.Impl;
 using Seasar.Extension.Unit;
+using Seasar.Framework.Exceptions;
 using Seasar.Framework.Log;
 using Seasar.Framework.Util;
 
@@ -86,6 +89,42 @@ namespace Seasar.Tests.Extension.Unit
         public void Commit()
         {
             _logger.Debug("Commit test");
+        }
+
+        [Test, S2(Seasar.Extension.Unit.Tx.NotSupported)]
+        [ExpectedException(typeof(EmptyRuntimeException))]
+        public void TestDataSourceNull()
+        {
+            IDataSource ds = DataSource;
+            Assert.Fail("例外が発生するのでこの行には到達しない。");
+        }
+
+        public void SetUpDataSource()
+        {
+            Include(PATH);
+        }
+
+        [Test, S2(Seasar.Extension.Unit.Tx.NotSupported)]
+        public void TestDataSource()
+        {
+            Assert.IsNotNull(DataSource);
+        }
+
+        [Test, S2(Seasar.Extension.Unit.Tx.NotSupported)]
+        public void TestCommandFactoryNull()
+        {
+            Assert.AreSame(BasicCommandFactory.INSTANCE, CommandFactory);
+        }
+
+        public void SetUpCommandFactory()
+        {
+            Include(PATH);
+        }
+
+        [Test, S2(Seasar.Extension.Unit.Tx.NotSupported)]
+        public void TestCommandFactory()
+        {
+            Assert.IsNotNull(CommandFactory);
         }
 
         public void SetUpReadXlsTx()
