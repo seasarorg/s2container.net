@@ -68,7 +68,7 @@ namespace Seasar.Extension.Unit
         {
             get
             {
-                if (_commandFactory == null)
+                if (_commandFactory == null && Container.HasComponentDef(typeof(ICommandFactory)))
                 {
                     _commandFactory = Container.GetComponent(typeof(ICommandFactory)) as ICommandFactory;
                 }
