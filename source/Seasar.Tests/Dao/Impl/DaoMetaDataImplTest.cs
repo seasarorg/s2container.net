@@ -82,10 +82,40 @@ namespace Seasar.Tests.Dao.Impl
         }
 
         [Test, S2]
+        public void TestSelectObjectArray()
+        {
+            IDaoMetaData dmd = CreateDaoMetaData(typeof(IEmployeeObjectListDao));
+            SelectDynamicCommand cmd = (SelectDynamicCommand)dmd.GetSqlCommand("GetEmployeeNoArray");
+            Assert.IsNotNull(cmd, "1");
+            Assert.AreEqual(typeof(ObjectArrayDataReaderHandler), cmd.DataReaderHandler.GetType(), "2");
+            Assert.AreEqual("empno", cmd.ArgNames[0], "3");
+        }
+
+        [Test, S2]
+        public void TestSelectObjectGenericList()
+        {
+            IDaoMetaData dmd = CreateDaoMetaData(typeof(IEmployeeObjectListDao));
+            SelectDynamicCommand cmd = (SelectDynamicCommand)dmd.GetSqlCommand("GetEmployeeNoGenericList");
+            Assert.IsNotNull(cmd, "1");
+            Assert.AreEqual(typeof(ObjectGenericListDataReaderHandler), cmd.DataReaderHandler.GetType(), "2");
+            Assert.AreEqual("empno", cmd.ArgNames[0], "3");
+        }
+
+        [Test, S2]
+        public void TestSelectObjectList()
+        {
+            IDaoMetaData dmd = CreateDaoMetaData(typeof(IEmployeeObjectListDao));
+            SelectDynamicCommand cmd = (SelectDynamicCommand)dmd.GetSqlCommand("GetEmployeeNoList");
+            Assert.IsNotNull(cmd, "1");
+            Assert.AreEqual(typeof(ObjectListDataReaderHandler), cmd.DataReaderHandler.GetType(), "2");
+            Assert.AreEqual("empno", cmd.ArgNames[0], "3");
+        }
+
+        [Test, S2]
         public void TestSelectBean()
         {
             IDaoMetaData dmd = CreateDaoMetaData(typeof(IEmployeeDao));
-            SelectDynamicCommand cmd = (SelectDynamicCommand) dmd.GetSqlCommand("GetEmployee");
+            SelectDynamicCommand cmd = (SelectDynamicCommand)dmd.GetSqlCommand("GetEmployee");
             Assert.IsNotNull(cmd, "1");
             Assert.AreEqual(typeof(BeanMetaDataDataReaderHandler), cmd.DataReaderHandler.GetType(), "2");
             Assert.AreEqual("empno", cmd.ArgNames[0], "3");
@@ -250,7 +280,7 @@ namespace Seasar.Tests.Dao.Impl
         public void TestCreateFindCommand5()
         {
             DaoMetaDataImpl dmd = CreateDaoMetaData(typeof(IEmployeeAutoDao));
-            dmd.Dbms = new Oracle();
+            dmd.Dbms = new Seasar.Dao.Dbms.Oracle();
             SelectDynamicCommand cmd = (SelectDynamicCommand) dmd.CreateFindCommand("EMPNO = ?");
             Trace.WriteLine(cmd.Sql);
             Assert.IsTrue(cmd.Sql.EndsWith(" EMPNO = ?"), "1");

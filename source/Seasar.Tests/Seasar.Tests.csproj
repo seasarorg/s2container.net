@@ -1,7 +1,7 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{6D6327B1-4252-470A-A76B-8E923F34AB7C}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -307,6 +307,7 @@
     <Compile Include="Dao\Impl\IEmployeeDefaultDao.cs" />
     <Compile Include="Dao\Impl\IEmployeeModifiedOnlyDao.cs" />
     <Compile Include="Dao\Impl\IEmployeeNullableAutoDao.cs" />
+    <Compile Include="Dao\Impl\IEmployeeObjectListDao.cs" />
     <Compile Include="Dao\Impl\IEmployeeVersionNoDao.cs" />
     <Compile Include="Dao\Impl\IFormUseHistoryDao.cs" />
     <Compile Include="Dao\Impl\IGenericNullableDao.cs" />
@@ -317,6 +318,9 @@
     <Compile Include="Dao\Impl\InsertAutoStaticCommandTest.cs" />
     <Compile Include="Dao\Impl\IStoredProcedureTestDao.cs" />
     <Compile Include="Dao\Impl\IUnderscoreEntityDao.cs" />
+    <Compile Include="Dao\Impl\ObjectArrayDataReaderHandlerTest.cs" />
+    <Compile Include="Dao\Impl\ObjectGenericListDataReaderHandlerTest.cs" />
+    <Compile Include="Dao\Impl\ObjectListDataReaderHandlerTest.cs" />
     <Compile Include="Dao\Impl\RelationKeyTest.cs" />
     <Compile Include="Dao\Impl\SelectAutoCommandTest.cs" />
     <Compile Include="Dao\Impl\SelectDynamicCommandTest.cs" />
@@ -440,6 +444,7 @@
       <DependentUpon>SessionComponentDeployerWebPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Framework\Util\AssignTypeUtilTest.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -451,6 +456,8 @@
     <Compile Include="Quill\Dao\Interceptor\DataSourceSelectInterceptorTest.cs" />
     <Compile Include="Quill\Database\DataSource\Impl\SelectableDataSourceProxyWithDictionaryTest.cs" />
     <Compile Include="Quill\Database\Provider\MySQLTest.cs" />
+    <Compile Include="Quill\Database\Provider\ODP.cs" />
+    <Compile Include="Quill\Database\Provider\OracleTest.cs" />
     <Compile Include="Quill\Database\Provider\SqlServerTest.cs" />
     <Compile Include="Quill\DataSourceBuilderTest.cs" />
     <Compile Include="Quill\QuillComponentTest.cs" />
@@ -461,7 +468,6 @@
     <Compile Include="Quill\Unit\QuillTestCaseTest.cs" />
     <Compile Include="Quill\Util\AttributeUtilTest.cs" />
     <Compile Include="Quill\Util\MessageUtilTest.cs" />
-    <Compile Include="Quill\Util\TypeUtilTest.cs" />
     <Compile Include="Framework\Container.Deployer\SingletonComponentDeployerTest.cs" />
     <Compile Include="Framework\Container.Factory\ArgTagHandlerTest.cs" />
     <Compile Include="Framework\Container.Factory\AspectTagHandlerTest.cs" />
@@ -495,6 +501,9 @@
     <Compile Include="Framework\Xml\S2SectionHandlerTest.cs" />
     <Compile Include="Framework\Xml\TagHandlerContextTest.cs" />
     <Compile Include="Framework\Xml\XmlHandlerTest.cs" />
+    <Compile Include="Quill\Util\TypeUtilTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Quill\Xml\QuillSectionHandlerTest.cs" />
     <Content Include="Framework\Container.Deployer\SessionComponentDeployerWebPage.aspx" />
     <EmbeddedResource Include="Framework\Util\test1.xml" />
