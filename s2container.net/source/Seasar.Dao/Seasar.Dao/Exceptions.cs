@@ -318,4 +318,13 @@ namespace Seasar.Dao
         {
         }
     }
+
+    [Serializable]
+    public class IllegalReturnElementTypeException : SRuntimeException
+    {
+        public IllegalReturnElementTypeException(Type elementType, Type resultType)
+            : base("EDAO0026", new object[] { elementType.Name, resultType.Name })
+        {
+        }
+    }
 }

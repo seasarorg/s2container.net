@@ -192,6 +192,7 @@
     <Compile Include="Seasar.Dao.Impl\AbstractDynamicCommand.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Dao.Impl\AbstractObjectListDataReaderHandler.cs" />
     <Compile Include="Seasar.Dao.Impl\AbstractProcedureHandler.cs" />
     <Compile Include="Seasar.Dao.Impl\AbstractSqlCommand.cs">
       <SubType>Code</SubType>
@@ -242,7 +243,10 @@
     <Compile Include="Seasar.Dao.Impl\InsertAutoStaticCommand.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Dao.Impl\ObjectArrayDataReaderHandler.cs" />
     <Compile Include="Seasar.Dao.Impl\ObjectBasicProcedureHandler.cs" />
+    <Compile Include="Seasar.Dao.Impl\ObjectGenericListDataReaderHandler.cs" />
+    <Compile Include="Seasar.Dao.Impl\ObjectListDataReaderHandler.cs" />
     <Compile Include="Seasar.Dao.Impl\ProcedureDynamicCommand.cs" />
     <Compile Include="Seasar.Dao.Impl\RelationKey.cs">
       <SubType>Code</SubType>

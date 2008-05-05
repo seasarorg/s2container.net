@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections;
+using System.Data;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -28,7 +29,7 @@ using Seasar.Extension.ADO.Impl;
 using Seasar.Extension.ADO.Types;
 using Seasar.Framework.Beans;
 using Seasar.Framework.Util;
-using System.Data;
+using System.Collections.Generic;
 
 namespace Seasar.Dao.Impl
 {
@@ -376,33 +377,68 @@ namespace Seasar.Dao.Impl
             }
             else if ( retType.IsArray )
             {
-                return CreateBeanArrayMetaDataDataReaderHandler(bmd);
+                // [DAONET-76] (2008/05/05)
+                Type elementType = retType.GetElementType();
+                if (AssignTypeUtil.IsSimpleType(elementType))
+                {
+                    return CreateObjectArrayDataReaderHandler(elementType);
+                }
+                else
+                {
+                    return CreateBeanArrayMetaDataDataReaderHandler(bmd);
+                }
             }
-            else if ( !retType.IsGenericType && typeof(IList).IsAssignableFrom(retType) )
+            else if (AssignTypeUtil.IsList(retType))
             {
-                return CreateBeanListMetaDataDataReaderHandler(bmd);
+                // [DAONET-76] (2008/05/05)
+                if (AssignTypeUtil.IsSimpleType(BeanType))
+                {
+                    return CreateObjectListDataReaderHandler();
+                }
+                else
+                {
+                    return CreateBeanListMetaDataDataReaderHandler(bmd);
+                }
             }
             else if ( IsBeanTypeAssignable(retType) )
             {
                 return CreateBeanMetaDataDataReaderHandler(bmd);
             }
-            else if ( Array.CreateInstance(
-                _beanType, 0).GetType().IsAssignableFrom(retType) )
+            else if (AssignTypeUtil.IsGenericList(retType))
             {
-                return CreateBeanArrayMetaDataDataReaderHandler(bmd);
-            }
-            else if ( retType.IsGenericType
-                && ( retType.GetGenericTypeDefinition().Equals(
-                    typeof(System.Collections.Generic.IList<>))
-                || retType.GetGenericTypeDefinition().Equals(
-               typeof(System.Collections.Generic.List<>)) ) )
-            {
-                return CreateBeanGenericListMetaDataDataReaderHandler(bmd);
+                // [DAONET-76] (2008/05/05)
+                Type elementType = retType.GetGenericArguments()[0];
+                if (AssignTypeUtil.IsSimpleType(elementType))
+                {
+                    return CreateObjectGenericListDataReaderHandler(elementType);
+                }
+                else
+                {
+                    return CreateBeanGenericListMetaDataDataReaderHandler(bmd);
+                }
             }
             else
             {
                 return CreateObjectDataReaderHandler();
             }
+        }
+
+        // [DAONET-76] (2008/05/05)
+        protected virtual ObjectGenericListDataReaderHandler CreateObjectGenericListDataReaderHandler(Type elementType)
+        {
+            return new ObjectGenericListDataReaderHandler(elementType);
+        }
+
+        // [DAONET-76] (2008/05/05)
+        protected virtual ObjectListDataReaderHandler CreateObjectListDataReaderHandler()
+        {
+            return new ObjectListDataReaderHandler();
+        }
+
+        // [DAONET-76] (2008/05/05)
+        protected virtual ObjectArrayDataReaderHandler CreateObjectArrayDataReaderHandler(Type elementType)
+        {
+            return new ObjectArrayDataReaderHandler(elementType);
         }
 
         protected virtual BeanDataSetMetaDataDataReaderHandler CreateBeanDataSetMetaDataDataReaderHandler(IBeanMetaData bmd, Type returnType)

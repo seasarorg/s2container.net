@@ -880,6 +880,7 @@
     <Compile Include="Seasar.Framework.Util\BooleanConversionUtil.cs" />
     <Compile Include="Seasar.Framework.Util\PropertyUtil.cs" />
     <Compile Include="Seasar.Framework.Util\ToStringUtil.cs" />
+    <Compile Include="Seasar.Framework.Util\AssignTypeUtil.cs" />
     <Compile Include="Seasar.Framework.Xml\IAttributes.cs">
       <SubType>Code</SubType>
     </Compile>
