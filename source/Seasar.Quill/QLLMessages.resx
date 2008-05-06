@@ -204,4 +204,7 @@
   <data name="EQLL0027" xml:space="preserve">
     <value>{0}は{1}の実装、または継承クラスではありません。</value>
   </data>
+  <data name="EQLL0028" xml:space="preserve">
+    <value>ITransactionSetting実装クラス({0})内でTransactionContextの設定がおこなわれていません。</value>
+  </data>
 </root>

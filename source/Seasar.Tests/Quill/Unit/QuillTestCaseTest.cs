@@ -44,6 +44,7 @@ namespace Seasar.Tests.Quill.Unit
 
         /// <summary>
         /// ロールバックが自動的にかかっているか確認
+        /// (２回実行して二度ともテストが通ればＯＫ)
         /// </summary>
         [Test, Quill(Tx.Rollback)]
         public void TestRollback()
@@ -59,17 +60,79 @@ namespace Seasar.Tests.Quill.Unit
             Assert.AreEqual(TEST_EMPNO, empBefore.Empno);
             Assert.AreEqual(TEST_NAME_BEFORE, empBefore.Ename);
 
+            //  更新実行
             empBefore.Ename = TEST_NAME_AFTER;
             int result = dao.Update(empBefore);
             Assert.GreaterThan(result, 0, "update_result");
 
+            //  この時点では更新されている
             Employee empAfter = dao.GetEmployee(TEST_EMPNO);
             Assert.AreEqual(TEST_NAME_AFTER, empAfter.Ename, "after update");
+        }
 
-            //  ２回実行して二度ともテストが通ればＯＫ
+        /// <summary>
+        /// ロールバックが自動的にかかっているか確認
+        /// (２回実行して二度ともテストが通ればＯＫ)
+        /// </summary>
+        [Test, Quill(Tx.Rollback)]
+        public void TestRollbackWithTxInterface()
+        {
+            const string TEST_NAME_BEFORE = "WARD";
+            const string TEST_NAME_AFTER = "Hoge";
+            const int TEST_EMPNO = 7521;
+            //  テスト用のQuillContainerからコンポーネントを取得
+            EmpTxIFDao dao = GetQuillComponent(typeof(EmpTxIFDao)) as EmpTxIFDao;
+            Assert.IsNotNull(dao, "dao");
+
+            Employee empBefore = dao.GetEmployee(TEST_EMPNO);
+            Assert.IsNotNull(empBefore, "employee");
+            Assert.AreEqual(TEST_EMPNO, empBefore.Empno);
+            Assert.AreEqual(TEST_NAME_BEFORE, empBefore.Ename);
+
+            //  更新実行
+            empBefore.Ename = TEST_NAME_AFTER;
+            int result = dao.Update(empBefore);
+            Assert.GreaterThan(result, 0, "update_result");
+
+            //  この時点では更新されている
+            Employee empAfter = dao.GetEmployee(TEST_EMPNO);
+            Assert.AreEqual(TEST_NAME_AFTER, empAfter.Ename, "after update");
+        }
+
+        /// <summary>
+        /// ロールバックが自動的にかかっているか確認
+        /// (２回実行して二度ともテストが通ればＯＫ)
+        /// </summary>
+        [Test, Quill(Tx.Rollback)]
+        public void TestRollbackWithTxMethod()
+        {
+            const string TEST_NAME_BEFORE = "WARD";
+            const string TEST_NAME_AFTER = "Hoge";
+            const int TEST_EMPNO = 7521;
+            //  テスト用のQuillContainerからコンポーネントを取得
+            EmpTxMethodDao dao = GetQuillComponent(typeof(EmpTxMethodDao)) as EmpTxMethodDao;
+            Assert.IsNotNull(dao, "dao");
+
+            Employee empBefore = dao.GetEmployee(TEST_EMPNO);
+            Assert.IsNotNull(empBefore, "employee");
+            Assert.AreEqual(TEST_EMPNO, empBefore.Empno);
+            Assert.AreEqual(TEST_NAME_BEFORE, empBefore.Ename);
+
+            //  更新実行
+            empBefore.Ename = TEST_NAME_AFTER;
+            int result = dao.Update(empBefore);
+            Assert.GreaterThan(result, 0, "update_result");
+
+            //  この時点では更新されている
+            Employee empAfter = dao.GetEmployee(TEST_EMPNO);
+            Assert.AreEqual(TEST_NAME_AFTER, empAfter.Ename, "after update");
         }
     }
 
+    /// <summary>
+    /// トランザクションが指定されていないコンポーネントが使われている状態で
+    /// テストメソッドにトランザクションがかかるかテストするためのDao
+    /// </summary>
     [Implementation]
     [S2Dao]
     [Bean(typeof(Employee))]
@@ -80,6 +143,36 @@ namespace Seasar.Tests.Quill.Unit
         int Update(Employee emp);
     }
 
+    /// <summary>
+    /// トランザクションが指定されているコンポーネントが使われている状態で
+    /// テストメソッドにトランザクションがかかるかテストするためのDao
+    /// </summary>
+    [Implementation]
+    [Transaction]
+    [S2Dao]
+    [Bean(typeof(Employee))]
+    public interface EmpTxIFDao
+    {
+        [Sql("SELECT * FROM EMP WHERE EMPNO=/*empno*/1")]
+        Employee GetEmployee(int empno);
+        int Update(Employee emp);
+    }
+
+    /// <summary>
+    /// メソッドにトランザクションが指定されているコンポーネントが
+    /// 使われている状態でテストメソッドにトランザクションが
+    /// かかるかテストするためのDao
+    /// </summary>
+    [Implementation]
+    [S2Dao]
+    [Bean(typeof(Employee))]
+    public interface EmpTxMethodDao
+    {
+        [Sql("SELECT * FROM EMP WHERE EMPNO=/*empno*/1")]
+        Employee GetEmployee(int empno);
+        [Transaction]
+        int Update(Employee emp);
+    }
 
     [Implementation]
     public class InjectionTarget

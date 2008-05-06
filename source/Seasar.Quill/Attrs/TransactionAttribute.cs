@@ -17,12 +17,7 @@
 #endregion
 
 using System;
-using Seasar.Framework.Util;
-using Seasar.Quill.Database.Tx;
-using Seasar.Quill.Database.Tx.Impl;
 using Seasar.Quill.Util;
-using Seasar.Quill.Xml;
-using Seasar.Quill.Exception;
 
 namespace Seasar.Quill.Attrs
 {
@@ -45,57 +40,24 @@ namespace Seasar.Quill.Attrs
 
         /// <summary>
         /// デフォルトコンストラクタ
-        /// (QuillLocalRequiredTxInterceptorを使います)
+        /// (標準の設定を使います)
         /// </summary>
         public TransactionAttribute()
         {
-            QuillSection section = QuillSectionHandler.GetQuillSection();
-            if (section == null || string.IsNullOrEmpty(section.TransactionSetting))
-            {
-                //  属性引数による指定もapp.configにも設定がなければ
-                //  デフォルトのトランザクション設定を使う
-                SetSettingType(typeof(TypicalTransactionSetting));
-            }
-            else
-            {
-                string typeName = section.TransactionSetting;
-                if (TypeUtil.HasNamespace(typeName) == false)
-                {
-                    //  名前空間なしの場合は既定の名前空間から
-                    typeName = string.Format("{0}.{1}",
-                        QuillConstants.NAMESPACE_TXSETTING, typeName);
-                }
-                Type settingType = ClassUtil.ForName(typeName);
-                    SetSettingType(settingType);
-            }
+            _transactionSettingType = SettingUtil.GetTransationSettingType();
+            SettingUtil.ValidateTransactionSettingType(_transactionSettingType);
         }
 
         /// <summary>
         /// カスタムコンストラクタ
-        /// (指定したInterceptorを使います)
-        /// (AbstractQuillTransactionInterceptorサブクラスではない場合実行時例外を投げます）
+        /// (指定した設定を使います)
+        /// (ITransactionSettingクラスではない場合実行時例外を投げます）
         /// </summary>
         /// <param name="handlerType"></param>
         public TransactionAttribute(Type settingType)
         {
-            SetSettingType(settingType);
-        }
-
-        /// <summary>
-        /// 使用するトランザクション設定クラスの設定
-        /// </summary>
-        /// <param name="type"></param>
-        /// <exception cref="">ITransactionSetting実装クラスでないとき</exception>
-        protected virtual void SetSettingType(Type type)
-        {
-            if(typeof(ITransactionSetting).IsAssignableFrom(type))
-            {
-                _transactionSettingType = type;
-            }
-            else
-            {
-                throw new QuillApplicationException("EQLL0026", type.Name);
-            }
+            SettingUtil.ValidateTransactionSettingType(settingType);
+            _transactionSettingType = settingType;
         }
     }
 }

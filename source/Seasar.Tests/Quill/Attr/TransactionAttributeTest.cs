@@ -19,6 +19,7 @@
 using System;
 using MbUnit.Framework;
 using Seasar.Dao.Attrs;
+using Seasar.Extension.Tx.Impl;
 using Seasar.Framework.Aop.Interceptors;
 using Seasar.Quill;
 using Seasar.Quill.Attrs;
@@ -237,6 +238,7 @@ namespace Seasar.Tests.Quill.Attr
     {
         protected override void SetupTransaction(Seasar.Extension.ADO.IDataSource dataSource)
         {
+            _transactionContext = new TransactionContext();
             _transactionInterceptor = new DummyInterceptor();
         }
     }

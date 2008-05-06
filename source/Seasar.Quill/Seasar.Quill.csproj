@@ -97,6 +97,7 @@
     <Compile Include="Util\AttributeUtil.cs" />
     <Compile Include="Util\ComponentUtil.cs" />
     <Compile Include="Util\MessageUtil.cs" />
+    <Compile Include="Util\SettingUtil.cs" />
     <Compile Include="Util\TypeUtil.cs" />
     <Compile Include="Xml\DataSourceSection.cs" />
     <Compile Include="Xml\QuillSection.cs" />
