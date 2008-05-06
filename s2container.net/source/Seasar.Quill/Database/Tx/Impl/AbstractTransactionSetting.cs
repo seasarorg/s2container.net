@@ -19,6 +19,7 @@
 using Seasar.Extension.ADO;
 using Seasar.Extension.Tx;
 using Seasar.Framework.Aop;
+using Seasar.Quill.Exception;
 
 namespace Seasar.Quill.Database.Tx.Impl
 {
@@ -48,6 +49,13 @@ namespace Seasar.Quill.Database.Tx.Impl
         public void Setup(IDataSource dataSource)
         {
             SetupTransaction(dataSource);
+            if (_transactionContext == null)
+            {
+                throw new QuillApplicationException("EQLL0028", new object[] { this.GetType().Name });
+            }
+            //  現在のTransactionContextのインスタンスを明示的に設定しておく
+            //  （Currentがnullだと毎回Connectionが新たに作られてしまうため）
+            _transactionContext.Current = _transactionContext;
             _isNeedSetup = false;
         }
 

@@ -20,6 +20,7 @@ using System;
 using MbUnit.Core.Framework;
 using MbUnit.Core.Invokers;
 using Seasar.Extension.Unit;
+using Seasar.Quill.Util;
 
 namespace Seasar.Quill.Unit
 {
@@ -27,20 +28,27 @@ namespace Seasar.Quill.Unit
 	public sealed class QuillAttribute : DecoratorPatternAttribute
 	{
         private readonly Tx _tx;
+        private readonly Type _daoSettingType;
+        private readonly Type _transacionSettingType;
 
         public QuillAttribute()
         {
             _tx = Tx.NotSupported;
+            _daoSettingType = SettingUtil.GetDaoSettingType();
+            _transacionSettingType = SettingUtil.GetTransationSettingType();
         }
 
         public QuillAttribute(Tx tx)
         {
             _tx = tx;
+            _daoSettingType = SettingUtil.GetDaoSettingType();
+            _transacionSettingType = SettingUtil.GetTransationSettingType();
         }
 
         public override IRunInvoker GetInvoker(IRunInvoker invoker)
         {
-            return new QuillTestCaseRunInvoker(invoker, _tx);
+            return new QuillTestCaseRunInvoker(
+                invoker, _tx, _daoSettingType, _transacionSettingType);
         }
 	}
 }

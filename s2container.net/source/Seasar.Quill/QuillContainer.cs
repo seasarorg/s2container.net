@@ -117,7 +117,7 @@ namespace Seasar.Quill
                 QuillComponent component = new QuillComponent(implType, type, aspects);
 
                 // 作成済みのQuillコンポーネントを保存する
-                components[implType] = component;
+                components[type] = component;
 
                 // Quillコンポーネントを返す
                 return component;

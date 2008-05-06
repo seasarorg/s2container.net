@@ -16,6 +16,7 @@
  */
 #endregion
 
+using System;
 using System.Collections;
 using MbUnit.Core.Invokers;
 using Seasar.Extension.Unit;
@@ -26,17 +27,22 @@ namespace Seasar.Quill.Unit
 	{
         private readonly QuillTestCaseRunner _runner;
         private readonly Tx _tx;
+        private readonly Type _daoSettingType;
+        private readonly Type _transactionSettingType;
 
-        public QuillTestCaseRunInvoker(IRunInvoker invoker, Tx tx)
+        public QuillTestCaseRunInvoker(IRunInvoker invoker, Tx tx,
+            Type daoSettingType, Type transactionSettingType)
             : base(invoker)
         {
             _tx = tx;
+            _daoSettingType = daoSettingType;
+            _transactionSettingType = transactionSettingType;
             _runner = new QuillTestCaseRunner();
         }
 
         public override object Execute(object o, IList args)
         {
-            return _runner.Run(Invoker, o, args, _tx);
+            return _runner.Run(Invoker, o, args, _tx, _daoSettingType, _transactionSettingType);
         }
 	}
 }

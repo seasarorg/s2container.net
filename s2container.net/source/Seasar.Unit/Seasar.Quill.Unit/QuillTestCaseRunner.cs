@@ -26,7 +26,9 @@ using Seasar.Extension.Tx.Impl;
 using Seasar.Extension.Unit;
 using Seasar.Framework.Container.Factory;
 using Seasar.Framework.Util;
+using Seasar.Quill.Dao;
 using Seasar.Quill.Database.DataSource.Impl;
+using Seasar.Quill.Database.Tx;
 using Seasar.Quill.Exception;
 
 namespace Seasar.Quill.Unit
@@ -34,12 +36,17 @@ namespace Seasar.Quill.Unit
 	public class QuillTestCaseRunner : S2TestCaseRunner
 	{
         private Tx _tx;
+        private Type _daoSettingType;
+        private Type _transactionSettingType;
         private ITransactionContext _tc;
         private SelectableDataSourceProxyWithDictionary _dataSource;
 
-        public new object Run(IRunInvoker invoker, object o, IList args, Tx tx)
+        public object Run(IRunInvoker invoker, object o, IList args, Tx tx,
+            Type daoSettingType, Type transactionSettingType)
         {
             _tx = tx;
+            _daoSettingType = daoSettingType;
+            _transactionSettingType = transactionSettingType;
             if (typeof(QuillTestCase).IsAssignableFrom(o.GetType()) == false)
             {
                 throw new QuillInvalidClassException(o.GetType(), typeof(QuillTestCase));
@@ -62,6 +69,7 @@ namespace Seasar.Quill.Unit
                     try
                     {
                         SetUpAfterContainerInit();
+                        SetupInjection(o);
                         try
                         {
                             try
@@ -127,16 +135,14 @@ namespace Seasar.Quill.Unit
         {
             if (Tx.NotSupported != _tx)
             {
-                _tc = (ITransactionContext)((QuillTestCase)_fixture).GetQuillComponent(
-                    typeof(TransactionContext));
+                QuillTestCase quillFixture = (QuillTestCase)_fixture;
+                ITransactionSetting txSetting = (ITransactionSetting)quillFixture.GetQuillComponent(
+                    _transactionSettingType);
+
+                //  SetupInjectionが呼ばれていればTransactionContextは設定済み
+                _tc = txSetting.TransactionContext;
+
                 TransactionContext tc = (TransactionContext)_tc;
-                //  初回実行時はデータソースを設定する
-                if (tc.DataSouce == null)
-                {
-                    tc.Current = tc;
-                    tc.DataSouce = _dataSource;
-                    _dataSource.SetTransactionContext(tc);
-                }
                 tc.Begin();
             }
         }
@@ -191,14 +197,38 @@ namespace Seasar.Quill.Unit
             _dataSource = null;
         }
 
+        protected virtual void SetupInjection(object target)
+        {
+            if (_dataSource == null)
+            {
+                throw new ArgumentNullException("dataSource");
+            }
+
+            QuillTestCase fixture = (QuillTestCase)target;
+
+            //  DaoとTransaction設定は予めやっておく
+            //  （テストするクラスと同じDataSource,TransactionContextを使用するため)
+            IDaoSetting daoSetting = (IDaoSetting)fixture.GetQuillComponent(
+                _daoSettingType);
+            daoSetting.Setup(_dataSource);
+
+            if (_tx != Tx.NotSupported)
+            {
+                ITransactionSetting txSetting = (ITransactionSetting)fixture.GetQuillComponent(
+                    _transactionSettingType);
+                txSetting.Setup(_dataSource);
+            }
+            //  必要なコンポーネントを作成した上でインジェクション実行
+            fixture.Inject(target);
+        }
+
         protected virtual void SetUpQuillContainer(object target)
         {
             QuillTestCase fixture = _fixture as QuillTestCase;
             if (fixture != null)
             {
                 fixture.Injector = QuillInjector.GetInstance();
-                fixture.Inject(target);
-                fixture.QContainer = fixture.Injector.Container;
+                fixture.QContainer = fixture.Injector.Container;                
             }
         }
 

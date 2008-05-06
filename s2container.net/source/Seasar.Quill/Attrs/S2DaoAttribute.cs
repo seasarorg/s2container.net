@@ -17,12 +17,7 @@
 #endregion
 
 using System;
-using Seasar.Framework.Util;
-using Seasar.Quill.Dao;
-using Seasar.Quill.Dao.Impl;
-using Seasar.Quill.Exception;
 using Seasar.Quill.Util;
-using Seasar.Quill.Xml;
 
 namespace Seasar.Quill.Attrs
 {
@@ -45,28 +40,12 @@ namespace Seasar.Quill.Attrs
 
         /// <summary>
         /// デフォルトコンストラクタ
-        /// (S2DaoInterceptorを使います)
+        /// (標準の設定を使います)
         /// </summary>
         public S2DaoAttribute()
         {
-            QuillSection section = QuillSectionHandler.GetQuillSection();
-            if (section == null || string.IsNullOrEmpty(section.DaoSetting))
-            {
-                //  設定がない場合は既定のDao設定を使う
-                SetSettingType(typeof(TypicalDaoSetting));
-            }
-            else
-            {
-                string typeName = section.DaoSetting;
-                if (TypeUtil.HasNamespace(typeName) == false)
-                {
-                    //  名前空間の指定がなければ既定の名前空間を使う
-                    typeName = string.Format("{0}.{1}",
-                        QuillConstants.NAMESPACE_DAOSETTING, typeName);
-                }
-                Type settingType = ClassUtil.ForName(typeName);
-                SetSettingType(settingType);
-            }
+            _daoSettingType = SettingUtil.GetDaoSettingType();
+            SettingUtil.ValidateDaoSettingType(_daoSettingType);
         }
 
         /// <summary>
@@ -77,24 +56,8 @@ namespace Seasar.Quill.Attrs
         /// <param name="handlerType"></param>
         public S2DaoAttribute(Type settingType)
         {
-            SetSettingType(settingType);
-        }
-
-        /// <summary>
-        /// 使用するTxHandlerの設定
-        /// </summary>
-        /// <param name="type"></param>
-        /// <exception cref="">S2DaoInterceptorサブクラスでないとき</exception>
-        protected virtual void SetSettingType(Type type)
-        {
-            if (typeof(IDaoSetting).IsAssignableFrom(type))
-            {
-                _daoSettingType = type;
-            }
-            else
-            {
-                throw new QuillApplicationException("EQLL0025", type.Name);
-            }
+            SettingUtil.ValidateDaoSettingType(settingType);
+            _daoSettingType = settingType;
         }
     }
 }

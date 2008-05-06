@@ -496,7 +496,6 @@ namespace Seasar.Quill
         {
             // インターセプターを取得する
             IMethodInterceptor interceptor = GetMethodInterceptor(txAttr);
-
             if ( !methodNames.ContainsKey(interceptor) )
             {
                 // 始めてのInterceptorの場合はstringのリストを初期化する
