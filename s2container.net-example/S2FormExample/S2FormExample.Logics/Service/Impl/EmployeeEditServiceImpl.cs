@@ -1,7 +1,7 @@
 #region Copyright
 
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,16 +43,6 @@ namespace Seasar.S2FormExample.Logics.Service.Impl
         {
             ;
         }
-        
-        /// <summary>
-        /// 社員DAO
-        /// </summary>
-        /// <remarks>S2Unitでテストするために追加(Injection用)</remarks>
-        public IEmployeeDao Dao
-        {
-            get { return dao; }
-            set { dao = value; }
-        }
 
         #region IEmployeeEditService Members
 
@@ -87,7 +77,7 @@ namespace Seasar.S2FormExample.Logics.Service.Impl
         /// </summary>
         /// <param name="data">登録社員データ</param>
         /// <returns>登録件数</returns>
-        [Aspect("LocalRequiredTx")]
+        [Transaction]
         public virtual int ExecUpdate(EmployeeEditPage data)
         {
             if (data == null)
@@ -120,7 +110,7 @@ namespace Seasar.S2FormExample.Logics.Service.Impl
         /// </summary>
         /// <param name="id">削除社員ID</param>
         /// <returns>削除件数</returns>
-        [Aspect("LocalRequiredTx")]
+        [Transaction]
         public virtual int ExecDelete(int id)
         {
             EmployeeDto data = new EmployeeDto();

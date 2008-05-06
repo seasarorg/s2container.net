@@ -1,5 +1,5 @@
 ''
-'' Copyright 2005-2007 the Seasar Foundation and the Others.
+'' Copyright 2005-2008 the Seasar Foundation and the Others.
 ''
 '' Licensed under the Apache License, Version 2.0 (the "License");
 '' you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ Namespace Dao
     ''' </summary>
     ''' <remarks></remarks>
     <Implementation()> _
-    <Aspect("DaoInterceptor")> _
+    <S2Dao()> _
     <Bean(GetType(EmployeeDto))> _
     Public Interface IEmployeeDao
         ''' <summary>

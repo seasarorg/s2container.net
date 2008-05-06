@@ -1,7 +1,7 @@
 #region Copyright
 
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,17 +44,6 @@ namespace Seasar.S2FormExample.Logics.Service.Impl
             ;
         }
 
-
-        /// <summary>
-        /// •”–å—pDAO
-        /// </summary>
-        /// <remarks>S2Unit‚ÅƒeƒXƒg‚·‚é‚½‚ß‚É’Ç‰Á(Injection—p)</remarks>
-        public IDepartmentDao Dao
-        {
-            get { return dao; }
-            set { dao = value; }
-        }
-
         #region IDepartmentEditService Members
 
         /// <summary>
@@ -86,7 +75,7 @@ namespace Seasar.S2FormExample.Logics.Service.Impl
         /// </summary>
         /// <param name="dto">“o˜^•”–å•ÒWPage</param>
         /// <returns>“o˜^Œ”</returns>
-        [Aspect("LocalRequiredTx")]
+        [Transaction]
         public virtual int ExecUpdate(DepartmentEditPage dto)
         {
             if (dto == null)
@@ -117,7 +106,7 @@ namespace Seasar.S2FormExample.Logics.Service.Impl
         /// </summary>
         /// <param name="id">•”–åID</param>
         /// <returns>íœŒ”</returns>
-        [Aspect("LocalRequiredTx")]
+        [Transaction]
         public virtual int ExecDelete(int id)
         {
             DepartmentDto data = new DepartmentDto();

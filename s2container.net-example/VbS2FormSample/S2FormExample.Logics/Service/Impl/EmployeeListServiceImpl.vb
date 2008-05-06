@@ -1,5 +1,5 @@
 ''
-'' Copyright 2005-2007 the Seasar Foundation and the Others.
+'' Copyright 2005-2008 the Seasar Foundation and the Others.
 ''
 '' Licensed under the Apache License, Version 2.0 (the "License");
 '' you may not use this file except in compliance with the License.
@@ -35,46 +35,6 @@ Namespace Service.Impl
         Public Sub New()
             '
         End Sub
-
-        ''' <summary>
-        ''' CSVópé–àıDAO
-        ''' </summary>
-        ''' <remarks></remarks>
-        Public Property DaoOfCsvProperty() As IEmployeeCSVDao
-            Get
-                Return daoOfCsv
-            End Get
-            Set(ByVal value As IEmployeeCSVDao)
-                daoOfCsv = value
-            End Set
-        End Property
-
-        ''' <summary>
-        ''' é–àıDAO
-        ''' </summary>
-        ''' <remarks></remarks>
-        Public Property DaoOfEmployeeProperty() As IEmployeeDao
-            Get
-                Return daoOfEmployee
-            End Get
-            Set(ByVal value As IEmployeeDao)
-                daoOfEmployee = value
-            End Set
-        End Property
-
-        ''' <summary>
-        ''' èoóÕópDAO
-        ''' </summary>
-        ''' <remarks></remarks>
-        Public Property DaoOfOutputProperty() As IOutputCSVDao
-            Get
-                Return daoOfOutput
-            End Get
-            Set(ByVal value As IOutputCSVDao)
-                daoOfOutput = value
-            End Set
-        End Property
-
 
         ''' <summary>
         ''' é–àıàÍóóÇåüçıÇ∑ÇÈ

@@ -1,5 +1,5 @@
 ''
-'' Copyright 2005-2007 the Seasar Foundation and the Others.
+'' Copyright 2005-2008 the Seasar Foundation and the Others.
 ''
 '' Licensed under the Apache License, Version 2.0 (the "License");
 '' you may not use this file except in compliance with the License.
@@ -41,25 +41,12 @@ Namespace Service.Impl
         End Sub
 
         ''' <summary>
-        ''' •”–å—pDAO
-        ''' </summary>
-        ''' <remarks>S2Unit‚ÅƒeƒXƒg‚·‚é‚½‚ß‚É’Ç‰Á(Injection—p)</remarks>
-        Public Property DaoProperty() As IDepartmentDao
-            Get
-                Return dao
-            End Get
-            Set(ByVal value As IDepartmentDao)
-                dao = value
-            End Set
-        End Property
-
-        ''' <summary>
         ''' •”–å‚ğíœ‚·‚é
         ''' </summary>
         ''' <param name="id">•”–åID</param>
         ''' <returns>íœŒ”</returns>
         ''' <remarks></remarks>
-        <Aspect("LocalRequiredTx")> _
+        <Transaction()> _
         Public Function ExecDelete(ByVal id As Integer) As Integer Implements IDepartmentEditService.ExecDelete
             Dim data As New DepartmentDto
             data.Id = id
@@ -73,7 +60,7 @@ Namespace Service.Impl
         ''' <param name="dto">“o˜^•”–å•ÒWPage</param>
         ''' <returns>“o˜^Œ”</returns>
         ''' <remarks></remarks>
-        <Aspect("LocalRequiredTx")> _
+        <Transaction()> _
         Public Function ExecUpdate(ByVal dto As DepartmentEditPage) As Integer _
             Implements IDepartmentEditService.ExecUpdate
 

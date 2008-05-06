@@ -1,5 +1,5 @@
 ''
-'' Copyright 2005-2007 the Seasar Foundation and the Others.
+'' Copyright 2005-2008 the Seasar Foundation and the Others.
 ''
 '' Licensed under the Apache License, Version 2.0 (the "License");
 '' you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ Imports Seasar.Quill.Attrs
 ''' </summary>
 ''' <remarks>SQL文ファイルを使っているため、名前空間を既定の名前空間にしている(VB.NETの仕様のため)</remarks>
 <Implementation()> _
-    <Aspect("DaoInterceptor")> _
+    <S2Dao()> _
     <Bean(GetType(EmployeeCsvDto))> _
 Public Interface IEmployeeCSVDao
     ''' <summary>

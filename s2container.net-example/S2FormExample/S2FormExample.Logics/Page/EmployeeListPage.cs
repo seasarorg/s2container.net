@@ -1,7 +1,7 @@
 #region Copyright
 
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+S * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

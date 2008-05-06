@@ -36,21 +36,21 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\MbUnit.Framework.dll</HintPath>
     </Reference>
-    <Reference Include="Nullables, Version=1.0.0.0, Culture=neutral, PublicKeyToken=154fdcb44c4484fc">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Nullables.dll</HintPath>
-    </Reference>
-    <Reference Include="Seasar, Version=1.2.9.0, Culture=neutral, PublicKeyToken=1d0d0c484d50ca62, processorArchitecture=MSIL">
+    <Reference Include="Seasar, Version=1.3.8.0, Culture=neutral, PublicKeyToken=1d0d0c484d50ca62, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Seasar.dll</HintPath>
     </Reference>
-    <Reference Include="Seasar.Dao, Version=1.0.4.1, Culture=neutral, PublicKeyToken=73a7c921d802e17e, processorArchitecture=MSIL">
+    <Reference Include="Seasar.Dao, Version=1.3.8.0, Culture=neutral, PublicKeyToken=73a7c921d802e17e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Seasar.Dao.dll</HintPath>
     </Reference>
     <Reference Include="Seasar.DynamicProxy, Version=1.2.9.0, Culture=neutral, PublicKeyToken=1d0d0c484d50ca62, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Seasar.DynamicProxy.dll</HintPath>
+    </Reference>
+    <Reference Include="Seasar.Quill, Version=1.3.8.0, Culture=neutral, PublicKeyToken=1d0d0c484d50ca62, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Seasar.Quill.dll</HintPath>
     </Reference>
     <Reference Include="Seasar.Unit, Version=1.2.9.0, Culture=neutral, PublicKeyToken=1d0d0c484d50ca62, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -72,9 +72,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Ex.dicon" />
-    <None Include="Example.dicon" />
-    <None Include="ExampleLogics.dicon" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="sample.mdb">
@@ -96,10 +93,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>mkdir "$(TargetDir)Seasar\S2FormExample\Tests\"
-copy "$(ProjectDir)*.dicon" "$(TargetDir)\Seasar\S2FormExample\Tests" /Y
-copy "$(ProjectDir)*.dicon" "$(TargetDir)" /Y
-copy "$(ProjectDir)*.mdb" "$(TargetDir)" /Y
+    <PostBuildEvent>copy "$(ProjectDir)*.mdb" "$(TargetDir)" /Y
 copy "$(ProjectDir)App.Config" "$(TargetDir)\$(TargetFileName).config" /Y</PostBuildEvent>
   </PropertyGroup>
 </Project>

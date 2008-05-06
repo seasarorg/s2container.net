@@ -1,5 +1,5 @@
 ''
-'' Copyright 2005-2007 the Seasar Foundation and the Others.
+'' Copyright 2005-2008 the Seasar Foundation and the Others.
 ''
 '' Licensed under the Apache License, Version 2.0 (the "License");
 '' you may not use this file except in compliance with the License.
@@ -14,7 +14,6 @@
 '' governing permissions and limitations under the License.
 ''
 Imports System.IO
-Imports Seasar.Framework.Container.Factory
 Imports log4net.Config
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports log4net
@@ -56,9 +55,6 @@ Namespace My
                                               "{0}.exe.config"))
                 XmlConfigurator.Configure(LogManager.GetRepository(), info)
                 logger.Info("‹N“®")
-
-                SingletonS2ContainerFactory.ConfigPath = "Example.dicon"
-                SingletonS2ContainerFactory.Init()
 
             Catch ex As Exception
                 MessageBox.Show(ex.Message, "‹N“®’†", MessageBoxButtons.OK, MessageBoxIcon.Exclamation)

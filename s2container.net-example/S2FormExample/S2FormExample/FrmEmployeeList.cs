@@ -78,11 +78,12 @@ namespace Seasar.S2FormExample.Forms
             {
                 dispatcher.ShowDataEdit(null);
 
-                this.DataSource = service.GetAll();
+                DataSource = service.GetAll();
             }
             catch (Exception ex)
             {
                 logger.ErrorFormat(EXCEPTION_MSG_FORMAT, ex.Message);
+                logger.Error(ex.StackTrace);
                 MessageBox.Show(ex.Message, Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
@@ -111,6 +112,7 @@ namespace Seasar.S2FormExample.Forms
             catch (Exception ex)
             {
                 logger.ErrorFormat(EXCEPTION_MSG_FORMAT, ex.Message);
+                logger.Error(ex.StackTrace);
                 MessageBox.Show(String.Format(EXCEPTION_MSG_FORMAT, ex.Message), Text,
                                 MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
@@ -138,11 +140,12 @@ namespace Seasar.S2FormExample.Forms
             {
                 logger.InfoFormat("{0}がロードされました", Name);
 
-                this.DataSource = service.GetAll();
+                DataSource = service.GetAll();
             }
             catch (Exception ex)
             {
                 logger.ErrorFormat(EXCEPTION_MSG_FORMAT, ex.Message);
+                logger.Error(ex.StackTrace);
                 MessageBox.Show(String.Format(EXCEPTION_MSG_FORMAT, ex.Message), Text,
                                 MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
@@ -157,14 +160,15 @@ namespace Seasar.S2FormExample.Forms
         {
             try
             {
-                int? id = ((EmployeeListPage) this.DataSource).List[gridList.CurrentRow.Index].Id;
+                int? id = ((EmployeeListPage) DataSource).List[gridList.CurrentRow.Index].Id;
                 dispatcher.ShowDataEdit(id);
 
-                this.DataSource = service.GetAll();
+                DataSource = service.GetAll();
             }
             catch (Exception ex)
             {
                 logger.ErrorFormat(EXCEPTION_MSG_FORMAT, ex.Message);
+                logger.Error(ex.StackTrace);
                 MessageBox.Show(ex.Message, Text,
                                 MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
@@ -179,7 +183,7 @@ namespace Seasar.S2FormExample.Forms
         {
             try
             {
-                EmployeeListPage page = (EmployeeListPage) this.DataSource;
+                EmployeeListPage page = (EmployeeListPage) DataSource;
                 if (String.IsNullOrEmpty(page.GenderId))
                 {
                     MessageBox.Show("性別を入力してください", Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -193,11 +197,12 @@ namespace Seasar.S2FormExample.Forms
                         return;
                     }
                 }
-                this.DataSource = service.Find(page);
+                DataSource = service.Find(page);
             }
             catch (Exception ex)
             {
                 logger.ErrorFormat(EXCEPTION_MSG_FORMAT, ex.Message);
+                logger.Error(ex.StackTrace);
                 MessageBox.Show(ex.Message, Text,
                                 MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }

@@ -1,7 +1,7 @@
 ﻿#region Copyright
 
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -77,11 +77,12 @@ namespace Seasar.S2FormExample.Forms
             try
             {
                 dispatcher.ShowMasterEdit(null);
-                this.DataSource = service.GetAll();
+                DataSource = service.GetAll();
             }
             catch (Exception ex)
             {
                 logger.ErrorFormat(EXCEPTION_MSG_FORMAT, ex.Message);
+                logger.Error(ex.StackTrace);
                 MessageBox.Show(ex.Message, Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
@@ -108,11 +109,12 @@ namespace Seasar.S2FormExample.Forms
             {
                 logger.InfoFormat("{0}がロードされました", Name);
 
-                this.DataSource = service.GetAll();
+                DataSource = service.GetAll();
             }
             catch (Exception ex)
             {
                 logger.ErrorFormat(EXCEPTION_MSG_FORMAT, ex.Message);
+                logger.Error(ex.StackTrace);
                 MessageBox.Show(ex.Message, Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
@@ -126,14 +128,15 @@ namespace Seasar.S2FormExample.Forms
         {
             try
             {
-                int? id = ((DepartmentListPage) this.DataSource).List[gridList.CurrentRow.Index].Id;
+                int? id = ((DepartmentListPage) DataSource).List[gridList.CurrentRow.Index].Id;
                 dispatcher.ShowMasterEdit(id);
 
-                this.DataSource = service.GetAll();
+                DataSource = service.GetAll();
             }
             catch (Exception ex)
             {
                 logger.ErrorFormat(EXCEPTION_MSG_FORMAT, ex.Message);
+                logger.Error(ex.StackTrace);
                 MessageBox.Show(ex.Message, Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }

@@ -12,7 +12,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("S2Container.NET Quill Example")> 
 <Assembly: AssemblyCompany("Seasar Foundation")> 
 <Assembly: AssemblyProduct("S2Container.NET Quill Example")> 
-<Assembly: AssemblyCopyright("Copyright (C) The Seasar Foundation and the others 2007, all rights reserved.")> 
+<Assembly: AssemblyCopyright("Copyright (C) The Seasar Foundation and the others 2007-2008, all rights reserved.")> 
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)>

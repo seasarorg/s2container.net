@@ -1,7 +1,7 @@
 ﻿#region Copyright
 
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,19 +26,12 @@ using System.Windows.Forms;
 using log4net;
 using log4net.Config;
 using log4net.Util;
-using Seasar.Framework.Container;
-using Seasar.Framework.Container.Factory;
-using Seasar.Windows;
+using Seasar.Quill;
 
 namespace Seasar.S2FormExample.Forms
 {
     internal static class Program
     {
-        /// <summary>
-        /// DIコンテナ設定ファイル(変更)
-        /// </summary>
-        private const string PATH = "Example.dicon";
-
         /// <summary>
         /// ログ(log4net)
         /// </summary>
@@ -51,12 +44,8 @@ namespace Seasar.S2FormExample.Forms
         [STAThread]
         private static void Main()
         {
-            FrmSplash splash = new FrmSplash();
             try
             {
-                splash.Show();
-                Application.DoEvents();
-
                 FileInfo info = new FileInfo(
                     string.Format("{0}.exe.config", SystemInfo.AssemblyShortName(
                                                         Assembly.GetExecutingAssembly())));
@@ -67,7 +56,7 @@ namespace Seasar.S2FormExample.Forms
                 logger.Info("二重起動チェック");
                 Mutex mutex;
                 OperatingSystem os = Environment.OSVersion;
-                if ( os.Platform == PlatformID.Win32NT && os.Version.Major >= 5 )
+                if (os.Platform == PlatformID.Win32NT && os.Version.Major >= 5)
                 {
                     mutex = new Mutex(false, @"Global\" + Application.ProductName);
                 }
@@ -76,30 +65,20 @@ namespace Seasar.S2FormExample.Forms
                     mutex = new Mutex(false, Application.ProductName);
                 }
 
-                if ( mutex.WaitOne(0, false) )
+                if (mutex.WaitOne(0, false))
                 {
                     // 起動済がない場合
 
                     logger.Info("起動");
 
                     Application.EnableVisualStyles();
-
-                    SingletonS2ContainerFactory.ConfigPath = PATH;
-                    SingletonS2ContainerFactory.Init();
-                    IS2Container container = SingletonS2ContainerFactory.Container;
-
-                    splash.Hide();
-
-                    ApplicationContext context
-                        = (ApplicationContext) container.GetComponent(typeof (S2ApplicationContext));
-                    Application.Run(context);
+                    Application.SetCompatibleTextRenderingDefault(false);
+                    Application.Run(new FrmMainMenu());
 
                     mutex.ReleaseMutex();
                 }
                 else
                 {
-                    splash.Hide();
-
                     logger.Info("二重起動済み");
                     MessageBox.Show("このアプリケーションはすでに起動しています", "Main",
                                     MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -108,19 +87,18 @@ namespace Seasar.S2FormExample.Forms
                 GC.KeepAlive(mutex);
                 mutex.Close();
             }
-            catch ( ApplicationException ex )
+            catch (ApplicationException ex)
             {
-                splash.Close();
                 MessageBox.Show(ex.Message, "Main",
                                 MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
-            catch ( Exception e )
+            catch (Exception e)
             {
                 logger.Debug("エラー:" + e.Message, e);
+                logger.Error(e.StackTrace);
             }
 
-            splash.Close();
             logger.Info("終了");
         }
     }

@@ -1,7 +1,7 @@
 #region Copyright
 
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ using log4net.Config;
 using log4net.Util;
 using MbUnit.Framework;
 using Seasar.Extension.Unit;
+using Seasar.Quill.Unit;
 using Seasar.S2FormExample.Logics.Dao;
 using Seasar.S2FormExample.Logics.Dto;
 using Seasar.S2FormExample.Logics.Page;
@@ -37,12 +38,11 @@ namespace Seasar.S2FormExample.Tests
     /// 部門用テストケースクラス
     /// </summary>
     [TestFixture]
-    public class TestDepartment : S2TestCase
+    public class TestDepartment : QuillTestCase
     {
-        /// <summary>
-        /// Logic設定ファイル
-        /// </summary>
-        private const string PATH = "ExampleLogics.dicon";
+        protected IDepartmentDao daoOfDepartment;
+        protected IDepartmentEditService editService;
+        protected IDepartmentListService listService;
 
         /// <summary>
         /// テストのセットアップ
@@ -61,16 +61,11 @@ namespace Seasar.S2FormExample.Tests
         /// <summary>
         /// 検索系のテスト
         /// </summary>
-        [Test, S2]
+        [Test, Quill(Tx.Rollback)]
         public void TestSelectOfDao()
         {
-            Include(PATH);
-
-            IDepartmentDao dao = (IDepartmentDao) GetComponent(typeof (IDepartmentDao));
-            Assert.IsNotNull(dao, "NotNull");
-
             // 一覧のテスト            
-            IList<DepartmentDto> list = dao.GetAll();
+            IList<DepartmentDto> list = daoOfDepartment.GetAll();
             Assert.AreEqual(3, list.Count, "Count");
             int i = 0;
             foreach (DepartmentDto dto in list)
@@ -86,45 +81,40 @@ namespace Seasar.S2FormExample.Tests
             }
 
             // 個別取得のテスト
-            DepartmentDto data = dao.GetData(2);
+            DepartmentDto data = daoOfDepartment.GetData(2);
             Assert.AreEqual(2, data.Id.Value, "ID");
             Assert.AreEqual("0002", data.Code, "Code");
             Assert.AreEqual("技術部", data.Name, "Name");
             Assert.AreEqual(2, data.ShowOrder, "Order");
 
-            Assert.AreEqual(2, dao.GetId("0002"), "GetId");
+            Assert.AreEqual(2, daoOfDepartment.GetId("0002"), "GetId");
         }
 
         /// <summary>
         /// 更新系のテスト
         /// </summary>
-        [Test, S2(Tx.Rollback)]
+        [Test, Quill(Tx.Rollback)]
         public void TestInsertOfDao()
         {
-            Include(PATH);
-
-            IDepartmentDao dao = (IDepartmentDao) GetComponent(typeof (IDepartmentDao));
-            Assert.IsNotNull(dao, "NotNull");
-
             // 挿入のテスト
             DepartmentDto data = new DepartmentDto();
             data.Code = "0102";
             data.Name = "管理部";
             data.ShowOrder = 4;
 
-            Assert.AreEqual(1, dao.InsertData(data), "Insert");
+            Assert.AreEqual(1, daoOfDepartment.InsertData(data), "Insert");
 
             // 更新のテスト
-            int id = dao.GetId("0102");
+            int id = daoOfDepartment.GetId("0102");
             data = new DepartmentDto();
             data.Code = "0102";
             data.Id = id;
             data.Name = "事業管理部";
             data.ShowOrder = 4;
 
-            Assert.AreEqual(1, dao.UpdateData(data), "Update");
+            Assert.AreEqual(1, daoOfDepartment.UpdateData(data), "Update");
 
-            data = dao.GetData(id);
+            data = daoOfDepartment.GetData(id);
             Assert.AreEqual(id, data.Id.Value, "ID");
             Assert.AreEqual("0102", data.Code, "Code");
             Assert.AreEqual("事業管理部", data.Name, "Name");
@@ -133,39 +123,29 @@ namespace Seasar.S2FormExample.Tests
             // 削除のテスト
             data = new DepartmentDto();
             data.Id = id;
-            Assert.AreEqual(1, dao.DeleteData(data), "Delete");
+            Assert.AreEqual(1, daoOfDepartment.DeleteData(data), "Delete");
 
-            IList<DepartmentDto> list = dao.GetAll();
+            IList<DepartmentDto> list = daoOfDepartment.GetAll();
             Assert.AreEqual(3, list.Count, "Count");
         }
 
         /// <summary>
         /// 部門リストサービステスト
         /// </summary>
-        [Test, S2]
+        [Test, Quill(Tx.NotSupported)]
         public void TestListService()
         {
-            Include(PATH);
-
-            IDepartmentListService service = (IDepartmentListService) GetComponent(typeof (IDepartmentListService));
-            Assert.IsNotNull(service, "NotNull");
-
-            DepartmentListPage page = service.GetAll();
+            DepartmentListPage page = listService.GetAll();
             Assert.AreEqual(3, page.List.Count, "Count");
         }
 
         /// <summary>
         /// 部門登録用サービステスト
         /// </summary>
-        [Test, S2(Tx.Rollback)]
+        [Test, Quill(Tx.NotSupported)]
         public void TestEditService()
         {
-            Include(PATH);
-
-            IDepartmentEditService service = (IDepartmentEditService) GetComponent(typeof (IDepartmentEditService));
-            Assert.IsNotNull(service, "NotNull");
-
-            DepartmentEditPage data = service.GetData(2);
+            DepartmentEditPage data = editService.GetData(2);
             Assert.AreEqual(2, data.Id.Value, "ID");
             Assert.AreEqual("0002", data.Code, "Code");
             Assert.AreEqual("技術部", data.Name, "Name");
@@ -177,7 +157,7 @@ namespace Seasar.S2FormExample.Tests
             data.Name = "管理部";
             data.Order = "4";
 
-            Assert.AreEqual(1, service.ExecUpdate(data), "Insert");
+            Assert.AreEqual(1, editService.ExecUpdate(data), "Insert");
 
             // 更新のテスト
             data = new DepartmentEditPage();
@@ -186,9 +166,9 @@ namespace Seasar.S2FormExample.Tests
             data.Name = "技術事業部";
             data.Order = "5";
 
-            Assert.AreEqual(1, service.ExecUpdate(data), "Update");
+            Assert.AreEqual(1, editService.ExecUpdate(data), "Update");
 
-            data = service.GetData(2);
+            data = editService.GetData(2);
             Assert.AreEqual(2, data.Id.Value, "ID");
             Assert.AreEqual("0020", data.Code, "Code");
             Assert.AreEqual("技術事業部", data.Name, "Name");

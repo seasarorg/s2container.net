@@ -1,7 +1,7 @@
 #region Copyright
 
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@
 #endregion
 
 using System.Collections.Generic;
+using Seasar.Quill.Attrs;
 using Seasar.S2FormExample.Logics.Dao;
 using Seasar.S2FormExample.Logics.Dto;
 
@@ -50,32 +51,13 @@ namespace Seasar.S2FormExample.Logics.Service.Impl
             ;
         }
 
-        /// <summary>
-        /// 部門DAO
-        /// </summary>
-        /// <remarks>S2Unitでテストするために追加(Injection用)</remarks>
-        public IDepartmentDao DaoOfDept
-        {
-            get { return daoOfDept; }
-            set { daoOfDept = value; }
-        }
-
-        /// <summary>
-        /// 性別DAO
-        /// </summary>
-        /// <remarks>S2Unitでテストするために追加(Injection用)</remarks>
-        public IGenderDao DaoOfGender
-        {
-            get { return daoOfGender; }
-            set { daoOfGender = value; }
-        }
-
         #region IBaseService Members
 
         /// <summary>
         /// 部門を一覧で取得する
         /// </summary>
         /// <returns>部門一覧</returns>
+        [Transaction]
         public virtual IList<DepartmentDto> GetDepartmentAll()
         {
             return (daoOfDept.GetAll());

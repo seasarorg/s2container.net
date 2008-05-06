@@ -1,7 +1,7 @@
 ﻿#region Copyright
 
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -89,7 +89,7 @@ namespace Seasar.S2FormExample.Forms
 
                 if (!_SetInputData()) return;
 
-                DepartmentEditPage data = (DepartmentEditPage) this.DataSource;
+                DepartmentEditPage data = (DepartmentEditPage) DataSource;
                 data.Id = _id;
                 if (service.ExecUpdate(data) > 0)
                 {
@@ -98,13 +98,14 @@ namespace Seasar.S2FormExample.Forms
                 }
                 else
                 {
-                    this.DataSource = null;
+                    DataSource = null;
                     throw new ApplicationException("登録に失敗しました");
                 }
             }
             catch (Exception ex)
             {
                 logger.ErrorFormat(EXCEPTION_MSG_FORMAT, ex.Message);
+                logger.Error(ex.StackTrace);
                 MessageBox.Show(String.Format(EXCEPTION_MSG_FORMAT, ex.Message), Text,
                                 MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
@@ -143,6 +144,7 @@ namespace Seasar.S2FormExample.Forms
             catch (Exception ex)
             {
                 logger.ErrorFormat(EXCEPTION_MSG_FORMAT, ex.Message);
+                logger.Error(ex.StackTrace);
                 MessageBox.Show(String.Format(EXCEPTION_MSG_FORMAT, ex.Message), Text,
                                 MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
@@ -176,7 +178,7 @@ namespace Seasar.S2FormExample.Forms
                     DepartmentEditPage data = service.GetData(_id.Value);
                     if (data != null)
                     {
-                        this.DataSource = data;
+                        DataSource = data;
                         btnDelete.Enabled = true;
                     }
                     else
@@ -186,12 +188,13 @@ namespace Seasar.S2FormExample.Forms
                 }
                 else
                 {
-                    this.DataSource = new DepartmentEditPage();
+                    DataSource = new DepartmentEditPage();
                 }
             }
             catch (Exception ex)
             {
                 logger.ErrorFormat(EXCEPTION_MSG_FORMAT, ex.Message);
+                logger.Error(ex.StackTrace);
                 MessageBox.Show(String.Format(EXCEPTION_MSG_FORMAT, ex.Message), Text,
                                 MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }

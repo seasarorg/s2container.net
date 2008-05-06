@@ -1,7 +1,7 @@
 #region Copyright
 
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,6 +27,7 @@ using log4net.Config;
 using log4net.Util;
 using MbUnit.Framework;
 using Seasar.Extension.Unit;
+using Seasar.Quill.Unit;
 using Seasar.S2FormExample.Logics.Dao;
 using Seasar.S2FormExample.Logics.Dto;
 using Seasar.S2FormExample.Logics.Page;
@@ -38,12 +39,13 @@ namespace Seasar.S2FormExample.Tests
     /// 社員用テストケースクラス
     /// </summary>
     [TestFixture]
-    public class TestEmployee : S2TestCase
+    public class TestEmployee : QuillTestCase
     {
-        /// <summary>
-        /// Logic設定ファイル
-        /// </summary>
-        private const string PATH = "ExampleLogics.dicon";
+        protected IEmployeeDao daoOfEmp;
+        protected IOutputCSVDao daoOfOutput;
+        protected IEmployeeCSVDao daoOfCsv;
+        protected IEmployeeEditService editService;
+        protected IEmployeeListService listService;
 
         /// <summary>
         /// テストのセットアップ
@@ -62,16 +64,11 @@ namespace Seasar.S2FormExample.Tests
         /// <summary>
         /// 検索系のテスト
         /// </summary>
-        [Test, S2]
+        [Test, Quill(Tx.Rollback)]
         public void TestSelectOfDao()
         {
-            Include(PATH);
-
-            IEmployeeDao dao = (IEmployeeDao) GetComponent(typeof (IEmployeeDao));
-            Assert.IsNotNull(dao, "NotNull");
-
             // 一覧で取得する            
-            IList<EmployeeDto> list = dao.GetAll();
+            IList<EmployeeDto> list = daoOfEmp.GetAll();
             Assert.AreEqual(5, list.Count, "Count");
             int i = 0;
             foreach (EmployeeDto dto in list)
@@ -92,12 +89,12 @@ namespace Seasar.S2FormExample.Tests
                 i++;
             }
 
-            list = dao.FindByGender(1);
+            list = daoOfEmp.FindByGender(1);
             Assert.AreEqual(4, list.Count, "Count2");
 
             // 個別に取得する
 
-            EmployeeDto data = dao.GetData(3);
+            EmployeeDto data = daoOfEmp.GetData(3);
 
             Assert.AreEqual(3, data.Id.Value, "Id2");
             Assert.AreEqual("佐藤愛子", data.Name, "Name2");
@@ -110,20 +107,15 @@ namespace Seasar.S2FormExample.Tests
             Assert.AreEqual("営業部", data.Department.Name, "Dept.Name2");
             Assert.AreEqual("0001", data.Department.Code, "Dept.Code2");
 
-            Assert.AreEqual(3, dao.GetId("010003"), "GetId");
+            Assert.AreEqual(3, daoOfEmp.GetId("010003"), "GetId");
         }
 
         /// <summary>
         /// 更新系のテスト
         /// </summary>
-        [Test, S2(Tx.Rollback)]
+        [Test, Quill(Tx.Rollback)]
         public void TestInsertOfDao()
         {
-            Include(PATH);
-
-            IEmployeeDao dao = (IEmployeeDao) GetComponent(typeof (IEmployeeDao));
-            Assert.IsNotNull(dao, "NotNull");
-
             // 挿入のテスト
             EmployeeDto data = new EmployeeDto();
             data.Code = "060006";
@@ -132,10 +124,10 @@ namespace Seasar.S2FormExample.Tests
             data.Gender = 1;
             data.DeptNo = 1;
 
-            Assert.AreEqual(1, dao.InsertData(data), "Insert");
+            Assert.AreEqual(1, daoOfEmp.InsertData(data), "Insert");
 
             // 更新のテスト
-            int id = dao.GetId("060006");
+            int id = daoOfEmp.GetId("060006");
             data.Id = id;
             data.Code = "060006";
             data.Name = "五島六郎";
@@ -143,9 +135,9 @@ namespace Seasar.S2FormExample.Tests
             data.Gender = 1;
             data.DeptNo = 2;
 
-            Assert.AreEqual(1, dao.UpdateData(data), "Update");
+            Assert.AreEqual(1, daoOfEmp.UpdateData(data), "Update");
 
-            data = dao.GetData(id);
+            data = daoOfEmp.GetData(id);
             Assert.AreEqual(id, data.Id.Value, "Id");
             Assert.AreEqual("五島六郎", data.Name, "Name");
             Assert.AreEqual("060006", data.Code, "Code");
@@ -161,25 +153,20 @@ namespace Seasar.S2FormExample.Tests
             data = new EmployeeDto();
             data.Id = id;
 
-            Assert.AreEqual(1, dao.DeleteData(data), "Delete");
+            Assert.AreEqual(1, daoOfEmp.DeleteData(data), "Delete");
 
-            IList<EmployeeDto> list = dao.GetAll();
+            IList<EmployeeDto> list = daoOfEmp.GetAll();
             Assert.AreEqual(5, list.Count, "Count");
         }
 
         /// <summary>
         /// CSV用テスト
         /// </summary>
-        [Test, S2]
+        [Test, Quill(Tx.Rollback)]
         public void TestDaoOfCSV()
         {
-            Include(PATH);
-
             // 取得のテスト
-            IEmployeeCSVDao dao = (IEmployeeCSVDao) GetComponent(typeof (IEmployeeCSVDao));
-            Assert.IsNotNull(dao, "NotNull");
-
-            IList<EmployeeCsvDto> list = dao.GetAll();
+            IList<EmployeeCsvDto> list = daoOfCsv.GetAll();
             Assert.AreEqual(5, list.Count, "Count");
             int i = 0;
             foreach (EmployeeCsvDto dto in list)
@@ -200,22 +187,16 @@ namespace Seasar.S2FormExample.Tests
 
             // 出力のテスト
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Personal) + @"\csvtest.csv";
-            IOutputCSVDao daoOfCsv = (IOutputCSVDao) GetComponent(typeof (IOutputCSVDao));
-            Assert.AreEqual(5, daoOfCsv.OutputEmployeeList(path, list));
+            Assert.AreEqual(5, daoOfOutput.OutputEmployeeList(path, list));
         }
 
         /// <summary>
         /// 社員リストサービステスト
         /// </summary>
-        [Test, S2]
+        [Test, Quill(Tx.Rollback)]
         public void TestListService()
         {
-            Include(PATH);
-
-            IEmployeeListService service = (IEmployeeListService) GetComponent(typeof (IEmployeeListService));
-            Assert.IsNotNull(service, "NotNull");
-
-            EmployeeListPage page = service.GetAll();
+            EmployeeListPage page = listService.GetAll();
             Assert.AreEqual(5, page.List.Count, "Count");
             int i = 0;
             foreach (EmployeeDto dto in page.List)
@@ -241,15 +222,10 @@ namespace Seasar.S2FormExample.Tests
         /// <summary>
         /// 社員登録サービスのテスト
         /// </summary>
-        [Test, S2(Tx.Rollback)]
+        [Test, Quill(Tx.Rollback)]
         public void TestEditService()
         {
-            Include(PATH);
-
-            IEmployeeEditService service = (IEmployeeEditService) GetComponent(typeof (IEmployeeEditService));
-            Assert.IsNotNull(service, "NotNull");
-
-            EmployeeEditPage data = service.GetData(3);
+            EmployeeEditPage data = editService.GetData(3);
             Assert.AreEqual(3, data.Id.Value, "Id");
             Assert.AreEqual("佐藤愛子", data.Name, "Name");
             Assert.AreEqual("010003", data.Code, "Code");
@@ -266,7 +242,7 @@ namespace Seasar.S2FormExample.Tests
             data.Gender = 1;
             data.Depart = 1;
 
-            Assert.AreEqual(1, service.ExecUpdate(data), "Insert");
+            Assert.AreEqual(1, editService.ExecUpdate(data), "Insert");
 
             // 更新のテスト
             data = new EmployeeEditPage();
@@ -277,9 +253,9 @@ namespace Seasar.S2FormExample.Tests
             data.Gender = 1;
             data.Depart = 2;
 
-            Assert.AreEqual(1, service.ExecUpdate(data), "Update");
+            Assert.AreEqual(1, editService.ExecUpdate(data), "Update");
 
-            data = service.GetData(2);
+            data = editService.GetData(2);
             Assert.AreEqual(2, data.Id.Value, "Id");
             Assert.AreEqual("鈴木二郎", data.Name, "Name");
             Assert.AreEqual("999999", data.Code, "Code");

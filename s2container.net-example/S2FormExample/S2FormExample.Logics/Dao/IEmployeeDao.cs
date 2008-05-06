@@ -28,8 +28,8 @@ namespace Seasar.S2FormExample.Logics.Dao
     /// <summary>
     /// ŽÐˆõ—pDAO
     /// </summary>
+    [S2Dao]
     [Implementation]
-    [Aspect("DaoInterceptor")]
     [Bean(typeof(EmployeeDto))]
     public interface IEmployeeDao
     {

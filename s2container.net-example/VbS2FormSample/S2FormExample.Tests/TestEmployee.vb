@@ -1,5 +1,5 @@
 ''
-'' Copyright 2005-2007 the Seasar Foundation and the Others.
+'' Copyright 2005-2008 the Seasar Foundation and the Others.
 ''
 '' Licensed under the Apache License, Version 2.0 (the "License");
 '' you may not use this file except in compliance with the License.
@@ -25,16 +25,17 @@ Imports System.Reflection
 Imports Seasar.Extension.Unit
 Imports log4net.Util
 Imports Seasar.S2FormExample.Logics.Service
+Imports Seasar.Quill.Unit
 
 <TestFixture()> _
 Public Class TestEmployee
-    Inherits S2TestCase
+    Inherits QuillTestCase
 
-    ''' <summary>
-    ''' Logic設定ファイル
-    ''' </summary>
-    ''' <remarks></remarks>
-    Private Const PATH As String = "ExampleLogics.dicon"
+    Protected daoOfEmp As IEmployeeDao
+    Protected daoOfOutput As IOutputCSVDao
+    Protected daoOfCsv As IEmployeeCSVDao
+    Protected editService As IEmployeeEditService
+    Protected listService As IEmployeeListService
 
     ''' <summary>
     ''' テストのセットアップ
@@ -52,15 +53,11 @@ Public Class TestEmployee
     ''' 検索系のテスト
     ''' </summary>
     ''' <remarks></remarks>
-    <Test(), S2()> _
+    <Test(), Quill(Tx.Rollback)> _
     Public Sub TestSelectOfDao()
-        Include(PATH)
-
-        Dim dao As IEmployeeDao = CType(GetComponent(GetType(IEmployeeDao)), IEmployeeDao)
-        Assert.IsNotNull(dao, "NotNull")
 
         ' 一覧で取得する
-        Dim list As IList(Of EmployeeDto) = dao.GetAll
+        Dim list As IList(Of EmployeeDto) = daoOfEmp.GetAll
         Assert.AreEqual(5, list.Count, "Count")
         Dim i As Integer = 0
         For Each dto As EmployeeDto In list
@@ -80,11 +77,11 @@ Public Class TestEmployee
             i += 1
         Next
 
-        list = dao.FindByGender(1)
+        list = daoOfEmp.FindByGender(1)
         Assert.AreEqual(4, list.Count, "Count2")
 
         ' 個別に取得する
-        Dim data As EmployeeDto = dao.GetData(3)
+        Dim data As EmployeeDto = daoOfEmp.GetData(3)
         Assert.AreEqual(3, data.Id.Value, "Id2")
         Assert.AreEqual("佐藤愛子", data.Name, "Name2")
         Assert.AreEqual("010003", data.Code, "Code2")
@@ -96,7 +93,7 @@ Public Class TestEmployee
         Assert.AreEqual("営業部", data.Department.Name, "Dept.Name2")
         Assert.AreEqual("0001", data.Department.Code, "Dept.Code2")
 
-        Assert.AreEqual(3, dao.GetId("010003"), "GetId")
+        Assert.AreEqual(3, daoOfEmp.GetId("010003"), "GetId")
 
     End Sub
 
@@ -104,12 +101,8 @@ Public Class TestEmployee
     ''' 更新系のテスト
     ''' </summary>
     ''' <remarks></remarks>
-    <Test(), S2(Tx.Rollback)> _
+    <Test(), Quill(Tx.Rollback)> _
     Public Sub TestInsertOfDao()
-        Include(PATH)
-
-        Dim dao As IEmployeeDao = CType(GetComponent(GetType(IEmployeeDao)), IEmployeeDao)
-        Assert.IsNotNull(dao, "NotNull")
 
         ' 挿入のテスト
         Dim data As New EmployeeDto()
@@ -119,10 +112,10 @@ Public Class TestEmployee
         data.Gender = 1
         data.DeptNo = 1
 
-        Assert.AreEqual(1, dao.InsertData(data), "Insert")
+        Assert.AreEqual(1, daoOfEmp.InsertData(data), "Insert")
 
         ' 更新のテスト
-        Dim id As Integer = dao.GetId("060006")
+        Dim id As Integer = daoOfEmp.GetId("060006")
         data.Id = id
         data.Code = "060006"
         data.Name = "五島六郎"
@@ -130,9 +123,9 @@ Public Class TestEmployee
         data.Gender = 1
         data.DeptNo = 2
 
-        Assert.AreEqual(1, dao.UpdateData(data), "Update")
+        Assert.AreEqual(1, daoOfEmp.UpdateData(data), "Update")
 
-        data = dao.GetData(id)
+        data = daoOfEmp.GetData(id)
         Assert.AreEqual(id, data.Id.Value, "Id")
         Assert.AreEqual("五島六郎", data.Name, "Name")
         Assert.AreEqual("060006", data.Code, "Code")
@@ -148,9 +141,9 @@ Public Class TestEmployee
         data = New EmployeeDto()
         data.Id = id
 
-        Assert.AreEqual(1, dao.DeleteData(data), "Delete")
+        Assert.AreEqual(1, daoOfEmp.DeleteData(data), "Delete")
 
-        Dim list As IList(Of EmployeeDto) = dao.GetAll()
+        Dim list As IList(Of EmployeeDto) = daoOfEmp.GetAll()
         Assert.AreEqual(5, list.Count, "Count")
 
     End Sub
@@ -159,16 +152,10 @@ Public Class TestEmployee
     ''' CSV用テスト
     ''' </summary>
     ''' <remarks></remarks>
-    <Test(), S2()> _
+    <Test(), Quill(Tx.Rollback)> _
     Public Sub TestDaoOfCSV()
 
-        Include(PATH)
-
-        ' 取得のテスト
-        Dim dao As IEmployeeCSVDao = CType(GetComponent(GetType(IEmployeeCSVDao)), IEmployeeCSVDao)
-        Assert.IsNotNull(dao, "NotNull")
-
-        Dim list As IList(Of EmployeeCsvDto) = dao.GetAll()
+        Dim list As IList(Of EmployeeCsvDto) = daoOfCsv.GetAll
         Assert.AreEqual(5, list.Count, "Count")
 
         Dim i As Integer = 0
@@ -188,8 +175,7 @@ Public Class TestEmployee
 
         ' 出力のテスト
         Dim filepath As String = Environment.GetFolderPath(Environment.SpecialFolder.Personal) + "\csvtest.csv"
-        Dim daoOfCsv As IOutputCSVDao = CType(GetComponent(GetType(IOutputCSVDao)), IOutputCSVDao)
-        Assert.AreEqual(5, daoOfCsv.OutputEmployeeList(filepath, list))
+        Assert.AreEqual(5, daoOfOutput.OutputEmployeeList(filepath, list))
 
     End Sub
 
@@ -197,14 +183,10 @@ Public Class TestEmployee
     ''' 社員リストサービステスト
     ''' </summary>
     ''' <remarks></remarks>
-    <Test(), S2()> _
+    <Test(), Quill(Tx.NotSupported)> _
     Public Sub TestListService()
-        Include(PATH)
 
-        Dim service As IEmployeeListService = CType(GetComponent(GetType(IEmployeeListService)), IEmployeeListService)
-        Assert.IsNotNull(service, "NotNull")
-
-        Dim page As EmployeeListPage = service.GetAll()
+        Dim page As EmployeeListPage = listService.GetAll()
         Assert.AreEqual(5, page.List.Count, "Count")
         Dim i As Integer = 0
         For Each dto As EmployeeDto In page.List
@@ -229,14 +211,9 @@ Public Class TestEmployee
     ''' 社員登録サービスのテスト
     ''' </summary>
     ''' <remarks></remarks>
-    <Test(), S2(Tx.Rollback)> _
+    <Test(), Quill(Tx.NotSupported)> _
     Public Sub TestEditService()
-        Include(PATH)
-
-        Dim service As IEmployeeEditService = CType(GetComponent(GetType(IEmployeeEditService)), IEmployeeEditService)
-        Assert.IsNotNull(service, "NotNull")
-
-        Dim data As EmployeeEditPage = service.GetData(3)
+        Dim data As EmployeeEditPage = editService.GetData(3)
         Assert.AreEqual(3, data.Id.Value, "Id")
         Assert.AreEqual("佐藤愛子", data.Name, "Name")
         Assert.AreEqual("010003", data.Code, "Code")
@@ -253,7 +230,7 @@ Public Class TestEmployee
         data.Gender = 1
         data.Depart = 1
 
-        Assert.AreEqual(1, service.ExecUpdate(data), "Insert")
+        Assert.AreEqual(1, editService.ExecUpdate(data), "Insert")
 
         '' 更新のテスト
         data = New EmployeeEditPage()
@@ -264,9 +241,9 @@ Public Class TestEmployee
         data.Gender = 1
         data.Depart = 2
 
-        Assert.AreEqual(1, service.ExecUpdate(data), "Update")
+        Assert.AreEqual(1, editService.ExecUpdate(data), "Update")
 
-        data = service.GetData(2)
+        data = editService.GetData(2)
         Assert.AreEqual(2, data.Id.Value, "Id")
         Assert.AreEqual("鈴木二郎", data.Name, "Name")
         Assert.AreEqual("999999", data.Code, "Code")

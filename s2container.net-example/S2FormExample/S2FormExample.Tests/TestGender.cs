@@ -1,7 +1,7 @@
 #region Copyright
 
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ using log4net.Config;
 using log4net.Util;
 using MbUnit.Framework;
 using Seasar.Extension.Unit;
+using Seasar.Quill.Unit;
 using Seasar.S2FormExample.Logics.Dao;
 using Seasar.S2FormExample.Logics.Dto;
 
@@ -35,12 +36,9 @@ namespace Seasar.S2FormExample.Tests
     /// 性別用テストケースクラス
     /// </summary>
     [TestFixture]
-    public class TestGender : S2TestCase
+    public class TestGender : QuillTestCase
     {
-        /// <summary>
-        /// Logic設定ファイル
-        /// </summary>
-        private const string PATH = "ExampleLogics.dicon";
+        protected IGenderDao dao;
 
         /// <summary>
         /// テストのセットアップ
@@ -59,13 +57,9 @@ namespace Seasar.S2FormExample.Tests
         /// <summary>
         /// DAOのテスト
         /// </summary>
-        [Test, S2]
+        [Test, Quill(Tx.Rollback)]
         public void TestDao()
         {
-            Include(PATH);
-
-            IGenderDao dao = (IGenderDao) GetComponent(typeof (IGenderDao));
-
             IList<GenderDto> list = dao.GetAll();
             Assert.AreEqual(2, list.Count, "Count");
         }

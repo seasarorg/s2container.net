@@ -1,5 +1,5 @@
 ''
-'' Copyright 2005-2007 the Seasar Foundation and the Others.
+'' Copyright 2005-2008 the Seasar Foundation and the Others.
 ''
 '' Licensed under the Apache License, Version 2.0 (the "License");
 '' you may not use this file except in compliance with the License.
@@ -38,26 +38,12 @@ Namespace Service.Impl
         End Sub
 
         ''' <summary>
-        ''' é–àıDAO
-        ''' </summary>
-        ''' <remarks></remarks>
-        Public Property DaoProperty() As IEmployeeDao
-            Get
-                Return dao
-            End Get
-            Set(ByVal value As IEmployeeDao)
-                dao = value
-            End Set
-        End Property
-
-
-        ''' <summary>
         ''' é–àıÉfÅ[É^ÇçÌèúÇ∑ÇÈ
         ''' </summary>
         ''' <param name="id"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <Aspect("LocalRequiredTx")> _
+        <Transaction()> _
         Public Function ExecDelete(ByVal id As Integer) As Integer Implements IEmployeeEditService.ExecDelete
             Dim dto As New EmployeeDto
             dto.Id = id
@@ -71,7 +57,7 @@ Namespace Service.Impl
         ''' <param name="data"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <Aspect("LocalRequiredTx")> _
+        <Transaction()> _
         Public Function ExecUpdate(ByVal data As EmployeeEditPage) As Integer _
             Implements IEmployeeEditService.ExecUpdate
             If data Is Nothing = True Then
