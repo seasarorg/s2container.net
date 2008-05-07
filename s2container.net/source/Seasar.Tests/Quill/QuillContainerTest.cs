@@ -39,7 +39,7 @@ namespace Seasar.Tests.Quill
 
             try
             {
-                container.GetComponent(typeof(Hoge1), typeof(Hoge1));
+                container.GetComponent(typeof(IHoge1), typeof(IHoge1));
                 Assert.Fail();
             }
             catch (QuillApplicationException ex)
@@ -52,24 +52,24 @@ namespace Seasar.Tests.Quill
         public void TestGetComponent_正常な場合()
         {
             QuillContainer container = new QuillContainer();
-            QuillComponent component = container.GetComponent(typeof(Hoge2));
-            QuillComponent component2 = container.GetComponent(typeof(Hoge2));
-            Assert.AreEqual(typeof(Hoge2), component.ReceiptType);
-            Assert.AreEqual(component.GetComponentObject(typeof(Hoge2)),
-                component2.GetComponentObject(typeof(Hoge2)));
+            QuillComponent component = container.GetComponent(typeof(IHoge2));
+            QuillComponent component2 = container.GetComponent(typeof(IHoge2));
+            Assert.AreEqual(typeof(IHoge2), component.ReceiptType);
+            Assert.AreEqual(component.GetComponentObject(typeof(IHoge2)),
+                component2.GetComponentObject(typeof(IHoge2)));
         }
 
         [Test]
         public void TestGetComponent_Destroy済みの場合()
         {
             QuillContainer container = new QuillContainer();
-            container.GetComponent(typeof(Hoge2));
+            container.GetComponent(typeof(IHoge2));
 
             container.Destroy();
 
             try
             {
-                container.GetComponent(typeof(Hoge2));
+                container.GetComponent(typeof(IHoge2));
                 Assert.Fail();
             }
             catch (QuillApplicationException ex)
@@ -78,19 +78,38 @@ namespace Seasar.Tests.Quill
             }
         }
 
+        [Test]
+        public void TestGetComponent_Interfaceで受け取る場合()
+        {
+            QuillContainer container = new QuillContainer();
+            QuillComponent component1 = container.GetComponent(typeof(IHoge3), typeof(Hoge3));
+            QuillComponent component2 = container.GetComponent(typeof(IHoge3), typeof(Hoge3));
+            Assert.AreEqual(component1.GetComponentObject(typeof(IHoge3)),
+                component2.GetComponentObject(typeof(IHoge3)));
+        }
+
         #endregion
 
         #region GetComponentのテストで使用する内部クラス・インターフェース
 
-        public interface Hoge1
+        public interface IHoge1
         {
             void Fuga();
         }
 
         [Aspect(typeof(HogeInterceptor1))]
-        public interface Hoge2
+        public interface IHoge2
         {
             void Fuga();
+        }
+
+        [Implementation(typeof(Hoge3))]
+        public interface IHoge3
+        {
+        }
+
+        public class Hoge3 : IHoge3
+        {
         }
 
         public class HogeInterceptor1 : IMethodInterceptor
@@ -100,6 +119,8 @@ namespace Seasar.Tests.Quill
                 return null;
             }
         }
+
+        
 
         #endregion
 
