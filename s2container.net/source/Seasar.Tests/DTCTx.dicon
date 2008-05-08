@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
+"http://www.seasar.org/dtd/components21.dtd">
+<components namespace="DTCTx">
+  <include path="Seasar.Tests.Ado.dicon" />
+
+  <component name="DTCTransactionStateHandler" class="Seasar.Extension.Tx.Impl.DTCTransactionStateHandler" />
+
+  <component name="RequiredTx" class="Seasar.Extension.Tx.TransactionInterceptor">
+    <arg>
+      <component class="Seasar.Extension.Tx.Impl.DTCRequiredTxHandler" />
+    </arg>
+  </component>
+  <component name="RequiresNewTx" class="Seasar.Extension.Tx.TransactionInterceptor">
+    <arg>
+      <component class="Seasar.Extension.Tx.Impl.DTCRequiresNewTxHandler" />
+    </arg>
+  </component>
+  <component name="SupportedTx" class="Seasar.Extension.Tx.TransactionInterceptor">
+    <arg>
+      <component class="Seasar.Extension.Tx.Impl.DTCSupportedTxHandler" />
+    </arg>
+  </component>
+  <component name="NotSupportedTx" class="Seasar.Extension.Tx.TransactionInterceptor">
+    <arg>
+      <component class="Seasar.Extension.Tx.Impl.DTCNotSupportedTxHandler" />
+    </arg>
+  </component>
+</components>
