@@ -1,6 +1,6 @@
 #region Copyright
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,13 +24,7 @@ using Seasar.Framework.Aop.Interceptors;
 using Seasar.Framework.Container;
 using Seasar.Windows.Attr;
 
-#if NET_1_1
-    using System.Collections;
-    using System.Collections.Specialized;
-    using Seasar.Framework.Message;
-#else
 using System.Collections.Generic;
-#endif
 
 namespace Seasar.Windows.AOP.Interceptors
 {
@@ -84,15 +78,9 @@ namespace Seasar.Windows.AOP.Interceptors
             object[] args = invocation.Arguments;
             ParameterInfo[] pis = invocation.Method.GetParameters();
 
-#if NET_1_1
-            Hashtable hashOfParams = CollectionsUtil.CreateCaseInsensitiveHashtable();
-            IList listOfParams = new ArrayList();
-            Hashtable hashOfPropNames = CollectionsUtil.CreateCaseInsensitiveHashtable();
-#else
             IDictionary<string, object> hashOfParams = new Dictionary<string, object>();
             IList<string> listOfParams = new List<string>();
             IDictionary<string, string> hashOfPropNames = new Dictionary<string, string>();
-#endif
 
             foreach (ParameterInfo pi in pis)
             {
@@ -111,11 +99,7 @@ namespace Seasar.Windows.AOP.Interceptors
                     Type formType = attribute.FormType;
                     Form form = (Form) _container.GetComponent(formType);
                     if (form == null)
-#if NET_1_1
-                        throw new NullReferenceException(MessageFormatter.GetMessage("ASWF0001", null));
-#else
                         throw new NullReferenceException(SWFMessages.ASWF0001);
-#endif
                     
 
                     string propertyName;
@@ -126,13 +110,9 @@ namespace Seasar.Windows.AOP.Interceptors
                     else
                     {
                         if (_returnPropertyName != null)
-                        {
                             propertyName = _returnPropertyName;
-                        }
                         else
-                        {
                             propertyName = string.Empty;
-                        }
                     }
 
                     // フォームに値をセットする
@@ -144,21 +124,12 @@ namespace Seasar.Windows.AOP.Interceptors
 
                     for (int i = 0; i < listOfParams.Count; i++)
                     {
-#if NET_1_1
-                        if ( hashOfPropNames.ContainsKey((string) listOfParams[i]) )
-                        {
-                            string propName = (string) hashOfPropNames[(string) listOfParams[i]];
-                            PropertyInfo property = form.GetType().GetProperty(propName);
-                            property.SetValue(form, hashOfParams[(string) listOfParams[i]], null);
-                        }
-#else
                         if (hashOfPropNames.ContainsKey(listOfParams[i]))
                         {
                             string propName = hashOfPropNames[listOfParams[i]];
                             PropertyInfo property = form.GetType().GetProperty(propName);
                             property.SetValue(form, hashOfParams[listOfParams[i]], null);
                         }
-#endif
                     }
 
                     // WindowsFormの表示
@@ -172,9 +143,7 @@ namespace Seasar.Windows.AOP.Interceptors
                         {
                             PropertyInfo propInfo = form.GetType().GetProperty(propertyName);
                             if (propInfo != null)
-                            {
                                 ret = propInfo.GetValue(form, null);
-                            }
                         }
                     }
                     else

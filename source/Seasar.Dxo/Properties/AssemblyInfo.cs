@@ -1,6 +1,6 @@
-ï»¿#region Copyright
+#region Copyright
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,63 +19,55 @@
 using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
-// ã‚¢ã‚»ãƒ³ãƒ–ãƒªã«é–¢ã™ã‚‹ä¸€èˆ¬æƒ…å ±ã¯ä»¥ä¸‹ã®å±æ€§ã‚»ãƒƒãƒˆã‚’ã¨ãŠã—ã¦åˆ¶å¾¡ã•ã‚Œã¾ã™ã€‚ 
-// ã‚¢ã‚»ãƒ³ãƒ–ãƒªã«é–¢é€£ä»˜ã‘ã‚‰ã‚Œã¦ã„ã‚‹æƒ…å ±ã‚’å¤‰æ›´ã™ã‚‹ã«ã¯ã€
-// ã“ã‚Œã‚‰ã®å±æ€§å€¤ã‚’å¤‰æ›´ã—ã¦ãã ã•ã„ã€‚
+// ƒAƒZƒ“ƒuƒŠ‚ÉŠÖ‚·‚éˆê”Êî•ñ‚ÍˆÈ‰º‚Ì‘®«ƒZƒbƒg‚ğ‚Æ‚¨‚µ‚Ä§Œä‚³‚ê‚Ü‚·B 
+// ƒAƒZƒ“ƒuƒŠ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éî•ñ‚ğ•ÏX‚·‚é‚É‚ÍA
+// ‚±‚ê‚ç‚Ì‘®«’l‚ğ•ÏX‚µ‚Ä‚­‚¾‚³‚¢B
 [assembly : AssemblyTitle("Seasar.Dxo")]
 [assembly: AssemblyDescription("Seasar.Dxo")]
 [assembly : AssemblyConfiguration("")]
 [assembly : AssemblyCompany("")]
 [assembly : AssemblyProduct("Seasar.Dxo")]
-[assembly: AssemblyCopyright("c Copyright The Seasar Foundation and the others 2005-2007, all rights reserved.")]
+[assembly: AssemblyCopyright("c Copyright The Seasar Foundation and the others 2005-2008, all rights reserved.")]
 [assembly : AssemblyTrademark("")]
 [assembly : AssemblyCulture("")]
 
-// ComVisible ã‚’ false ã«è¨­å®šã™ã‚‹ã¨ã€ã“ã®ã‚¢ã‚»ãƒ³ãƒ–ãƒªå†…ã®å‹ã¯ COM ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã«ã¯ 
-// å‚ç…§ä¸å¯èƒ½ã«ãªã‚Šã¾ã™ã€‚COM ã‹ã‚‰ã“ã®ã‚¢ã‚»ãƒ³ãƒ–ãƒªå†…ã®å‹ã«ã‚¢ã‚¯ã‚»ã‚¹ã™ã‚‹å ´åˆã¯ã€ 
-// ãã®å‹ã® ComVisible å±æ€§ã‚’ true ã«è¨­å®šã—ã¦ãã ã•ã„ã€‚
+// ComVisible ‚ğ false ‚Éİ’è‚·‚é‚ÆA‚±‚ÌƒAƒZƒ“ƒuƒŠ“à‚ÌŒ^‚Í COM ƒRƒ“ƒ|[ƒlƒ“ƒg‚É‚Í 
+// QÆ•s‰Â”\‚É‚È‚è‚Ü‚·BCOM ‚©‚ç‚±‚ÌƒAƒZƒ“ƒuƒŠ“à‚ÌŒ^‚ÉƒAƒNƒZƒX‚·‚éê‡‚ÍA 
+// ‚»‚ÌŒ^‚Ì ComVisible ‘®«‚ğ true ‚Éİ’è‚µ‚Ä‚­‚¾‚³‚¢B
 [assembly : ComVisible(false)]
 
-// æ¬¡ã® GUID ã¯ã€ã“ã®ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆãŒ COM ã«å…¬é–‹ã•ã‚Œã‚‹å ´åˆã®ã€typelib ã® ID ã§ã™
+// Ÿ‚Ì GUID ‚ÍA‚±‚ÌƒvƒƒWƒFƒNƒg‚ª COM ‚ÉŒöŠJ‚³‚ê‚éê‡‚ÌAtypelib ‚Ì ID ‚Å‚·
 [assembly : Guid("4782e760-85c6-4c21-813f-93fb67bc4a0a")]
 
-// ã‚¢ã‚»ãƒ³ãƒ–ãƒªã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³æƒ…å ±ã¯ã€ä»¥ä¸‹ã® 4 ã¤ã®å€¤ã§æ§‹æˆã•ã‚Œã¦ã„ã¾ã™:
 //
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
+// ƒAƒZƒ“ƒuƒŠ‚É–¼‚·‚é‚É‚ÍAg—p‚·‚éƒL[‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚è‚Ü‚¹‚ñB 
+// ƒAƒZƒ“ƒuƒŠ–¼‚ÉŠÖ‚·‚éÚ×‚É‚Â‚¢‚Ä‚ÍAMicrosoft .NET Framework ƒhƒLƒ…ƒƒ“ƒg‚ğQÆ‚µ‚Ä‚­‚¾‚³‚¢B
 //
-// ã™ã¹ã¦ã®å€¤ã‚’æŒ‡å®šã™ã‚‹ã‹ã€ä¸‹ã®ã‚ˆã†ã« '*' ã‚’ä½¿ã£ã¦ãƒªãƒ“ã‚¸ãƒ§ãƒ³ãŠã‚ˆã³ãƒ“ãƒ«ãƒ‰ç•ªå·ã‚’ 
-// æ—¢å®šå€¤ã«ã™ã‚‹ã“ã¨ãŒã§ãã¾ã™:
-[assembly: AssemblyVersion("1.3.5.0")]
+// ‰º‹L‚Ì‘®«‚ğg‚Á‚ÄA–¼‚Ég‚¤ƒL[‚ğ§Œä‚µ‚Ü‚·B 
 //
-// ã‚¢ã‚»ãƒ³ãƒ–ãƒªã«ç½²åã™ã‚‹ã«ã¯ã€ä½¿ç”¨ã™ã‚‹ã‚­ãƒ¼ã‚’æŒ‡å®šã—ãªã‘ã‚Œã°ãªã‚Šã¾ã›ã‚“ã€‚ 
-// ã‚¢ã‚»ãƒ³ãƒ–ãƒªç½²åã«é–¢ã™ã‚‹è©³ç´°ã«ã¤ã„ã¦ã¯ã€Microsoft .NET Framework ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆã‚’å‚ç…§ã—ã¦ãã ã•ã„ã€‚
-//
-// ä¸‹è¨˜ã®å±æ€§ã‚’ä½¿ã£ã¦ã€ç½²åã«ä½¿ã†ã‚­ãƒ¼ã‚’åˆ¶å¾¡ã—ã¾ã™ã€‚ 
-//
-// ãƒ¡ãƒ¢ : 
-//   (*) ã‚­ãƒ¼ãŒæŒ‡å®šã•ã‚Œãªã„ã¨ã€ã‚¢ã‚»ãƒ³ãƒ–ãƒªã¯ç½²åã•ã‚Œã¾ã›ã‚“ã€‚
-//   (*) KeyName ã¯ã€ã‚³ãƒ³ãƒ”ãƒ¥ãƒ¼ã‚¿ã«ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã•ã‚Œã¦ã„ã‚‹
-//        æš—å·ã‚µãƒ¼ãƒ“ã‚¹ ãƒ—ãƒ­ãƒã‚¤ãƒ€ (CSP) ã®ã‚­ãƒ¼ã‚’è¡¨ã—ã¾ã™ã€‚KeyFile ã¯ã€
-//       ã‚­ãƒ¼ã‚’å«ã‚€ãƒ•ã‚¡ã‚¤ãƒ«ã§ã™ã€‚
-//   (*) KeyFile ãŠã‚ˆã³ KeyName ã®å€¤ãŒå…±ã«æŒ‡å®šã•ã‚Œã¦ã„ã‚‹å ´åˆã¯ã€ 
-//       ä»¥ä¸‹ã®å‡¦ç†ãŒè¡Œã‚ã‚Œã¾ã™ :
-//       (1) KeyName ãŒ CSP ã«è¦‹ã¤ã‹ã£ãŸå ´åˆã€ãã®ã‚­ãƒ¼ãŒä½¿ã‚ã‚Œã¾ã™ã€‚
-//       (2) KeyName ãŒå­˜åœ¨ã›ãšã€KeyFile ãŒå­˜åœ¨ã™ã‚‹å ´åˆã€ 
-//           KeyFile ã«ã‚ã‚‹ã‚­ãƒ¼ãŒ CSP ã«ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã•ã‚Œã€ä½¿ã‚ã‚Œã¾ã™ã€‚
-//   (*) KeyFile ã‚’ä½œæˆã™ã‚‹ã«ã¯ã€sn.exe (å³å¯†ãªåå‰) ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚’ä½¿ã£ã¦ãã ã•ã„ã€‚
-//       KeyFile ã‚’æŒ‡å®šã™ã‚‹ã¨ãã€KeyFile ã®å ´æ‰€ã¯ã€
-//       ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆå‡ºåŠ› ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã¸ã®ç›¸å¯¾ãƒ‘ã‚¹ã§ãªã‘ã‚Œã°ãªã‚Šã¾ã›ã‚“ã€‚
-//       ãƒ‘ã‚¹ã¯ã€%Project Directory%\obj\<configuration> ã§ã™ã€‚ãŸã¨ãˆã°ã€KeyFile ãŒãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆ ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«ã‚ã‚‹å ´åˆã€
-//       AssemblyKeyFile å±æ€§ã‚’ 
-//       [assembly: AssemblyKeyFile("..\\..\\mykey.snk")] ã¨ã—ã¦æŒ‡å®šã—ã¾ã™ã€‚
-//   (*) é…å»¶ç½²åã¯é«˜åº¦ãªã‚ªãƒ—ã‚·ãƒ§ãƒ³ã§ã™ã€‚
-//       è©³ç´°ã«ã¤ã„ã¦ã¯ Microsoft .NET Framework ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆã‚’å‚ç…§ã—ã¦ãã ã•ã„ã€‚
+// ƒƒ‚ : 
+//   (*) ƒL[‚ªw’è‚³‚ê‚È‚¢‚ÆAƒAƒZƒ“ƒuƒŠ‚Í–¼‚³‚ê‚Ü‚¹‚ñB
+//   (*) KeyName ‚ÍAƒRƒ“ƒsƒ…[ƒ^‚ÉƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚é
+//        ˆÃ†ƒT[ƒrƒX ƒvƒƒoƒCƒ_ (CSP) ‚ÌƒL[‚ğ•\‚µ‚Ü‚·BKeyFile ‚ÍA
+//       ƒL[‚ğŠÜ‚Şƒtƒ@ƒCƒ‹‚Å‚·B
+//   (*) KeyFile ‚¨‚æ‚Ñ KeyName ‚Ì’l‚ª‹¤‚Éw’è‚³‚ê‚Ä‚¢‚éê‡‚ÍA 
+//       ˆÈ‰º‚Ìˆ—‚ªs‚í‚ê‚Ü‚· :
+//       (1) KeyName ‚ª CSP ‚ÉŒ©‚Â‚©‚Á‚½ê‡A‚»‚ÌƒL[‚ªg‚í‚ê‚Ü‚·B
+//       (2) KeyName ‚ª‘¶İ‚¹‚¸AKeyFile ‚ª‘¶İ‚·‚éê‡A 
+//           KeyFile ‚É‚ ‚éƒL[‚ª CSP ‚ÉƒCƒ“ƒXƒg[ƒ‹‚³‚êAg‚í‚ê‚Ü‚·B
+//   (*) KeyFile ‚ğì¬‚·‚é‚É‚ÍAsn.exe (Œµ–§‚È–¼‘O) ƒ†[ƒeƒBƒŠƒeƒB‚ğg‚Á‚Ä‚­‚¾‚³‚¢B
+//       KeyFile ‚ğw’è‚·‚é‚Æ‚«AKeyFile ‚ÌêŠ‚ÍA
+//       ƒvƒƒWƒFƒNƒgo—Í ƒfƒBƒŒƒNƒgƒŠ‚Ö‚Ì‘Š‘ÎƒpƒX‚Å‚È‚¯‚ê‚Î‚È‚è‚Ü‚¹‚ñB
+//       ƒpƒX‚ÍA%Project Directory%\obj\<configuration> ‚Å‚·B‚½‚Æ‚¦‚ÎAKeyFile ‚ªƒvƒƒWƒFƒNƒg ƒfƒBƒŒƒNƒgƒŠ‚É‚ ‚éê‡A
+//       AssemblyKeyFile ‘®«‚ğ 
+//       [assembly: AssemblyKeyFile("..\\..\\mykey.snk")] ‚Æ‚µ‚Äw’è‚µ‚Ü‚·B
+//   (*) ’x‰„–¼‚Í‚“x‚ÈƒIƒvƒVƒ‡ƒ“‚Å‚·B
+//       Ú×‚É‚Â‚¢‚Ä‚Í Microsoft .NET Framework ƒhƒLƒ…ƒƒ“ƒg‚ğQÆ‚µ‚Ä‚­‚¾‚³‚¢B
 //
 [assembly: AssemblyDelaySign(false)]
 [assembly: AssemblyKeyName("")]
-[assembly: AssemblyFileVersion("1.3.5.0")]
 
 [assembly : CLSCompliant(true)]
+
+[assembly: AssemblyVersion("1.3.9.0")]
+[assembly: AssemblyFileVersionAttribute("1.3.9")]

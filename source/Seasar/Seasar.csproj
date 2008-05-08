@@ -1,7 +1,7 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -27,6 +27,8 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <SignAssembly>true</SignAssembly>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>bin\Debug\</OutputPath>
@@ -81,11 +83,6 @@
     </Reference>
     <Reference Include="Microsoft.JScript">
       <Name>Microsoft.JScript</Name>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.DebuggerVisualizers, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
-    <Reference Include="Nullables, Version=1.0.0.0, Culture=neutral, PublicKeyToken=154fdcb44c4484fc">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\net2.0\Nullables.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>
@@ -301,6 +298,8 @@
     <Compile Include="Seasar.Extension.ADO\Impl\BasicDbParameterParser.cs" />
     <Compile Include="Seasar.Extension.ADO\Impl\DataProviderDataSource.cs" />
     <Compile Include="Seasar.Extension.ADO\Impl\DbProviderFactoryDataSource.cs" />
+    <Compile Include="Seasar.Extension.ADO\Impl\AbstractSelectableDataSourceProxy.cs" />
+    <Compile Include="Seasar.Extension.ADO\Impl\SelectableDataSourceProxyWithContainer.cs" />
     <Compile Include="Seasar.Extension.ADO\IPropertyType.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -881,6 +880,7 @@
     <Compile Include="Seasar.Framework.Util\BooleanConversionUtil.cs" />
     <Compile Include="Seasar.Framework.Util\PropertyUtil.cs" />
     <Compile Include="Seasar.Framework.Util\ToStringUtil.cs" />
+    <Compile Include="Seasar.Framework.Util\AssignTypeUtil.cs" />
     <Compile Include="Seasar.Framework.Xml\IAttributes.cs">
       <SubType>Code</SubType>
     </Compile>

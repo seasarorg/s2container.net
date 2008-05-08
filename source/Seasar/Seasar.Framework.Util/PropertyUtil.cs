@@ -1,6 +1,6 @@
 #region Copyright
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,10 @@
 using System;
 using System.Data.SqlTypes;
 using System.Reflection;
+
+#if NHIBERNATE_NULLABLES
 using Nullables;
+#endif
 
 namespace Seasar.Framework.Util
 {
@@ -31,18 +34,19 @@ namespace Seasar.Framework.Util
 
         public static Type GetPrimitiveType(Type type)
         {
-            if (type.GetInterface(typeof(INullableType).Name) != null)
+            if (type.GetInterface(typeof(INullable).Name) != null)
+            {
+                PropertyInfo npi = type.GetProperty("Value");
+                return npi.PropertyType;
+            }
+#if NHIBERNATE_NULLABLES
+            else if (type.GetInterface(typeof(INullableType).Name) != null)
             {
                 ConstructorInfo[] constructorInfos = type.GetConstructors();
                 ParameterInfo[] parameterInfos = constructorInfos[0].GetParameters();
                 type = parameterInfos[0].ParameterType;
             }
-            else if (type.GetInterface(typeof(INullable).Name) != null)
-            {
-                PropertyInfo npi = type.GetProperty("Value");
-                return npi.PropertyType;
-            }
-
+#endif
 #if !NET_1_1
             else if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
             {
@@ -60,19 +64,7 @@ namespace Seasar.Framework.Util
                 return DBNull.Value;
             }
 
-            if (value is INullableType)
-            {
-                INullableType nullableType = (INullableType) value;
-                if (nullableType.HasValue)
-                {
-                    return nullableType.Value;
-                }
-                else
-                {
-                    return DBNull.Value;
-                }
-            }
-            else if (value is INullable)
+            if (value is INullable)
             {
                 INullable nullable = (INullable) value;
                 if (!nullable.IsNull)
@@ -85,6 +77,20 @@ namespace Seasar.Framework.Util
                     return DBNull.Value;
                 }
             }
+#if NHIBERNATE_NULLABLES
+            else if (value is INullableType)
+            {
+                INullableType nullableType = (INullableType)value;
+                if (nullableType.HasValue)
+                {
+                    return nullableType.Value;
+                }
+                else
+                {
+                    return DBNull.Value;
+                }
+            }
+#endif
 
             return value;
         }

@@ -1,6 +1,6 @@
 #region Copyright
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,26 +17,29 @@
 #endregion
 
 using System;
+using System.Reflection;
 using MbUnit.Framework;
-using Seasar.Quill;
 using Seasar.Framework.Aop;
+using Seasar.Quill;
 using Seasar.Quill.Attrs;
+using Seasar.Quill.Database.DataSource.Impl;
+using Seasar.Quill.Exception;
 
 namespace Seasar.Tests.Quill
 {
     [TestFixture]
 	public class QuillContainerTest
     {
-        #region GetComponent�̃e�X�g
+        #region GetComponentのテスト
 
         [Test]
-        public void TestGetComponent_�C���^�[�t�F�[�X��Aspect���K�p����Ă��Ȃ��ꍇ()
+        public void TestGetComponent_インターフェースにAspectが適用されていない場合()
         {
             QuillContainer container = new QuillContainer();
 
             try
             {
-                container.GetComponent(typeof(Hoge1), typeof(Hoge1));
+                container.GetComponent(typeof(IHoge1), typeof(IHoge1));
                 Assert.Fail();
             }
             catch (QuillApplicationException ex)
@@ -46,27 +49,27 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestGetComponent_����ȏꍇ()
+        public void TestGetComponent_正常な場合()
         {
             QuillContainer container = new QuillContainer();
-            QuillComponent component = container.GetComponent(typeof(Hoge2));
-            QuillComponent component2 = container.GetComponent(typeof(Hoge2));
-            Assert.AreEqual(typeof(Hoge2), component.ReceiptType);
-            Assert.AreEqual(component.GetComponentObject(typeof(Hoge2)),
-                component2.GetComponentObject(typeof(Hoge2)));
+            QuillComponent component = container.GetComponent(typeof(IHoge2));
+            QuillComponent component2 = container.GetComponent(typeof(IHoge2));
+            Assert.AreEqual(typeof(IHoge2), component.ReceiptType);
+            Assert.AreEqual(component.GetComponentObject(typeof(IHoge2)),
+                component2.GetComponentObject(typeof(IHoge2)));
         }
 
         [Test]
-        public void TestGetComponent_Destroy�ς݂̏ꍇ()
+        public void TestGetComponent_Destroy済みの場合()
         {
             QuillContainer container = new QuillContainer();
-            container.GetComponent(typeof(Hoge2));
+            container.GetComponent(typeof(IHoge2));
 
             container.Destroy();
 
             try
             {
-                container.GetComponent(typeof(Hoge2));
+                container.GetComponent(typeof(IHoge2));
                 Assert.Fail();
             }
             catch (QuillApplicationException ex)
@@ -75,19 +78,38 @@ namespace Seasar.Tests.Quill
             }
         }
 
+        [Test]
+        public void TestGetComponent_Interfaceで受け取る場合()
+        {
+            QuillContainer container = new QuillContainer();
+            QuillComponent component1 = container.GetComponent(typeof(IHoge3), typeof(Hoge3));
+            QuillComponent component2 = container.GetComponent(typeof(IHoge3), typeof(Hoge3));
+            Assert.AreEqual(component1.GetComponentObject(typeof(IHoge3)),
+                component2.GetComponentObject(typeof(IHoge3)));
+        }
+
         #endregion
 
-        #region GetComponent�̃e�X�g�Ŏg�p��������N���X�E�C���^�[�t�F�[�X
+        #region GetComponentのテストで使用する内部クラス・インターフェース
 
-        public interface Hoge1
+        public interface IHoge1
         {
             void Fuga();
         }
 
         [Aspect(typeof(HogeInterceptor1))]
-        public interface Hoge2
+        public interface IHoge2
         {
             void Fuga();
+        }
+
+        [Implementation(typeof(Hoge3))]
+        public interface IHoge3
+        {
+        }
+
+        public class Hoge3 : IHoge3
+        {
         }
 
         public class HogeInterceptor1 : IMethodInterceptor
@@ -98,9 +120,11 @@ namespace Seasar.Tests.Quill
             }
         }
 
+        
+
         #endregion
 
-        #region Dispose�̃e�X�g
+        #region Disposeのテスト
 
         [Test]
         public void TestDispose()
@@ -119,7 +143,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestDispose_Destroy�ς݂̏ꍇ()
+        public void TestDispose_Destroy済みの場合()
         {
             QuillContainer container = new QuillContainer();
             container.GetComponent(typeof(DisposableClass));
@@ -139,7 +163,7 @@ namespace Seasar.Tests.Quill
 
         #endregion
 
-        #region Dispose�̃e�X�g�Ŏg�p��������N���X
+        #region Disposeのテストで使用する内部クラス
 
         public class NotDisposableClass
         {
@@ -149,7 +173,7 @@ namespace Seasar.Tests.Quill
         {
             public bool Disposed = false;
 
-            #region IDisposable �����o
+            #region IDisposable メンバ
 
             public void Dispose()
             {
@@ -161,7 +185,7 @@ namespace Seasar.Tests.Quill
 
         #endregion
 
-        #region Destroy�̃e�X�g
+        #region Destroyのテスト
 
         [Test]
         public void TestDestroy()
@@ -197,7 +221,7 @@ namespace Seasar.Tests.Quill
 
         #endregion
 
-        #region Destroy�̃e�X�g�Ŏg�p��������N���X
+        #region Destroyのテストで使用する内部クラス
 
         [Aspect(typeof(HogeDestoryInterceptor))]
         public interface HogeDestroy
@@ -214,5 +238,58 @@ namespace Seasar.Tests.Quill
         }
 
         #endregion 
+
+        #region RegistDataSource データソース登録テスト
+
+        [Test]
+        public void TestRegistDataSource()
+        {
+            QuillContainer container = new QuillContainer();
+
+            QuillComponent qc = container.GetComponent(typeof(SelectableDataSourceProxyWithDictionary));
+            Assert.AreEqual(typeof(SelectableDataSourceProxyWithDictionary), qc.ComponentType, "1");
+            SelectableDataSourceProxyWithDictionary ds = (SelectableDataSourceProxyWithDictionary)qc.GetComponentObject(
+                typeof(SelectableDataSourceProxyWithDictionary));
+            Assert.IsNotNull(ds, "2");
+            Assert.GreaterEqualThan(ds.DataSourceCollection.Count, 7);
+        }
+
+        #endregion
+
+        #region RegistAssembly アセンブリ登録テスト
+
+        [Test]
+        public void TestRegistAssembly()
+        {
+            //  アセンブリ情報がまだロードされていないことを確認
+            const string ASSEMBLY_1 = "Seasar.Tests";
+            const string ASSEMBLY_2 = "Seasar.Dxo";
+            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                Assert.AreNotEqual(ASSEMBLY_1, assembly.GetName().Name, assembly.GetName().Name);
+                Assert.AreNotEqual(ASSEMBLY_2, assembly.GetName().Name, assembly.GetName().Name);
+            }
+
+            QuillContainer container = new QuillContainer();
+
+            //  アセンブリ情報がロードされていることを確認
+            bool isIncludeAssembly1 = false;
+            bool isIncludeAssembly2 = false;
+            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                if (assembly.GetName().Name.Equals(ASSEMBLY_1))
+                {
+                    isIncludeAssembly1 = true;
+                }
+                else if (assembly.GetName().Name.Equals(ASSEMBLY_2))
+                {
+                    isIncludeAssembly2 = true;
+                }
+            }
+            Assert.IsTrue(isIncludeAssembly1, "アセンブリ１が登録されている");
+            Assert.IsTrue(isIncludeAssembly2, "アセンブリ２が登録されている");
+        }
+
+        #endregion
     }
 }

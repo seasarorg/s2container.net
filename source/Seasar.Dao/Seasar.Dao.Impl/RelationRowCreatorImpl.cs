@@ -1,6 +1,6 @@
 #region Copyright
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -82,8 +82,8 @@ namespace Seasar.Dao.Impl
             //}
             //return row;
         }
-        
-        protected RelationRowCreationResource createResourceForRow(IDataReader dr,
+
+        protected virtual RelationRowCreationResource createResourceForRow(IDataReader dr,
                 IRelationPropertyType rpt, System.Collections.IList columnNames, System.Collections.Hashtable relKeyValues,
                 IDictionary<String, IDictionary<String, IPropertyType>> relationPropertyCache) {
             RelationRowCreationResource res = new RelationRowCreationResource();
@@ -105,7 +105,7 @@ namespace Seasar.Dao.Impl
          * @return Created relation row. (Nullable)
          * @throws SQLException
          */
-        protected Object CreateRelationRow(RelationRowCreationResource res) {
+        protected virtual Object CreateRelationRow(RelationRowCreationResource res) {
             // - - - - - - - - - - - 
             // Recursive Call Point!
             // - - - - - - - - - - -
@@ -121,7 +121,7 @@ namespace Seasar.Dao.Impl
             return res.Row;
         }
 
-        protected void SetupRelationKeyValue(RelationRowCreationResource res) {
+        protected virtual void SetupRelationKeyValue(RelationRowCreationResource res) {
             IRelationPropertyType rpt = res.RelationPropertyType;
             IBeanMetaData bmd = rpt.BeanMetaData;
             for (int i = 0; i < rpt.KeySize; ++i) {
@@ -149,7 +149,7 @@ namespace Seasar.Dao.Impl
             }
         }
 
-        protected void SetupRelationAllValue(RelationRowCreationResource res) {
+        protected virtual void SetupRelationAllValue(RelationRowCreationResource res) {
             IDictionary<String, IPropertyType> propertyCacheElement = res.ExtractPropertyCacheElement();
             ICollection<String> columnNameCacheElementKeySet = propertyCacheElement.Keys;
             foreach (String columnName in columnNameCacheElementKeySet) {
@@ -175,7 +175,7 @@ namespace Seasar.Dao.Impl
             return true;// Always true as default. This method is for extension(for override).
         }
 
-        protected bool IsValidRelationAfterPropertyLoop(RelationRowCreationResource res) {
+        protected virtual bool IsValidRelationAfterPropertyLoop(RelationRowCreationResource res) {
             if (res.IsCreateDeadLink) {
                 return true;
             }
@@ -200,16 +200,20 @@ namespace Seasar.Dao.Impl
                 value = valueType.GetValue(res.DataReader, columnName);
             }
             if (value != null) {
-                res.IncrementValidValueCount();
-                PropertyInfo pd = pt.PropertyInfo;
-                pd.SetValue(res.Row, value, null);
+                RegisterRelationValidValue(res, pt, value);
             }
+        }
+
+        protected virtual void RegisterRelationValidValue(RelationRowCreationResource res, IPropertyType pt, Object value) {
+            res.IncrementValidValueCount();
+            PropertyInfo pd = pt.PropertyInfo;
+            pd.SetValue(res.Row, value, null);
         }
 
         // -----------------------------------------------------
         //                                         Next Relation
         //                                         -------------
-        protected void SetupNextRelationRow(RelationRowCreationResource res) {
+        protected virtual void SetupNextRelationRow(RelationRowCreationResource res) {
             IBeanMetaData nextBmd = res.GetRelationBeanMetaData();
             Object row = res.Row;
             res.BackupRelationPropertyType();
@@ -226,7 +230,7 @@ namespace Seasar.Dao.Impl
             }
         }
 
-        protected void SetupNextRelationRowElement(RelationRowCreationResource res, Object row, IRelationPropertyType nextRpt) {
+        protected virtual void SetupNextRelationRowElement(RelationRowCreationResource res, Object row, IRelationPropertyType nextRpt) {
             if (nextRpt == null) {
                 return;
             }
@@ -290,6 +294,11 @@ namespace Seasar.Dao.Impl
             // 「一つも無い」という状態がCacheされることになる。。
             res.InitializePropertyCacheElement();
 
+            if (!IsPropertyRelation(res)) {
+                return;
+            }
+
+            // Set up property cache about current beanMetaData.
             IBeanMetaData nextBmd = res.GetRelationBeanMetaData();
             for (int i = 0; i < nextBmd.PropertyTypeSize; ++i) {
                 IPropertyType pt = nextBmd.GetPropertyType(i);
@@ -298,19 +307,21 @@ namespace Seasar.Dao.Impl
                     continue;
                 }
                 SetupPropertyCacheElement(res);
-                if (res.HasNextRelationProperty() && res.HasNextRelationLevel()) {
-                    res.BackupRelationPropertyType();
-                    res.IncrementCurrentRelationNestLevel();
-                    try {
-                        SetupNextPropertyCache(res, nextBmd);
-                    } finally {
-                        res.RestoreRelationPropertyType();
-                        res.DecrementCurrentRelationNestLevel();
-                    }
+            }
+
+            // Set up next relation.
+            if (res.HasNextRelationProperty() && res.HasNextRelationLevel()) {
+                res.BackupRelationPropertyType();
+                res.IncrementCurrentRelationNestLevel();
+                try {
+                    SetupNextPropertyCache(res, nextBmd);
+                } finally {
+                    res.RestoreRelationPropertyType();
+                    res.DecrementCurrentRelationNestLevel();
                 }
             }
         }
-        
+
         protected virtual void SetupPropertyCacheElement(RelationRowCreationResource res) {
             String columnName = res.BuildRelationColumnName();
             if (!res.ContainsColumnName(columnName)) {
@@ -366,6 +377,14 @@ namespace Seasar.Dao.Impl
         // ===================================================================================
         //                                                                     Extension Point
         //                                                                     ===============
+        protected virtual bool IsPropertyRelation(RelationRowCreationResource res) {
+            // - - - - - - - - - - - - - - - - - - - - - - - -
+            // Extension Point!
+            //  --> 該当のRelationを処理対象とするか否か。
+            // - - - - - - - - - - - - - - - - - - - - - - - -
+            return true;
+        }
+        
         protected virtual bool IsTargetProperty(RelationRowCreationResource res) {
             // - - - - - - - - - - - - - - - - - - - - - - - -
             // Extension Point!

@@ -1,6 +1,6 @@
 #region Copyright
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,104 +21,104 @@ using System;
 namespace Seasar.Quill.Attrs
 {
     /// <summary>
-    /// Aspect‚ğw’è‚·‚é‘®«ƒNƒ‰ƒX
+    /// Aspectã‚’æŒ‡å®šã™ã‚‹å±æ€§ã‚¯ãƒ©ã‚¹
     /// </summary>
     /// <remarks>
-    /// ƒNƒ‰ƒXEƒCƒ“ƒ^[ƒtƒF[ƒXEƒƒ\ƒbƒh‚Éİ’è‚·‚é‚±‚Æ‚ª‚Å‚«‚éB
-    /// (•¡”İ’è‚·‚é‚±‚Æ‚ª‚Å‚«‚é)
+    /// ã‚¯ãƒ©ã‚¹ãƒ»ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ãƒ»ãƒ¡ã‚½ãƒƒãƒ‰ã«è¨­å®šã™ã‚‹ã“ã¨ãŒã§ãã‚‹ã€‚
+    /// (è¤‡æ•°è¨­å®šã™ã‚‹ã“ã¨ãŒã§ãã‚‹)
     /// </remarks>
     [AttributeUsage(AttributeTargets.Interface |
        AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
     public class AspectAttribute : Attribute
     {
         /// <summary>
-        /// Interceptor‚ÌType
+        /// Interceptorã®Type
         /// </summary>
         protected Type interceptorType;
 
         /// <summary>
-        /// S2Container‚É‚¨‚¯‚éƒRƒ“ƒ|[ƒlƒ“ƒg–¼
+        /// S2Containerã«ãŠã‘ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆå
         /// </summary>
         protected string componentName;
 
         /// <summary>
-        /// Aspect‚ğ“K—p‚·‚é‡”Ô(”‚ª¬‚³‚¢‚Ù‚¤‚ªæ‚É“K—p‚³‚ê‚é)
+        /// Aspectã‚’é©ç”¨ã™ã‚‹é †ç•ª(æ•°ãŒå°ã•ã„ã»ã†ãŒå…ˆã«é©ç”¨ã•ã‚Œã‚‹)
         /// </summary>
         protected int ordinal = 0;
 
         /// <summary>
-        /// Interceptor‚ÌType‚ğw’è‚µ‚ÄAspectAttribute‚ğ‰Šú‰»‚·‚éƒRƒ“ƒXƒgƒ‰ƒNƒ^
+        /// Interceptorã®Typeã‚’æŒ‡å®šã—ã¦AspectAttributeã‚’åˆæœŸåŒ–ã™ã‚‹ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
         /// </summary>
-        /// <param name="interceptorType">Interceptor‚ÌType</param>
+        /// <param name="interceptorType">Interceptorã®Type</param>
         public AspectAttribute(Type interceptorType)
         {
-            // Interceptor‚ÌType‚ğİ’è‚·‚é
+            // Interceptorã®Typeã‚’è¨­å®šã™ã‚‹
             this.interceptorType = interceptorType;
         }
 
         /// <summary>
-        /// Interceptor‚ÌType‚ğw’è‚µ‚ÄAspectAttribute‚ğ‰Šú‰»‚·‚éƒRƒ“ƒXƒgƒ‰ƒNƒ^
+        /// Interceptorã®Typeã‚’æŒ‡å®šã—ã¦AspectAttributeã‚’åˆæœŸåŒ–ã™ã‚‹ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
         /// </summary>
-        /// <param name="interceptorType">Interceptor‚ÌType</param>
-        /// <param name="ordinal">Aspect‚ğ“K—p‚·‚é‡”Ô</param>
+        /// <param name="interceptorType">Interceptorã®Type</param>
+        /// <param name="ordinal">Aspectã‚’é©ç”¨ã™ã‚‹é †ç•ª</param>
         public AspectAttribute(Type interceptorType, int ordinal)
         {
-            // Interceptor‚ÌType‚ğİ’è‚·‚é
+            // Interceptorã®Typeã‚’è¨­å®šã™ã‚‹
             this.interceptorType = interceptorType;
 
-            // Aspect‚ğ“K—p‚·‚é‡”Ô‚ğİ’è‚·‚é
+            // Aspectã‚’é©ç”¨ã™ã‚‹é †ç•ªã‚’è¨­å®šã™ã‚‹
             this.ordinal = ordinal;
         }
 
         /// <summary>
-        /// Interceptor‚ÌS2Container‚É‚¨‚¯‚éƒRƒ“ƒ|[ƒlƒ“ƒg–¼‚ğw’è‚µ‚Ä
-        /// AspectAttribute‚ğ‰Šú‰»‚·‚éƒRƒ“ƒXƒgƒ‰ƒNƒ^
+        /// Interceptorã®S2Containerã«ãŠã‘ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆåã‚’æŒ‡å®šã—ã¦
+        /// AspectAttributeã‚’åˆæœŸåŒ–ã™ã‚‹ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
         /// </summary>
-        /// <param name="componentName">S2Container‚É‚¨‚¯‚éƒRƒ“ƒ|[ƒlƒ“ƒg–¼</param>
+        /// <param name="componentName">S2Containerã«ãŠã‘ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆå</param>
         public AspectAttribute(string componentName)
         {
-            // S2Container‚É‚¨‚¯‚éƒRƒ“ƒ|[ƒlƒ“ƒg–¼‚ğİ’è‚·‚é
+            // S2Containerã«ãŠã‘ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆåã‚’è¨­å®šã™ã‚‹
             this.componentName = componentName;
         }
 
         /// <summary>
-        /// Interceptor‚ÌS2Container‚É‚¨‚¯‚éƒRƒ“ƒ|[ƒlƒ“ƒg–¼‚ğw’è‚µ‚Ä
-        /// AspectAttribute‚ğ‰Šú‰»‚·‚éƒRƒ“ƒXƒgƒ‰ƒNƒ^
+        /// Interceptorã®S2Containerã«ãŠã‘ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆåã‚’æŒ‡å®šã—ã¦
+        /// AspectAttributeã‚’åˆæœŸåŒ–ã™ã‚‹ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
         /// </summary>
-        /// <param name="componentName">S2Container‚É‚¨‚¯‚éƒRƒ“ƒ|[ƒlƒ“ƒg–¼</param>
-        /// <param name="ordinal">Aspect‚ğ“K—p‚·‚é‡”Ô</param>
+        /// <param name="componentName">S2Containerã«ãŠã‘ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆå</param>
+        /// <param name="ordinal">Aspectã‚’é©ç”¨ã™ã‚‹é †ç•ª</param>
         public AspectAttribute(string componentName, int ordinal)
         {
-            // S2Container‚É‚¨‚¯‚éƒRƒ“ƒ|[ƒlƒ“ƒg–¼‚ğİ’è‚·‚é
+            // S2Containerã«ãŠã‘ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆåã‚’è¨­å®šã™ã‚‹
             this.componentName = componentName;
 
-            // Aspect‚ğ“K—p‚·‚é‡”Ô‚ğİ’è‚·‚é
+            // Aspectã‚’é©ç”¨ã™ã‚‹é †ç•ªã‚’è¨­å®šã™ã‚‹
             this.ordinal = ordinal;
         }
 
         /// <summary>
-        /// Interceptor‚ÌType‚ğæ“¾‚·‚é
+        /// Interceptorã®Typeã‚’å–å¾—ã™ã‚‹
         /// </summary>
-        /// <value>Interceptor‚ÌType</value>
+        /// <value>Interceptorã®Type</value>
         public Type InterceptorType
         {
             get { return interceptorType; }
         }
 
         /// <summary>
-        /// S2Container‚É‚¨‚¯‚éƒRƒ“ƒ|[ƒlƒ“ƒg–¼‚ğæ“¾‚·‚é
+        /// S2Containerã«ãŠã‘ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆåã‚’å–å¾—ã™ã‚‹
         /// </summary>
-        /// <value>S2Container‚É‚¨‚¯‚éƒRƒ“ƒ|[ƒlƒ“ƒg–¼</value>
+        /// <value>S2Containerã«ãŠã‘ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆå</value>
         public string ComponentName
         {
             get { return componentName; }
         }
 
         /// <summary>
-        /// Aspect‚ğ“K—p‚·‚é‡”Ô‚ğæ“¾‚·‚é
-        /// (”‚ª¬‚³‚¢‚Ù‚¤‚ªæ‚É“K—p‚³‚ê‚é)
+        /// Aspectã‚’é©ç”¨ã™ã‚‹é †ç•ªã‚’å–å¾—ã™ã‚‹
+        /// (æ•°ãŒå°ã•ã„ã»ã†ãŒå…ˆã«é©ç”¨ã•ã‚Œã‚‹)
         /// </summary>
-        /// <value>Aspect‚ğ“K—p‚·‚é‡”Ô(”‚ª¬‚³‚¢‚Ù‚¤‚ªæ‚É“K—p‚³‚ê‚é)</value>
+        /// <value>Aspectã‚’é©ç”¨ã™ã‚‹é †ç•ª(æ•°ãŒå°ã•ã„ã»ã†ãŒå…ˆã«é©ç”¨ã•ã‚Œã‚‹)</value>
         public int Ordinal
         {
             get { return ordinal; }

@@ -1,6 +1,6 @@
 #region Copyright
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,52 +29,52 @@ namespace Seasar.Dao.Impl
         //                                                                           Attribute
         //                                                                           =========
         /** Data reader. */
-        private IDataReader dataReader;
+        protected IDataReader dataReader;
 
         /** Relation row. Initialized at first or initialied after. */
-        private Object row;
+        protected Object row;
 
         /** Relation property type. */
-        private IRelationPropertyType relationPropertyType;
+        protected IRelationPropertyType relationPropertyType;
 
         /** The set of column name. */
-        private System.Collections.IList columnNames;
+        protected System.Collections.IList columnNames;
 
-        /** The map of rel key values. */
-        private System.Collections.Hashtable relKeyValues;
+        /** The map of relation key values. */
+        protected System.Collections.Hashtable relKeyValues;
 
         /** The map of relation property cache. */
-        private IDictionary<String, IDictionary<String, IPropertyType>> relationPropertyCache;
+        protected IDictionary<String, IDictionary<String, IPropertyType>> relationPropertyCache;
 
         /** The suffix of base object. */
-        private String baseSuffix;
+        protected String baseSuffix;
 
         /** The suffix of relation no. */
-        private String relationNoSuffix;
+        protected String relationNoSuffix;
 
         /** The limit of relation nest leve. */
-        private int limitRelationNestLevel;
+        protected int limitRelationNestLevel;
 
         /** The current relation nest level. Default is one. */
-        private int currentRelationNestLevel;
+        protected int currentRelationNestLevel;
 
         /** Current property type. This variable is temporary. */
-        private IPropertyType currentPropertyType;
-
-        /** The temporary variable for relation property type. */
-        private IRelationPropertyType tmpRelationPropertyType;
-
-        /** The temporary variable for base suffix. */
-        private String tmpBaseSuffix;
-
-        /** The temporary variable for relation no suffix. */
-        private String tmpRelationNoSuffix;
+        protected IPropertyType currentPropertyType;
 
         /** The count of valid value. */
-        private int validValueCount;
+        protected int validValueCount;
 
         /** Does it create dead link? */
-        private bool createDeadLink;
+        protected bool createDeadLink;
+
+        /** The backup of relation property type. */
+        protected Stack<IRelationPropertyType> relationPropertyTypeBackup;
+
+        /** The backup of base suffix. */
+        protected Stack<String> baseSuffixBackup;
+
+        /** The backup of relation suffix. */
+        protected Stack<String> relationNoSuffixBackup;
 
         // ===================================================================================
         //                                                                            Behavior
@@ -82,78 +82,85 @@ namespace Seasar.Dao.Impl
         // -----------------------------------------------------
         //                                                   row
         //                                                   ---
-        public bool HasRowInstance() {
+        public virtual bool HasRowInstance() {
             return row != null;
         }
 
-        public void ClearRowInstance() {
+        public virtual void ClearRowInstance() {
             row = null;
         }
 
         // -----------------------------------------------------
         //                                  relationPropertyType
         //                                  --------------------
-        public IBeanMetaData GetRelationBeanMetaData() {
+        public virtual IBeanMetaData GetRelationBeanMetaData() {
             return relationPropertyType.BeanMetaData;
         }
 
-        public bool HasNextRelationProperty() {
+        public virtual bool HasNextRelationProperty() {
             return GetRelationBeanMetaData().RelationPropertyTypeSize > 0;
         }
 
-        public void BackupRelationPropertyType() {
-            tmpRelationPropertyType = relationPropertyType;
+        public virtual void BackupRelationPropertyType() {
+            GetOrCreateRelationPropertyTypeBackup().Push(RelationPropertyType);
         }
 
-        public void RestoreRelationPropertyType() {
-            relationPropertyType = tmpRelationPropertyType;
+        public virtual void RestoreRelationPropertyType() {
+            RelationPropertyType = GetOrCreateRelationPropertyTypeBackup().Pop();
+        }
+
+        public virtual Stack<IRelationPropertyType> GetOrCreateRelationPropertyTypeBackup() {
+            if (relationPropertyTypeBackup == null) {
+                relationPropertyTypeBackup = new Stack<IRelationPropertyType>();
+            }
+            return relationPropertyTypeBackup;
         }
 
         // -----------------------------------------------------
         //                                           columnNames
         //                                           -----------
-        public bool ContainsColumnName(String columnName) {
+        public virtual bool ContainsColumnName(String columnName) {
             return columnNames.Contains(columnName);
         }
 
         // -----------------------------------------------------
         //                                          relKeyValues
         //                                          ------------
-        public bool ExistsRelKeyValues() {
+        public virtual bool ExistsRelKeyValues() {
             return relKeyValues != null;
         }
 
-        public bool ContainsRelKeyValue(String key) {
+        public virtual bool ContainsRelKeyValue(String key) {
             return relKeyValues.ContainsKey(key);
         }
 
-        public bool ContainsRelKeyValueIfExists(String key) {
+        public virtual bool ContainsRelKeyValueIfExists(String key) {
             return ExistsRelKeyValues() && relKeyValues.ContainsKey(key);
         }
 
-        public Object ExtractRelKeyValue(String key) {
+        public virtual Object ExtractRelKeyValue(String key) {
             return relKeyValues[key];
         }
 
         // -----------------------------------------------------
         //                                 relationPropertyCache
         //                                 ---------------------
-        public void InitializePropertyCacheElement() {
+        public virtual void InitializePropertyCacheElement() {
             if (!relationPropertyCache.ContainsKey(relationNoSuffix)) {
                 relationPropertyCache.Add(relationNoSuffix, new Dictionary<String, IPropertyType>());
             }
         }
 
-        public bool HasPropertyCacheElement() {
+        public virtual bool HasPropertyCacheElement() {
             IDictionary<String, IPropertyType> propertyCacheElement = ExtractPropertyCacheElement();
             return propertyCacheElement != null && propertyCacheElement.Count > 0;
         }
 
-        public IDictionary<String, IPropertyType> ExtractPropertyCacheElement() {
+        public virtual IDictionary<String, IPropertyType> ExtractPropertyCacheElement() {
             return relationPropertyCache[relationNoSuffix];
         }
 
-        public void SavePropertyCacheElement() {
+        public virtual void SavePropertyCacheElement() {
             if (!HasPropertyCacheElement()) {
                 InitializePropertyCacheElement();
             }
@@ -170,15 +177,15 @@ namespace Seasar.Dao.Impl
         // -----------------------------------------------------
         //                                                suffix
         //                                                ------
-        public String BuildRelationColumnName() {
+        public virtual String BuildRelationColumnName() {
             return currentPropertyType.ColumnName + relationNoSuffix;
         }
 
-        public void AddRelationNoSuffix(String AdditionalRelationNoSuffix) {
+        public virtual void AddRelationNoSuffix(String AdditionalRelationNoSuffix) {
             relationNoSuffix = relationNoSuffix + AdditionalRelationNoSuffix;
         }
 
-        public void BackupSuffixAndPrepare(String baseSuffix,
+        public virtual void BackupSuffixAndPrepare(String baseSuffix,
                 String additionalRelationNoSuffix) {
             BackupBaseSuffix();
             BackupRelationNoSuffix();
@@ -186,121 +193,135 @@ namespace Seasar.Dao.Impl
             AddRelationNoSuffix(additionalRelationNoSuffix);
         }
 
-        public void RestoreSuffix() {
+        public virtual void RestoreSuffix() {
             RestoreBaseSuffix();
             RestoreRelationNoSuffix();
         }
 
-        private void BackupBaseSuffix() {
-            tmpBaseSuffix = baseSuffix;
+        protected virtual void BackupBaseSuffix() {
+            GetOrCreateBaseSuffixBackup().Push(BaseSuffix);
         }
 
-        private void RestoreBaseSuffix() {
-            baseSuffix = tmpBaseSuffix;
+        protected virtual void RestoreBaseSuffix() {
+            BaseSuffix = GetOrCreateBaseSuffixBackup().Pop();
         }
 
-        private void BackupRelationNoSuffix() {
-            tmpRelationNoSuffix = relationNoSuffix;
+        public virtual Stack<String> GetOrCreateBaseSuffixBackup() {
+            if (baseSuffixBackup == null) {
+                baseSuffixBackup = new Stack<String>();
+            }
+            return baseSuffixBackup;
         }
 
-        private void RestoreRelationNoSuffix() {
-            relationNoSuffix = tmpRelationNoSuffix;
+        protected virtual void BackupRelationNoSuffix() {
+            GetOrCreateRelationNoSuffixBackup().Push(RelationNoSuffix);
+        }
+
+        protected virtual void RestoreRelationNoSuffix() {
+            RelationNoSuffix = GetOrCreateRelationNoSuffixBackup().Pop();
+        }
+
+        public virtual Stack<String> GetOrCreateRelationNoSuffixBackup() {
+            if (relationNoSuffixBackup == null) {
+                relationNoSuffixBackup = new Stack<String>();
+            }
+            return relationNoSuffixBackup;
         }
 
         // -----------------------------------------------------
         //                                     relationNestLevel
         //                                     -----------------
-        public bool HasNextRelationLevel() {
+        public virtual bool HasNextRelationLevel() {
             return currentRelationNestLevel < limitRelationNestLevel;
         }
 
-        public void IncrementCurrentRelationNestLevel() {
+        public virtual void IncrementCurrentRelationNestLevel() {
             ++currentRelationNestLevel;
         }
 
-        public void DecrementCurrentRelationNestLevel() {
+        public virtual void DecrementCurrentRelationNestLevel() {
             --currentRelationNestLevel;
         }
 
         // -----------------------------------------------------
         //                                       validValueCount
         //                                       ---------------
-        public void IncrementValidValueCount() {
+        public virtual void IncrementValidValueCount() {
             ++validValueCount;
         }
 
-        public void ClearValidValueCount() {
+        public virtual void ClearValidValueCount() {
             validValueCount = 0;
         }
 
-        public bool HasValidValueCount() {
+        public virtual bool HasValidValueCount() {
             return validValueCount > 0;
         }
 
         // ===================================================================================
         //                                                                            Accessor
         //                                                                            ========
-        public IDataReader DataReader {
+        public virtual IDataReader DataReader {
             get { return dataReader; }
             set { dataReader = value; }
         }
 
-        public Object Row {
+        public virtual Object Row {
             get { return row; }
             set { row = value; }
         }
 
-        public IRelationPropertyType RelationPropertyType {
+        public virtual IRelationPropertyType RelationPropertyType {
             get { return relationPropertyType; }
             set { relationPropertyType = value; }
         }
 
-        public System.Collections.IList ColumnNames {
+        public virtual System.Collections.IList ColumnNames {
             get { return columnNames; }
             set { columnNames = value; }
         }
 
-        public System.Collections.Hashtable RelKeyValues {
+        public virtual System.Collections.Hashtable RelKeyValues {
             get { return relKeyValues; }
             set { relKeyValues = value; }
         }
 
-        public IDictionary<String, IDictionary<String, IPropertyType>> RelationPropertyCache {
+        public virtual IDictionary<String, IDictionary<String, IPropertyType>> RelationPropertyCache {
             get { return relationPropertyCache; }
             set { relationPropertyCache = value; }
         }
 
-        public String BaseSuffix {
+        public virtual String BaseSuffix {
             get { return baseSuffix; }
             set { baseSuffix = value; }
         }
 
-        public String RelationNoSuffix {
+        public virtual String RelationNoSuffix {
             get { return relationNoSuffix; }
             set { relationNoSuffix = value; }
         }
 
-        public int LimitRelationNestLevel {
+        public virtual int LimitRelationNestLevel {
             get { return limitRelationNestLevel; }
             set { limitRelationNestLevel = value; }
         }
 
-        public int CurrentRelationNestLevel {
+        public virtual int CurrentRelationNestLevel {
             get { return currentRelationNestLevel; }
             set { currentRelationNestLevel = value; }
         }
 
-        public IPropertyType CurrentPropertyType {
+        public virtual IPropertyType CurrentPropertyType {
             get { return currentPropertyType; }
             set { currentPropertyType = value; }
         }
 
-        public int ValidValueCount {
+        public virtual int ValidValueCount {
             get { return validValueCount; }
             set { validValueCount = value; }
         }
 
-        public bool IsCreateDeadLink {
+        public virtual bool IsCreateDeadLink {
             get { return createDeadLink; }
             set { createDeadLink = value; }
         }

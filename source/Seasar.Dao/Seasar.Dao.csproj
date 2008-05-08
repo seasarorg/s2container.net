@@ -1,7 +1,7 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{474715CA-5C99-4C50-ADFA-FB628824DFF0}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -27,6 +27,8 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <SignAssembly>true</SignAssembly>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>bin\Debug\</OutputPath>
@@ -75,10 +77,6 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Nullables, Version=1.0.0.0, Culture=neutral, PublicKeyToken=154fdcb44c4484fc">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\net2.0\Nullables.dll</HintPath>
-    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -194,6 +192,7 @@
     <Compile Include="Seasar.Dao.Impl\AbstractDynamicCommand.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Dao.Impl\AbstractObjectListDataReaderHandler.cs" />
     <Compile Include="Seasar.Dao.Impl\AbstractProcedureHandler.cs" />
     <Compile Include="Seasar.Dao.Impl\AbstractSqlCommand.cs">
       <SubType>Code</SubType>
@@ -244,7 +243,10 @@
     <Compile Include="Seasar.Dao.Impl\InsertAutoStaticCommand.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Dao.Impl\ObjectArrayDataReaderHandler.cs" />
     <Compile Include="Seasar.Dao.Impl\ObjectBasicProcedureHandler.cs" />
+    <Compile Include="Seasar.Dao.Impl\ObjectGenericListDataReaderHandler.cs" />
+    <Compile Include="Seasar.Dao.Impl\ObjectListDataReaderHandler.cs" />
     <Compile Include="Seasar.Dao.Impl\ProcedureDynamicCommand.cs" />
     <Compile Include="Seasar.Dao.Impl\RelationKey.cs">
       <SubType>Code</SubType>

@@ -1,6 +1,6 @@
 #region Copyright
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@
  */
 #endregion
 
-using System;
 using Seasar.Dao.Impl;
 using Seasar.Extension.ADO;
 
@@ -31,33 +30,9 @@ namespace Seasar.Dao.Pager
         {
         }
 
-        protected override IDaoMetaData CreateDaoMetaData(Type daoType)
+        protected override DaoMetaDataImpl CreateDaoMetaDataImpl()
         {
-            DaoMetaDataImpl dmd = new PagingDaoMetaData();
-            dmd.DaoType = daoType;
-            dmd.DataSource = _dataSource;
-            dmd.CommandFactory = _commandFactory;
-            dmd.DataReaderFactory = _dataReaderFactory;
-            dmd.AnnotationReaderFactory = _readerFactory;
-            dmd.DatabaseMetaData = _dbMetaData;
-            if (_sqlFileEncoding != null)
-            {
-                dmd.SqlFileEncoding = _sqlFileEncoding;
-            }
-            if (_insertPrefixes != null)
-            {
-                dmd.InsertPrefixes = _insertPrefixes;
-            }
-            if (_updatePrefixes != null)
-            {
-                dmd.UpdatePrefixes = _updatePrefixes;
-            }
-            if (_deletePrefixes != null)
-            {
-                dmd.DeletePrefixes = _deletePrefixes;
-            }
-            dmd.Initialize();
-            return dmd;
+            return new PagingDaoMetaData();
         }
     }
 }

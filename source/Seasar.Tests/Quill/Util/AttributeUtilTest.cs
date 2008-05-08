@@ -1,6 +1,6 @@
 #region Copyright
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,22 +17,22 @@
 #endregion
 
 using System;
-using MbUnit.Framework;
-using Seasar.Quill.Attrs;
-using Seasar.Quill.Util;
-using Seasar.Quill;
-using Seasar.Framework.Aop.Interceptors;
 using System.Reflection;
+using MbUnit.Framework;
+using Seasar.Framework.Aop.Interceptors;
+using Seasar.Quill.Attrs;
+using Seasar.Quill.Exception;
+using Seasar.Quill.Util;
 
 namespace Seasar.Tests.Quill.Util
 {
     [TestFixture]
 	public class AttributeUtilTest
     {
-        #region GetImplementationAttr‚ÌƒeƒXƒg
+        #region GetImplementationAttrã®ãƒ†ã‚¹ãƒˆ
 
         [Test]
-        public void TestGetImplementationAttr_‘®«‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡()
+        public void TestGetImplementationAttr_å±æ€§ãŒæŒ‡å®šã•ã‚Œã¦ã„ãªã„å ´åˆ()
         {
             ImplementationAttribute attr = 
                 AttributeUtil.GetImplementationAttr(typeof(Hoge1));
@@ -41,7 +41,7 @@ namespace Seasar.Tests.Quill.Util
         }
 
         [Test]
-        public void TestGetImplementationAttr_ƒNƒ‰ƒX‚Ì‘®«‚ÉÀ‘•ƒNƒ‰ƒX‚ªw’è‚³‚ê‚Ä‚¢‚éê‡()
+        public void TestGetImplementationAttr_ã‚¯ãƒ©ã‚¹ã®å±æ€§ã«å®Ÿè£…ã‚¯ãƒ©ã‚¹ãŒæŒ‡å®šã•ã‚Œã¦ã„ã‚‹å ´åˆ()
         {
             try
             {
@@ -57,7 +57,7 @@ namespace Seasar.Tests.Quill.Util
         }
 
         [Test]
-        public void TestGetImplementationAttr_‘®«‚ÌÀ‘•ƒNƒ‰ƒX‚ÉƒCƒ“ƒ^[ƒtƒF[ƒX‚ªw’è‚³‚ê‚Ä‚¢‚éê‡()
+        public void TestGetImplementationAttr_å±æ€§ã®å®Ÿè£…ã‚¯ãƒ©ã‚¹ã«ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ãŒæŒ‡å®šã•ã‚Œã¦ã„ã‚‹å ´åˆ()
         {
             try
             {
@@ -73,7 +73,7 @@ namespace Seasar.Tests.Quill.Util
         }
 
         [Test]
-        public void TestGetImplementationAttr_‘®«‚ÌÀ‘•ƒNƒ‰ƒX‚É’ŠÛƒNƒ‰ƒX‚ªw’è‚³‚ê‚Ä‚¢‚éê‡()
+        public void TestGetImplementationAttr_å±æ€§ã®å®Ÿè£…ã‚¯ãƒ©ã‚¹ã«æŠ½è±¡ã‚¯ãƒ©ã‚¹ãŒæŒ‡å®šã•ã‚Œã¦ã„ã‚‹å ´åˆ()
         {
             try
             {
@@ -89,7 +89,7 @@ namespace Seasar.Tests.Quill.Util
         }
 
         [Test]
-        public void TestGetImplementationAttr_‘®«‚ÌÀ‘•ƒNƒ‰ƒX‚É‘ã“ü‚ª•s‰Â”\‚ÈƒNƒ‰ƒX‚ªw’è‚³‚ê‚Ä‚¢‚éê‡()
+        public void TestGetImplementationAttr_å±æ€§ã®å®Ÿè£…ã‚¯ãƒ©ã‚¹ã«ä»£å…¥ãŒä¸å¯èƒ½ãªã‚¯ãƒ©ã‚¹ãŒæŒ‡å®šã•ã‚Œã¦ã„ã‚‹å ´åˆ()
         {
             try
             {
@@ -105,7 +105,7 @@ namespace Seasar.Tests.Quill.Util
         }
 
         [Test]
-        public void TestGetImplementationAttr_³í‚Èê‡()
+        public void TestGetImplementationAttr_æ­£å¸¸ãªå ´åˆ()
         {
             ImplementationAttribute attr =
                 AttributeUtil.GetImplementationAttr(typeof(IFuga4));
@@ -115,7 +115,7 @@ namespace Seasar.Tests.Quill.Util
 
         #endregion
 
-        #region GetImplementationAttr‚ÌƒeƒXƒg‚Åg—p‚·‚é“à•”ƒNƒ‰ƒXEƒCƒ“ƒ^[ƒtƒF[ƒX
+        #region GetImplementationAttrã®ãƒ†ã‚¹ãƒˆã§ä½¿ç”¨ã™ã‚‹å†…éƒ¨ã‚¯ãƒ©ã‚¹ãƒ»ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹
 
         private class Hoge1
         {
@@ -156,10 +156,10 @@ namespace Seasar.Tests.Quill.Util
 
         #endregion
 
-        #region GetAspectAttrsByMember‚ÌƒeƒXƒg
+        #region GetAspectAttrsByMemberã®ãƒ†ã‚¹ãƒˆ
 
         [Test]
-        public void TestGetAspectAttrsByMember_Type‚Å‘®«‚ªİ’è‚³‚ê‚Ä‚¢‚È‚¢ê‡()
+        public void TestGetAspectAttrsByMember_Typeã§å±æ€§ãŒè¨­å®šã•ã‚Œã¦ã„ãªã„å ´åˆ()
         {
             AspectAttribute[] aspectAttrs = 
                 AttributeUtil.GetAspectAttrsByMember(typeof(AspectHoge1));
@@ -168,7 +168,7 @@ namespace Seasar.Tests.Quill.Util
         }
 
         [Test]
-        public void TestGetAspectAttrsByMember_Type‚Å1‚Â‘®«‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡()
+        public void TestGetAspectAttrsByMember_Typeã§1ã¤å±æ€§ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹å ´åˆ()
         {
             AspectAttribute[] aspectAttrs =
                 AttributeUtil.GetAspectAttrsByMember(typeof(AspectHoge2));
@@ -179,7 +179,7 @@ namespace Seasar.Tests.Quill.Util
         }
 
         [Test]
-        public void TestGetAspectAttrsByMember_Type‚Å2‚Â‘®«‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡()
+        public void TestGetAspectAttrsByMember_Typeã§2ã¤å±æ€§ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹å ´åˆ()
         {
             AspectAttribute[] aspectAttrs =
                 AttributeUtil.GetAspectAttrsByMember(typeof(AspectHoge3));
@@ -192,7 +192,7 @@ namespace Seasar.Tests.Quill.Util
         }
 
         [Test]
-        public void TestGetAspectAttrsByMember_Method‚Å‘®«‚ªİ’è‚³‚ê‚Ä‚¢‚È‚¢ê‡()
+        public void TestGetAspectAttrsByMember_Methodã§å±æ€§ãŒè¨­å®šã•ã‚Œã¦ã„ãªã„å ´åˆ()
         {
             AspectAttribute[] aspectAttrs =AttributeUtil.GetAspectAttrsByMember(
                 typeof(AspectHoge1).GetMethod("Hoge"));
@@ -201,7 +201,7 @@ namespace Seasar.Tests.Quill.Util
         }
 
         [Test]
-        public void TestGetAspectAttrsByMember_Method‚Å1‚Â‘®«‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡()
+        public void TestGetAspectAttrsByMember_Methodã§1ã¤å±æ€§ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹å ´åˆ()
         {
             AspectAttribute[] aspectAttrs = AttributeUtil.GetAspectAttrsByMember(
                 typeof(AspectHoge2).GetMethod("Hoge"));
@@ -212,7 +212,7 @@ namespace Seasar.Tests.Quill.Util
         }
 
         [Test]
-        public void TestGetAspectAttrsByMember_Method‚Å2‚Â‘®«‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡()
+        public void TestGetAspectAttrsByMember_Methodã§2ã¤å±æ€§ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹å ´åˆ()
         {
             AspectAttribute[] aspectAttrs = AttributeUtil.GetAspectAttrsByMember(
                 typeof(AspectHoge3).GetMethod("Hoge"));
@@ -226,7 +226,7 @@ namespace Seasar.Tests.Quill.Util
 
         #endregion
 
-        #region GetAspectAttrsByMember‚ÌƒeƒXƒg‚Åg—p‚·‚é“à•”ƒNƒ‰ƒX
+        #region GetAspectAttrsByMemberã®ãƒ†ã‚¹ãƒˆã§ä½¿ç”¨ã™ã‚‹å†…éƒ¨ã‚¯ãƒ©ã‚¹
 
         private class AspectHoge1
         {
@@ -251,7 +251,7 @@ namespace Seasar.Tests.Quill.Util
 
         #endregion
 
-        #region GetAspectAttrs‚ÌƒeƒXƒg
+        #region GetAspectAttrsã®ãƒ†ã‚¹ãƒˆ
 
         [Test]
         public void TestGetAspectAttrs()
@@ -265,7 +265,7 @@ namespace Seasar.Tests.Quill.Util
         }
 
         [Test]
-        public void TestGetAspectAttrs_public‚Å‚Í‚È‚¢ƒNƒ‰ƒX‚É‘®«‚ªw’è‚³‚ê‚½ê‡()
+        public void TestGetAspectAttrs_publicã§ã¯ãªã„ã‚¯ãƒ©ã‚¹ã«å±æ€§ãŒæŒ‡å®šã•ã‚ŒãŸå ´åˆ()
         {
             try
             {
@@ -282,7 +282,7 @@ namespace Seasar.Tests.Quill.Util
 
         #endregion
 
-        #region GetAspectAttrs‚ÌƒeƒXƒg‚Åg—p‚·‚é“à•”ƒNƒ‰ƒX
+        #region GetAspectAttrsã®ãƒ†ã‚¹ãƒˆã§ä½¿ç”¨ã™ã‚‹å†…éƒ¨ã‚¯ãƒ©ã‚¹
 
         [Aspect(typeof(TraceInterceptor))]
         public class AspectAttrsHoge
@@ -296,10 +296,10 @@ namespace Seasar.Tests.Quill.Util
 
         #endregion
 
-        #region GetAspectAttrsByMethod‚ÌƒeƒXƒg
+        #region GetAspectAttrsByMethodã®ãƒ†ã‚¹ãƒˆ
 
         [Test]
-        public void TestGetAspectAttrsByMethod_‘®«‚ªİ’è‚³‚ê‚Ä‚¢‚È‚¢ê‡()
+        public void TestGetAspectAttrsByMethod_å±æ€§ãŒè¨­å®šã•ã‚Œã¦ã„ãªã„å ´åˆ()
         {
             AspectAttribute[] aspectAttrs = AttributeUtil.GetAspectAttrsByMethod(
                 typeof(AspectAttrMethodHoge1).GetMethod("Hoge"));
@@ -308,7 +308,7 @@ namespace Seasar.Tests.Quill.Util
         }
 
         [Test]
-        public void TestGetAspectAttrsByMethod_ƒNƒ‰ƒX‚ªpublic‚Å‚Í‚È‚¢ê‡()
+        public void TestGetAspectAttrsByMethod_ã‚¯ãƒ©ã‚¹ãŒpublicã§ã¯ãªã„å ´åˆ()
         {
             try
             {
@@ -324,7 +324,7 @@ namespace Seasar.Tests.Quill.Util
         }
 
         [Test]
-        public void TestGetAspectAttrsByMethod_ƒƒ\ƒbƒh‚ªstatic‚Ìê‡()
+        public void TestGetAspectAttrsByMethod_ãƒ¡ã‚½ãƒƒãƒ‰ãŒstaticã®å ´åˆ()
         {
             try
             {
@@ -340,7 +340,7 @@ namespace Seasar.Tests.Quill.Util
         }
 
         [Test]
-        public void TestGetAspectAttrsByMethod_ƒƒ\ƒbƒh‚ªprivate‚Ìê‡()
+        public void TestGetAspectAttrsByMethod_ãƒ¡ã‚½ãƒƒãƒ‰ãŒprivateã®å ´åˆ()
         {
             try
             {
@@ -358,7 +358,7 @@ namespace Seasar.Tests.Quill.Util
 
 
         [Test]
-        public void TestGetAspectAttrsByMethod_ƒƒ\ƒbƒh‚ªvirtual‚Å‚Í‚È‚¢ê‡()
+        public void TestGetAspectAttrsByMethod_ãƒ¡ã‚½ãƒƒãƒ‰ãŒvirtualã§ã¯ãªã„å ´åˆ()
         {
             try
             {
@@ -374,7 +374,7 @@ namespace Seasar.Tests.Quill.Util
         }
 
         [Test]
-        public void TestGetAspectAttrsByMethod_³í‚Èê‡()
+        public void TestGetAspectAttrsByMethod_æ­£å¸¸ãªå ´åˆ()
         {
             AspectAttribute[] aspectAttrs = AttributeUtil.GetAspectAttrsByMethod(
                 typeof(AspectAttrMethodHoge5).GetMethod("Hoge"));
@@ -386,7 +386,7 @@ namespace Seasar.Tests.Quill.Util
 
         #endregion
 
-        #region GetAspectAttrsByMethod‚ÌƒeƒXƒg‚Åg—p‚·‚é“à•”ƒNƒ‰ƒX
+        #region GetAspectAttrsByMethodã®ãƒ†ã‚¹ãƒˆã§ä½¿ç”¨ã™ã‚‹å†…éƒ¨ã‚¯ãƒ©ã‚¹
 
         public class AspectAttrMethodHoge1
         {
@@ -425,10 +425,10 @@ namespace Seasar.Tests.Quill.Util
 
         #endregion
 
-        #region GetBindingAttr‚ÌƒeƒXƒg
+        #region GetBindingAttrã®ãƒ†ã‚¹ãƒˆ
 
         [Test]
-        public void TestGetBindingAttr_staticƒtƒB[ƒ‹ƒh‚É‘®«‚ªİ’è‚³‚ê‚½ê‡()
+        public void TestGetBindingAttr_staticãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«å±æ€§ãŒè¨­å®šã•ã‚ŒãŸå ´åˆ()
         {
             try
             {
@@ -445,7 +445,7 @@ namespace Seasar.Tests.Quill.Util
         }
 
         [Test]
-        public void TestGetBindingAttr_‘®«‚ªİ’è‚³‚ê‚Ä‚¢‚È‚¢ê‡()
+        public void TestGetBindingAttr_å±æ€§ãŒè¨­å®šã•ã‚Œã¦ã„ãªã„å ´åˆ()
         {
             BindingAttribute attr = AttributeUtil.GetBindingAttr(
                 typeof(BindingHoge2).GetField("hoge", 
@@ -455,7 +455,7 @@ namespace Seasar.Tests.Quill.Util
         }
 
         [Test]
-        public void TestGetBindingAttr_ƒRƒ“ƒ|[ƒlƒ“ƒg–¼‚ªİ’è‚³‚ê‚Ä‚¢‚È‚¢ê‡()
+        public void TestGetBindingAttr_ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆåãŒè¨­å®šã•ã‚Œã¦ã„ãªã„å ´åˆ()
         {
             BindingAttribute attr = AttributeUtil.GetBindingAttr(
                 typeof(BindingHoge3).GetField("hoge",
@@ -465,7 +465,7 @@ namespace Seasar.Tests.Quill.Util
         }
 
         [Test]
-        public void TestGetBindingAttr_³í‚Èê‡()
+        public void TestGetBindingAttr_æ­£å¸¸ãªå ´åˆ()
         {
             BindingAttribute attr = AttributeUtil.GetBindingAttr(
                 typeof(BindingHoge4).GetField("hoge",
@@ -476,7 +476,7 @@ namespace Seasar.Tests.Quill.Util
 
         #endregion
 
-        #region GetBindingAttr‚ÌƒeƒXƒg‚Åg—p‚·‚é“à•”ƒNƒ‰ƒX
+        #region GetBindingAttrã®ãƒ†ã‚¹ãƒˆã§ä½¿ç”¨ã™ã‚‹å†…éƒ¨ã‚¯ãƒ©ã‚¹
 
         private class BindingHoge1
         {
@@ -502,17 +502,17 @@ namespace Seasar.Tests.Quill.Util
 
         #endregion
 
-        #region GetMockAttr‚ÌƒeƒXƒg
+        #region GetMockAttrã®ãƒ†ã‚¹ãƒˆ
 
         [Test]
-        public void TestGetMockAttr_Mock‘®«w’è–³‚µ()
+        public void TestGetMockAttr_Mockå±æ€§æŒ‡å®šç„¡ã—()
         {
             MockAttribute attr = AttributeUtil.GetMockAttr(typeof(TestGetMockAttrNon));
             Assert.IsNull(attr);
         }
 
         [Test]
-        public void TestGetMockAttr_mockType‚ªnull()
+        public void TestGetMockAttr_mockTypeãŒnull()
         {
             try
             {
@@ -528,7 +528,7 @@ namespace Seasar.Tests.Quill.Util
         }
 
         [Test]
-        public void TestGetMockAttr_mockType‚ªƒCƒ“ƒ^[ƒtƒF[ƒX()
+        public void TestGetMockAttr_mockTypeãŒã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹()
         {
             try
             {
@@ -544,7 +544,7 @@ namespace Seasar.Tests.Quill.Util
         }
 
         [Test]
-        public void TestGetMockAttr_mockType‚ª’ŠÛƒNƒ‰ƒX()
+        public void TestGetMockAttr_mockTypeãŒæŠ½è±¡ã‚¯ãƒ©ã‚¹()
         {
             try
             {
@@ -560,7 +560,7 @@ namespace Seasar.Tests.Quill.Util
         }
 
         [Test]
-        public void TestGetMockAttr_mockType‚ª‘ã“ü•s‰Â”\()
+        public void TestGetMockAttr_mockTypeãŒä»£å…¥ä¸å¯èƒ½()
         {
             try
             {
@@ -576,7 +576,7 @@ namespace Seasar.Tests.Quill.Util
         }
 
         [Test]
-        public void TestGetMockAttr_³í‚È‘®«()
+        public void TestGetMockAttr_æ­£å¸¸ãªå±æ€§()
         {
             MockAttribute attr =
                 AttributeUtil.GetMockAttr(typeof(TestGetMockAttrIsAssign));
@@ -586,7 +586,7 @@ namespace Seasar.Tests.Quill.Util
 
         #endregion
 
-        #region GetMockAttr‚ÌƒeƒXƒg‚Åg—p‚·‚é“à•”ƒNƒ‰ƒX
+        #region GetMockAttrã®ãƒ†ã‚¹ãƒˆã§ä½¿ç”¨ã™ã‚‹å†…éƒ¨ã‚¯ãƒ©ã‚¹
 
         private interface TestGetMockAttrNon
         {

@@ -1,6 +1,6 @@
 #region Copyright
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -81,10 +81,6 @@ namespace Seasar.Extension.ADO.Impl
                 case BindVariableType.ColonWithParam:
                     ret = GetChangeSignCommandText(original, ":");
                     break;
-                case BindVariableType.ColonWithParamToLower:
-                    ret = GetChangeSignCommandText(original, ":");
-                    ret = ret.ToLower();
-                    break;
                 default:
                     ret = original;
                     break;
@@ -102,9 +98,6 @@ namespace Seasar.Extension.ADO.Impl
                     sign = "?";
                     break;
                 case BindVariableType.ColonWithParam:
-                    sign = ":";
-                    break;
-                case BindVariableType.ColonWithParamToLower:
                     sign = ":";
                     break;
                 default:

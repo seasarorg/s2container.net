@@ -1,6 +1,6 @@
 #region Copyright
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,10 @@
 using System;
 using System.Data.SqlTypes;
 using System.Reflection;
+
+#if NHIBERNATE_NULLABLES
 using Nullables;
+#endif
 
 namespace Seasar.Framework.Util
 {
@@ -57,10 +60,12 @@ namespace Seasar.Framework.Util
             {
                 ret = ConvertSqlTypesNullable(o, targetType);
             }
+#if NHIBERNATE_NULLABLES
             else if (typeof(INullableType).IsAssignableFrom(targetType))
             {
                 ret = ConvertNHibernateNullable(o, targetType);
             }
+#endif
             else if (o == DBNull.Value)
             {
                 ret = null;
@@ -98,6 +103,8 @@ namespace Seasar.Framework.Util
             return ret;
         }
 
+#if NHIBERNATE_NULLABLES
+
         /// <summary>
         /// オブジェクトをINullableTypeを実装するTypeに変換する
         /// </summary>
@@ -122,6 +129,7 @@ namespace Seasar.Framework.Util
 
             return ret;
         }
+#endif
 
 #if !NET_1_1
         /// <summary>

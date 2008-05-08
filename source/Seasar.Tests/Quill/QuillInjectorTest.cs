@@ -1,6 +1,6 @@
 #region Copyright
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,14 +17,15 @@
 #endregion
 
 using System;
-using MbUnit.Framework;
-using Seasar.Quill;
-using Seasar.Quill.Attrs;
 using System.Reflection;
+using MbUnit.Framework;
 using Seasar.Framework.Aop.Interceptors;
 using Seasar.Framework.Container;
-using Seasar.Framework.Container.Impl;
 using Seasar.Framework.Container.Factory;
+using Seasar.Framework.Container.Impl;
+using Seasar.Quill;
+using Seasar.Quill.Attrs;
+using Seasar.Quill.Exception;
 
 namespace Seasar.Tests.Quill
 {
@@ -38,10 +39,10 @@ namespace Seasar.Tests.Quill
 
         public override void Dispose()
         {
-            // MbUnit‚ªDispose‚ğŒÄ‚Ño‚·‚Ì‚ÅDispose‚ğoverride‚µ‚Ä‚¨‚­
+            // MbUnitãŒDisposeã‚’å‘¼ã³å‡ºã™ã®ã§Disposeã‚’overrideã—ã¦ãŠã
         }
 
-        #region GetInstance‚ÌƒeƒXƒg
+        #region GetInstanceã®ãƒ†ã‚¹ãƒˆ
 
         [Test]
         public void TestGetInstance()
@@ -55,7 +56,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestGetInstance_DestroyÏ‚İ‚Ìê‡()
+        public void TestGetInstance_Destroyæ¸ˆã¿ã®å ´åˆ()
         {
             QuillInjector injector1 = QuillInjector.GetInstance();
             QuillInjector.GetInstance().Destroy();
@@ -67,10 +68,10 @@ namespace Seasar.Tests.Quill
 
         #endregion
 
-        #region InjectField‚ÌƒeƒXƒg
+        #region InjectFieldã®ãƒ†ã‚¹ãƒˆ
 
         [Test]
-        public void TestInjectField_Quill_Œ^‚ªƒNƒ‰ƒX‚Ìê‡()
+        public void TestInjectField_Quill_å‹ãŒã‚¯ãƒ©ã‚¹ã®å ´åˆ()
         {
             container = new QuillContainer();
             ImplementationAttribute attr = new ImplementationAttribute();
@@ -83,7 +84,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestInjectField_Quill_Œ^‚ªƒCƒ“ƒ^[ƒtƒF[ƒX‚ÅÀ‘•ƒNƒ‰ƒX‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡()
+        public void TestInjectField_Quill_å‹ãŒã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã§å®Ÿè£…ã‚¯ãƒ©ã‚¹ãŒæŒ‡å®šã•ã‚Œã¦ã„ãªã„å ´åˆ()
         {
             container = new QuillContainer();
             ImplementationAttribute attr = new ImplementationAttribute();
@@ -96,7 +97,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestInjectField_Quill_Œ^‚ªƒCƒ“ƒ^[ƒtƒF[ƒX‚ÅÀ‘•ƒNƒ‰ƒX‚ªw’è‚³‚ê‚Ä‚¢‚éê‡()
+        public void TestInjectField_Quill_å‹ãŒã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã§å®Ÿè£…ã‚¯ãƒ©ã‚¹ãŒæŒ‡å®šã•ã‚Œã¦ã„ã‚‹å ´åˆ()
         {
             container = new QuillContainer();
             ImplementationAttribute attr = new ImplementationAttribute(typeof(Hoge3));
@@ -121,7 +122,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestInjectField_S2_‘ã“ü•s‰Â”\‚Èê‡()
+        public void TestInjectField_S2_ä»£å…¥ä¸å¯èƒ½ãªå ´åˆ()
         {
             container = new QuillContainer();
             IS2Container s2Container = new S2ContainerImpl();
@@ -145,7 +146,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestInjectField_S2_³í‚Èê‡()
+        public void TestInjectField_S2_æ­£å¸¸ãªå ´åˆ()
         {
             container = new QuillContainer();
             IS2Container s2Container = new S2ContainerImpl();
@@ -163,7 +164,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestInjectField_Binding‘®«‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡()
+        public void TestInjectField_Bindingå±æ€§ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹å ´åˆ()
         {
             container = new QuillContainer();
             IS2Container s2Container = new S2ContainerImpl();
@@ -180,7 +181,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestInjectField_Implementation‘®«‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡()
+        public void TestInjectField_Implementationå±æ€§ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹å ´åˆ()
         {
             container = new QuillContainer();
             FieldInfo field = typeof(Target3).GetField("Hoge3");
@@ -193,7 +194,7 @@ namespace Seasar.Tests.Quill
 
         #endregion
 
-        #region InjectFiled‚ÌƒeƒXƒg‚Åg—p‚·‚é“à•”ƒNƒ‰ƒX
+        #region InjectFiledã®ãƒ†ã‚¹ãƒˆã§ä½¿ç”¨ã™ã‚‹å†…éƒ¨ã‚¯ãƒ©ã‚¹
 
         public class Target1
         {
@@ -245,7 +246,7 @@ namespace Seasar.Tests.Quill
 
         #endregion
 
-        #region Inject‚ÌƒeƒXƒg
+        #region Injectã®ãƒ†ã‚¹ãƒˆ
 
         [Test]
         public void TestInject()
@@ -260,7 +261,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestInject_DestroyÏ‚İ‚Ìê‡()
+        public void TestInject_Destroyæ¸ˆã¿ã®å ´åˆ()
         {
             container = new QuillContainer();
             Target10 target = new Target10();
@@ -278,7 +279,7 @@ namespace Seasar.Tests.Quill
 
         #endregion
 
-        #region Inject‚ÌƒeƒXƒg‚Åg—p‚·‚é“à•”ƒNƒ‰ƒX
+        #region Injectã®ãƒ†ã‚¹ãƒˆã§ä½¿ç”¨ã™ã‚‹å†…éƒ¨ã‚¯ãƒ©ã‚¹
 
         public class Target10
         {
@@ -318,7 +319,7 @@ namespace Seasar.Tests.Quill
 
         #endregion
 
-        #region Dispose‚ÌƒeƒXƒg
+        #region Disposeã®ãƒ†ã‚¹ãƒˆ
 
         [Test]
         public void TestDispose()
@@ -336,7 +337,7 @@ namespace Seasar.Tests.Quill
 
         #endregion
 
-        #region Dispose‚ÌƒeƒXƒg‚Åg—p‚·‚é“à•”ƒNƒ‰ƒX
+        #region Disposeã®ãƒ†ã‚¹ãƒˆã§ä½¿ç”¨ã™ã‚‹å†…éƒ¨ã‚¯ãƒ©ã‚¹
 
         public class DisposableTarget
         {
@@ -348,7 +349,7 @@ namespace Seasar.Tests.Quill
         {
             public bool Disposed = false;
 
-            #region IDisposable ƒƒ“ƒo
+            #region IDisposable ãƒ¡ãƒ³ãƒ
 
             public void Dispose()
             {
@@ -360,7 +361,7 @@ namespace Seasar.Tests.Quill
 
         #endregion 
 
-        #region Destroy‚ÌƒeƒXƒg
+        #region Destroyã®ãƒ†ã‚¹ãƒˆ
 
         [Test]
         public void TestDestroy()
@@ -383,7 +384,7 @@ namespace Seasar.Tests.Quill
 
         #endregion
 
-        #region Destroy‚ÌƒeƒXƒg‚Åg—p‚·‚é“à•”ƒNƒ‰ƒX
+        #region Destroyã®ãƒ†ã‚¹ãƒˆã§ä½¿ç”¨ã™ã‚‹å†…éƒ¨ã‚¯ãƒ©ã‚¹
 
         private class DestroyHoge
         {

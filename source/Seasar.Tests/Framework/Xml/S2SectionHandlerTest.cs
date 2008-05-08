@@ -1,6 +1,6 @@
 #region Copyright
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,11 +30,14 @@ namespace Seasar.Tests.Framework.Xml
             S2Section section = S2SectionHandler.GetS2Section();
 
             Assert.AreEqual("Seasar.Tests.test.dicon", section.ConfigPath);
+            
+            //  SQLServer以外を使う場合は設定上６以上になるためコメントアウト
+            //Assert.AreEqual(5, section.Assemblys.Count);
 
-            Assert.AreEqual(5, section.Assemblys.Count);
-
-            Assert.AreEqual("Seasar.Tests", (string) section.Assemblys[0]);
-            Assert.AreEqual("Seasar", (string) section.Assemblys[1]);
+            string[] expects = new string[] { "Seasar.Tests", "Seasar", "Seasar.DynamicProxy", "Seasar.Dao", "Seasar.Dxo" };
+            for(int i = 0; i < expects.Length; i++ ){
+                Assert.AreEqual(expects[i], section.Assemblys[i].ToString());
+            }
         }
     }
 }

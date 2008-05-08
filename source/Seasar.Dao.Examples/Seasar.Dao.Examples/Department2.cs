@@ -1,6 +1,6 @@
 #region Copyright
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,18 +17,17 @@
 #endregion
 
 using Seasar.Dao.Attrs;
-using Nullables;
 
 namespace Seasar.Dao.Examples
 {
     [Table("DEPT2")]
     public class Department2
     {
-        private NullableInt32 _deptno;
+        private int? _deptno;
         private string _dname;
-        private NullableInt16 _active;
+        private short? _active;
 
-        public NullableInt32 Deptno
+        public int? Deptno
         {
             set { _deptno = value; }
             get { return _deptno; }
@@ -40,7 +39,7 @@ namespace Seasar.Dao.Examples
             get { return _dname; }
         }
 
-        public NullableInt16 Active
+        public short? Active
         {
             set { _active = value; }
             get { return _active; }

@@ -1,9 +1,8 @@
-using System;
-using System.Text;
 using Seasar.Dao.Attrs;
 
 namespace Seasar.Tests.Dao.Impl
 {
+#if NHIBERNATE_NULLABLES
     [Bean(typeof(EmployeeNullableDecimalVersionNo))]
     public interface IEmployeeNullableDecimalVersionNoDao
     {
@@ -25,6 +24,8 @@ namespace Seasar.Tests.Dao.Impl
         void Update(EmployeeNullableIntVersionNo employee);
         void Delete(EmployeeNullableIntVersionNo employee);
     }
+#endif
+
 #if !NET_1_1
     [Bean(typeof(EmployeeGenericNullableDecimalVersionNo))]
     public interface IEmployeeGenericNullableDecimalVersionNoDao

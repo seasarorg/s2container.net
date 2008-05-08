@@ -1,6 +1,6 @@
 #region Copyright
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 #endregion
 
 using System;
-using Nullables;
+using System.Threading;
 using MbUnit.Framework;
 using Seasar.Dao;
 using Seasar.Dao.Unit;
@@ -47,6 +47,10 @@ namespace Seasar.Tests.Dao.Impl
         [Test, S2(Tx.Rollback)]
         public void TestExecuteWithUnderscoreTx()
         {
+            if ( Dbms.Dbms == KindOfDbms.Oracle )
+            {
+                Assert.Ignore("Oracleでは[_]が先頭にくるSQLを実行することはできない");
+            }
             IDaoMetaData dmd = CreateDaoMetaData(typeof(IUnderscoreEntityDao));
             ISqlCommand cmd = dmd.GetSqlCommand("Update");
             ISqlCommand cmd2 = dmd.GetSqlCommand("GetUnderScoreEntity");
@@ -82,7 +86,7 @@ namespace Seasar.Tests.Dao.Impl
             }
             {
                 EmployeeNullable emp = (EmployeeNullable) cmd2.Execute(new object[] { 100 });
-                emp.NullableNextRestDate = NullableDateTime.Parse("2006/01/01");
+                emp.NullableNextRestDate = DateTime.Parse("2006/01/01");
                 int count = (int) cmd.Execute(new object[] { emp });
                 Assert.AreEqual(1, count, "2");
             }
@@ -173,6 +177,7 @@ namespace Seasar.Tests.Dao.Impl
             Assert.AreEqual(1, count, "1");
         }
 
+#if NHIBERNATE_NULLABLES
         [Test, S2(Tx.Rollback)]
         public void TestExecuteNullableDecimalVersionNoTx()
         {
@@ -210,6 +215,8 @@ namespace Seasar.Tests.Dao.Impl
             Assert.IsTrue(emp.VersionNo.HasValue);
             Assert.AreEqual(1, emp.VersionNo.Value);
         }
+#endif
+
 #if !NET_1_1
         [Test, S2(Tx.Rollback)]
         public void TestExecuteGenericNullableDecimalVersionNoTx()
@@ -281,6 +288,70 @@ namespace Seasar.Tests.Dao.Impl
             emp.EmpName = "update";
             updCmd.Execute(new object[] { emp });
             Assert.AreEqual(1, emp.VersionNo);
+        }
+
+        [Test, S2(Tx.Rollback)]
+        public void TestEmployeeGenericNullableTimestampTx()
+        {
+            IDaoMetaData dmd = CreateDaoMetaData(typeof(IEmployeeGenericNullableTimestampDao));
+            ISqlCommand insCmd = dmd.GetSqlCommand("Insert");
+            EmployeeGenericNullableTimestamp emp = new EmployeeGenericNullableTimestamp();
+            emp.EmpNo = 1;
+            insCmd.Execute(new object[] { emp });
+            Assert.IsTrue(emp.Timestamp.HasValue);
+            Assert.AreEqual(DateTime.Today, emp.Timestamp.Value.Date);
+
+            DateTime insTimestamp = emp.Timestamp.Value;
+
+            // Timestampの更新を確認するため、1秒待機。
+            Thread.Sleep(1000);
+
+            ISqlCommand updCmd = dmd.GetSqlCommand("Update");
+            updCmd.Execute(new object[] { emp });
+            Assert.IsTrue(emp.Timestamp.HasValue);
+            Assert.IsTrue(insTimestamp < emp.Timestamp.Value);
+        }
+
+        [Test, S2(Tx.Rollback)]
+        public void TestEmployeeTimestampTx()
+        {
+            IDaoMetaData dmd = CreateDaoMetaData(typeof(IEmployeeTimestampDao));
+            ISqlCommand insCmd = dmd.GetSqlCommand("Insert");
+            EmployeeTimestamp emp = new EmployeeTimestamp();
+            emp.EmpNo = 1;
+            insCmd.Execute(new object[] { emp });
+            Assert.AreEqual(DateTime.Today, emp.Timestamp.Date);
+
+            DateTime insTimestamp = emp.Timestamp;
+
+            // Timestampの更新を確認するため、1秒待機。
+            Thread.Sleep(1000);
+
+            ISqlCommand updCmd = dmd.GetSqlCommand("Update");
+            updCmd.Execute(new object[] { emp });
+            Assert.IsTrue(insTimestamp < emp.Timestamp);
+        }
+
+        [Test, S2(Tx.Rollback)]
+        public void TestEmployeeSqlTimestampTx()
+        {
+            IDaoMetaData dmd = CreateDaoMetaData(typeof(IEmployeeSqlTimestampDao));
+            ISqlCommand insCmd = dmd.GetSqlCommand("Insert");
+            EmployeeSqlTimestamp emp = new EmployeeSqlTimestamp();
+            emp.EmpNo = 1;
+            insCmd.Execute(new object[] { emp });
+            Assert.IsFalse(emp.Timestamp.IsNull);
+            Assert.AreEqual(DateTime.Today, emp.Timestamp.Value.Date);
+
+            // Timestampの更新を確認するため、1秒待機。
+            Thread.Sleep(1000);
+
+            DateTime insTimestamp = emp.Timestamp.Value;
+
+            ISqlCommand updCmd = dmd.GetSqlCommand("Update");
+            updCmd.Execute(new object[] { emp });
+            Assert.IsFalse(emp.Timestamp.IsNull);
+            Assert.IsTrue(insTimestamp < emp.Timestamp.Value);
         }
     }
 }

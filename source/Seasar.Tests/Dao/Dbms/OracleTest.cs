@@ -1,6 +1,6 @@
 #region Copyright
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ namespace Seasar.Tests.Dao.Dbms
         [Test, S2]
         public void TestCreateAutoSelectList()
         {
-            IDbms dbms = new Oracle();
+            IDbms dbms = new Seasar.Dao.Dbms.Oracle();
             IBeanMetaData bmd = CreateBeanMetaData(typeof(Employee), dbms);
             string sql = dbms.GetAutoSelectSql(bmd);
             Assert.AreEqual("SELECT EMP2.DEPTNUM, EMP2.ENAME, EMP2.EMPNO FROM EMP2", sql);
@@ -44,7 +44,7 @@ namespace Seasar.Tests.Dao.Dbms
         [Test, S2]
         public void TestCreateAutoSelectList2()
         {
-            IDbms dbms = new Oracle();
+            IDbms dbms = new Seasar.Dao.Dbms.Oracle();
             IBeanMetaData bmd = CreateBeanMetaData(typeof(Department), dbms);
             string sql = dbms.GetAutoSelectSql(bmd);
             Assert.AreEqual("SELECT DEPT.LOC, DEPT.DNAME, DEPT.DEPTNO, DEPT.VERSIONNO FROM DEPT", sql);

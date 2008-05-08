@@ -1,6 +1,6 @@
 #region Copyright
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@
  */
 #endregion
 
-using System;
 using System.Reflection;
 using Seasar.Quill.Attrs;
 using Seasar.Quill.Util;
@@ -24,41 +23,41 @@ using Seasar.Quill.Util;
 namespace Seasar.Quill.Unit
 {
     /// <summary>
-    /// Mock‚ğInject‚·‚é‚½‚ß‚ÌƒNƒ‰ƒX
+    /// Mockã‚’Injectã™ã‚‹ãŸã‚ã®ã‚¯ãƒ©ã‚¹
     /// </summary>
     public class MockInjector : QuillInjector
     {
-        // MockInjector‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
+        // MockInjectorã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
         private static MockInjector mockInjector;
 
         /// <summary>
-        /// MockInjector‚ğ‰Šú‰»‚·‚éƒRƒ“ƒXƒgƒ‰ƒNƒ^
+        /// MockInjectorã‚’åˆæœŸåŒ–ã™ã‚‹ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
         /// </summary>
         /// <remarks>
-        /// <see cref="GetInstance"/>‚©‚çƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬‚·‚é
+        /// <see cref="GetInstance"/>ã‹ã‚‰ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆã™ã‚‹
         /// </remarks>
-        /// <seealso cref="Seasar.Quill.Util.MockInjector.GetInstance"/>
-        protected MockInjector() : base()
+        /// <seealso cref="Seasar.Quill.Unit.MockInjector.GetInstance"/>
+        protected MockInjector()
         {
         }
 
         /// <summary>
-        /// MockInjector‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚·‚é
+        /// MockInjectorã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã™ã‚‹
         /// </summary>
         /// <remarks>
         /// <para>
-        /// MockInjector‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ÌƒAƒNƒZƒXCüq‚Íprotected‚Éİ’è‚³‚ê‚Ä‚¢‚éˆ×A
-        /// ’¼ÚMockInjector‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬‚·‚é‚±‚Æ‚Í‚Å‚«‚È‚¢B
+        /// MockInjectorã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã®ã‚¢ã‚¯ã‚»ã‚¹ä¿®é£¾å­ã¯protectedã«è¨­å®šã•ã‚Œã¦ã„ã‚‹ç‚ºã€
+        /// ç›´æ¥MockInjectorã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆã™ã‚‹ã“ã¨ã¯ã§ããªã„ã€‚
         /// </para>
         /// <para>
-        /// MockInjector‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚·‚éê‡‚Í“–ƒƒ\ƒbƒh‚ğg—p‚·‚éB
+        /// MockInjectorã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã™ã‚‹å ´åˆã¯å½“ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä½¿ç”¨ã™ã‚‹ã€‚
         /// </para>
         /// <para>
-        /// Šî–{“I‚É“¯‚¶ƒCƒ“ƒXƒ^ƒ“ƒX‚ğ•Ô‚·‚ªADestroyƒƒ\ƒbƒh‚É‚æ‚Á‚ÄQuill‚ª‚Â
-        /// QÆ‚ª”jŠü‚³‚ê‚Ä‚¢‚éê‡‚ÍV‚µ‚¢MockInjector‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
+        /// åŸºæœ¬çš„ã«åŒã˜ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’è¿”ã™ãŒã€Destroyãƒ¡ã‚½ãƒƒãƒ‰ã«ã‚ˆã£ã¦QuillãŒæŒã¤
+        /// å‚ç…§ãŒç ´æ£„ã•ã‚Œã¦ã„ã‚‹å ´åˆã¯æ–°ã—ã„MockInjectorã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ä½œæˆã™ã‚‹ã€‚
         /// </para>
         /// </remarks>
-        /// <returns>QuillInjector‚ÌƒCƒ“ƒXƒ^ƒ“ƒX</returns>
+        /// <returns>QuillInjectorã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹</returns>
         public new static MockInjector GetInstance()
         {
             if (mockInjector == null)
@@ -66,12 +65,12 @@ namespace Seasar.Quill.Unit
                 mockInjector = new MockInjector();
             }
 
-            // MockInjector‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ•Ô‚·
+            // MockInjectorã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’è¿”ã™
             return mockInjector;
         }
 
         /// <summary>
-        /// QuillInjector‚ª‚ÂQÆ‚ğ”jŠü‚·‚é
+        /// QuillInjectorãŒæŒã¤å‚ç…§ã‚’ç ´æ£„ã™ã‚‹
         /// </summary>
         public override void Destroy()
         {
@@ -80,7 +79,7 @@ namespace Seasar.Quill.Unit
                 return;
             }
 
-            // QuillContainer‚ª‚ÂQÆ‚ğ”jŠü‚·‚é
+            // QuillContainerãŒæŒã¤å‚ç…§ã‚’ç ´æ£„ã™ã‚‹
             container.Destroy();
 
             container = null;
@@ -88,25 +87,25 @@ namespace Seasar.Quill.Unit
         }
 
         /// <summary>
-        /// w’è‚·‚éƒtƒB[ƒ‹ƒh‚ÉDI‚·‚éB
+        /// æŒ‡å®šã™ã‚‹ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«DIã™ã‚‹ã€‚
         /// </summary>
-        /// <remarks>Mock‘®«‚ªw’è‚³‚ê‚Ä‚¢‚éê‡‚ÍMock‘®«‚Åw’è‚³‚ê‚Ä‚¢‚éMockƒNƒ‰ƒX‚ğ
-        /// —Dæ‚µ‚ÄInject‚·‚éB</remarks>
-        /// <param name="target">DI‚ªs‚í‚ê‚éƒIƒuƒWƒFƒNƒg</param>
-        /// <param name="field">DI‚ªs‚í‚ê‚éƒtƒB[ƒ‹ƒhî•ñ</param>
+        /// <remarks>Mockå±æ€§ãŒæŒ‡å®šã•ã‚Œã¦ã„ã‚‹å ´åˆã¯Mockå±æ€§ã§æŒ‡å®šã•ã‚Œã¦ã„ã‚‹Mockã‚¯ãƒ©ã‚¹ã‚’
+        /// å„ªå…ˆã—ã¦Injectã™ã‚‹ã€‚</remarks>
+        /// <param name="target">DIãŒè¡Œã‚ã‚Œã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ</param>
+        /// <param name="field">DIãŒè¡Œã‚ã‚Œã‚‹ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰æƒ…å ±</param>
         protected override void InjectField(object target, FieldInfo field)
         {
-            // ƒtƒB[ƒ‹ƒh‚ÌŒ^‚Éİ’è‚³‚ê‚Ä‚¢‚éMock‘®«‚ğæ“¾‚·‚é
+            // ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®å‹ã«è¨­å®šã•ã‚Œã¦ã„ã‚‹Mockå±æ€§ã‚’å–å¾—ã™ã‚‹
             MockAttribute mockAttr = AttributeUtil.GetMockAttr(field.FieldType);
 
             if (mockAttr != null)
             {
-                // Mock‚ğInject‚·‚é
+                // Mockã‚’Injectã™ã‚‹
                 InjectField(target, field, mockAttr.MockType);
             }
             else
             {
-                // Mock‘®«‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Í’Êí‚Ìˆ—‚ğs‚¤
+                // Mockå±æ€§ãŒæŒ‡å®šã•ã‚Œã¦ã„ãªã„å ´åˆã¯é€šå¸¸ã®å‡¦ç†ã‚’è¡Œã†
                 base.InjectField(target, field);
             }
         }

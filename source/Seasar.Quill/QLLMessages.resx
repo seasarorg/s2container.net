@@ -189,4 +189,22 @@
   <data name="EQLL0022" xml:space="preserve">
     <value>Mock属性に代入のできない型が指定されています （{0}のMockクラスとして{1}が指定されています）</value>
   </data>
+  <data name="EQLL0023" xml:space="preserve">
+    <value>DaoInterceptorのインスタンスが生成されていません。</value>
+  </data>
+  <data name="EQLL0024" xml:space="preserve">
+    <value>TransactionInterceptorのインスタンスが生成されていません。</value>
+  </data>
+  <data name="EQLL0025" xml:space="preserve">
+    <value>IDaoSetting実装クラスではないため、DaoInterceptorを適用できません。type={0}</value>
+  </data>
+  <data name="EQLL0026" xml:space="preserve">
+    <value>ITransactionSetting実装クラスではないため、TransactionInterceptorを適用できません。type={0}</value>
+  </data>
+  <data name="EQLL0027" xml:space="preserve">
+    <value>{0}は{1}の実装、または継承クラスではありません。</value>
+  </data>
+  <data name="EQLL0028" xml:space="preserve">
+    <value>ITransactionSetting実装クラス({0})内でTransactionContextの設定がおこなわれていません。</value>
+  </data>
 </root>

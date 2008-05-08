@@ -1,6 +1,6 @@
 #region Copyright
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,20 +16,19 @@
  */
 #endregion
 
-using System;
 using MbUnit.Framework;
+using Seasar.Quill.Exception;
 using Seasar.Quill.Util;
-using Seasar.Quill;
 
 namespace Seasar.Tests.Quill.Util
 {
     [TestFixture]
 	public class MessageUtilTest
     {
-        #region GetSimpleMessage‚ÌƒeƒXƒg
+        #region GetSimpleMessageã®ãƒ†ã‚¹ãƒˆ
 
         [Test]
-        public void TestGetSimpleMessage_ƒƒbƒZ[ƒW‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡()
+        public void TestGetSimpleMessage_ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒè¦‹ã¤ã‹ã‚‰ãªã„å ´åˆ()
         {
             try
             {
@@ -43,27 +42,27 @@ namespace Seasar.Tests.Quill.Util
         }
 
         [Test]
-        public void TestGetSimpleMessage_ƒƒbƒZ[ƒW’†‚É–„‚ß‚Ş’l‚ªnull‚Ìê‡()
+        public void TestGetSimpleMessage_ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ä¸­ã«åŸ‹ã‚è¾¼ã‚€å€¤ãŒnullã®å ´åˆ()
         {
             string message = MessageUtil.GetSimpleMessage("EQLL0009", null);
 
-            Assert.AreEqual("S2Container‚ªì¬‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB" +
-                "SingletonS2ContainerFactory‚©‚çS2Container‚ªì¬‚µ‚Ä‚­‚¾‚³‚¢", message);
+            Assert.AreEqual("S2ContainerãŒä½œæˆã•ã‚Œã¦ã„ã¾ã›ã‚“ã€‚" +
+                "SingletonS2ContainerFactoryã‹ã‚‰S2ContainerãŒä½œæˆã—ã¦ãã ã•ã„", message);
         }
 
         [Test]
-        public void TestGetSimpleMessage_ƒƒbƒZ[ƒW’†‚É–„‚ß‚Ş’l‚ªnull‚Å‚È‚¢‚Ìê‡()
+        public void TestGetSimpleMessage_ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ä¸­ã«åŸ‹ã‚è¾¼ã‚€å€¤ãŒnullã§ãªã„ã®å ´åˆ()
         {
             string message = MessageUtil.GetSimpleMessage("EQLL0010",
                 new object[] { "hoge" });
 
             Assert.AreEqual(
-                "S2Container‚ÉƒRƒ“ƒ|[ƒlƒ“ƒg\"hoge\"‚ª‘¶İ‚µ‚Ü‚¹‚ñ", message);
+                "S2Containerã«ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ\"hoge\"ãŒå­˜åœ¨ã—ã¾ã›ã‚“", message);
         }
 
         #endregion
 
-        #region GetMessage‚ÌƒeƒXƒg
+        #region GetMessageã®ãƒ†ã‚¹ãƒˆ
 
         [Test]
         public void TestGetMessage()
@@ -72,7 +71,7 @@ namespace Seasar.Tests.Quill.Util
                 new object[] { "hoge" });
 
             Assert.AreEqual(
-                "[EQLL0010]S2Container‚ÉƒRƒ“ƒ|[ƒlƒ“ƒg\"hoge\"‚ª‘¶İ‚µ‚Ü‚¹‚ñ", message);
+                "[EQLL0010]S2Containerã«ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ\"hoge\"ãŒå­˜åœ¨ã—ã¾ã›ã‚“", message);
         }
 
         #endregion

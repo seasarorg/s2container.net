@@ -1,6 +1,6 @@
 #region Copyright
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@
 #endregion
 
 using System;
-using Nullables;
 
 namespace Seasar.Tests.Extension.ADO.Impl
 {
@@ -30,9 +29,9 @@ namespace Seasar.Tests.Extension.ADO.Impl
 
         private string _loc;
 
-        private NullableInt32 _versionNo;
+        private int? _versionNo;
 
-        private NullableBoolean _active;
+        private bool? _active;
 
         public Department()
         {
@@ -42,8 +41,8 @@ namespace Seasar.Tests.Extension.ADO.Impl
             int deptno,
             string dname,
             string loc,
-            NullableInt32 versionNo,
-            NullableBoolean active
+            int? versionNo,
+            bool? active
             )
         {
             _deptno = deptno;
@@ -71,13 +70,13 @@ namespace Seasar.Tests.Extension.ADO.Impl
             get { return _loc; }
         }
 
-        public NullableInt32 VersionNo
+        public int? VersionNo
         {
             set { _versionNo = value; }
             get { return _versionNo; }
         }
 
-        public NullableBoolean Active
+        public bool? Active
         {
             set { _active = value; }
             get { return _active; }

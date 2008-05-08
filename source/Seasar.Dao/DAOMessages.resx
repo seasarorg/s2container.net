@@ -162,6 +162,9 @@
   <data name="EDAO0025" xml:space="preserve">
     <value>SQL file not found. (Dao={0}, method={1}, file={2})</value>
   </data>
+  <data name="EDAO0026" xml:space="preserve">
+    <value>Method's return element type({0}) is not able to assign from result.({1}).</value>
+  </data>
   <data name="WDAO0001" xml:space="preserve">
     <value>Argument({0}) not found</value>
   </data>

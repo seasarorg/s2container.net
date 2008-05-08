@@ -1,6 +1,6 @@
 #region Copyright
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,73 +17,74 @@
 #endregion
 
 using System;
-using Seasar.Quill.Attrs;
-using System.Reflection;
 using System.Collections.Generic;
+using System.Reflection;
+using Seasar.Quill.Attrs;
+using Seasar.Quill.Exception;
 
 namespace Seasar.Quill.Util
 {
     /// <summary>
-    /// Quill‚Å—pˆÓ‚³‚ê‚Ä‚¢‚é‘®«‚ğˆµ‚¤ƒNƒ‰ƒX
+    /// Quillã§ç”¨æ„ã•ã‚Œã¦ã„ã‚‹å±æ€§ã‚’æ‰±ã†ã‚¯ãƒ©ã‚¹
     /// </summary>
     public static class AttributeUtil
     {
         #region ImplementationAttribute
 
         /// <summary>
-        /// À‘•ƒNƒ‰ƒX‚ğw’è‚·‚éˆ×‚Éİ’è‚³‚ê‚Ä‚¢‚é‘®«
-        /// (<see cref="Seasar.Quill.Attrs.ImplementationAttribute"/>)‚ğæ“¾‚·‚é
+        /// å®Ÿè£…ã‚¯ãƒ©ã‚¹ã‚’æŒ‡å®šã™ã‚‹ç‚ºã«è¨­å®šã•ã‚Œã¦ã„ã‚‹å±æ€§
+        /// (<see cref="Seasar.Quill.Attrs.ImplementationAttribute"/>)ã‚’å–å¾—ã™ã‚‹
         /// </summary>
-        /// <param name="type">‘®«‚ğŠm”F‚·‚éƒNƒ‰ƒX‚à‚µ‚­‚ÍƒCƒ“ƒ^[ƒtƒF[ƒX‚ÌType</param>
-        /// <returns>À‘•ƒNƒ‰ƒX‚ªw’è‚³‚ê‚½‘®«</returns>
+        /// <param name="type">å±æ€§ã‚’ç¢ºèªã™ã‚‹ã‚¯ãƒ©ã‚¹ã‚‚ã—ãã¯ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã®Type</param>
+        /// <returns>å®Ÿè£…ã‚¯ãƒ©ã‚¹ãŒæŒ‡å®šã•ã‚ŒãŸå±æ€§</returns>
         public static ImplementationAttribute GetImplementationAttr(Type type)
         {
-            // À‘•ƒNƒ‰ƒX‚ğw’è‚·‚é‘®«‚ğæ“¾‚·‚é
+            // å®Ÿè£…ã‚¯ãƒ©ã‚¹ã‚’æŒ‡å®šã™ã‚‹å±æ€§ã‚’å–å¾—ã™ã‚‹
             ImplementationAttribute implAttr =
                 (ImplementationAttribute)Attribute.GetCustomAttribute(
                 type, typeof(ImplementationAttribute));
 
             if(implAttr == null)
             {
-                // Implementation‘®«‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Ínull‚ğ•Ô‚·
+                // Implementationå±æ€§ãŒæŒ‡å®šã•ã‚Œã¦ã„ãªã„å ´åˆã¯nullã‚’è¿”ã™
                 return null;
             }
 
-            // Implementation‘®«‚Éw’è‚³‚ê‚½À‘•ƒNƒ‰ƒX‚ÌType
+            // Implementationå±æ€§ã«æŒ‡å®šã•ã‚ŒãŸå®Ÿè£…ã‚¯ãƒ©ã‚¹ã®Type
             Type implType = implAttr.ImplementationType;
 
             if (!type.IsInterface && implType != null)
             {
-                // ƒNƒ‰ƒX‚ÌImplementation‘®«‚ÉÀ‘•ƒNƒ‰ƒX‚ªw’è‚³‚ê‚Ä‚¢‚éê‡‚Í
-                // —áŠO‚ğƒXƒ[‚·‚é
+                // ã‚¯ãƒ©ã‚¹ã®Implementationå±æ€§ã«å®Ÿè£…ã‚¯ãƒ©ã‚¹ãŒæŒ‡å®šã•ã‚Œã¦ã„ã‚‹å ´åˆã¯
+                // ä¾‹å¤–ã‚’ã‚¹ãƒ­ãƒ¼ã™ã‚‹
                 throw new QuillApplicationException("EQLL0001",
                     new object[] { type.FullName });
             }
 
             if (implType != null && implType.IsInterface)
             {
-                // Implementation‘®«‚ÌÀ‘•ƒNƒ‰ƒX‚ÉƒCƒ“ƒ^[ƒtƒF[ƒX‚ª
-                // w’è‚³‚ê‚Ä‚¢‚éê‡‚Í—áŠO‚ğƒXƒ[‚·‚é
+                // Implementationå±æ€§ã®å®Ÿè£…ã‚¯ãƒ©ã‚¹ã«ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ãŒ
+                // æŒ‡å®šã•ã‚Œã¦ã„ã‚‹å ´åˆã¯ä¾‹å¤–ã‚’ã‚¹ãƒ­ãƒ¼ã™ã‚‹
                 throw new QuillApplicationException("EQLL0002", new object[] {
                     type.FullName, implType.FullName });
             }
 
             if (implType != null && implType.IsAbstract)
             {
-                // Implementation‘®«‚ÌÀ‘•ƒNƒ‰ƒX‚É’ŠÛƒNƒ‰ƒX‚ª
-                // w’è‚³‚ê‚Ä‚¢‚éê‡‚Í—áŠO‚ğƒXƒ[‚·‚é
+                // Implementationå±æ€§ã®å®Ÿè£…ã‚¯ãƒ©ã‚¹ã«æŠ½è±¡ã‚¯ãƒ©ã‚¹ãŒ
+                // æŒ‡å®šã•ã‚Œã¦ã„ã‚‹å ´åˆã¯ä¾‹å¤–ã‚’ã‚¹ãƒ­ãƒ¼ã™ã‚‹
                 throw new QuillApplicationException("EQLL0003", new object[] {
                     type.FullName, implType.FullName });
             }
 
             if (implType != null && !type.IsAssignableFrom(implType))
             {
-                // ‘ã“ü•s‰Â”\‚ÈÀ‘•ƒNƒ‰ƒX‚ªw’è‚³‚ê‚Ä‚¢‚éê‡‚Í—áŠO‚ğƒXƒ[‚·‚é
+                // ä»£å…¥ä¸å¯èƒ½ãªå®Ÿè£…ã‚¯ãƒ©ã‚¹ãŒæŒ‡å®šã•ã‚Œã¦ã„ã‚‹å ´åˆã¯ä¾‹å¤–ã‚’ã‚¹ãƒ­ãƒ¼ã™ã‚‹
                 throw new QuillApplicationException("EQLL0004", new object[] {
                     type.FullName, implType.FullName });
             }
 
-            // À‘•ƒNƒ‰ƒX‚ğw’è‚·‚é‘®«‚ğ•Ô‚·
+            // å®Ÿè£…ã‚¯ãƒ©ã‚¹ã‚’æŒ‡å®šã™ã‚‹å±æ€§ã‚’è¿”ã™
             return implAttr;
         }
 
@@ -92,96 +93,218 @@ namespace Seasar.Quill.Util
         #region AspectAttribute
 
         /// <summary>
-        /// Aspect‚ğw’è‚·‚éˆ×‚ÉƒNƒ‰ƒX‚âƒCƒ“ƒ^[ƒtƒF[ƒX‚Éİ’è‚³‚ê‚Ä‚¢‚é‘®«
-        /// (<see cref="Seasar.Quill.Attrs.AspectAttribute"/>)‚ğæ“¾‚·‚é
+        /// Aspectã‚’æŒ‡å®šã™ã‚‹ç‚ºã«ã‚¯ãƒ©ã‚¹ã‚„ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã«è¨­å®šã•ã‚Œã¦ã„ã‚‹å±æ€§
+        /// (<see cref="Seasar.Quill.Attrs.AspectAttribute"/>)ã‚’å–å¾—ã™ã‚‹
         /// </summary>
-        /// <param name="type">‘®«‚ğŠm”F‚·‚éType</param>
-        /// <returns>Aspect‚ªw’è‚³‚ê‚½‘®«‚Ì”z—ñ</returns>
+        /// <param name="type">å±æ€§ã‚’ç¢ºèªã™ã‚‹Type</param>
+        /// <returns>AspectãŒæŒ‡å®šã•ã‚ŒãŸå±æ€§ã®é…åˆ—</returns>
         public static AspectAttribute[] GetAspectAttrs(Type type)
         {
             if (!type.IsPublic && !type.IsNestedPublic)
             {
-                // ƒƒ\ƒbƒh‚ğéŒ¾‚·‚éƒNƒ‰ƒX‚ªpublic‚Å‚Í‚È‚¢ê‡‚Í—áŠO‚ğƒXƒ[‚·‚é
+                // ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å®£è¨€ã™ã‚‹ã‚¯ãƒ©ã‚¹ãŒpublicã§ã¯ãªã„å ´åˆã¯ä¾‹å¤–ã‚’ã‚¹ãƒ­ãƒ¼ã™ã‚‹
                 throw new QuillApplicationException("EQLL0016", new object[] {
                     type.FullName });
             }
 
-            // Aspect‚ğw’è‚·‚é‘®«‚ğæ“¾‚µ‚Ä•Ô‚·
+            // Aspectã‚’æŒ‡å®šã™ã‚‹å±æ€§ã‚’å–å¾—ã—ã¦è¿”ã™
             return GetAspectAttrsByMember(type);
         }
 
         /// <summary>
-        /// Aspect‚ğw’è‚·‚éˆ×‚Éƒƒ\ƒbƒh‚Éİ’è‚³‚ê‚Ä‚¢‚é‘®«
-        /// (<see cref="Seasar.Quill.Attrs.AspectAttribute"/>)‚ğæ“¾‚·‚é
+        /// Aspectã‚’æŒ‡å®šã™ã‚‹ç‚ºã«ãƒ¡ã‚½ãƒƒãƒ‰ã«è¨­å®šã•ã‚Œã¦ã„ã‚‹å±æ€§
+        /// (<see cref="Seasar.Quill.Attrs.AspectAttribute"/>)ã‚’å–å¾—ã™ã‚‹
         /// </summary>
-        /// <param name="method">‘®«‚ğŠm”F‚·‚éƒƒ\ƒbƒh</param>
-        /// <returns>Aspect‚ªw’è‚³‚ê‚½‘®«‚Ì”z—ñ</returns>
+        /// <param name="method">å±æ€§ã‚’ç¢ºèªã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰</param>
+        /// <returns>AspectãŒæŒ‡å®šã•ã‚ŒãŸå±æ€§ã®é…åˆ—</returns>
         public static AspectAttribute[] GetAspectAttrsByMethod(MethodInfo method)
         {
-            // Aspect‚ğw’è‚·‚é‘®«‚ğæ“¾‚·‚é
+            // Aspectã‚’æŒ‡å®šã™ã‚‹å±æ€§ã‚’å–å¾—ã™ã‚‹
             AspectAttribute[] attrs = GetAspectAttrsByMember(method);
 
             if (attrs.Length == 0)
             {
-                // Aspect‘®«‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Í”z—ñƒTƒCƒY0‚ÌAspect‘®«‚Ì”z—ñ‚ğ•Ô‚·
+                // Aspectå±æ€§ãŒæŒ‡å®šã•ã‚Œã¦ã„ãªã„å ´åˆã¯é…åˆ—ã‚µã‚¤ã‚º0ã®Aspectå±æ€§ã®é…åˆ—ã‚’è¿”ã™
                 return attrs;
             }
 
             if (!method.DeclaringType.IsPublic && !method.DeclaringType.IsNestedPublic)
             {
-                // ƒƒ\ƒbƒh‚ğéŒ¾‚·‚éƒNƒ‰ƒX‚ªpublic‚Å‚Í‚È‚¢ê‡‚Í—áŠO‚ğƒXƒ[‚·‚é
+                // ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å®£è¨€ã™ã‚‹ã‚¯ãƒ©ã‚¹ãŒpublicã§ã¯ãªã„å ´åˆã¯ä¾‹å¤–ã‚’ã‚¹ãƒ­ãƒ¼ã™ã‚‹
                 throw new QuillApplicationException("EQLL0016", new object[] {
                     method.DeclaringType.FullName });
             }
 
             if (method.IsStatic)
             {
-                // ƒƒ\ƒbƒh‚ªstatic‚Ìê‡‚Í—áŠO‚ğƒXƒ[‚·‚é
+                // ãƒ¡ã‚½ãƒƒãƒ‰ãŒstaticã®å ´åˆã¯ä¾‹å¤–ã‚’ã‚¹ãƒ­ãƒ¼ã™ã‚‹
                 throw new QuillApplicationException("EQLL0005", new object[] {
                     method.DeclaringType.FullName, method.Name });
             }
 
             if (!method.IsPublic)
             {
-                // ƒƒ\ƒbƒh‚ªpublic‚Å‚Í‚È‚¢ê‡‚Í—áŠO‚ğƒXƒ[‚·‚é
+                // ãƒ¡ã‚½ãƒƒãƒ‰ãŒpublicã§ã¯ãªã„å ´åˆã¯ä¾‹å¤–ã‚’ã‚¹ãƒ­ãƒ¼ã™ã‚‹
                 throw new QuillApplicationException("EQLL0006", new object[] {
                     method.DeclaringType.FullName, method.Name });
             }
 
             if (!method.IsVirtual)
             {
-                // ƒƒ\ƒbƒh‚ªvirtual‚©ƒCƒ“ƒ^[ƒtƒF[ƒX‚Ìƒƒ\ƒbƒh
-                // ‚Å‚Í‚È‚¢ê‡‚Í—áŠO‚ğƒXƒ[‚·‚é
+                // ãƒ¡ã‚½ãƒƒãƒ‰ãŒvirtualã‹ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã®ãƒ¡ã‚½ãƒƒãƒ‰
+                // ã§ã¯ãªã„å ´åˆã¯ä¾‹å¤–ã‚’ã‚¹ãƒ­ãƒ¼ã™ã‚‹
                 throw new QuillApplicationException("EQLL0007", new object[] {
                     method.DeclaringType.FullName, method.Name });
             }
 
-            // Aspect‚ğw’è‚·‚é‘®«‚ğ•Ô‚·
+            // Aspectã‚’æŒ‡å®šã™ã‚‹å±æ€§ã‚’è¿”ã™
             return attrs;
         }
 
         /// <summary>
-        /// Aspect‚ğw’è‚·‚éˆ×‚Éƒƒ“ƒo‚Éİ’è‚³‚ê‚Ä‚¢‚é‘®«
-        /// (<see cref="Seasar.Quill.Attrs.AspectAttribute"/>)‚ğæ“¾‚·‚é
+        /// Aspectã‚’æŒ‡å®šã™ã‚‹ç‚ºã«ãƒ¡ãƒ³ãƒã«è¨­å®šã•ã‚Œã¦ã„ã‚‹å±æ€§
+        /// (<see cref="Seasar.Quill.Attrs.AspectAttribute"/>)ã‚’å–å¾—ã™ã‚‹
         /// </summary>
-        /// <param name="member">‘®«‚ğŠm”F‚·‚éƒƒ“ƒo</param>
-        /// <returns>Aspect‚ªw’è‚³‚ê‚½‘®«‚Ì”z—ñ</returns>
+        /// <param name="member">å±æ€§ã‚’ç¢ºèªã™ã‚‹ãƒ¡ãƒ³ãƒ</param>
+        /// <returns>AspectãŒæŒ‡å®šã•ã‚ŒãŸå±æ€§ã®é…åˆ—</returns>
         public static AspectAttribute[] GetAspectAttrsByMember(MemberInfo member)
         {
-            // Aspect‚ğw’è‚·‚é‘®«‚ğæ“¾‚·‚é
+            // Aspectã‚’æŒ‡å®šã™ã‚‹å±æ€§ã‚’å–å¾—ã™ã‚‹
             AspectAttribute[] attrs =
                 (AspectAttribute[])Attribute.GetCustomAttributes(
                 member, typeof(AspectAttribute));
 
-            // Aspect‚ğŠi”[‚·‚éƒŠƒXƒg
+            // Aspectã‚’æ ¼ç´ã™ã‚‹ãƒªã‚¹ãƒˆ
             List<AspectAttribute> attrList = 
                 new List<AspectAttribute>(attrs);
 
-            // Aspect‚ÌƒŠƒXƒg‚ğ•À‚Ñ‘Ö‚¦‚é
+            // Aspectã®ãƒªã‚¹ãƒˆã‚’ä¸¦ã³æ›¿ãˆã‚‹
             attrList.Sort(new AspectAttributeComparer());
 
-            // Aspect‚ğw’è‚·‚é‘®«‚ğ•Ô‚·
+            // Aspectã‚’æŒ‡å®šã™ã‚‹å±æ€§ã‚’è¿”ã™
             return attrList.ToArray();
+        }
+
+        #endregion
+
+        #region TransactionAttribute
+
+        /// <summary>
+        /// Transactionã‚’æŒ‡å®šã™ã‚‹ç‚ºã«ã‚¯ãƒ©ã‚¹ã‚„ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã«è¨­å®šã•ã‚Œã¦ã„ã‚‹å±æ€§
+        /// (<see cref="Seasar.Quill.Attrs.TransactionAttribute"/>)ã‚’å–å¾—ã™ã‚‹
+        /// </summary>
+        /// <param name="type">å±æ€§ã‚’ç¢ºèªã™ã‚‹Type</param>
+        /// <returns>AspectãŒæŒ‡å®šã•ã‚ŒãŸå±æ€§ã®é…åˆ—</returns>
+        public static TransactionAttribute GetTransactionAttr(Type type)
+        {
+            if ( !type.IsPublic && !type.IsNestedPublic )
+            {
+                // ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å®£è¨€ã™ã‚‹ã‚¯ãƒ©ã‚¹ãŒpublicã§ã¯ãªã„å ´åˆã¯ä¾‹å¤–ã‚’ã‚¹ãƒ­ãƒ¼ã™ã‚‹
+                throw new QuillApplicationException("EQLL0016", new object[] {
+                    type.FullName });
+            }
+
+            // Aspectã‚’æŒ‡å®šã™ã‚‹å±æ€§ã‚’å–å¾—ã—ã¦è¿”ã™
+            return GetTransactionAttrByMember(type);
+        }
+
+        /// <summary>
+        /// Aspectã‚’æŒ‡å®šã™ã‚‹ç‚ºã«ãƒ¡ã‚½ãƒƒãƒ‰ã«è¨­å®šã•ã‚Œã¦ã„ã‚‹å±æ€§
+        /// (<see cref="Seasar.Quill.Attrs.TransactionAttribute"/>)ã‚’å–å¾—ã™ã‚‹
+        /// </summary>
+        /// <param name="method">å±æ€§ã‚’ç¢ºèªã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰</param>
+        /// <returns>AspectãŒæŒ‡å®šã•ã‚ŒãŸå±æ€§ã®é…åˆ—</returns>
+        public static TransactionAttribute GetTransactionAttrByMethod(MethodInfo method)
+        {
+            // Aspectã‚’æŒ‡å®šã™ã‚‹å±æ€§ã‚’å–å¾—ã™ã‚‹
+            TransactionAttribute attr = GetTransactionAttrByMember(method);
+            if ( attr == null )
+            {
+                // Aspectå±æ€§ãŒæŒ‡å®šã•ã‚Œã¦ã„ãªã„å ´åˆã¯nullã‚’è¿”ã™
+                return null;
+            }
+
+            ValidateMethodInfo(method);
+
+            // Aspectã‚’æŒ‡å®šã™ã‚‹å±æ€§ã‚’è¿”ã™
+            return attr;
+        }
+
+        /// <summary>
+        /// Aspectã‚’æŒ‡å®šã™ã‚‹ç‚ºã«ãƒ¡ãƒ³ãƒã«è¨­å®šã•ã‚Œã¦ã„ã‚‹å±æ€§
+        /// (<see cref="Seasar.Quill.Attrs.TransactionAttribute"/>)ã‚’å–å¾—ã™ã‚‹
+        /// </summary>
+        /// <param name="member">å±æ€§ã‚’ç¢ºèªã™ã‚‹ãƒ¡ãƒ³ãƒ</param>
+        /// <returns>AspectãŒæŒ‡å®šã•ã‚ŒãŸå±æ€§ã®é…åˆ—</returns>
+        public static TransactionAttribute GetTransactionAttrByMember(MemberInfo member)
+        {
+            // Aspectã‚’æŒ‡å®šã™ã‚‹å±æ€§ã‚’å–å¾—ã™ã‚‹
+            TransactionAttribute attr =
+                (TransactionAttribute)Attribute.GetCustomAttribute(
+                member, typeof(TransactionAttribute));
+
+            return attr;
+        }
+
+        #endregion
+
+        #region S2DaoAttribute
+
+        /// <summary>
+        /// DaoInterceptorã‚’æŒ‡å®šã™ã‚‹ç‚ºã«ã‚¯ãƒ©ã‚¹ã‚„ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã«è¨­å®šã•ã‚Œã¦ã„ã‚‹å±æ€§
+        /// (<see cref="Seasar.Quill.Attrs.S2DaoAttribute"/>)ã‚’å–å¾—ã™ã‚‹
+        /// </summary>
+        /// <param name="type">å±æ€§ã‚’ç¢ºèªã™ã‚‹Type</param>
+        /// <returns>AspectãŒæŒ‡å®šã•ã‚ŒãŸå±æ€§ã®é…åˆ—</returns>
+        public static S2DaoAttribute GetS2DaoAttr(Type type)
+        {
+            if (!type.IsPublic && !type.IsNestedPublic)
+            {
+                // ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å®£è¨€ã™ã‚‹ã‚¯ãƒ©ã‚¹ãŒpublicã§ã¯ãªã„å ´åˆã¯ä¾‹å¤–ã‚’ã‚¹ãƒ­ãƒ¼ã™ã‚‹
+                throw new QuillApplicationException("EQLL0016", new object[] {
+                    type.FullName });
+            }
+
+            // Aspectã‚’æŒ‡å®šã™ã‚‹å±æ€§ã‚’å–å¾—ã—ã¦è¿”ã™
+            return GetS2DaoAttrByMember(type);
+        }
+
+        /// <summary>
+        /// Aspectã‚’æŒ‡å®šã™ã‚‹ç‚ºã«ãƒ¡ã‚½ãƒƒãƒ‰ã«è¨­å®šã•ã‚Œã¦ã„ã‚‹å±æ€§
+        /// (<see cref="Seasar.Quill.Attrs.S2DaoAttribute"/>)ã‚’å–å¾—ã™ã‚‹
+        /// </summary>
+        /// <param name="method">å±æ€§ã‚’ç¢ºèªã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰</param>
+        /// <returns>AspectãŒæŒ‡å®šã•ã‚ŒãŸå±æ€§ã®é…åˆ—</returns>
+        public static S2DaoAttribute GetS2DaoAttrByMethod(MethodInfo method)
+        {
+            // Aspectã‚’æŒ‡å®šã™ã‚‹å±æ€§ã‚’å–å¾—ã™ã‚‹
+            S2DaoAttribute attr = GetS2DaoAttrByMember(method);
+            if (attr == null)
+            {
+                // Aspectå±æ€§ãŒæŒ‡å®šã•ã‚Œã¦ã„ãªã„å ´åˆã¯nullã‚’è¿”ã™
+                return null;
+            }
+
+            ValidateMethodInfo(method);
+
+            // Aspectã‚’æŒ‡å®šã™ã‚‹å±æ€§ã‚’è¿”ã™
+            return attr;
+        }
+
+        /// <summary>
+        /// Aspectã‚’æŒ‡å®šã™ã‚‹ç‚ºã«ãƒ¡ãƒ³ãƒã«è¨­å®šã•ã‚Œã¦ã„ã‚‹å±æ€§
+        /// (<see cref="Seasar.Quill.Attrs.S2DaoAttribute"/>)ã‚’å–å¾—ã™ã‚‹
+        /// </summary>
+        /// <param name="member">å±æ€§ã‚’ç¢ºèªã™ã‚‹ãƒ¡ãƒ³ãƒ</param>
+        /// <returns>AspectãŒæŒ‡å®šã•ã‚ŒãŸå±æ€§ã®é…åˆ—</returns>
+        public static S2DaoAttribute GetS2DaoAttrByMember(MemberInfo member)
+        {
+            // Aspectã‚’æŒ‡å®šã™ã‚‹å±æ€§ã‚’å–å¾—ã™ã‚‹
+            S2DaoAttribute attr =
+                (S2DaoAttribute)Attribute.GetCustomAttribute(
+                member, typeof(S2DaoAttribute));
+
+            return attr;
         }
 
         #endregion
@@ -189,32 +312,32 @@ namespace Seasar.Quill.Util
         #region BindingAttribute
 
         /// <summary>
-        /// S2Container‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌBinding‚ğw’è‚·‚éˆ×‚ÉƒtƒB[ƒ‹ƒh‚Éİ’è‚³‚ê‚Ä‚¢‚é
-        /// ‘®«(<see cref="Seasar.Quill.Attrs.BindingAttribute"/>)‚ğæ“¾‚·‚é
+        /// S2Containerã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®Bindingã‚’æŒ‡å®šã™ã‚‹ç‚ºã«ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«è¨­å®šã•ã‚Œã¦ã„ã‚‹
+        /// å±æ€§(<see cref="Seasar.Quill.Attrs.BindingAttribute"/>)ã‚’å–å¾—ã™ã‚‹
         /// </summary>
-        /// <param name="field">ƒtƒB[ƒ‹ƒh</param>
-        /// <returns>BindingƒRƒ“ƒ|[ƒlƒ“ƒg‚ªw’è‚³‚ê‚½Binding‘®«</returns>
+        /// <param name="field">ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰</param>
+        /// <returns>Bindingã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒæŒ‡å®šã•ã‚ŒãŸBindingå±æ€§</returns>
         public static BindingAttribute GetBindingAttr(FieldInfo field)
         {
             if (field.IsStatic)
             {
-                // staticƒtƒB[ƒ‹ƒh‚Ìê‡‚Í—áŠO‚ğƒXƒ[‚·‚é
+                // staticãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®å ´åˆã¯ä¾‹å¤–ã‚’ã‚¹ãƒ­ãƒ¼ã™ã‚‹
                 throw new QuillApplicationException("EQLL0015", new string[] {
                     field.DeclaringType.FullName, field.Name});
             }
 
-            // ƒoƒCƒ“ƒfƒBƒ“ƒOƒRƒ“ƒ|[ƒlƒ“ƒg‚ğw’è‚·‚é‘®«‚ğæ“¾‚·‚é
+            // ãƒã‚¤ãƒ³ãƒ‡ã‚£ãƒ³ã‚°ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’æŒ‡å®šã™ã‚‹å±æ€§ã‚’å–å¾—ã™ã‚‹
             BindingAttribute bindingAttr =
                 (BindingAttribute)Attribute.GetCustomAttribute(
                 field, typeof(BindingAttribute));
 
-            // ƒoƒCƒ“ƒfƒBƒ“ƒO‘®«‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Ínull‚ğ•Ô‚·
+            // ãƒã‚¤ãƒ³ãƒ‡ã‚£ãƒ³ã‚°å±æ€§ãŒæŒ‡å®šã•ã‚Œã¦ã„ãªã„å ´åˆã¯nullã‚’è¿”ã™
             if (bindingAttr == null || bindingAttr.ComponentName == null)
             {
                 return null;
             }
 
-            // Binding‘®«‚ğ•Ô‚·
+            // Bindingå±æ€§ã‚’è¿”ã™
             return bindingAttr;
         }
 
@@ -223,85 +346,125 @@ namespace Seasar.Quill.Util
         #region MockAttribute
 
         /// <summary>
-        /// Mock‚ğw’è‚·‚éˆ×‚Éİ’è‚³‚ê‚Ä‚¢‚é‘®«
-        /// (<see cref="Seasar.Quill.Attrs.MockAttribute"/>)‚ğæ“¾‚·‚é
+        /// Mockã‚’æŒ‡å®šã™ã‚‹ç‚ºã«è¨­å®šã•ã‚Œã¦ã„ã‚‹å±æ€§
+        /// (<see cref="Seasar.Quill.Attrs.MockAttribute"/>)ã‚’å–å¾—ã™ã‚‹
         /// </summary>
-        /// <param name="type">‘®«‚ğŠm”F‚·‚éƒNƒ‰ƒX‚ÌType</param>
-        /// <returns>MockƒNƒ‰ƒX‚ªw’è‚³‚ê‚½‘®«</returns>
+        /// <param name="type">å±æ€§ã‚’ç¢ºèªã™ã‚‹ã‚¯ãƒ©ã‚¹ã®Type</param>
+        /// <returns>Mockã‚¯ãƒ©ã‚¹ãŒæŒ‡å®šã•ã‚ŒãŸå±æ€§</returns>
         public static MockAttribute GetMockAttr(Type type)
         {
-            // À‘•ƒNƒ‰ƒX‚ğw’è‚·‚é‘®«‚ğæ“¾‚·‚é
+            // å®Ÿè£…ã‚¯ãƒ©ã‚¹ã‚’æŒ‡å®šã™ã‚‹å±æ€§ã‚’å–å¾—ã™ã‚‹
             MockAttribute mockAttr = (MockAttribute)Attribute.GetCustomAttribute(
                 type, typeof(MockAttribute));
 
             if (mockAttr == null)
             {
-                // Mock‘®«‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Ínull‚ğ•Ô‚·
+                // Mockå±æ€§ãŒæŒ‡å®šã•ã‚Œã¦ã„ãªã„å ´åˆã¯nullã‚’è¿”ã™
                 return null;
             }
 
-            // Mock‘®«‚Éw’è‚³‚ê‚½MockƒNƒ‰ƒX‚ÌType
+            // Mockå±æ€§ã«æŒ‡å®šã•ã‚ŒãŸMockã‚¯ãƒ©ã‚¹ã®Type
             Type mockType = mockAttr.MockType;
 
             if (mockType == null)
             {
-                // ƒNƒ‰ƒX‚ÌMock‘®«‚ÉƒNƒ‰ƒX‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Í—áŠO‚ğƒXƒ[‚·‚é
+                // ã‚¯ãƒ©ã‚¹ã®Mockå±æ€§ã«ã‚¯ãƒ©ã‚¹ãŒæŒ‡å®šã•ã‚Œã¦ã„ãªã„å ´åˆã¯ä¾‹å¤–ã‚’ã‚¹ãƒ­ãƒ¼ã™ã‚‹
                 throw new QuillApplicationException("EQLL0019",
                     new object[] {  });
             }
 
             if (mockType.IsInterface)
             {
-                // Mock‘®«‚ÉƒCƒ“ƒ^[ƒtƒF[ƒX‚ªw’è‚³‚ê‚Ä‚¢‚éê‡‚Í—áŠO‚ğƒXƒ[‚·‚é
+                // Mockå±æ€§ã«ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ãŒæŒ‡å®šã•ã‚Œã¦ã„ã‚‹å ´åˆã¯ä¾‹å¤–ã‚’ã‚¹ãƒ­ãƒ¼ã™ã‚‹
                 throw new QuillApplicationException("EQLL0020", 
                     new object[] { mockType.FullName });
             }
 
             if (mockType.IsAbstract)
             {
-                // Mock‘®«‚É’ŠÛƒNƒ‰ƒX‚ªw’è‚³‚ê‚Ä‚¢‚éê‡‚Í—áŠO‚ğƒXƒ[‚·‚é
+                // Mockå±æ€§ã«æŠ½è±¡ã‚¯ãƒ©ã‚¹ãŒæŒ‡å®šã•ã‚Œã¦ã„ã‚‹å ´åˆã¯ä¾‹å¤–ã‚’ã‚¹ãƒ­ãƒ¼ã™ã‚‹
                 throw new QuillApplicationException("EQLL0021",
                     new object[] { mockType.FullName });
             }
 
             if (!type.IsAssignableFrom(mockType))
             {
-                // ‘ã“ü•s‰Â”\‚ÈƒNƒ‰ƒX‚ªw’è‚³‚ê‚Ä‚¢‚éê‡‚Í—áŠO‚ğƒXƒ[‚·‚é
+                // ä»£å…¥ä¸å¯èƒ½ãªã‚¯ãƒ©ã‚¹ãŒæŒ‡å®šã•ã‚Œã¦ã„ã‚‹å ´åˆã¯ä¾‹å¤–ã‚’ã‚¹ãƒ­ãƒ¼ã™ã‚‹
                 throw new QuillApplicationException("EQLL0022",
                     new object[] { type.FullName, mockType.FullName });
             }
 
-            // MockƒNƒ‰ƒX‚ğw’è‚·‚é‘®«‚ğ•Ô‚·
+            // Mockã‚¯ãƒ©ã‚¹ã‚’æŒ‡å®šã™ã‚‹å±æ€§ã‚’è¿”ã™
             return mockAttr;
         }
 
         #endregion
 
-        #region AspectAttribute‚ğ”äŠr‚·‚éƒNƒ‰ƒX
+        #region AspectAttributeã‚’æ¯”è¼ƒã™ã‚‹ã‚¯ãƒ©ã‚¹
 
         /// <summary>
-        /// AspectAttribute‚ğ”äŠr‚·‚éƒNƒ‰ƒX
+        /// AspectAttributeã‚’æ¯”è¼ƒã™ã‚‹ã‚¯ãƒ©ã‚¹
         /// </summary>
         private class AspectAttributeComparer : IComparer<AspectAttribute>
         {
             /// <summary>
-            /// 2‚Â‚ÌAspectAttribute‚ğ”äŠr‚·‚é
-            /// i•À‚Ñ‡‚Í<see cref="Seasar.Quill.Attrs.AspectAttribute.Ordinal"/>‚Å
-            /// Œˆ’è‚·‚é)
+            /// 2ã¤ã®AspectAttributeã‚’æ¯”è¼ƒã™ã‚‹
+            /// ï¼ˆä¸¦ã³é †ã¯<see cref="Seasar.Quill.Attrs.AspectAttribute.Ordinal"/>ã§
+            /// æ±ºå®šã™ã‚‹)
             /// <para>
-            /// x‚Æy‚ª“™‚µ‚¢ê‡‚Í0, x‚ªy‚æ‚è‘å‚«‚¢ê‡‚Í³‚Ì’l,
-            /// x‚ªy‚æ‚è¬‚³‚¢ê‡‚Í•‰‚Ì’l‚ğ•Ô‚·
+            /// xã¨yãŒç­‰ã—ã„å ´åˆã¯0, xãŒyã‚ˆã‚Šå¤§ãã„å ´åˆã¯æ­£ã®å€¤,
+            /// xãŒyã‚ˆã‚Šå°ã•ã„å ´åˆã¯è² ã®å€¤ã‚’è¿”ã™
             /// </para>
             /// </summary>
-            /// <param name="x">”äŠr‘ÎÛ‚Ì‘æ1ƒIƒuƒWƒFƒNƒg</param>
-            /// <param name="y">”äŠr‘ÎÛ‚Ì‘æ2ƒIƒuƒWƒFƒNƒg</param>
-            /// <returns>x‚Æy‚ª“™‚µ‚¢ê‡‚Í0, x‚ªy‚æ‚è‘å‚«‚¢ê‡‚Í³‚Ì’l,
-            /// x‚ªy‚æ‚è¬‚³‚¢ê‡‚Í•‰‚Ì’l‚ğ•Ô‚·</returns>
+            /// <param name="x">æ¯”è¼ƒå¯¾è±¡ã®ç¬¬1ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ</param>
+            /// <param name="y">æ¯”è¼ƒå¯¾è±¡ã®ç¬¬2ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ</param>
+            /// <returns>xã¨yãŒç­‰ã—ã„å ´åˆã¯0, xãŒyã‚ˆã‚Šå¤§ãã„å ´åˆã¯æ­£ã®å€¤,
+            /// xãŒyã‚ˆã‚Šå°ã•ã„å ´åˆã¯è² ã®å€¤ã‚’è¿”ã™</returns>
             public int Compare(AspectAttribute x, AspectAttribute y)
             {
-                // x‚Æy‚ª“™‚µ‚¢ê‡‚Í0, x‚ªy‚æ‚è‘å‚«‚¢ê‡‚Í³‚Ì’l,
-                // x‚ªy‚æ‚è¬‚³‚¢ê‡‚Í•‰‚Ì’l‚ğ•Ô‚·
+                // xã¨yãŒç­‰ã—ã„å ´åˆã¯0, xãŒyã‚ˆã‚Šå¤§ãã„å ´åˆã¯æ­£ã®å€¤,
+                // xãŒyã‚ˆã‚Šå°ã•ã„å ´åˆã¯è² ã®å€¤ã‚’è¿”ã™
                 return x.Ordinal - y.Ordinal;
+            }
+        }
+
+        #endregion
+
+        #region Validate
+
+        /// <summary>
+        /// ãƒ¡ã‚½ãƒƒãƒ‰ã«Aspectã‚’é©ç”¨ã§ãã‚‹ã‹æ¤œè¨¼
+        /// </summary>
+        /// <param name="method">æ¤œè¨¼å¯¾è±¡ã®ãƒ¡ã‚½ãƒƒãƒ‰æƒ…å ±</param>
+        private static void ValidateMethodInfo(MethodInfo method)
+        {
+            if ( !method.DeclaringType.IsPublic && !method.DeclaringType.IsNestedPublic )
+            {
+                // ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å®£è¨€ã™ã‚‹ã‚¯ãƒ©ã‚¹ãŒpublicã§ã¯ãªã„å ´åˆã¯ä¾‹å¤–ã‚’ã‚¹ãƒ­ãƒ¼ã™ã‚‹
+                throw new QuillApplicationException("EQLL0016", new object[] {
+                    method.DeclaringType.FullName });
+            }
+
+            if ( method.IsStatic )
+            {
+                // ãƒ¡ã‚½ãƒƒãƒ‰ãŒstaticã®å ´åˆã¯ä¾‹å¤–ã‚’ã‚¹ãƒ­ãƒ¼ã™ã‚‹
+                throw new QuillApplicationException("EQLL0005", new object[] {
+                    method.DeclaringType.FullName, method.Name });
+            }
+
+            if ( !method.IsPublic )
+            {
+                // ãƒ¡ã‚½ãƒƒãƒ‰ãŒpublicã§ã¯ãªã„å ´åˆã¯ä¾‹å¤–ã‚’ã‚¹ãƒ­ãƒ¼ã™ã‚‹
+                throw new QuillApplicationException("EQLL0006", new object[] {
+                    method.DeclaringType.FullName, method.Name });
+            }
+
+            if ( !method.IsVirtual )
+            {
+                // ãƒ¡ã‚½ãƒƒãƒ‰ãŒvirtualã‹ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã®ãƒ¡ã‚½ãƒƒãƒ‰
+                // ã§ã¯ãªã„å ´åˆã¯ä¾‹å¤–ã‚’ã‚¹ãƒ­ãƒ¼ã™ã‚‹
+                throw new QuillApplicationException("EQLL0007", new object[] {
+                    method.DeclaringType.FullName, method.Name });
             }
         }
 

@@ -1,6 +1,6 @@
 #region Copyright
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -69,6 +69,7 @@ namespace Seasar.Tests.Dao.Impl
             cmd.Execute(new object[] { dept });
         }
 
+#if NHIBERNATE_NULLABLES
         [Test, S2(Tx.Rollback)]
         public void TestExecuteNullableDecimalVersionNoTx()
         {
@@ -100,6 +101,8 @@ namespace Seasar.Tests.Dao.Impl
             object result = delCmd.Execute(new object[] { emp.EmpNo });
             Assert.IsNull(result);
         }
+#endif
+
 #if !NET_1_1
         [Test, S2(Tx.Rollback)]
         public void TestExecuteGenericNullableDecimalVersionNoTx()

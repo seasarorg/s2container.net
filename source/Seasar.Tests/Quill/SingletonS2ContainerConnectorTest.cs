@@ -1,6 +1,6 @@
 #region Copyright
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,21 +16,21 @@
  */
 #endregion
 
-using System;
 using MbUnit.Framework;
-using Seasar.Quill;
-using Seasar.Framework.Container.Impl;
 using Seasar.Framework.Container.Factory;
+using Seasar.Framework.Container.Impl;
+using Seasar.Quill;
+using Seasar.Quill.Exception;
 
 namespace Seasar.Tests.Quill
 {
     [TestFixture]
 	public class SingletonS2ContainerConnectorTest
     {
-        #region GetComponent‚ÌƒeƒXƒg
+        #region GetComponentã®ãƒ†ã‚¹ãƒˆ
 
         [Test]
-        public void TestGetComponent_S2Container‚ªì¬‚³‚ê‚Ä‚¢‚È‚¢ê‡()
+        public void TestGetComponent_S2ContainerãŒä½œæˆã•ã‚Œã¦ã„ãªã„å ´åˆ()
         {
             SingletonS2ContainerFactory.Container = null;
 
@@ -46,7 +46,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestGetComponent_ƒRƒ“ƒ|[ƒlƒ“ƒg‚ª“o˜^‚³‚ê‚Ä‚¢‚È‚¢ê‡()
+        public void TestGetComponent_ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒç™»éŒ²ã•ã‚Œã¦ã„ãªã„å ´åˆ()
         {
             S2ContainerImpl container = new S2ContainerImpl();
             SingletonS2ContainerFactory.Container = container;
@@ -67,7 +67,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestGetComponent_ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìæ“¾‚ÅS2Container‚©‚ç—áŠO‚ªƒXƒ[‚³‚ê‚½ê‡()
+        public void TestGetComponent_ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å–å¾—ã§S2Containerã‹ã‚‰ä¾‹å¤–ãŒã‚¹ãƒ­ãƒ¼ã•ã‚ŒãŸå ´åˆ()
         {
             S2ContainerImpl container = new S2ContainerImpl();
             SingletonS2ContainerFactory.Container = container;
@@ -92,7 +92,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestGetComponent_ó‚¯‘¤‚ÌŒ^‚ğw’è‚µ‚È‚¢‚ÅƒRƒ“ƒ|[ƒlƒ“ƒg‚ğó‚¯æ‚éê‡1()
+        public void TestGetComponent_å—ã‘å´ã®å‹ã‚’æŒ‡å®šã—ãªã„ã§ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å—ã‘å–ã‚‹å ´åˆ1()
         {
             S2ContainerImpl container = new S2ContainerImpl();
             SingletonS2ContainerFactory.Container = container;
@@ -105,7 +105,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestGetComponent_ó‚¯‘¤‚ÌŒ^‚ğw’è‚µ‚È‚¢‚ÅƒRƒ“ƒ|[ƒlƒ“ƒg‚ğó‚¯æ‚éê‡2()
+        public void TestGetComponent_å—ã‘å´ã®å‹ã‚’æŒ‡å®šã—ãªã„ã§ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å—ã‘å–ã‚‹å ´åˆ2()
         {
             S2ContainerImpl container = new S2ContainerImpl();
             SingletonS2ContainerFactory.Container = container;
@@ -118,7 +118,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestGetComponent_ó‚¯‘¤‚ÌŒ^‚ğw’è‚µ‚ÄƒRƒ“ƒ|[ƒlƒ“ƒg‚ğó‚¯æ‚éê‡()
+        public void TestGetComponent_å—ã‘å´ã®å‹ã‚’æŒ‡å®šã—ã¦ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å—ã‘å–ã‚‹å ´åˆ()
         {
             S2ContainerImpl container = new S2ContainerImpl();
             SingletonS2ContainerFactory.Container = container;
@@ -133,7 +133,7 @@ namespace Seasar.Tests.Quill
 
         #endregion
 
-        #region GetComponent‚ÌƒeƒXƒg‚Åg—p‚·‚é“à•”ƒNƒ‰ƒX
+        #region GetComponentã®ãƒ†ã‚¹ãƒˆã§ä½¿ç”¨ã™ã‚‹å†…éƒ¨ã‚¯ãƒ©ã‚¹
 
         private class Hoge : IHoge
         {

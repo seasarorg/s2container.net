@@ -1,7 +1,7 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{B361D11C-9C58-499C-8A56-4A677BEEBB2B}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -26,6 +26,8 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <SignAssembly>true</SignAssembly>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>bin\Debug\</OutputPath>
@@ -78,10 +80,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\net2.0\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="Nullables, Version=1.0.0.0, Culture=neutral, PublicKeyToken=154fdcb44c4484fc">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\net2.0\Nullables.dll</HintPath>
-    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -103,6 +101,7 @@
     <Compile Include="Seasar.Windows.AOP\Interceptors\FormInterceptor.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Windows.AOP\Interceptors\QuillFormInterceptor.cs" />
     <Compile Include="Seasar.Windows.Attr\ControlAttribute.cs" />
     <Compile Include="Seasar.Windows.Attr\ControlModifierAttribute.cs" />
     <Compile Include="Seasar.Windows.Attr\TargetFormAttribute.cs">
@@ -135,6 +134,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Seasar.Quill\Seasar.Quill.csproj">
+      <Project>{4C1D6F42-4178-4C68-8277-B2978BF784FF}</Project>
+      <Name>Seasar.Quill</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Seasar\Seasar.csproj">
       <Project>{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}</Project>
       <Name>Seasar</Name>

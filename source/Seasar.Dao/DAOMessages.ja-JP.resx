@@ -162,6 +162,9 @@
   <data name="EDAO0025" xml:space="preserve">
     <value>SQLファイルが見つかりません。(Dao={0}, method={1}, file={2})</value>
   </data>
+  <data name="EDAO0026" xml:space="preserve">
+    <value>メソッドの戻り値要素の型({0}) に検索結果の型({1})をキャストできません。</value>
+  </data>
   <data name="WDAO0001" xml:space="preserve">
     <value>引数({0})が見つかりません。</value>
   </data>

@@ -1,6 +1,6 @@
 #region Copyright
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,12 @@
  */
 #endregion
 
-using System;
+using System.Reflection;
 using MbUnit.Framework;
-using Seasar.Quill.Unit;
 using Seasar.Quill;
 using Seasar.Quill.Attrs;
-using System.Reflection;
+using Seasar.Quill.Exception;
+using Seasar.Quill.Unit;
 
 namespace Seasar.Tests.Quill.Unit
 {
@@ -35,10 +35,10 @@ namespace Seasar.Tests.Quill.Unit
 
         public override void Dispose()
         {
-            // MbUnit‚ªDispose‚ğŒÄ‚Ño‚·‚Ì‚ÅDispose‚ğoverride‚µ‚Ä‚¨‚­
+            // MbUnitãŒDisposeã‚’å‘¼ã³å‡ºã™ã®ã§Disposeã‚’overrideã—ã¦ãŠã
         }
 
-        #region GetInstance‚ÌƒeƒXƒg
+        #region GetInstanceã®ãƒ†ã‚¹ãƒˆ
 
         [Test]
         public void TestGetInstance()
@@ -51,7 +51,7 @@ namespace Seasar.Tests.Quill.Unit
         }
 
         [Test]
-        public void TestGetInstance_DestroyÏ‚İ‚Ìê‡()
+        public void TestGetInstance_Destroyæ¸ˆã¿ã®å ´åˆ()
         {
             MockInjector injector1 = MockInjector.GetInstance();
             MockInjector.GetInstance().Destroy();
@@ -63,7 +63,7 @@ namespace Seasar.Tests.Quill.Unit
 
         #endregion
 
-        #region Destroy‚ÌƒeƒXƒg
+        #region Destroyã®ãƒ†ã‚¹ãƒˆ
 
         [Test]
         public void TestDestroy()
@@ -86,7 +86,7 @@ namespace Seasar.Tests.Quill.Unit
 
         #endregion
 
-        #region Destroy‚ÌƒeƒXƒg‚Åg—p‚·‚é“à•”ƒNƒ‰ƒX
+        #region Destroyã®ãƒ†ã‚¹ãƒˆã§ä½¿ç”¨ã™ã‚‹å†…éƒ¨ã‚¯ãƒ©ã‚¹
 
         private class DestroyHoge
         {
@@ -94,10 +94,10 @@ namespace Seasar.Tests.Quill.Unit
 
         #endregion
 
-        #region InjectField‚ÌƒeƒXƒg
+        #region InjectFieldã®ãƒ†ã‚¹ãƒˆ
 
         [Test]
-        public void TestInjectField_Mock‘®«‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡()
+        public void TestInjectField_Mockå±æ€§ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹å ´åˆ()
         {
             container = new QuillContainer();
             FieldInfo field = typeof(Target1).GetField("Hoge1");
@@ -109,7 +109,7 @@ namespace Seasar.Tests.Quill.Unit
         }
 
         [Test]
-        public void TestInjectField_Mock‘®«‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡()
+        public void TestInjectField_Mockå±æ€§ãŒæŒ‡å®šã•ã‚Œã¦ã„ãªã„å ´åˆ()
         {
             container = new QuillContainer();
             FieldInfo field = typeof(Target2).GetField("Hoge2");
@@ -122,7 +122,7 @@ namespace Seasar.Tests.Quill.Unit
 
         #endregion
 
-        #region InjectField‚ÌƒeƒXƒg‚Åg—p‚·‚é“à•”ƒNƒ‰ƒX
+        #region InjectFieldã®ãƒ†ã‚¹ãƒˆã§ä½¿ç”¨ã™ã‚‹å†…éƒ¨ã‚¯ãƒ©ã‚¹
 
         public class Target1
         {
@@ -137,7 +137,7 @@ namespace Seasar.Tests.Quill.Unit
 
         public class Hoge1 : IHoge1
         {
-            #region IHoge1 ƒƒ“ƒo
+            #region IHoge1 ãƒ¡ãƒ³ãƒ
 
             public string HogeHoge()
             {
@@ -150,7 +150,7 @@ namespace Seasar.Tests.Quill.Unit
         public class HogeMock1 : IHoge1
 
         {
-            #region IHoge1 ƒƒ“ƒo
+            #region IHoge1 ãƒ¡ãƒ³ãƒ
 
             public string HogeHoge()
             {
@@ -173,7 +173,7 @@ namespace Seasar.Tests.Quill.Unit
 
         public class Hoge2 : IHoge2
         {
-            #region IHoge1 ƒƒ“ƒo
+            #region IHoge1 ãƒ¡ãƒ³ãƒ
 
             public string HogeHoge()
             {
@@ -185,7 +185,7 @@ namespace Seasar.Tests.Quill.Unit
 
         public class HogeMock2 : IHoge2
         {
-            #region IHoge1 ƒƒ“ƒo
+            #region IHoge1 ãƒ¡ãƒ³ãƒ
 
             public string HogeHoge()
             {

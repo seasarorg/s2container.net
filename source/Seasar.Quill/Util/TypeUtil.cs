@@ -1,6 +1,6 @@
 #region Copyright
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,31 +23,41 @@ using Seasar.Framework.Aop.Proxy;
 namespace Seasar.Quill.Util
 {
     /// <summary>
-    /// Type‚ğˆµ‚¤ƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX
+    /// Typeã‚’æ‰±ã†ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹
     /// </summary>
     public static class TypeUtil
     {
         /// <summary>
-        /// w’è‚³‚ê‚½ƒIƒuƒWƒFƒNƒg‚ÌType‚ğæ“¾‚·‚é
+        /// æŒ‡å®šã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®Typeã‚’å–å¾—ã™ã‚‹
         /// </summary>
         /// <remarks>
-        /// ƒIƒuƒWƒFƒNƒg‚ª“§‰ßƒvƒƒLƒV‚Ìê‡‚ÍAopProxy‚©‚çType‚ğæ“¾‚·‚é
+        /// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒé€éãƒ—ãƒ­ã‚­ã‚·ã®å ´åˆã¯AopProxyã‹ã‚‰Typeã‚’å–å¾—ã™ã‚‹
         /// </remarks>
-        /// <param name="obj">ƒIƒuƒWƒFƒNƒg</param>
+        /// <param name="obj">ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ</param>
         /// <returns>Type</returns>
         public static Type GetType(object obj)
         {
             if (RemotingServices.IsTransparentProxy(obj))
             {
-                // “§‰ßƒvƒƒLƒV‚Ìê‡‚ÍAopProxy‚©‚çType‚ğæ“¾‚·‚é
+                // é€éãƒ—ãƒ­ã‚­ã‚·ã®å ´åˆã¯AopProxyã‹ã‚‰Typeã‚’å–å¾—ã™ã‚‹
                 AopProxy aopProxy = RemotingServices.GetRealProxy(obj) as AopProxy;
                 return aopProxy.TargetType;
             }
             else
             {
-                // “§‰ßƒvƒƒLƒV‚Å‚Í‚È‚¢ê‡‚Í’Êí‚Ì•û–@‚ÅType‚ğæ“¾‚·‚é
+                // é€éãƒ—ãƒ­ã‚­ã‚·ã§ã¯ãªã„å ´åˆã¯é€šå¸¸ã®æ–¹æ³•ã§Typeã‚’å–å¾—ã™ã‚‹
                 return obj.GetType();
             }
+        }
+
+        /// <summary>
+        /// åç§°ã«åå‰ç©ºé–“ã‚’å«ã‚€ã‹ã©ã†ã‹åˆ¤å®š
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static bool HasNamespace(string name)
+        {
+            return name.Contains(".");
         }
     }
 }

@@ -1,6 +1,6 @@
 #region Copyright
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,25 +18,20 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Data;
+using System.Reflection;
 using Seasar.Framework.Util;
 
 namespace Seasar.Extension.ADO.Impl
 {
     public class DatabaseMetaDataImpl : IDatabaseMetaData
     {
-#if NET_1_1
-        private IDictionary _primaryKeys = new Hashtable(
-            new CaseInsensitiveHashCodeProvider(), new CaseInsensitiveComparer());
-        private IDictionary _columns = new Hashtable(
-            new CaseInsensitiveHashCodeProvider(), new CaseInsensitiveComparer());
-        private IDictionary _autoIncrementColumns = new Hashtable(
-            new CaseInsensitiveHashCodeProvider(), new CaseInsensitiveComparer());
-#else
         private readonly IDictionary _primaryKeys = new Hashtable(StringComparer.CurrentCultureIgnoreCase);
         private readonly IDictionary _columns = new Hashtable(StringComparer.CurrentCultureIgnoreCase);
         private readonly IDictionary _autoIncrementColumns = new Hashtable(StringComparer.CurrentCultureIgnoreCase);
-#endif
+
+        private DataSet _metaDataSet;
 
         private readonly IDataSource _dataSource;
 
@@ -49,13 +44,13 @@ namespace Seasar.Extension.ADO.Impl
 
         public IList GetPrimaryKeySet(string tableName)
         {
-            if(!_primaryKeys.Contains(tableName)) CreateTableMetaData(tableName);
+            if (!_primaryKeys.Contains(tableName)) CreateTableMetaData(tableName);
             return (IList) _primaryKeys[tableName];
         }
 
         public IList GetColumnSet(string tableName)
         {
-            if(!_columns.Contains(tableName)) CreateTableMetaData(tableName);
+            if (!_columns.Contains(tableName)) CreateTableMetaData(tableName);
             return (IList) _columns[tableName];
         }
 
@@ -67,61 +62,121 @@ namespace Seasar.Extension.ADO.Impl
 
         #endregion
 
+        private string _metaDataSetClassName;
+
+        /// <summary>
+        /// DBのメタ情報を格納する<seealso cref="DataSet"/>の完全修飾名を設定する
+        /// <seealso cref="DataSet"/>を含むアセンブリは、
+        /// 現在のアプリケーション・ドメインに含まれる必要がある
+        /// </summary>
+        public string MetaDataSetClassName
+        {
+            set { _metaDataSetClassName = value; }
+        }
+
         /// <summary>
         /// テーブル定義情報を作成する
         /// </summary>
         /// <param name="tableName">テーブル名</param>
-        private void CreateTableMetaData(string tableName)
+        protected virtual void CreateTableMetaData(string tableName)
         {
-            lock(this)
+            lock (this)
             {
-                // IDbConnectionを取得する
-                IDbConnection cn = DataSourceUtil.GetConnection(_dataSource);
-                try
+                // テーブル定義情報を取得する
+                DataTable metaDataTable;
+                if (_metaDataSetClassName == null)
                 {
-                    // テーブル定義情報を取得するためのSQLを作成する
-                    string sql = "SELECT * FROM " + tableName;
+                    metaDataTable = GetMetaDataForDatabase(tableName);
+                }
+                else
+                {
+                    metaDataTable = GetMetaDataForDataSet(tableName);
+                }
 
-                    // IDbCommandを取得する
-                    IDbCommand cmd = _dataSource.GetCommand(sql, cn);
-
-                    // Transactionの処理を行う
-                    _dataSource.SetTransaction(cmd);
-
-                    // IDataAdapterを取得する
-                    IDataAdapter adapter = _dataSource.GetDataAdapter(cmd);
-
-                    // テーブル定義
-                    DataTable[] metaDataTables;
-
-                    // テーブル定義情報を取得する
-                    try
-                    {
-                        metaDataTables = adapter.FillSchema(new DataSet(), SchemaType.Mapped);
-                    }
-                    catch
-                    {
-                        return;
-                    }
-
+                if (metaDataTable != null)
+                {
                     // テーブル定義情報からプライマリキーを取得する
-                    _primaryKeys[tableName] = GetPrimaryKeySet(metaDataTables[0].PrimaryKey);
+                    _primaryKeys[tableName] = GetPrimaryKeySet(metaDataTable.PrimaryKey);
 
                     // テーブル定義情報からカラムを取得する
-                    _columns[tableName] = GetColumnSet(metaDataTables[0].Columns);
+                    _columns[tableName] = GetColumnSet(metaDataTable.Columns);
 
                     // テーブル定義情報からAutoIncrementカラムを取得する
-                    _autoIncrementColumns[tableName] = GetAutoIncrementColumnSet(metaDataTables[0].Columns);
-                }
-                finally
-                {
-                    // IDbConnectionのClose処理を行う
-                    _dataSource.CloseConnection(cn);
+                    _autoIncrementColumns[tableName] = GetAutoIncrementColumnSet(metaDataTable.Columns);
                 }
             }
         }
 
-        private IList GetPrimaryKeySet(DataColumn[] primarykeys)
+        /// <summary>
+        /// DBからテーブル定義情報を取得する
+        /// </summary>
+        /// <param name="tableName">テーブル名</param>
+        /// <returns>テーブル定義情報。取得できなかった場合、nullを返す</returns>
+        private DataTable GetMetaDataForDatabase(string tableName)
+        {
+            // テーブル定義
+            DataTable[] metaDataTables;
+
+            // IDbConnectionを取得する
+            IDbConnection cn = DataSourceUtil.GetConnection(_dataSource);
+            try
+            {
+                // テーブル定義情報を取得するためのSQLを作成する
+                string sql = "SELECT * FROM " + tableName;
+
+                // IDbCommandを取得する
+                IDbCommand cmd = _dataSource.GetCommand(sql, cn);
+
+                // Transactionの処理を行う
+                _dataSource.SetTransaction(cmd);
+
+                // IDataAdapterを取得する
+                IDataAdapter adapter = _dataSource.GetDataAdapter(cmd);
+
+                // テーブル定義情報を取得する
+                try
+                {
+                    metaDataTables = adapter.FillSchema(new DataSet(), SchemaType.Mapped);
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+            finally
+            {
+                // IDbConnectionのClose処理を行う
+                _dataSource.CloseConnection(cn);
+            }
+
+            return metaDataTables[0];
+        }
+
+        /// <summary>
+        /// DBのメタ情報を格納する<seealso cref="DataSet"/>からテーブル定義情報を取得する
+        /// </summary>
+        /// <param name="tableName">テーブル名</param>
+        /// <returns>テーブル定義情報。取得できなかった場合、nullを返す</returns>
+        private DataTable GetMetaDataForDataSet(string tableName)
+        {
+            if (_metaDataSet == null)
+            {
+                Assembly[] loadedAssembly = AppDomain.CurrentDomain.GetAssemblies();
+                Type dataSetType = ClassUtil.ForName(_metaDataSetClassName, loadedAssembly);
+                _metaDataSet = (DataSet) ClassUtil.NewInstance(dataSetType);
+            }
+
+            if (!_metaDataSet.Tables.Contains(tableName))
+            {
+                return null;
+            }
+            else
+            {
+                return _metaDataSet.Tables[tableName];
+            }
+        }
+
+        private IList GetPrimaryKeySet(IEnumerable<DataColumn> primarykeys)
         {
             IList list = new CaseInsentiveSet();
             foreach (DataColumn pkey in primarykeys)

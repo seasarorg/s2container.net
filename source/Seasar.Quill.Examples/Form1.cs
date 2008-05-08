@@ -1,6 +1,6 @@
 ﻿#region Copyright
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,11 +26,10 @@ namespace Seasar.Quill.Examples
     public partial class Form1 : Form
     {
         protected EmployeeLogic employeeLogic;
-        
+
         public Form1()
         {
-                InitializeComponent();
-
+            InitializeComponent();
         }
 
         private void EmpButton_Click(object sender, EventArgs e)
@@ -68,7 +67,5 @@ namespace Seasar.Quill.Examples
             // 初期値をセットする
             empNoTextBox.Text = "7499";
         }
-
-
     }
 }

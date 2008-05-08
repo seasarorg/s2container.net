@@ -1,6 +1,6 @@
 #region Copyright
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,10 @@
 
 using System;
 using System.Data;
+
+#if NHIBERNATE_NULLABLES
 using Nullables;
+#endif
 
 namespace Seasar.Extension.DataSets.Types
 {
@@ -102,6 +105,7 @@ namespace Seasar.Extension.DataSets.Types
             {
                 return true;
             }
+#if NHIBERNATE_NULLABLES
             if (value is INullableType)
             {
                 if (!((INullableType) value).HasValue)
@@ -109,6 +113,7 @@ namespace Seasar.Extension.DataSets.Types
                     return true;
                 }
             }
+#endif
             return false;
         }
     }

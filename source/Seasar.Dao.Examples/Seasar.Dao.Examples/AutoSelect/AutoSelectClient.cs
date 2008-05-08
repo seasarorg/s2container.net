@@ -1,6 +1,6 @@
 #region Copyright
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@ using System.Collections;
 using System.Data.SqlTypes;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Factory;
-using Nullables;
 
 namespace Seasar.Dao.Examples.AutoSelect
 {
@@ -44,7 +43,7 @@ namespace Seasar.Dao.Examples.AutoSelect
             Console.WriteLine("/** 全ての従業員のリスト **/");
             while (employees.MoveNext())
             {
-                Console.WriteLine(((Employee) employees.Current).ToString());
+                Console.WriteLine((employees.Current).ToString());
             }
 
             IDepartmentDao1 deptDao = (IDepartmentDao1) container.GetComponent(typeof(IDepartmentDao1));
@@ -56,7 +55,7 @@ namespace Seasar.Dao.Examples.AutoSelect
             Console.WriteLine("/** 全ての部署のリスト(System.Data.SqlTypesを使用) **/");
             while (depts.MoveNext())
             {
-                Console.WriteLine(((Department1) depts.Current).ToString());
+                Console.WriteLine((depts.Current).ToString());
             }
 
             IDepartmentDao2 deptDao2 = (IDepartmentDao2) container.GetComponent(typeof(IDepartmentDao2));
@@ -68,7 +67,7 @@ namespace Seasar.Dao.Examples.AutoSelect
             Console.WriteLine("/** 全ての部署のリスト(NullableTypeを使用) **/");
             while (depts2.MoveNext())
             {
-                Console.WriteLine(((Department2) depts2.Current).ToString());
+                Console.WriteLine((depts2.Current).ToString());
             }
 
             // Nullである項目を取得(INullable)
@@ -81,7 +80,7 @@ namespace Seasar.Dao.Examples.AutoSelect
             Console.WriteLine(active.IsNull ? "null" : active.Value.ToString());
 
             // Nullである項目を取得(INullable)
-            NullableInt16 active2 = deptDao2.GetActiveByDeptno2(20);
+            int? active2 = deptDao2.GetActiveByDeptno2(20);
             Console.WriteLine("/** deptnoが20と40のActiveを取得(INullableTypeを使用) **/");
             Console.WriteLine("deptno=20");
             Console.WriteLine(active2.HasValue ? active2.Value.ToString() : "null");

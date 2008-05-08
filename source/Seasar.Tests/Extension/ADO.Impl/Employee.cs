@@ -1,6 +1,6 @@
 #region Copyright
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@
 #endregion
 
 using System;
-using Nullables;
 
 namespace Seasar.Tests.Extension.ADO.Impl
 {
@@ -30,17 +29,17 @@ namespace Seasar.Tests.Extension.ADO.Impl
 
         private string _job;
 
-        private NullableInt16 _mgr;
+        private short? _mgr;
 
-        private NullableDateTime _hiredate;
+        private DateTime? _hiredate;
 
-        private NullableSingle _sal;
+        private float? _sal;
 
-        private NullableSingle _comm;
+        private float? _comm;
 
-        private NullableInt32 _deptno;
+        private int? _deptno;
 
-        private NullableDateTime _tstamp;
+        private DateTime? _tstamp;
 
         private Department _department;
 
@@ -52,12 +51,12 @@ namespace Seasar.Tests.Extension.ADO.Impl
             long empno,
             string ename,
             string job,
-            NullableInt16 mgr,
-            NullableDateTime hiredate,
-            NullableSingle sal,
-            NullableSingle comm,
-            NullableInt32 deptno,
-            NullableDateTime tstamp
+            short? mgr,
+            DateTime? hiredate,
+            float? sal,
+            float? comm,
+            int? deptno,
+            DateTime? tstamp
             )
         {
             _empno = empno;
@@ -89,37 +88,37 @@ namespace Seasar.Tests.Extension.ADO.Impl
             get { return _job; }
         }
 
-        public NullableInt16 Mgr
+        public short? Mgr
         {
             set { _mgr = value; }
             get { return _mgr; }
         }
 
-        public NullableDateTime Hiredate
+        public DateTime? Hiredate
         {
             set { _hiredate = value; }
             get { return _hiredate; }
         }
 
-        public NullableSingle Sal
+        public float? Sal
         {
             set { _sal = value; }
             get { return _sal; }
         }
 
-        public NullableSingle Comm
+        public float? Comm
         {
             set { _comm = value; }
             get { return _comm; }
         }
 
-        public NullableInt32 Deptno
+        public int? Deptno
         {
             set { _deptno = value; }
             get { return _deptno; }
         }
 
-        public NullableDateTime Tstamp
+        public DateTime? Tstamp
         {
             set { _tstamp = value; }
             get { return _tstamp; }

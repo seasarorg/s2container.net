@@ -1,6 +1,6 @@
 #region Copyright
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,61 +17,62 @@
 #endregion
 
 using System;
-using Seasar.Framework.Container.Factory;
 using Seasar.Framework.Container;
+using Seasar.Framework.Container.Factory;
+using Seasar.Quill.Exception;
 
 namespace Seasar.Quill
 {
     /// <summary>
-    /// S2Container‚Æ˜AŒg‚·‚éˆ×‚ÌÃ“IƒNƒ‰ƒX‚Å‚·
+    /// S2Containerã¨é€£æºã™ã‚‹ç‚ºã®é™çš„ã‚¯ãƒ©ã‚¹ã§ã™
     /// </summary>
     /// <remarks>
     /// <see cref="Seasar.Framework.Container.Factory.SingletonS2ContainerFactory"/>
-    /// ‚Åì¬‚³‚ê‚½<see cref="Seasar.Framework.Container.IS2Container"/>‚ğˆµ‚¢‚Ü‚·
+    /// ã§ä½œæˆã•ã‚ŒãŸ<see cref="Seasar.Framework.Container.IS2Container"/>ã‚’æ‰±ã„ã¾ã™
     /// </remarks>
     public static class SingletonS2ContainerConnector
     {
         /// <summary>
-        /// S2Container‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ğƒRƒ“ƒ|[ƒlƒ“ƒg–¼‚ğw’è‚µ‚Äæ“¾‚µ‚Ü‚·
+        /// S2Containerã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆåã‚’æŒ‡å®šã—ã¦å–å¾—ã—ã¾ã™
         /// </summary>
         /// <remarks>
         /// see cref="Seasar.Framework.Container.Factory.SingletonS2ContainerFactory"/>
-        /// ‚Åì¬‚³‚ê‚½<see cref="Seasar.Framework.Container.IS2Container"/>
-        /// ‚©‚çƒRƒ“ƒ|[ƒlƒ“ƒg‚ğæ“¾‚µ‚Ü‚·
+        /// ã§ä½œæˆã•ã‚ŒãŸ<see cref="Seasar.Framework.Container.IS2Container"/>
+        /// ã‹ã‚‰ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å–å¾—ã—ã¾ã™
         /// </remarks>
-        /// <param name="componentName">ƒRƒ“ƒ|[ƒlƒ“ƒg–¼</param>
-        /// <returns>ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒCƒ“ƒXƒ^ƒ“ƒX</returns>
+        /// <param name="componentName">ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆå</param>
+        /// <returns>ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹</returns>
         public static object GetComponent(string componentName)
         {
-            // S2Container‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ğƒRƒ“ƒ|[ƒlƒ“ƒg–¼‚ğw’è‚µ‚Äæ“¾‚µ‚Ü‚·
+            // S2Containerã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆåã‚’æŒ‡å®šã—ã¦å–å¾—ã—ã¾ã™
             return GetComponent(componentName, null);
         }
 
         /// <summary>
-        /// S2Container‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ğƒRƒ“ƒ|[ƒlƒ“ƒg–¼‚ğw’è‚µ‚Äæ“¾‚µ‚Ü‚·
+        /// S2Containerã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆåã‚’æŒ‡å®šã—ã¦å–å¾—ã—ã¾ã™
         /// </summary>
         /// <remarks>
         /// see cref="Seasar.Framework.Container.Factory.SingletonS2ContainerFactory"/>
-        /// ‚Åì¬‚³‚ê‚½<see cref="Seasar.Framework.Container.IS2Container"/>
-        /// ‚©‚çƒRƒ“ƒ|[ƒlƒ“ƒg‚ğæ“¾‚µ‚Ü‚·
+        /// ã§ä½œæˆã•ã‚ŒãŸ<see cref="Seasar.Framework.Container.IS2Container"/>
+        /// ã‹ã‚‰ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å–å¾—ã—ã¾ã™
         /// </remarks>
-        /// <param name="componentName">ƒRƒ“ƒ|[ƒlƒ“ƒg–¼</param>
-        /// <param name="receiptType">ó‚¯‘¤‚ÌType</param>
-        /// <returns>ƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌƒCƒ“ƒXƒ^ƒ“ƒX</returns>
+        /// <param name="componentName">ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆå</param>
+        /// <param name="receiptType">å—ã‘å´ã®Type</param>
+        /// <returns>ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹</returns>
         public static object GetComponent(string componentName, Type receiptType)
         {
             if (!SingletonS2ContainerFactory.HasContainer)
             {
-                // S2Container‚ªì¬‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Í—áŠO‚ğƒXƒ[‚µ‚Ü‚·
+                // S2ContainerãŒä½œæˆã•ã‚Œã¦ã„ãªã„å ´åˆã¯ä¾‹å¤–ã‚’ã‚¹ãƒ­ãƒ¼ã—ã¾ã™
                 throw new QuillApplicationException("EQLL0009");
             }
 
-            // S2Container‚ğæ“¾‚·‚é
+            // S2Containerã‚’å–å¾—ã™ã‚‹
             IS2Container container = SingletonS2ContainerFactory.Container;
 
             if (!container.HasComponentDef(componentName))
             {
-                // S2Container‚ÉƒRƒ“ƒ|[ƒlƒ“ƒg‚ª“o˜^‚³‚ê‚Ä‚¢‚È‚¢ê‡‚Í—áŠO‚ğƒXƒ[‚·‚é
+                // S2Containerã«ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒç™»éŒ²ã•ã‚Œã¦ã„ãªã„å ´åˆã¯ä¾‹å¤–ã‚’ã‚¹ãƒ­ãƒ¼ã™ã‚‹
                 throw new QuillApplicationException("EQLL0010",
                     new string[] { componentName });
             }
@@ -80,20 +81,72 @@ namespace Seasar.Quill
             {
                 if (receiptType == null)
                 {
-                    // S2Container‚©‚çæ“¾‚µ‚½ƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ•Ô‚·
+                    // S2Containerã‹ã‚‰å–å¾—ã—ãŸã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’è¿”ã™
                     return container.GetComponent(componentName);
                 }
                 else
                 {
-                    // ó‚¯‘¤‚ÌŒ^‚ğw’è‚µ‚ÄS2Container‚©‚çæ“¾‚µ‚½ƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ•Ô‚·
+                    // å—ã‘å´ã®å‹ã‚’æŒ‡å®šã—ã¦S2Containerã‹ã‚‰å–å¾—ã—ãŸã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’è¿”ã™
                     return container.GetComponent(receiptType, componentName);
                 }
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
-                // ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìæ“¾‚Å—áŠO‚ª”­¶‚µ‚½ê‡‚Í—áŠO‚ğƒXƒ[‚·‚é
+                // ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å–å¾—ã§ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆã¯ä¾‹å¤–ã‚’ã‚¹ãƒ­ãƒ¼ã™ã‚‹
                 throw new QuillApplicationException("EQLL0011", new string[] { }, ex);
             }
+        }
+
+        /// <summary>
+        /// S2Containerã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆåã‚’æŒ‡å®šã—ã¦å–å¾—ã—ã¾ã™
+        /// </summary>
+        /// <remarks>
+        /// see cref="Seasar.Framework.Container.Factory.SingletonS2ContainerFactory"/>
+        /// ã§ä½œæˆã•ã‚ŒãŸ<see cref="Seasar.Framework.Container.IS2Container"/>
+        /// ã‹ã‚‰ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’å–å¾—ã—ã¾ã™
+        /// </remarks>
+        /// <param name="componentType">ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å‹</param>
+        /// <returns>ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹</returns>
+        public static object GetComponent(Type componentType)
+        {
+            if ( !SingletonS2ContainerFactory.HasContainer )
+            {
+                // S2ContainerãŒä½œæˆã•ã‚Œã¦ã„ãªã„å ´åˆã¯ä¾‹å¤–ã‚’ã‚¹ãƒ­ãƒ¼ã—ã¾ã™
+                throw new QuillApplicationException("EQLL0009");
+            }
+
+            // S2Containerã‚’å–å¾—ã™ã‚‹
+            IS2Container container = SingletonS2ContainerFactory.Container;
+
+            if ( !container.HasComponentDef(componentType) )
+            {
+                // S2Containerã«ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒç™»éŒ²ã•ã‚Œã¦ã„ãªã„å ´åˆã¯ä¾‹å¤–ã‚’ã‚¹ãƒ­ãƒ¼ã™ã‚‹
+                throw new QuillApplicationException("EQLL0010",
+                    new string[] { componentType.Name });
+            }
+
+            try
+            {
+                // S2Containerã‹ã‚‰å–å¾—ã—ãŸã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’è¿”ã™
+                return container.GetComponent(componentType);
+            }
+            catch ( System.Exception ex )
+            {
+                // ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å–å¾—ã§ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸå ´åˆã¯ä¾‹å¤–ã‚’ã‚¹ãƒ­ãƒ¼ã™ã‚‹
+                throw new QuillApplicationException("EQLL0011", new string[] { }, ex);
+            }
+        }
+
+        /// <summary>
+        /// S2Containerä¸Šã«æŒ‡å®šã—ãŸã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒå­˜åœ¨ã™ã‚‹ã‹
+        /// </summary>
+        /// <param name="componentKey"></param>
+        /// <returns>true=å­˜åœ¨ã™ã‚‹ã€false=å­˜åœ¨ã—ãªã„</returns>
+        public static bool HasComponentDef(object componentKey)
+        {
+            // S2Containerã‚’å–å¾—ã™ã‚‹
+            IS2Container container = SingletonS2ContainerFactory.Container;
+            return container.HasComponentDef(componentKey);
         }
     }
 }

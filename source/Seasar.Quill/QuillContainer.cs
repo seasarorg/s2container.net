@@ -1,6 +1,6 @@
 #region Copyright
 /*
- * Copyright 2005-2007 the Seasar Foundation and the Others.
+ * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,12 @@
 
 using System;
 using System.Collections.Generic;
+using Seasar.Extension.ADO;
 using Seasar.Framework.Aop;
+using Seasar.Quill.Database.DataSource.Impl;
+using Seasar.Quill.Exception;
+using Seasar.Quill.Util;
+using Seasar.Quill.Xml;
 
 namespace Seasar.Quill
 {
@@ -44,8 +49,14 @@ namespace Seasar.Quill
         /// </summary>
         public QuillContainer()
         {
+            //  アセンブリをロードする
+            RegistAssembly();
+
             // QuillContainer内で使用するAspectBuilderを作成する
             aspectBuilder = new AspectBuilder(this);
+
+            //  DataSourceが定義されていればQuillContainerに登録する
+            RegistDataSource();
         }
 
         /// <summary>
@@ -106,7 +117,7 @@ namespace Seasar.Quill
                 QuillComponent component = new QuillComponent(implType, type, aspects);
 
                 // 作成済みのQuillコンポーネントを保存する
-                components[implType] = component;
+                components[type] = component;
 
                 // Quillコンポーネントを返す
                 return component;
@@ -135,6 +146,50 @@ namespace Seasar.Quill
 
             components = null;
             aspectBuilder = null;
+        }
+
+        /// <summary>
+        /// データソースを登録
+        /// </summary>
+        public virtual void RegistDataSource()
+        {
+            DataSourceBuilder builder = new DataSourceBuilder();
+            IDictionary<string, IDataSource> dataSources = builder.CreateDataSources();
+            // データソースの定義がなければ以後の処理は行わない
+            if ( dataSources.Count == 0 )
+            {
+                return;
+            }
+
+            SelectableDataSourceProxyWithDictionary dataSourceProxy =
+                (SelectableDataSourceProxyWithDictionary)ComponentUtil.GetComponent(
+                this, typeof(SelectableDataSourceProxyWithDictionary));
+            //  データソースの定義があれば登録
+            foreach ( KeyValuePair<string, IDataSource> dataSourcePair in dataSources )
+            {
+                dataSourceProxy.RegistDataSource(dataSourcePair.Key, dataSourcePair.Value);
+            }
+        }
+
+        /// <summary>
+        /// アセンブリをロードする
+        /// </summary>
+        protected virtual void RegistAssembly()
+        {
+            QuillSection section = QuillSectionHandler.GetQuillSection();
+            if (section != null && section.Assemblys != null && section.Assemblys.Count > 0)
+            {
+                //  設定ファイルに書かれたアセンブリ名を取得する
+                foreach (object item in section.Assemblys)
+                {
+                    string assemblyName = item as string;
+                    if (!string.IsNullOrEmpty(assemblyName))
+                    {
+                        //  指定されたアセンブリをロードする
+                        AppDomain.CurrentDomain.Load(assemblyName);
+                    }
+                }
+            }
         }
 
         #region IDisposable メンバ
