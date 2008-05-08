@@ -1,4 +1,4 @@
-﻿#region Copyright
+#region Copyright
 /*
  * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
@@ -19,9 +19,9 @@
 using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
-// アセンブリに関する一般情報は以下の属性セットをとおして制御されます。 
-// アセンブリに関連付けられている情報を変更するには、
-// これらの属性値を変更してください。
+// �A�Z���u���Ɋւ����ʏ��͈ȉ��̑����Z�b�g���Ƃ����Đ��䂳��܂��B 
+// �A�Z���u���Ɋ֘A�t�����Ă������ύX����ɂ́A
+// �����̑����l��ύX���Ă��������B
 [assembly : AssemblyTitle("Seasar.Dxo")]
 [assembly: AssemblyDescription("Seasar.Dxo")]
 [assembly : AssemblyConfiguration("")]
@@ -31,43 +31,43 @@ using System.Runtime.InteropServices;
 [assembly : AssemblyTrademark("")]
 [assembly : AssemblyCulture("")]
 
-// ComVisible を false に設定すると、このアセンブリ内の型は COM コンポーネントには 
-// 参照不可能になります。COM からこのアセンブリ内の型にアクセスする場合は、 
-// その型の ComVisible 属性を true に設定してください。
+// ComVisible �� false �ɐݒ肷��ƁA���̃A�Z���u�����̌^�� COM �R���|�[�l���g�ɂ� 
+// �Q�ƕs�\�ɂȂ�܂��BCOM ���炱�̃A�Z���u�����̌^�ɃA�N�Z�X����ꍇ�́A 
+// ���̌^�� ComVisible ������ true �ɐݒ肵�Ă��������B
 [assembly : ComVisible(false)]
 
-// 次の GUID は、このプロジェクトが COM に公開される場合の、typelib の ID です
+// ���� GUID �́A���̃v���W�F�N�g�� COM �Ɍ��J�����ꍇ�́Atypelib �� ID �ł�
 [assembly : Guid("4782e760-85c6-4c21-813f-93fb67bc4a0a")]
 
 //
-// アセンブリに署名するには、使用するキーを指定しなければなりません。 
-// アセンブリ署名に関する詳細については、Microsoft .NET Framework ドキュメントを参照してください。
+// �A�Z���u���ɏ�������ɂ́A�g�p����L�[���w�肵�Ȃ���΂Ȃ�܂���B 
+// �A�Z���u�������Ɋւ���ڍׂɂ��ẮAMicrosoft .NET Framework �h�L�������g���Q�Ƃ��Ă��������B
 //
-// 下記の属性を使って、署名に使うキーを制御します。 
+// ���L�̑������g���āA�����Ɏg���L�[�𐧌䂵�܂��B 
 //
-// メモ : 
-//   (*) キーが指定されないと、アセンブリは署名されません。
-//   (*) KeyName は、コンピュータにインストールされている
-//        暗号サービス プロバイダ (CSP) のキーを表します。KeyFile は、
-//       キーを含むファイルです。
-//   (*) KeyFile および KeyName の値が共に指定されている場合は、 
-//       以下の処理が行われます :
-//       (1) KeyName が CSP に見つかった場合、そのキーが使われます。
-//       (2) KeyName が存在せず、KeyFile が存在する場合、 
-//           KeyFile にあるキーが CSP にインストールされ、使われます。
-//   (*) KeyFile を作成するには、sn.exe (厳密な名前) ユーティリティを使ってください。
-//       KeyFile を指定するとき、KeyFile の場所は、
-//       プロジェクト出力 ディレクトリへの相対パスでなければなりません。
-//       パスは、%Project Directory%\obj\<configuration> です。たとえば、KeyFile がプロジェクト ディレクトリにある場合、
-//       AssemblyKeyFile 属性を 
-//       [assembly: AssemblyKeyFile("..\\..\\mykey.snk")] として指定します。
-//   (*) 遅延署名は高度なオプションです。
-//       詳細については Microsoft .NET Framework ドキュメントを参照してください。
+// ���� : 
+//   (*) �L�[���w�肳��Ȃ��ƁA�A�Z���u���͏�������܂���B
+//   (*) KeyName �́A�R���s���[�^�ɃC���X�g�[������Ă���
+//        �Í��T�[�r�X �v���o�C�_ (CSP) �̃L�[��\���܂��BKeyFile �́A
+//       �L�[���܂ރt�@�C���ł��B
+//   (*) KeyFile ����� KeyName �̒l�����Ɏw�肳��Ă���ꍇ�́A 
+//       �ȉ��̏������s���܂� :
+//       (1) KeyName �� CSP �Ɍ��������ꍇ�A���̃L�[���g���܂��B
+//       (2) KeyName �����݂����AKeyFile �����݂���ꍇ�A 
+//           KeyFile �ɂ���L�[�� CSP �ɃC���X�g�[������A�g���܂��B
+//   (*) KeyFile ���쐬����ɂ́Asn.exe (�����Ȗ��O) ���[�e�B���e�B���g���Ă��������B
+//       KeyFile ���w�肷��Ƃ��AKeyFile �̏ꏊ�́A
+//       �v���W�F�N�g�o�� �f�B���N�g���ւ̑��΃p�X�łȂ���΂Ȃ�܂���B
+//       �p�X�́A%Project Directory%\obj\<configuration> �ł��B���Ƃ��΁AKeyFile ���v���W�F�N�g �f�B���N�g���ɂ���ꍇ�A
+//       AssemblyKeyFile ������ 
+//       [assembly: AssemblyKeyFile("..\\..\\mykey.snk")] �Ƃ��Ďw�肵�܂��B
+//   (*) �x�������͍��x�ȃI�v�V�����ł��B
+//       �ڍׂɂ��Ă� Microsoft .NET Framework �h�L�������g���Q�Ƃ��Ă��������B
 //
 [assembly: AssemblyDelaySign(false)]
 [assembly: AssemblyKeyName("")]
 
 [assembly : CLSCompliant(true)]
 
-[assembly: AssemblyVersion("1.3.8.0")]
-[assembly: AssemblyFileVersionAttribute("1.3.8")]
+[assembly: AssemblyVersion("1.3.9.0")]
+[assembly: AssemblyFileVersionAttribute("1.3.9")]
