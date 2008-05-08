@@ -1,0 +1,520 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6D6327B1-4252-470A-A76B-8E923F34AB7C}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>Seasar.Tests</AssemblyName>
+    <AssemblyOriginatorKeyFile>Seasar.snk</AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Seasar.Tests</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <SignAssembly>true</SignAssembly>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE;DEBUG;NET_2_0</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\net2.0\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE;NET_2_0</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\net2.0\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="MbUnit.Framework, Version=2.3.0.0, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\net2.0\MbUnit.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.EnterpriseServices">
+      <Name>System.EnterpriseServices</Name>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web">
+      <Name>System.Web</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+    <ProjectReference Include="..\Seasar.Dao\Seasar.Dao.csproj">
+      <Project>{474715CA-5C99-4C50-ADFA-FB628824DFF0}</Project>
+      <Name>Seasar.Dao</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Seasar.Dxo\Seasar.Dxo.csproj">
+      <Project>{0C7A87F7-786E-43FB-846C-DE1583622A79}</Project>
+      <Name>Seasar.Dxo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Seasar.DynamicProxy\Seasar.DynamicProxy.csproj">
+      <Project>{063DED73-CA16-4038-904D-5A18A630843D}</Project>
+      <Name>Seasar.DynamicProxy</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Seasar.Quill\Seasar.Quill.csproj">
+      <Project>{4C1D6F42-4178-4C68-8277-B2978BF784FF}</Project>
+      <Name>Seasar.Quill</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Seasar.Unit\Seasar.Unit.csproj">
+      <Name>Seasar.Unit</Name>
+      <Project>{FC3A021B-6288-4C34-8303-544640D22FDA}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\Seasar\Seasar.csproj">
+      <Name>Seasar</Name>
+      <Project>{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Ado.dicon" />
+    <EmbeddedResource Include="Framework\Container.Deployer\SessionComponentDeployerWebPage.aspx.resx">
+      <DependentUpon>SessionComponentDeployerWebPage.aspx.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="test.dicon" />
+    <EmbeddedResource Include="TSTMessages.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <None Include="App.config">
+    </None>
+    <EmbeddedResource Include="DTCTx.dicon" />
+    <EmbeddedResource Include="ImplicitTx.dicon" />
+    <EmbeddedResource Include="LocalTx.dicon" />
+    <EmbeddedResource Include="Extension\DataSets.Impl\XlsReaderImplSortTest.xls" />
+    <EmbeddedResource Include="Extension\DataSets.Impl\XlsReaderImplTest.xls" />
+    <EmbeddedResource Include="Extension\DataSets.Impl\XlsReaderTest1.xls" />
+    <EmbeddedResource Include="Extension\Tx.Impl\DTCRequiredInterceptorTest.dicon" />
+    <EmbeddedResource Include="Extension\Tx.Impl\DTCRequiresNewInterceptorTest.dicon" />
+    <EmbeddedResource Include="Extension\Tx.Impl\LocalNotSupportedInterceptorTest.dicon" />
+    <EmbeddedResource Include="Extension\Tx.Impl\LocalRequiredInterceptorTest.dicon" />
+    <EmbeddedResource Include="Extension\Tx.Impl\LocalRequiresNewInterceptorTest.dicon" />
+    <EmbeddedResource Include="Extension\Tx.Impl\NotSupportedInterceptorTest.dicon" />
+    <EmbeddedResource Include="Extension\Tx.Impl\RequiredInterceptorTest.dicon" />
+    <EmbeddedResource Include="Extension\Tx.Impl\RequiresNewInterceptorTest.dicon" />
+    <EmbeddedResource Include="Dao\Dao.dicon" />
+    <EmbeddedResource Include="Dao\Impl\IDepartmentTotalSalaryDao_GetTotalSalaries.sql" />
+    <EmbeddedResource Include="Dao\Impl\IEmployeeDao_GetAllEmployees.sql" />
+    <EmbeddedResource Include="Dao\Impl\IEmployeeDao_GetAllEmployeesToGenericList1.sql" />
+    <EmbeddedResource Include="Dao\Impl\IEmployeeDao_GetAllEmployeesToGenericList2.sql" />
+    <EmbeddedResource Include="Dao\Impl\IEmployeeDao_GetCount.sql" />
+    <EmbeddedResource Include="Dao\Impl\IEmployeeDao_Update.sql" />
+    <EmbeddedResource Include="Dao\Impl\IEmployeeDao_UpdateSqlFileEncodingDefault.sql" />
+    <EmbeddedResource Include="Dao\Impl\IEmployeeDao_UpdateSqlFileEncodingUTF8.sql" />
+    <EmbeddedResource Include="Dao\Interceptors\IEmployeeDao_Insert.sql" />
+    <EmbeddedResource Include="Dao\Pager\PagerDataReaderWrapperTest.dicon" />
+    <None Include="Dao\Impl\EmployeeDataSet.xsc">
+      <DependentUpon>EmployeeDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Dao\Impl\EmployeeDataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>EmployeeDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Dao\Impl\EmployeeDataSet.xss">
+      <DependentUpon>EmployeeDataSet.xsd</DependentUpon>
+    </None>
+    <EmbeddedResource Include="Dxo\dxo.dicon" />
+    <EmbeddedResource Include="Dao\Impl\SqlFile\GetCount.sql" />
+    <None Include="Extension\ADO.Impl\S2DotNetDemoDataSet.xsc">
+      <DependentUpon>S2DotNetDemoDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Extension\ADO.Impl\S2DotNetDemoDataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>S2DotNetDemoDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Extension\ADO.Impl\S2DotNetDemoDataSet.xss">
+      <DependentUpon>S2DotNetDemoDataSet.xsd</DependentUpon>
+    </None>
+    <EmbeddedResource Include="Extension\ADO.Impl\SelectableDataSourceProxyWithContainer.dicon" />
+    <None Include="Extension\DataSets.Impl\XlsReaderTest_InvalidColumn.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Extension\Unit\S2TestCaseTest_ReadXlsWriteDbTx.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Extension\Unit\testdata.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <EmbeddedResource Include="Framework\Aop.Proxy\AopProxy.dicon" />
+    <EmbeddedResource Include="Framework\Aop.Proxy\DynamicProxy.dicon" />
+    <EmbeddedResource Include="Framework\Container.Factory\aaa.dicon" />
+    <EmbeddedResource Include="Framework\Container.Factory\ArgTagHandlerTest.dicon" />
+    <EmbeddedResource Include="Framework\Container.Factory\AspectTagHandlerTest.dicon" />
+    <EmbeddedResource Include="Framework\Container.Factory\bbb.dicon" />
+    <EmbeddedResource Include="Framework\Container.Factory\ccc.dicon" />
+    <EmbeddedResource Include="Framework\Container.Factory\ComponentsTagHandlerTest.dicon" />
+    <EmbeddedResource Include="Framework\Container.Factory\ComponentTagHandlerTest.dicon" />
+    <EmbeddedResource Include="Framework\Container.Factory\DestroyMethodTagHandlerTest.dicon" />
+    <EmbeddedResource Include="Framework\Container.Factory\IncludeTagHandlerTest.dicon" />
+    <EmbeddedResource Include="Framework\Container.Factory\IncludeTagHandlerTestChild.dicon" />
+    <EmbeddedResource Include="Framework\Container.Factory\IncludeTagHandlerTestGrandChild.dicon" />
+    <EmbeddedResource Include="Framework\Container.Factory\InitMethodTagHandlerTest.dicon" />
+    <EmbeddedResource Include="Framework\Container.Factory\MetaTagHandlerTest.dicon" />
+    <EmbeddedResource Include="Framework\Container.Factory\PropertyTagHandlerTest.dicon" />
+    <EmbeddedResource Include="Framework\Container.Impl\child.dicon" />
+    <EmbeddedResource Include="Framework\Container.Impl\obj.dicon" />
+    <EmbeddedResource Include="Framework\Container.Impl\root.dicon" />
+    <EmbeddedResource Include="Framework\Container.Impl\test1.dicon" />
+    <EmbeddedResource Include="Framework\Container.Impl\test2.dicon" />
+    <EmbeddedResource Include="Framework\Container.Impl\test3.dicon" />
+    <EmbeddedResource Include="Framework\Unit\aaa.dicon" />
+    <EmbeddedResource Include="Framework\Unit\bbb.dicon" />
+    <EmbeddedResource Include="Framework\Unit\ccc.dicon" />
+    <EmbeddedResource Include="Framework\Unit\ddd.dicon" />
+    <EmbeddedResource Include="Framework\Unit\empty.dicon" />
+    <EmbeddedResource Include="Framework\Unit\S2FrameworkTestCaseTest_ado.dicon" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Seasar.snk" />
+    <EmbeddedResource Include="Dao\Tests.dicon" />
+    <EmbeddedResource Include="Tx.dicon" />
+    <Compile Include="AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Dao\Context\CommandContextPropertyAccessorTest.cs" />
+    <Compile Include="Dao\Dbms\DbmsManagerTest.cs" />
+    <Compile Include="Dao\Dbms\Department.cs" />
+    <Compile Include="Dao\Dbms\Employee.cs" />
+    <Compile Include="Dao\Dbms\OracleTest.cs" />
+    <Compile Include="Dao\Dbms\StandardTest.cs" />
+    <Compile Include="Dao\Id\Hoge.cs" />
+    <Compile Include="Dao\Id\HogeNullable.cs" />
+    <Compile Include="Dao\Id\HogeSystemNullable.cs" />
+    <Compile Include="Dao\Id\IdentifierGeneratorFactoryTest.cs" />
+    <Compile Include="Dao\Id\IdentityIdentifierGeneratorTest.cs" />
+    <Compile Include="Dao\Id\SequenceIdentifierGeneratorTest.cs" />
+    <Compile Include="Dao\Impl\AbstractBeanMetaDataDataReaderHandlerTest.cs" />
+    <Compile Include="Dao\Impl\BeanArrayMetaDataResultSetHandlerTest.cs" />
+    <Compile Include="Dao\Impl\BeanDataSetMetaDataDataReaderHandlerTest.cs" />
+    <Compile Include="Dao\Impl\BeanDataTableMetaDataDataReaderHandlerTest.cs" />
+    <Compile Include="Dao\Impl\BeanGenericListMetaDataDataReaderHandlerTest.cs" />
+    <Compile Include="Dao\Impl\BeanListMetaDataDataReaderHandlerTest.cs" />
+    <Compile Include="Dao\Impl\BeanMetaDataDataReaderHandlerTest.cs" />
+    <Compile Include="Dao\Impl\BeanMetaDataImplTest.cs" />
+    <Compile Include="Dao\Impl\DaoMetaDataImplTest.cs" />
+    <Compile Include="Dao\Impl\DeleteAutoStaticCommandTest.cs" />
+    <Compile Include="Dao\Impl\Department.cs" />
+    <Compile Include="Dao\Impl\Department2.cs" />
+    <Compile Include="Dao\Impl\DepartmentTotalSalary.cs" />
+    <Compile Include="Dao\Impl\DepartmentModifiedOnly.cs" />
+    <Compile Include="Dao\Impl\Employee.cs" />
+    <Compile Include="Dao\Impl\Employee2.cs" />
+    <Compile Include="Dao\Impl\Employee3.cs" />
+    <Compile Include="Dao\Impl\Employee4.cs" />
+    <Compile Include="Dao\Impl\Employee5.cs" />
+    <Compile Include="Dao\Impl\EmployeeAutoDynamic.cs" />
+    <Compile Include="Dao\Impl\EmployeeDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EmployeeDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Dao\Impl\EmployeeDefault.cs" />
+    <Compile Include="Dao\Impl\EmployeeModifiedOnly.cs" />
+    <Compile Include="Dao\Impl\EmployeeNullable.cs" />
+    <Compile Include="Dao\Impl\EmployeeSearchCondition.cs" />
+    <Compile Include="Dao\Impl\EmployeeVersionNo.cs" />
+    <Compile Include="Dao\Impl\FormUseHistory.cs" />
+    <Compile Include="Dao\Impl\GenericNullableEntity.cs" />
+    <Compile Include="Dao\Impl\IDepartmentAutoDao.cs" />
+    <Compile Include="Dao\Impl\IDepartmentAutoDynamicDao.cs" />
+    <Compile Include="Dao\Impl\IDepartmentTotalSalaryDao.cs" />
+    <Compile Include="Dao\Impl\IdTable.cs" />
+    <Compile Include="Dao\Impl\IdTable2.cs" />
+    <Compile Include="Dao\Impl\IEmployee2Dao.cs" />
+    <Compile Include="Dao\Impl\IEmployee3Dao.cs" />
+    <Compile Include="Dao\Impl\IEmployee4Dao.cs" />
+    <Compile Include="Dao\Impl\IEmployee5Dao.cs" />
+    <Compile Include="Dao\Impl\IEmployee6Dao.cs" />
+    <Compile Include="Dao\Impl\IEmployee7Dao.cs" />
+    <Compile Include="Dao\Impl\IEmployee8Dao.cs" />
+    <Compile Include="Dao\Impl\IEmployeeAutoDao.cs" />
+    <Compile Include="Dao\Impl\IEmployeeAutoDynamicDao.cs" />
+    <Compile Include="Dao\Impl\IEmployeeDao.cs" />
+    <Compile Include="Dao\Impl\IEmployeeDataSetDao.cs" />
+    <Compile Include="Dao\Impl\IEmployeeDefaultDao.cs" />
+    <Compile Include="Dao\Impl\IEmployeeModifiedOnlyDao.cs" />
+    <Compile Include="Dao\Impl\IEmployeeNullableAutoDao.cs" />
+    <Compile Include="Dao\Impl\IEmployeeObjectListDao.cs" />
+    <Compile Include="Dao\Impl\IEmployeeVersionNoDao.cs" />
+    <Compile Include="Dao\Impl\IFormUseHistoryDao.cs" />
+    <Compile Include="Dao\Impl\IGenericNullableDao.cs" />
+    <Compile Include="Dao\Impl\IIdTableAuto2Dao.cs" />
+    <Compile Include="Dao\Impl\IIdTableAutoDao.cs" />
+    <Compile Include="Dao\Impl\IIllegalEmployeeAutoDao.cs" />
+    <Compile Include="Dao\Impl\InsertAutoDynamicCommandTest.cs" />
+    <Compile Include="Dao\Impl\InsertAutoStaticCommandTest.cs" />
+    <Compile Include="Dao\Impl\IStoredProcedureTestDao.cs" />
+    <Compile Include="Dao\Impl\IUnderscoreEntityDao.cs" />
+    <Compile Include="Dao\Impl\ObjectArrayDataReaderHandlerTest.cs" />
+    <Compile Include="Dao\Impl\ObjectGenericListDataReaderHandlerTest.cs" />
+    <Compile Include="Dao\Impl\ObjectListDataReaderHandlerTest.cs" />
+    <Compile Include="Dao\Impl\RelationKeyTest.cs" />
+    <Compile Include="Dao\Impl\SelectAutoCommandTest.cs" />
+    <Compile Include="Dao\Impl\SelectDynamicCommandTest.cs" />
+    <Compile Include="Dao\Impl\UnderscoreEntity.cs" />
+    <Compile Include="Dao\Impl\UpdateAutoDynamicCommandTest.cs" />
+    <Compile Include="Dao\Impl\UpdateAutoStaticCommandTest.cs" />
+    <Compile Include="Dao\Impl\UpdateDynamicCommandTest.cs" />
+    <Compile Include="Dao\Impl\UpdateModifiedOnlyCommandTest.cs" />
+    <Compile Include="Dao\Impl\EmployeeTimestamp.cs" />
+    <Compile Include="Dao\Impl\IEmployeeTimestampDao.cs" />
+    <Compile Include="Dao\Interceptors\Department.cs" />
+    <Compile Include="Dao\Interceptors\Employee.cs" />
+    <Compile Include="Dao\Interceptors\Hoge.cs" />
+    <Compile Include="Dao\Interceptors\IDepartmentAutoDao.cs" />
+    <Compile Include="Dao\Interceptors\IEmployeeAutoDao.cs" />
+    <Compile Include="Dao\Interceptors\IEmployeeDao.cs" />
+    <Compile Include="Dao\Interceptors\S2DaoInterceptor2Test.cs" />
+    <Compile Include="Dao\Interceptors\S2DaoInterceptor3Test.cs" />
+    <Compile Include="Dao\Interceptors\S2DaoInterceptorTest.cs" />
+    <Compile Include="Dao\Pager\Employee.cs" />
+    <Compile Include="Dao\Pager\IEmployeeDao.cs" />
+    <Compile Include="Dao\Pager\MockDataReader.cs" />
+    <Compile Include="Dao\Pager\MockDataReaderBase.cs" />
+    <Compile Include="Dao\Pager\MockDataReaderFactory.cs" />
+    <Compile Include="Dao\Pager\PagerDataReaderFactoryLimitOffsetWrapperTest.cs" />
+    <Compile Include="Dao\Pager\PagerDataReaderFactoryRowNumberWrapperTest.cs" />
+    <Compile Include="Dao\Pager\PagerDataReaderFactoryTopWrapperTest.cs" />
+    <Compile Include="Dao\Pager\PagerDataReaderFactoryWrapperTest.cs" />
+    <Compile Include="Dao\Pager\PagerDataReaderWrapperTest.cs" />
+    <Compile Include="Dao\Parser\SqlParserTest.cs" />
+    <Compile Include="Dao\Parser\SqlTokenizerTest.cs" />
+    <Compile Include="Dao\Unit\S2DaoTestCase.cs" />
+    <Compile Include="Dxo\BeanA.cs" />
+    <Compile Include="Dxo\Department.cs" />
+    <Compile Include="Dxo\Employee.cs" />
+    <Compile Include="Dxo\EmployeePage.cs" />
+    <Compile Include="Dxo\IBeanToBeanDxo.cs" />
+    <Compile Include="Dxo\ICollectionDxo.cs" />
+    <Compile Include="Dxo\IEmployeeDxo.cs" />
+    <Compile Include="Dxo\S2DxoTest.cs" />
+    <Compile Include="Dxo\TargetBean.cs" />
+    <Compile Include="Extension\ADO.Impl\BasicDbParameterParserTest.cs" />
+    <Compile Include="Extension\ADO.Impl\BasicSelectHandlerTest.cs" />
+    <Compile Include="Extension\ADO.Impl\BasicUpdateHandlerTest.cs" />
+    <Compile Include="Extension\ADO.Impl\BeanDataReaderHandlerTest.cs" />
+    <Compile Include="Extension\ADO.Impl\BeanGenericListDataReaderHandlerTest.cs" />
+    <Compile Include="Extension\ADO.Impl\BeanListDataReaderHandlerTest.cs" />
+    <Compile Include="Extension\ADO.Impl\DatabaseMetaDataImplTest.cs" />
+    <Compile Include="Extension\ADO.Impl\DataSourceImplTest.cs" />
+    <Compile Include="Extension\ADO.Impl\Department.cs" />
+    <Compile Include="Extension\ADO.Impl\DictionaryDataReaderHandlerTest.cs" />
+    <Compile Include="Extension\ADO.Impl\DictionaryListDataReaderHandlerTest.cs" />
+    <Compile Include="Extension\ADO.Impl\Employee.cs" />
+    <Compile Include="Extension\ADO.Impl\NoReplaceDbParameterParserTest.cs" />
+    <Compile Include="Extension\ADO.Impl\DbProviderFactoryDataSourceTest.cs" />
+    <Compile Include="Extension\ADO.Impl\DataProviderDataSourceTest.cs" />
+    <Compile Include="Extension\ADO.Impl\S2DotNetDemoDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>S2DotNetDemoDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Extension\ADO.Impl\SelectableDataSourceProxyWithContainerTest.cs" />
+    <Compile Include="Extension\ADO.Impl\BooleanToIntCommandFactoryTest.cs" />
+    <Compile Include="Extension\BasicTypeBean.cs" />
+    <Compile Include="Extension\DataSets.Impl\SqlDeleteTableWriterTest.cs" />
+    <Compile Include="Extension\DataSets.Impl\SqlReloadReaderTest.cs" />
+    <Compile Include="Extension\DataSets.Impl\SqlReloadTableReaderTest.cs" />
+    <Compile Include="Extension\DataSets.Impl\SqlServerSqlTableWriterTest.cs" />
+    <Compile Include="Extension\DataSets.Impl\SqlTableReaderTest.cs" />
+    <Compile Include="Extension\DataSets.Impl\SqlTableWriterTest.cs" />
+    <Compile Include="Extension\DataSets.Impl\XlsReaderSortTest.cs" />
+    <Compile Include="Extension\DataSets.Impl\XlsReaderTest.cs" />
+    <Compile Include="Extension\DataSets.Impl\XlsReaderTest1.cs" />
+    <Compile Include="Extension\DataSets.Impl\XlsWriterTest.cs" />
+    <Compile Include="Extension\EnumTypeBean.cs" />
+    <Compile Include="Extension\NHibernateNullableBasicTypeBean.cs" />
+    <Compile Include="Extension\NullableBasicTypeBean.cs" />
+    <Compile Include="Extension\NullableEnumTypeBean.cs" />
+    <Compile Include="Extension\SqlTypeBasicTypeBean.cs" />
+    <Compile Include="Extension\Tx.Impl\DTCRequiredInterceptorTest.cs" />
+    <Compile Include="Extension\Tx.Impl\DTCRequiresNewInterceptorTest.cs" />
+    <Compile Include="Extension\Tx.Impl\LocalNotSupportedInterceptorTest.cs" />
+    <Compile Include="Extension\Tx.Impl\LocalRequiredInterceptorTest.cs" />
+    <Compile Include="Extension\Tx.Impl\LocalRequiresNewInterceptorTest.cs" />
+    <Compile Include="Extension\Tx.Impl\LocalTxTest.cs" />
+    <Compile Include="Extension\Tx.Impl\NotSupportedInterceptorTest.cs" />
+    <Compile Include="Extension\Tx.Impl\RequiredInterceptorTest.cs" />
+    <Compile Include="Extension\Tx.Impl\RequiresNewInterceptorTest.cs" />
+    <Compile Include="Extension\Tx.Impl\Tx2Test.cs" />
+    <Compile Include="Extension\Tx.Impl\TxTest.cs" />
+    <Compile Include="Extension\Unit\BeanListReaderTest.cs" />
+    <Compile Include="Extension\Unit\BeanReaderTest.cs" />
+    <Compile Include="Extension\Unit\DictionaryListReaderTest.cs" />
+    <Compile Include="Extension\Unit\DictionaryReaderTest.cs" />
+    <Compile Include="Extension\Unit\S2AssertTest.cs" />
+    <Compile Include="Extension\Unit\S2TestCaseTest.cs" />
+    <Compile Include="Framework\Aop.Impl\MethodInvocationImplTest.cs" />
+    <Compile Include="Framework\Aop.Impl\PointcutImplTest.cs" />
+    <Compile Include="Framework\Aop.Interceptors\InterceptorChainTest.cs" />
+    <Compile Include="Framework\Aop.Interceptors\MockInterceptorTest.cs" />
+    <Compile Include="Framework\Aop.Proxy\AopProxyTest.cs" />
+    <Compile Include="Framework\Aop.Proxy\DynamicAopProxyTest.cs" />
+    <Compile Include="Framework\Container.Assembler\AutoConstructorAssemblerTest.cs" />
+    <Compile Include="Framework\Container.Assembler\AutoPropertyAssemblerTest.cs" />
+    <Compile Include="Framework\Container.Assembler\DefaultConstructorAssemblerTest.cs" />
+    <Compile Include="Framework\Container.Assembler\DefaultDestroyMethodAssemblerTest.cs" />
+    <Compile Include="Framework\Container.Assembler\DefaultInitMethodAssemblerTest.cs" />
+    <Compile Include="Framework\Container.Assembler\ExpressionConstructorAssemblerTest.cs" />
+    <Compile Include="Framework\Container.Assembler\ManualConstructorAssemblerTest.cs" />
+    <Compile Include="Framework\Container.Assembler\ManualPropertyAssemblerTest.cs" />
+    <Compile Include="Framework\Container.AutoRegister\AbstractComponentAutoRegisterTest.cs" />
+    <Compile Include="Framework\Container.AutoRegister\AspectAutoRegisterTest.cs" />
+    <Compile Include="Framework\Container.AutoRegister\AssemblyComponentAutoRegisterTest.cs" />
+    <Compile Include="Framework\Container.AutoRegister\ClassPatternTest.cs" />
+    <Compile Include="Framework\Container.AutoRegister\DefaultAutoNamingTest.cs" />
+    <Compile Include="Framework\Container.Deployer\OuterComponentDeployerTest.cs" />
+    <Compile Include="Framework\Container.Deployer\PrototypeComponentDeployerTest.cs" />
+    <Compile Include="Framework\Container.Deployer\RequestComponentDeployerTest.cs" />
+    <Compile Include="Framework\Container.Deployer\SessionComponentDeployerTest.cs" />
+    <Compile Include="Framework\Container.Deployer\SessionComponentDeployerWebPage.aspx.cs">
+      <DependentUpon>SessionComponentDeployerWebPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Framework\Util\AssignTypeUtilTest.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Quill\AspectBuilderTest.cs" />
+    <Compile Include="Quill\Attr\S2DaoAttributeTest.cs" />
+    <Compile Include="Quill\Attr\TransactionAttributeTest.cs" />
+    <Compile Include="Quill\Dao\Interceptor\DataSourceSelectInterceptorTest.cs" />
+    <Compile Include="Quill\Database\DataSource\Impl\SelectableDataSourceProxyWithDictionaryTest.cs" />
+    <Compile Include="Quill\Database\Provider\MySQLTest.cs" />
+    <Compile Include="Quill\Database\Provider\ODP.cs" />
+    <Compile Include="Quill\Database\Provider\OracleTest.cs" />
+    <Compile Include="Quill\Database\Provider\SqlServerTest.cs" />
+    <Compile Include="Quill\DataSourceBuilderTest.cs" />
+    <Compile Include="Quill\QuillComponentTest.cs" />
+    <Compile Include="Quill\QuillContainerTest.cs" />
+    <Compile Include="Quill\QuillInjectorTest.cs" />
+    <Compile Include="Quill\SingletonS2ContainerConnectorTest.cs" />
+    <Compile Include="Quill\Unit\MockInjectorTest.cs" />
+    <Compile Include="Quill\Unit\QuillTestCaseTest.cs" />
+    <Compile Include="Quill\Util\AttributeUtilTest.cs" />
+    <Compile Include="Quill\Util\MessageUtilTest.cs" />
+    <Compile Include="Framework\Container.Deployer\SingletonComponentDeployerTest.cs" />
+    <Compile Include="Framework\Container.Factory\ArgTagHandlerTest.cs" />
+    <Compile Include="Framework\Container.Factory\AspectTagHandlerTest.cs" />
+    <Compile Include="Framework\Container.Factory\ComponentsTagHandlerTest.cs" />
+    <Compile Include="Framework\Container.Factory\ComponentTagHandlerTest.cs" />
+    <Compile Include="Framework\Container.Factory\DestroyMethodTagHandlerTest.cs" />
+    <Compile Include="Framework\Container.Factory\IncludeTagHandlerTest.cs" />
+    <Compile Include="Framework\Container.Factory\InitMethodTagHandlerTest.cs" />
+    <Compile Include="Framework\Container.Factory\MetaTagHandlerTest.cs" />
+    <Compile Include="Framework\Container.Factory\PropertyTagHandlerTest.cs" />
+    <Compile Include="Framework\Container.Factory\SingletonS2ContainerFactoryTest.cs" />
+    <Compile Include="Framework\Container.Impl\ArgDefImplTest.cs" />
+    <Compile Include="Framework\Container.Impl\AspectDefImplTest.cs" />
+    <Compile Include="Framework\Container.Impl\ComponentDefImplTest.cs" />
+    <Compile Include="Framework\Container.Impl\NestIncludeTest.cs" />
+    <Compile Include="Framework\Container.Impl\S2ContainerImplTest.cs" />
+    <Compile Include="Framework\Container.Util\AutoBindingUnitTest.cs" />
+    <Compile Include="Framework\Container.Util\MetaDefSupportTest.cs" />
+    <Compile Include="Framework\Exceptions\SRuntimeExceptionTest.cs" />
+    <Compile Include="Framework\Log\LoggerTest.cs" />
+    <Compile Include="Framework\Message\MessageFormatterTest.cs" />
+    <Compile Include="Framework\Unit\Hoge.cs" />
+    <Compile Include="Framework\Unit\S2TestCaseBaseTest.cs" />
+    <Compile Include="Framework\Util\ClassUtilTest.cs" />
+    <Compile Include="Framework\Util\ConstructorUtilTest.cs" />
+    <Compile Include="Framework\Util\ConversionUtilTest.cs" />
+    <Compile Include="Framework\Util\JScriptUtilTest.cs" />
+    <Compile Include="Framework\Util\ResourceUtilTest.cs" />
+    <Compile Include="Framework\Util\SerializeUtilTest.cs" />
+    <Compile Include="Framework\Util\ToStringUtilTest.cs" />
+    <Compile Include="Framework\Xml\S2SectionHandlerTest.cs" />
+    <Compile Include="Framework\Xml\TagHandlerContextTest.cs" />
+    <Compile Include="Framework\Xml\XmlHandlerTest.cs" />
+    <Compile Include="Quill\Util\TypeUtilTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Quill\Xml\QuillSectionHandlerTest.cs" />
+    <Content Include="Framework\Container.Deployer\SessionComponentDeployerWebPage.aspx" />
+    <EmbeddedResource Include="Framework\Util\test1.xml" />
+    <EmbeddedResource Include="Framework\Xml\test1.xml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>copy "$(ProjectDir)Framework\Container.Deployer\SessionComponentDeployerWebPage.aspx" "$(TargetDir)"
+copy "$(ProjectDir)Framework\Container.Deployer\SessionComponentDeployerWebPage.aspx.cs" "$(TargetDir)"
+</PostBuildEvent>
+  </PropertyGroup>
+</Project>
