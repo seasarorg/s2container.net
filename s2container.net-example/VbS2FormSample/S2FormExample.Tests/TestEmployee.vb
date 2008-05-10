@@ -183,7 +183,7 @@ Public Class TestEmployee
     ''' 社員リストサービステスト
     ''' </summary>
     ''' <remarks></remarks>
-    <Test(), Quill(Tx.NotSupported)> _
+    <Test(), Quill(Tx.Rollback)> _
     Public Sub TestListService()
 
         Dim page As EmployeeListPage = listService.GetAll()
@@ -211,7 +211,7 @@ Public Class TestEmployee
     ''' 社員登録サービスのテスト
     ''' </summary>
     ''' <remarks></remarks>
-    <Test(), Quill(Tx.NotSupported)> _
+    <Test(), Quill(Tx.Rollback)> _
     Public Sub TestEditService()
         Dim data As EmployeeEditPage = editService.GetData(3)
         Assert.AreEqual(3, data.Id.Value, "Id")

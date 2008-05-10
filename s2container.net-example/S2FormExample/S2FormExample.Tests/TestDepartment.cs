@@ -132,7 +132,7 @@ namespace Seasar.S2FormExample.Tests
         /// <summary>
         /// 部門リストサービステスト
         /// </summary>
-        [Test, Quill(Tx.NotSupported)]
+        [Test, Quill(Tx.Rollback)]
         public void TestListService()
         {
             DepartmentListPage page = listService.GetAll();
@@ -142,7 +142,7 @@ namespace Seasar.S2FormExample.Tests
         /// <summary>
         /// 部門登録用サービステスト
         /// </summary>
-        [Test, Quill(Tx.NotSupported)]
+        [Test, Quill(Tx.Rollback)]
         public void TestEditService()
         {
             DepartmentEditPage data = editService.GetData(2);

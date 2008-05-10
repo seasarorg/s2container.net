@@ -127,7 +127,7 @@ Public Class TestDepartment
     ''' 部門リストサービステスト
     ''' </summary>
     ''' <remarks></remarks>
-    <Test(), Quill(Tx.NotSupported)> _
+    <Test(), Quill(Tx.Rollback)> _
     Public Sub TestListService()
         Dim page As DepartmentListPage = listService.GetAll
 
@@ -138,7 +138,7 @@ Public Class TestDepartment
     ''' 部門登録用サービステスト
     ''' </summary>
     ''' <remarks></remarks>
-    <Test(), Quill(Tx.NotSupported)> _
+    <Test(), Quill(Tx.Rollback)> _
     Public Sub TestEditService()
 
         Dim data As DepartmentEditPage = editService.GetData(2)
