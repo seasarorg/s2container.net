@@ -18,7 +18,9 @@
 
 using System;
 using MbUnit.Framework;
+using Seasar.Dao;
 using Seasar.Dao.Attrs;
+using Seasar.Dao.Unit;
 using Seasar.Extension.ADO;
 using Seasar.Framework.Aop;
 using Seasar.Framework.Aop.Interceptors;
@@ -31,7 +33,7 @@ using Seasar.Tests.Dao.Impl;
 namespace Seasar.Tests.Quill.Attr
 {
     [TestFixture]
-    public class S2DaoAttributeTest
+    public class S2DaoAttributeTest : S2DaoTestCase
     {
         [Test]
         public void TestSetTypicalDaoSetting()

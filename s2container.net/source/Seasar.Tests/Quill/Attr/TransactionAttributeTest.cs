@@ -18,7 +18,9 @@
 
 using System;
 using MbUnit.Framework;
+using Seasar.Dao;
 using Seasar.Dao.Attrs;
+using Seasar.Dao.Unit;
 using Seasar.Extension.Tx.Impl;
 using Seasar.Framework.Aop.Interceptors;
 using Seasar.Quill;
@@ -64,6 +66,7 @@ namespace Seasar.Tests.Quill.Attr
         [Test]
         public void TestCommit()
         {
+
             using (QuillContainer container = new QuillContainer())
             {
                 QuillComponent qc = container.GetComponent(typeof(IWithTxAttr2));
