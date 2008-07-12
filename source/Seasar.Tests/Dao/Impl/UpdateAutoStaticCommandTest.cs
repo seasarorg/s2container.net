@@ -307,6 +307,7 @@ namespace Seasar.Tests.Dao.Impl
             Thread.Sleep(1000);
 
             ISqlCommand updCmd = dmd.GetSqlCommand("Update");
+
             updCmd.Execute(new object[] { emp });
             Assert.IsTrue(emp.Timestamp.HasValue);
             Assert.IsTrue(insTimestamp < emp.Timestamp.Value);
@@ -322,14 +323,12 @@ namespace Seasar.Tests.Dao.Impl
             insCmd.Execute(new object[] { emp });
             Assert.AreEqual(DateTime.Today, emp.Timestamp.Date);
 
-            DateTime insTimestamp = emp.Timestamp;
-
             // Timestampの更新を確認するため、1秒待機。
             Thread.Sleep(1000);
 
             ISqlCommand updCmd = dmd.GetSqlCommand("Update");
             updCmd.Execute(new object[] { emp });
-            Assert.IsTrue(insTimestamp < emp.Timestamp);
+            Assert.IsTrue(DateTime.Today < emp.Timestamp);
         }
 
         [Test, S2(Tx.Rollback)]

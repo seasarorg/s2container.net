@@ -460,6 +460,7 @@
     <Compile Include="Quill\Database\Provider\OracleTest.cs" />
     <Compile Include="Quill\Database\Provider\SqlServerTest.cs" />
     <Compile Include="Quill\DataSourceBuilderTest.cs" />
+    <Compile Include="Quill\PerformanceTest.cs" />
     <Compile Include="Quill\QuillComponentTest.cs" />
     <Compile Include="Quill\QuillContainerTest.cs" />
     <Compile Include="Quill\QuillInjectorTest.cs" />

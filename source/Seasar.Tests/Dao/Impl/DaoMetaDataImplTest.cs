@@ -335,6 +335,41 @@ namespace Seasar.Tests.Dao.Impl
             Assert.AreEqual(1, employees.Count, "MARYはいないので");
         }
 
+        /// <summary>
+        /// 外部結合にWHERE句が使われるDBを想定したテスト
+        /// </summary>
+        [Test, S2]
+        public void TestSelectAutoByQueryOuterJoinByWhereClause()
+        {
+            IDaoMetaData dmd = CreateDaoMetaData(typeof(IEmployeeAutoDao));
+            SelectDynamicCommand cmd = (SelectDynamicCommand)dmd.GetSqlCommand("GetEmployeeByDeptName");
+            Trace.WriteLine(cmd.Sql);
+            {
+                //  Query内条件あり
+                const string DNAME_CONDITION = "SALES";
+                IList actualList = (IList)cmd.Execute(new object[] { DNAME_CONDITION });
+                Trace.WriteLine(actualList);
+                Assert.IsTrue(actualList.Count > 0, "少なくとも一人はいる");
+                Assert.IsTrue(actualList[0] is Employee, "Employee型で返ってくる");
+                foreach (Employee emp in actualList)
+                {
+                    Assert.IsNotNull(emp.Department);
+                    Assert.AreEqual(DNAME_CONDITION, emp.Department.Dname, "検索条件に該当している");
+                }
+            }
+            {
+                //  Query内条件なし
+                IList actualList = (IList)cmd.Execute(new object[] { null });
+                Trace.WriteLine(actualList);
+                Assert.IsTrue(actualList.Count > 0, "少なくとも一人はいる");
+                Assert.IsTrue(actualList[0] is Employee, "Employee型で返ってくる");
+                foreach (Employee emp in actualList)
+                {
+                    Assert.IsNotNull(emp.Department);
+                }
+            }
+        }
+
         [Test, S2]
         public void TestRelation1()
         {

@@ -32,7 +32,7 @@ namespace Seasar.Tests.Quill
         [Test]
         public void TestCreateDataSources()
         {
-            DataSourceBuilder builder = new DataSourceBuilder();
+            DataSourceBuilder builder = new DataSourceBuilder(new QuillContainer());
             IDictionary<string, IDataSource> dsMap = builder.CreateDataSources();
 
             Assert.IsNotNull(dsMap);
@@ -41,7 +41,7 @@ namespace Seasar.Tests.Quill
                 Assert.IsTrue(dsMap.ContainsKey("Hoge2"));
                 IDataSource ds = dsMap["Hoge2"];
                 Assert.IsTrue(ds is DataSourceImpl);
-                Assert.IsTrue(((DataSourceImpl)ds).DataProvider is Oracle);
+                Assert.IsTrue(((DataSourceImpl)ds).DataProvider is Seasar.Quill.Database.Provider.Oracle);
                 Assert.AreEqual(@"(local)\Hoge2", ((DataSourceImpl)ds).ConnectionString);
             }
             {
