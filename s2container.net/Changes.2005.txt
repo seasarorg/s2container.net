@@ -1,4 +1,12 @@
-﻿S2Container.NET 1.3.9
+﻿S2Container.NET 1.3.10
+2008/07/25
+
+S2Dao.NET 1.3.10
+2008/07/25
+** Bug
+	* [DAONET-77] - 外部結合にWHERE句を使うDBMSでQuery句に「/*BEGIN*/WHERE～/*END*/」を使えない
+
+S2Container.NET 1.3.9
 2008/05/09
 ** Bug
 	* [CONTAINERNET-93] - S2Unit ReadXlsWriteDbでICommandFactory未定義の場合にデフォルトクラスを使用していない
