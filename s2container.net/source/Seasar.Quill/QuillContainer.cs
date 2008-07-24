@@ -153,7 +153,7 @@ namespace Seasar.Quill
         /// </summary>
         public virtual void RegistDataSource()
         {
-            DataSourceBuilder builder = new DataSourceBuilder();
+            DataSourceBuilder builder = new DataSourceBuilder(this);
             IDictionary<string, IDataSource> dataSources = builder.CreateDataSources();
             // データソースの定義がなければ以後の処理は行わない
             if ( dataSources.Count == 0 )
