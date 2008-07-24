@@ -29,6 +29,8 @@ using Seasar.Quill.Xml;
 using System.Text.RegularExpressions;
 using Seasar.Quill.Database.DataSource.Connection;
 using Seasar.Quill.Exception;
+using Seasar.Quill.Database.Tx;
+using Seasar.Quill.Database.Tx.Impl;
 
 namespace Seasar.Quill
 {
@@ -43,6 +45,17 @@ namespace Seasar.Quill
         /// 文字列("で囲まれているか)判定するための正規表現
         /// </summary>
         private readonly Regex _regexIsString = new Regex("^\".*\"$");
+
+        private readonly QuillContainer _container;
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="container">Quillコンテナ</param>
+        public DataSourceBuilder(QuillContainer container)
+        {
+            _container = container;
+        }
 
         /// <summary>
         /// app.config,diconの定義からIDataSourceのCollectionを生成
@@ -109,6 +122,18 @@ namespace Seasar.Quill
             QuillSection section = QuillSectionHandler.GetQuillSection();
             if (section != null && section.DataSources.Count > 0)
             {
+                ITransactionSetting defaultTxSetting = null;
+                if (_container == null)
+                {
+                    defaultTxSetting = new TypicalTransactionSetting();
+                }
+                else
+                {
+                    defaultTxSetting =
+                        (ITransactionSetting) ComponentUtil.GetComponent(
+                        _container, typeof (TypicalTransactionSetting));
+                }
+
                 foreach (object item in section.DataSources)
                 {
                     if(item is DataSourceSection)
@@ -147,7 +172,7 @@ namespace Seasar.Quill
 
                         //  接続文字列
                         string configString = dsSection.ConnectionString;
-                        string connectionString = configString;
+                        string connectionString = null;
                         if (_regexIsString.IsMatch(configString))
                         {
                             //  最初と最後の「"」を取り除く
@@ -181,8 +206,29 @@ namespace Seasar.Quill
                             dataSourceClassName), new Type[] { typeof(DataProvider), typeof(string) });
                         IDataSource dataSource = (IDataSource)constructorInfo.Invoke(
                              new object[] { provider, connectionString });
+                        SetupDataSourceDefault(defaultTxSetting, dataSource);
                         dataSources[dsSection.DataSourceName] = dataSource;
                     }     
+                }
+            }
+        }
+
+        /// <summary>
+        /// データソースの既定設定を行う
+        /// </summary>
+        /// <param name="txSetting">デフォルトのトランザクション設定</param>
+        /// <param name="dataSource">設定するデータソース</param>
+        protected virtual void SetupDataSourceDefault(ITransactionSetting txSetting,
+            IDataSource dataSource)
+        {
+            //  TxDataSourceかそれを継承するクラスの場合は予め既定設定を
+            //  行っておく
+            //  これ以外の設定が使われる場合はコンポーネント生成時に上書きされる
+            if(typeof(TxDataSource).IsAssignableFrom(dataSource.GetType()))
+            {
+                if (txSetting.IsNeedSetup())
+                {
+                    txSetting.Setup(dataSource);
                 }
             }
         }

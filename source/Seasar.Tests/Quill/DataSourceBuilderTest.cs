@@ -32,7 +32,8 @@ namespace Seasar.Tests.Quill
         [Test]
         public void TestCreateDataSources()
         {
-            DataSourceBuilder builder = new DataSourceBuilder();
+            QuillContainer container = new QuillContainer();
+            DataSourceBuilder builder = new DataSourceBuilder(container);
             IDictionary<string, IDataSource> dsMap = builder.CreateDataSources();
 
             Assert.IsNotNull(dsMap);
