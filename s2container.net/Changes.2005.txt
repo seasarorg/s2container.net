@@ -1,5 +1,7 @@
 ﻿S2Container.NET 1.3.10
 2008/07/25
+** Improvement
+    * [CONTAINERNET-97] - QuillでTxDataSourceが使われていた場合、Transaction属性が指定されていなくてもデータソースの各種設定が行われるようにする
 
 S2Dao.NET 1.3.10
 2008/07/25
