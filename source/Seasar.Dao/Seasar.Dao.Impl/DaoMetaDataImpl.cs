@@ -18,7 +18,6 @@
 
 using System;
 using System.Collections;
-using System.Data;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -29,7 +28,6 @@ using Seasar.Extension.ADO.Impl;
 using Seasar.Extension.ADO.Types;
 using Seasar.Framework.Beans;
 using Seasar.Framework.Util;
-using System.Collections.Generic;
 
 namespace Seasar.Dao.Impl
 {
@@ -62,6 +60,7 @@ namespace Seasar.Dao.Impl
         protected IDaoAnnotationReader _annotationReader;
         protected ICommandFactory _commandFactory;
         protected IDataReaderFactory _dataReaderFactory;
+        protected IDataReaderHandlerFactory _dataReaderHandlerFactory;
         protected string _sqlFileEncoding = Encoding.Default.WebName;
         protected IDbms _dbms;
         protected Type _beanType;
@@ -393,125 +392,7 @@ namespace Seasar.Dao.Impl
 
         protected virtual IDataReaderHandler CreateDataReaderHandler(MethodInfo mi, IBeanMetaData bmd)
         {
-            Type retType = mi.ReturnType;
-
-            if (typeof(DataSet).IsAssignableFrom(retType))
-            {
-                return CreateBeanDataSetMetaDataDataReaderHandler(bmd, retType);
-            }
-            else if (typeof(DataTable).IsAssignableFrom(retType))
-            {
-                return CreateBeanDataTableMetaDataDataReaderHandler(bmd, retType);
-            }
-            else if (retType.IsArray)
-            {
-                // [DAONET-76] (2008/05/05)
-                Type elementType = retType.GetElementType();
-                if (AssignTypeUtil.IsSimpleType(elementType))
-                {
-                    return CreateObjectArrayDataReaderHandler(elementType);
-                }
-                else
-                {
-                    return CreateBeanArrayMetaDataDataReaderHandler(bmd);
-                }
-            }
-            else if (AssignTypeUtil.IsList(retType))
-            {
-                // [DAONET-76] (2008/05/05)
-                if (AssignTypeUtil.IsSimpleType(BeanType))
-                {
-                    return CreateObjectListDataReaderHandler();
-                }
-                else
-                {
-                    return CreateBeanListMetaDataDataReaderHandler(bmd);
-                }
-            }
-            else if (IsBeanTypeAssignable(retType))
-            {
-                return CreateBeanMetaDataDataReaderHandler(bmd);
-            }
-            else if (AssignTypeUtil.IsGenericList(retType))
-            {
-                // [DAONET-76] (2008/05/05)
-                Type elementType = retType.GetGenericArguments()[0];
-                if (AssignTypeUtil.IsSimpleType(elementType))
-                {
-                    return CreateObjectGenericListDataReaderHandler(elementType);
-                }
-                else
-                {
-                    return CreateBeanGenericListMetaDataDataReaderHandler(bmd);
-                }
-            }
-            else
-            {
-                return CreateObjectDataReaderHandler();
-            }
-        }
-
-        // [DAONET-76] (2008/05/05)
-        protected virtual ObjectGenericListDataReaderHandler CreateObjectGenericListDataReaderHandler(Type elementType)
-        {
-            return new ObjectGenericListDataReaderHandler(elementType);
-        }
-
-        // [DAONET-76] (2008/05/05)
-        protected virtual ObjectListDataReaderHandler CreateObjectListDataReaderHandler()
-        {
-            return new ObjectListDataReaderHandler();
-        }
-
-        // [DAONET-76] (2008/05/05)
-        protected virtual ObjectArrayDataReaderHandler CreateObjectArrayDataReaderHandler(Type elementType)
-        {
-            return new ObjectArrayDataReaderHandler(elementType);
-        }
-
-        protected virtual BeanDataSetMetaDataDataReaderHandler CreateBeanDataSetMetaDataDataReaderHandler(IBeanMetaData bmd, Type returnType)
-        {
-            return new BeanDataSetMetaDataDataReaderHandler(returnType);
-        }
-
-        protected virtual BeanDataTableMetaDataDataReaderHandler CreateBeanDataTableMetaDataDataReaderHandler(IBeanMetaData bmd, Type returnType)
-        {
-            return new BeanDataTableMetaDataDataReaderHandler(returnType);
-        }
-
-        protected virtual BeanListMetaDataDataReaderHandler CreateBeanListMetaDataDataReaderHandler(IBeanMetaData bmd)
-        {
-            return new BeanListMetaDataDataReaderHandler(bmd, CreateRowCreator(), CreateRelationRowCreator());
-        }
-
-        protected virtual BeanMetaDataDataReaderHandler CreateBeanMetaDataDataReaderHandler(IBeanMetaData bmd)
-        {
-            return new BeanMetaDataDataReaderHandler(bmd, CreateRowCreator(), CreateRelationRowCreator());
-        }
-
-        protected virtual BeanArrayMetaDataDataReaderHandler CreateBeanArrayMetaDataDataReaderHandler(IBeanMetaData bmd)
-        {
-            return new BeanArrayMetaDataDataReaderHandler(bmd, CreateRowCreator(), CreateRelationRowCreator());
-        }
-
-        protected virtual BeanGenericListMetaDataDataReaderHandler CreateBeanGenericListMetaDataDataReaderHandler(IBeanMetaData bmd)
-        {
-            return new BeanGenericListMetaDataDataReaderHandler(bmd, CreateRowCreator(), CreateRelationRowCreator());
-        }
-
-        protected virtual ObjectDataReaderHandler CreateObjectDataReaderHandler()
-        {
-            return new ObjectDataReaderHandler();
-        }
-
-        protected virtual IRowCreator CreateRowCreator()
-        {// [DAONET-56] (2007/08/29)
-            return new RowCreatorImpl();
-        }
-
-        protected virtual IRelationRowCreator CreateRelationRowCreator()
-        {// [DAONET-56] (2007/08/29)
-            return new RelationRowCreatorImpl();
+            return _dataReaderHandlerFactory.GetResultSetHandler(_beanType, bmd, mi);
         }
 
         protected virtual bool IsBeanTypeAssignable(Type type)
@@ -943,6 +824,16 @@ namespace Seasar.Dao.Impl
             return CreateSelectDynamicCommand(new ObjectDataReaderHandler(), query);
         }
 
+        protected virtual IRowCreator CreateRowCreator()
+        {// [DAONET-56] (2007/08/29)
+            return new RowCreatorImpl();
+        }
+
+        protected virtual IRelationRowCreator CreateRelationRowCreator()
+        {// [DAONET-56] (2007/08/29)
+            return new RelationRowCreatorImpl();
+        }
+
         #endregion
 
         public static Type GetDaoInterface(Type type)
@@ -967,6 +858,11 @@ namespace Seasar.Dao.Impl
         public IDataReaderFactory DataReaderFactory
         {
             set { _dataReaderFactory = value; }
+        }
+
+        public IDataReaderHandlerFactory DataReaderHandlerFactory
+        {
+            set { _dataReaderHandlerFactory = value; }
         }
 
         public ICommandFactory CommandFactory
