@@ -85,7 +85,7 @@ namespace Seasar.Tests.Dao.Impl
         public void TestSelectObjectArray()
         {
             IDaoMetaData dmd = CreateDaoMetaData(typeof(IEmployeeObjectListDao));
-            SelectDynamicCommand cmd = (SelectDynamicCommand)dmd.GetSqlCommand("GetEmployeeNoArray");
+            SelectDynamicCommand cmd = (SelectDynamicCommand) dmd.GetSqlCommand("GetEmployeeNoArray");
             Assert.IsNotNull(cmd, "1");
             Assert.AreEqual(typeof(ObjectArrayDataReaderHandler), cmd.DataReaderHandler.GetType(), "2");
             Assert.AreEqual("empno", cmd.ArgNames[0], "3");
@@ -95,7 +95,7 @@ namespace Seasar.Tests.Dao.Impl
         public void TestSelectObjectGenericList()
         {
             IDaoMetaData dmd = CreateDaoMetaData(typeof(IEmployeeObjectListDao));
-            SelectDynamicCommand cmd = (SelectDynamicCommand)dmd.GetSqlCommand("GetEmployeeNoGenericList");
+            SelectDynamicCommand cmd = (SelectDynamicCommand) dmd.GetSqlCommand("GetEmployeeNoGenericList");
             Assert.IsNotNull(cmd, "1");
             Assert.AreEqual(typeof(ObjectGenericListDataReaderHandler), cmd.DataReaderHandler.GetType(), "2");
             Assert.AreEqual("empno", cmd.ArgNames[0], "3");
@@ -105,7 +105,7 @@ namespace Seasar.Tests.Dao.Impl
         public void TestSelectObjectList()
         {
             IDaoMetaData dmd = CreateDaoMetaData(typeof(IEmployeeObjectListDao));
-            SelectDynamicCommand cmd = (SelectDynamicCommand)dmd.GetSqlCommand("GetEmployeeNoList");
+            SelectDynamicCommand cmd = (SelectDynamicCommand) dmd.GetSqlCommand("GetEmployeeNoList");
             Assert.IsNotNull(cmd, "1");
             Assert.AreEqual(typeof(ObjectListDataReaderHandler), cmd.DataReaderHandler.GetType(), "2");
             Assert.AreEqual("empno", cmd.ArgNames[0], "3");
@@ -115,7 +115,7 @@ namespace Seasar.Tests.Dao.Impl
         public void TestSelectBean()
         {
             IDaoMetaData dmd = CreateDaoMetaData(typeof(IEmployeeDao));
-            SelectDynamicCommand cmd = (SelectDynamicCommand)dmd.GetSqlCommand("GetEmployee");
+            SelectDynamicCommand cmd = (SelectDynamicCommand) dmd.GetSqlCommand("GetEmployee");
             Assert.IsNotNull(cmd, "1");
             Assert.AreEqual(typeof(BeanMetaDataDataReaderHandler), cmd.DataReaderHandler.GetType(), "2");
             Assert.AreEqual("empno", cmd.ArgNames[0], "3");
@@ -131,14 +131,14 @@ namespace Seasar.Tests.Dao.Impl
             Assert.AreEqual("SELECT count(*) FROM emp", cmd.Sql, "3");
             object ret = cmd.Execute(new object[] { });
             //  OracleÇ≈ÇÕCOUNTÇÃåãâ Ç™DecimalÇ≈ï‘Ç¡ÇƒÇ≠ÇÈÇΩÇﬂ
-            if ( Dbms.Dbms == KindOfDbms.Oracle )
+            if (Dbms.Dbms == KindOfDbms.Oracle)
             {
                 try
                 {
                     object ret4oracle = ConversionUtil.ConvertTargetType(ret, typeof(int));
                     Assert.IsTrue(ret4oracle is int, "4-1");
                 }
-                catch ( InvalidCastException)
+                catch (InvalidCastException)
                 {
                     Assert.Fail("4-2");
                 }
@@ -154,24 +154,25 @@ namespace Seasar.Tests.Dao.Impl
         public void TestSelectCountBySqlFile2()
         {
             IDaoMetaData dmd = CreateDaoMetaData(typeof(IEmployeeDao));
-            SelectDynamicCommand cmd = (SelectDynamicCommand)dmd.GetSqlCommand("GetCount2");
+            SelectDynamicCommand cmd = (SelectDynamicCommand) dmd.GetSqlCommand("GetCount2");
             Assert.IsNotNull(cmd, "1");
             Assert.AreEqual(typeof(ObjectDataReaderHandler), cmd.DataReaderHandler.GetType(), "2");
             Assert.AreEqual("SELECT count(*) FROM emp", cmd.Sql, "3");
             object ret = cmd.Execute(new object[] { });
             //  OracleÇ≈ÇÕCOUNTÇÃåãâ Ç™DecimalÇ≈ï‘Ç¡ÇƒÇ≠ÇÈÇΩÇﬂ
-            if ( Dbms.Dbms == KindOfDbms.Oracle )
+            if (Dbms.Dbms == KindOfDbms.Oracle)
             {
                 try
                 {
                     object ret4oracle = ConversionUtil.ConvertTargetType(ret, typeof(int));
                     Assert.IsTrue(ret4oracle is int, "4-1");
                 }
-                catch ( InvalidCastException )
+                catch (InvalidCastException)
                 {
                     Assert.Fail("4-2");
                 }
-            } else
+            }
+            else
             {
                 Assert.IsTrue(ret is int, "4-3");
             }
@@ -279,7 +280,7 @@ namespace Seasar.Tests.Dao.Impl
         [Test, S2]
         public void TestCreateFindCommand5()
         {
-            DaoMetaDataImpl dmd = CreateDaoMetaData(typeof(IEmployeeAutoDao));
+            DaoMetaDataImpl dmd = (DaoMetaDataImpl) CreateDaoMetaData(typeof(IEmployeeAutoDao));
             dmd.Dbms = new Seasar.Dao.Dbms.Oracle();
             SelectDynamicCommand cmd = (SelectDynamicCommand) dmd.CreateFindCommand("EMPNO = ?");
             Trace.WriteLine(cmd.Sql);
@@ -342,12 +343,12 @@ namespace Seasar.Tests.Dao.Impl
         public void TestSelectAutoByQueryOuterJoinByWhereClause()
         {
             IDaoMetaData dmd = CreateDaoMetaData(typeof(IEmployeeAutoDao));
-            SelectDynamicCommand cmd = (SelectDynamicCommand)dmd.GetSqlCommand("GetEmployeeByDeptName");
+            SelectDynamicCommand cmd = (SelectDynamicCommand) dmd.GetSqlCommand("GetEmployeeByDeptName");
             Trace.WriteLine(cmd.Sql);
             {
                 //  Queryì‡èåèÇ†ÇË
                 const string DNAME_CONDITION = "SALES";
-                IList actualList = (IList)cmd.Execute(new object[] { DNAME_CONDITION });
+                IList actualList = (IList) cmd.Execute(new object[] { DNAME_CONDITION });
                 Trace.WriteLine(actualList);
                 Assert.IsTrue(actualList.Count > 0, "è≠Ç»Ç≠Ç∆Ç‡àÍêlÇÕÇ¢ÇÈ");
                 Assert.IsTrue(actualList[0] is Employee, "Employeeå^Ç≈ï‘Ç¡ÇƒÇ≠ÇÈ");
@@ -359,7 +360,7 @@ namespace Seasar.Tests.Dao.Impl
             }
             {
                 //  Queryì‡èåèÇ»Çµ
-                IList actualList = (IList)cmd.Execute(new object[] { null });
+                IList actualList = (IList) cmd.Execute(new object[] { null });
                 Trace.WriteLine(actualList);
                 Assert.IsTrue(actualList.Count > 0, "è≠Ç»Ç≠Ç∆Ç‡àÍêlÇÕÇ¢ÇÈ");
                 Assert.IsTrue(actualList[0] is Employee, "Employeeå^Ç≈ï‘Ç¡ÇƒÇ≠ÇÈ");
@@ -644,7 +645,7 @@ namespace Seasar.Tests.Dao.Impl
         [Test, S2(Tx.Rollback)]
         public void TestSqlFileEncodingUTF8()
         {
-            DaoMetaDataImpl dmd = CreateDaoMetaData(typeof(IEmployeeDao));
+            DaoMetaDataImpl dmd = (DaoMetaDataImpl) CreateDaoMetaData(typeof(IEmployeeDao));
             dmd.SqlFileEncoding = "utf-8";
             ISqlCommand cmd = dmd.GetSqlCommand("UpdateSqlFileEncodingUTF8");
             Employee emp = new Employee();

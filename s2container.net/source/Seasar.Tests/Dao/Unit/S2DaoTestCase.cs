@@ -19,6 +19,7 @@
 using System;
 using Seasar.Dao.Dbms;
 using Seasar.Dao.Impl;
+using Seasar.Extension.ADO;
 using Seasar.Extension.ADO.Impl;
 using Seasar.Extension.Unit;
 
@@ -26,14 +27,47 @@ namespace Seasar.Dao.Unit
 {
     public class S2DaoTestCase : S2TestCase
     {
-        private IAnnotationReaderFactory _annotationReaderFactory;
-
         protected virtual IDbms Dbms
+        {
+            get { return DbmsManager.GetDbms(DataSource); }
+        }
+
+        private IAnnotationReaderFactory _annotationReaderFactory = new FieldAnnotationReaderFactory();
+
+        public IAnnotationReaderFactory AnnotationReaderFactory
+        {
+            get { return _annotationReaderFactory; }
+            set { _annotationReaderFactory = value; }
+        }
+
+        private IDataReaderFactory _dataReaderFactory;
+
+        public IDataReaderFactory DataReaderFactory
         {
             get
             {
-                return DbmsManager.GetDbms(DataSource);
+                if (_dataReaderFactory == null)
+                {
+                    _dataReaderFactory = BasicDataReaderFactory.INSTANCE;
+                }
+                return _dataReaderFactory;
             }
+            set { _dataReaderFactory = value; }
+        }
+
+        private IDataReaderHandlerFactory _dataReaderHandlerFactory;
+
+        public IDataReaderHandlerFactory DataReaderHandlerFactory
+        {
+            get
+            {
+                if (_dataReaderHandlerFactory == null)
+                {
+                    _dataReaderHandlerFactory = new DataReaderHandlerFactory();
+                }
+                return _dataReaderHandlerFactory;
+            }
+            set { _dataReaderHandlerFactory = value; }
         }
 
         protected virtual BeanMetaDataImpl CreateBeanMetaData(Type beanType)
@@ -47,32 +81,22 @@ namespace Seasar.Dao.Unit
                 beanType,
                 new DatabaseMetaDataImpl(DataSource),
                 dbms,
-                GetAnnotationReaderFactory(),
+                AnnotationReaderFactory,
                 false
                 );
             return beanMetaData;
         }
 
-        protected virtual DaoMetaDataImpl CreateDaoMetaData(Type daoType)
+        protected virtual IDaoMetaData CreateDaoMetaData(Type daoType)
         {
-            DaoMetaDataImpl dmd = new DaoMetaDataImpl();
-            dmd.DaoType = daoType;
-            dmd.DataSource = DataSource;
-            dmd.CommandFactory = BasicCommandFactory.INSTANCE;
-            dmd.DataReaderFactory = BasicDataReaderFactory.INSTANCE;
-            dmd.AnnotationReaderFactory = GetAnnotationReaderFactory();
-            dmd.DatabaseMetaData = new DatabaseMetaDataImpl(DataSource);
-            dmd.Initialize();
-            return dmd;
-        }
-
-        protected virtual IAnnotationReaderFactory GetAnnotationReaderFactory()
-        {
-            if (_annotationReaderFactory == null)
-            {
-                _annotationReaderFactory = new FieldAnnotationReaderFactory();
-            }
-            return _annotationReaderFactory;
+            DaoMetaDataFactoryImpl dmdf = new DaoMetaDataFactoryImpl();
+            dmdf.DataSource = DataSource;
+            dmdf.CommandFactory = CommandFactory;
+            dmdf.DataReaderFactory = DataReaderFactory;
+            dmdf.DataReaderHandlerFactory = DataReaderHandlerFactory;
+            dmdf.AnnotationReaderFactory = AnnotationReaderFactory;
+            dmdf.DBMetaData = new DatabaseMetaDataImpl(DataSource);
+            return dmdf.GetDaoMetaData(daoType);
         }
     }
 }
