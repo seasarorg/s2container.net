@@ -40,6 +40,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\net2.0\Castle.DynamicProxy.dll</HintPath>
     </Reference>
+    <Reference Include="MbUnit.Framework, Version=2.4.2.130, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
@@ -74,6 +75,7 @@
     <Compile Include="DataSourceBuilder.cs" />
     <Compile Include="Database\DataSource\Selector\IDataSourceSelector.cs" />
     <Compile Include="Database\DataSource\Impl\SelectableDataSourceProxyWithDictionary.cs" />
+    <Compile Include="Exception\QuillConfigNotFoundException.cs" />
     <Compile Include="Exception\QuillInvalidClassException.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -100,6 +102,7 @@
     <Compile Include="Util\SettingUtil.cs" />
     <Compile Include="Util\TypeUtil.cs" />
     <Compile Include="Xml\DataSourceSection.cs" />
+    <Compile Include="Xml\OuterQuillSectionLoader.cs" />
     <Compile Include="Xml\QuillSection.cs" />
     <Compile Include="Xml\QuillSectionHandler.cs" />
   </ItemGroup>

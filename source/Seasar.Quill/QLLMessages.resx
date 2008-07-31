@@ -207,4 +207,7 @@
   <data name="EQLL0028" xml:space="preserve">
     <value>ITransactionSetting実装クラス({0})内でTransactionContextの設定がおこなわれていません。</value>
   </data>
+  <data name="EQLL0029" xml:space="preserve">
+    <value>App.config、Seasar.Quill.dll.config(path={0})のどちらにもQuillの設定がありません。</value>
+  </data>
 </root>
