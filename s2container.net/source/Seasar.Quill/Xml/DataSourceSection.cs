@@ -68,5 +68,15 @@ namespace Seasar.Quill.Xml
             set { _dataSourceClassName = value; }
             get { return _dataSourceClassName; }
         }
+
+        /// <summary>
+        /// インスタンスがもつ情報を文字列で返す
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return string.Format("DataSourceName={0},ConnectionString={1},Provider={2},DataSoruceClassName={3}",
+                                 DataSourceName, ConnectionString, ProviderName, DataSourceClassName);
+        }
     }
 }

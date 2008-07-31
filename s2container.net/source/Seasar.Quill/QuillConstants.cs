@@ -40,5 +40,8 @@ namespace Seasar.Quill
         public const string NAMESPACE_DAOSETTING = "Seasar.Quill.Dao.Impl";
         public const string NAMESPACE_TXSETTING = "Seasar.Quill.Database.Tx.Impl";
         public const string NAMESPACE_DATASOURCE = "Seasar.Extension.ADO.Impl";
+
+        public const string SECTION_ROOT = "configuration";
+        public const string FILENAME_QUILL_CONFIG = "Seasar.Quill.dll.config";
     }
 }

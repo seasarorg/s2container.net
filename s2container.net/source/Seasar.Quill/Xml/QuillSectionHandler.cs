@@ -17,8 +17,11 @@
 #endregion
 
 using System.Configuration;
+using System.Reflection;
+using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+using Seasar.Quill.Exception;
 
 namespace Seasar.Quill.Xml
 {
@@ -27,10 +30,36 @@ namespace Seasar.Quill.Xml
     /// </summary>
     public class QuillSectionHandler : IConfigurationSectionHandler
     {
+        /// <summary>
+        /// Quill設定情報を取得
+        /// </summary>
+        /// <returns></returns>
         public static QuillSection GetQuillSection()
         {
-            return (QuillSection)ConfigurationManager.GetSection(
-                QuillConstants.QUILL_CONFIG);
+            //  App.config上の設定を取得
+            QuillSection quillSection = (QuillSection)ConfigurationManager.GetSection(
+                                      QuillConstants.QUILL_CONFIG);
+            //  外部設定ファイル
+            string outerConfigPath = null;
+
+            //  アプリケーション構成ファイルになければ外部ファイルがないか確認
+            if(quillSection == null)
+            {
+                //  外部ファイルのパスを設定
+                StringBuilder builder = new StringBuilder();
+                builder.Append(Assembly.GetExecutingAssembly().CodeBase);
+                builder.Replace("file:///", "");
+                builder.Append(".config");
+                outerConfigPath = builder.ToString();
+                quillSection = OuterQuillSectionLoader.LoadFromOuterConfig(outerConfigPath);
+            }
+
+            //  Quillの設定がどこにも見つからない場合は専用例外
+            if(quillSection == null)
+            {
+                throw new QuillConfigNotFoundException(outerConfigPath);
+            }
+            return quillSection;
         }
 
         #region IConfigurationSectionHandler メンバ

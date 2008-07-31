@@ -31,6 +31,7 @@ using Seasar.Extension.Unit;
 using Seasar.Framework.Exceptions;
 using Seasar.Framework.Log;
 using Seasar.Framework.Util;
+using System.Text;
 
 namespace Seasar.Tests.Extension.Unit
 {
@@ -135,7 +136,13 @@ namespace Seasar.Tests.Extension.Unit
         [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
         public void ReadXlsTx()
         {
-            DataSet dataSet = ReadXls("Extension/Unit/testdata.xls");
+            //  リソースファイルの場所を明確に指定する
+            StringBuilder builder = new StringBuilder();
+            builder.Append(Assembly.GetExecutingAssembly().CodeBase);
+            builder.Replace("file:///", "");
+            builder.Replace("Seasar.Tests.DLL", "Extension/Unit/testdata.xls");
+            DataSet dataSet = ReadXls(builder.ToString());
+
             Trace.WriteLine(ToStringUtil.ToString(dataSet));
             Assert.AreEqual(2, dataSet.Tables.Count, "1");
             DataTable table = dataSet.Tables["emp"];
@@ -173,7 +180,13 @@ namespace Seasar.Tests.Extension.Unit
         [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
         public void WriteXlsTx()
         {
-            DataSet dataSet = ReadXls("Extension/Unit/testdata.xls");
+            //  リソースファイルの場所を明確に指定する
+            StringBuilder builder = new StringBuilder();
+            builder.Append(Assembly.GetExecutingAssembly().CodeBase);
+            builder.Replace("file:///", "");
+            builder.Replace("Seasar.Tests.DLL", "Extension/Unit/testdata.xls");
+            DataSet dataSet = ReadXls(builder.ToString());
+
             WriteXls("aaa.xls", dataSet);
             Trace.WriteLine(ToStringUtil.ToString(dataSet));
             DataSet dataSet2 = ReadXls("aaa.xls");
@@ -188,7 +201,13 @@ namespace Seasar.Tests.Extension.Unit
         [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
         public void ReadXlsWriteDbTx()
         {
-            ReadXlsWriteDb("Extension/Unit/S2TestCaseTest_ReadXlsWriteDbTx.xls");
+            //  リソースファイルの場所を明確に指定する
+            StringBuilder builder = new StringBuilder();
+            builder.Append(Assembly.GetExecutingAssembly().CodeBase);
+            builder.Replace("file:///", "");
+            builder.Replace("Seasar.Tests.DLL", "Extension/Unit/S2TestCaseTest_ReadXlsWriteDbTx.xls");
+            ReadXlsWriteDb(builder.ToString());
+
             DataTable table = ReadDbByTable("idtable", "1 = 1 ORDER BY id");
             Trace.WriteLine(ToStringUtil.ToString(table));
             Assert.AreEqual(2, table.Rows.Count, "1");

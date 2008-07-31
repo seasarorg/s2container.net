@@ -18,7 +18,11 @@
 
 using System;
 using System.Collections;
+using System.IO;
+using System.Reflection;
+using System.Text;
 using MbUnit.Framework;
+using Seasar.Quill.Exception;
 using Seasar.Quill.Xml;
 
 namespace Seasar.Tests.Quill.Xml
@@ -58,6 +62,48 @@ namespace Seasar.Tests.Quill.Xml
             foreach (object item in assemblys)
             {
                 Assert.IsFalse(string.IsNullOrEmpty(item as string), "アセンブリ名が取得されている");
+            }
+        }
+
+        [Test]
+        public void TestGetQuillSection_FromAppConfig()
+        {
+            
+        }
+
+        /// <summary>
+        /// Quill設定が見つからない場合のテスト
+        /// </summary>
+        [Test]
+        public void TestGetQuillSection_SectionNotFound()
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append(Assembly.GetExecutingAssembly().CodeBase);
+            builder.Replace("file:///", "");
+            builder.Replace("Seasar.Tests.DLL", "Seasar.Quill.dll.config");
+            string configPath = builder.ToString();
+
+            Assert.IsTrue(File.Exists(configPath), "config exists_" + configPath);
+
+            //  一時的に設定ファイルの場所をかえる
+            string dummyPath = configPath + "ex";
+            File.Move(configPath, dummyPath);
+            try
+            {
+                //  既定の場所には設定ファイルがないことを確認
+                Assert.IsFalse(File.Exists(configPath), "config not found_" + configPath);
+                try
+                {
+                    QuillSection section = QuillSectionHandler.GetQuillSection();
+                    Assert.Fail("設定がないので例外となっているはず:" + (section == null ? "null" : section.ToString()));
+                }
+                catch(QuillConfigNotFoundException)
+                {}
+            }
+            finally
+            {
+                //  移した設定ファイルを元に戻す
+                File.Move(dummyPath, configPath);
             }
         }
     }

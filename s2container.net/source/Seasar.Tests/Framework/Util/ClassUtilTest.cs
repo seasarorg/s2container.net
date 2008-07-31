@@ -22,6 +22,8 @@ using System.Reflection;
 using MbUnit.Framework;
 using Seasar.Framework.Util;
 using Seasar.Framework.Exceptions;
+using System.Configuration;
+using Seasar.Quill;
 
 namespace Seasar.Tests.Framework.Util
 {
@@ -65,9 +67,13 @@ namespace Seasar.Tests.Framework.Util
         [Test]
         public void TestNewInstance2()
         {
+            string exeConfigPath = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None).FilePath;
+            string[] filePathParts = exeConfigPath.Split('\\');
+            string dllConfigPath = exeConfigPath.Replace(filePathParts[filePathParts.Length - 1], "") + "\\" +
+                             "Seasar.Tests.dll";
             Assert.IsNotNull(ClassUtil.NewInstance(
                 "Seasar.Tests.Framework.Util.ClassUtilTest+B",
-                "Seasar.Tests.dll"));
+                dllConfigPath));
         }
 
         public class A
