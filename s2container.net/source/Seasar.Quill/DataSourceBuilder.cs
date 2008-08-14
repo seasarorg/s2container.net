@@ -122,6 +122,7 @@ namespace Seasar.Quill
             QuillSection section = QuillSectionHandler.GetQuillSection();
             if (section != null && section.DataSources.Count > 0)
             {
+                //  既定のトランザクション設定
                 ITransactionSetting defaultTxSetting = null;
                 if (_container == null)
                 {
@@ -141,63 +142,13 @@ namespace Seasar.Quill
                         DataSourceSection dsSection = (DataSourceSection)item;
 
                         //  データソース
-                        string dataSourceClassName = dsSection.DataSourceClassName;
-                        if(string.IsNullOrEmpty(dataSourceClassName))
-                        {
-                            throw new ClassNotFoundRuntimeException("(DataSourceClass=Empty)");
-                        }
-
-                        if(TypeUtil.HasNamespace(dataSourceClassName) == false)
-                        {
-                            //  名前空間が指定されていない場合は既定の
-                            //  名前空間を使用する
-                            dataSourceClassName = string.Format("{0}.{1}",
-                                QuillConstants.NAMESPACE_DATASOURCE, dataSourceClassName);
-                        }
+                        string dataSourceClassName = GetDataSourceClassName(dsSection);
 
                         //  プロバイダ
-                        string providerName = dsSection.ProviderName;
-                        if(string.IsNullOrEmpty(providerName))
-                        {
-                            throw new ClassNotFoundRuntimeException("(ProviderName=Empty)");
-                        }
-
-                        if(TypeUtil.HasNamespace(providerName) == false)
-                        {
-                            //  名前空間が指定されていない場合は既定の
-                            //  名前空間を使用する
-                            providerName = string.Format("{0}.{1}",
-                                QuillConstants.NAMESPACE_PROVIDER, providerName);
-                        }
+                        string providerName = GetProviderName(dsSection);
 
                         //  接続文字列
-                        string configString = dsSection.ConnectionString;
-                        string connectionString = null;
-                        if (_regexIsString.IsMatch(configString))
-                        {
-                            //  最初と最後の「"」を取り除く
-                            connectionString = configString.Substring(1, configString.Length - 2);
-                        }
-                        else
-                        {
-                            //  「"」で囲まれていない場合はクラスが指定されていると見なす
-                            Type connectionStringType = ClassUtil.ForName(configString);
-                            object connectionStringInstance = ClassUtil.NewInstance(connectionStringType);
-                            if (typeof(IConnectionString).IsAssignableFrom(connectionStringType))
-                            {
-                                connectionString = ((IConnectionString)connectionStringInstance).GetConnectionString();
-                            }
-                            else
-                            {
-                                throw new QuillInvalidClassException(
-                                    connectionStringType, typeof(IConnectionString));
-                            }
-                        }
-                        //  接続文字列が設定されていない
-                        if (string.IsNullOrEmpty(connectionString))
-                        {
-                            throw new ArgumentException("(ConnectionString=Empty)");
-                        }
+                        string connectionString = GetConnectionString(dsSection);
 
                         //  クラス組み立て
                         DataProvider provider = (DataProvider)ClassUtil.NewInstance(
@@ -211,6 +162,92 @@ namespace Seasar.Quill
                     }     
                 }
             }
+        }
+
+        /// <summary>
+        /// プロバイダ名の取得
+        /// </summary>
+        /// <param name="dataSourceSection"></param>
+        /// <returns></returns>
+        protected virtual string GetProviderName(DataSourceSection dataSourceSection)
+        {
+            string providerName = dataSourceSection.ProviderName;
+            if (string.IsNullOrEmpty(providerName))
+            {
+                throw new ClassNotFoundRuntimeException("(ProviderName=Empty)");
+            }
+
+            if (TypeUtil.HasNamespace(providerName) == false)
+            {
+                //  名前空間が指定されていない場合は既定の
+                //  名前空間を使用する
+                providerName = string.Format("{0}.{1}",
+                    QuillConstants.NAMESPACE_PROVIDER, providerName);
+            }
+            return providerName;
+        }
+
+        /// <summary>
+        /// データソースクラス名の取得
+        /// </summary>
+        /// <param name="dataSourceSection"></param>
+        /// <returns></returns>
+        protected virtual string GetDataSourceClassName(DataSourceSection dataSourceSection)
+        {
+            string dataSourceClassName = dataSourceSection.DataSourceClassName;
+            if (string.IsNullOrEmpty(dataSourceClassName))
+            {
+                throw new ClassNotFoundRuntimeException("(DataSourceClass=Empty)");
+            }
+
+            if (TypeUtil.HasNamespace(dataSourceClassName) == false)
+            {
+                //  名前空間が指定されていない場合は既定の
+                //  名前空間を使用する
+                dataSourceClassName = string.Format("{0}.{1}",
+                    QuillConstants.NAMESPACE_DATASOURCE, dataSourceClassName);
+            }
+            return dataSourceClassName;
+        }
+
+        /// <summary>
+        /// 接続文字列の取得
+        /// </summary>
+        /// <param name="dataSourceSection"></param>
+        /// <returns></returns>
+        protected virtual string GetConnectionString(DataSourceSection dataSourceSection)
+        {
+            //  接続文字列
+            string configString = dataSourceSection.ConnectionString;
+            string connectionString = null;
+            if (_regexIsString.IsMatch(configString))
+            {
+                //  最初と最後の「"」を取り除く
+                connectionString = configString.Substring(1, configString.Length - 2);
+            }
+            else
+            {
+                //  「"」で囲まれていない場合はクラスが指定されていると見なす
+                Type connectionStringType = ClassUtil.ForName(configString);
+                if (typeof(IConnectionString).IsAssignableFrom(connectionStringType))
+                {
+                    IConnectionString cs = (IConnectionString)ComponentUtil.GetComponent(
+                        _container, connectionStringType);
+                    connectionString = cs.GetConnectionString();
+                }
+                else
+                {
+                    throw new QuillInvalidClassException(
+                        connectionStringType, typeof(IConnectionString));
+                }
+            }
+            //  接続文字列が設定されていない
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                throw new ArgumentException("(ConnectionString=Empty)");
+            }
+
+            return connectionString;
         }
 
         /// <summary>
