@@ -395,6 +395,69 @@ namespace Seasar.Dao.Impl
             return _dataReaderHandlerFactory.GetResultSetHandler(_beanType, bmd, mi);
         }
 
+        // [DAONET-76] (2008/05/05)
+        [Obsolete("IDataReaderHandlerFactory.GetResultSetHandler()に移行。")]
+        protected virtual ObjectGenericListDataReaderHandler CreateObjectGenericListDataReaderHandler(Type elementType)
+        {
+            return new ObjectGenericListDataReaderHandler(elementType);
+        }
+
+        // [DAONET-76] (2008/05/05)
+        [Obsolete("IDataReaderHandlerFactory.GetResultSetHandler()に移行。")]
+        protected virtual ObjectListDataReaderHandler CreateObjectListDataReaderHandler()
+        {
+            return new ObjectListDataReaderHandler();
+        }
+
+        // [DAONET-76] (2008/05/05)
+        [Obsolete("IDataReaderHandlerFactory.GetResultSetHandler()に移行。")]
+        protected virtual ObjectArrayDataReaderHandler CreateObjectArrayDataReaderHandler(Type elementType)
+        {
+            return new ObjectArrayDataReaderHandler(elementType);
+        }
+
+        [Obsolete("IDataReaderHandlerFactory.GetResultSetHandler()に移行。")]
+        protected virtual BeanDataSetMetaDataDataReaderHandler CreateBeanDataSetMetaDataDataReaderHandler(IBeanMetaData bmd, Type returnType)
+        {
+            return new BeanDataSetMetaDataDataReaderHandler(returnType);
+        }
+
+        [Obsolete("IDataReaderHandlerFactory.GetResultSetHandler()に移行。")]
+        protected virtual BeanDataTableMetaDataDataReaderHandler CreateBeanDataTableMetaDataDataReaderHandler(IBeanMetaData bmd, Type returnType)
+        {
+            return new BeanDataTableMetaDataDataReaderHandler(returnType);
+        }
+
+        [Obsolete("IDataReaderHandlerFactory.GetResultSetHandler()に移行。")]
+        protected virtual BeanListMetaDataDataReaderHandler CreateBeanListMetaDataDataReaderHandler(IBeanMetaData bmd)
+        {
+            return new BeanListMetaDataDataReaderHandler(bmd, CreateRowCreator(), CreateRelationRowCreator());
+        }
+
+        [Obsolete("IDataReaderHandlerFactory.GetResultSetHandler()に移行。")]
+        protected virtual BeanMetaDataDataReaderHandler CreateBeanMetaDataDataReaderHandler(IBeanMetaData bmd)
+        {
+            return new BeanMetaDataDataReaderHandler(bmd, CreateRowCreator(), CreateRelationRowCreator());
+        }
+
+        [Obsolete("IDataReaderHandlerFactory.GetResultSetHandler()に移行。")]
+        protected virtual BeanArrayMetaDataDataReaderHandler CreateBeanArrayMetaDataDataReaderHandler(IBeanMetaData bmd)
+        {
+            return new BeanArrayMetaDataDataReaderHandler(bmd, CreateRowCreator(), CreateRelationRowCreator());
+        }
+
+        [Obsolete("IDataReaderHandlerFactory.GetResultSetHandler()に移行。")]
+        protected virtual BeanGenericListMetaDataDataReaderHandler CreateBeanGenericListMetaDataDataReaderHandler(IBeanMetaData bmd)
+        {
+            return new BeanGenericListMetaDataDataReaderHandler(bmd, CreateRowCreator(), CreateRelationRowCreator());
+        }
+
+        [Obsolete("IDataReaderHandlerFactory.GetResultSetHandler()に移行。")]
+        protected virtual ObjectDataReaderHandler CreateObjectDataReaderHandler()
+        {
+            return new ObjectDataReaderHandler();
+        }
+
         protected virtual bool IsBeanTypeAssignable(Type type)
         {
             return _beanType.IsAssignableFrom(type) ||
