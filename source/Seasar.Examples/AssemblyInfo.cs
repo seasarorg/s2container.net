@@ -60,5 +60,5 @@ using System.Reflection;
 [assembly: AssemblyDelaySign(false)]
 [assembly: AssemblyKeyName("")]
 
-[assembly: AssemblyVersion("1.3.10.0")]
-[assembly: AssemblyFileVersionAttribute("1.3.10")]
+[assembly: AssemblyVersion("1.3.11.0")]
+[assembly: AssemblyFileVersionAttribute("1.3.11")]
