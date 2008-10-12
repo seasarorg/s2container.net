@@ -30,30 +30,16 @@ using Seasar.Quill.Dao;
 using Seasar.Quill.Database.DataSource.Impl;
 using Seasar.Quill.Database.Tx;
 using Seasar.Quill.Exception;
+using Seasar.Quill.Util;
 
 namespace Seasar.Quill.Unit
 {
 	public class QuillTestCaseRunner : S2TestCaseRunner
 	{
-        private Tx _tx;
         private Type _daoSettingType;
         private Type _transactionSettingType;
         private ITransactionContext _tc;
         private SelectableDataSourceProxyWithDictionary _dataSource;
-
-        public object Run(IRunInvoker invoker, object o, IList args, Tx tx,
-            Type daoSettingType, Type transactionSettingType)
-        {
-            _tx = tx;
-            _daoSettingType = daoSettingType;
-            _transactionSettingType = transactionSettingType;
-            if (typeof(QuillTestCase).IsAssignableFrom(o.GetType()) == false)
-            {
-                throw new QuillInvalidClassException(o.GetType(), typeof(QuillTestCase));
-            }
-            _fixture = o as QuillTestCase;
-            return Run(invoker, o, args);
-        }
 
         public override object Run(IRunInvoker invoker, object o, IList args)
         {
@@ -210,13 +196,19 @@ namespace Seasar.Quill.Unit
             //  （テストするクラスと同じDataSource,TransactionContextを使用するため)
             IDaoSetting daoSetting = (IDaoSetting)fixture.GetQuillComponent(
                 _daoSettingType);
-            daoSetting.Setup(_dataSource);
-
+            if (daoSetting.IsNeedSetup())
+            {
+                daoSetting.Setup(_dataSource);
+            }
+            
             if (_tx != Tx.NotSupported)
             {
                 ITransactionSetting txSetting = (ITransactionSetting)fixture.GetQuillComponent(
                     _transactionSettingType);
-                txSetting.Setup(_dataSource);
+                if (txSetting.IsNeedSetup())
+                {
+                    txSetting.Setup(_dataSource);
+                }
             }
             //  必要なコンポーネントを作成した上でインジェクション実行
             fixture.Inject(target);
@@ -228,7 +220,22 @@ namespace Seasar.Quill.Unit
             if (fixture != null)
             {
                 fixture.Injector = QuillInjector.GetInstance();
-                fixture.QContainer = fixture.Injector.Container;                
+                fixture.QContainer = fixture.Injector.Container;
+                //  MbUnitはstaticな変数が保持されてしまうのでここでリセット
+                QuillConfig.ConfigPath = null;
+                QuillConfig config = QuillConfig.GetInstance();
+
+                //  Quillの設定ファイルがあればS2Dao、Transaction設定を使用する
+                if (config.HasQuillConfig())
+                {
+                    _daoSettingType = config.GetDaoSettingType();
+                    _transactionSettingType = config.GetTransationSettingType();
+                }
+                else
+                {
+                    _daoSettingType = SettingUtil.GetDefaultDaoSettingType();
+                    _transactionSettingType = SettingUtil.GetDefaultTransactionType();
+                }
             }
         }
 

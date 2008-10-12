@@ -30,39 +30,39 @@ namespace Seasar.Tests.Quill
     [TestFixture]
     public class DataSourceBuilderTest
     {
-        [Test]
-        public void TestCreateDataSources()
-        {
-            const string CONNECTION_STRING_FOR_HOGEX = "from DummyConnectionString";
+        //[Test]
+        //public void TestCreateDataSources()
+        //{
+        //    const string CONNECTION_STRING_FOR_HOGEX = "from DummyConnectionString";
 
-            QuillContainer container = new QuillContainer();
-            //  Test2で使用
-            DummyConnectionString cs = (DummyConnectionString)ComponentUtil.GetComponent(
-                container, typeof(DummyConnectionString));
-            cs.ConnectionName = CONNECTION_STRING_FOR_HOGEX;
-            DataSourceBuilder builder = new DataSourceBuilder(container);
-            IDictionary<string, IDataSource> dsMap = builder.CreateDataSources();
+        //    QuillContainer container = new QuillContainer();
+        //    //  Test2で使用
+        //    DummyConnectionString cs = (DummyConnectionString)ComponentUtil.GetComponent(
+        //        container, typeof(DummyConnectionString));
+        //    cs.ConnectionName = CONNECTION_STRING_FOR_HOGEX;
+        //    DataSourceBuilder builder = new DataSourceBuilder(container);
+        //    IDictionary<string, IDataSource> dsMap = builder.CreateDataSources();
 
-            Assert.IsNotNull(dsMap);
+        //    Assert.IsNotNull(dsMap);
 
-            {
-                //  *** Test1
-                Assert.IsTrue(dsMap.ContainsKey("Hoge2"));
-                IDataSource ds = dsMap["Hoge2"];
-                Assert.IsTrue(ds is DataSourceImpl);
-                Assert.IsTrue(((DataSourceImpl)ds).DataProvider is Seasar.Quill.Database.Provider.Oracle);
-                Assert.AreEqual(@"(local)\Hoge2", ((DataSourceImpl)ds).ConnectionString);
-            }
-            { 
-                //  *** Test2
-                Assert.IsTrue(dsMap.ContainsKey("HogeX"));
-                IDataSource ds = dsMap["HogeX"];
-                Assert.IsTrue(ds is DataSourceImpl);
-                Assert.IsTrue(((DataSourceImpl)ds).DataProvider is SqlServer);
-                //  SingletonなDummyConnectionStringのインスタンスに設定した接続文字列が使われる
-                Assert.AreEqual(CONNECTION_STRING_FOR_HOGEX, ((DataSourceImpl)ds).ConnectionString);
-            }
-        }
+        //    {
+        //        //  *** Test1
+        //        Assert.IsTrue(dsMap.ContainsKey("Hoge2"));
+        //        IDataSource ds = dsMap["Hoge2"];
+        //        Assert.IsTrue(ds is DataSourceImpl);
+        //        Assert.IsTrue(((DataSourceImpl)ds).DataProvider is Seasar.Quill.Database.Provider.Oracle);
+        //        Assert.AreEqual(@"(local)\Hoge2", ((DataSourceImpl)ds).ConnectionString);
+        //    }
+        //    { 
+        //        //  *** Test2
+        //        Assert.IsTrue(dsMap.ContainsKey("HogeX"));
+        //        IDataSource ds = dsMap["HogeX"];
+        //        Assert.IsTrue(ds is DataSourceImpl);
+        //        Assert.IsTrue(((DataSourceImpl)ds).DataProvider is SqlServer);
+        //        //  SingletonなDummyConnectionStringのインスタンスに設定した接続文字列が使われる
+        //        Assert.AreEqual(CONNECTION_STRING_FOR_HOGEX, ((DataSourceImpl)ds).ConnectionString);
+        //    }
+        //}
     }
 
     /// <summary>

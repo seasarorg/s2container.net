@@ -20,10 +20,11 @@ using System;
 using System.Collections.Generic;
 using Seasar.Extension.ADO;
 using Seasar.Framework.Aop;
+using Seasar.Framework.Log;
 using Seasar.Quill.Database.DataSource.Impl;
+using Seasar.Quill.Database.Tx;
 using Seasar.Quill.Exception;
 using Seasar.Quill.Util;
-using Seasar.Quill.Xml;
 
 namespace Seasar.Quill
 {
@@ -37,6 +38,11 @@ namespace Seasar.Quill
     /// </remarks>
     public class QuillContainer : IDisposable
     {
+        /// <summary>
+        /// ログ
+        /// </summary>
+        private readonly Logger _log = Logger.GetLogger(typeof(QuillContainer));
+
         // 作成済みにコンポーネントを格納する
         protected IDictionary<Type, QuillComponent> components =
             new Dictionary<Type, QuillComponent>();
@@ -49,14 +55,27 @@ namespace Seasar.Quill
         /// </summary>
         public QuillContainer()
         {
-            //  アセンブリをロードする
-            RegistAssembly();
+            ////  アセンブリをロードする
+            //RegistAssembly();
 
             // QuillContainer内で使用するAspectBuilderを作成する
             aspectBuilder = new AspectBuilder(this);
 
-            //  DataSourceが定義されていればQuillContainerに登録する
-            RegistDataSource();
+            //  Quill設定情報の初期化
+            QuillConfig.InitializeQuillConfig(this);
+            QuillConfig config = QuillConfig.GetInstance();
+            _log.Info(MessageUtil.GetMessage("IQLL0003", new object[] { config.HasQuillConfig() }));
+            if (config.HasQuillConfig())
+            {
+                //  設定情報がある場合はアセンブリ、データソースを登録
+                config.RegisterAssembly();
+                RegistDataSource(
+                    config.CreateDataSources(),
+                    config.GetTransationSettingType());
+            }
+
+            ////  DataSourceが定義されていればQuillContainerに登録する
+            //RegistDataSource();
         }
 
         /// <summary>
@@ -151,46 +170,84 @@ namespace Seasar.Quill
         /// <summary>
         /// データソースを登録
         /// </summary>
-        public virtual void RegistDataSource()
+        public virtual void RegistDataSource(IDictionary<string, IDataSource> dataSources,
+            Type defaultTxSettingType)
         {
-            DataSourceBuilder builder = new DataSourceBuilder(this);
-            IDictionary<string, IDataSource> dataSources = builder.CreateDataSources();
             // データソースの定義がなければ以後の処理は行わない
-            if ( dataSources.Count == 0 )
+            if (dataSources.Count == 0)
             {
                 return;
             }
-
+            //  Quill用データソースの生成
             SelectableDataSourceProxyWithDictionary dataSourceProxy =
                 (SelectableDataSourceProxyWithDictionary)ComponentUtil.GetComponent(
                 this, typeof(SelectableDataSourceProxyWithDictionary));
             //  データソースの定義があれば登録
-            foreach ( KeyValuePair<string, IDataSource> dataSourcePair in dataSources )
+            foreach (KeyValuePair<string, IDataSource> dataSourcePair in dataSources)
             {
                 dataSourceProxy.RegistDataSource(dataSourcePair.Key, dataSourcePair.Value);
             }
-        }
 
-        /// <summary>
-        /// アセンブリをロードする
-        /// </summary>
-        protected virtual void RegistAssembly()
-        {
-            QuillSection section = QuillSectionHandler.GetQuillSection();
-            if (section != null && section.Assemblys != null && section.Assemblys.Count > 0)
+            ITransactionSetting defaultTxSetting = (ITransactionSetting)ComponentUtil.GetComponent(
+                this, defaultTxSettingType);
+            //  トランザクションのデフォルト設定を行う
+            if (defaultTxSetting != null && defaultTxSetting.IsNeedSetup())
             {
-                //  設定ファイルに書かれたアセンブリ名を取得する
-                foreach (object item in section.Assemblys)
-                {
-                    string assemblyName = item as string;
-                    if (!string.IsNullOrEmpty(assemblyName))
-                    {
-                        //  指定されたアセンブリをロードする
-                        AppDomain.CurrentDomain.Load(assemblyName);
-                    }
-                }
+                defaultTxSetting.Setup(dataSourceProxy);
             }
         }
+
+        ///// <summary>
+        ///// データソースを登録
+        ///// </summary>
+        //public virtual void RegistDataSource()
+        //{
+        //    DataSourceBuilder builder = new DataSourceBuilder(this);
+        //    IDictionary<string, IDataSource> dataSources = builder.CreateDataSources();
+        //    // データソースの定義がなければ以後の処理は行わない
+        //    if ( dataSources.Count == 0 )
+        //    {
+        //        return;
+        //    }
+
+        //    SelectableDataSourceProxyWithDictionary dataSourceProxy =
+        //        (SelectableDataSourceProxyWithDictionary)ComponentUtil.GetComponent(
+        //        this, typeof(SelectableDataSourceProxyWithDictionary));
+        //    //  データソースの定義があれば登録
+        //    foreach ( KeyValuePair<string, IDataSource> dataSourcePair in dataSources )
+        //    {
+        //        dataSourceProxy.RegistDataSource(dataSourcePair.Key, dataSourcePair.Value);
+        //    }
+
+        //    //  トランザクションのデフォルト設定を行う
+        //    ITransactionSetting defaultTxSetting = (ITransactionSetting)ComponentUtil.GetComponent(
+        //                this, typeof(TypicalTransactionSetting));
+        //    if (defaultTxSetting.IsNeedSetup())
+        //    {
+        //        defaultTxSetting.Setup(dataSourceProxy);
+        //    }
+        //}
+
+        ///// <summary>
+        ///// アセンブリをロードする
+        ///// </summary>
+        //protected virtual void RegistAssembly()
+        //{
+        //    QuillSection section = QuillSectionHandler.GetQuillSection();
+        //    if (section != null && section.Assemblys != null && section.Assemblys.Count > 0)
+        //    {
+        //        //  設定ファイルに書かれたアセンブリ名を取得する
+        //        foreach (object item in section.Assemblys)
+        //        {
+        //            string assemblyName = item as string;
+        //            if (!string.IsNullOrEmpty(assemblyName))
+        //            {
+        //                //  指定されたアセンブリをロードする
+        //                AppDomain.CurrentDomain.Load(assemblyName);
+        //            }
+        //        }
+        //    }
+        //}
 
         #region IDisposable メンバ
 

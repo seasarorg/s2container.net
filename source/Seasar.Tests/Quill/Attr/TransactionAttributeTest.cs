@@ -18,21 +18,20 @@
 
 using System;
 using MbUnit.Framework;
-using Seasar.Dao;
 using Seasar.Dao.Attrs;
-using Seasar.Dao.Unit;
 using Seasar.Extension.Tx.Impl;
 using Seasar.Framework.Aop.Interceptors;
 using Seasar.Quill;
 using Seasar.Quill.Attrs;
 using Seasar.Quill.Database.Tx.Impl;
 using Seasar.Quill.Exception;
+using Seasar.Quill.Unit;
 using Seasar.Tests.Dao.Impl;
 
 namespace Seasar.Tests.Quill.Attr
 {
     [TestFixture]
-    public class TransactionAttributeTest
+    public class TransactionAttributeTest : QuillTestCase
     {
         [Test]
         public void TestSetTypicalTxSetting()
@@ -63,7 +62,7 @@ namespace Seasar.Tests.Quill.Attr
             }
         }
 
-        [Test]
+        [Test, Quill]
         public void TestCommit()
         {
 
@@ -94,7 +93,7 @@ namespace Seasar.Tests.Quill.Attr
             }
         }
 
-        [Test]
+        [Test, Quill]
         public void TestRollback()
         {
             const int TEST_ID = 7369;

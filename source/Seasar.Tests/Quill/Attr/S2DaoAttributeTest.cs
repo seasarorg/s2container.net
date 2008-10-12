@@ -18,9 +18,7 @@
 
 using System;
 using MbUnit.Framework;
-using Seasar.Dao;
 using Seasar.Dao.Attrs;
-using Seasar.Dao.Unit;
 using Seasar.Extension.ADO;
 using Seasar.Framework.Aop;
 using Seasar.Framework.Aop.Interceptors;
@@ -28,12 +26,13 @@ using Seasar.Quill;
 using Seasar.Quill.Attrs;
 using Seasar.Quill.Dao.Impl;
 using Seasar.Quill.Exception;
+using Seasar.Quill.Unit;
 using Seasar.Tests.Dao.Impl;
 
 namespace Seasar.Tests.Quill.Attr
 {
     [TestFixture]
-    public class S2DaoAttributeTest : S2DaoTestCase
+    public class S2DaoAttributeTest : QuillTestCase
     {
         [Test]
         public void TestSetTypicalDaoSetting()
@@ -46,7 +45,7 @@ namespace Seasar.Tests.Quill.Attr
             }
         }
 
-        [Test]
+        [Test, Quill]
         public void TestS2DaoAttribute_正常()
         {
             //  ## Arrange ##
