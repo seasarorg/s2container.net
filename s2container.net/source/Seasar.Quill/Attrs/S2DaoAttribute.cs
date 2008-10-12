@@ -44,7 +44,8 @@ namespace Seasar.Quill.Attrs
         /// </summary>
         public S2DaoAttribute()
         {
-            _daoSettingType = SettingUtil.GetDaoSettingType();
+            QuillConfig config = QuillConfig.GetInstance();
+            _daoSettingType = config.GetDaoSettingType();
             SettingUtil.ValidateDaoSettingType(_daoSettingType);
         }
 

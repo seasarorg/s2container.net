@@ -52,6 +52,7 @@ namespace Seasar.Quill
         /// コンストラクタ
         /// </summary>
         /// <param name="container">Quillコンテナ</param>
+        [Obsolete]
         public DataSourceBuilder(QuillContainer container)
         {
             _container = container;
@@ -61,6 +62,7 @@ namespace Seasar.Quill
         /// app.config,diconの定義からIDataSourceのCollectionを生成
         /// </summary>
         /// <returns></returns>
+        [Obsolete]
         public virtual IDictionary<string, IDataSource> CreateDataSources()
         {
             IDictionary<string, IDataSource> dataSources = new Dictionary<string, IDataSource>();
@@ -122,18 +124,18 @@ namespace Seasar.Quill
             QuillSection section = QuillSectionHandler.GetQuillSection();
             if (section != null && section.DataSources.Count > 0)
             {
-                //  既定のトランザクション設定
-                ITransactionSetting defaultTxSetting = null;
-                if (_container == null)
-                {
-                    defaultTxSetting = new TypicalTransactionSetting();
-                }
-                else
-                {
-                    defaultTxSetting =
-                        (ITransactionSetting) ComponentUtil.GetComponent(
-                        _container, typeof (TypicalTransactionSetting));
-                }
+                ////  既定のトランザクション設定
+                //ITransactionSetting defaultTxSetting = null;
+                //if (_container == null)
+                //{
+                //    defaultTxSetting = new TypicalTransactionSetting();
+                //}
+                //else
+                //{
+                //    defaultTxSetting =
+                //        (ITransactionSetting) ComponentUtil.GetComponent(
+                //        _container, typeof (TypicalTransactionSetting));
+                //}
 
                 foreach (object item in section.DataSources)
                 {
@@ -157,7 +159,7 @@ namespace Seasar.Quill
                             dataSourceClassName), new Type[] { typeof(DataProvider), typeof(string) });
                         IDataSource dataSource = (IDataSource)constructorInfo.Invoke(
                              new object[] { provider, connectionString });
-                        SetupDataSourceDefault(defaultTxSetting, dataSource);
+                        //SetupDataSourceDefault(defaultTxSetting, dataSource);
                         dataSources[dsSection.DataSourceName] = dataSource;
                     }     
                 }

@@ -17,18 +17,20 @@
 #endregion
 
 using System;
-using System.Reflection;
 using MbUnit.Framework;
 using Seasar.Framework.Aop;
 using Seasar.Quill;
 using Seasar.Quill.Attrs;
 using Seasar.Quill.Database.DataSource.Impl;
 using Seasar.Quill.Exception;
+using Seasar.Extension.ADO;
+using Seasar.Extension.Tx.Impl;
+using Seasar.Quill.Unit;
 
 namespace Seasar.Tests.Quill
 {
     [TestFixture]
-	public class QuillContainerTest
+	public class QuillContainerTest : QuillTestCase
     {
         #region GetComponentのテスト
 
@@ -241,7 +243,13 @@ namespace Seasar.Tests.Quill
 
         #region RegistDataSource データソース登録テスト
 
-        [Test]
+        /// <summary>
+        /// データソース登録テスト
+        /// </summary>
+        /// <remarks>
+        /// Quill設定が関わるテストに関してはQuillTestCaseを利用
+        /// </remarks>
+        [Test, Quill]
         public void TestRegistDataSource()
         {
             QuillContainer container = new QuillContainer();
@@ -252,42 +260,18 @@ namespace Seasar.Tests.Quill
                 typeof(SelectableDataSourceProxyWithDictionary));
             Assert.IsNotNull(ds, "2");
             Assert.GreaterEqualThan(ds.DataSourceCollection.Count, 7);
-        }
 
-        #endregion
-
-        #region RegistAssembly アセンブリ登録テスト
-
-        [Test]
-        public void TestRegistAssembly()
-        {
-            //  アセンブリ情報がまだロードされていないことを確認
-            const string ASSEMBLY_1 = "Seasar.Tests";
-            const string ASSEMBLY_2 = "Seasar.Dxo";
-            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+            foreach (string key in ds.DataSourceCollection.Keys)
             {
-                Assert.AreNotEqual(ASSEMBLY_1, assembly.GetName().Name, assembly.GetName().Name);
-                Assert.AreNotEqual(ASSEMBLY_2, assembly.GetName().Name, assembly.GetName().Name);
-            }
-
-            QuillContainer container = new QuillContainer();
-
-            //  アセンブリ情報がロードされていることを確認
-            bool isIncludeAssembly1 = false;
-            bool isIncludeAssembly2 = false;
-            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
-            {
-                if (assembly.GetName().Name.Equals(ASSEMBLY_1))
+                IDataSource part = ds.DataSourceCollection[key];
+                if (part is TxDataSource)
                 {
-                    isIncludeAssembly1 = true;
-                }
-                else if (assembly.GetName().Name.Equals(ASSEMBLY_2))
-                {
-                    isIncludeAssembly2 = true;
+                    //  全てのTxDataSource系のデータソースに
+                    //  TransactionContextが設定されているか確認
+                    Assert.IsNotNull(((TxDataSource)part).Context,
+                        "全てのTxDataSource系のデータソースにTransactionContextが設定されていない");
                 }
             }
-            Assert.IsTrue(isIncludeAssembly1, "アセンブリ１が登録されている");
-            Assert.IsTrue(isIncludeAssembly2, "アセンブリ２が登録されている");
         }
 
         #endregion

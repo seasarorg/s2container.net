@@ -20,6 +20,9 @@ using Seasar.Quill.Util;
 
 namespace Seasar.Quill.Exception
 {
+    /// <summary>
+    /// Quill関係の必須設定が見つからない場合に投げられる例外
+    /// </summary>
     public class QuillConfigNotFoundException : QuillApplicationException
     {
         /// <summary>

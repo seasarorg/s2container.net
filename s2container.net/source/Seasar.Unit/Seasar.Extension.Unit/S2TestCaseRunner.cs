@@ -31,8 +31,7 @@ namespace Seasar.Extension.Unit
     {
         private static readonly string DATASOURCE_NAME = string.Format("Ado{0}DataSource", ContainerConstants.NS_SEP);
 
-        //private S2TestCase _fixture;
-        private Tx _tx;
+        protected Tx _tx;
         private ITransactionContext _tc;
         private IDataSource _dataSource;
 

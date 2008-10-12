@@ -208,6 +208,24 @@
     <value>ITransactionSetting実装クラス({0})内でTransactionContextの設定がおこなわれていません。</value>
   </data>
   <data name="EQLL0029" xml:space="preserve">
-    <value>App.config、Seasar.Quill.dll.config(path={0})のどちらにもQuillの設定がありません。</value>
+    <value>Quill設定情報が初期化されていません。</value>
+  </data>
+  <data name="IQLL0003" xml:space="preserve">
+    <value>Quill設定ファイル(ある=true,なし=false)：{0}</value>
+  </data>
+  <data name="IQLL0004" xml:space="preserve">
+    <value>Quill設定ファイルパス：{0}</value>
+  </data>
+  <data name="EQLL0030" xml:space="preserve">
+    <value>データソースクラス名が指定されていません。&lt;dataSource&gt;セクション中の&lt;class&gt;の設定をご確認下さい。</value>
+  </data>
+  <data name="EQLL0031" xml:space="preserve">
+    <value>プロバイダ名が指定されていません。&lt;dataSource&gt;セクション中の&lt;provider&gt;の設定を確認し、http://s2container.net.seasar.org/ja/quill.html#nodicon_config　で挙げられているプロバイダ名を指定して下さい。</value>
+  </data>
+  <data name="EQLL0032" xml:space="preserve">
+    <value>プロバイダ名({0})に誤りがあります。&lt;dataSource&gt;セクション中の&lt;provider&gt;の設定を確認し、http://s2container.net.seasar.org/ja/quill.html#nodicon_config　で挙げられているプロバイダ名を指定して下さい。</value>
+  </data>
+  <data name="EQLL0033" xml:space="preserve">
+    <value>接続文字列の設定がありません。&lt;dataSource&gt;セクション中の&lt;connectionString&gt;の設定をご確認下さい。</value>
   </data>
 </root>

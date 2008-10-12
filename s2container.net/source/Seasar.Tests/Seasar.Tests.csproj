@@ -1,7 +1,7 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{6D6327B1-4252-470A-A76B-8E923F34AB7C}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -241,6 +241,55 @@
     <Content Include="Seasar.Quill.dll.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Quill\ResourcesForQuillConfig\HasAssemblyConfig_Empty.config" />
+    <None Include="Quill\ResourcesForQuillConfig\HasAssemblyConfig_Nothing.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Quill\ResourcesForQuillConfig\QuillConfigTest_Empty.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Quill\ResourcesForQuillConfig\QuillConfigTest_Full.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Quill\ResourcesForQuillConfig\HasDaoSetting_Empty.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Quill\ResourcesForQuillConfig\HasDaoSetting_Nothing.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Quill\ResourcesForQuillConfig\HasTransactionSetting_Empty.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Quill\ResourcesForQuillConfig\HasTransactionSetting_Nothing.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Quill\ResourcesForQuillConfig\HasDataSourceConfig_Empty.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Quill\ResourcesForQuillConfig\HasDataSourceConfig_Nothing.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Quill\ResourcesForQuillConfig\CreateDataSources_Nothing.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Quill\ResourcesForQuillConfig\CreateDataSources_Empty.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Quill\ResourcesForQuillConfig\CreateDataSources_IllegalProvider.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Quill\ResourcesForQuillConfig\CreateDataSources_NoConnectionString.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Quill\ResourcesForQuillConfig\CreateDataSources_IllegalDataSource.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Quill\ResourcesForQuillConfig\CreateDataSources_NoDataSourceClass.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Quill\ResourcesForQuillConfig\CreateDataSources_NoProvider.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Quill\Xml\Test.Quill.dll.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -457,6 +506,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Quill\QuillConfigTest.cs" />
     <Compile Include="Quill\AspectBuilderTest.cs" />
     <Compile Include="Quill\Attr\S2DaoAttributeTest.cs" />
     <Compile Include="Quill\Attr\TransactionAttributeTest.cs" />
@@ -466,11 +516,11 @@
     <Compile Include="Quill\Database\Provider\ODP.cs" />
     <Compile Include="Quill\Database\Provider\OracleTest.cs" />
     <Compile Include="Quill\Database\Provider\SqlServerTest.cs" />
-    <Compile Include="Quill\DataSourceBuilderTest.cs" />
     <Compile Include="Quill\QuillComponentTest.cs" />
     <Compile Include="Quill\QuillContainerTest.cs" />
     <Compile Include="Quill\QuillInjectorTest.cs" />
     <Compile Include="Quill\SingletonS2ContainerConnectorTest.cs" />
+    <Compile Include="Quill\ThreadSafeTest.cs" />
     <Compile Include="Quill\Unit\MockInjectorTest.cs" />
     <Compile Include="Quill\Unit\QuillTestCaseTest.cs" />
     <Compile Include="Quill\Util\AttributeUtilTest.cs" />
@@ -508,11 +558,11 @@
     <Compile Include="Framework\Xml\S2SectionHandlerTest.cs" />
     <Compile Include="Framework\Xml\TagHandlerContextTest.cs" />
     <Compile Include="Framework\Xml\XmlHandlerTest.cs" />
+    <Compile Include="Quill\Util\SettingUtilTest.cs" />
     <Compile Include="Quill\Util\TypeUtilTest.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Quill\Xml\OuterQuillSectionLoaderTest.cs" />
-    <Compile Include="Quill\Xml\QuillSectionHandlerTest.cs" />
     <Content Include="Framework\Container.Deployer\SessionComponentDeployerWebPage.aspx" />
     <EmbeddedResource Include="Framework\Util\test1.xml" />
     <EmbeddedResource Include="Framework\Xml\test1.xml" />

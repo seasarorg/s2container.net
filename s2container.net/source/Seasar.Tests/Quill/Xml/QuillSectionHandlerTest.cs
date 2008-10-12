@@ -30,81 +30,81 @@ namespace Seasar.Tests.Quill.Xml
     [TestFixture]
     public class QuillSectionHandlerTest
     {
-        [Test]
-        public void TestGetQuillSection()
-        {
-            //  ## Arrange / Act ##
-            QuillSection section = QuillSectionHandler.GetQuillSection();
+        //[Test]
+        //public void TestGetQuillSection()
+        //{
+        //    //  ## Arrange / Act ##
+        //    QuillSection section = QuillSectionHandler.GetQuillSection();
 
-            //  ## Assert ##
-            Assert.IsNotNull(section, "セクション情報取得");
-            Assert.AreEqual("TypicalDaoSetting", section.DaoSetting, "標準S2Dao設定取得");
-            Assert.AreEqual("TypicalTransactionSetting", section.TransactionSetting, "標準トランザクション設定取得");
+        //    //  ## Assert ##
+        //    Assert.IsNotNull(section, "セクション情報取得");
+        //    Assert.AreEqual("TypicalDaoSetting", section.DaoSetting, "標準S2Dao設定取得");
+        //    Assert.AreEqual("TypicalTransactionSetting", section.TransactionSetting, "標準トランザクション設定取得");
 
-            IList dataSources = section.DataSources;
-            Assert.IsTrue(dataSources.Count > 0, "データソースの設定が取得されている");
-            foreach (object item in dataSources)
-            {
-                Assert.IsTrue(item is DataSourceSection, "dataSourceセクションとして取得されている");
-                DataSourceSection dsSection = (DataSourceSection)item;
-                Assert.IsFalse(string.IsNullOrEmpty(dsSection.ConnectionString), "接続文字列が取得されている");
-                Console.WriteLine("connectionString={0}", dsSection.ConnectionString);
-                Assert.IsFalse(string.IsNullOrEmpty(dsSection.DataSourceClassName), "データソースクラス名が取得されている");
-                Console.WriteLine("dataSourceNameClass={0}", dsSection.DataSourceClassName);
-                Assert.IsFalse(string.IsNullOrEmpty(dsSection.DataSourceName), "データソス名が設定されている");
-                Console.WriteLine("dataSourceName={0}", dsSection.DataSourceName);
-                Assert.IsFalse(string.IsNullOrEmpty(dsSection.ProviderName), "プロバイダクラス名が取得されている");
-                Console.WriteLine("providerName={0}", dsSection.ProviderName);
-            }
+        //    IList dataSources = section.DataSources;
+        //    Assert.IsTrue(dataSources.Count > 0, "データソースの設定が取得されている");
+        //    foreach (object item in dataSources)
+        //    {
+        //        Assert.IsTrue(item is DataSourceSection, "dataSourceセクションとして取得されている");
+        //        DataSourceSection dsSection = (DataSourceSection)item;
+        //        Assert.IsFalse(string.IsNullOrEmpty(dsSection.ConnectionString), "接続文字列が取得されている");
+        //        Console.WriteLine("connectionString={0}", dsSection.ConnectionString);
+        //        Assert.IsFalse(string.IsNullOrEmpty(dsSection.DataSourceClassName), "データソースクラス名が取得されている");
+        //        Console.WriteLine("dataSourceNameClass={0}", dsSection.DataSourceClassName);
+        //        Assert.IsFalse(string.IsNullOrEmpty(dsSection.DataSourceName), "データソス名が設定されている");
+        //        Console.WriteLine("dataSourceName={0}", dsSection.DataSourceName);
+        //        Assert.IsFalse(string.IsNullOrEmpty(dsSection.ProviderName), "プロバイダクラス名が取得されている");
+        //        Console.WriteLine("providerName={0}", dsSection.ProviderName);
+        //    }
 
-            IList assemblys = section.Assemblys;
-            Assert.IsTrue(assemblys.Count > 0, "アセンブリ情報が取得されている");
-            foreach (object item in assemblys)
-            {
-                Assert.IsFalse(string.IsNullOrEmpty(item as string), "アセンブリ名が取得されている");
-            }
-        }
+        //    IList assemblys = section.Assemblys;
+        //    Assert.IsTrue(assemblys.Count > 0, "アセンブリ情報が取得されている");
+        //    foreach (object item in assemblys)
+        //    {
+        //        Assert.IsFalse(string.IsNullOrEmpty(item as string), "アセンブリ名が取得されている");
+        //    }
+        //}
 
-        [Test]
-        public void TestGetQuillSection_FromAppConfig()
-        {
+        //[Test]
+        //public void TestGetQuillSection_FromAppConfig()
+        //{
             
-        }
+        //}
 
-        /// <summary>
-        /// Quill設定が見つからない場合のテスト
-        /// </summary>
-        [Test]
-        public void TestGetQuillSection_SectionNotFound()
-        {
-            StringBuilder builder = new StringBuilder();
-            builder.Append(Assembly.GetExecutingAssembly().CodeBase);
-            builder.Replace("file:///", "");
-            builder.Replace("Seasar.Tests.DLL", "Seasar.Quill.dll.config");
-            string configPath = builder.ToString();
+        ///// <summary>
+        ///// Quill設定が見つからない場合のテスト
+        ///// </summary>
+        //[Test]
+        //public void TestGetQuillSection_SectionNotFound()
+        //{
+        //    StringBuilder builder = new StringBuilder();
+        //    builder.Append(Assembly.GetExecutingAssembly().CodeBase);
+        //    builder.Replace("file:///", "");
+        //    builder.Replace("Seasar.Tests.DLL", "Seasar.Quill.dll.config");
+        //    string configPath = builder.ToString();
 
-            Assert.IsTrue(File.Exists(configPath), "config exists_" + configPath);
+        //    Assert.IsTrue(File.Exists(configPath), "config exists_" + configPath);
 
-            //  一時的に設定ファイルの場所をかえる
-            string dummyPath = configPath + "ex";
-            File.Move(configPath, dummyPath);
-            try
-            {
-                //  既定の場所には設定ファイルがないことを確認
-                Assert.IsFalse(File.Exists(configPath), "config not found_" + configPath);
-                try
-                {
-                    QuillSection section = QuillSectionHandler.GetQuillSection();
-                    Assert.Fail("設定がないので例外となっているはず:" + (section == null ? "null" : section.ToString()));
-                }
-                catch(QuillConfigNotFoundException)
-                {}
-            }
-            finally
-            {
-                //  移した設定ファイルを元に戻す
-                File.Move(dummyPath, configPath);
-            }
-        }
+        //    //  一時的に設定ファイルの場所をかえる
+        //    string dummyPath = configPath + "ex";
+        //    File.Move(configPath, dummyPath);
+        //    try
+        //    {
+        //        //  既定の場所には設定ファイルがないことを確認
+        //        Assert.IsFalse(File.Exists(configPath), "config not found_" + configPath);
+        //        try
+        //        {
+        //            QuillSection section = QuillSectionHandler.GetQuillSection();
+        //            Assert.Fail("設定がないので例外となっているはず:" + (section == null ? "null" : section.ToString()));
+        //        }
+        //        catch(QuillConfigNotFoundException)
+        //        {}
+        //    }
+        //    finally
+        //    {
+        //        //  移した設定ファイルを元に戻す
+        //        File.Move(dummyPath, configPath);
+        //    }
+        //}
     }
 }
