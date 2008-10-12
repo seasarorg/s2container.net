@@ -1,4 +1,13 @@
-﻿S2Container.NET 1.3.11
+﻿S2Container.NET 1.3.12
+2008/10/13
+** Improvement
+	* [CONTAINERNET-100] - 最小構成の場合は設定ファイルなしでQuillを利用できるようにする
+	
+S2Dao.NET 1.3.12
+2008/10/13
+	変更無し
+	
+S2Container.NET 1.3.11
 2008/08/22
 ** Improvement
     * [CONTAINERNET-98] - Quillの設定をApp.config以外のファイルでもできるようにする
