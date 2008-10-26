@@ -55,16 +55,13 @@ namespace Seasar.Quill
         /// </summary>
         public QuillContainer()
         {
-            ////  アセンブリをロードする
-            //RegistAssembly();
-
             // QuillContainer内で使用するAspectBuilderを作成する
             aspectBuilder = new AspectBuilder(this);
 
             //  Quill設定情報の初期化
             QuillConfig.InitializeQuillConfig(this);
             QuillConfig config = QuillConfig.GetInstance();
-            _log.Info(MessageUtil.GetMessage("IQLL0003", new object[] { config.HasQuillConfig() }));
+            _log.Log("IQLL0003", new object[] {config.HasQuillConfig()});
             if (config.HasQuillConfig())
             {
                 //  設定情報がある場合はアセンブリ、データソースを登録
@@ -73,9 +70,6 @@ namespace Seasar.Quill
                     config.CreateDataSources(),
                     config.GetTransationSettingType());
             }
-
-            ////  DataSourceが定義されていればQuillContainerに登録する
-            //RegistDataSource();
         }
 
         /// <summary>
@@ -170,7 +164,7 @@ namespace Seasar.Quill
         /// <summary>
         /// データソースを登録
         /// </summary>
-        public virtual void RegistDataSource(IDictionary<string, IDataSource> dataSources,
+        public void RegistDataSource(IDictionary<string, IDataSource> dataSources,
             Type defaultTxSettingType)
         {
             // データソースの定義がなければ以後の処理は行わない
@@ -196,59 +190,7 @@ namespace Seasar.Quill
                 defaultTxSetting.Setup(dataSourceProxy);
             }
         }
-
-        ///// <summary>
-        ///// データソースを登録
-        ///// </summary>
-        //public virtual void RegistDataSource()
-        //{
-        //    DataSourceBuilder builder = new DataSourceBuilder(this);
-        //    IDictionary<string, IDataSource> dataSources = builder.CreateDataSources();
-        //    // データソースの定義がなければ以後の処理は行わない
-        //    if ( dataSources.Count == 0 )
-        //    {
-        //        return;
-        //    }
-
-        //    SelectableDataSourceProxyWithDictionary dataSourceProxy =
-        //        (SelectableDataSourceProxyWithDictionary)ComponentUtil.GetComponent(
-        //        this, typeof(SelectableDataSourceProxyWithDictionary));
-        //    //  データソースの定義があれば登録
-        //    foreach ( KeyValuePair<string, IDataSource> dataSourcePair in dataSources )
-        //    {
-        //        dataSourceProxy.RegistDataSource(dataSourcePair.Key, dataSourcePair.Value);
-        //    }
-
-        //    //  トランザクションのデフォルト設定を行う
-        //    ITransactionSetting defaultTxSetting = (ITransactionSetting)ComponentUtil.GetComponent(
-        //                this, typeof(TypicalTransactionSetting));
-        //    if (defaultTxSetting.IsNeedSetup())
-        //    {
-        //        defaultTxSetting.Setup(dataSourceProxy);
-        //    }
-        //}
-
-        ///// <summary>
-        ///// アセンブリをロードする
-        ///// </summary>
-        //protected virtual void RegistAssembly()
-        //{
-        //    QuillSection section = QuillSectionHandler.GetQuillSection();
-        //    if (section != null && section.Assemblys != null && section.Assemblys.Count > 0)
-        //    {
-        //        //  設定ファイルに書かれたアセンブリ名を取得する
-        //        foreach (object item in section.Assemblys)
-        //        {
-        //            string assemblyName = item as string;
-        //            if (!string.IsNullOrEmpty(assemblyName))
-        //            {
-        //                //  指定されたアセンブリをロードする
-        //                AppDomain.CurrentDomain.Load(assemblyName);
-        //            }
-        //        }
-        //    }
-        //}
-
+        
         #region IDisposable メンバ
 
         /// <summary>

@@ -375,4 +375,7 @@
   <data name="ESSR0005" xml:space="preserve">
     <value>アプリケーション構成ファイルからセクション：{0}の{1}を取得できません</value>
   </data>
+  <data name="ESSR0365" xml:space="preserve">
+    <value>コネクションのオープンに失敗しました。データベースは起動しているか？接続文字列、プロバイダの設定は正しいか？ご確認をお願いします。</value>
+  </data>
 </root>

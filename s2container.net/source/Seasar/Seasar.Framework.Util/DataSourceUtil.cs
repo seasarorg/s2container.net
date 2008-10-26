@@ -21,6 +21,7 @@ using System.Data;
 using Seasar.Extension.ADO;
 using Seasar.Framework.Exceptions;
 using Seasar.Framework.Log;
+using Seasar.Framework.Message;
 
 namespace Seasar.Framework.Util
 {
@@ -39,7 +40,14 @@ namespace Seasar.Framework.Util
                 IDbConnection cn = dataSource.GetConnection();
                 if (cn.State != ConnectionState.Open)
                 {
-                    cn.Open();
+                    try
+                    {
+                        cn.Open();
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new DataException(MessageFormatter.GetSimpleMessage("ESSR0365", null), ex);
+                    }
                     _logger.Log("DSSR0007", null);
                 }
                 return cn;

@@ -375,4 +375,7 @@
   <data name="ESSR0005" xml:space="preserve">
     <value>Can not acquire section:{1} from {0}</value>
   </data>
+  <data name="ESSR0365" xml:space="preserve">
+    <value>To open connection is failure. Please check if database is started, connection string, provider.</value>
+  </data>
 </root>

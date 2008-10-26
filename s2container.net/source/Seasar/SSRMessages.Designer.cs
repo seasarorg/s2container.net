@@ -736,6 +736,15 @@ internal class SSRMessages {
     }
     
     /// <summary>
+    ///   To open connection is failure. Please check if database is started, connection string, provider. に類似しているローカライズされた文字列を検索します。
+    /// </summary>
+    internal static string ESSR0365 {
+        get {
+            return ResourceManager.GetString("ESSR0365", resourceCulture);
+        }
+    }
+    
+    /// <summary>
     ///   seasar started に類似しているローカライズされた文字列を検索します。
     /// </summary>
     internal static string ISSR0001 {
