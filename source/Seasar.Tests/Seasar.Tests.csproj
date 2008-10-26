@@ -290,6 +290,9 @@
     <None Include="Quill\ResourcesForQuillConfig\CreateDataSources_NoProvider.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Quill\ResourcesForQuillConfig\GetXxxSetting_IllegalClassName.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Quill\Xml\Test.Quill.dll.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -519,6 +522,7 @@
     <Compile Include="Quill\QuillComponentTest.cs" />
     <Compile Include="Quill\QuillContainerTest.cs" />
     <Compile Include="Quill\QuillInjectorTest.cs" />
+    <Compile Include="Quill\S2ContainerTxSetting.cs" />
     <Compile Include="Quill\SingletonS2ContainerConnectorTest.cs" />
     <Compile Include="Quill\ThreadSafeTest.cs" />
     <Compile Include="Quill\Unit\MockInjectorTest.cs" />

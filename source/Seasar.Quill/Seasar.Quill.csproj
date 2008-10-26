@@ -71,7 +71,6 @@
     <Compile Include="Database\Tx\Impl\AbstractTransactionSetting.cs" />
     <Compile Include="Database\Tx\Impl\TypicalTransactionSetting.cs" />
     <Compile Include="Database\Tx\ITransactionSetting.cs" />
-    <Compile Include="DataSourceBuilder.cs" />
     <Compile Include="Database\DataSource\Selector\IDataSourceSelector.cs" />
     <Compile Include="Database\DataSource\Impl\SelectableDataSourceProxyWithDictionary.cs" />
     <Compile Include="Exception\QuillConfigNotFoundException.cs" />

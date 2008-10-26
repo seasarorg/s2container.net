@@ -23,6 +23,8 @@ using Seasar.Framework.Aop;
 using Seasar.Framework.Aop.Impl;
 using Seasar.Quill;
 using Seasar.Quill.Exception;
+using Seasar.Quill.Attrs;
+using Seasar.Framework.Aop.Interceptors;
 
 namespace Seasar.Tests.Quill
 {
@@ -146,6 +148,37 @@ namespace Seasar.Tests.Quill
             }
         }
 
+        [Test]
+        public void TestQuillComponent_コンストラクタで例外が発生するコンポーネントの場合()
+        {
+            try
+            {
+                QuillComponent component = new QuillComponent(
+                    typeof(ExceptionHoge), typeof(ExceptionHoge), new IAspect[0]);
+                Assert.Fail();
+            }
+            catch (QuillApplicationException ex)
+            {
+                Assert.AreEqual("EQLL0036", ex.MessageCode);
+            }
+        }
+
+        [Test]
+        public void TestQuillComponent_アスペクトがかけられないコンポーネントの場合()
+        {
+            try
+            {
+                QuillComponent component = new QuillComponent(
+                    typeof(UnableCreateProxyHoge), typeof(UnableCreateProxyHoge), 
+                    new IAspect[] { new AspectImpl(new TraceInterceptor())});
+                Assert.Fail();
+            }
+            catch (QuillApplicationException ex)
+            {
+                Assert.AreEqual("EQLL0037", ex.MessageCode);
+            }
+        }
+
         #endregion
 
         #region QuillComponentのテストで使用する内部クラス
@@ -183,6 +216,25 @@ namespace Seasar.Tests.Quill
         {
             private Hoge3()
             {
+            }
+        }
+
+        public class ExceptionHoge
+        {
+            public ExceptionHoge()
+            {
+                throw new ApplicationException("テストのためにわざと発生させた例外");
+            }
+        }
+
+        /// <summary>
+        /// sealedクラス→プロキシオブジェクトを作れないはず
+        /// </summary>
+        public sealed class UnableCreateProxyHoge
+        {
+            public object Hoge()
+            {
+                return null;
             }
         }
 

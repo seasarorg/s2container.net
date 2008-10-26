@@ -109,6 +109,7 @@ namespace Seasar.Quill
         /// :コンテナの設定とQuill設定ファイルの読み込み
         /// </summary>
         /// <param name="container"></param>
+        /// <param name="configPath"></param>
         protected QuillConfig(QuillContainer container, string configPath)
         {
             _container = container;
@@ -179,12 +180,20 @@ namespace Seasar.Quill
                         QuillConstants.NAMESPACE_DAOSETTING, typeName);
                 }
                 retType = ClassUtil.ForName(typeName);
+
+                if (retType == null)
+                {
+                    throw new QuillApplicationException("EQLL0034", new object[] { typeName });
+                }
+
+                SettingUtil.ValidateDaoSettingType(retType);
             }
             else
             {
                 //  設定がない場合は既定のDao設定を使う
                 retType = SettingUtil.GetDefaultDaoSettingType();
             }
+
             return retType;
         }
 
@@ -208,7 +217,7 @@ namespace Seasar.Quill
                 retType = ClassUtil.ForName(typeName);
                 if (retType == null)
                 {
-                    throw new ClassNotFoundRuntimeException(typeName);
+                    throw new QuillApplicationException("EQLL0035", new object[] { typeName });
                 }
 
                 SettingUtil.ValidateTransactionSettingType(retType);
@@ -225,12 +234,12 @@ namespace Seasar.Quill
         /// <summary>
         /// アセンブリをロードする
         /// </summary>
-        /// <param name="section">Quill設定情報</param>
         public virtual void RegisterAssembly()
         {
             if (HasAssemblyConfig() == false)
             {
                 //  アセンブリ設定がなければ処理を抜ける
+                _log.Log("IQLL0005", null);
                 return;
             }
 
@@ -242,6 +251,7 @@ namespace Seasar.Quill
                 {
                     //  指定されたアセンブリをロードする
                     AppDomain.CurrentDomain.Load(assemblyName);
+                    _log.Log("IQLL0006", new object[] { assemblyName });
                 }
             }
         }
@@ -249,7 +259,6 @@ namespace Seasar.Quill
         /// <summary>
         /// 設定情報からIDataSourceのCollectionを生成
         /// </summary>
-        /// <param name="section">Quill設定情報</param>
         /// <returns>DataSourceコレクション</returns>
         public virtual IDictionary<string, IDataSource> CreateDataSources()
         {
@@ -259,6 +268,7 @@ namespace Seasar.Quill
             SetupDataSourceByQuillSection(dataSources);
             if (dataSources.Count > 0)
             {
+                _log.Log("IQLL0007", null);
                 return dataSources;
             }
 
@@ -266,6 +276,7 @@ namespace Seasar.Quill
             SetupByConnectionStringSection(dataSources);
             if (dataSources.Count > 0)
             {
+                _log.Log("IQLL0008", null);
                 return dataSources;
             }
 
@@ -275,11 +286,17 @@ namespace Seasar.Quill
                 dataSources[DEFALT_DATASOURCE_NAME] =
                     (IDataSource)SingletonS2ContainerConnector.GetComponent(
                     DEFALT_DATASOURCE_NAME, typeof(IDataSource));
+                _log.Log("IQLL0009", null);
             }
             else if (SingletonS2ContainerConnector.HasComponentDef(typeof(IDataSource)))
             {
                 dataSources[typeof(IDataSource).Name] =
                     (IDataSource)SingletonS2ContainerConnector.GetComponent(typeof(IDataSource));
+                _log.Log("IQLL0010", null);
+            }
+            else
+            {
+                _log.Log("IQLL0011", null);
             }
 
             return dataSources;
@@ -471,7 +488,7 @@ namespace Seasar.Quill
             //  指定されたパスの設定を使用する
             if (string.IsNullOrEmpty(configPath) == false)
             {
-                _log.Info(MessageUtil.GetMessage("IQLL0004", new object[] { configPath }));
+                _log.Log("IQLL0004", new object[] { configPath });
                 return OuterQuillSectionLoader.LoadFromOuterConfig(configPath);
             }
 
@@ -483,7 +500,7 @@ namespace Seasar.Quill
                 //  外部ファイルのパスを設定
                 string outerConfigPath = SettingUtil.GetDefaultQuillConfigPath();
 
-                _log.Info(MessageUtil.GetMessage("IQLL0004", new object[] { outerConfigPath }));
+                _log.Log("IQLL0004", new object[] { outerConfigPath });
                 section = OuterQuillSectionLoader.LoadFromOuterConfig(outerConfigPath);
             }
 

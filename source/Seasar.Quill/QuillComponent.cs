@@ -78,7 +78,7 @@ namespace Seasar.Quill
 
         #endregion
 
-        #region 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ
+        #region コンストラクタ
 
         /// <summary>
         /// QuillComponentを初期化するコンストラクタ
@@ -214,7 +214,16 @@ namespace Seasar.Quill
             }
 
             // インスタンスを作成する
-            object obj = Activator.CreateInstance(componentType);
+            object obj;
+            try
+            {
+                obj = Activator.CreateInstance(componentType);
+            }
+            catch (System.Exception ex)
+            {
+                throw new QuillApplicationException(
+                    "EQLL0036", new object[] {componentType.Name}, ex); 
+            }
 
             // 実装クラスの型で格納する
             componentObjects[componentType] = obj;
@@ -248,11 +257,19 @@ namespace Seasar.Quill
             parameters[ContainerConstants.COMPONENT_DEF_NAME] = componentDef;
 
             // DynamicAopProxyを作成する
-            DynamicAopProxy aopProxy =
-                new DynamicAopProxy(componentType, aspects, parameters);
+            DynamicAopProxy aopProxy;
+            try
+            {
+                aopProxy = new DynamicAopProxy(componentType, aspects, parameters);
 
-            // ProxyObjectを作成する
-            componentObjects[componentType] = aopProxy.Create();
+                // ProxyObjectを作成する
+                componentObjects[componentType] = aopProxy.Create();
+            }
+            catch (System.Exception ex)
+            {
+                throw new QuillApplicationException(
+                    "EQLL0037", new object[] { componentType.Name }, ex);
+            }
 
             if (!componentType.Equals(receiptType))
             {

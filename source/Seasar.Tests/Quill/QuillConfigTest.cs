@@ -29,6 +29,8 @@ using Seasar.Extension.ADO;
 using System.Collections.Generic;
 using Seasar.Extension.Tx.Impl;
 using Seasar.Framework.Container.Factory;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace Seasar.Tests.Quill
 {
@@ -39,8 +41,32 @@ namespace Seasar.Tests.Quill
     public class QuillConfigTest
     {
         private const string CONFIG_NOT_EXISTS = "hogeHoge";
+        private const string CONFIG_NO_EXIST_CLASS = "GetXxxSetting_IllegalClassName";
         private const string CONFIG_EMPTY = "QuillConfigTest_Empty";
         private const string CONFIG_FULL = "QuillConfigTest_Full";
+
+        [Test]
+        public void TestChangeConnection()
+        {
+            using (IDbConnection connection = new SqlConnection("Server=localhost;database=s2dotnetdemo;Integrated Security=SSPI"))
+            {
+                try
+                {
+                    connection.Open();
+                    Assert.Fail();
+                }
+                catch (System.Exception)
+                {
+                    Console.WriteLine("Exception occured.");
+                }
+
+
+                connection.ConnectionString = "Server=localhost\\SQLEXPRESS;database=s2dotnetdemo;Integrated Security=SSPI";
+                connection.Open();
+                connection.Close();
+
+            }
+        }
 
         #region HasXxx 設定有無判定
         [Test]
@@ -192,6 +218,17 @@ namespace Seasar.Tests.Quill
                 Assert.AreEqual(typeof(DaoSetting4Test), config.GetDaoSettingType(),
                     "設定がある場合は指定された型");
             }
+            {
+                QuillConfig config = GetTestQuillConfig(CONFIG_NO_EXIST_CLASS);
+                try
+                {
+                    config.GetDaoSettingType();
+                }
+                catch (QuillApplicationException ex)
+                {
+                    Assert.AreEqual("EQLL0034", ex.MessageCode);
+                }
+            }
         }
 
         [Test]
@@ -212,13 +249,17 @@ namespace Seasar.Tests.Quill
                 Assert.AreEqual(typeof(TxSetting4Test), config.GetTransationSettingType(),
                     "設定がある場合は指定された型");
             }
-        }
-
-        [Test]
-        public void TestRegisterAssembly()
-        {
-            //  TODO:アセンブリがない場合の例外を追加したら
-            //  例外パターンをテストする
+            {
+                QuillConfig config = GetTestQuillConfig(CONFIG_NO_EXIST_CLASS);
+                try
+                {
+                    config.GetTransationSettingType();
+                }
+                catch (QuillApplicationException ex)
+                {
+                    Assert.AreEqual("EQLL0035", ex.MessageCode);
+                }
+            }
         }
 
         [Test]
