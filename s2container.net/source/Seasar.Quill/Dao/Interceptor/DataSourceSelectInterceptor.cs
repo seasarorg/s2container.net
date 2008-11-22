@@ -23,6 +23,7 @@ using Seasar.Framework.Container;
 using Seasar.Framework.Log;
 using Seasar.Framework.Aop.Interceptors;
 using Seasar.Framework.Aop;
+using Seasar.Quill.Exception;
 
 namespace Seasar.Quill.Dao.Interceptor
 {
@@ -57,6 +58,11 @@ namespace Seasar.Quill.Dao.Interceptor
 
         public override object Invoke(IMethodInvocation invocation)
         {
+            if (DataSourceProxy == null)
+            {
+                throw new QuillApplicationException("EQLL0038"); 
+            }
+
             IComponentDef def = GetComponentDef(invocation);
             if (def != null)
             {
@@ -78,17 +84,16 @@ namespace Seasar.Quill.Dao.Interceptor
                     }
                 }
 
-                if (_dataSourceProxy != null && string.IsNullOrEmpty(dataSourceName) == false)
+                if (DataSourceProxy != null && string.IsNullOrEmpty(dataSourceName) == false)
                 {
-                    _dataSourceProxy.SetDataSourceName(dataSourceName);
+                    DataSourceProxy.SetDataSourceName(dataSourceName);
                 }
             }
 
             if (_logger.IsDebugEnabled)
             {
                 //  デバッグで動いているのならどのデータソースが指定されているか返す
-                string ds = _dataSourceProxy.GetDataSourceName();
-                _logger.Debug(string.Format("SetDataSourceName={0}", _dataSourceProxy.GetDataSourceName()));
+                _logger.Debug(string.Format("SetDataSourceName={0}", DataSourceProxy.GetDataSourceName()));
             }
 
             return invocation.Proceed();
