@@ -261,4 +261,7 @@
   <data name="IQLL0011" xml:space="preserve">
     <value>データソースの設定はありません。</value>
   </data>
+  <data name="EQLL0038" xml:space="preserve">
+    <value>データソースが設定されていません。</value>
+  </data>
 </root>
