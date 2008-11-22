@@ -29,6 +29,7 @@ namespace Seasar.Quill.Database.Tx
     {
         ITransactionContext TransactionContext { get; }
         IMethodInterceptor TransactionInterceptor { get; }
+        string DataSourceName { get; }
 
         /// <summary>
         /// トランザクション関係の設定を行います
