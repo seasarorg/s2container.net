@@ -51,15 +51,15 @@ namespace Seasar.Framework.Beans
         /// </summary>
         /// <param name="target">target</param>
         /// <returns>プロパティの値</returns>
-        /// <exception cref="IllegalPropertyRuntimeException">値の取得に失敗した場合。</exception>
-        Object GetValue(Object target);
+        /// <exception cref="IllegalFieldRuntimeException">値の取得に失敗した場合。</exception>
+        object GetValue(object target);
 
         /// <summary>
         /// プロパティに値を設定します。
         /// </summary>
         /// <param name="target"></param>
         /// <param name="value"></param>
-        /// <exception cref="IllegalPropertyRuntimeException">値の設定に失敗した場合。</exception>
-        void SetValue(Object target, Object value);
+        /// <exception cref="IllegalFieldRuntimeException">値の設定に失敗した場合。</exception>
+        void SetValue(object target, object value);
 	}
 }

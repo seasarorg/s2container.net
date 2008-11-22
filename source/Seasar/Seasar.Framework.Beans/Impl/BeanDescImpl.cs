@@ -226,7 +226,6 @@ namespace Seasar.Framework.Beans.Impl
         /// <summary>
         /// FieldDescを返します。
         /// </summary>
-        /// <param name="index"></param>
         /// <returns></returns>
         public virtual IFieldDesc[] GetFieldDescs()
         {
@@ -236,7 +235,6 @@ namespace Seasar.Framework.Beans.Impl
         /// <summary>
         /// FieldDescを返します。
         /// </summary>
-        /// <param name="index"></param>
         /// <param name="bindingFlags"></param>
         /// <returns></returns>
         public virtual IFieldDesc[] GetFieldDescs(BindingFlags bindingFlags)

@@ -83,14 +83,27 @@ namespace Seasar.Framework.Beans
         IPropertyDesc GetPropertyDesc(int index, BindingFlags bindingFlags);
 
         /// <summary>
-        /// PropertyInfoを持っているかどうかを返します。
+        /// PropertyDescを返します。
+        /// </summary>
+        /// <returns>PropertyDesc}</returns>
+        IPropertyDesc[] GetPropertyDescs();
+
+        /// <summary>
+        /// PropertyDescを返します。
+        /// </summary>
+        /// <param name="bindingFlags"></param>
+        /// <returns>PropertyDesc}</returns>
+        IPropertyDesc[] GetPropertyDescs(BindingFlags bindingFlags);
+
+        /// <summary>
+        /// フィールド情報を持っているかどうかを返します。
         /// </summary>
         /// <param name="fieldName"></param>
         /// <returns>PropertyInfoを持っているかどうか</returns>
         bool HasField(string fieldName);
 
         /// <summary>
-        /// PropertyInfoを持っているかどうかを返します。
+        /// フィールド情報を持っているかどうかを返します。
         /// </summary>
         /// <param name="fieldName"></param>
         /// <param name="bindingFlags"></param>
@@ -98,7 +111,7 @@ namespace Seasar.Framework.Beans
         bool HasField(string fieldName, BindingFlags bindingFlags);
 
         /// <summary>
-        /// PropertyInfoを返します。
+        /// FieldDescを返します。
         /// </summary>
         /// <param name="fieldName">フィールド名</param>
         /// <returns>フィールド情報</returns>
@@ -106,7 +119,7 @@ namespace Seasar.Framework.Beans
         IFieldDesc GetFieldDesc(string fieldName);
 
         /// <summary>
-        /// PropertyInfoを返します。
+        /// FieldDescを返します。
         /// </summary>
         /// <param name="fieldName">フィールド名</param>
         /// <param name="bindingFlags"></param>
@@ -115,19 +128,32 @@ namespace Seasar.Framework.Beans
         IFieldDesc GetFieldDesc(string fieldName, BindingFlags bindingFlags);
 
         /// <summary>
-        /// フィールド情報を返します。
+        /// FieldDescを返します。
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
         IFieldDesc GetFieldDesc(int index);
 
         /// <summary>
-        /// フィールド情報を返します。
+        /// FieldDescを返します。
         /// </summary>
         /// <param name="index"></param>
         /// <param name="bindingFlags"></param>
         /// <returns></returns>
         IFieldDesc GetFieldDesc(int index, BindingFlags bindingFlags);
+
+        /// <summary>
+        /// FieldDescを返します。
+        /// </summary>
+        /// <returns></returns>
+        IFieldDesc[] GetFieldDescs();
+
+        /// <summary>
+        /// FieldDescを返します。
+        /// </summary>
+        /// <param name="bindingFlags"></param>
+        /// <returns></returns>
+        IFieldDesc[] GetFieldDescs(BindingFlags bindingFlags);
 
         /// <summary>
         /// 型に応じたConstructorInfoを返します。
@@ -143,15 +169,58 @@ namespace Seasar.Framework.Beans
         ConstructorInfo GetConstructor(Type[] paramTypes);
 
         /// <summary>
-        /// メソッド情報を返します。
+        /// メソッド情報があるかどうか返します。（引数に関係なくメソッド名のみで判定します）
+        /// </summary>
+        /// <param name="methodName"></param>
+        /// <returns>MethodInfoがあるかどうか</returns>
+        bool HasMethod(string methodName);
+
+        /// <summary>
+        /// メソッド情報があるかどうか返します。
+        /// </summary>
+        /// <param name="methodName"></param>
+        /// <param name="parameterTypes"></param>
+        /// <returns>MethodInfoがあるかどうか</returns>
+        bool HasMethod(string methodName, Type[] parameterTypes);
+
+        /// <summary>
+        /// メソッド情報があるかどうか返します。（引数に関係なくメソッド名のみで判定します）
+        /// </summary>
+        /// <param name="methodName"></param>
+        /// <param name="bindingFlags"></param>
+        /// <returns>MethodInfoがあるかどうか</returns>
+        bool HasMethod(string methodName, BindingFlags bindingFlags);
+
+        /// <summary>
+        /// メソッド情報があるかどうか返します。
+        /// </summary>
+        /// <param name="methodName"></param>
+        /// <param name="parameterTypes"></param>
+        /// <param name="bindingFlags"></param>
+        /// <returns>MethodInfoがあるかどうか</returns>
+        bool HasMethod(string methodName, Type[] parameterTypes, BindingFlags bindingFlags);
+
+        /// <summary>
+        /// メソッド情報を返します。引数なしのメソッドを探します。
         /// </summary>
         /// <param name="methodName"></param>
         /// <returns></returns>
         /// <exception cref="MethodNotFoundRuntimeException">
         /// MethodInfoが見つからない場合。
         /// </exception>
-        /// 
         IMethodDesc GetMethodDesc(string methodName);
+
+        /// <summary>
+        /// メソッド情報を返します。引数なしのメソッドを探します。
+        /// </summary>
+        /// <param name="methodName"></param>
+        /// <param name="bindingFlags"></param>
+        /// <returns></returns>
+        /// <exception cref="MethodNotFoundRuntimeException">
+        /// MethodInfoが見つからない場合。
+        /// </exception>
+        /// 
+        IMethodDesc GetMethodDesc(string methodName, BindingFlags bindingFlags);
 
         /// <summary>
         /// メソッド情報を返します。
@@ -165,6 +234,37 @@ namespace Seasar.Framework.Beans
         IMethodDesc GetMethodDesc(string methodName, Type[] paramTypes);
 
         /// <summary>
+        /// メソッド情報を返します。
+        /// </summary>
+        /// <param name="methodName"></param>
+        /// <param name="paramTypes"></param>
+        /// <param name="bindingFlags"></param>
+        /// <returns>MethodInfo}</returns>
+        /// <exception cref="MethodNotFoundRuntimeException">
+        /// MethodInfoが見つからない場合。
+        /// </exception>
+        IMethodDesc GetMethodDesc(string methodName, Type[] paramTypes, BindingFlags bindingFlags);
+
+        /// <summary>
+        /// メソッド情報の配列を返します。
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="MethodNotFoundRuntimeException">
+        /// MethodInfoが見つからない場合。
+        /// </exception>
+        IMethodDesc[] GetMethodDescs();
+
+        /// <summary>
+        /// メソッド情報の配列を返します。
+        /// </summary>
+        /// <param name="bindingFlags"></param>
+        /// <returns></returns>
+        /// <exception cref="MethodNotFoundRuntimeException">
+        /// MethodInfoが見つからない場合。
+        /// </exception>
+        IMethodDesc[] GetMethodDescs(BindingFlags bindingFlags);
+
+        /// <summary>
         /// メソッド情報の配列を返します。
         /// </summary>
         /// <param name="methodName"></param>
@@ -175,11 +275,15 @@ namespace Seasar.Framework.Beans
         IMethodDesc[] GetMethodDescs(string methodName);
 
         /// <summary>
-        /// MethodInfoがあるかどうか返します。
+        /// メソッド情報の配列を返します。
         /// </summary>
         /// <param name="methodName"></param>
-        /// <returns>MethodInfoがあるかどうか</returns>
-        bool HasMethod(string methodName);
+        /// <param name="bindingFlags"></param>
+        /// <returns></returns>
+        /// <exception cref="MethodNotFoundRuntimeException">
+        /// MethodInfoが見つからない場合。
+        /// </exception>
+        IMethodDesc[] GetMethodDescs(string methodName, BindingFlags bindingFlags);
 
         /// <summary>
         /// Nullable(.NET)型かどうか判定

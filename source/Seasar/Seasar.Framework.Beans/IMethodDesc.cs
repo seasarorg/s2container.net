@@ -29,12 +29,12 @@ namespace Seasar.Framework.Beans
         /// <summary>
         /// 元となるメソッド情報
         /// </summary>
-        MethodInfo Method { get; }
+        MethodInfo Method { get;}
 
-        /// <summary>
-        /// メソッド名
-        /// </summary>
-        string Name { get; }
+	    /// <summary>
+	    /// メソッド名
+	    /// </summary>
+        string Name{ get; }
 
         /// <summary>
         /// パラメータ情報
