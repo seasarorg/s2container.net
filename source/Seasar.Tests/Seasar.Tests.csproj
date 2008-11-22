@@ -482,6 +482,11 @@
     <Compile Include="Framework\Aop.Interceptors\MockInterceptorTest.cs" />
     <Compile Include="Framework\Aop.Proxy\AopProxyTest.cs" />
     <Compile Include="Framework\Aop.Proxy\DynamicAopProxyTest.cs" />
+    <Compile Include="Framework\Beans\Factory\BeanDescFactoryTest.cs" />
+    <Compile Include="Framework\Beans\Impl\BeanDescImplTest.cs" />
+    <Compile Include="Framework\Beans\Impl\FieldDescImplTest.cs" />
+    <Compile Include="Framework\Beans\Impl\MethodDescImplTest.cs" />
+    <Compile Include="Framework\Beans\Impl\PropertyDescImplTest.cs" />
     <Compile Include="Framework\Container.Assembler\AutoConstructorAssemblerTest.cs" />
     <Compile Include="Framework\Container.Assembler\AutoPropertyAssemblerTest.cs" />
     <Compile Include="Framework\Container.Assembler\DefaultConstructorAssemblerTest.cs" />

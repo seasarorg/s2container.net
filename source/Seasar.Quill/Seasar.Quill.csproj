@@ -57,6 +57,7 @@
     <Compile Include="Attrs\TransactionAttribute.cs" />
     <Compile Include="Dao\IDaoSetting.cs" />
     <Compile Include="Dao\Impl\AbstractDaoSetting.cs" />
+    <Compile Include="Dao\Impl\AbstractDaoSettingDecorator.cs" />
     <Compile Include="Dao\Impl\TypicalDaoSetting.cs" />
     <Compile Include="Dao\Interceptor\DataSourceSelectInterceptor.cs" />
     <Compile Include="Database\DataSource\Connection\IConnectionString.cs" />

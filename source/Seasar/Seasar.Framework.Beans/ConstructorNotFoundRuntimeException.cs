@@ -29,35 +29,35 @@ namespace Seasar.Framework.Beans
     [Serializable]
     public class ConstructorNotFoundRuntimeException : SRuntimeException
     {
-        private readonly Type _targetType;
+        private readonly Type _componentType;
         private readonly object[] _methodArgs;
 
-        public ConstructorNotFoundRuntimeException(Type targetType,
+        public ConstructorNotFoundRuntimeException(Type componentType,
             object[] methodArgs)
             : base("ESSR0048",
-            new object[] { targetType.FullName, GetSignature(methodArgs) })
+            new object[] { componentType.FullName, GetSignature(methodArgs) })
         {
-            _targetType = targetType;
+            _componentType = componentType;
             _methodArgs = methodArgs;
         }
 
         public ConstructorNotFoundRuntimeException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            _targetType = info.GetValue("_targetType", typeof(Type)) as Type;
+            _componentType = info.GetValue("_componentType", typeof(Type)) as Type;
             _methodArgs = info.GetValue("_methodArgs", typeof(object[])) as object[];
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("_targetType", _targetType, typeof(Type));
+            info.AddValue("_componentType", _componentType, typeof(Type));
             info.AddValue("_methodArgs", _methodArgs, typeof(object[]));
             base.GetObjectData(info, context);
         }
 
-        public Type TargetType
+        public Type ComponentType
         {
-            get { return _targetType; }
+            get { return _componentType; }
         }
 
         public object[] MethodArgs

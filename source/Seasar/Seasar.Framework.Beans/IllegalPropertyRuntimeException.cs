@@ -22,6 +22,9 @@ using Seasar.Framework.Exceptions;
 
 namespace Seasar.Framework.Beans
 {
+    /// <summary>
+    /// プロパティの値の設定に失敗したときにスローされる例外です。
+    /// </summary>
     [Serializable]
     public class IllegalPropertyRuntimeException : SRuntimeException
     {

@@ -492,15 +492,29 @@
     <Compile Include="Seasar.Framework.Aop\Proxy\AopProxy.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Framework.Beans\Factory\BeanDescFactory.cs" />
+    <Compile Include="Seasar.Framework.Beans\Factory\FieldDescFactory.cs" />
+    <Compile Include="Seasar.Framework.Beans\IBeanDesc.cs" />
     <Compile Include="Seasar.Framework.Beans\ConstructorNotFoundRuntimeException.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Framework.Beans\Factory\MethodDescFactory.cs" />
+    <Compile Include="Seasar.Framework.Beans\Factory\PropertyDescFactory.cs" />
+    <Compile Include="Seasar.Framework.Beans\IFieldDesc.cs" />
+    <Compile Include="Seasar.Framework.Beans\IllegalFieldRuntimeException.cs" />
     <Compile Include="Seasar.Framework.Beans\IllegalPropertyRuntimeException.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Framework.Beans\FieldNotFoundRuntimeException.cs" />
+    <Compile Include="Seasar.Framework.Beans\IMethodDesc.cs" />
+    <Compile Include="Seasar.Framework.Beans\Impl\BeanDescImpl.cs" />
+    <Compile Include="Seasar.Framework.Beans\Impl\FieldDescImpl.cs" />
+    <Compile Include="Seasar.Framework.Beans\Impl\MethodDescImpl.cs" />
+    <Compile Include="Seasar.Framework.Beans\Impl\PropertyDescImpl.cs" />
     <Compile Include="Seasar.Framework.Beans\MethodNotFoundRuntimeException.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Framework.Beans\IPropertyDesc.cs" />
     <Compile Include="Seasar.Framework.Beans\PropertyNotFoundRuntimeException.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -813,6 +827,7 @@
     <Compile Include="Seasar.Framework.Message\MessageFormatter.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Framework.Util\ArrayMap.cs" />
     <Compile Include="Seasar.Framework.Util\ArrayUtil.cs" />
     <Compile Include="Seasar.Framework.Util\BindVariableType.cs">
       <SubType>Code</SubType>
@@ -849,6 +864,7 @@
     </Compile>
     <Compile Include="Seasar.Framework.Util\DecimalConversionUtil.cs" />
     <Compile Include="Seasar.Framework.Util\ExceptionUtil.cs" />
+    <Compile Include="Seasar.Framework.Util\FieldUtil.cs" />
     <Compile Include="Seasar.Framework.Util\JScriptUtil.cs">
       <SubType>Code</SubType>
     </Compile>

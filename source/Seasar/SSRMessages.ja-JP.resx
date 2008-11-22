@@ -378,4 +378,7 @@
   <data name="ESSR0365" xml:space="preserve">
     <value>コネクションのオープンに失敗しました。データベースは起動しているか？接続文字列、プロバイダの設定は正しいか？ご確認をお願いします。</value>
   </data>
+  <data name="ESSR0076" xml:space="preserve">
+    <value>クラス({0})のフィールド({1})の設定に失敗しました。理由は{2}</value>
+  </data>
 </root>
