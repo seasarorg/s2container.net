@@ -36,6 +36,11 @@ namespace Seasar.Quill.Database.Tx.Impl
 
         #region ITransactionSetting メンバ
 
+        public virtual string DataSourceName
+        {
+            get { return null; }
+        }
+
         public ITransactionContext TransactionContext
         {
             get { return _transactionContext; }
