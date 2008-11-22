@@ -34,7 +34,7 @@ namespace Seasar.Framework.Beans.Impl
         /// <summary>
         /// 元となるプロパティ情報
         /// </summary>
-        public PropertyInfo Property
+        public virtual PropertyInfo Property
         {
             get { return _propertyInfo; }
         }
@@ -42,7 +42,7 @@ namespace Seasar.Framework.Beans.Impl
 	    /// <summary>
 	    /// プロパティ名
 	    /// </summary>
-	    public string Name
+        public virtual string Name
 	    {
             get { return _propertyInfo.Name; }
 	    }
@@ -50,7 +50,7 @@ namespace Seasar.Framework.Beans.Impl
 	    /// <summary>
 	    /// プロパティの型
 	    /// </summary>
-	    public Type PropertyType
+        public virtual Type PropertyType
 	    {
             get { return _propertyInfo.PropertyType; }
 	    }
@@ -59,7 +59,7 @@ namespace Seasar.Framework.Beans.Impl
 	    /// getterメソッド
 	    /// </summary>
         /// <exception cref="MethodNotFoundRuntimeException"></exception>
-	    public IMethodDesc ReadMethod
+        public virtual IMethodDesc ReadMethod
 	    {
 	        get
 	        {
@@ -81,7 +81,7 @@ namespace Seasar.Framework.Beans.Impl
 	    /// setterメソッド
 	    /// </summary>
         /// <exception cref="MethodNotFoundRuntimeException"></exception>
-	    public IMethodDesc WriteMethod
+        public virtual IMethodDesc WriteMethod
 	    {
             get
             {
@@ -112,7 +112,7 @@ namespace Seasar.Framework.Beans.Impl
 	    /// getterメソッドを持っているかどうか返します。
 	    /// </summary>
 	    /// <returns>getterメソッドを持っているかどうか</returns>
-	    public bool HasReadMethod()
+        public virtual bool HasReadMethod()
 	    {
 	        return _propertyInfo.CanRead;
 	    }
@@ -121,7 +121,7 @@ namespace Seasar.Framework.Beans.Impl
 	    /// setterメソッドを持っているかどうか返します。
 	    /// </summary>
 	    /// <returns>setterメソッドを持っているかどうか</returns>
-	    public bool HasWriteMethod()
+        public virtual bool HasWriteMethod()
 	    {
 	        return _propertyInfo.CanWrite;
 	    }
@@ -132,7 +132,7 @@ namespace Seasar.Framework.Beans.Impl
 	    /// <param name="target">target</param>
 	    /// <returns>プロパティの値</returns>
         /// <exception cref="IllegalPropertyRuntimeException">値の設定に失敗した場合。</exception>
-	    public object GetValue(object target)
+        public virtual object GetValue(object target)
 	    {
 	        try
 	        {
@@ -151,7 +151,7 @@ namespace Seasar.Framework.Beans.Impl
 	    /// <param name="target"></param>
 	    /// <param name="value"></param>
 	    /// <exception cref="IllegalPropertyRuntimeException">値の設定に失敗した場合。</exception>
-	    public void SetValue(object target, object value)
+        public virtual void SetValue(object target, object value)
 	    {
 	        try
 	        {

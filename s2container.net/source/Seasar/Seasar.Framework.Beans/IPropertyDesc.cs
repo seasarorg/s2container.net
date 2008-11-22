@@ -27,31 +27,31 @@ namespace Seasar.Framework.Beans
 	public interface IPropertyDesc
 	{
         /// <summary>
-        /// 元となるプロパティ
+        /// 元となるプロパティ情報
         /// </summary>
         PropertyInfo Property { get; }
 
-        /// <summary>
-        /// プロパティ名
-        /// </summary>
-        string Name { get; }
+	    /// <summary>
+	    /// プロパティ名
+	    /// </summary>
+	    string Name { get; }
 
-        /// <summary>
-        /// プロパティの型
-        /// </summary>
-        Type PropertyType { get; }
+	    /// <summary>
+	    /// プロパティの型
+	    /// </summary>
+	    Type PropertyType { get; }
 
-        /// <summary>
-        /// getterメソッド
-        /// </summary>
+	    /// <summary>
+	    /// getterメソッド
+	    /// </summary>
         /// <exception cref="MethodNotFoundRuntimeException"></exception>
-        IMethodDesc ReadMethod { get; }
+	    IMethodDesc ReadMethod { get; }
 
-        /// <summary>
-        /// setterメソッド
-        /// </summary>
+	    /// <summary>
+	    /// setterメソッド
+	    /// </summary>
         /// <exception cref="MethodNotFoundRuntimeException"></exception>
-        IMethodDesc WriteMethod { get; }
+	    IMethodDesc WriteMethod { get; }
 
         /// <summary>
         /// getterメソッドを持っているかどうか返します。
@@ -70,8 +70,8 @@ namespace Seasar.Framework.Beans
         /// </summary>
         /// <param name="target">target</param>
         /// <returns>プロパティの値</returns>
-        /// <exception cref="IllegalPropertyRuntimeException">値の取得に失敗した場合。</exception>
-        Object GetValue(Object target);
+        /// <exception cref="IllegalPropertyRuntimeException">値の設定に失敗した場合。</exception>
+        object GetValue(object target);
 
         /// <summary>
         /// プロパティに値を設定します。
@@ -79,6 +79,6 @@ namespace Seasar.Framework.Beans
         /// <param name="target"></param>
         /// <param name="value"></param>
         /// <exception cref="IllegalPropertyRuntimeException">値の設定に失敗した場合。</exception>
-        void SetValue(Object target, Object value);
+        void SetValue(object target, object value);
 	}
 }
