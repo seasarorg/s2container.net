@@ -511,6 +511,15 @@ internal class SSRMessages {
     }
     
     /// <summary>
+    ///   Can not configure field of {0}, because {1} に類似しているローカライズされた文字列を検索します。
+    /// </summary>
+    internal static string ESSR0076 {
+        get {
+            return ResourceManager.GetString("ESSR0076", resourceCulture);
+        }
+    }
+    
+    /// <summary>
     ///   Unable to commit, tx={0} に類似しているローカライズされた文字列を検索します。
     /// </summary>
     internal static string ESSR0303 {

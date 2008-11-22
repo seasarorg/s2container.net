@@ -1,4 +1,4 @@
-#region Copyright
+Ôªø#region Copyright
 /*
  * Copyright 2005-2008 the Seasar Foundation and the Others.
  *
@@ -23,32 +23,33 @@ using Seasar.Framework.Exceptions;
 namespace Seasar.Framework.Beans
 {
     /// <summary>
-    /// ÉvÉçÉpÉeÉBÇ™å©Ç¬Ç©ÇÁÇ»Ç¢Ç∆Ç´Ç…ìäÇ∞ÇÁÇÍÇÈó·äOÇ≈Ç∑
+    /// „Éï„Ç£„Éº„É´„ÉâÔºà„Ç§„É≥„Çπ„Çø„É≥„ÇπÂ§âÊï∞Ôºâ„ÅÆÂÄ§„ÅÆË®≠ÂÆö„Å´Â§±Êïó„Åó„Åü„Å®„Åç„Å´„Çπ„É≠„Éº„Åï„Çå„Çã‰æãÂ§ñ„Åß„Åô„ÄÇ
     /// </summary>
     [Serializable]
-    public class PropertyNotFoundRuntimeException : SRuntimeException
-    {
+    public class IllegalFieldRuntimeException : SRuntimeException
+	{
         private readonly Type _componentType;
-        private readonly string _propertyName;
+        private readonly string _fieldName;
 
-        public PropertyNotFoundRuntimeException(Type componentType, string propertyName)
-            : base("ESSR0065", new object[] { componentType.FullName, propertyName })
+        public IllegalFieldRuntimeException(
+            Type componentType, string fieldName, Exception cause)
+            : base("ESSR0076", new object[] { componentType.FullName, fieldName, cause }, cause)
         {
             _componentType = componentType;
-            _propertyName = propertyName;
+            _fieldName = fieldName;
         }
 
-        public PropertyNotFoundRuntimeException(SerializationInfo info, StreamingContext context)
+        public IllegalFieldRuntimeException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
             _componentType = info.GetValue("_componentType", typeof(Type)) as Type;
-            _propertyName = info.GetString("_propertyName");
+            _fieldName = info.GetString("_fieldName");
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("_componentType", _componentType, typeof(Type));
-            info.AddValue("_propertyName", _propertyName, typeof(string));
+            info.AddValue("_fieldName", _fieldName, typeof(string));
             base.GetObjectData(info, context);
         }
 
@@ -57,9 +58,9 @@ namespace Seasar.Framework.Beans
             get { return _componentType; }
         }
 
-        public string PropertyName
+        public string FieldName
         {
-            get { return _propertyName; }
+            get { return _fieldName; }
         }
-    }
+	}
 }

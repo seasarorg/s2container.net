@@ -120,5 +120,21 @@ namespace Seasar.Framework.Util
             }
             return argTypes;
         }
+
+        /// <summary>
+        /// Override‰Â”\‚©‚Ç‚¤‚©”»’è‚·‚é
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        public static bool CanOverride(MethodBase info)
+        {
+            if (info.DeclaringType.IsInterface ||
+                info.IsAbstract ||
+                info.IsVirtual)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }
