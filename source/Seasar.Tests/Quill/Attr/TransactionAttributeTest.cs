@@ -27,6 +27,8 @@ using Seasar.Quill.Database.Tx.Impl;
 using Seasar.Quill.Exception;
 using Seasar.Quill.Unit;
 using Seasar.Tests.Dao.Impl;
+using Seasar.Quill.Util;
+using Seasar.Quill.Database.DataSource.Impl;
 
 namespace Seasar.Tests.Quill.Attr
 {
@@ -144,6 +146,46 @@ namespace Seasar.Tests.Quill.Attr
                 }
             }
         }
+
+        [Test]
+        public void TestDataSourceNameChange_Class()
+        {
+            QuillContainer container = new QuillContainer();
+            IWithTxAttrDataSourceNameChange_Class actual =
+                (IWithTxAttrDataSourceNameChange_Class) ComponentUtil.GetComponent(
+                container, typeof (IWithTxAttrDataSourceNameChange_Class));
+            SelectableDataSourceProxyWithDictionary proxy =
+                (SelectableDataSourceProxyWithDictionary) ComponentUtil.GetComponent(
+                container,typeof (SelectableDataSourceProxyWithDictionary));
+            const string START_NAME = "Start";
+            proxy.SetDataSourceName(START_NAME);
+            Assert.AreEqual(START_NAME, proxy.GetDataSourceName(), "現在のデータソース名確認");
+
+            actual.GetEmployee();   //  データソースが変更されるInterceptorがかかっているはず
+
+            Assert.AreEqual(DataSourceNameChangeTxSetting.TEST_DATASOURCE_NAME,
+                proxy.GetDataSourceName(), "データソース名が切り替わっているはず");
+        }
+
+        [Test]
+        public void TestDataSourceNameChange_Method()
+        {
+            QuillContainer container = new QuillContainer();
+            IWithTxAttrDataSourceNameChange_Method actual =
+                (IWithTxAttrDataSourceNameChange_Method)ComponentUtil.GetComponent(
+                container, typeof(IWithTxAttrDataSourceNameChange_Method));
+            SelectableDataSourceProxyWithDictionary proxy =
+                (SelectableDataSourceProxyWithDictionary)ComponentUtil.GetComponent(
+                container, typeof(SelectableDataSourceProxyWithDictionary));
+            const string START_NAME = "Start";
+            proxy.SetDataSourceName(START_NAME);
+            Assert.AreEqual(START_NAME, proxy.GetDataSourceName(), "現在のデータソース名確認");
+
+            actual.GetEmployee();   //  データソースが変更されるInterceptorがかかっているはず
+
+            Assert.AreEqual(DataSourceNameChangeTxSetting.TEST_DATASOURCE_NAME,
+                proxy.GetDataSourceName(), "データソース名が切り替わっているはず");
+        }
     }
 
     [Transaction]
@@ -182,6 +224,24 @@ namespace Seasar.Tests.Quill.Attr
         Employee GetEmployee();
         int Insert(Employee emp);
         int Delete(Employee emp);
+    }
+
+    /// <summary>
+    /// データソース切替テスト用IF
+    /// </summary>
+    [Transaction(typeof(DataSourceNameChangeTxSetting))]
+    public interface IWithTxAttrDataSourceNameChange_Class
+    {
+        Employee GetEmployee();
+    }
+
+    /// <summary>
+    /// データソース切替テスト用IF
+    /// </summary> 
+    public interface IWithTxAttrDataSourceNameChange_Method
+    {
+        [Transaction(typeof(DataSourceNameChangeTxSetting))]
+        Employee GetEmployee();
     }
 
     public class TxLogicTestParent
@@ -238,6 +298,28 @@ namespace Seasar.Tests.Quill.Attr
 
     public class CustomTxSetting : AbstractTransactionSetting
     {
+        protected override void SetupTransaction(Seasar.Extension.ADO.IDataSource dataSource)
+        {
+            _transactionContext = new TransactionContext();
+            _transactionInterceptor = new DummyInterceptor();
+        }
+    }
+
+    /// <summary>
+    /// データソース変更テスト用
+    /// </summary>
+    public class DataSourceNameChangeTxSetting : AbstractTransactionSetting
+    {
+        public const string TEST_DATASOURCE_NAME = "ChangedDataSource";
+
+        public override string DataSourceName
+        {
+            get
+            {
+                return TEST_DATASOURCE_NAME;
+            }
+        }
+
         protected override void SetupTransaction(Seasar.Extension.ADO.IDataSource dataSource)
         {
             _transactionContext = new TransactionContext();
