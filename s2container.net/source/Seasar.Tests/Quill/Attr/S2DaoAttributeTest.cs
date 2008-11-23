@@ -25,8 +25,10 @@ using Seasar.Framework.Aop.Interceptors;
 using Seasar.Quill;
 using Seasar.Quill.Attrs;
 using Seasar.Quill.Dao.Impl;
+using Seasar.Quill.Database.DataSource.Impl;
 using Seasar.Quill.Exception;
 using Seasar.Quill.Unit;
+using Seasar.Quill.Util;
 using Seasar.Tests.Dao.Impl;
 
 namespace Seasar.Tests.Quill.Attr
@@ -99,6 +101,46 @@ namespace Seasar.Tests.Quill.Attr
             {
             }
         }
+
+        [Test]
+        public void TestDataSourceNameChange_Class()
+        {
+            QuillContainer container = new QuillContainer();
+            IWithS2DaoDataSourceNameChange_Class actual =
+                (IWithS2DaoDataSourceNameChange_Class)ComponentUtil.GetComponent(
+                container, typeof(IWithS2DaoDataSourceNameChange_Class));
+            SelectableDataSourceProxyWithDictionary proxy =
+                (SelectableDataSourceProxyWithDictionary)ComponentUtil.GetComponent(
+                container, typeof(SelectableDataSourceProxyWithDictionary));
+            const string START_NAME = "Start";
+            proxy.SetDataSourceName(START_NAME);
+            Assert.AreEqual(START_NAME, proxy.GetDataSourceName(), "現在のデータソース名確認");
+
+            actual.GetEmployee();   //  データソースが変更されるInterceptorがかかっているはず
+
+            Assert.AreEqual(DataSourceNameChangeTxSetting.TEST_DATASOURCE_NAME,
+                proxy.GetDataSourceName(), "データソース名が切り替わっているはず");
+        }
+
+        [Test]
+        public void TestDataSourceNameChange_Method()
+        {
+            QuillContainer container = new QuillContainer();
+            IWithS2DaoDataSourceNameChange_Method actual =
+                (IWithS2DaoDataSourceNameChange_Method)ComponentUtil.GetComponent(
+                container, typeof(IWithS2DaoDataSourceNameChange_Method));
+            SelectableDataSourceProxyWithDictionary proxy =
+                (SelectableDataSourceProxyWithDictionary)ComponentUtil.GetComponent(
+                container, typeof(SelectableDataSourceProxyWithDictionary));
+            const string START_NAME = "Start";
+            proxy.SetDataSourceName(START_NAME);
+            Assert.AreEqual(START_NAME, proxy.GetDataSourceName(), "現在のデータソース名確認");
+
+            actual.GetEmployee();   //  データソースが変更されるInterceptorがかかっているはず
+
+            Assert.AreEqual(DataSourceNameChangeTxSetting.TEST_DATASOURCE_NAME,
+                proxy.GetDataSourceName(), "データソース名が切り替わっているはず");
+        }
     }
 
     [S2Dao]
@@ -119,6 +161,20 @@ namespace Seasar.Tests.Quill.Attr
     public interface IWithS2DaoAttr2
     {
         string Hoge();
+    }
+
+    [S2Dao(typeof(DataSourceNameChangeDaoSetting))]
+    [Bean(typeof(Employee))]
+    public interface IWithS2DaoDataSourceNameChange_Class
+    {
+        object GetEmployee();
+    }
+
+    [Bean(typeof(Employee))]
+    public interface IWithS2DaoDataSourceNameChange_Method
+    {
+        [S2Dao(typeof(DataSourceNameChangeDaoSetting))]
+        object GetEmployee();
     }
 
     [Bean(typeof(Employee))]
@@ -147,18 +203,30 @@ namespace Seasar.Tests.Quill.Attr
                 return new TestInterceptor();
             }
         }
+
+        protected override void SetupDao(IDataSource dataSource)
+        {
+            Console.WriteLine("Setup is called.");
+            base.SetupDao(dataSource);
+        }
+    }
+
+    public class DataSourceNameChangeDaoSetting : AbstractDaoSetting
+    {
+        public const string TEST_DATASOURCE_NAME = "ChangedDataSource";
+
         public override string DataSourceName
         {
             get
             {
-                return "Hoge1";
+                return TEST_DATASOURCE_NAME;
             }
         }
 
         protected override void SetupDao(IDataSource dataSource)
         {
             Console.WriteLine("Setup is called.");
-            base.SetupDao(dataSource);
+            _daoInterceptor = new TestInterceptor();
         }
     }
 
