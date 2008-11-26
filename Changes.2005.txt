@@ -1,4 +1,18 @@
-﻿S2Container.NET 1.3.12
+﻿S2Container.NET 1.3.13
+2008/11/26
+** Improvement
+	* [CONTAINERNET-101] - Quillの設定で必要なクラスがない場合、明示的な情報（固有の例外など）を出力するようにする
+** Bug
+	* [CONTAINERNET-104] - トランザクションを設定するとデータソースを切り替えての接続に失敗する。
+** Task
+	* [CONTAINERNET-103] - BeanDescをJava版から移植する
+	
+S2Dao.NET 1.3.13
+2008/11/26
+** Bug
+	* [DAONET-79] - "OleDb"でSQL　serverに接続、SQL ServerのIDENTITY列(ID列と略記)をプライマリキーに指定しているテーブルがある場合は、DBに登録してエラーが発生する
+	
+S2Container.NET 1.3.12
 2008/10/13
 ** Improvement
 	* [CONTAINERNET-100] - 最小構成の場合は設定ファイルなしでQuillを利用できるようにする
