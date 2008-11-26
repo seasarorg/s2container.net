@@ -77,5 +77,16 @@ namespace Seasar.Framework.Util
             return false;
         }
 
+        /// <summary>
+        /// Nullable型かどうか判定
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static bool IsNullable(Type type)
+        {
+            return (type.IsGenericType &&
+                    type.GetGenericTypeDefinition().Equals(typeof(Nullable<>)));
+        }
+            
 	}
 }

@@ -19,6 +19,7 @@
 using System;
 using System.Data;
 using System.Reflection;
+using Seasar.Framework.Container.Factory;
 using Seasar.Framework.Util;
 
 namespace Seasar.Extension.ADO.Impl
@@ -175,7 +176,12 @@ namespace Seasar.Extension.ADO.Impl
 
         private static Type ForName(string name)
         {
-            return ClassUtil.ForName(name, AppDomain.CurrentDomain.GetAssemblies());
+            Type retType = ClassUtil.ForName(name, AppDomain.CurrentDomain.GetAssemblies());
+            if(retType == null)
+            {
+                throw new ClassNotFoundRuntimeException(name);
+            }
+            return retType;
         }
     }
 }

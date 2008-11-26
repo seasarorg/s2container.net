@@ -131,6 +131,14 @@ namespace Seasar.Quill
             TransactionAttribute txAttrByType = AttributeUtil.GetTransactionAttr(targetType);
             if (txAttrByType != null)
             {
+                //  データソース選択Interceptorが定義されている場合は
+                //  先にAspectを登録
+                IAspect dataSourceSelctAspect = GetDataSourceSelectAspect(txAttrByType, targetType);
+                if (dataSourceSelctAspect != null)
+                {
+                    aspectList.Add(dataSourceSelctAspect);
+                }
+
                 IAspect txAspect = CreateTxAspect(txAttrByType);
                 if (txAspect != null)
                 {
@@ -219,10 +227,48 @@ namespace Seasar.Quill
         }
 
         /// <summary>
+        /// データソース選択Interceptorの取得
+        /// </summary>
+        /// <param name="txAttr">S2Dao属性</param>
+        /// <param name="targetMember">Interceptorをかける対象</param>
+        /// <returns>データソース選択Interceptor</returns>
+        protected virtual IMethodInterceptor GetDataSourceSelectInterceptor(TransactionAttribute txAttr,
+            MemberInfo targetMember)
+        {
+            DataSourceSelectInterceptor dsInterceptor = null;
+            Type txSettingType = txAttr.TransactionSettingType;
+            if (txSettingType != null)
+            {
+                ITransactionSetting txSetting = (ITransactionSetting)ComponentUtil.GetComponent(container, txSettingType);
+
+                string dataSourceName = txSetting.DataSourceName;
+                //  データソース名が定義されていればInterceptorを作って返す
+                if (string.IsNullOrEmpty(dataSourceName) == false)
+                {
+                    dsInterceptor = (DataSourceSelectInterceptor)ComponentUtil.GetComponent(
+                        container, typeof(DataSourceSelectInterceptor));
+
+                    // メンバとデータソース名を対応付ける
+                    dsInterceptor.DaoDataSourceMap[targetMember] = dataSourceName;
+
+                    //  データソースが未設定の場合はセットする
+                    if (dsInterceptor.DataSourceProxy == null)
+                    {
+                        SelectableDataSourceProxyWithDictionary ds =
+                            (SelectableDataSourceProxyWithDictionary)ComponentUtil.GetComponent(
+                            container, typeof(SelectableDataSourceProxyWithDictionary));
+                        dsInterceptor.DataSourceProxy = ds;
+                    }
+                }
+            }
+            return dsInterceptor;
+        }
+
+        /// <summary>
         /// データソース選択Aspectの取得
         /// </summary>
         /// <param name="daoAttr">S2Dao属性</param>
-        /// <param name="targetType">Aspectをかける対象</param>
+        /// <param name="targetMember">Aspectをかける対象</param>
         /// <returns>データソース選択Aspect</returns>
         protected virtual IAspect GetDataSourceSelectAspect(S2DaoAttribute daoAttr, MemberInfo targetMember)
         {
@@ -231,6 +277,25 @@ namespace Seasar.Quill
 
             IAspect dataSourceSelectAspect = null;
             if(dataSourceSelectInterceptor != null)
+            {
+                dataSourceSelectAspect = new AspectImpl(dataSourceSelectInterceptor);
+            }
+            return dataSourceSelectAspect;
+        }
+
+        /// <summary>
+        /// データソース選択Aspectの取得
+        /// </summary>
+        /// <param name="txAttr">S2Dao属性</param>
+        /// <param name="targetMember">Aspectをかける対象</param>
+        /// <returns>データソース選択Aspect</returns>
+        protected virtual IAspect GetDataSourceSelectAspect(TransactionAttribute txAttr, MemberInfo targetMember)
+        {
+            IMethodInterceptor dataSourceSelectInterceptor = GetDataSourceSelectInterceptor(
+                txAttr, targetMember);
+
+            IAspect dataSourceSelectAspect = null;
+            if (dataSourceSelectInterceptor != null)
             {
                 dataSourceSelectAspect = new AspectImpl(dataSourceSelectInterceptor);
             }
@@ -317,6 +382,9 @@ namespace Seasar.Quill
         /// <returns>適用するAspectのリスト</returns>
         protected virtual IAspect[] CreateTxAspectList(MethodInfo[] methods)
         {
+            // データソース選択Interceptor適用メソッド名コレクション
+            IDictionary<IMethodInterceptor, List<string>> dataSourceSelectMethodNames =
+                new Dictionary<IMethodInterceptor, List<string>>();
             IDictionary<IMethodInterceptor, List<string>> methodNames =
                 new Dictionary<IMethodInterceptor, List<string>>();
             foreach ( MethodInfo method in methods )
@@ -324,12 +392,24 @@ namespace Seasar.Quill
                 TransactionAttribute txAttr = AttributeUtil.GetTransactionAttrByMethod(method);
                 if ( txAttr != null )
                 {
+                    AddMethodNamesForDataSourceSelectPointcut(dataSourceSelectMethodNames, method, txAttr);
                     AddMethodNamesForTxPointcut(methodNames, method.Name, txAttr);
                 }
             }
 
             // Aspectのリスト
             List<IAspect> txList = new List<IAspect>();
+
+            //  データソース選択Interceptorは先に登録
+            foreach (IMethodInterceptor dataSourceSelectInterceptor in dataSourceSelectMethodNames.Keys)
+            {
+                // Interceptorとメソッド名の配列からAspectを作成する
+                IAspect dataSourceSelectAspect = CreateAspect(dataSourceSelectInterceptor,
+                    dataSourceSelectMethodNames[dataSourceSelectInterceptor].ToArray());
+
+                // Aspectのリストに追加する
+                txList.Add(dataSourceSelectAspect);
+            }
 
             // Interceptorの件数分、Aspectを作成する
             foreach ( IMethodInterceptor interceptor in methodNames.Keys )
@@ -521,6 +601,33 @@ namespace Seasar.Quill
             //  データソース選択Interceptorの取得
             IMethodInterceptor dataSourceSelectInterceptor =
                 GetDataSourceSelectInterceptor(daoAttr, method);
+
+            if (dataSourceSelectInterceptor != null)
+            {
+                if (!methodNames.ContainsKey(dataSourceSelectInterceptor))
+                {
+                    // 始めてのInterceptorの場合はstringのリストを初期化する
+                    methodNames.Add(dataSourceSelectInterceptor, new List<string>());
+                }
+                methodNames[dataSourceSelectInterceptor].Add(method.Name);
+            }
+        }
+
+        /// <summary>
+        /// S2Dao属性のデータソース名定義を確認してPointcutを作成する為のメソッド名を追加する
+        /// </summary>
+        /// <param name="methodNames">
+        /// Interceptor毎にpointcutとなるメソッド名を格納したコレクション
+        /// </param>
+        /// <param name="method">Aspectを適用するメソッド情報</param>
+        /// <param name="txAttr">S2Dao属性</param>
+        protected void AddMethodNamesForDataSourceSelectPointcut(
+            IDictionary<IMethodInterceptor, List<string>> methodNames,
+            MethodInfo method, TransactionAttribute txAttr)
+        {
+            //  データソース選択Interceptorの取得
+            IMethodInterceptor dataSourceSelectInterceptor =
+                GetDataSourceSelectInterceptor(txAttr, method);
 
             if (dataSourceSelectInterceptor != null)
             {

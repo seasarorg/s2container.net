@@ -22,36 +22,39 @@ using Seasar.Framework.Exceptions;
 
 namespace Seasar.Framework.Beans
 {
+    /// <summary>
+    /// プロパティが見つからないときに投げられる例外です
+    /// </summary>
     [Serializable]
     public class PropertyNotFoundRuntimeException : SRuntimeException
     {
-        private readonly Type _targetType;
+        private readonly Type _componentType;
         private readonly string _propertyName;
 
         public PropertyNotFoundRuntimeException(Type componentType, string propertyName)
             : base("ESSR0065", new object[] { componentType.FullName, propertyName })
         {
-            _targetType = componentType;
+            _componentType = componentType;
             _propertyName = propertyName;
         }
 
         public PropertyNotFoundRuntimeException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            _targetType = info.GetValue("_targetType", typeof(Type)) as Type;
+            _componentType = info.GetValue("_componentType", typeof(Type)) as Type;
             _propertyName = info.GetString("_propertyName");
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("_targetType", _targetType, typeof(Type));
+            info.AddValue("_componentType", _componentType, typeof(Type));
             info.AddValue("_propertyName", _propertyName, typeof(string));
             base.GetObjectData(info, context);
         }
 
-        public Type TargetType
+        public Type ComponentType
         {
-            get { return _targetType; }
+            get { return _componentType; }
         }
 
         public string PropertyName

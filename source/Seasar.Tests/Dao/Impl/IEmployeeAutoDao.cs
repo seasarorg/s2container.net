@@ -24,6 +24,9 @@ namespace Seasar.Tests.Dao.Impl
     [Bean(typeof(Employee))]
     public interface IEmployeeAutoDao
     {
+        [Query("/*BEGIN*/WHERE /*IF deptName != null*/Department.DNAME = /*deptName*/'hoge'/*END*//*END*/")]
+        IList GetEmployeeByDeptName(string deptName);
+
         [Query("deptno=/*deptno*/")]
         IList GetEmployeeByDeptno(int deptno);
 

@@ -24,6 +24,16 @@ using Seasar.Quill.Database.Tx;
 using Seasar.Quill.Database.Tx.Impl;
 using Seasar.Quill.Exception;
 using Seasar.Quill.Xml;
+using Seasar.Extension.ADO;
+using System.Collections.Generic;
+using Seasar.Framework.Container.Factory;
+using System.Text.RegularExpressions;
+using System.Configuration;
+using Seasar.Extension.Tx.Impl;
+using System.Reflection;
+using Seasar.Quill.Database.DataSource.Connection;
+using System.Text;
+using System.IO;
 
 namespace Seasar.Quill.Util
 {
@@ -32,59 +42,116 @@ namespace Seasar.Quill.Util
     /// </summary>
     public class SettingUtil
     {
+        //private const string DEFALT_DATASOURCE_NAME = "DataSource";
+
+        ///// <summary>
+        ///// 文字列("で囲まれているか)判定するための正規表現
+        ///// </summary>
+        //private static readonly Regex _regexIsString = new Regex("^\".*\"$");
+
+        ///// <summary>
+        ///// Dao設定クラスの型を取得する
+        ///// </summary>
+        ///// <returns></returns>
+        //public static Type GetDaoSettingType()
+        //{
+        //    Type retType;
+        //    QuillSection section = QuillSectionHandler.GetQuillSection();
+        //    if (section == null || string.IsNullOrEmpty(section.DaoSetting))
+        //    {
+        //        //  設定がない場合は既定のDao設定を使う
+        //        retType = GetDefaultDaoSettingType();
+        //    }
+        //    else
+        //    {
+        //        string typeName = section.DaoSetting;
+        //        if (TypeUtil.HasNamespace(typeName) == false)
+        //        {
+        //            //  名前空間の指定がなければ既定の名前空間を使う
+        //            typeName = string.Format("{0}.{1}",
+        //                QuillConstants.NAMESPACE_DAOSETTING, typeName);
+        //        }
+        //        retType = ClassUtil.ForName(typeName);
+        //    }
+        //    return retType;
+        //}
+
+        ///// <summary>
+        ///// Transaction設定クラスの型を取得する
+        ///// </summary>
+        ///// <returns></returns>
+        //public static Type GetTransationSettingType()
+        //{
+        //    Type retType;
+        //    QuillSection section = QuillSectionHandler.GetQuillSection();
+        //    if (section == null || string.IsNullOrEmpty(section.TransactionSetting))
+        //    {
+        //        //  属性引数による指定もapp.configにも設定がなければ
+        //        //  デフォルトのトランザクション設定を使う
+        //        retType = GetDefaultTransactionType();
+        //    }
+        //    else
+        //    {
+        //        //  トランザクション設定クラスが設定ファイルで指定されていればそちらを使う
+        //        string typeName = section.TransactionSetting;
+        //        if (TypeUtil.HasNamespace(typeName) == false)
+        //        {
+        //            //  名前空間なしの場合は既定の名前空間から
+        //            typeName = string.Format("{0}.{1}",
+        //                QuillConstants.NAMESPACE_TXSETTING, typeName);
+        //        }
+        //        retType = ClassUtil.ForName(typeName);
+        //        if (retType == null)
+        //        {
+        //            throw new ClassNotFoundRuntimeException(typeName);
+        //        }
+
+        //        ValidateTransactionSettingType(retType);
+        //    }
+        //    return retType;
+        //}
+
         /// <summary>
-        /// Dao設定クラスの型を取得する
+        /// 実行中のSeasar.Quill.dllが置いてあるディレクトリのパスを取得する
         /// </summary>
         /// <returns></returns>
-        public static Type GetDaoSettingType()
+        public static string GetAssemblyDirectoryPath()
         {
-            Type retType;
-            QuillSection section = QuillSectionHandler.GetQuillSection();
-            if (section == null || string.IsNullOrEmpty(section.DaoSetting))
-            {
-                //  設定がない場合は既定のDao設定を使う
-                retType = GetDefaultDaoSettingType();
-            }
-            else
-            {
-                string typeName = section.DaoSetting;
-                if (TypeUtil.HasNamespace(typeName) == false)
-                {
-                    //  名前空間の指定がなければ既定の名前空間を使う
-                    typeName = string.Format("{0}.{1}",
-                        QuillConstants.NAMESPACE_DAOSETTING, typeName);
-                }
-                retType = ClassUtil.ForName(typeName);
-            }
-            return retType;
+            Assembly assembly = Assembly.GetExecutingAssembly();
+
+            StringBuilder builder = new StringBuilder();
+            builder.Append(assembly.CodeBase);
+            //  アドレス表記を削除
+            builder.Replace("file:///", "");
+            builder.Replace(assembly.GetName().Name + ".DLL", "");
+            //  ディレクトリパスのみ取り出す
+            string retPath = Path.GetDirectoryName(builder.ToString());
+            return retPath + Path.DirectorySeparatorChar.ToString();
         }
 
         /// <summary>
-        /// Transaction設定クラスの型を取得する
+        /// 出力ディレクトリを含むQuill設定ファイルのパスを返す
+        /// </summary>
+        /// <param name="configFileName"></param>
+        /// <returns></returns>
+        public static string GetQuillConfigPath(string configFileName)
+        {
+            StringBuilder builder = new StringBuilder(GetAssemblyDirectoryPath());
+            builder.Append(configFileName);
+            return builder.ToString();
+        }
+
+        /// <summary>
+        /// 既定のQuill設定ファイルパスを取得する
         /// </summary>
         /// <returns></returns>
-        public static Type GetTransationSettingType()
+        public static string GetDefaultQuillConfigPath()
         {
-            Type retType;
-            QuillSection section = QuillSectionHandler.GetQuillSection();
-            if (section == null || string.IsNullOrEmpty(section.TransactionSetting))
-            {
-                //  属性引数による指定もapp.configにも設定がなければ
-                //  デフォルトのトランザクション設定を使う
-                retType = GetDefaultTransactionType();
-            }
-            else
-            {
-                string typeName = section.TransactionSetting;
-                if (TypeUtil.HasNamespace(typeName) == false)
-                {
-                    //  名前空間なしの場合は既定の名前空間から
-                    typeName = string.Format("{0}.{1}",
-                        QuillConstants.NAMESPACE_TXSETTING, typeName);
-                }
-                retType = ClassUtil.ForName(typeName);
-            }
-            return retType;
+            StringBuilder builder = new StringBuilder();
+            builder.Append(GetAssemblyDirectoryPath());
+            builder.Append(Assembly.GetExecutingAssembly().GetName().Name);
+            builder.Append(".dll.config");
+            return builder.ToString();
         }
 
         /// <summary>

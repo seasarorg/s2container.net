@@ -28,7 +28,9 @@ namespace Seasar.Quill.Exception
         /// <param name="componentType">指定された型(not null)</param>
         /// <param name="needType">実際に必要な型(not null)</param>
         public QuillInvalidClassException(Type componentType, Type needType) : base(
-            "EQLL0027", new object[] { componentType.Name, needType.Name })
+            "EQLL0027", new object[] { 
+                componentType == null? "null" : componentType.Name,
+                needType == null? "null" : needType.Name })
         {
         }
 

@@ -207,4 +207,61 @@
   <data name="EQLL0028" xml:space="preserve">
     <value>ITransactionSetting実装クラス({0})内でTransactionContextの設定がおこなわれていません。</value>
   </data>
+  <data name="EQLL0029" xml:space="preserve">
+    <value>Quill設定情報が初期化されていません。</value>
+  </data>
+  <data name="IQLL0003" xml:space="preserve">
+    <value>Quill設定ファイル(ある=true,なし=false)：{0}</value>
+  </data>
+  <data name="IQLL0004" xml:space="preserve">
+    <value>Quill設定ファイルパス：{0}</value>
+  </data>
+  <data name="EQLL0030" xml:space="preserve">
+    <value>データソースクラス名が指定されていません。&lt;dataSource&gt;セクション中の&lt;class&gt;の設定をご確認下さい。</value>
+  </data>
+  <data name="EQLL0031" xml:space="preserve">
+    <value>プロバイダ名が指定されていません。&lt;dataSource&gt;セクション中の&lt;provider&gt;の設定を確認し、http://s2container.net.seasar.org/ja/quill.html#nodicon_config　で挙げられているプロバイダ名を指定して下さい。</value>
+  </data>
+  <data name="EQLL0032" xml:space="preserve">
+    <value>プロバイダ名({0})に誤りがあります。&lt;dataSource&gt;セクション中の&lt;provider&gt;の設定を確認し、http://s2container.net.seasar.org/ja/quill.html#nodicon_config　で挙げられているプロバイダ名を指定して下さい。</value>
+  </data>
+  <data name="EQLL0033" xml:space="preserve">
+    <value>接続文字列の設定がありません。&lt;dataSource&gt;セクション中の&lt;connectionString&gt;の設定をご確認下さい。</value>
+  </data>
+  <data name="EQLL0034" xml:space="preserve">
+    <value>Dao設定クラス(DaoSetting)の型({0})を取得できません。クラス名に誤りがないかご確認下さい。</value>
+  </data>
+  <data name="EQLL0035" xml:space="preserve">
+    <value>Transaction設定クラス(TransactionSetting)の型({0})を取得できません。クラス名に誤りがないかご確認下さい。</value>
+  </data>
+  <data name="EQLL0036" xml:space="preserve">
+    <value>コンポーネント[{0}]のインスタンス生成中に失敗しました。コンストラクタ内の処理、アクセス修飾子などをご確認下さい。</value>
+  </data>
+  <data name="EQLL0037" xml:space="preserve">
+    <value>プロキシオブジェクト({0})の生成に失敗しました。コンストラクタ内の処理、アクセス修飾子、インターセプターを設定しているメソッドがインターフェースor virtualになっているか、Castle.DynamicProxy.dllがSeasar.Quill.dllと同じ場所にあるか等をご確認下さい。</value>
+  </data>
+  <data name="IQLL0005" xml:space="preserve">
+    <value>追加アセンブリはありません。</value>
+  </data>
+  <data name="IQLL0006" xml:space="preserve">
+    <value>アセンブリ({0})がロードされました。</value>
+  </data>
+  <data name="IQLL0007" xml:space="preserve">
+    <value>Quill設定ファイルの設定を使用してデータソースを生成します。</value>
+  </data>
+  <data name="IQLL0008" xml:space="preserve">
+    <value>app.configのConnectionStringセクションの設定を使用してデータソースを生成します。</value>
+  </data>
+  <data name="IQLL0009" xml:space="preserve">
+    <value>S2Containerに「DataSource」という名称で登録されているデータソースを使用します。</value>
+  </data>
+  <data name="IQLL0010" xml:space="preserve">
+    <value>S2Containerのコンポーネントをデータソースとして使用します。</value>
+  </data>
+  <data name="IQLL0011" xml:space="preserve">
+    <value>データソースの設定はありません。</value>
+  </data>
+  <data name="EQLL0038" xml:space="preserve">
+    <value>データソースが設定されていません。</value>
+  </data>
 </root>

@@ -44,7 +44,8 @@ namespace Seasar.Quill.Attrs
         /// </summary>
         public TransactionAttribute()
         {
-            _transactionSettingType = SettingUtil.GetTransationSettingType();
+            QuillConfig config = QuillConfig.GetInstance();
+            _transactionSettingType = config.GetTransationSettingType();
             SettingUtil.ValidateTransactionSettingType(_transactionSettingType);
         }
 
@@ -53,7 +54,7 @@ namespace Seasar.Quill.Attrs
         /// (指定した設定を使います)
         /// (ITransactionSettingクラスではない場合実行時例外を投げます）
         /// </summary>
-        /// <param name="handlerType"></param>
+        /// <param name="settingType"></param>
         public TransactionAttribute(Type settingType)
         {
             SettingUtil.ValidateTransactionSettingType(settingType);

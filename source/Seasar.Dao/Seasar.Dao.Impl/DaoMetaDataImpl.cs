@@ -18,7 +18,6 @@
 
 using System;
 using System.Collections;
-using System.Data;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -29,7 +28,6 @@ using Seasar.Extension.ADO.Impl;
 using Seasar.Extension.ADO.Types;
 using Seasar.Framework.Beans;
 using Seasar.Framework.Util;
-using System.Collections.Generic;
 
 namespace Seasar.Dao.Impl
 {
@@ -41,7 +39,13 @@ namespace Seasar.Dao.Impl
         private static readonly Regex _startWithBeginCommentPattern =
             new Regex(@"/\*BEGIN\*/\s*WHERE .+", RegexOptions.IgnoreCase);
 
+        private static readonly Regex _withBeginCommentToReplaceANDPattern =
+            new Regex(@"/\*BEGIN\*/\s*WHERE", RegexOptions.IgnoreCase);
+
         private const string NOT_SINGLE_ROW_UPDATED = "NotSingleRowUpdated";
+
+        private const string BEGIN_WHERE = @"/*BEGIN*/WHERE";
+        private const string BEGIN_AND = @"/*BEGIN*/AND";
 
         protected string[] _insertPrefixes = new string[] { "Insert", "Create", "Add" };
         protected string[] _updatePrefixes = new string[] { "Update", "Modify", "Store" };
@@ -56,6 +60,7 @@ namespace Seasar.Dao.Impl
         protected IDaoAnnotationReader _annotationReader;
         protected ICommandFactory _commandFactory;
         protected IDataReaderFactory _dataReaderFactory;
+        protected IDataReaderHandlerFactory _dataReaderHandlerFactory;
         protected string _sqlFileEncoding = Encoding.Default.WebName;
         protected IDbms _dbms;
         protected Type _beanType;
@@ -120,7 +125,7 @@ namespace Seasar.Dao.Impl
             {
                 try
                 {
-                    MethodInfo method = _daoType.GetMethod((string) enu.Key);
+                    MethodInfo method = _daoType.GetMethod((string)enu.Key);
                     if (method.IsAbstract) SetupMethod(method);
                 }
                 catch (AmbiguousMatchException) { }
@@ -261,6 +266,7 @@ namespace Seasar.Dao.Impl
         {
             SelectDynamicCommand cmd = CreateSelectDynamicCommand(dataReaderHandler);
             StringBuilder buf = new StringBuilder(255);
+            bool isBaseSqlIncludeWhereClause = false;
             if (StartsWithSelect(query))
             {
                 buf.Append(query);
@@ -289,8 +295,17 @@ namespace Seasar.Dao.Impl
                     }
                     buf.Append(query);
                 }
+
+                isBaseSqlIncludeWhereClause = IsIncludeWhereClause(sql);
             }
-            cmd.Sql = buf.ToString();
+
+            string cmdSql = buf.ToString();
+            //  外部結合の記述がFROM句ではなくWHERE句に書かれている場合
+            if (isBaseSqlIncludeWhereClause)
+            {
+                cmdSql = _withBeginCommentToReplaceANDPattern.Replace(cmdSql, BEGIN_AND);
+            }
+            cmd.Sql = cmdSql;
             return cmd;
         }
 
@@ -325,6 +340,18 @@ namespace Seasar.Dao.Impl
         protected virtual AbstractSqlCommand CreateInsertAutoDynamicCommand(MethodInfo methodInfo, IDataSource dataSource, ICommandFactory commandFactory, IBeanMetaData beanMetaData, string[] propertyNames)
         {
             return new InsertAutoDynamicCommand(dataSource, commandFactory, beanMetaData, propertyNames);
+        }
+
+        protected static bool IsIncludeWhereClause(string sql)
+        {
+            if (sql != null)
+            {
+                if (sql.ToUpper().Contains(" WHERE "))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         protected static bool StartsWithBeginComment(string query)
@@ -365,123 +392,70 @@ namespace Seasar.Dao.Impl
 
         protected virtual IDataReaderHandler CreateDataReaderHandler(MethodInfo mi, IBeanMetaData bmd)
         {
-            Type retType = mi.ReturnType;
-
-            if ( typeof(DataSet).IsAssignableFrom(retType) )
-            {
-                return CreateBeanDataSetMetaDataDataReaderHandler(bmd, retType);
-            }
-            else if ( typeof(DataTable).IsAssignableFrom(retType) )
-            {
-                return CreateBeanDataTableMetaDataDataReaderHandler(bmd, retType);
-            }
-            else if ( retType.IsArray )
-            {
-                // [DAONET-76] (2008/05/05)
-                Type elementType = retType.GetElementType();
-                if (AssignTypeUtil.IsSimpleType(elementType))
-                {
-                    return CreateObjectArrayDataReaderHandler(elementType);
-                }
-                else
-                {
-                    return CreateBeanArrayMetaDataDataReaderHandler(bmd);
-                }
-            }
-            else if (AssignTypeUtil.IsList(retType))
-            {
-                // [DAONET-76] (2008/05/05)
-                if (AssignTypeUtil.IsSimpleType(BeanType))
-                {
-                    return CreateObjectListDataReaderHandler();
-                }
-                else
-                {
-                    return CreateBeanListMetaDataDataReaderHandler(bmd);
-                }
-            }
-            else if ( IsBeanTypeAssignable(retType) )
-            {
-                return CreateBeanMetaDataDataReaderHandler(bmd);
-            }
-            else if (AssignTypeUtil.IsGenericList(retType))
-            {
-                // [DAONET-76] (2008/05/05)
-                Type elementType = retType.GetGenericArguments()[0];
-                if (AssignTypeUtil.IsSimpleType(elementType))
-                {
-                    return CreateObjectGenericListDataReaderHandler(elementType);
-                }
-                else
-                {
-                    return CreateBeanGenericListMetaDataDataReaderHandler(bmd);
-                }
-            }
-            else
-            {
-                return CreateObjectDataReaderHandler();
-            }
+            return _dataReaderHandlerFactory.GetResultSetHandler(_beanType, bmd, mi);
         }
 
         // [DAONET-76] (2008/05/05)
+        [Obsolete("IDataReaderHandlerFactory.GetResultSetHandler()に移行。")]
         protected virtual ObjectGenericListDataReaderHandler CreateObjectGenericListDataReaderHandler(Type elementType)
         {
             return new ObjectGenericListDataReaderHandler(elementType);
         }
 
         // [DAONET-76] (2008/05/05)
+        [Obsolete("IDataReaderHandlerFactory.GetResultSetHandler()に移行。")]
         protected virtual ObjectListDataReaderHandler CreateObjectListDataReaderHandler()
         {
             return new ObjectListDataReaderHandler();
         }
 
         // [DAONET-76] (2008/05/05)
+        [Obsolete("IDataReaderHandlerFactory.GetResultSetHandler()に移行。")]
         protected virtual ObjectArrayDataReaderHandler CreateObjectArrayDataReaderHandler(Type elementType)
         {
             return new ObjectArrayDataReaderHandler(elementType);
         }
 
+        [Obsolete("IDataReaderHandlerFactory.GetResultSetHandler()に移行。")]
         protected virtual BeanDataSetMetaDataDataReaderHandler CreateBeanDataSetMetaDataDataReaderHandler(IBeanMetaData bmd, Type returnType)
         {
             return new BeanDataSetMetaDataDataReaderHandler(returnType);
         }
 
+        [Obsolete("IDataReaderHandlerFactory.GetResultSetHandler()に移行。")]
         protected virtual BeanDataTableMetaDataDataReaderHandler CreateBeanDataTableMetaDataDataReaderHandler(IBeanMetaData bmd, Type returnType)
         {
             return new BeanDataTableMetaDataDataReaderHandler(returnType);
         }
 
+        [Obsolete("IDataReaderHandlerFactory.GetResultSetHandler()に移行。")]
         protected virtual BeanListMetaDataDataReaderHandler CreateBeanListMetaDataDataReaderHandler(IBeanMetaData bmd)
         {
             return new BeanListMetaDataDataReaderHandler(bmd, CreateRowCreator(), CreateRelationRowCreator());
         }
 
+        [Obsolete("IDataReaderHandlerFactory.GetResultSetHandler()に移行。")]
         protected virtual BeanMetaDataDataReaderHandler CreateBeanMetaDataDataReaderHandler(IBeanMetaData bmd)
         {
             return new BeanMetaDataDataReaderHandler(bmd, CreateRowCreator(), CreateRelationRowCreator());
         }
 
+        [Obsolete("IDataReaderHandlerFactory.GetResultSetHandler()に移行。")]
         protected virtual BeanArrayMetaDataDataReaderHandler CreateBeanArrayMetaDataDataReaderHandler(IBeanMetaData bmd)
         {
             return new BeanArrayMetaDataDataReaderHandler(bmd, CreateRowCreator(), CreateRelationRowCreator());
         }
 
+        [Obsolete("IDataReaderHandlerFactory.GetResultSetHandler()に移行。")]
         protected virtual BeanGenericListMetaDataDataReaderHandler CreateBeanGenericListMetaDataDataReaderHandler(IBeanMetaData bmd)
         {
             return new BeanGenericListMetaDataDataReaderHandler(bmd, CreateRowCreator(), CreateRelationRowCreator());
         }
 
+        [Obsolete("IDataReaderHandlerFactory.GetResultSetHandler()に移行。")]
         protected virtual ObjectDataReaderHandler CreateObjectDataReaderHandler()
         {
             return new ObjectDataReaderHandler();
-        }
-
-        protected virtual IRowCreator CreateRowCreator() {// [DAONET-56] (2007/08/29)
-            return new RowCreatorImpl();
-        }
-
-        protected virtual IRelationRowCreator CreateRelationRowCreator() {// [DAONET-56] (2007/08/29)
-            return new RelationRowCreatorImpl();
         }
 
         protected virtual bool IsBeanTypeAssignable(Type type)
@@ -514,14 +488,14 @@ namespace Seasar.Dao.Impl
             CheckAutoUpdateMethod(mi);
             string[] propertyNames = GetPersistentPropertyNames(mi.Name);
             ISqlCommand cmd;
-            if ( IsUpdateSignatureForBean(mi) )
+            if (IsUpdateSignatureForBean(mi))
             {
                 //  [DAONET-3]
                 //  nullのプロパティをINSERTの対象に含めない
                 //  Java版と合わせる為、InsertAutoStaticCommandは使用しません。
                 //cmd = CreateInsertAutoStaticCommand(mi, _dataSource, _commandFactory, _beanMetaData, propertyNames);
                 cmd = CreateInsertAutoDynamicCommand(mi, _dataSource, _commandFactory, _beanMetaData, propertyNames);
-            } 
+            }
             else
             {
                 throw new NotSupportedException("InsertBatchAutoStaticCommand");
@@ -534,21 +508,21 @@ namespace Seasar.Dao.Impl
             CheckAutoUpdateMethod(mi);
             string[] propertyNames = GetPersistentPropertyNames(mi.Name);
             AbstractSqlCommand cmd;
-            if ( IsUpdateSignatureForBean(mi) )
+            if (IsUpdateSignatureForBean(mi))
             {
-                if ( IsUnlessNull(mi.Name) )
+                if (IsUnlessNull(mi.Name))
                 {
                     cmd = CreateUpdateAutoDynamicCommand(mi, _dataSource, _commandFactory, _beanMetaData, propertyNames);
-                } 
-                else if ( IsModifiedOnly(mi.Name) )
+                }
+                else if (IsModifiedOnly(mi.Name))
                 {
                     cmd = CreateUpdateModifiedOnlyCommand(mi, _dataSource, _commandFactory, _beanMetaData, propertyNames);
-                } 
+                }
                 else
                 {
                     cmd = CreateUpdateAutoStaticCommand(mi, _dataSource, _commandFactory, _beanMetaData, propertyNames);
                 }
-            } 
+            }
             else
             {
                 throw new NotSupportedException("UpdateBatchAutoStaticCommand");
@@ -562,7 +536,7 @@ namespace Seasar.Dao.Impl
             CheckAutoUpdateMethod(mi);
             string[] propertyNames = GetPersistentPropertyNames(mi.Name);
             ISqlCommand cmd;
-            if ( IsUpdateSignatureForBean(mi) )
+            if (IsUpdateSignatureForBean(mi))
 
                 cmd = CreateDeleteAutoStaticCommand(mi, _dataSource, _commandFactory, _beanMetaData, propertyNames);
             else
@@ -611,7 +585,7 @@ namespace Seasar.Dao.Impl
                     if (pt.IsPersistent) names.Add(pt.PropertyName);
                 }
             }
-            return (string[]) names.ToArray(typeof(string));
+            return (string[])names.ToArray(typeof(string));
         }
 
         protected virtual bool IsPropertyExist(string[] props, string propertyName)
@@ -828,18 +802,18 @@ namespace Seasar.Dao.Impl
 
         protected virtual bool IsUnlessNull(string methodName)
         {
-            foreach ( string unlessNullSuffix in _unlessNullSuffixes )
+            foreach (string unlessNullSuffix in _unlessNullSuffixes)
             {
-                if ( methodName.EndsWith(unlessNullSuffix) ) return true;
+                if (methodName.EndsWith(unlessNullSuffix)) return true;
             }
             return false;
         }
 
         protected virtual bool IsModifiedOnly(string methodName)
         {
-            foreach ( string modifiedOnlySuffix in _modifiedOnlySuffixes )
+            foreach (string modifiedOnlySuffix in _modifiedOnlySuffixes)
             {
-                if ( methodName.EndsWith(modifiedOnlySuffix) ) return true;
+                if (methodName.EndsWith(modifiedOnlySuffix)) return true;
             }
             return false;
         }
@@ -872,7 +846,8 @@ namespace Seasar.Dao.Impl
             }
         }
 
-        protected bool CompletedSetupMethod(MethodInfo mi) {
+        protected bool CompletedSetupMethod(MethodInfo mi)
+        {
             return HasSqlCommand(mi.Name);
         }
 
@@ -883,7 +858,7 @@ namespace Seasar.Dao.Impl
 
         public virtual ISqlCommand GetSqlCommand(string methodName)
         {
-            ISqlCommand cmd = (ISqlCommand) _sqlCommands[methodName];
+            ISqlCommand cmd = (ISqlCommand)_sqlCommands[methodName];
             if (cmd == null)
                 throw new MethodNotFoundRuntimeException(_daoType, methodName, null);
             return cmd;
@@ -912,6 +887,16 @@ namespace Seasar.Dao.Impl
             return CreateSelectDynamicCommand(new ObjectDataReaderHandler(), query);
         }
 
+        protected virtual IRowCreator CreateRowCreator()
+        {// [DAONET-56] (2007/08/29)
+            return new RowCreatorImpl();
+        }
+
+        protected virtual IRelationRowCreator CreateRelationRowCreator()
+        {// [DAONET-56] (2007/08/29)
+            return new RelationRowCreatorImpl();
+        }
+
         #endregion
 
         public static Type GetDaoInterface(Type type)
@@ -936,6 +921,11 @@ namespace Seasar.Dao.Impl
         public IDataReaderFactory DataReaderFactory
         {
             set { _dataReaderFactory = value; }
+        }
+
+        public IDataReaderHandlerFactory DataReaderHandlerFactory
+        {
+            set { _dataReaderHandlerFactory = value; }
         }
 
         public ICommandFactory CommandFactory

@@ -222,6 +222,7 @@
     <Compile Include="Seasar.Dao.Impl\DaoMetaDataImpl.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Dao.Impl\DataReaderHandlerFactory.cs" />
     <Compile Include="Seasar.Dao.Impl\DeleteAutoHandler.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -356,6 +357,7 @@
     <Compile Include="Seasar.Dao\IDaoMetaDataFactory.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Dao\IDataReaderHandlerFactory.cs" />
     <Compile Include="Seasar.Dao\IDbms.cs">
       <SubType>Code</SubType>
     </Compile>

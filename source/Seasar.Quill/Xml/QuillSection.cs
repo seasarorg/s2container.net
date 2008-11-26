@@ -19,6 +19,7 @@
 using System;
 using System.Collections;
 using System.Xml.Serialization;
+using System.Text;
 
 namespace Seasar.Quill.Xml
 {
@@ -74,6 +75,70 @@ namespace Seasar.Quill.Xml
         {
             set { _assemblys = value; }
             get { return _assemblys; }
+        }
+
+        /// <summary>
+        /// セクション情報を文字列で返す
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            StringBuilder builder = new StringBuilder();
+
+            //  Dao設定クラス
+            builder.Append("DaoSetting=[");
+            if (string.IsNullOrEmpty(DaoSetting))
+            {
+                builder.AppendLine("Nothing]");
+            }
+            else
+            {
+                builder.AppendFormat("{0}]\n", DaoSetting);
+            }
+            //  Transaction設定クラス
+            builder.Append("TransactionSetting=[");
+            if (string.IsNullOrEmpty(TransactionSetting))
+            {
+                builder.AppendLine("Nothing]");
+            }
+            else
+            {
+                builder.AppendFormat("{0}]\n", TransactionSetting);
+            }
+
+            //  データソース
+            builder.Append("DataSources=[");
+            if (DataSources == null || DataSources.Count == 0)
+            {
+                builder.AppendLine("Nothing]");
+            }
+            else
+            {
+                foreach (object ds in DataSources)
+                {
+                    builder.AppendFormat("{0},", ds);
+                }
+                builder.Replace(",", "", builder.Length - 1, 1);
+                builder.AppendLine("]");
+            }
+
+            //  アセンブリ
+            builder.Append("Assembly=[");
+            if (Assemblys == null || Assemblys.Count == 0)
+            {
+                builder.AppendLine("Nothing]");
+            }
+            else
+            {
+                foreach (object assembly in Assemblys)
+                {
+                    builder.AppendFormat("{0},", assembly);
+                }
+                builder.Replace(",", "", builder.Length - 1, 1);
+                builder.AppendLine("]");
+            }
+
+            return builder.ToString();
         }
     }
 }

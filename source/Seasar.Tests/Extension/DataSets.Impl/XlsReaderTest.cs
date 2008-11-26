@@ -25,6 +25,7 @@ using MbUnit.Framework;
 using Seasar.Extension.DataSets.Impl;
 using Seasar.Extension.Unit;
 using Seasar.Framework.Util;
+using System.Configuration;
 
 namespace Seasar.Tests.Extension.DataSets.Impl
 {
@@ -124,7 +125,12 @@ namespace Seasar.Tests.Extension.DataSets.Impl
         [Test]
         public void TestInvalidColumn()
         {
-            XlsReader reader = new XlsReader("./Extension/DataSets.Impl/XlsReaderTest_InvalidColumn.xls");
+            string exeConfigPath = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None).FilePath;
+            string[] filePathParts = exeConfigPath.Split('\\');
+            string xlsFilePath = exeConfigPath.Replace(filePathParts[filePathParts.Length - 1], "") + "\\" +
+                             "../../../Extension/DataSets.Impl/XlsReaderTest_InvalidColumn.xls";
+            //XlsReader reader = new XlsReader("../Extension/DataSets.Impl/XlsReaderTest_InvalidColumn.xls");
+            XlsReader reader = new XlsReader(xlsFilePath);
             DataTable dt = reader.Read().Tables["table"];
             Assert.AreEqual(1, dt.Columns.Count);
             Assert.AreEqual("INF01", dt.Columns[0].ColumnName);

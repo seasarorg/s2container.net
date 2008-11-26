@@ -20,15 +20,17 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using Seasar.Extension.ADO;
 using Seasar.Extension.Tx.Impl;
 using Seasar.Framework.Container.Factory;
 using Seasar.Framework.Util;
+using Seasar.Quill.Database.DataSource.Connection;
+using Seasar.Quill.Database.Tx;
+using Seasar.Quill.Database.Tx.Impl;
+using Seasar.Quill.Exception;
 using Seasar.Quill.Util;
 using Seasar.Quill.Xml;
-using System.Text.RegularExpressions;
-using Seasar.Quill.Database.DataSource.Connection;
-using Seasar.Quill.Exception;
 
 namespace Seasar.Quill
 {
@@ -44,10 +46,23 @@ namespace Seasar.Quill
         /// </summary>
         private readonly Regex _regexIsString = new Regex("^\".*\"$");
 
+        private readonly QuillContainer _container;
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="container">Quillコンテナ</param>
+        [Obsolete]
+        public DataSourceBuilder(QuillContainer container)
+        {
+            _container = container;
+        }
+
         /// <summary>
         /// app.config,diconの定義からIDataSourceのCollectionを生成
         /// </summary>
         /// <returns></returns>
+        [Obsolete]
         public virtual IDictionary<string, IDataSource> CreateDataSources()
         {
             IDictionary<string, IDataSource> dataSources = new Dictionary<string, IDataSource>();
@@ -109,6 +124,19 @@ namespace Seasar.Quill
             QuillSection section = QuillSectionHandler.GetQuillSection();
             if (section != null && section.DataSources.Count > 0)
             {
+                ////  既定のトランザクション設定
+                //ITransactionSetting defaultTxSetting = null;
+                //if (_container == null)
+                //{
+                //    defaultTxSetting = new TypicalTransactionSetting();
+                //}
+                //else
+                //{
+                //    defaultTxSetting =
+                //        (ITransactionSetting) ComponentUtil.GetComponent(
+                //        _container, typeof (TypicalTransactionSetting));
+                //}
+
                 foreach (object item in section.DataSources)
                 {
                     if(item is DataSourceSection)
@@ -116,63 +144,13 @@ namespace Seasar.Quill
                         DataSourceSection dsSection = (DataSourceSection)item;
 
                         //  データソース
-                        string dataSourceClassName = dsSection.DataSourceClassName;
-                        if(string.IsNullOrEmpty(dataSourceClassName))
-                        {
-                            throw new ClassNotFoundRuntimeException("(DataSourceClass=Empty)");
-                        }
-
-                        if(TypeUtil.HasNamespace(dataSourceClassName) == false)
-                        {
-                            //  名前空間が指定されていない場合は既定の
-                            //  名前空間を使用する
-                            dataSourceClassName = string.Format("{0}.{1}",
-                                QuillConstants.NAMESPACE_DATASOURCE, dataSourceClassName);
-                        }
+                        string dataSourceClassName = GetDataSourceClassName(dsSection);
 
                         //  プロバイダ
-                        string providerName = dsSection.ProviderName;
-                        if(string.IsNullOrEmpty(providerName))
-                        {
-                            throw new ClassNotFoundRuntimeException("(ProviderName=Empty)");
-                        }
-
-                        if(TypeUtil.HasNamespace(providerName) == false)
-                        {
-                            //  名前空間が指定されていない場合は既定の
-                            //  名前空間を使用する
-                            providerName = string.Format("{0}.{1}",
-                                QuillConstants.NAMESPACE_PROVIDER, providerName);
-                        }
+                        string providerName = GetProviderName(dsSection);
 
                         //  接続文字列
-                        string configString = dsSection.ConnectionString;
-                        string connectionString = configString;
-                        if (_regexIsString.IsMatch(configString))
-                        {
-                            //  最初と最後の「"」を取り除く
-                            connectionString = configString.Substring(1, configString.Length - 2);
-                        }
-                        else
-                        {
-                            //  「"」で囲まれていない場合はクラスが指定されていると見なす
-                            Type connectionStringType = ClassUtil.ForName(configString);
-                            object connectionStringInstance = ClassUtil.NewInstance(connectionStringType);
-                            if (typeof(IConnectionString).IsAssignableFrom(connectionStringType))
-                            {
-                                connectionString = ((IConnectionString)connectionStringInstance).GetConnectionString();
-                            }
-                            else
-                            {
-                                throw new QuillInvalidClassException(
-                                    connectionStringType, typeof(IConnectionString));
-                            }
-                        }
-                        //  接続文字列が設定されていない
-                        if (string.IsNullOrEmpty(connectionString))
-                        {
-                            throw new ArgumentException("(ConnectionString=Empty)");
-                        }
+                        string connectionString = GetConnectionString(dsSection);
 
                         //  クラス組み立て
                         DataProvider provider = (DataProvider)ClassUtil.NewInstance(
@@ -181,8 +159,115 @@ namespace Seasar.Quill
                             dataSourceClassName), new Type[] { typeof(DataProvider), typeof(string) });
                         IDataSource dataSource = (IDataSource)constructorInfo.Invoke(
                              new object[] { provider, connectionString });
+                        //SetupDataSourceDefault(defaultTxSetting, dataSource);
                         dataSources[dsSection.DataSourceName] = dataSource;
                     }     
+                }
+            }
+        }
+
+        /// <summary>
+        /// プロバイダ名の取得
+        /// </summary>
+        /// <param name="dataSourceSection"></param>
+        /// <returns></returns>
+        protected virtual string GetProviderName(DataSourceSection dataSourceSection)
+        {
+            string providerName = dataSourceSection.ProviderName;
+            if (string.IsNullOrEmpty(providerName))
+            {
+                throw new ClassNotFoundRuntimeException("(ProviderName=Empty)");
+            }
+
+            if (TypeUtil.HasNamespace(providerName) == false)
+            {
+                //  名前空間が指定されていない場合は既定の
+                //  名前空間を使用する
+                providerName = string.Format("{0}.{1}",
+                    QuillConstants.NAMESPACE_PROVIDER, providerName);
+            }
+            return providerName;
+        }
+
+        /// <summary>
+        /// データソースクラス名の取得
+        /// </summary>
+        /// <param name="dataSourceSection"></param>
+        /// <returns></returns>
+        protected virtual string GetDataSourceClassName(DataSourceSection dataSourceSection)
+        {
+            string dataSourceClassName = dataSourceSection.DataSourceClassName;
+            if (string.IsNullOrEmpty(dataSourceClassName))
+            {
+                throw new ClassNotFoundRuntimeException("(DataSourceClass=Empty)");
+            }
+
+            if (TypeUtil.HasNamespace(dataSourceClassName) == false)
+            {
+                //  名前空間が指定されていない場合は既定の
+                //  名前空間を使用する
+                dataSourceClassName = string.Format("{0}.{1}",
+                    QuillConstants.NAMESPACE_DATASOURCE, dataSourceClassName);
+            }
+            return dataSourceClassName;
+        }
+
+        /// <summary>
+        /// 接続文字列の取得
+        /// </summary>
+        /// <param name="dataSourceSection"></param>
+        /// <returns></returns>
+        protected virtual string GetConnectionString(DataSourceSection dataSourceSection)
+        {
+            //  接続文字列
+            string configString = dataSourceSection.ConnectionString;
+            string connectionString = null;
+            if (_regexIsString.IsMatch(configString))
+            {
+                //  最初と最後の「"」を取り除く
+                connectionString = configString.Substring(1, configString.Length - 2);
+            }
+            else
+            {
+                //  「"」で囲まれていない場合はクラスが指定されていると見なす
+                Type connectionStringType = ClassUtil.ForName(configString);
+                if (typeof(IConnectionString).IsAssignableFrom(connectionStringType))
+                {
+                    IConnectionString cs = (IConnectionString)ComponentUtil.GetComponent(
+                        _container, connectionStringType);
+                    connectionString = cs.GetConnectionString();
+                }
+                else
+                {
+                    throw new QuillInvalidClassException(
+                        connectionStringType, typeof(IConnectionString));
+                }
+            }
+            //  接続文字列が設定されていない
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                throw new ArgumentException("(ConnectionString=Empty)");
+            }
+
+            return connectionString;
+        }
+
+        /// <summary>
+        /// データソースの既定設定を行う
+        /// </summary>
+        /// <param name="txSetting">デフォルトのトランザクション設定</param>
+        /// <param name="dataSource">設定するデータソース</param>
+        protected virtual void SetupDataSourceDefault(ITransactionSetting txSetting,
+            IDataSource dataSource)
+        {
+            //  TxDataSourceかそれを継承するクラスの場合は予め既定設定を
+            //  行っておく
+            //  これ以外の設定が使われる場合はコンポーネント生成時に上書きされる
+            if(typeof(TxDataSource).IsAssignableFrom(dataSource.GetType()))
+            {
+                if (txSetting.IsNeedSetup())
+                {
+                    txSetting.Setup(dataSource);
                 }
             }
         }

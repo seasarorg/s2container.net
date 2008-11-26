@@ -27,25 +27,54 @@ namespace Seasar.Dao.Impl
     public class DaoMetaDataFactoryImpl : IDaoMetaDataFactory
     {
         private readonly Hashtable _daoMetaDataCache = new Hashtable();
-        protected readonly IDataSource _dataSource;
-        protected readonly ICommandFactory _commandFactory;
-        protected readonly IDataReaderFactory _dataReaderFactory;
-        protected readonly IAnnotationReaderFactory _readerFactory;
+        protected IDataSource _dataSource;
+        protected ICommandFactory _commandFactory;
+        protected IDataReaderFactory _dataReaderFactory;
+        protected IDataReaderHandlerFactory _dataReaderHandlerFactory;
+        protected IAnnotationReaderFactory _annotationReaderFactory;
         protected IDatabaseMetaData _dbMetaData;
         protected string _sqlFileEncoding = Encoding.Default.WebName;
         protected string[] _insertPrefixes;
         protected string[] _updatePrefixes;
         protected string[] _deletePrefixes;
 
+        public DaoMetaDataFactoryImpl()
+        {
+        }
+
         public DaoMetaDataFactoryImpl(IDataSource dataSource,
-            ICommandFactory commandFactory, IAnnotationReaderFactory readerFactory,
+            ICommandFactory commandFactory, IAnnotationReaderFactory annotationReaderFactory,
             IDataReaderFactory dataReaderFactory)
         {
             _dataSource = dataSource;
             _commandFactory = commandFactory;
-            _readerFactory = readerFactory;
+            _annotationReaderFactory = annotationReaderFactory;
             _dataReaderFactory = dataReaderFactory;
-            _dbMetaData = new DatabaseMetaDataImpl(_dataSource);
+        }
+
+        public IDataSource DataSource
+        {
+            set { _dataSource = value; }
+        }
+
+        public ICommandFactory CommandFactory
+        {
+            set { _commandFactory = value; }
+        }
+
+        public IAnnotationReaderFactory AnnotationReaderFactory
+        {
+            set { _annotationReaderFactory = value; }
+        }
+
+        public IDataReaderFactory DataReaderFactory
+        {
+            set { _dataReaderFactory = value; }
+        }
+
+        public IDataReaderHandlerFactory DataReaderHandlerFactory
+        {
+            set { _dataReaderHandlerFactory = value; }
         }
 
         public IDatabaseMetaData DBMetaData
@@ -101,7 +130,16 @@ namespace Seasar.Dao.Impl
             dmd.DataSource = _dataSource;
             dmd.CommandFactory = _commandFactory;
             dmd.DataReaderFactory = _dataReaderFactory;
-            dmd.AnnotationReaderFactory = _readerFactory;
+            if (_dataReaderHandlerFactory == null)
+            {
+                _dataReaderHandlerFactory = new DataReaderHandlerFactory();
+            }
+            dmd.DataReaderHandlerFactory = _dataReaderHandlerFactory;
+            dmd.AnnotationReaderFactory = _annotationReaderFactory;
+            if (_dbMetaData == null)
+            {
+                _dbMetaData = new DatabaseMetaDataImpl(_dataSource);
+            }
             dmd.DatabaseMetaData = _dbMetaData;
             if (_sqlFileEncoding != null)
             {
