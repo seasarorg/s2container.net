@@ -1,2 +1,0 @@
-<%@ Page language="c#" Codebehind="SessionComponentDeployerWebPage.aspx.cs" AutoEventWireup="false" Inherits="Seasar.Tests.Framework.Container.Deployer.SessionComponentDeployerWebPage" %>
-<asp:Label id="ResultLabel" runat="server"></asp:Label>
