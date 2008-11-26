@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
+"http://www.seasar.org/dtd/components21.dtd">
+<components namespace="child">
+  <include path="Seasar/Tests/Framework/Container/Factory/IncludeTagHandlerTestGrandChild.dicon" />
+  <component class="Seasar.Tests.Framework.Container.Factory.IncludeTagHandlerTest+A">
+    <property name="Time">314</property>
+  </component>
+</components>

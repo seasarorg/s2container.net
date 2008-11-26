@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "S2FormExample", "S2FormExample\S2FormExample.vbproj", "{7A95BF55-C495-443F-98FD-2F827E4C8F00}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "S2FormExample.Logics", "S2FormExample.Logics\S2FormExample.Logics.vbproj", "{559C0F59-F03D-4FB1-8043-4010745D8CC1}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "S2FormExample.Tests", "S2FormExample.Tests\S2FormExample.Tests.vbproj", "{184C6A63-FBD2-40EE-BE96-18C48FD8016D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7A95BF55-C495-443F-98FD-2F827E4C8F00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A95BF55-C495-443F-98FD-2F827E4C8F00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A95BF55-C495-443F-98FD-2F827E4C8F00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A95BF55-C495-443F-98FD-2F827E4C8F00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{559C0F59-F03D-4FB1-8043-4010745D8CC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{559C0F59-F03D-4FB1-8043-4010745D8CC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{559C0F59-F03D-4FB1-8043-4010745D8CC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{559C0F59-F03D-4FB1-8043-4010745D8CC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{184C6A63-FBD2-40EE-BE96-18C48FD8016D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{184C6A63-FBD2-40EE-BE96-18C48FD8016D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{184C6A63-FBD2-40EE-BE96-18C48FD8016D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{184C6A63-FBD2-40EE-BE96-18C48FD8016D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
