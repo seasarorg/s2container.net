@@ -20,6 +20,7 @@ using Seasar.Extension.ADO;
 using Seasar.Extension.Tx;
 using Seasar.Framework.Aop;
 using Seasar.Quill.Exception;
+using Seasar.Framework.Log;
 
 namespace Seasar.Quill.Database.Tx.Impl
 {
@@ -28,6 +29,9 @@ namespace Seasar.Quill.Database.Tx.Impl
     /// </summary>
     public abstract class AbstractTransactionSetting : ITransactionSetting
     {
+        //  ※調査用にログ追加
+        private readonly Logger _logger = Logger.GetLogger(typeof(AbstractTransactionSetting));
+
         protected bool _isNeedSetup = true;
 
         protected ITransactionContext _transactionContext = null;
@@ -61,6 +65,14 @@ namespace Seasar.Quill.Database.Tx.Impl
             //  現在のTransactionContextのインスタンスを明示的に設定しておく
             //  （Currentがnullだと毎回Connectionが新たに作られてしまうため）
             _transactionContext.Current = _transactionContext;
+            if(_logger.IsDebugEnabled)
+            {
+                _logger.Debug(
+                    string.Format("TransactionContext.Current({0})が設定されました。",
+                                  _transactionContext.Current == null
+                                      ? "null"
+                                      : _transactionContext.Current.GetHashCode().ToString()));
+            }
             _isNeedSetup = false;
         }
 

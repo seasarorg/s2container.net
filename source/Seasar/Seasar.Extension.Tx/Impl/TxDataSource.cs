@@ -19,11 +19,15 @@
 using System.Data;
 using Seasar.Extension.ADO;
 using Seasar.Extension.ADO.Impl;
+using Seasar.Framework.Log;
 
 namespace Seasar.Extension.Tx.Impl
 {
     public class TxDataSource : DataSourceImpl, IDataSource
     {
+        //  ※調査用にログ追加
+        private readonly Logger _logger = Logger.GetLogger(typeof(TxDataSource));
+
         private ITransactionContext _context;
 
         public TxDataSource()
@@ -49,6 +53,21 @@ namespace Seasar.Extension.Tx.Impl
         {
             IDbConnection con;
             ITransactionContext tc = Context.Current;
+            //  ※調査用にログ追加
+            if(_logger.IsDebugEnabled)
+            {
+                string txContext4Log = (tc == null ? "null" : tc.GetHashCode().ToString());
+                string connection4Log = ((tc == null || tc.Connection == null)
+                                             ? "null"
+                                             : tc.Connection.GetHashCode().ToString());
+                string dataSource4Log = GetHashCode().ToString();
+                _logger.Debug(
+                    string.Format("TransactionContext=[{0}], Connection=[{1}], DataSource=[{2}]",
+                                  txContext4Log,
+                                  connection4Log,
+                                  dataSource4Log));
+            }
+
             if (tc != null && tc.Connection != null)
             {
                 con = tc.Connection;
