@@ -30,17 +30,13 @@ namespace Seasar.Dao.Impl
         protected IDataSource _dataSource;
         protected ICommandFactory _commandFactory;
         protected IDataReaderFactory _dataReaderFactory;
-        protected IDataReaderHandlerFactory _dataReaderHandlerFactory;
+        protected IDataReaderHandlerFactory _dataReaderHandlerFactory = Impl.DataReaderHandlerFactory.INSTANCE;
         protected IAnnotationReaderFactory _annotationReaderFactory;
         protected IDatabaseMetaData _dbMetaData;
         protected string _sqlFileEncoding = Encoding.Default.WebName;
         protected string[] _insertPrefixes;
         protected string[] _updatePrefixes;
         protected string[] _deletePrefixes;
-
-        public DaoMetaDataFactoryImpl()
-        {
-        }
 
         public DaoMetaDataFactoryImpl(IDataSource dataSource,
             ICommandFactory commandFactory, IAnnotationReaderFactory annotationReaderFactory,
@@ -50,30 +46,36 @@ namespace Seasar.Dao.Impl
             _commandFactory = commandFactory;
             _annotationReaderFactory = annotationReaderFactory;
             _dataReaderFactory = dataReaderFactory;
+            _dbMetaData = new DatabaseMetaDataImpl(_dataSource);
         }
 
         public IDataSource DataSource
         {
+            get { return _dataSource; }
             set { _dataSource = value; }
         }
 
         public ICommandFactory CommandFactory
         {
+            get { return _commandFactory; }
             set { _commandFactory = value; }
         }
 
         public IAnnotationReaderFactory AnnotationReaderFactory
         {
+            get { return _annotationReaderFactory; }
             set { _annotationReaderFactory = value; }
         }
 
         public IDataReaderFactory DataReaderFactory
         {
+            get { return _dataReaderFactory; }
             set { _dataReaderFactory = value; }
         }
 
         public IDataReaderHandlerFactory DataReaderHandlerFactory
         {
+            get { return _dataReaderHandlerFactory; }
             set { _dataReaderHandlerFactory = value; }
         }
 
