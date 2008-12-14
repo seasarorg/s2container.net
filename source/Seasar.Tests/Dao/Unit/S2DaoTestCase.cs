@@ -89,13 +89,8 @@ namespace Seasar.Dao.Unit
 
         protected virtual IDaoMetaData CreateDaoMetaData(Type daoType)
         {
-            DaoMetaDataFactoryImpl dmdf = new DaoMetaDataFactoryImpl();
-            dmdf.DataSource = DataSource;
-            dmdf.CommandFactory = CommandFactory;
-            dmdf.DataReaderFactory = DataReaderFactory;
+            DaoMetaDataFactoryImpl dmdf = new DaoMetaDataFactoryImpl(DataSource, CommandFactory, AnnotationReaderFactory, DataReaderFactory);
             dmdf.DataReaderHandlerFactory = DataReaderHandlerFactory;
-            dmdf.AnnotationReaderFactory = AnnotationReaderFactory;
-            dmdf.DBMetaData = new DatabaseMetaDataImpl(DataSource);
             return dmdf.GetDaoMetaData(daoType);
         }
     }

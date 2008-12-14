@@ -9,6 +9,8 @@ namespace Seasar.Dao.Impl
 {
     public class DataReaderHandlerFactory : IDataReaderHandlerFactory
     {
+        public static readonly IDataReaderHandlerFactory INSTANCE = new DataReaderHandlerFactory();
+
         public virtual IDataReaderHandler GetResultSetHandler(Type beanType, IBeanMetaData bmd, MethodInfo mi)
         {
             Type retType = mi.ReturnType;
