@@ -64,7 +64,7 @@ namespace Seasar.Extension.Unit
             get { return _connection != null; }
         }
 
-        public ICommandFactory CommandFactory
+        public virtual ICommandFactory CommandFactory
         {
             get
             {

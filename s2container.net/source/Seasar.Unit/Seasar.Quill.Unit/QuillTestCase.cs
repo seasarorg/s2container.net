@@ -17,8 +17,11 @@
 #endregion
 
 using System;
+
+using Seasar.Extension.ADO;
 using Seasar.Extension.Unit;
 using Seasar.Quill.Database.DataSource.Impl;
+using Seasar.Extension.ADO.Impl;
 
 namespace Seasar.Quill.Unit
 {
@@ -64,6 +67,17 @@ namespace Seasar.Quill.Unit
             if (dataSourceProxy != null)
             {
                 dataSourceProxy.SetDataSourceName(dataSourceName);
+            }
+        }
+
+        /// <summary>
+        /// seasar-dotnet:1227暫定対応
+        /// </summary>
+        public override ICommandFactory CommandFactory
+        {
+            get
+            {
+                return BasicCommandFactory.INSTANCE;
             }
         }
 	}
