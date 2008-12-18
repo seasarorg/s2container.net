@@ -27,10 +27,10 @@ namespace Seasar.Quill.Database.Provider
     {
         public Firebird()
         {
-            ConnectionType = "FirebirdSql.Data.Firebird.FbConnection";
-            CommandType = "FirebirdSql.Data.Firebird.FbCommand";
-            ParameterType = "FirebirdSql.Data.Firebird.FbParameter";
-            DataAdapterType = "FirebirdSql.Data.Firebird.FbDataAdapter";
+            ConnectionType = "FirebirdSql.Data.FirebirdClient.FbConnection";
+            CommandType = "FirebirdSql.Data.FirebirdClient.FbCommand";
+            ParameterType = "FirebirdSql.Data.FirebirdClient.FbParameter";
+            DataAdapterType = "FirebirdSql.Data.FirebirdClient.FbDataAdapter";
         }
     }
 }
