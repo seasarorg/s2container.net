@@ -21,6 +21,7 @@ using System.Reflection;
 using Seasar.Quill.Attrs;
 using Seasar.Quill.Exception;
 using Seasar.Quill.Util;
+using Seasar.Framework.Log;
 
 namespace Seasar.Quill
 {
@@ -34,6 +35,8 @@ namespace Seasar.Quill
     /// </remarks>
     public class QuillInjector : IDisposable
     {
+        private readonly Logger _log = Logger.GetLogger(typeof (QuillInjector));
+
         // QuillInjectorのインスタンス
         private static QuillInjector quillInjector;
 
@@ -52,6 +55,27 @@ namespace Seasar.Quill
             }
         }
 
+        protected InjectionMap injectionMap;
+
+        /// <summary>
+        /// インターフェース型と実装型の対応情報
+        /// </summary>
+        public InjectionMap InjectionMap
+        {
+            set
+            {
+                if (_log.IsDebugEnabled)
+                {
+                    _log.Debug(MessageUtil.GetMessage("IQLL0012", new object[] {}));
+                }
+                injectionMap = value;
+            }
+            get
+            {
+                return injectionMap;
+            }
+        }
+
         /// <summary>
         /// QuillInjectorを初期化するコンストラクタ
         /// </summary>
@@ -63,6 +87,8 @@ namespace Seasar.Quill
         {
             // QuillInjector内で使用するQuillContainerを作成する
             container = new QuillContainer();
+            //  デフォルトではInjectionMapは使わない
+            injectionMap = null;
         }
 
         /// <summary>
@@ -104,12 +130,12 @@ namespace Seasar.Quill
         /// </para>
         /// <para>
         /// DIを行う場合はフィールドの型に
-        /// <see cref="Seasar.Quill.Attrs.ImplementationAttribute"/>(属性)が
-        /// 設定されている必要がある。
+        /// <see cref="Seasar.Quill.Attrs.ImplementationAttribute"/>(属性)か
+        /// InjectionMapに設定されている必要がある。
         /// </para>
         /// <para>
         /// Aspectを適用する場合はインターフェース・クラスもしくはメソッドに
-        /// <see cref="Seasar.Quill.Attrs.AspectAttribute"/>(属性)が
+        /// <see cref="Seasar.Quill.Attrs.AspectAttribute"/>(属性)
         /// 設定されている必要がある。
         /// </para>
         /// </remarks>
@@ -172,6 +198,17 @@ namespace Seasar.Quill
                 return;
             }
 
+            //  インターフェースと実装型の対応情報に登録されている型であれば
+            //  その型でDIする
+            //  本番->Implementation,Mock->InjectionMapという
+            //  使い分けもできるようにこちらを優先
+            Type fieldType = field.FieldType;
+            if(injectionMap != null && injectionMap.HasComponentType(fieldType))
+            {
+                InjectField(target, field, injectionMap.GetComponentType(fieldType));
+                return;
+            }
+
             // フィールドの型(Type)に設定されている実装を指定する属性を取得する
             ImplementationAttribute implAttr = 
                 AttributeUtil.GetImplementationAttr(field.FieldType);
@@ -224,8 +261,7 @@ namespace Seasar.Quill
         /// <param name="target">DIが行われるオブジェクト</param>
         /// <param name="field">DIが行われるフィールド情報</param>
         /// <param name="implAttr">実装クラスを指定する属性</param>
-        protected virtual void InjectField(
-            object target, FieldInfo field, ImplementationAttribute implAttr)
+        protected virtual void InjectField(object target, FieldInfo field, ImplementationAttribute implAttr)
         {
             // 実装クラスのTypeを取得する
             Type implType;
@@ -259,6 +295,8 @@ namespace Seasar.Quill
             // 実装クラスのインスタンスを取得する
             QuillComponent component = container.GetComponent(field.FieldType, implType);
 
+            Console.WriteLine("fieldType=[{0}],implType=[{1}]",
+                field.FieldType, implType);
             // 再帰的に実装クラスのインスタンスにDIを行う
             Inject(component.GetComponentObject(implType));
 

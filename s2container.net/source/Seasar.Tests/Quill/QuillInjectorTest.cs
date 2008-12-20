@@ -42,6 +42,16 @@ namespace Seasar.Tests.Quill
             // MbUnitがDisposeを呼び出すのでDisposeをoverrideしておく
         }
 
+        [SetUp]
+        public void SetUp()
+        {
+            //  MbUnitはテスト間でstaticな変数を保持してしまうようなので
+            //  毎回InjectionMapをクリアしておく
+            InjectionMap.GetInstance().Clear();
+            //  InjectionMapは毎回クリアしておく
+            this.InjectionMap = null;
+        }
+
         #region GetInstanceのテスト
 
         [Test]
@@ -319,6 +329,92 @@ namespace Seasar.Tests.Quill
 
         #endregion
 
+        #region InjectionMap（プロパティ）のテスト
+
+        [Test]
+        public void TestInject_InjectionMapあり()
+        {
+            container = new QuillContainer();
+            Seasar.Quill.InjectionMap map = Seasar.Quill.InjectionMap.GetInstance();
+            map.Add(typeof(IInjectTest), typeof(InjectTestImpl4InjectionMap));
+            map.Add(typeof(InjectTestAnother4InjectionMap));
+            this.InjectionMap = map;
+
+            InjectTestTarget actual = new InjectTestTarget();
+
+            Inject(actual);
+
+            Assert.IsNotNull(actual.InjectTest, "11");
+            Assert.AreEqual(typeof(InjectTestImpl4InjectionMap),
+                actual.InjectTest.GetType(), "InjectionMapで指定された方優先でInjectされているはず");
+            Assert.IsNotNull(actual.InjectionTest_InjectMapOnly, "21");
+            Assert.AreEqual(typeof(InjectTestAnother4InjectionMap),
+                actual.InjectionTest_InjectMapOnly.GetType(), "22");
+            Assert.IsNotNull(actual.InjectTest_ImplementationOnly,
+                "InjectionMapに含まれていなくてもImplementationで指定されていればInjectされているはず");
+        }
+
+        [Test]
+        public void TestInject_InjectionMapなし()
+        {
+            container = new QuillContainer();
+            InjectTestTarget actual = new InjectTestTarget();
+
+            Assert.IsNull(this.InjectionMap, "00");
+            Inject(actual);
+
+            Assert.IsNull(actual.InjectionTest_InjectMapOnly,
+                "Implementationで指定されていないクラスはInjectされないはず");
+            Assert.IsNotNull(actual.InjectTest, "11");
+            Assert.AreEqual(typeof(InjectTestImpl4Implementation),
+                actual.InjectTest.GetType(),
+                "InjectionMapがないのでImplementation指定されている型を適用");
+            Assert.IsNotNull(actual.InjectTest_ImplementationOnly, "21");
+            Assert.AreEqual(typeof(InjectTestAnother4Implementation),
+                actual.InjectTest_ImplementationOnly.GetType(), "22");
+        }
+
+        #region テスト用クラス
+
+        private class InjectTestTarget
+        {
+            public IInjectTest InjectTest = null;
+            public InjectTestAnother4Implementation InjectTest_ImplementationOnly = null;
+            public InjectTestAnother4InjectionMap InjectionTest_InjectMapOnly = null;
+        }
+
+        [Implementation(typeof(InjectTestImpl4Implementation))]
+        public interface IInjectTest
+        { }
+
+        /// <summary>
+        /// Implementation属性で指定されているクラス
+        /// </summary>
+        public class InjectTestImpl4Implementation : IInjectTest
+        { }
+
+        /// <summary>
+        /// InjectionMapで指定されているクラス
+        /// </summary>
+        public class InjectTestImpl4InjectionMap : IInjectTest
+        { }
+
+        /// <summary>
+        /// Implementation属性でだけ指定されているクラス
+        /// </summary>
+        [Implementation]
+        public class InjectTestAnother4Implementation
+        { }
+
+        /// <summary>
+        /// InjectionMapでだけ指定されているクラス
+        /// </summary>
+        public class InjectTestAnother4InjectionMap
+        { }
+
+        #endregion
+        #endregion
+
         #region Disposeのテスト
 
         [Test]
@@ -391,5 +487,6 @@ namespace Seasar.Tests.Quill
         }
 
         #endregion
+
     }
 }
