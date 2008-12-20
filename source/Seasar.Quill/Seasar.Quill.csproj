@@ -75,6 +75,7 @@
     <Compile Include="Database\DataSource\Impl\SelectableDataSourceProxyWithDictionary.cs" />
     <Compile Include="Exception\QuillConfigNotFoundException.cs" />
     <Compile Include="Exception\QuillInvalidClassException.cs" />
+    <Compile Include="InjectionMap.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

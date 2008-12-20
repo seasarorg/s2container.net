@@ -264,4 +264,7 @@
   <data name="EQLL0038" xml:space="preserve">
     <value>データソースが設定されていません。</value>
   </data>
+  <data name="IQLL0012" xml:space="preserve">
+    <value>InjectionMapが設定されました。</value>
+  </data>
 </root>
