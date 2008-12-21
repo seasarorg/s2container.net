@@ -53,20 +53,6 @@ namespace Seasar.Extension.Tx.Impl
         {
             IDbConnection con;
             ITransactionContext tc = Context.Current;
-            //  Å¶í≤ç∏ópÇ…ÉçÉOí«â¡
-            if(_logger.IsDebugEnabled)
-            {
-                string txContext4Log = (tc == null ? "null" : tc.GetHashCode().ToString());
-                string connection4Log = ((tc == null || tc.Connection == null)
-                                             ? "null"
-                                             : tc.Connection.GetHashCode().ToString());
-                string dataSource4Log = GetHashCode().ToString();
-                _logger.Debug(
-                    string.Format("TransactionContext=[{0}], Connection=[{1}], DataSource=[{2}]",
-                                  txContext4Log,
-                                  connection4Log,
-                                  dataSource4Log));
-            }
 
             if (tc != null && tc.Connection != null)
             {

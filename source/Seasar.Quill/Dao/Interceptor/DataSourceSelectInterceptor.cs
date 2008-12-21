@@ -24,6 +24,7 @@ using Seasar.Framework.Log;
 using Seasar.Framework.Aop.Interceptors;
 using Seasar.Framework.Aop;
 using Seasar.Quill.Exception;
+using Seasar.Quill.Util;
 
 namespace Seasar.Quill.Dao.Interceptor
 {
@@ -93,7 +94,8 @@ namespace Seasar.Quill.Dao.Interceptor
             if (_logger.IsDebugEnabled)
             {
                 //  デバッグで動いているのならどのデータソースが指定されているか返す
-                _logger.Debug(string.Format("SetDataSourceName={0}", DataSourceProxy.GetDataSourceName()));
+                _logger.Debug(MessageUtil.GetSimpleMessage("IQLL0012",
+                    new object[] {  (DataSourceProxy.GetDataSourceName() ?? "null") }));
             }
 
             return invocation.Proceed();

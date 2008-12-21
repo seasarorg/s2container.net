@@ -66,7 +66,7 @@ namespace Seasar.Quill
             {
                 if (_log.IsDebugEnabled)
                 {
-                    _log.Debug(MessageUtil.GetMessage("IQLL0012", new object[] {}));
+                    _log.Debug(MessageUtil.GetMessage("IQLL0013", new object[] {}));
                 }
                 injectionMap = value;
             }
