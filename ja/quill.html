@@ -146,6 +146,7 @@
 						<li><a href="#nodicon_assembly">アセンブリの設定</a></li>
 						<li><a href="#nodicon_s2dao">S2Daoを利用してDBアクセス</a></li>
 						<li><a href="#nodicon_tx">トランザクションをかける</a></li>
+						<li><a href="#quill_section">「quill」セクションの使い方</a></li>
 						<li><a href="#nodicon_notice">注意点</a></li>
 						<!--<li><a href="#nodicon_ut">Quillを利用した単体テスト</a></li>-->
 					</ul>
@@ -654,7 +655,7 @@
 				　できるため、初回起動時のコストが低くなる。</li>
 			</ul>
 			<h2><a name="nodicon_config">データソースの設定</a></h2>
-			<p>　設定ファイル(<strong>App.config</strong>)の「<font color="#009900">quill</font>」セクション内に下記の設定を記述することで<br/>
+			<p>　設定ファイル(<strong>App.config</strong>)の<a href="#quill_section">「quill」セクション</a>内に下記の設定を記述することで<br/>
 			データソースを設定することができます。<br/>
 			各データソースの定義は「<font color="#009900">dataSource</font>」タグに記述し、<br/>
 			複数データソースを定義する場合は「<font color="#009900">dataSources</font>」タグ内に<br/>
@@ -689,7 +690,7 @@
 			実装し、「<font color="#009900">connectionString</font>」タグにクラス名を名前空間付きで指定して下さい。</p>
 			<p>　文字列で直接書く場合は接続文字列を「&quot;」で囲って指定して下さい。</p><!--"-->
 			<p>　データソースは以下の優先順序でQuill内に保持されます。</p>
-			<li>１．App.config内<font color="#009900">quill</font>セクションの<font color="#009900">dataSources</font>、<font color="#009900">dataSource</font>の設定</li>
+			<li>１．App.config内<a href="#quill_section">「quill」セクション</a>の<font color="#009900">dataSources</font>、<font color="#009900">dataSource</font>の設定</li>
 			<li>２．App.config内<font color="#009900">ConnectionStrings</font>セクションの設定</li>
 			<li>３．XXX.dicon内に記述された設定</li>
 			<h3>・<u>データソースクラス名</u></h3>
@@ -718,7 +719,7 @@
 </pre>
 			<h2><a name="nodicon_assembly">アセンブリの設定</a></h2>
 			<p>　SQLServer以外のデータベースを使用する（上記データソースの設定でSqlServer以外の<br/>
-			プロバイダを利用する）場合は<b>App.config</b>で<font color="#009900">quill</font>セクションの「<font color="#009900">assemblys</font>」、「<font color="#009900">assembly</font>」を<br/>
+			プロバイダを利用する）場合は<b>App.config</b>で<a href="#quill_section">「quill」セクション</a>の「<font color="#009900">assemblys</font>」、「<font color="#009900">assembly</font>」を<br/>
 			使って参照するアセンブリを指定する必要があります。</p>
 			<p>　アセンブリの設定例（Oracle Data Providerを使用する場合）</p>
 <!-- code formatted by http://manoli.net/csharpformat/ -->
@@ -815,7 +816,7 @@ public class TypicalDaoSetting : AbstractDaoSetting
 }
 </pre></p>
 			<h5>カスタム設定を全てのS2Dao属性に一括して適用する</h5>
-			<p>　App.configの「<font color="#009900">quill</font>」セクション内に「<font color="#009900">daoSetting</font>」タグを<br/>
+			<p>　App.configの<a href="#quill_section">「quill」セクション</a>内に「<font color="#009900">daoSetting</font>」タグを<br/>
 			記述し、その中に作成した設定クラスを名前空間付で書きます(「&quot;」は不要）。</p>
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <p><pre class="csharpcode">
@@ -918,8 +919,8 @@ public class TypicalTransactionSetting : AbstractTransactionSetting
         if (typeof(SelectableDataSourceProxyWithDictionary).IsAssignableFrom(
             dataSourceType))
         {
-            ((SelectableDataSourceProxyWithDictionary)dataSource).SetTransactionContext(
-                txContext);
+            ((SelectableDataSourceProxyWithDictionary)dataSource)
+                .SetTransactionContext(txContext);
         }
         else if (typeof(TxDataSource).IsAssignableFrom(dataSourceType))
         {
@@ -936,7 +937,7 @@ public class TypicalTransactionSetting : AbstractTransactionSetting
 }
 </pre></p>
 			<h5>カスタム設定を全てのTransaction属性に一括して適用する</h5>
-			<p>　App.configの「<font color="#009900">quill</font>」セクション内に「<font color="#009900">transactionSetting</font>」タグを<br/>
+			<p>　App.configの<a href="#quill_section">「quill」セクション</a>内に「<font color="#009900">transactionSetting</font>」タグを<br/>
 			記述し、その中に作成した設定クラスを名前空間付で書きます(「&quot;」は不要）。</p>
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <p><pre class="csharpcode">
@@ -962,6 +963,48 @@ public interface IHogeBhv
 		<li>１．Transaction属性の引数で指定されたTransaction設定クラス</li>
 		<li>２．App.configの<font color="#009900">transactionSetting</font>タグで定義されたTransaction設定クラス</li>
 		<li>３．標準設定</li>
+		
+		<h2><a name="quill_section">「quill」セクションの使い方</a></h2>
+		<p>アプリケーション構成ファイル（App.config）で「quill」セクションを使うためには、以下のようにconfigSections/section要素を追加します。</p>
+		App.config
+<pre class="csharpcode">
+&lt;configuration&gt;
+  &lt;configSections&gt;
+    &lt;section name="quill"
+        type="Seasar.Quill.Xml.QuillSectionHandler, Seasar.Quill" /&gt;
+  &lt;/configSections&gt;
+    ・・・
+&lt;configuration&gt;
+</pre>
+
+		<p>「quill」セクションを使用して、データソースの設定やアセンブリの設定を行うことができます。以下は設定例です。</p>
+App.config
+<pre class="csharpcode">
+&lt;configuration&gt;
+  &lt;configSections&gt;
+    &lt;section name="quill"
+        type="Seasar.Quill.Xml.QuillSectionHandler, Seasar.Quill" /&gt;
+  &lt;/configSections&gt;
+  &lt;quill&gt;
+    &lt;dataSources&gt;
+      &lt;dataSource name="ds"&gt;
+        &lt;provider>Firebird&lt;/provider&gt;
+        &lt;connectionString&gt;
+          "ServerType=1;User=ユーザー;Password=パスワード;
+            Database=C:\Firebird\データベース.FDB"
+        &lt;/connectionString&gt;
+        &lt;class>Seasar.Extension.Tx.Impl.TxDataSource&lt;/class&gt;
+      &lt;/dataSource&gt;
+    &lt;/dataSources&gt;
+    &lt;assemblys&gt;
+      &lt;assembly&gt;
+       FirebirdSql.Data.FirebirdClient, Version=2.1.0.0, 
+         Culture=neutral, PublicKeyToken=3750abcc3150b00c
+      &lt;/assembly&gt;
+    &lt;/assemblys&gt;
+  &lt;/quill&gt;
+&lt;configuration&gt;
+</pre>
 		
 		<h2><a name="nodicon_notice">注意点</a></h2>
 		<ul>
