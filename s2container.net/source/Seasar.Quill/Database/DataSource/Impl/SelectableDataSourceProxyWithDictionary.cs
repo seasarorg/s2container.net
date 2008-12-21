@@ -26,6 +26,7 @@ using Seasar.Framework.Log;
 using Seasar.Quill.Attrs;
 using Seasar.Quill.Database.DataSource.Selector;
 using System;
+using Seasar.Quill.Util;
 
 namespace Seasar.Quill.Database.DataSource.Impl
 {
@@ -91,10 +92,6 @@ namespace Seasar.Quill.Database.DataSource.Impl
 
         public override void SetDataSourceName(string dataSourceName)
         {
-            if (_logger.IsDebugEnabled)
-            {
-                _logger.Debug(string.Format("SetDataSourceName is called.[{0}]", dataSourceName));
-            }
             _dataSourceName = dataSourceName;
         }
 
@@ -102,10 +99,6 @@ namespace Seasar.Quill.Database.DataSource.Impl
         {
             if ( DataSourceCollection.ContainsKey(dataSourceName) )
             {
-                if (_logger.IsDebugEnabled)
-                {
-                    _logger.Debug(string.Format("DataSourceName=[{0}]", dataSourceName));
-                }
                 return DataSourceCollection[dataSourceName];
             }
             throw new ComponentNotFoundRuntimeException(dataSourceName);

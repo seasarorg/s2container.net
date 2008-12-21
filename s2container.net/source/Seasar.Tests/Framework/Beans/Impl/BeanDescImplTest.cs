@@ -22,6 +22,7 @@ using System.Reflection;
 using MbUnit.Framework;
 using Seasar.Framework.Beans;
 using Seasar.Framework.Beans.Impl;
+using System.Text;
 
 namespace Seasar.Tests.Framework.Beans.Impl
 {
@@ -775,6 +776,15 @@ namespace Seasar.Tests.Framework.Beans.Impl
             public string HogeMethodX() { return "huga"; }
             private int HideMethod() { return 999; }
             private int HideMethod(string huga) { return 794; }
+
+            public override string ToString()
+            {
+                StringBuilder builder = new StringBuilder();
+                builder.AppendLine(_hogeField);
+                builder.AppendLine(_dateField.ToString());
+                builder.AppendLine(_hideField.ToString());
+                return builder.ToString();
+            }
         }
 
         #endregion

@@ -265,6 +265,9 @@
     <value>データソースが設定されていません。</value>
   </data>
   <data name="IQLL0012" xml:space="preserve">
+    <value>データソースが[{0}]に変更されました。</value>
+  </data>
+  <data name="IQLL0013" xml:space="preserve">
     <value>InjectionMapが設定されました。</value>
   </data>
 </root>
