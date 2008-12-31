@@ -25,7 +25,7 @@ namespace Seasar.Dao.Impl
             }
             else if (retType.IsArray)
             {
-                // [DAONET-76] (2008/05/05)
+                // [DAONET-76] (2009/05/05)
                 Type elementType = retType.GetElementType();
                 if (AssignTypeUtil.IsSimpleType(elementType))
                 {
@@ -38,7 +38,7 @@ namespace Seasar.Dao.Impl
             }
             else if (AssignTypeUtil.IsList(retType))
             {
-                // [DAONET-76] (2008/05/05)
+                // [DAONET-76] (2009/05/05)
                 if (AssignTypeUtil.IsSimpleType(beanType))
                 {
                     return CreateObjectListDataReaderHandler();
@@ -54,7 +54,7 @@ namespace Seasar.Dao.Impl
             }
             else if (AssignTypeUtil.IsGenericList(retType))
             {
-                // [DAONET-76] (2008/05/05)
+                // [DAONET-76] (2009/05/05)
                 Type elementType = retType.GetGenericArguments()[0];
                 if (AssignTypeUtil.IsSimpleType(elementType))
                 {
@@ -71,19 +71,19 @@ namespace Seasar.Dao.Impl
             }
         }
 
-        // [DAONET-76] (2008/05/05)
+        // [DAONET-76] (2009/05/05)
         protected virtual ObjectGenericListDataReaderHandler CreateObjectGenericListDataReaderHandler(Type elementType)
         {
             return new ObjectGenericListDataReaderHandler(elementType);
         }
 
-        // [DAONET-76] (2008/05/05)
+        // [DAONET-76] (2009/05/05)
         protected virtual ObjectListDataReaderHandler CreateObjectListDataReaderHandler()
         {
             return new ObjectListDataReaderHandler();
         }
 
-        // [DAONET-76] (2008/05/05)
+        // [DAONET-76] (2009/05/05)
         protected virtual ObjectArrayDataReaderHandler CreateObjectArrayDataReaderHandler(Type elementType)
         {
             return new ObjectArrayDataReaderHandler(elementType);
