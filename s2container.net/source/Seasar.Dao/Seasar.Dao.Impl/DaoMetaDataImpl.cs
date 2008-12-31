@@ -1,6 +1,6 @@
 #region Copyright
 /*
- * Copyright 2005-2008 the Seasar Foundation and the Others.
+ * Copyright 2005-2009 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -395,21 +395,21 @@ namespace Seasar.Dao.Impl
             return _dataReaderHandlerFactory.GetResultSetHandler(_beanType, bmd, mi);
         }
 
-        // [DAONET-76] (2008/05/05)
+        // [DAONET-76] (2009/05/05)
         [Obsolete("IDataReaderHandlerFactory.GetResultSetHandler()に移行。")]
         protected virtual ObjectGenericListDataReaderHandler CreateObjectGenericListDataReaderHandler(Type elementType)
         {
             return new ObjectGenericListDataReaderHandler(elementType);
         }
 
-        // [DAONET-76] (2008/05/05)
+        // [DAONET-76] (2009/05/05)
         [Obsolete("IDataReaderHandlerFactory.GetResultSetHandler()に移行。")]
         protected virtual ObjectListDataReaderHandler CreateObjectListDataReaderHandler()
         {
             return new ObjectListDataReaderHandler();
         }
 
-        // [DAONET-76] (2008/05/05)
+        // [DAONET-76] (2009/05/05)
         [Obsolete("IDataReaderHandlerFactory.GetResultSetHandler()に移行。")]
         protected virtual ObjectArrayDataReaderHandler CreateObjectArrayDataReaderHandler(Type elementType)
         {
