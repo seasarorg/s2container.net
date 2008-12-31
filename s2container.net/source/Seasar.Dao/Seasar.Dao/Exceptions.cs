@@ -292,12 +292,9 @@ namespace Seasar.Dao
             _beanClassName = beanClassName;
         }
 
-        public String BeanClassName
+        public string BeanClassName
         {
-            get
-            {
-                return _beanClassName;
-            }
+            get { return _beanClassName; }
         }
     }
 

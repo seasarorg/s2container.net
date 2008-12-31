@@ -22,6 +22,7 @@ using Seasar.Framework.Container;
 using Seasar.Framework.Container.Assembler;
 using Seasar.Framework.Container.Impl;
 using MbUnit.Framework;
+using Seasar.Framework.Exceptions;
 
 namespace Seasar.Tests.Framework.Container.Assembler
 {

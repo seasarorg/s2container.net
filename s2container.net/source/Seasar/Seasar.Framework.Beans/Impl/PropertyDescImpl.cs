@@ -25,11 +25,11 @@ namespace Seasar.Framework.Beans.Impl
     /// <summary>
     /// プロパティ情報記述クラス
     /// </summary>
-	public class PropertyDescImpl : IPropertyDesc
-	{
-	    private readonly PropertyInfo _propertyInfo;
-	    private IMethodDesc _readMethod;
-	    private IMethodDesc _writeMethod;
+    public class PropertyDescImpl : IPropertyDesc
+    {
+        private readonly PropertyInfo _propertyInfo;
+        private IMethodDesc _readMethod;
+        private IMethodDesc _writeMethod;
 
         /// <summary>
         /// 元となるプロパティ情報
@@ -39,50 +39,50 @@ namespace Seasar.Framework.Beans.Impl
             get { return _propertyInfo; }
         }
 
-	    /// <summary>
-	    /// プロパティ名
-	    /// </summary>
+        /// <summary>
+        /// プロパティ名
+        /// </summary>
         public virtual string Name
-	    {
+        {
             get { return _propertyInfo.Name; }
-	    }
+        }
 
-	    /// <summary>
-	    /// プロパティの型
-	    /// </summary>
+        /// <summary>
+        /// プロパティの型
+        /// </summary>
         public virtual Type PropertyType
-	    {
+        {
             get { return _propertyInfo.PropertyType; }
-	    }
+        }
 
-	    /// <summary>
-	    /// getterメソッド
-	    /// </summary>
+        /// <summary>
+        /// getterメソッド
+        /// </summary>
         /// <exception cref="MethodNotFoundRuntimeException"></exception>
         public virtual IMethodDesc ReadMethod
-	    {
-	        get
-	        {
-	            if(_readMethod == null)
-	            {
-	                MethodInfo mi = _propertyInfo.GetGetMethod();
-                    if(mi == null)
+        {
+            get
+            {
+                if (_readMethod == null)
+                {
+                    MethodInfo mi = _propertyInfo.GetGetMethod();
+                    if (mi == null)
                     {
                         throw new MethodNotFoundRuntimeException(_propertyInfo.DeclaringType,
                             "get", null);
                     }
-	                _readMethod = MethodDescFactory.NewMethodDesc(mi);
-	            }
-	            return _readMethod;
-	        }
-	    }
+                    _readMethod = MethodDescFactory.NewMethodDesc(mi);
+                }
+                return _readMethod;
+            }
+        }
 
-	    /// <summary>
-	    /// setterメソッド
-	    /// </summary>
+        /// <summary>
+        /// setterメソッド
+        /// </summary>
         /// <exception cref="MethodNotFoundRuntimeException"></exception>
         public virtual IMethodDesc WriteMethod
-	    {
+        {
             get
             {
                 if (_writeMethod == null)
@@ -97,7 +97,7 @@ namespace Seasar.Framework.Beans.Impl
                 }
                 return _writeMethod;
             }
-	    }
+        }
 
         /// <summary>
         /// コンストラクタ
@@ -108,60 +108,60 @@ namespace Seasar.Framework.Beans.Impl
             _propertyInfo = proeprtyInfo;
         }
 
-	    /// <summary>
-	    /// getterメソッドを持っているかどうか返します。
-	    /// </summary>
-	    /// <returns>getterメソッドを持っているかどうか</returns>
+        /// <summary>
+        /// getterメソッドを持っているかどうか返します。
+        /// </summary>
+        /// <returns>getterメソッドを持っているかどうか</returns>
         public virtual bool HasReadMethod()
-	    {
-	        return _propertyInfo.CanRead;
-	    }
+        {
+            return _propertyInfo.CanRead;
+        }
 
-	    /// <summary>
-	    /// setterメソッドを持っているかどうか返します。
-	    /// </summary>
-	    /// <returns>setterメソッドを持っているかどうか</returns>
+        /// <summary>
+        /// setterメソッドを持っているかどうか返します。
+        /// </summary>
+        /// <returns>setterメソッドを持っているかどうか</returns>
         public virtual bool HasWriteMethod()
-	    {
-	        return _propertyInfo.CanWrite;
-	    }
+        {
+            return _propertyInfo.CanWrite;
+        }
 
-	    /// <summary>
-	    /// プロパティの値を返します。
-	    /// </summary>
-	    /// <param name="target">target</param>
-	    /// <returns>プロパティの値</returns>
+        /// <summary>
+        /// プロパティの値を返します。
+        /// </summary>
+        /// <param name="target">target</param>
+        /// <returns>プロパティの値</returns>
         /// <exception cref="IllegalPropertyRuntimeException">値の設定に失敗した場合。</exception>
         public virtual object GetValue(object target)
-	    {
-	        try
-	        {
+        {
+            try
+            {
                 return ReadMethod.Invoke(target);
-	        }
-	        catch (Exception ex)
-	        {
+            }
+            catch (Exception ex)
+            {
                 throw new IllegalPropertyRuntimeException(
                     _propertyInfo.DeclaringType, Name, ex);
-	        }
-	    }
+            }
+        }
 
-	    /// <summary>
-	    /// プロパティに値を設定します。
-	    /// </summary>
-	    /// <param name="target"></param>
-	    /// <param name="value"></param>
-	    /// <exception cref="IllegalPropertyRuntimeException">値の設定に失敗した場合。</exception>
+        /// <summary>
+        /// プロパティに値を設定します。
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="value"></param>
+        /// <exception cref="IllegalPropertyRuntimeException">値の設定に失敗した場合。</exception>
         public virtual void SetValue(object target, object value)
-	    {
-	        try
-	        {
+        {
+            try
+            {
                 WriteMethod.Invoke(target, value);
-	        }
-	        catch (Exception ex)
-	        {
-	            throw new IllegalPropertyRuntimeException(
-	                _propertyInfo.DeclaringType, Name, ex);
-	        }            
-	    }
-	}
+            }
+            catch (Exception ex)
+            {
+                throw new IllegalPropertyRuntimeException(
+                    _propertyInfo.DeclaringType, Name, ex);
+            }
+        }
+    }
 }

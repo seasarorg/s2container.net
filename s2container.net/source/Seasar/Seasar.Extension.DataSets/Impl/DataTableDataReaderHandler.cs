@@ -41,7 +41,7 @@ namespace Seasar.Extension.DataSets.Impl
             DataTable table = new DataTable(_tableName);
             for (int i = 0; i < propertyTypes.Length; ++i)
             {
-                String propertyName = propertyTypes[i].PropertyName;
+                string propertyName = propertyTypes[i].PropertyName;
                 Type type = ColumnTypes.GetColumnType(propertyTypes[i].PropertyType).GetColumnType();
                 table.Columns.Add(propertyName, type);
             }

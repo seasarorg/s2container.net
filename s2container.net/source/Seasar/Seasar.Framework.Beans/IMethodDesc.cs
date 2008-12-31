@@ -24,17 +24,17 @@ namespace Seasar.Framework.Beans
     /// <summary>
     /// メソッド情報記述インターフェース
     /// </summary>
-	public interface IMethodDesc
-	{
+    public interface IMethodDesc
+    {
         /// <summary>
         /// 元となるメソッド情報
         /// </summary>
-        MethodInfo Method { get;}
+        MethodInfo Method { get; }
 
-	    /// <summary>
-	    /// メソッド名
-	    /// </summary>
-        string Name{ get; }
+        /// <summary>
+        /// メソッド名
+        /// </summary>
+        string Name { get; }
 
         /// <summary>
         /// パラメータ情報
@@ -61,5 +61,5 @@ namespace Seasar.Framework.Beans
         /// <param name="parameters">メソッドに渡す引数</param>
         /// <returns>メソッドの戻り値</returns>
         object Invoke(object obj, params object[] parameters);
-	}
+    }
 }

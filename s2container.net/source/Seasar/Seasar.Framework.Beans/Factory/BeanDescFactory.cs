@@ -25,8 +25,8 @@ namespace Seasar.Framework.Beans.Factory
     /// <summary>
     /// BeanDescを生成するクラスです。
     /// </summary>
-	public class BeanDescFactory
-	{
+    public class BeanDescFactory
+    {
         private static readonly IDictionary<Type, IBeanDesc> _beanDescCache;
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace Seasar.Framework.Beans.Factory
         /// <returns></returns>
         public static IBeanDesc GetBeanDesc(Type type)
         {
-            if(_beanDescCache.ContainsKey(type) == false)
+            if (_beanDescCache.ContainsKey(type) == false)
             {
                 IBeanDesc newBeanDesc = CreateBeanDesc(type);
                 _beanDescCache.Add(type, newBeanDesc);
@@ -72,5 +72,5 @@ namespace Seasar.Framework.Beans.Factory
         {
             return new BeanDescImpl(type);
         }
-	}
+    }
 }

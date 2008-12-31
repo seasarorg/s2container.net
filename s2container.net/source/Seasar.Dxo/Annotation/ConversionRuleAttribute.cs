@@ -1,5 +1,4 @@
 #region Copyright
-
 /*
  * Copyright 2005-2009 the Seasar Foundation and the Others.
  *
@@ -15,7 +14,6 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-
 #endregion
 
 using System;
@@ -44,7 +42,7 @@ namespace Seasar.Dxo.Annotation
         public ConversionRuleAttribute(string propertyName, string targetPropertyName, Type propertyConverter, bool ignore)
         {
             this._propertyName = propertyName;
-            if (!String.IsNullOrEmpty(targetPropertyName))
+            if (!string.IsNullOrEmpty(targetPropertyName))
                 this._targetPropertyName = targetPropertyName;
             else
                 this._targetPropertyName = propertyName;

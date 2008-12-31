@@ -22,19 +22,15 @@ using Seasar.Extension.ADO.Impl;
 using Seasar.Extension.Tx;
 using Seasar.Extension.Tx.Impl;
 using Seasar.Framework.Container;
-using Seasar.Framework.Log;
 using Seasar.Quill.Attrs;
 using Seasar.Quill.Database.DataSource.Selector;
 using System;
-using Seasar.Quill.Util;
 
 namespace Seasar.Quill.Database.DataSource.Impl
 {
     [Implementation]
     public class SelectableDataSourceProxyWithDictionary : AbstractSelectableDataSourceProxy
     {
-        private readonly Logger _logger = Logger.GetLogger(typeof(SelectableDataSourceProxyWithDictionary));
-
         /// <summary>
         /// データソース名
         /// </summary>
@@ -48,14 +44,8 @@ namespace Seasar.Quill.Database.DataSource.Impl
         /// </summary>
         public IDataSourceSelector DataSourceSelector
         {
-            set
-            {
-                _dataSourceSelector = value;
-            }
-            get
-            {
-                return _dataSourceSelector;
-            }
+            set { _dataSourceSelector = value; }
+            get { return _dataSourceSelector; }
         }
 
         private readonly IDictionary<string, IDataSource> _dataSourceCollection 
@@ -63,10 +53,7 @@ namespace Seasar.Quill.Database.DataSource.Impl
 
         public IDictionary<string, IDataSource> DataSourceCollection
         {
-            get
-            {
-                return _dataSourceCollection;
-            }
+            get { return _dataSourceCollection; }
         }
 
         #region AbstractSelectableDataSourceProxyメンバ

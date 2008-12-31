@@ -23,8 +23,8 @@ namespace Seasar.Framework.Container.AutoRegister
     /// <summary>
     /// コンポーネントに自動的に名前を付ける為の標準のクラスです。
     /// </summary>
-	public class DefaultAutoNaming : IAutoNaming
-	{
+    public class DefaultAutoNaming : IAutoNaming
+    {
         #region IAutoNaming メンバ
 
         /// <summary>

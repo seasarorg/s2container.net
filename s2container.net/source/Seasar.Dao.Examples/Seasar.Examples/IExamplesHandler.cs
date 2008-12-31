@@ -43,7 +43,7 @@ namespace Seasar.Examples
         /// </summary>
         void AppendCode(TextAppender appender);
 
-        String Title
+        string Title
         {
             get;
         }

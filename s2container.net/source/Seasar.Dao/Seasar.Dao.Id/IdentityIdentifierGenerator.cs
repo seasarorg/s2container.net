@@ -29,7 +29,7 @@ namespace Seasar.Dao.Id
 
         public override void SetIdentifier(object bean, IDataSource ds)
         {
-            object value = ExecuteSql(ds, this.Dbms.IdentitySelectString, null);
+            object value = ExecuteSql(ds, Dbms.IdentitySelectString, null);
             SetIdentifier(bean, value);
         }
 

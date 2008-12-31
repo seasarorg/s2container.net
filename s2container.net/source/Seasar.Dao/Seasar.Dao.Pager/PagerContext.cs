@@ -24,7 +24,7 @@ namespace Seasar.Dao.Pager
 {
     public class PagerContext
     {
-        private static LocalDataStoreSlot _slot;
+        private static readonly LocalDataStoreSlot _slot;
         private readonly Stack _argsStack = new Stack();
 
         static PagerContext()

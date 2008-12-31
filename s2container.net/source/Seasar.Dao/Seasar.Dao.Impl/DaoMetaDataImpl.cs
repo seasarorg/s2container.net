@@ -154,7 +154,7 @@ namespace Seasar.Dao.Impl
 
             if (!CompletedSetupMethod(mi) && _annotationReader.IsSqlFile(mi.Name))
             {
-                String fileName = GetSqlFilePath(mi) + ".sql";
+                string fileName = GetSqlFilePath(mi) + ".sql";
                 throw new SqlFileNotFoundRuntimeException(_daoType, mi, fileName);
             }
 

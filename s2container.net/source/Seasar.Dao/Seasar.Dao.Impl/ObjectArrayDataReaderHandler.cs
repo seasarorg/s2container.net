@@ -23,9 +23,9 @@ using Seasar.Framework.Util;
 
 namespace Seasar.Dao.Impl
 {
-	public class ObjectArrayDataReaderHandler : AbstractObjectListDataReaderHandler
-	{
-        private Type _elementType;
+    public class ObjectArrayDataReaderHandler : AbstractObjectListDataReaderHandler
+    {
+        private readonly Type _elementType;
 
         public ObjectArrayDataReaderHandler(Type elementType)
         {
@@ -35,7 +35,7 @@ namespace Seasar.Dao.Impl
         public override object Handle(IDataReader dataReader)
         {
             ArrayList resultList = new ArrayList();
-            Handle(dataReader, (IList)resultList);
+            Handle(dataReader, resultList);
 
             Array returnArray = Array.CreateInstance(_elementType, resultList.Count);
             for (int i = 0; i < resultList.Count; i++)

@@ -93,8 +93,8 @@ namespace Seasar.Windows
             int ret = 0;
             // 修飾子を取得する
             Type formType = this.GetType();
-            string prefix = "";
-            string suffix = "";
+            string prefix = string.Empty;
+            string suffix = string.Empty;
             _GetModifier(formType, ref prefix, ref suffix);
 
             Type type = _dataSource.GetType();
@@ -155,8 +155,8 @@ namespace Seasar.Windows
             int ret = 0;
             // 修飾子を取得する
             Type formType = this.GetType();
-            string prefix = "";
-            string suffix = "";
+            string prefix = string.Empty;
+            string suffix = string.Empty;
             _GetModifier(formType, ref prefix, ref suffix);
 
             Type type = _dataSource.GetType();
@@ -221,8 +221,8 @@ namespace Seasar.Windows
 
             // 修飾子を取得する
             Type formType = this.GetType();
-            string prefix = "";
-            string suffix = "";
+            string prefix = string.Empty;
+            string suffix = string.Empty;
             _GetModifier(formType, ref prefix, ref suffix);
 
             int ret = 0;
@@ -288,8 +288,8 @@ namespace Seasar.Windows
 
             // 修飾子を取得する
             Type formType = this.GetType();
-            string prefix = "";
-            string suffix = "";
+            string prefix = string.Empty;
+            string suffix = string.Empty;
             _GetModifier(formType, ref prefix, ref suffix);
 
             Type type = _dataSource.GetType();
@@ -346,8 +346,8 @@ namespace Seasar.Windows
 
             // 修飾子を取得する
             Type formType = this.GetType();
-            string prefix = "";
-            string suffix = "";
+            string prefix = string.Empty;
+            string suffix = string.Empty;
             _GetModifier(formType, ref prefix, ref suffix);
 
             Type type = _dataSource.GetType();
@@ -427,8 +427,8 @@ namespace Seasar.Windows
         {
             // 修飾子を取得する
             Type formType = this.GetType();
-            string prefix = "";
-            string suffix = "";
+            string prefix = string.Empty;
+            string suffix = string.Empty;
             _GetModifier(formType, ref prefix, ref suffix);
 
             Type type = _dataSource.GetType();
@@ -465,7 +465,7 @@ namespace Seasar.Windows
                     if (control.Name.ToLower() == (prefix.ToLower() + info.Name.ToLower() + suffix.ToLower()))
                     {
                         control.DataBindings.Add(_defaultProperty, _dataSource, info.Name, true,
-                                                 DataSourceUpdateMode.OnValidation, null, "");
+                                                 DataSourceUpdateMode.OnValidation, null, string.Empty);
                         break;
                     }
                 }

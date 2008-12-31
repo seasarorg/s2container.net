@@ -45,7 +45,7 @@ namespace Seasar.Quill.Xml
             //    //  外部ファイルのパスを設定
             //    StringBuilder builder = new StringBuilder();
             //    builder.Append(Assembly.GetExecutingAssembly().CodeBase);
-            //    builder.Replace("file:///", "");
+            //    builder.Replace("file:///", string.Empty);
             //    builder.Append(".config");
             //    outerConfigPath = builder.ToString();
             //    quillSection = OuterQuillSectionLoader.LoadFromOuterConfig(outerConfigPath);

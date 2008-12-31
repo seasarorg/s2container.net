@@ -18,7 +18,6 @@
 
 using System;
 using System.Data;
-using Seasar.Extension.ADO;
 using Seasar.Extension.ADO.Types;
 using Seasar.Framework.Exceptions;
 using Seasar.Framework.Util;

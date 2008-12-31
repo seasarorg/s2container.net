@@ -85,7 +85,7 @@ namespace Seasar.Examples.Impl
             }
         }
 
-        public String Title
+        public string Title
         {
             get { return _title; }
             set { _title = value; }

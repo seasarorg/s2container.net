@@ -169,7 +169,7 @@ namespace Seasar.Extension.ADO.Impl
 
         void ICollection.CopyTo(Array array, int index)
         {
-            ((BooleanToIntParameter[]) (_list.ToArray())).CopyTo(array, index);
+            _list.ToArray().CopyTo(array, index);
         }
 
         IEnumerator IEnumerable.GetEnumerator()

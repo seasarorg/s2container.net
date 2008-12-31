@@ -16,9 +16,7 @@
  */
 #endregion
 
-using System;
 using System.Data;
-using System.Threading;
 using Seasar.Framework.Exceptions;
 
 namespace Seasar.Extension.ADO.Impl
@@ -29,7 +27,7 @@ namespace Seasar.Extension.ADO.Impl
     /// 明示的に登録されていなければS2Containerの方を探します。
     /// </summary>
     public abstract class AbstractSelectableDataSourceProxy : IDataSource
-	{
+    {
         /// <summary>
         /// 使用するデータソース名の取得
         /// </summary>

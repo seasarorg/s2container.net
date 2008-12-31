@@ -18,7 +18,6 @@
 
 using System;
 using System.Data;
-using Seasar.Extension.ADO;
 using Seasar.Framework.Log;
 using Seasar.Framework.Util;
 

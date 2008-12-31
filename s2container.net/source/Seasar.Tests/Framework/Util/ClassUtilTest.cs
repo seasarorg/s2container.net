@@ -69,7 +69,7 @@ namespace Seasar.Tests.Framework.Util
         {
             string exeConfigPath = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None).FilePath;
             string[] filePathParts = exeConfigPath.Split('\\');
-            string dllConfigPath = exeConfigPath.Replace(filePathParts[filePathParts.Length - 1], "") + "\\" +
+            string dllConfigPath = exeConfigPath.Replace(filePathParts[filePathParts.Length - 1], string.Empty) + "\\" +
                              "Seasar.Tests.dll";
             Assert.IsNotNull(ClassUtil.NewInstance(
                 "Seasar.Tests.Framework.Util.ClassUtilTest+B",

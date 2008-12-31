@@ -18,9 +18,8 @@
 
 using System;
 using System.Runtime.Serialization;
-using Seasar.Framework.Exceptions;
 
-namespace Seasar.Framework.Container
+namespace Seasar.Framework.Exceptions
 {
     [Serializable]
     public class TypeUnmatchRuntimeException : SRuntimeException

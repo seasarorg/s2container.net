@@ -79,7 +79,7 @@ namespace Seasar.Tests.Quill.Xml
         //{
         //    StringBuilder builder = new StringBuilder();
         //    builder.Append(Assembly.GetExecutingAssembly().CodeBase);
-        //    builder.Replace("file:///", "");
+        //    builder.Replace("file:///", string.Empty);
         //    builder.Replace("Seasar.Tests.DLL", "Seasar.Quill.dll.config");
         //    string configPath = builder.ToString();
 

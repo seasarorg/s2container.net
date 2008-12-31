@@ -25,8 +25,8 @@ namespace Seasar.Framework.Beans.Impl
     /// <summary>
     /// フィールド(インスタンス変数)記述実装クラス
     /// </summary>
-	public class FieldDescImpl : IFieldDesc
-	{
+    public class FieldDescImpl : IFieldDesc
+    {
         private readonly FieldInfo _fieldInfo;
         private bool? _isReadOnly;
 
@@ -60,7 +60,7 @@ namespace Seasar.Framework.Beans.Impl
         /// <param name="fieldInfo">フィールド情報(NotNull)</param>
         public FieldDescImpl(FieldInfo fieldInfo)
         {
-            if(fieldInfo == null)
+            if (fieldInfo == null)
             {
                 throw new ArgumentNullException("fieldInfo");
             }
@@ -112,5 +112,5 @@ namespace Seasar.Framework.Beans.Impl
                 throw new IllegalFieldRuntimeException(_fieldInfo.DeclaringType, Name, ex);
             }
         }
-	}
+    }
 }

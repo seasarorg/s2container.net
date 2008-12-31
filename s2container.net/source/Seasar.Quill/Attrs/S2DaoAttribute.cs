@@ -28,14 +28,11 @@ namespace Seasar.Quill.Attrs
        AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
     public class S2DaoAttribute : Attribute
     {
-        private Type _daoSettingType = null;
+        private readonly Type _daoSettingType;
 
         public virtual Type DaoSettingType
         {
-            get
-            {
-                return _daoSettingType;
-            }
+            get { return _daoSettingType; }
         }
 
         /// <summary>
@@ -54,7 +51,7 @@ namespace Seasar.Quill.Attrs
         /// (指定したDao設定クラスを使います)
         /// (IDaoSetting実装クラスではない場合実行時例外を投げます）
         /// </summary>
-        /// <param name="handlerType"></param>
+        /// <param name="settingType"></param>
         public S2DaoAttribute(Type settingType)
         {
             SettingUtil.ValidateDaoSettingType(settingType);

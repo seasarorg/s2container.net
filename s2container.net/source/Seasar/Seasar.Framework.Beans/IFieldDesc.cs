@@ -24,8 +24,8 @@ namespace Seasar.Framework.Beans
     /// <summary>
     /// フィールド（インスタンス変数）情報記述インターフェース
     /// </summary>
-	public interface IFieldDesc
-	{
+    public interface IFieldDesc
+    {
         /// <summary>
         /// 元となるプロパティ
         /// </summary>
@@ -61,5 +61,5 @@ namespace Seasar.Framework.Beans
         /// <param name="value"></param>
         /// <exception cref="IllegalFieldRuntimeException">値の設定に失敗した場合。</exception>
         void SetValue(object target, object value);
-	}
+    }
 }

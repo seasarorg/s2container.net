@@ -46,7 +46,7 @@ namespace Seasar.Dao.Impl
             for (int i = 0; i < propertyTypes.Length; ++i)
             {
                 IPropertyType pt = propertyTypes[i];
-                String columnName = pt.ColumnName;
+                string columnName = pt.ColumnName;
                 if (i > 0)
                 {
                     buf.Append(", ");

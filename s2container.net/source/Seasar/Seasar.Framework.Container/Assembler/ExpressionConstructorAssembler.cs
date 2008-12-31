@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using Seasar.Framework.Exceptions;
 using Seasar.Framework.Util;
 
 namespace Seasar.Framework.Container.Assembler

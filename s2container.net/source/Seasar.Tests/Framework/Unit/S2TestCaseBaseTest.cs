@@ -38,7 +38,7 @@ namespace Seasar.Tests.Framework.Unit
     public class S2TestCaseBaseTest : S2TestCase
     {
         private static readonly Logger _logger = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private const String PATH = "S2FrameworkTestCaseTest_ado.dicon";
+        private const string PATH = "S2FrameworkTestCaseTest_ado.dicon";
         private bool _testAaaSetUpInvoked = false;
         private string _ccc = null;
         private Hashtable _bbb = null;

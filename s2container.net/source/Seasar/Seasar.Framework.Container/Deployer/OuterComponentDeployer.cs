@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using Seasar.Framework.Exceptions;
 
 namespace Seasar.Framework.Container.Deployer
 {

@@ -24,8 +24,8 @@ namespace Seasar.Framework.Container.AutoRegister
     /// <summary>
     /// 自動登録の対象、非対象となるクラス名のパターンを保持します。
     /// </summary>
-	public class ClassPattern
-	{
+    public class ClassPattern
+    {
         private string namespaceName;
         private Regex[] shortClassNamePatterns;
 

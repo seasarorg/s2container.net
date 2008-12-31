@@ -24,8 +24,8 @@ namespace Seasar.Framework.Container.AutoRegister
     /// <summary>
     /// アセンブリからコンポーネントを検索してコンポーネントを自動登録します。
     /// </summary>
-	public class AssemblyComponentAutoRegister : AbstractComponentAutoRegister
-	{
+    public class AssemblyComponentAutoRegister : AbstractComponentAutoRegister
+    {
         private string assemblyName = null;
 
         /// <summary>

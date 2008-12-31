@@ -18,15 +18,14 @@
 
 using System;
 using Seasar.Framework.Container.Impl;
-using System.Collections.Generic;
 
 namespace Seasar.Framework.Container.AutoRegister
 {
     /// <summary>
     /// コンポーネントを自動登録する基底クラスです。
     /// </summary>
-	public abstract class AbstractComponentAutoRegister : AbstractAutoRegister
-	{
+    public abstract class AbstractComponentAutoRegister : AbstractAutoRegister
+    {
         private IAutoNaming autoNaming = new DefaultAutoNaming();
         private string instanceMode = ContainerConstants.INSTANCE_SINGLETON;
         private string autoBindingMode = ContainerConstants.AUTO_BINDING_AUTO;
@@ -95,6 +94,5 @@ namespace Seasar.Framework.Container.AutoRegister
 
             Container.Register(cd);
         }
-
     }
 }

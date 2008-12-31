@@ -48,7 +48,7 @@ namespace Seasar.Tests.Quill.Xml
         public void TestLoadFromOuterConfig_Normal()
         {
             string location = Assembly.GetExecutingAssembly().CodeBase;
-            string configPath = location.Replace("Seasar.Tests.DLL", "Quill/Xml/Test.Quill.dll.config").Replace("file:///", "");
+            string configPath = location.Replace("Seasar.Tests.DLL", "Quill/Xml/Test.Quill.dll.config").Replace("file:///", string.Empty);
             QuillSection actual = OuterQuillSectionLoader.LoadFromOuterConfig(configPath);
 
             Assert.IsNotNull(actual, "1_" + configPath);

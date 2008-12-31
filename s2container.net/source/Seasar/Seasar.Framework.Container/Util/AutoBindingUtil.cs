@@ -18,7 +18,6 @@
 
 using System;
 using System.Reflection;
-using Seasar.Framework.Container;
 
 namespace Seasar.Framework.Container.Util
 {
