@@ -1,5 +1,4 @@
 #region Copyright
-
 /*
  * Copyright 2005-2009 the Seasar Foundation and the Others.
  *
@@ -15,7 +14,6 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-
 #endregion
 
 using System;
@@ -47,7 +45,6 @@ namespace Seasar.Dxo.Exception
         public DxoException(string message, System.Exception innerException)
             : base(message, innerException)
         {
-            ;
         }
 
         /// <summary>
@@ -56,7 +53,6 @@ namespace Seasar.Dxo.Exception
         /// <param name="message">例外を説明するメッセージ</param>
         public DxoException(string message) : base(message)
         {
-            ;
         }
 
         /// <summary>
@@ -64,7 +60,6 @@ namespace Seasar.Dxo.Exception
         /// </summary>
         public DxoException()
         {
-            ;
         }
     }
 }

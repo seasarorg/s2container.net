@@ -35,7 +35,7 @@ namespace Seasar.Quill.Examples
         private void EmpButton_Click(object sender, EventArgs e)
         {
             // 検索結果を表示するTextBoxを初期化する
-            enameTextBox.Text = "";
+            enameTextBox.Text = string.Empty;
 
             // 検索の条件となる社員コード
             int empNo;

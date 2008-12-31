@@ -25,9 +25,9 @@ namespace Seasar.Framework.Beans.Impl
     /// <summary>
     /// メソッド情報記述クラス
     /// </summary>
-	public class MethodDescImpl : IMethodDesc
-	{
-	    private readonly MethodInfo _methodInfo;
+    public class MethodDescImpl : IMethodDesc
+    {
+        private readonly MethodInfo _methodInfo;
         private bool? _canOverride;
 
         private ParameterInfo[] _cachedParameterInfo;
@@ -37,17 +37,17 @@ namespace Seasar.Framework.Beans.Impl
         /// 元となるメソッド情報
         /// </summary>
         public virtual MethodInfo Method
-	    {
+        {
             get { return _methodInfo; }
-	    }
+        }
 
-	    /// <summary>
-	    /// メソッド名
-	    /// </summary>
+        /// <summary>
+        /// メソッド名
+        /// </summary>
         public virtual string Name
-	    {
+        {
             get { return _methodInfo.Name; }
-	    }
+        }
 
         /// <summary>
         /// コンストラクタ
@@ -58,32 +58,32 @@ namespace Seasar.Framework.Beans.Impl
             _methodInfo = methodInfo;
         }
 
-	    /// <summary>
-	    /// パラメータ情報
-	    /// </summary>
-	    /// <returns></returns>
+        /// <summary>
+        /// パラメータ情報
+        /// </summary>
+        /// <returns></returns>
         public virtual ParameterInfo[] GetParameterInfos()
-	    {
-            if(_cachedParameterInfo == null)
+        {
+            if (_cachedParameterInfo == null)
             {
                 _cachedParameterInfo = _methodInfo.GetParameters();
             }
-	        return _cachedParameterInfo;
-	    }
+            return _cachedParameterInfo;
+        }
 
-	    /// <summary>
-	    /// 戻り値の型を返す
-	    /// </summary>
-	    /// <returns>戻り値の型（voidならnull)</returns>
+        /// <summary>
+        /// 戻り値の型を返す
+        /// </summary>
+        /// <returns>戻り値の型（voidならnull)</returns>
         public virtual Type GetReturnType()
-	    {
-            if(_cachedReturnType == null)
+        {
+            if (_cachedReturnType == null)
             {
                 _cachedReturnType = _methodInfo.ReturnType;
             }
             if (_cachedReturnType.Equals(typeof(void))) { return null; }
             return _cachedReturnType;
-	    }
+        }
 
         /// <summary>
         /// Overridできるかどうか判定する
@@ -91,29 +91,29 @@ namespace Seasar.Framework.Beans.Impl
         /// <returns></returns>
         public virtual bool CanOverride()
         {
-            if(_canOverride.HasValue) { return _canOverride.Value; }
+            if (_canOverride.HasValue) { return _canOverride.Value; }
 
             _canOverride = MethodUtil.CanOverride(_methodInfo);
             return _canOverride.Value;
         }
 
-	    /// <summary>
-	    /// メソッド呼び出し
-	    /// </summary>
-	    /// <param name="obj">メソッドをもつオブジェクト</param>
-	    /// <param name="parameters">メソッドに渡す引数</param>
-	    /// <returns>メソッドの戻り値</returns>
+        /// <summary>
+        /// メソッド呼び出し
+        /// </summary>
+        /// <param name="obj">メソッドをもつオブジェクト</param>
+        /// <param name="parameters">メソッドに渡す引数</param>
+        /// <returns>メソッドの戻り値</returns>
         public virtual object Invoke(object obj, params object[] parameters)
-	    {
-	        object[] p = parameters;
-	        if (p != null)
-	        {
-	        }
-	        else
-	        {
-	            p = new object[] {};
-	        }
-	        return MethodUtil.Invoke(_methodInfo, obj, p);
-	    }
-	}
+        {
+            object[] p = parameters;
+            if (p != null)
+            {
+            }
+            else
+            {
+                p = new object[] { };
+            }
+            return MethodUtil.Invoke(_methodInfo, obj, p);
+        }
+    }
 }

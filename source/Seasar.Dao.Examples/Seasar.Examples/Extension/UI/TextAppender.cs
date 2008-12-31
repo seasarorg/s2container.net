@@ -28,7 +28,7 @@ namespace Seasar.Extension.UI
     /// </summary>
     public class TextAppender : StringWriter
     {
-        private delegate void WriteEventHandler(String s);
+        private delegate void WriteEventHandler(string s);
 
         private readonly TextBoxBase _textBox;
         private WriteEventHandler WriteEvent;
@@ -53,7 +53,7 @@ namespace Seasar.Extension.UI
             WriteEvent = new WriteEventHandler(DoNothing);
         }
 
-        public override void Write(String s)
+        public override void Write(string s)
         {
             WriteEvent(s);
         }

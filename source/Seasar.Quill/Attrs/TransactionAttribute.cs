@@ -28,14 +28,11 @@ namespace Seasar.Quill.Attrs
        AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
     public class TransactionAttribute : Attribute
     {
-        private Type _transactionSettingType = null;
+        private readonly Type _transactionSettingType;
 
         public virtual Type TransactionSettingType
         {
-            get
-            {
-                return _transactionSettingType;
-            }
+            get { return _transactionSettingType; }
         }
 
         /// <summary>

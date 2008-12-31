@@ -17,15 +17,14 @@
 #endregion
 
 using Seasar.Framework.Container;
-using System;
 
 namespace Seasar.Extension.ADO.Impl
 {
     /// <summary>
     /// S2Containerを使用してデータソースを返す
     /// </summary>
-	public class SelectableDataSourceProxyWithContainer : AbstractSelectableDataSourceProxy
-	{
+    public class SelectableDataSourceProxyWithContainer : AbstractSelectableDataSourceProxy
+    {
         /// <summary>
         /// データソース名
         /// </summary>

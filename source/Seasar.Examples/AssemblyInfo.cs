@@ -28,9 +28,9 @@ using System.Reflection;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("S2Container.NET.Examples")]
-[assembly: AssemblyCopyright("c Copyright The Seasar Foundation and the others 2005, all rights reserved.")]
+[assembly: AssemblyCopyright("c Copyright The Seasar Foundation and the others 2005-2009, all rights reserved.")]
 [assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]		
+[assembly: AssemblyCulture("")]
 
 //
 // アセンブリに署名するには、使用するキーを指定しなければなりません。 

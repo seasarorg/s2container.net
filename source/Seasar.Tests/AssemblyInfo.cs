@@ -30,7 +30,7 @@ using System.Reflection;
 [assembly: AssemblyProduct("")]
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]		
+[assembly: AssemblyCulture("")]
 
 //
 // アセンブリに署名するには、使用するキーを指定しなければなりません。 

@@ -1,5 +1,4 @@
 ﻿#region Copyright
-
 /*
  * Copyright 2005-2009 the Seasar Foundation and the Others.
  *
@@ -15,7 +14,6 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-
 #endregion
 
 using System;
@@ -31,12 +29,12 @@ namespace Seasar.Windows.Attr
         /// <summary>
         /// コントロール接頭辞
         /// </summary>
-        private string _prefix = "";
+        private string _prefix = string.Empty;
 
         /// <summary>
         /// コントロール接尾辞
         /// </summary>
-        private string _suffix = "";
+        private string _suffix = string.Empty;
 
         /// <summary>
         /// コンストラクタ

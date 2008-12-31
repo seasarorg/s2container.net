@@ -124,7 +124,7 @@ namespace Seasar.Tests.Framework.Container.Assembler
 
         public interface Foo
         {
-            String HogeName { get; }
+            string HogeName { get; }
         }
 
         public class A : MarshalByRefObject, Foo

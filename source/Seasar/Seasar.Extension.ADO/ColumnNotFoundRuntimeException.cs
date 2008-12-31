@@ -31,8 +31,8 @@ namespace Seasar.Extension.ADO
         public ColumnNotFoundRuntimeException(string tableName, string columnName)
             : base("ESSR0068", new object[] { tableName, columnName })
         {
-            this._tableName = tableName;
-            this._columnName = columnName;
+            _tableName = tableName;
+            _columnName = columnName;
         }
 
         public ColumnNotFoundRuntimeException(SerializationInfo info, StreamingContext context)

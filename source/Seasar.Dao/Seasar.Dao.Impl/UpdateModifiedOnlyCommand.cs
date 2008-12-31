@@ -24,9 +24,9 @@ using Seasar.Framework.Log;
 
 namespace Seasar.Dao.Impl
 {
-	public class UpdateModifiedOnlyCommand : UpdateAutoDynamicCommand
-	{
-        private static Logger _logger = Logger.GetLogger(typeof(UpdateAutoDynamicCommand));
+    public class UpdateModifiedOnlyCommand : UpdateAutoDynamicCommand
+    {
+        private static readonly Logger _logger = Logger.GetLogger(typeof(UpdateAutoDynamicCommand));
 
         public UpdateModifiedOnlyCommand(IDataSource dataSource, ICommandFactory commandFactory,
             IBeanMetaData beanMetaData, string[] propertyNames)
@@ -34,20 +34,23 @@ namespace Seasar.Dao.Impl
         {
         }
 
-        protected override IPropertyType[] CreateTargetPropertyTypes(IBeanMetaData bmd, object bean, 
+        protected override IPropertyType[] CreateTargetPropertyTypes(IBeanMetaData bmd, object bean,
             string[] propertyNames)
         {
             IDictionary modifiedPropertyNames = bmd.GetModifiedPropertyNames(bean);
             IList types = new ArrayList();
             string timestampPropertyName = bmd.TimestampPropertyName;
             string versionNoPropertyName = bmd.VersionNoPropertyName;
-            for (int i = 0; i < propertyNames.Length; ++i) {
+            for (int i = 0; i < propertyNames.Length; ++i)
+            {
                 IPropertyType pt = bmd.GetPropertyType(propertyNames[i]);
-                if (pt.IsPrimaryKey == false) {
+                if (pt.IsPrimaryKey == false)
+                {
                     string propertyName = pt.PropertyName;
                     if (propertyName.Equals(timestampPropertyName, StringComparison.CurrentCultureIgnoreCase)
                             || propertyName.Equals(versionNoPropertyName, StringComparison.CurrentCultureIgnoreCase)
-                            || modifiedPropertyNames.Contains(propertyName)) {
+                            || modifiedPropertyNames.Contains(propertyName))
+                    {
                         types.Add(pt);
                     }
                 }
@@ -57,15 +60,15 @@ namespace Seasar.Dao.Impl
             return propertyTypes;
         }
 
-        protected override bool CanExecute(object bean, IBeanMetaData bmd, IPropertyType[] propertyTypes, 
+        protected override bool CanExecute(object bean, IBeanMetaData bmd, IPropertyType[] propertyTypes,
             string[] propertyNames)
         {
-            if ( propertyTypes.Length > 0 )
+            if (propertyTypes.Length > 0)
             {
                 return true;
             }
 
-            if ( _logger.IsDebugEnabled )
+            if (_logger.IsDebugEnabled)
             {
                 string s = CreateNoUpdateLogMessage(bean, bmd);
                 _logger.Debug(s);
@@ -79,12 +82,12 @@ namespace Seasar.Dao.Impl
             builder.Append("skip UPDATE: table=");
             builder.Append(bmd.TableName);
             int size = bmd.PrimaryKeySize;
-            for ( int i = 0; i < size; i++ )
+            for (int i = 0; i < size; i++)
             {
-                if ( i == 0 )
+                if (i == 0)
                 {
                     builder.Append(", key{");
-                } 
+                }
                 else
                 {
                     builder.Append(", ");
@@ -94,12 +97,12 @@ namespace Seasar.Dao.Impl
                 builder.Append("=");
                 builder.Append(bmd.GetPropertyTypeByColumnName(keyName)
                         .PropertyInfo.GetValue(bean, null));
-                if ( i == size - 1 )
+                if (i == size - 1)
                 {
                     builder.Append("}");
                 }
             }
-            
+
             return builder.ToString();
         }
     }

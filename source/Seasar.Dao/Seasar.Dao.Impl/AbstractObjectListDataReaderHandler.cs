@@ -22,8 +22,8 @@ using Seasar.Extension.ADO;
 
 namespace Seasar.Dao.Impl
 {
-	public abstract class AbstractObjectListDataReaderHandler : IDataReaderHandler
-	{
+    public abstract class AbstractObjectListDataReaderHandler : IDataReaderHandler
+    {
         protected delegate void ReceiveValues(object val, int index);
 
         #region IDataReaderHandler メンバ
@@ -39,7 +39,7 @@ namespace Seasar.Dao.Impl
                 //  検索結果の先頭列の値を戻り値要素の値と見なす
                 object val = dataReader.GetValue(0);
                 resultList.Add(GetValue(val));
-            }   
+            }
         }
 
         protected virtual object GetValue(object val)

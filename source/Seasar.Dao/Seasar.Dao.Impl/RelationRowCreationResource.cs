@@ -32,7 +32,7 @@ namespace Seasar.Dao.Impl
         protected IDataReader dataReader;
 
         /** Relation row. Initialized at first or initialied after. */
-        protected Object row;
+        protected object row;
 
         /** Relation property type. */
         protected IRelationPropertyType relationPropertyType;
@@ -47,10 +47,10 @@ namespace Seasar.Dao.Impl
         protected IDictionary<String, IDictionary<String, IPropertyType>> relationPropertyCache;
 
         /** The suffix of base object. */
-        protected String baseSuffix;
+        protected string baseSuffix;
 
         /** The suffix of relation no. */
-        protected String relationNoSuffix;
+        protected string relationNoSuffix;
 
         /** The limit of relation nest leve. */
         protected int limitRelationNestLevel;
@@ -119,7 +119,7 @@ namespace Seasar.Dao.Impl
         // -----------------------------------------------------
         //                                           columnNames
         //                                           -----------
-        public virtual bool ContainsColumnName(String columnName) {
+        public virtual bool ContainsColumnName(string columnName) {
             return columnNames.Contains(columnName);
         }
 
@@ -130,15 +130,15 @@ namespace Seasar.Dao.Impl
             return relKeyValues != null;
         }
 
-        public virtual bool ContainsRelKeyValue(String key) {
+        public virtual bool ContainsRelKeyValue(string key) {
             return relKeyValues.ContainsKey(key);
         }
 
-        public virtual bool ContainsRelKeyValueIfExists(String key) {
+        public virtual bool ContainsRelKeyValueIfExists(string key) {
             return ExistsRelKeyValues() && relKeyValues.ContainsKey(key);
         }
 
-        public virtual Object ExtractRelKeyValue(String key) {
+        public virtual object ExtractRelKeyValue(string key) {
             return relKeyValues[key];
         }
 
@@ -165,7 +165,7 @@ namespace Seasar.Dao.Impl
                 InitializePropertyCacheElement();
             }
             IDictionary<String, IPropertyType> propertyCacheElement = ExtractPropertyCacheElement();
-            String columnName = BuildRelationColumnName();
+            string columnName = BuildRelationColumnName();
             if (propertyCacheElement.ContainsKey(columnName)) {
                 return;
             }
@@ -177,16 +177,16 @@ namespace Seasar.Dao.Impl
         // -----------------------------------------------------
         //                                                suffix
         //                                                ------
-        public virtual String BuildRelationColumnName() {
+        public virtual string BuildRelationColumnName() {
             return currentPropertyType.ColumnName + relationNoSuffix;
         }
 
-        public virtual void AddRelationNoSuffix(String AdditionalRelationNoSuffix) {
+        public virtual void AddRelationNoSuffix(string AdditionalRelationNoSuffix) {
             relationNoSuffix = relationNoSuffix + AdditionalRelationNoSuffix;
         }
 
-        public virtual void BackupSuffixAndPrepare(String baseSuffix,
-                String additionalRelationNoSuffix) {
+        public virtual void BackupSuffixAndPrepare(string baseSuffix,
+                string additionalRelationNoSuffix) {
             BackupBaseSuffix();
             BackupRelationNoSuffix();
             this.baseSuffix = baseSuffix;
@@ -266,7 +266,7 @@ namespace Seasar.Dao.Impl
             set { dataReader = value; }
         }
 
-        public virtual Object Row {
+        public virtual object Row {
             get { return row; }
             set { row = value; }
         }
@@ -291,12 +291,12 @@ namespace Seasar.Dao.Impl
             set { relationPropertyCache = value; }
         }
 
-        public virtual String BaseSuffix {
+        public virtual string BaseSuffix {
             get { return baseSuffix; }
             set { baseSuffix = value; }
         }
 
-        public virtual String RelationNoSuffix {
+        public virtual string RelationNoSuffix {
             get { return relationNoSuffix; }
             set { relationNoSuffix = value; }
         }

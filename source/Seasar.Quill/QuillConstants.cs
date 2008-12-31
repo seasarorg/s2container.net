@@ -16,7 +16,6 @@
  */
 #endregion
 
-
 namespace Seasar.Quill
 {
     /// <summary>

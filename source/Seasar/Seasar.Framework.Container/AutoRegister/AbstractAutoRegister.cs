@@ -24,11 +24,11 @@ namespace Seasar.Framework.Container.AutoRegister
     /// <summary>
     /// 自動登録用の抽象クラスです。
     /// </summary>
-	public abstract class AbstractAutoRegister
-	{
+    public abstract class AbstractAutoRegister
+    {
         private IS2Container container;
-        private IList<ClassPattern> classPatterns = new List<ClassPattern>();
-        private IList<ClassPattern> ignoreClassPatterns = new List<ClassPattern>();
+        private readonly IList<ClassPattern> classPatterns = new List<ClassPattern>();
+        private readonly IList<ClassPattern> ignoreClassPatterns = new List<ClassPattern>();
 
         /// <summary>
         /// コンテナを取得・設定します。
@@ -54,7 +54,7 @@ namespace Seasar.Framework.Container.AutoRegister
         /// <returns>ClassPattern</returns>
         public ClassPattern GetClassPattern(int index)
         {
-            return (ClassPattern)classPatterns[index];
+            return classPatterns[index];
         }
 
         /// <summary>

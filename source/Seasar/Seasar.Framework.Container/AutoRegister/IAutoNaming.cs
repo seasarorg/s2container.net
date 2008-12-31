@@ -23,13 +23,13 @@ namespace Seasar.Framework.Container.AutoRegister
     /// <summary>
     /// 名前が明示的に付けられていないコンポーネントに自動的に名前を付ける為のインターフェースです。
     /// </summary>
-	public interface IAutoNaming
-	{
+    public interface IAutoNaming
+    {
         /// <summary>
         /// コンポーネント名を定義します。
         /// </summary>
         /// <param name="type">コンポーネント名を定義したいType</param>
         /// <returns>コンポーネント名</returns>
         string DefineName(Type type);
-	}
+    }
 }

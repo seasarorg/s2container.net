@@ -19,15 +19,14 @@
 using Seasar.Framework.Aop;
 using Seasar.Framework.Container.Impl;
 using Seasar.Framework.Aop.Impl;
-using Seasar.Framework.Util;
 
 namespace Seasar.Framework.Container.AutoRegister
 {
     /// <summary>
     /// アスペクトを自動登録するためのクラスです。
     /// </summary>
-	public class AspectAutoRegister : AbstractComponentTargetAutoRegister
-	{
+    public class AspectAutoRegister : AbstractComponentTargetAutoRegister
+    {
         private IMethodInterceptor interceptor;
         private string pointcut;
 
@@ -58,7 +57,7 @@ namespace Seasar.Framework.Container.AutoRegister
             if (pointcut != null)
             {
                 string[] methodNames = pointcut.Split(new char[] { ',' });
-                aspectDef = new AspectDefImpl(interceptor, 
+                aspectDef = new AspectDefImpl(interceptor,
                     new PointcutImpl(methodNames));
             }
             else
@@ -68,5 +67,5 @@ namespace Seasar.Framework.Container.AutoRegister
 
             componentDef.AddAspeceDef(aspectDef);
         }
-	}
+    }
 }

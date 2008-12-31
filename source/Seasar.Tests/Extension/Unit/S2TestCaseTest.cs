@@ -39,7 +39,7 @@ namespace Seasar.Tests.Extension.Unit
     public class S2TestCaseTest : S2TestCase
     {
         private static readonly Logger _logger = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private const String PATH = "Seasar.Tests.Ado.dicon";
+        private const string PATH = "Seasar.Tests.Ado.dicon";
 
         static S2TestCaseTest()
         {
@@ -139,7 +139,7 @@ namespace Seasar.Tests.Extension.Unit
             //  リソースファイルの場所を明確に指定する
             StringBuilder builder = new StringBuilder();
             builder.Append(Assembly.GetExecutingAssembly().CodeBase);
-            builder.Replace("file:///", "");
+            builder.Replace("file:///", string.Empty);
             builder.Replace("Seasar.Tests.DLL", "Extension/Unit/testdata.xls");
             DataSet dataSet = ReadXls(builder.ToString());
 
@@ -183,7 +183,7 @@ namespace Seasar.Tests.Extension.Unit
             //  リソースファイルの場所を明確に指定する
             StringBuilder builder = new StringBuilder();
             builder.Append(Assembly.GetExecutingAssembly().CodeBase);
-            builder.Replace("file:///", "");
+            builder.Replace("file:///", string.Empty);
             builder.Replace("Seasar.Tests.DLL", "Extension/Unit/testdata.xls");
             DataSet dataSet = ReadXls(builder.ToString());
 
@@ -204,7 +204,7 @@ namespace Seasar.Tests.Extension.Unit
             //  リソースファイルの場所を明確に指定する
             StringBuilder builder = new StringBuilder();
             builder.Append(Assembly.GetExecutingAssembly().CodeBase);
-            builder.Replace("file:///", "");
+            builder.Replace("file:///", string.Empty);
             builder.Replace("Seasar.Tests.DLL", "Extension/Unit/S2TestCaseTest_ReadXlsWriteDbTx.xls");
             ReadXlsWriteDb(builder.ToString());
 

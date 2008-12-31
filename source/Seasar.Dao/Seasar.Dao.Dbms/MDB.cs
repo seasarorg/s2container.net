@@ -16,8 +16,6 @@
  */
 #endregion
 
-using System;
-
 namespace Seasar.Dao.Dbms
 {
     public class MDB : Standard

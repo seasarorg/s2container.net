@@ -19,7 +19,6 @@
 using Seasar.Framework.Aop.Impl;
 using Seasar.Framework.Xml;
 using Seasar.Framework.Util;
-using Seasar.Framework.Container;
 using Seasar.Framework.Container.Impl;
 
 namespace Seasar.Framework.Container.Factory

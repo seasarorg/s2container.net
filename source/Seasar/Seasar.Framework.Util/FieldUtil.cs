@@ -23,8 +23,8 @@ namespace Seasar.Framework.Util
     /// <summary>
     /// フィールド（インスタンス変数）情報を取り扱うユーティリティ
     /// </summary>
-	public class FieldUtil
-	{
+    public class FieldUtil
+    {
         /// <summary>
         /// 読み取り専用か判定する
         /// </summary>
@@ -34,5 +34,5 @@ namespace Seasar.Framework.Util
         {
             return (field.IsInitOnly || field.IsLiteral);
         }
-	}
+    }
 }

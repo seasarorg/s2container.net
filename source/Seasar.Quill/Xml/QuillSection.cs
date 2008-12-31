@@ -118,7 +118,7 @@ namespace Seasar.Quill.Xml
                 {
                     builder.AppendFormat("{0},", ds);
                 }
-                builder.Replace(",", "", builder.Length - 1, 1);
+                builder.Replace(",", string.Empty, builder.Length - 1, 1);
                 builder.AppendLine("]");
             }
 
@@ -134,7 +134,7 @@ namespace Seasar.Quill.Xml
                 {
                     builder.AppendFormat("{0},", assembly);
                 }
-                builder.Replace(",", "", builder.Length - 1, 1);
+                builder.Replace(",", string.Empty, builder.Length - 1, 1);
                 builder.AppendLine("]");
             }
 

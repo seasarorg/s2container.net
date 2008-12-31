@@ -23,8 +23,8 @@ namespace Seasar.Framework.Container.AutoRegister
     /// <summary>
     /// コンポーネントを対象にした自動登録を行うための抽象クラスです。
     /// </summary>
-	public abstract class AbstractComponentTargetAutoRegister : AbstractAutoRegister
-	{
+    public abstract class AbstractComponentTargetAutoRegister : AbstractAutoRegister
+    {
         /// <summary>
         /// コンポーネントを対象にして自動登録を行います。
         /// </summary>

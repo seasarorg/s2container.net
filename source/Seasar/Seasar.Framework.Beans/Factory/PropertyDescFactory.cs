@@ -32,8 +32,8 @@ namespace Seasar.Framework.Beans.Factory
     /// 思いましたがコードが読みづらくなるだけと判断し、
     /// 各XxxDescクラスごとに作成しています。
     /// </remarks>
-	public class PropertyDescFactory
-	{
+    public class PropertyDescFactory
+    {
         private const BindingFlags DEFAULT_BINDING_FLAG = (BindingFlags.Public | BindingFlags.Instance);
         private readonly Type _beanType;
         /// <summary>
@@ -100,7 +100,7 @@ namespace Seasar.Framework.Beans.Factory
         public virtual IPropertyDesc GetProperty(string propertyName, BindingFlags bindingFlags)
         {
             CreatePropertyDescsIfNeed(bindingFlags);
-            if(HasProperty(propertyName, bindingFlags) == false)
+            if (HasProperty(propertyName, bindingFlags) == false)
             {
                 throw new PropertyNotFoundRuntimeException(_beanType, propertyName);
             }
@@ -133,7 +133,7 @@ namespace Seasar.Framework.Beans.Factory
         /// <param name="bindingFlags"></param>
         protected virtual void CreatePropertyDescsIfNeed(BindingFlags bindingFlags)
         {
-            if(_propertyDescCache.ContainsKey(bindingFlags))
+            if (_propertyDescCache.ContainsKey(bindingFlags))
             {
                 return;
             }
@@ -177,5 +177,5 @@ namespace Seasar.Framework.Beans.Factory
         {
             return new PropertyDescImpl(propertyInfo);
         }
-	}
+    }
 }

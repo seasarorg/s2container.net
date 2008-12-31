@@ -24,9 +24,9 @@ using Seasar.Framework.Util;
 
 namespace Seasar.Dao.Impl
 {
-	public class ObjectGenericListDataReaderHandler : AbstractObjectListDataReaderHandler
-	{
-        private Type _elementType;
+    public class ObjectGenericListDataReaderHandler : AbstractObjectListDataReaderHandler
+    {
+        private readonly Type _elementType;
 
         public ObjectGenericListDataReaderHandler(Type elementType)
         {

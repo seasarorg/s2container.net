@@ -26,8 +26,8 @@ namespace Seasar.Framework.Beans.Impl
     /// <summary>
     /// BeanDesc実装クラス
     /// </summary>
-	public class BeanDescImpl : IBeanDesc
-	{
+    public class BeanDescImpl : IBeanDesc
+    {
         /// <summary>
         /// 元となる型
         /// </summary>
@@ -256,7 +256,7 @@ namespace Seasar.Framework.Beans.Impl
         public virtual ConstructorInfo GetConstructor(Type[] paramTypes)
         {
             ConstructorInfo ci = _beanType.GetConstructor(paramTypes);
-            if(ci == null)
+            if (ci == null)
             {
                 throw new ConstructorNotFoundRuntimeException(_beanType, paramTypes);
             }
@@ -456,7 +456,7 @@ namespace Seasar.Framework.Beans.Impl
         /// <returns></returns>
         protected virtual PropertyDescFactory GetOrCreatePropertyDescCache()
         {
-            if(_propertyCache == null)
+            if (_propertyCache == null)
             {
                 _propertyCache = new PropertyDescFactory(_beanType);
             }
@@ -469,7 +469,7 @@ namespace Seasar.Framework.Beans.Impl
         /// <returns></returns>
         protected virtual MethodDescFactory GetOrCreateMethodDescCache()
         {
-            if(_methodCache == null)
+            if (_methodCache == null)
             {
                 _methodCache = new MethodDescFactory(_beanType);
             }
@@ -488,5 +488,5 @@ namespace Seasar.Framework.Beans.Impl
             }
             return _fieldCache;
         }
-	}
+    }
 }

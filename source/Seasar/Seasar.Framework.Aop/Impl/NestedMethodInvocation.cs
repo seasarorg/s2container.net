@@ -65,7 +65,7 @@ namespace Seasar.Framework.Aop.Impl
             return _parent.Proceed();
         }
 
-        public Object GetParameter(string name)
+        public object GetParameter(string name)
         {
             return _parent.GetParameter(name);
         }

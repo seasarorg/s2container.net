@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Runtime.Serialization;
 using Seasar.Framework.Exceptions;
 
 namespace Seasar.Framework.Beans
@@ -25,11 +26,11 @@ namespace Seasar.Framework.Beans
     /// フィールドが見つからない場合にスローされる例外です。
     /// </summary>
     [Serializable]
-	public class FieldNotFoundRuntimeException : SRuntimeException
-	{
+    public class FieldNotFoundRuntimeException : SRuntimeException
+    {
         private readonly Type _componentType;
 
-        private readonly String _fieldName;
+        private readonly string _fieldName;
 
         /// <summary>
         /// ターゲットの型
@@ -42,7 +43,7 @@ namespace Seasar.Framework.Beans
         /// <summary>
         /// フィールド名
         /// </summary>
-        public String FieldName
+        public string FieldName
         {
             get { return _fieldName; }
         }
@@ -52,11 +53,25 @@ namespace Seasar.Framework.Beans
         /// </summary>
         /// <param name="componentType"></param>
         /// <param name="fieldName"></param>
-        public FieldNotFoundRuntimeException(Type componentType, String fieldName)
+        public FieldNotFoundRuntimeException(Type componentType, string fieldName)
             : base("ESSR0070", new Object[] { componentType.Name, fieldName })
         {
             _componentType = componentType;
             _fieldName = fieldName;
         }
-	}
+
+        public FieldNotFoundRuntimeException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+            _componentType = info.GetValue("_componentType", typeof(Type)) as Type;
+            _fieldName = info.GetString("_fieldName");
+        }
+
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("_componentType", _componentType, typeof(Type));
+            info.AddValue("_fieldName", _fieldName, typeof(string));
+            base.GetObjectData(info, context);
+        }
+    }
 }

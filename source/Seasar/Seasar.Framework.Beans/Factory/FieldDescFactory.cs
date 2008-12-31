@@ -27,8 +27,8 @@ namespace Seasar.Framework.Beans.Factory
     /// <summary>
     /// フィールド情報記述クラスファクトリ
     /// </summary>
-	public class FieldDescFactory
-	{
+    public class FieldDescFactory
+    {
         private const BindingFlags DEFAULT_BINDING_FLAG = (BindingFlags.Public | BindingFlags.Instance);
         private readonly Type _beanType;
 
@@ -96,7 +96,7 @@ namespace Seasar.Framework.Beans.Factory
         public virtual IFieldDesc GetFieldDesc(string fieldName, BindingFlags bindingFlags)
         {
             CreateFieldDescsIfNeed(bindingFlags);
-            if(HasField(fieldName, bindingFlags) == false)
+            if (HasField(fieldName, bindingFlags) == false)
             {
                 throw new FieldNotFoundRuntimeException(_beanType, fieldName);
             }
@@ -129,7 +129,7 @@ namespace Seasar.Framework.Beans.Factory
         /// <param name="bindingFlags"></param>
         protected virtual void CreateFieldDescsIfNeed(BindingFlags bindingFlags)
         {
-            if(_fieldDescCache.ContainsKey(bindingFlags))
+            if (_fieldDescCache.ContainsKey(bindingFlags))
             {
                 return;
             }
@@ -173,5 +173,5 @@ namespace Seasar.Framework.Beans.Factory
         {
             return new FieldDescImpl(fieldInfo);
         }
-	}
+    }
 }

@@ -32,8 +32,8 @@ namespace Seasar.Framework.Beans.Factory
     /// 思いましたがコードが読みづらくなるだけと判断し、
     /// 各XxxDescクラスごとに作成しています。
     /// </remarks>
-	public class MethodDescFactory
-	{
+    public class MethodDescFactory
+    {
         private const BindingFlags DEFAULT_BINDING_FLAG = (BindingFlags.Public | BindingFlags.Instance);
         private readonly Type _beanType;
         /// <summary>
@@ -153,7 +153,7 @@ namespace Seasar.Framework.Beans.Factory
         {
             CreateMethodDescsIfNeed(bindingFlags);
             string key = CreateKey(methodName, parameterTypes);
-            if(_methodDescCache[bindingFlags].ContainsKey(key) == false)
+            if (_methodDescCache[bindingFlags].ContainsKey(key) == false)
             {
                 throw new MethodNotFoundRuntimeException(_beanType, methodName, parameterTypes);
             }
@@ -271,7 +271,7 @@ namespace Seasar.Framework.Beans.Factory
         /// <returns></returns>
         protected virtual string CreateKey(string name, Type[] parameterTypes)
         {
-            if(HasParameter(parameterTypes) == false) { return name; }
+            if (HasParameter(parameterTypes) == false) { return name; }
             return MethodUtil.GetSignature(name, parameterTypes);
         }
 
@@ -294,5 +294,5 @@ namespace Seasar.Framework.Beans.Factory
         {
             return new MethodDescImpl(methodInfo);
         }
-	}
+    }
 }

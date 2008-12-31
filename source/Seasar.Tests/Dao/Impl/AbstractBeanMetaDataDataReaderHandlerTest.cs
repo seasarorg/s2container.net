@@ -67,7 +67,7 @@ namespace Seasar.Tests.Dao.Impl
             IBeanMetaData beanMetaData = daoMetaData.BeanMetaData;
 
             TestDataReaderHandler handler = new TestDataReaderHandler(beanMetaData, new RowCreatorImpl(), new RelationRowCreatorImpl());
-            const String TEST_SQL = "SELECT EMP.EMPNO, EMP.ENAME, EMP.JOB, EMP.DEPTNO, DEPT.DEPTNO AS DEPTNO_0, DEPT.DNAME AS DNAME_0 FROM EMP LEFT OUTER JOIN DEPT ON EMP.DEPTNO = DEPT.DEPTNO";
+            const string TEST_SQL = "SELECT EMP.EMPNO, EMP.ENAME, EMP.JOB, EMP.DEPTNO, DEPT.DEPTNO AS DEPTNO_0, DEPT.DNAME AS DNAME_0 FROM EMP LEFT OUTER JOIN DEPT ON EMP.DEPTNO = DEPT.DEPTNO";
             IDbCommand command = CommandFactory.CreateCommand(Connection, TEST_SQL);
             IDataReader reader = command.ExecuteReader();
             Assert.IsTrue(reader.Read());

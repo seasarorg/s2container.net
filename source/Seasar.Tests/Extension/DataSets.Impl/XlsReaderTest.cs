@@ -127,7 +127,7 @@ namespace Seasar.Tests.Extension.DataSets.Impl
         {
             string exeConfigPath = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None).FilePath;
             string[] filePathParts = exeConfigPath.Split('\\');
-            string xlsFilePath = exeConfigPath.Replace(filePathParts[filePathParts.Length - 1], "") + "\\" +
+            string xlsFilePath = exeConfigPath.Replace(filePathParts[filePathParts.Length - 1], string.Empty) + "\\" +
                              "../../../Extension/DataSets.Impl/XlsReaderTest_InvalidColumn.xls";
             //XlsReader reader = new XlsReader("../Extension/DataSets.Impl/XlsReaderTest_InvalidColumn.xls");
             XlsReader reader = new XlsReader(xlsFilePath);

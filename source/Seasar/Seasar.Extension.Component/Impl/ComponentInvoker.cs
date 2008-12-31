@@ -20,7 +20,6 @@ using System;
 using System.Collections;
 using System.Reflection;
 using System.Runtime.Remoting;
-using Seasar.Extension.Component;
 using Seasar.Framework.Aop;
 using Seasar.Framework.Aop.Impl;
 using Seasar.Framework.Aop.Proxy;

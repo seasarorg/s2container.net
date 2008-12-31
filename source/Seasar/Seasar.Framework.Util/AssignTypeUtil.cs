@@ -23,8 +23,8 @@ using System.Collections.Generic;
 
 namespace Seasar.Framework.Util
 {
-	public class AssignTypeUtil
-	{
+    public class AssignTypeUtil
+    {
         /// <summary>
         /// 単体の値として利用できる型か判定する
         /// </summary>
@@ -38,7 +38,7 @@ namespace Seasar.Framework.Util
             }
 
             if (type == typeof(string) || type.IsPrimitive
-                || type == typeof(bool) || type ==  typeof(char)
+                || type == typeof(bool) || type == typeof(char)
                 || type.IsValueType || type == typeof(DateTime)
                 || type == typeof(Calendar) || type == typeof(byte[]))
             {
@@ -87,6 +87,6 @@ namespace Seasar.Framework.Util
             return (type.IsGenericType &&
                     type.GetGenericTypeDefinition().Equals(typeof(Nullable<>)));
         }
-            
-	}
+
+    }
 }

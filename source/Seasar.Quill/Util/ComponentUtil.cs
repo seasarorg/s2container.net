@@ -17,8 +17,6 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Seasar.Quill.Exception;
 
 namespace Seasar.Quill.Util
@@ -60,7 +58,7 @@ namespace Seasar.Quill.Util
         /// <param name="interfaceType"></param>
         /// <param name="implType"></param>
         /// <returns></returns>
-        /// <exception cref="Seasar.Quill.Exception.QuillComponentInvalidCastException">
+        /// <exception cref="Seasar.Quill.Exception.QuillInvalidClassException">
         /// コンポーネントが取得できなかった場合
         /// </exception>
         public static object GetComponent(QuillContainer container, Type interfaceType, Type implType)

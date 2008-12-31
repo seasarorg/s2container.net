@@ -17,21 +17,12 @@
 #endregion
 
 using System;
-using Seasar.Framework.Util;
 using Seasar.Quill.Dao;
 using Seasar.Quill.Dao.Impl;
 using Seasar.Quill.Database.Tx;
 using Seasar.Quill.Database.Tx.Impl;
 using Seasar.Quill.Exception;
-using Seasar.Quill.Xml;
-using Seasar.Extension.ADO;
-using System.Collections.Generic;
-using Seasar.Framework.Container.Factory;
-using System.Text.RegularExpressions;
-using System.Configuration;
-using Seasar.Extension.Tx.Impl;
 using System.Reflection;
-using Seasar.Quill.Database.DataSource.Connection;
 using System.Text;
 using System.IO;
 
@@ -122,8 +113,8 @@ namespace Seasar.Quill.Util
             StringBuilder builder = new StringBuilder();
             builder.Append(assembly.CodeBase);
             //  アドレス表記を削除
-            builder.Replace("file:///", "");
-            builder.Replace(assembly.GetName().Name + ".DLL", "");
+            builder.Replace("file:///", string.Empty);
+            builder.Replace(assembly.GetName().Name + ".DLL", string.Empty);
             //  ディレクトリパスのみ取り出す
             string retPath = Path.GetDirectoryName(builder.ToString());
             return retPath + Path.DirectorySeparatorChar.ToString();

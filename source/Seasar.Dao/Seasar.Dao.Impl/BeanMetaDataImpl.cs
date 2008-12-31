@@ -22,7 +22,6 @@ using System.Reflection;
 using System.Text;
 using Seasar.Dao.Attrs;
 using Seasar.Dao.Id;
-using Seasar.Dao.Impl;
 using Seasar.Extension.ADO;
 using Seasar.Framework.Beans;
 using Seasar.Framework.Log;

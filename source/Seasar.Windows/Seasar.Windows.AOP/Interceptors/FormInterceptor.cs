@@ -17,14 +17,13 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Windows.Forms;
 using Seasar.Framework.Aop;
 using Seasar.Framework.Aop.Interceptors;
 using Seasar.Framework.Container;
 using Seasar.Windows.Attr;
-
-using System.Collections.Generic;
 
 namespace Seasar.Windows.AOP.Interceptors
 {

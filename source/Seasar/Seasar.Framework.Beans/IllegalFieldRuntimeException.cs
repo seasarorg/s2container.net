@@ -27,7 +27,7 @@ namespace Seasar.Framework.Beans
     /// </summary>
     [Serializable]
     public class IllegalFieldRuntimeException : SRuntimeException
-	{
+    {
         private readonly Type _componentType;
         private readonly string _fieldName;
 
@@ -62,5 +62,5 @@ namespace Seasar.Framework.Beans
         {
             get { return _fieldName; }
         }
-	}
+    }
 }

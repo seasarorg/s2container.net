@@ -22,7 +22,7 @@ using System.Data;
 namespace Seasar.Dao.Impl
 {
     public class ObjectListDataReaderHandler : AbstractObjectListDataReaderHandler
-	{
+    {
         public override object Handle(IDataReader dataReader)
         {
             IList resultList = new ArrayList();
