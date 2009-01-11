@@ -295,8 +295,6 @@ namespace Seasar.Quill
             // 実装クラスのインスタンスを取得する
             QuillComponent component = container.GetComponent(field.FieldType, implType);
 
-            Console.WriteLine("fieldType=[{0}],implType=[{1}]",
-                field.FieldType, implType);
             // 再帰的に実装クラスのインスタンスにDIを行う
             Inject(component.GetComponentObject(implType));
 
