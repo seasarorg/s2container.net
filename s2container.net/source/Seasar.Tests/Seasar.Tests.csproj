@@ -514,6 +514,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Quill\Database\Provider\SQLiteTest.cs" />
     <Compile Include="Quill\InjectionMapTest.cs" />
     <Compile Include="Quill\QuillConfigTest.cs" />
     <Compile Include="Quill\AspectBuilderTest.cs" />

@@ -68,6 +68,7 @@
     <Compile Include="Database\Provider\Oracle.cs" />
     <Compile Include="Database\Provider\PostgreSQL.cs" />
     <Compile Include="Database\Provider\SqlServer.cs" />
+    <Compile Include="Database\Provider\SQLite.cs" />
     <Compile Include="Database\Tx\Impl\AbstractTransactionSetting.cs" />
     <Compile Include="Database\Tx\Impl\TypicalTransactionSetting.cs" />
     <Compile Include="Database\Tx\ITransactionSetting.cs" />
