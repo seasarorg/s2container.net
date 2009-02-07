@@ -16,6 +16,8 @@
  */
 #endregion
 
+using log4net;
+using log4net.Config;
 using MbUnit.Framework;
 using Seasar.Dao.Attrs;
 using Seasar.Extension.Unit;
@@ -23,6 +25,8 @@ using Seasar.Quill.Attrs;
 using Seasar.Quill.Database.DataSource.Impl;
 using Seasar.Quill.Unit;
 using Seasar.Tests.Dao.Impl;
+using System.Data;
+using System;
 
 namespace Seasar.Tests.Quill.Unit
 {
@@ -30,6 +34,61 @@ namespace Seasar.Tests.Quill.Unit
     public class QuillTestCaseTest : QuillTestCase
     {
         private InjectionTarget _targetObject = null;
+
+        /// <summary>
+        /// ロールバックが自動的にかかっているか確認
+        /// (２回実行して二度ともテストが通ればＯＫ)
+        /// </summary>
+        [Test, Quill(Tx.Rollback)]
+        public void TestWriteAndReadDb()
+        {
+            //  ## Arrange ##
+            DataTable table = new DataTable("EMP");
+            table.Columns.Add("EMPNO");
+            table.Columns.Add("ENAME");
+            table.Columns.Add("JOB");
+            table.Columns.Add("MGR");
+            table.Columns.Add("HIREDATE");
+            table.Columns.Add("SAL");
+            table.Columns.Add("COMM");
+            table.Columns.Add("DEPTNO");
+            table.Columns.Add("TSTAMP");
+            DataRow testRow = table.NewRow();
+            testRow["EMPNO"] = 5001;
+            testRow["ENAME"] = "ROCK";
+            testRow["JOB"] = "TH";
+            testRow["MGR"] = 7369;
+            testRow["HIREDATE"] = DateTime.Now;
+            testRow["SAL"] = 1000.0;
+            testRow["COMM"] = 300.0;
+            testRow["DEPTNO"] = 20;
+            testRow["TSTAMP"] = DateTime.Now;
+            table.Rows.Add(testRow);
+
+            DataSet ds = new DataSet();
+            ds.Tables.Add(table);
+
+            //  ## Act ##
+            WriteDb(ds);
+
+            DataTable resultTable = ReadDbByTable("EMP");
+
+            //  ## Assert ##
+            Assert.IsNotNull(resultTable);
+            Assert.GreaterThan(resultTable.Rows.Count, 0);
+            bool isExist = false;
+            foreach (DataRow row in resultTable.Rows)
+            {
+                if (((Decimal)row["EMPNO"]) == 5001)
+                {
+                    isExist = true;
+                    Assert.AreEqual(row["ENAME"], "ROCK");
+                    Assert.AreEqual(row["JOB"], "TH");
+                    break;
+                }
+            }
+            Assert.IsTrue(isExist);
+        }
 
         /// <summary>
         /// QuillInjectorによるインジェクションが行われているかチェック
@@ -127,6 +186,8 @@ namespace Seasar.Tests.Quill.Unit
             Employee empAfter = dao.GetEmployee(TEST_EMPNO);
             Assert.AreEqual(TEST_NAME_AFTER, empAfter.Ename, "after update");
         }
+
+
     }
 
     /// <summary>
