@@ -128,8 +128,9 @@ namespace Seasar.Quill.Unit
                 //  SetupInjectionが呼ばれていればTransactionContextは設定済み
                 _tc = txSetting.TransactionContext;
 
-                TransactionContext tc = (TransactionContext)_tc;
-                tc.Begin();
+                _tc = _tc.Create();
+                _tc.Current = _tc;
+                _tc.Begin();
             }
         }
 
@@ -145,6 +146,8 @@ namespace Seasar.Quill.Unit
                 {
                     _tc.Rollback();
                 }
+
+                _tc.Dispose();
             }
         }
 

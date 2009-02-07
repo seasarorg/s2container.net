@@ -58,9 +58,7 @@ namespace Seasar.Quill.Database.Tx.Impl
             {
                 throw new QuillApplicationException("EQLL0028", new object[] { this.GetType().Name });
             }
-            //  現在のTransactionContextのインスタンスを明示的に設定しておく
-            //  （Currentがnullだと毎回Connectionが新たに作られてしまうため）
-            _transactionContext.Current = _transactionContext;
+
             _isNeedSetup = false;
         }
 
