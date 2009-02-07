@@ -28,6 +28,7 @@ namespace Seasar.Quill.Unit
 	public class QuillTestCase : S2TestCase
 	{
         private QuillContainer _qContainer = null;
+        private ICommandFactory _commandFactory = null;
 
         public QuillContainer QContainer
         {
@@ -41,6 +42,21 @@ namespace Seasar.Quill.Unit
         {
             get { return _injector; }
             set { _injector = value; }
+        }
+
+        public override ICommandFactory CommandFactory
+        {
+            get
+            {
+                //  テストデータの書き込みにカスタムしたCommandFactoryが
+                //  必要になることはないと思われるため
+                //  現状では実質BasicCommandFactory固定としています。
+                if (_commandFactory == null)
+                {
+                    _commandFactory = BasicCommandFactory.INSTANCE;
+                }
+                return _commandFactory;
+            }
         }
 
         public object GetQuillComponent(Type componentClass)
@@ -70,15 +86,6 @@ namespace Seasar.Quill.Unit
             }
         }
 
-        /// <summary>
-        /// seasar-dotnet:1227暫定対応
-        /// </summary>
-        public override ICommandFactory CommandFactory
-        {
-            get
-            {
-                return BasicCommandFactory.INSTANCE;
-            }
-        }
+        
 	}
 }
