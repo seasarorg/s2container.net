@@ -13,13 +13,13 @@ rem    3`:XV‘ÎÛ‚Æ‚È‚éƒtƒ@ƒCƒ‹ƒpƒXi•¡”w’è‚·‚éê‡‚Í‹ó”’‹æØ‚è‚ÅƒpƒX‚ğ‹Lq
 rem -----------------------------------------------------------------------------
 
 rem s2conariner.net ja
-cd D:\work\OSS\Seasar\seasar_net_www\ja
-ReleaceDocUpdater.exe 1.3.12 1.3.13 index.html seasarnet.html download.html
+cd C:\MyPrograms\Seasar\www\ja
+ReleaceDocUpdater.exe 1.3.13 1.3.14 index.html seasarnet.html download.html
 
 rem s2conariner.net en
-cd D:\work\OSS\Seasar\seasar_net_www\en
-ReleaceDocUpdater.exe 1.3.12 1.3.13 index.html releases.html
+cd C:\MyPrograms\Seasar\www\en
+ReleaceDocUpdater.exe 1.3.13 1.3.14 index.html releases.html
 
 rem s2dao.net
-cd D:\work\OSS\Seasar\s2dao_net_www
-ReleaceDocUpdater.exe 1.3.12 1.3.13 ja\index.html en\index.html
+cd C:\MyPrograms\Seasar\s2dao_www
+ReleaceDocUpdater.exe 1.3.13 1.3.14 ja\index.html en\index.html
