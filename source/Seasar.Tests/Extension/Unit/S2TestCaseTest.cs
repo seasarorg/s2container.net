@@ -16,7 +16,6 @@
  */
 #endregion
 
-using System;
 using System.Diagnostics;
 using System.Data;
 using System.IO;
@@ -215,6 +214,16 @@ namespace Seasar.Tests.Extension.Unit
             DataRow row = table.Rows[0];
             Assert.AreEqual(831m, row["id"], "3");
             Assert.AreEqual("hoge", row["id_name"], "4");
+        }
+
+        [RowTest(Description = "S2Unit.NETÇ≈MbUnitÇÃ[RowTest]Ç…ëŒâûÇµÇƒÇ¢ÇÈÇ©ämîFÅB")]
+        [Row(1, 2, 3)]
+        [Row(0, 0, 0)]
+        [Row(-1, -2, -3)]
+        [S2]
+        public void RowTestSupportSum(int a, int b, int sum)
+        {
+            Assert.AreEqual(sum, a + b);
         }
     }
 }

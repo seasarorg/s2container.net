@@ -48,7 +48,7 @@ namespace Seasar.Framework.Unit
         public virtual object Run(IRunInvoker invoker, object o, IList args)
         {
             _fixture = o as S2FrameworkTestCaseBase;
-            _method = _fixture.GetType().GetMethod(invoker.Name);
+            _method = _fixture.GetType().GetMethod(GetMethodName(invoker.Name));
             SetUpContainer();
             _fixture.Container = _container;
             try
@@ -127,6 +127,21 @@ namespace Seasar.Framework.Unit
                 }
                 TearDownContainer();
             }
+        }
+
+        private static string GetMethodName(string methodName)
+        {
+            if (string.IsNullOrEmpty(methodName))
+            {
+                return methodName;
+            }
+
+            int index = methodName.IndexOf("(");
+            if (index == -1)
+            {
+                return methodName;
+            }
+            return methodName.Substring(0, index);
         }
 
         protected virtual void SetUpContainer()
