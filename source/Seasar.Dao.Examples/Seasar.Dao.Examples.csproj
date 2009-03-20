@@ -1,7 +1,7 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{D10462BB-F8BB-49E3-94C7-BEC5E94C2263}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -106,6 +106,7 @@
     <None Include="Seasar.Dao.Examples\AutoDelete\OleDbMDBAutoDelete.dicon" />
     <None Include="Seasar.Dao.Examples\AutoDelete\OracleAutoDelete.dicon" />
     <None Include="Seasar.Dao.Examples\AutoDelete\PostgreSQLAutoDelete.dicon" />
+    <None Include="Seasar.Dao.Examples\AutoDelete\SQLiteAutoDelete.dicon" />
     <None Include="Seasar.Dao.Examples\AutoInsert\AutoInsert.dicon" />
     <None Include="Seasar.Dao.Examples\AutoInsert\DB2AutoInsert.dicon" />
     <None Include="Seasar.Dao.Examples\AutoInsert\FirebirdAutoInsert.dicon" />
@@ -114,6 +115,7 @@
     <None Include="Seasar.Dao.Examples\AutoInsert\OleDbMDBAutoInsert.dicon" />
     <None Include="Seasar.Dao.Examples\AutoInsert\OracleAutoInsert.dicon" />
     <None Include="Seasar.Dao.Examples\AutoInsert\PostgreSQLAutoInsert.dicon" />
+    <None Include="Seasar.Dao.Examples\AutoInsert\SQLiteAutoInsert.dicon" />
     <None Include="Seasar.Dao.Examples\AutoSelect\AutoSelect.dicon" />
     <None Include="Seasar.Dao.Examples\AutoSelect\DB2AutoSelect.dicon" />
     <None Include="Seasar.Dao.Examples\AutoSelect\FirebirdAutoSelect.dicon" />
@@ -122,6 +124,7 @@
     <None Include="Seasar.Dao.Examples\AutoSelect\OleDbMDBAutoSelect.dicon" />
     <None Include="Seasar.Dao.Examples\AutoSelect\OracleAutoSelect.dicon" />
     <None Include="Seasar.Dao.Examples\AutoSelect\PostgreSQLAutoSelect.dicon" />
+    <None Include="Seasar.Dao.Examples\AutoSelect\SQLiteAutoSelect.dicon" />
     <None Include="Seasar.Dao.Examples\AutoUpdate\AutoUpdate.dicon" />
     <None Include="Seasar.Dao.Examples\AutoUpdate\DB2AutoUpdate.dicon" />
     <None Include="Seasar.Dao.Examples\AutoUpdate\FirebirdAutoUpdate.dicon" />
@@ -130,6 +133,7 @@
     <None Include="Seasar.Dao.Examples\AutoUpdate\OleDbMDBAutoUpdate.dicon" />
     <None Include="Seasar.Dao.Examples\AutoUpdate\OracleAutoUpdate.dicon" />
     <None Include="Seasar.Dao.Examples\AutoUpdate\PostgreSQLAutoUpdate.dicon" />
+    <None Include="Seasar.Dao.Examples\AutoUpdate\SQLiteAutoUpdate.dicon" />
     <None Include="Seasar.Dao.Examples\Examples.dicon" />
     <None Include="Seasar.Dao.Examples\FirebirdEx.dicon" />
     <None Include="Seasar.Dao.Examples\NoPersistentPropsAttr\DB2NoPersistentPropsAttr.dicon" />
@@ -140,6 +144,7 @@
     <None Include="Seasar.Dao.Examples\NoPersistentPropsAttr\OleDbMDBNoPersistentPropsAttr.dicon" />
     <None Include="Seasar.Dao.Examples\NoPersistentPropsAttr\OracleNoPersistentPropsAttr.dicon" />
     <None Include="Seasar.Dao.Examples\NoPersistentPropsAttr\PostgreSQLNoPersistentPropsAttr.dicon" />
+    <None Include="Seasar.Dao.Examples\NoPersistentPropsAttr\SQLiteNoPersistentPropsAttr.dicon" />
     <None Include="Seasar.Dao.Examples\OleDbMDBEx.dicon" />
     <None Include="Seasar.Dao.Examples\PersistentPropsAttr\DB2PersistentPropsAttr.dicon" />
     <None Include="Seasar.Dao.Examples\PersistentPropsAttr\FirebirdPersistentPropsAttr.dicon" />
@@ -149,6 +154,7 @@
     <None Include="Seasar.Dao.Examples\PersistentPropsAttr\OraclePersistentPropsAttr.dicon" />
     <None Include="Seasar.Dao.Examples\PersistentPropsAttr\PersistentPropsAttr.dicon" />
     <None Include="Seasar.Dao.Examples\PersistentPropsAttr\PostgreSQLPersistentPropsAttr.dicon" />
+    <None Include="Seasar.Dao.Examples\PersistentPropsAttr\SQLitePersistentPropsAttr.dicon" />
     <None Include="Seasar.Dao.Examples\PostgreSQLEx.dicon" />
     <None Include="Seasar.Dao.Examples\QueryAttr\DB2QueryAttr.dicon" />
     <None Include="Seasar.Dao.Examples\QueryAttr\FirebirdQueryAttr.dicon" />
@@ -158,6 +164,7 @@
     <None Include="Seasar.Dao.Examples\QueryAttr\OracleQueryAttr.dicon" />
     <None Include="Seasar.Dao.Examples\QueryAttr\PostgreSQLQueryAttr.dicon" />
     <None Include="Seasar.Dao.Examples\QueryAttr\QueryAttr.dicon" />
+    <None Include="Seasar.Dao.Examples\QueryAttr\SQLiteQueryAttr.dicon" />
     <None Include="Seasar.Dao.Examples\s2dotnetdemo.mdb" />
     <None Include="Seasar.Dao.Examples\SqlAttr\DB2SqlAttr.dicon" />
     <None Include="Seasar.Dao.Examples\SqlAttr\FirebirdSqlAttr.dicon" />
@@ -167,6 +174,7 @@
     <None Include="Seasar.Dao.Examples\SqlAttr\OracleSqlAttr.dicon" />
     <None Include="Seasar.Dao.Examples\SqlAttr\PostgreSQLSqlAttr.dicon" />
     <None Include="Seasar.Dao.Examples\SqlAttr\SqlAttr.dicon" />
+    <None Include="Seasar.Dao.Examples\SqlAttr\SQLiteSqlAttr.dicon" />
     <None Include="Seasar.Dao.Examples\SqlFile\DB2SqlFile.dicon" />
     <None Include="Seasar.Dao.Examples\SqlFile\FirebirdSqlFile.dicon" />
     <None Include="Seasar.Dao.Examples\SqlFile\MySqlSqlFile.dicon" />
@@ -175,6 +183,8 @@
     <None Include="Seasar.Dao.Examples\SqlFile\OracleSqlFile.dicon" />
     <None Include="Seasar.Dao.Examples\SqlFile\PostgreSQLSqlFile.dicon" />
     <None Include="Seasar.Dao.Examples\SqlFile\SqlFile.dicon" />
+    <None Include="Seasar.Dao.Examples\SqlFile\SQLiteSqlFile.dicon" />
+    <None Include="Seasar.Dao.Examples\SQLiteEx.dicon" />
     <Content Include="App.ico" />
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -209,6 +219,7 @@
     <Compile Include="Seasar.Dao.Examples\AutoDelete\PostgreSQLAutoDeleteClient.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoDelete\SQLiteAutoDeleteClient.cs" />
     <Compile Include="Seasar.Dao.Examples\AutoInsert\AutoInsertClient.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -239,6 +250,7 @@
     <Compile Include="Seasar.Dao.Examples\AutoInsert\PostgreSQLAutoInsertClient.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoInsert\SQLiteAutoInsertClient.cs" />
     <Compile Include="Seasar.Dao.Examples\AutoSelect\AutoSelectClient.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -272,6 +284,7 @@
     <Compile Include="Seasar.Dao.Examples\AutoSelect\PostgreSQLAutoSelectClient.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoSelect\SQLiteAutoSelectClient.cs" />
     <Compile Include="Seasar.Dao.Examples\AutoUpdate\AutoUpdateClient.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -302,6 +315,7 @@
     <Compile Include="Seasar.Dao.Examples\AutoUpdate\PostgreSQLAutoUpdateClient.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Dao.Examples\AutoUpdate\SQLiteAutoUpdateClient.cs" />
     <Compile Include="Seasar.Dao.Examples\Department1.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -344,6 +358,7 @@
     <Compile Include="Seasar.Dao.Examples\NoPersistentPropsAttr\PostgreSQLNoPersistentPropsAttrClient.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Dao.Examples\NoPersistentPropsAttr\SQLiteNoPersistentPropsAttrClient.cs" />
     <Compile Include="Seasar.Dao.Examples\PersistentPropsAttr\DB2PersistentPropsAttrClient.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -374,6 +389,7 @@
     <Compile Include="Seasar.Dao.Examples\PersistentPropsAttr\PostgreSQLPersistentPropsAttrClient.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Dao.Examples\PersistentPropsAttr\SQLitePersistentPropsAttrClient.cs" />
     <Compile Include="Seasar.Dao.Examples\QueryAttr\DB2QueryAttrClient.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -401,6 +417,7 @@
     <Compile Include="Seasar.Dao.Examples\QueryAttr\QueryAttrClient.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Dao.Examples\QueryAttr\SQLiteQueryAttrClient.cs" />
     <Compile Include="Seasar.Dao.Examples\SqlAttr\DB2SqlAttrClient.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -428,6 +445,7 @@
     <Compile Include="Seasar.Dao.Examples\SqlAttr\SqlAttrClient.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Dao.Examples\SqlAttr\SQLiteSqlAttrClient.cs" />
     <Compile Include="Seasar.Dao.Examples\SqlFile\DB2SqlFileClient.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -455,6 +473,7 @@
     <Compile Include="Seasar.Dao.Examples\SqlFile\SqlFileClient.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Dao.Examples\SqlFile\SQLiteSqlFileClient.cs" />
     <Compile Include="Seasar.Examples\Examples.cs">
       <SubType>Code</SubType>
     </Compile>
