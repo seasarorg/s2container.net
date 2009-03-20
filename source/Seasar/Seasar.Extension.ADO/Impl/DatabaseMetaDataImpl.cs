@@ -122,7 +122,7 @@ namespace Seasar.Extension.ADO.Impl
             try
             {
                 // テーブル定義情報を取得するためのSQLを作成する
-                string sql = "SELECT * FROM " + tableName;
+                string sql = string.Format("SELECT * FROM {0} WHERE 1 = 0", tableName);
 
                 // IDbCommandを取得する
                 IDbCommand cmd = _dataSource.GetCommand(sql, cn);
