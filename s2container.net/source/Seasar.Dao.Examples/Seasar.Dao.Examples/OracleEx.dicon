@@ -26,7 +26,7 @@
     <!--
         <property name="DataProvider">ODP.NET</property>
         -->
-    <property name="ConnectionString">"Data Source=ORCL;User ID=s2demouser;Password=s2demouser"</property>
+    <property name="ConnectionString">"Data Source=ORCL;User ID=S2DOTNETDEMO;Password=s2dotnetdemo"</property>
   </component>
 
   <!-- S2Dao.NETのDaoInterceptorとそれに必要なコンポーネント -->

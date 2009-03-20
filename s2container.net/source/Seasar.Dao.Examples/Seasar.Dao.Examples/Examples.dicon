@@ -83,6 +83,15 @@
   <include path="Seasar.Dao.Examples/PersistentPropsAttr/OleDbMDBPersistentPropsAttr.dicon" />
   <include path="Seasar.Dao.Examples/SqlFile/OleDbMDBSqlFile.dicon" />
 
+  <include path="Seasar.Dao.Examples/AutoSelect/SQLiteAutoSelect.dicon" />
+  <include path="Seasar.Dao.Examples/AutoInsert/SQLiteAutoInsert.dicon" />
+  <include path="Seasar.Dao.Examples/AutoUpdate/SQLiteAutoUpdate.dicon" />
+  <include path="Seasar.Dao.Examples/AutoDelete/SQLiteAutoDelete.dicon" />
+  <include path="Seasar.Dao.Examples/QueryAttr/SQLiteQueryAttr.dicon" />
+  <include path="Seasar.Dao.Examples/SqlAttr/SQLiteSqlAttr.dicon" />
+  <include path="Seasar.Dao.Examples/NoPersistentPropsAttr/SQLiteNoPersistentPropsAttr.dicon" />
+  <include path="Seasar.Dao.Examples/PersistentPropsAttr/SQLitePersistentPropsAttr.dicon" />
+  <include path="Seasar.Dao.Examples/SqlFile/SQLiteSqlFile.dicon" />
 
   <component class="Seasar.Examples.ExamplesExplorer">
     <initMethod name="AddExampless">
@@ -116,6 +125,10 @@
     <initMethod name="AddExampless">
       <arg>"MDB(OleDb)用Examples"</arg>
       <arg>OleDbMDB</arg>
+    </initMethod>
+    <initMethod name="AddExampless">
+      <arg>"SQLite用Examples"</arg>
+      <arg>SQLite</arg>
     </initMethod>
   </component>
 
@@ -1704,6 +1717,202 @@
     </initMethod>
   </component>
 
-
+  <component name="SQLite" class="System.Collections.ArrayList">
+    <initMethod name="Add">
+      <arg>
+        <component class="Seasar.Examples.Impl.BasicExamplesHandler">
+          <property name="Title">"Select文自動生成"</property>
+          <property name="Examples">SQLiteAutoSelect</property>
+          <initMethod name="AddDicon">
+            <arg>"Seasar.Dao.Examples/AutoSelect/SQLiteAutoSelect.dicon"</arg>
+          </initMethod>
+          <initMethod name="AddDicon">
+            <arg>"Seasar.Dao.Examples/SQLiteEx.dicon"</arg>
+          </initMethod>
+          <initMethod name="AddCode">
+            <arg>"Seasar.Dao.Examples/AutoSelect/IEmployeeDao.cs"</arg>
+          </initMethod>
+          <initMethod name="AddCode">
+            <arg>"Seasar.Dao.Examples/AutoSelect/SQLiteAutoSelectClient.cs"</arg>
+          </initMethod>
+        </component>
+      </arg>
+    </initMethod>
+    <initMethod name="Add">
+      <arg>
+        <component class="Seasar.Examples.Impl.BasicExamplesHandler">
+          <property name="Title">"Insert文自動生成"</property>
+          <property name="Examples">SQLiteAutoInsert</property>
+          <initMethod name="AddDicon">
+            <arg>"Seasar.Dao.Examples/AutoInsert/SQLiteAutoInsert.dicon"</arg>
+          </initMethod>
+          <initMethod name="AddDicon">
+            <arg>"Seasar.Dao.Examples/SQLiteEx.dicon"</arg>
+          </initMethod>
+          <initMethod name="AddCode">
+            <arg>"Seasar.Dao.Examples/AutoInsert/IEmployeeDao.cs"</arg>
+          </initMethod>
+          <initMethod name="AddCode">
+            <arg>"Seasar.Dao.Examples/AutoInsert/AutoInsertLogic.cs"</arg>
+          </initMethod>
+          <initMethod name="AddCode">
+            <arg>"Seasar.Dao.Examples/AutoInsert/SQLiteAutoInsertClient.cs"</arg>
+          </initMethod>
+        </component>
+      </arg>
+    </initMethod>
+    <initMethod name="Add">
+      <arg>
+        <component class="Seasar.Examples.Impl.BasicExamplesHandler">
+          <property name="Title">"Update文自動生成"</property>
+          <property name="Examples">SQLiteAutoUpdate</property>
+          <initMethod name="AddDicon">
+            <arg>"Seasar.Dao.Examples/AutoUpdate/SQLiteAutoUpdate.dicon"</arg>
+          </initMethod>
+          <initMethod name="AddDicon">
+            <arg>"Seasar.Dao.Examples/SQLiteEx.dicon"</arg>
+          </initMethod>
+          <initMethod name="AddCode">
+            <arg>"Seasar.Dao.Examples/AutoUpdate/IEmployeeDao.cs"</arg>
+          </initMethod>
+          <initMethod name="AddCode">
+            <arg>"Seasar.Dao.Examples/AutoUpdate/AutoUpdateLogic.cs"</arg>
+          </initMethod>
+          <initMethod name="AddCode">
+            <arg>"Seasar.Dao.Examples/AutoUpdate/SQLiteAutoUpdateClient.cs"</arg>
+          </initMethod>
+        </component>
+      </arg>
+    </initMethod>
+    <initMethod name="Add">
+      <arg>
+        <component class="Seasar.Examples.Impl.BasicExamplesHandler">
+          <property name="Title">"Delete文自動生成"</property>
+          <property name="Examples">SQLiteAutoDelete</property>
+          <initMethod name="AddDicon">
+            <arg>"Seasar.Dao.Examples/AutoDelete/SQLiteAutoDelete.dicon"</arg>
+          </initMethod>
+          <initMethod name="AddDicon">
+            <arg>"Seasar.Dao.Examples/SQLiteEx.dicon"</arg>
+          </initMethod>
+          <initMethod name="AddCode">
+            <arg>"Seasar.Dao.Examples/AutoDelete/IEmployeeDao.cs"</arg>
+          </initMethod>
+          <initMethod name="AddCode">
+            <arg>"Seasar.Dao.Examples/AutoDelete/AutoDeleteLogic.cs"</arg>
+          </initMethod>
+          <initMethod name="AddCode">
+            <arg>"Seasar.Dao.Examples/AutoDelete/SQLiteAutoDeleteClient.cs"</arg>
+          </initMethod>
+        </component>
+      </arg>
+    </initMethod>
+    <initMethod name="Add">
+      <arg>
+        <component class="Seasar.Examples.Impl.BasicExamplesHandler">
+          <property name="Title">"Query属性"</property>
+          <property name="Examples">SQLiteQueryAttr</property>
+          <initMethod name="AddDicon">
+            <arg>"Seasar.Dao.Examples/QueryAttr/SQLiteQueryAttr.dicon"</arg>
+          </initMethod>
+          <initMethod name="AddDicon">
+            <arg>"Seasar.Dao.Examples/SQLiteEx.dicon"</arg>
+          </initMethod>
+          <initMethod name="AddCode">
+            <arg>"Seasar.Dao.Examples/QueryAttr/IEmployeeDao.cs"</arg>
+          </initMethod>
+          <initMethod name="AddCode">
+            <arg>"Seasar.Dao.Examples/QueryAttr/SQLiteQueryAttrClient.cs"</arg>
+          </initMethod>
+        </component>
+      </arg>
+    </initMethod>
+    <initMethod name="Add">
+      <arg>
+        <component class="Seasar.Examples.Impl.BasicExamplesHandler">
+          <property name="Title">"Sql属性"</property>
+          <property name="Examples">SQLiteSqlAttr</property>
+          <initMethod name="AddDicon">
+            <arg>"Seasar.Dao.Examples/SqlAttr/SQLiteSqlAttr.dicon"</arg>
+          </initMethod>
+          <initMethod name="AddDicon">
+            <arg>"Seasar.Dao.Examples/SQLiteEx.dicon"</arg>
+          </initMethod>
+          <initMethod name="AddCode">
+            <arg>"Seasar.Dao.Examples/SqlAttr/IEmployeeDao.cs"</arg>
+          </initMethod>
+          <initMethod name="AddCode">
+            <arg>"Seasar.Dao.Examples/SqlAttr/SQLiteSqlAttrClient.cs"</arg>
+          </initMethod>
+        </component>
+      </arg>
+    </initMethod>
+    <initMethod name="Add">
+      <arg>
+        <component class="Seasar.Examples.Impl.BasicExamplesHandler">
+          <property name="Title">"NoPersistentProps属性"</property>
+          <property name="Examples">SQLiteNoPersistentPropsAttr</property>
+          <initMethod name="AddDicon">
+            <arg>"Seasar.Dao.Examples/NoPersistentPropsAttr/SQLiteNoPersistentPropsAttr.dicon"</arg>
+          </initMethod>
+          <initMethod name="AddDicon">
+            <arg>"Seasar.Dao.Examples/SQLiteEx.dicon"</arg>
+          </initMethod>
+          <initMethod name="AddCode">
+            <arg>"Seasar.Dao.Examples/NoPersistentPropsAttr/IEmployeeDao.cs"</arg>
+          </initMethod>
+          <initMethod name="AddCode">
+            <arg>"Seasar.Dao.Examples/NoPersistentPropsAttr/NoPersistentPropsAttrLogic.cs"</arg>
+          </initMethod>
+          <initMethod name="AddCode">
+            <arg>"Seasar.Dao.Examples/NoPersistentPropsAttr/SQLiteNoPersistentPropsAttrClient.cs"</arg>
+          </initMethod>
+        </component>
+      </arg>
+    </initMethod>
+    <initMethod name="Add">
+      <arg>
+        <component class="Seasar.Examples.Impl.BasicExamplesHandler">
+          <property name="Title">"PersistentProps属性"</property>
+          <property name="Examples">SQLitePersistentPropsAttr</property>
+          <initMethod name="AddDicon">
+            <arg>"Seasar.Dao.Examples/PersistentPropsAttr/SQLitePersistentPropsAttr.dicon"</arg>
+          </initMethod>
+          <initMethod name="AddDicon">
+            <arg>"Seasar.Dao.Examples/SQLiteEx.dicon"</arg>
+          </initMethod>
+          <initMethod name="AddCode">
+            <arg>"Seasar.Dao.Examples/PersistentPropsAttr/IEmployeeDao.cs"</arg>
+          </initMethod>
+          <initMethod name="AddCode">
+            <arg>"Seasar.Dao.Examples/PersistentPropsAttr/PersistentPropsAttrLogic.cs"</arg>
+          </initMethod>
+          <initMethod name="AddCode">
+            <arg>"Seasar.Dao.Examples/PersistentPropsAttr/SQLitePersistentPropsAttrClient.cs"</arg>
+          </initMethod>
+        </component>
+      </arg>
+    </initMethod>
+    <initMethod name="Add">
+      <arg>
+        <component class="Seasar.Examples.Impl.BasicExamplesHandler">
+          <property name="Title">"SQLファイル"</property>
+          <property name="Examples">SQLiteSqlFile</property>
+          <initMethod name="AddDicon">
+            <arg>"Seasar.Dao.Examples/SqlFile/SQLiteSqlFile.dicon"</arg>
+          </initMethod>
+          <initMethod name="AddDicon">
+            <arg>"Seasar.Dao.Examples/SQLiteEx.dicon"</arg>
+          </initMethod>
+          <initMethod name="AddCode">
+            <arg>"Seasar.Dao.Examples/SqlFile/IEmployeeDao.cs"</arg>
+          </initMethod>
+          <initMethod name="AddCode">
+            <arg>"Seasar.Dao.Examples/SqlFile/SQLiteSqlFileClient.cs"</arg>
+          </initMethod>
+        </component>
+      </arg>
+    </initMethod>
+  </component>
 
 </components>
