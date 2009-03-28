@@ -75,9 +75,11 @@ namespace Seasar.Windows.Seasar.Windows.Utils
             {
                 if (propertyType.IsInterface)
                 {
-                    if (propertyType.Name == "IList")
+                    //  Generic‚Ìê‡‚ÍuIList`1v‚Ì‚æ‚¤‚ÉIList‚ÌŒã‚É•¶š—ñ‚ª•t‰Á‚³‚ê‚Ä‚¢‚é‚½‚ß
+                    //  seasar-dotnet:1283
+                    if (propertyType.Name.StartsWith("IList"))
                         return (new BindingGenericListUtil());
-                    if (propertyType.Name == "IEnumerable")
+                    if (propertyType.Name.StartsWith("IEnumerable"))
                         return (new BindingArrayUtil());
 
                     throw new InvalidCastException(String.Format(SWFMessages.FSWF0006, propertyType.Name));
