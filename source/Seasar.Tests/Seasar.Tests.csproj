@@ -1,7 +1,7 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{6D6327B1-4252-470A-A76B-8E923F34AB7C}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -413,13 +413,16 @@
     <Compile Include="Dao\Parser\SqlTokenizerTest.cs" />
     <Compile Include="Dao\Unit\S2DaoTestCase.cs" />
     <Compile Include="Dxo\BeanA.cs" />
+    <Compile Include="Dxo\DateTimeBean.cs" />
     <Compile Include="Dxo\Department.cs" />
     <Compile Include="Dxo\Employee.cs" />
     <Compile Include="Dxo\EmployeePage.cs" />
     <Compile Include="Dxo\IBeanToBeanDxo.cs" />
     <Compile Include="Dxo\ICollectionDxo.cs" />
+    <Compile Include="Dxo\IDateTimeToStringBean.cs" />
     <Compile Include="Dxo\IEmployeeDxo.cs" />
     <Compile Include="Dxo\S2DxoTest.cs" />
+    <Compile Include="Dxo\StringBean.cs" />
     <Compile Include="Dxo\TargetBean.cs" />
     <Compile Include="Extension\ADO.Impl\BasicDbParameterParserTest.cs" />
     <Compile Include="Extension\ADO.Impl\BasicSelectHandlerTest.cs" />

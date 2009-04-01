@@ -15,7 +15,11 @@
         <aspect pointcut="Convert.*">interceptor</aspect>
     </component>
 
-    <!-- 
+  <component class="Seasar.Tests.Dxo.IDateTimeToStringBean">
+    <aspect pointcut="Convert.*">interceptor</aspect>
+  </component>
+  
+  <!-- 
 	<component class="org.seasar.extension.dxo.meta.impl.DxoMetadataFactoryImpl"/>
 	<component class="org.seasar.extension.dxo.converter.impl.ConverterFactoryImpl"/>
 	<component class="org.seasar.extension.dxo.annotation.impl.AnnotationReaderFactoryImpl"/>

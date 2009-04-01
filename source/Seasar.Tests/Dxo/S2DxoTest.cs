@@ -305,5 +305,33 @@ namespace Seasar.Tests.Dxo
             Assert.AreEqual("Sales", dept2.DName, "DName");
 
         }
+
+        [Test, S2]
+        public void TestDateTime()
+        {
+            Include(PATH);
+
+            IDateTimeToStringBean dxo = (IDateTimeToStringBean)GetComponent(typeof(IDateTimeToStringBean));
+
+            DateTimeBean bean = new DateTimeBean();
+            bean.DateTimeToString = new DateTime(2009, 4, 10, 0, 0, 0);
+            Console.Out.WriteLine("bean.DateToString = {0}", bean.DateTimeToString);
+
+            StringBean target = dxo.ConvertBeanToTargetWithoutDatePattern(bean);
+            Assert.AreEqual("2009/04/10 0:00:00", target.DateTimeToString, "test1");
+            Console.Out.WriteLine("targetDateTimeToString = {0}", target.DateTimeToString);
+
+            target = dxo.ConvertBeanToTarget1(bean);
+            Assert.AreEqual("20090410", target.DateTimeToString, "test2");
+            Console.Out.WriteLine("targetDateTimeToString = {0}", target.DateTimeToString);
+
+            target = dxo.ConvertBeanToTargetWithoutDatePattern(bean);
+            Assert.AreEqual("2009/04/10 0:00:00", target.DateTimeToString, "test3");
+            Console.Out.WriteLine("targetDateTimeToString = {0}", target.DateTimeToString);
+
+            target = dxo.ConvertBeanToTarget2(bean);
+            Assert.AreEqual("2009-04-10", target.DateTimeToString, "test4");
+            Console.Out.WriteLine("targetDateTimeToString = {0}", target.DateTimeToString);
+        }
     }
 }
