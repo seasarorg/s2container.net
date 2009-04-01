@@ -81,11 +81,9 @@ namespace Seasar.Dxo.Interceptor
                         else
                             throw new DxoException();
                     }
-                    object source;
                     if (args.Length == 0)
                         throw new DxoException();
-                    else
-                        source = args[0];
+                    object source = args[0];
 
                     _CollectConversionRuleAttribute(methodInfo);
                     _CollectDatePatternMapping(methodInfo);
@@ -365,7 +363,9 @@ namespace Seasar.Dxo.Interceptor
                 }
                 if (converter != null)
                 {
-                    if (!String.IsNullOrEmpty(_dateFormat))
+                    if (_dateFormat == null)
+                        converter.Format = String.Empty;
+                    else
                         converter.Format = _dateFormat;
 
                     _AttachConverterEvent(converter);

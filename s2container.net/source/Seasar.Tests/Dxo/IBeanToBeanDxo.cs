@@ -22,6 +22,8 @@ namespace Seasar.Tests.Dxo
 {
     public interface IBeanToBeanDxo
     {
+        TargetBean ConvertBeanToTargetWithoutDatePattern(BeanA source);
+
         [DatePattern("yyyyMMdd")]
         TargetBean ConvertBeanToTarget(BeanA source);
     }
