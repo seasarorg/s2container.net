@@ -18,6 +18,10 @@
   <component class="Seasar.Tests.Dxo.IDateTimeToStringBean">
     <aspect pointcut="Convert.*">interceptor</aspect>
   </component>
+
+  <component class="Seasar.Tests.Dxo.INestedDxo">
+    <aspect pointcut="Convert.*">interceptor</aspect>
+  </component>
   
   <!-- 
 	<component class="org.seasar.extension.dxo.meta.impl.DxoMetadataFactoryImpl"/>

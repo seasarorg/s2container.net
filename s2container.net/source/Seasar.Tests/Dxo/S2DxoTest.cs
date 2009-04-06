@@ -333,5 +333,45 @@ namespace Seasar.Tests.Dxo
             Assert.AreEqual("2009-04-10", target.DateTimeToString, "test4");
             Console.Out.WriteLine("targetDateTimeToString = {0}", target.DateTimeToString);
         }
+
+        [Test, S2]
+        public void TestNested()
+        {
+            Include(PATH);
+
+            INestedDxo dxo = (INestedDxo) GetComponent(typeof (INestedDxo));
+            NestedEmployee emp1 = new NestedEmployee();
+            emp1.Name = "001";
+            emp1.Emp = new Employee();
+            emp1.Emp.EName = "name1";
+            emp1.Emp.Department = new Department();
+            emp1.Emp.Department.DName = "dname1";
+            emp1.Emp.Department.Id = 10;
+
+            EmployeePage emp2 = new EmployeePage();
+            dxo.ConvertFrom(emp1, emp2);
+            Assert.AreEqual("001", emp2.Name);
+            Assert.AreEqual("name1", emp2.EName);
+            Assert.IsNull(emp2.DName);
+            Assert.IsFalse(emp2.Id.HasValue);
+
+            EmployeePage emp3 = dxo.ConvertTo(emp1);
+            Assert.AreEqual("001", emp3.Name);
+            Assert.AreEqual("name1", emp3.EName);
+            Assert.IsNull(emp3.DName);
+            Assert.IsFalse(emp3.Id.HasValue);
+
+
+            emp3 = new EmployeePage();
+            emp3.DName = "dname03";
+            emp3.EName = "ename3";
+            emp3.Id = 1;
+            emp3.Name = "name3";
+            NestedEmployee emp4 = new NestedEmployee();
+            dxo.ConvertFromPage(emp3, emp4);
+            Assert.AreEqual("name3", emp4.Name);
+            Assert.IsNull(emp4.Emp);
+            
+        }
     }
 }
