@@ -421,6 +421,8 @@
     <Compile Include="Dxo\ICollectionDxo.cs" />
     <Compile Include="Dxo\IDateTimeToStringBean.cs" />
     <Compile Include="Dxo\IEmployeeDxo.cs" />
+    <Compile Include="Dxo\INestedDxo.cs" />
+    <Compile Include="Dxo\NestedEmployee.cs" />
     <Compile Include="Dxo\S2DxoTest.cs" />
     <Compile Include="Dxo\StringBean.cs" />
     <Compile Include="Dxo\TargetBean.cs" />

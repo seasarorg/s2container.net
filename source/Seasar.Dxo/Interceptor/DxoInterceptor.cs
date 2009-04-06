@@ -99,7 +99,7 @@ namespace Seasar.Dxo.Interceptor
                             if (source.GetType().Name == "IList" && dest.GetType().Name == "IList")
                                 return AssignFromListToList(source, dest);
                             else
-                                return AssignTo(source, dest);
+                                return AssignTo(source, dest, 0);
                         }
                         else
                         {
@@ -108,7 +108,7 @@ namespace Seasar.Dxo.Interceptor
                             if (srcType != null && destType != null && srcType == destType)
                                 return AssignFromListToList(source, dest);
                             else
-                                return AssignTo(source, dest);
+                                return AssignTo(source, dest, 0);
                         }
                     }
                     else if(dest.GetType().GetInterface("IDictionary") == typeof(IDictionary))
@@ -124,7 +124,7 @@ namespace Seasar.Dxo.Interceptor
                     }
                     else
                     {
-                        return AssignTo(source, dest);
+                        return AssignTo(source, dest, 0);
                     }
                 }
                 else
@@ -164,7 +164,7 @@ namespace Seasar.Dxo.Interceptor
                 if (destObjs[i] == null)
                     destObjs[i] = Activator.CreateInstance(dest.GetType().GetElementType(), false);
 
-                AssignTo(sourceObjs[i], destObjs[i]);
+                AssignTo(sourceObjs[i], destObjs[i], 0);
             }
             return dest;
         }
@@ -184,7 +184,7 @@ namespace Seasar.Dxo.Interceptor
                 {
                     Type[] types = dest.GetType().GetGenericArguments();
                     object destObj = Activator.CreateInstance(types[0], false);
-                    AssignTo(srcObj, destObj);
+                    AssignTo(srcObj, destObj, 0);
                     destList.Add(destObj);
                 }
             }
@@ -203,7 +203,7 @@ namespace Seasar.Dxo.Interceptor
             {
                 Type[] types = dest.GetType().GetGenericArguments();
                 object destObj = Activator.CreateInstance(types[0], false);
-                AssignTo(source, destObj);
+                AssignTo(source, destObj, 0);
                 destList.Add(destObj);
             }
 
@@ -215,12 +215,16 @@ namespace Seasar.Dxo.Interceptor
         /// </summary>
         /// <param name="source">変換元のオブジェクト</param>
         /// <param name="dest">変換対象のオブジェクト</param>
-        protected virtual object AssignTo(object source, object dest)
+        /// <param name="cnt">ネストカウンター</param>
+        protected virtual object AssignTo(object source, object dest, int cnt)
         {
-            PropertyInfo[] properties = source.GetType().GetProperties();
-            foreach (PropertyInfo property in properties)
+            if (cnt < 2)
             {
-                _TryExchangeSameNameProperty(property, source, dest, dest.GetType());
+                PropertyInfo[] properties = source.GetType().GetProperties();
+                foreach (PropertyInfo property in properties)
+                {
+                    _TryExchangeSameNameProperty(property, source, dest, dest.GetType(), cnt);
+                }
             }
             return dest;
         }
@@ -270,10 +274,12 @@ namespace Seasar.Dxo.Interceptor
         /// <param name="source">対象となっているプロパティを持つオブジェクト</param>
         /// <param name="dest">変換対象のオブジェクト</param>
         /// <param name="destType">変換対象のオブジェクトの型</param>
-        private void _TryExchangeSameNameProperty(PropertyInfo sourceInfo, object source, object dest, Type destType)
+        /// <param name="cnt">ネストカウンター</param>
+        private void _TryExchangeSameNameProperty(PropertyInfo sourceInfo, object source, object dest, Type destType, int cnt)
         {
             try
             {
+                cnt++;
                 PropertyInfo destInfo;
                 string targetPropertyName = sourceInfo.Name;
                 bool existProperty = _dxoMapping.ContainsKey(sourceInfo.Name);
@@ -301,7 +307,7 @@ namespace Seasar.Dxo.Interceptor
                         // 変換元を調査する
                         if (srcValue.GetType().Namespace != "System")
                         {
-                            AssignTo(srcValue, dest);
+                            AssignTo(srcValue, dest, cnt);
                         }
                             // 変換先を調査する
                         else
@@ -312,7 +318,7 @@ namespace Seasar.Dxo.Interceptor
                                 object destValue = property.GetValue(dest, null);
                                 if (destValue != null && destValue.GetType().BaseType != typeof (ValueType) &&
                                     destValue.GetType().Namespace != "System")
-                                    AssignTo(source, destValue);
+                                    AssignTo(source, destValue, cnt);
                             }
                         }
                     }

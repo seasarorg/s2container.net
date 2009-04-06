@@ -16,16 +16,16 @@
  */
 #endregion
 
+
 namespace Seasar.Tests.Dxo
 {
-    public class StringBean
+    public interface INestedDxo
     {
-        private string _dateTimeToString;
+        void ConvertFrom(NestedEmployee src, EmployeePage dest);
 
-        public string DateTimeToString
-        {
-            get { return _dateTimeToString; }
-            set { _dateTimeToString = value; }
-        }
+        EmployeePage ConvertTo(NestedEmployee src);
+
+        void ConvertFromPage(EmployeePage src, NestedEmployee dest);
+
     }
 }
