@@ -457,6 +457,64 @@
 			<p>&nbsp;</p>
 		</div>
 	</div>
+<!-- ######################################### ネストしたPONOのプロパティ ##################################################### -->
+	<div class="content">
+	    <a name="nested" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>ネストしたPONOのプロパティ</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<div class="contentBody">
+			<p>　変換先のPONOに存在するプロパティと同名のプロパティが変換元のPONOに存在しない場合，
+			S2DxoはネストしたPONOのプロパティを探します．ネストしたPONOのプロパティとは，
+			変換元PONOが持つPONOを型とするプロパティのプロパティです.</p>
+			<p>　この探索はJava版と同様に一段階のみ行われます．</p>
+			<p class="kindCode">C#</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">public</span> <span class="kwrd">class</span> Employee
+{
+    <span class="kwrd">private </span> Department _department;
+    <span class="kwrd">public</span> <span class="kwrd">Department</span> Dept
+    {
+       get { return _department; }
+       set { _department = value; }
+    }
+	...
+}
+
+<span class="kwrd">public</span> <span class="kwrd">class</span> Department
+{
+    <span class="kwrd">private </span> string _dname;
+    <span class="kwrd">public</span> <span class="kwrd">string</span> DName
+    {
+       get { return _dname; }
+       set { _dname = value; }
+    }
+	...
+}
+
+<span class="kwrd">public</span> <span class="kwrd">class</span> EmployeePage
+{
+    <span class="kwrd">private </span> string _dname;
+    <span class="kwrd">public</span> <span class="kwrd">string</span> DName
+    {
+       get { return _dname; }
+       set { _dname = value; }
+    }
+	...
+}
+</pre>
+       <p>　上の例で，EmployeeからEmployeePageへの変換を行うと，EmployeePageのDNameプロパティには，
+　　　　　EmployeeのDeptプロパティが参照する，DepartmentのDNameプロパティが設定されます．</p>
+		</div>
+		<p>&nbsp;</p>
+	</div>
 	
 <!-- ############################################# 変換のカスタマイズ ######################################################### -->
 
@@ -472,7 +530,7 @@
 			<br class="clear" />
 		</div>
 		<div class="contentBody">
-			<p><h3><a name="propertyName" id="propertyName">変換元プロパティの指定<a></h3></p>
+			<p><h3><a name="propertyName" id="propertyName">変換元プロパティの指定</a></h3></p>
 			<p>　変換元PONOまたはマップのプロパティ名と変換先PONOまたはマップのプロパティ名が
 			異なる場合は属性で変換ルールを指定することができます．</p>
 			<p>変換元のプロパティと変換先のプロパティをSeasar.Dxo.Annotation.ConversionRuleAttributeで指定します．</p>
