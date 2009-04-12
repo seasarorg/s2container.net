@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using Seasar.Quill.Attrs;
 using Seasar.Quill.Exception;
@@ -42,6 +43,8 @@ namespace Seasar.Quill
 
         // QuillInjector内で使用するQuillContainer
         protected QuillContainer container;
+
+        private readonly IDictionary<Type, Type> _alreadyInjected;
 
         /// <summary>
         /// QuillInjector内で使用するQuillContainer
@@ -89,6 +92,8 @@ namespace Seasar.Quill
             container = new QuillContainer();
             //  デフォルトではInjectionMapは使わない
             injectionMap = null;
+            //  Inject済マップの生成
+            _alreadyInjected = new Dictionary<Type, Type>();
         }
 
         /// <summary>
@@ -150,8 +155,23 @@ namespace Seasar.Quill
                 throw new QuillApplicationException("EQLL0018");
             }
 
+            Type targetType = target.GetType();
+            if (_alreadyInjected.ContainsKey(targetType))
+            {
+                //  既にInject済の場合はこれ以上行わない
+                return;
+            }
+            //  Inject済として登録
+            //  InjectFieldメソッド内で再帰的にこのメソッドが呼ばれるため
+            //  ここで登録しておく必要がある。
+            //  InjectFieldで例外が発生した場合はInject登録済なのにInjectされていない、
+            //  という状態になるが、例外が発生する場合は
+            //  やり直したところでまた失敗する可能性が高い＋ClearInjectedメソッドを呼ぶ、という
+            //  回避手段があるためここで登録を行う
+            _alreadyInjected.Add(targetType, targetType);
+
             // フィールドを取得する
-            FieldInfo[] fields = target.GetType().GetFields(
+            FieldInfo[] fields = targetType.GetFields(
                 BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
             // フィールドの件数分、注入を行う
@@ -160,6 +180,7 @@ namespace Seasar.Quill
                 // フィールドにオブジェクトを注入する
                 InjectField(target, field);
             }
+            
         }
 
         /// <summary>
@@ -177,6 +198,14 @@ namespace Seasar.Quill
 
             container = null;
             quillInjector = null;
+        }
+
+        /// <summary>
+        /// Inject済情報のクリア
+        /// </summary>
+        public void ClearInjected()
+        {
+            _alreadyInjected.Clear();
         }
 
         /// <summary>
