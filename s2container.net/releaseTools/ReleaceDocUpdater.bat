@@ -14,12 +14,12 @@ rem ----------------------------------------------------------------------------
 
 rem s2conariner.net ja
 cd C:\MyPrograms\Seasar\www\ja
-ReleaceDocUpdater.exe 1.3.13 1.3.14 index.html seasarnet.html download.html
+ReleaceDocUpdater.exe 1.3.14 1.3.15 index.html seasarnet.html download.html
 
 rem s2conariner.net en
 cd C:\MyPrograms\Seasar\www\en
-ReleaceDocUpdater.exe 1.3.13 1.3.14 index.html releases.html
+ReleaceDocUpdater.exe 1.3.14 1.3.15 index.html releases.html
 
 rem s2dao.net
 cd C:\MyPrograms\Seasar\s2dao_www
-ReleaceDocUpdater.exe 1.3.13 1.3.14 ja\index.html en\index.html
+ReleaceDocUpdater.exe 1.3.14 1.3.15 ja\index.html en\index.html

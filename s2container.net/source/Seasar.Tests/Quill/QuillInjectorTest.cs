@@ -50,6 +50,7 @@ namespace Seasar.Tests.Quill
             InjectionMap.GetInstance().Clear();
             //  InjectionMapは毎回クリアしておく
             this.InjectionMap = null;
+            this.ClearInjected();
         }
 
         #region GetInstanceのテスト
@@ -287,6 +288,47 @@ namespace Seasar.Tests.Quill
             }
         }
 
+        /// <summary>
+        /// 相互参照がある型のオブジェクトに対してInjectを行った場合のテスト
+        /// </summary>
+        [Test]
+        public void TestInject_EachInjection()
+        {
+            GetInstance().ClearInjected();
+
+            EachReferenceA actual = new EachReferenceA();
+            Assert.IsNull(actual.B);
+
+            GetInstance().Inject(actual);
+
+            Assert.IsNotNull(actual.B);
+            Assert.IsNotNull(actual.B.A);
+        }
+
+        /// <summary>
+        /// 循環参照がある型のオブジェクトに対してInjectを行った場合のテスト
+        /// </summary>
+        [Test]
+        public void TestInject_RoopInjection()
+        {
+            GetInstance().ClearInjected();
+
+            RoopReferenceA actual = new RoopReferenceA();
+            Assert.IsNull(actual.B);
+            Assert.IsNull(actual.C);
+
+            GetInstance().Inject(actual);
+
+            Assert.IsNotNull(actual.B);
+            Assert.IsNotNull(actual.B.A);
+            Assert.IsNotNull(actual.B.C);
+            Assert.IsNotNull(actual.C);
+            Assert.IsNotNull(actual.C.A);
+            Assert.IsNotNull(actual.C.B);
+        }
+
+
+
         #endregion
 
         #region Injectのテストで使用する内部クラス
@@ -326,6 +368,101 @@ namespace Seasar.Tests.Quill
         public class Hoge12
         {
         }
+
+        #region TestInject_RoopInjectionで使う内部クラス
+
+        /// <summary>
+        /// 相互参照クラスA
+        /// </summary>
+        [Implementation]
+        public class EachReferenceA
+        {
+            private EachReferenceB _b;
+            public EachReferenceB B
+            {
+                get { return _b; }
+                set { _b = value; }
+            }
+        }
+
+        /// <summary>
+        /// 相互参照クラスB
+        /// </summary>
+        [Implementation]
+        public class EachReferenceB
+        {
+            private EachReferenceA _a;
+            public EachReferenceA A
+            {
+                get { return _a; }
+                set { _a = value; }
+            }
+        }
+
+        /// <summary>
+        /// 循環参照クラスA
+        /// </summary>
+        [Implementation]
+        public class RoopReferenceA
+        {
+            private RoopReferenceB _b;
+            public RoopReferenceB B
+            {
+                get { return _b; }
+                set { _b = value; }
+            }
+
+            private RoopReferenceC _c;
+            public RoopReferenceC C
+            {
+                get { return _c; }
+                set { _c = value; }
+            }
+        }
+
+        /// <summary>
+        /// 循環参照クラスB
+        /// </summary>
+        [Implementation]
+        public class RoopReferenceB
+        {
+            private EachReferenceA _a;
+            public EachReferenceA A
+            {
+                get { return _a; }
+                set { _a = value; }
+            }
+
+            private RoopReferenceC _c;
+            public RoopReferenceC C
+            {
+                get { return _c; }
+                set { _c = value; }
+            }
+        }
+
+        /// <summary>
+        /// 循環参照クラスC
+        /// </summary>
+        [Implementation]
+        public class RoopReferenceC
+        {
+            private EachReferenceA _a;
+            public EachReferenceA A
+            {
+                get { return _a; }
+                set { _a = value; }
+            }
+
+            private RoopReferenceB _b;
+            public RoopReferenceB B
+            {
+                get { return _b; }
+                set { _b = value; }
+            }
+        }
+
+        #endregion
 
         #endregion
 
