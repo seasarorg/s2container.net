@@ -1,4 +1,17 @@
-﻿S2Container.NET 1.3.14
+﻿S2Container.NET 1.3.15
+2009/04/12
+** Bug
+	* [CONTAINERNET-117] - MbUnitの[RowTest]に対応する
+	* [CONTAINERNET-118] - Dxoを使用する際にあるメソッドへのDatePatternAttribute の指定が、指定されていないメソッドに影響する
+	* [CONTAINERNET-119] - IList<XXX>型のプロパティをDataGridViewにバインドしてDeleteRow/AddRowを呼ぶとInvalidCastExceptionとなる
+	* [CONTAINERNET-121] - S2Dxo.NETでネストされたPONOのプロパティの階層制限がない
+	
+S2Dao.NET 1.3.15
+2009/04/12
+** Task
+	* [DAONET-81] - Daoインターフェースの初期化時のデータベースからテーブル定義情報の高速化
+	
+S2Container.NET 1.3.14
 2009/02/11
 ** Improvement
 	* [CONTAINERNET-107]      QuillでHashMapを使ってインジェクションできるようにする
