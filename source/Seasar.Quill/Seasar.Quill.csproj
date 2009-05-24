@@ -7,7 +7,7 @@
     <ProjectGuid>{4C1D6F42-4178-4C68-8277-B2978BF784FF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Seasar.Quill</RootNamespace>
+    <RootNamespace></RootNamespace>
     <AssemblyName>Seasar.Quill</AssemblyName>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Seasar.snk</AssemblyOriginatorKeyFile>

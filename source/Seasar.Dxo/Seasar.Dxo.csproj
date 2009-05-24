@@ -7,7 +7,7 @@
     <ProjectGuid>{0C7A87F7-786E-43FB-846C-DE1583622A79}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Seasar.Dxo</RootNamespace>
+    <RootNamespace></RootNamespace>
     <AssemblyName>Seasar.Dxo</AssemblyName>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Seasar.snk</AssemblyOriginatorKeyFile>
