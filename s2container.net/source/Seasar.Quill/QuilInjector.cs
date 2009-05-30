@@ -23,6 +23,7 @@ using Seasar.Quill.Attrs;
 using Seasar.Quill.Exception;
 using Seasar.Quill.Util;
 using Seasar.Framework.Log;
+using System.Threading;
 
 namespace Seasar.Quill
 {
@@ -44,7 +45,16 @@ namespace Seasar.Quill
         // QuillInjector内で使用するQuillContainer
         protected QuillContainer container;
 
-        private readonly IDictionary<Type, Type> _alreadyInjected;
+        /// <summary>
+        /// インジェクション管理
+        /// </summary>
+        /// <remarks>
+        /// 相互参照があるオブジェクトへのインジェクション時に
+        /// 再帰呼び出しで無限ループとならないよう管理します。
+        /// 無限ループ防止のみが目的のため、
+        /// スレッドセーフにはしていません。
+        /// </remarks>
+        private readonly QuillInjectionContext _context;
 
         /// <summary>
         /// QuillInjector内で使用するQuillContainer
@@ -92,8 +102,8 @@ namespace Seasar.Quill
             container = new QuillContainer();
             //  デフォルトではInjectionMapは使わない
             injectionMap = null;
-            //  Inject済マップの生成
-            _alreadyInjected = new Dictionary<Type, Type>();
+
+            _context = new QuillInjectionContext();
         }
 
         /// <summary>
@@ -155,32 +165,39 @@ namespace Seasar.Quill
                 throw new QuillApplicationException("EQLL0018");
             }
 
-            Type targetType = target.GetType();
-            if (_alreadyInjected.ContainsKey(targetType))
+            bool isFirstInjection = !_context.IsInInjection;
+            if (isFirstInjection)
             {
-                //  既にInject済の場合はこれ以上行わない
-                return;
+                _context.BeginInjection();
             }
-            //  Inject済として登録
-            //  InjectFieldメソッド内で再帰的にこのメソッドが呼ばれるため
-            //  ここで登録しておく必要がある。
-            //  InjectFieldで例外が発生した場合はInject登録済なのにInjectされていない、
-            //  という状態になるが、例外が発生する場合は
-            //  やり直したところでまた失敗する可能性が高い＋ClearInjectedメソッドを呼ぶ、という
-            //  回避手段があるためここで登録を行う
-            _alreadyInjected.Add(targetType, targetType);
 
-            // フィールドを取得する
-            FieldInfo[] fields = targetType.GetFields(
-                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-
-            // フィールドの件数分、注入を行う
-            foreach (FieldInfo field in fields)
+            try
             {
-                // フィールドにオブジェクトを注入する
-                InjectField(target, field);
+                Type targetType = target.GetType();
+                if (_context.IsAlreadyInjected(targetType))
+                {
+                    return;
+                }
+                _context.AddInjectedType(targetType);
+
+                // フィールドを取得する
+                FieldInfo[] fields = targetType.GetFields(
+                    BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+
+                // フィールドの件数分、注入を行う
+                foreach (FieldInfo field in fields)
+                {
+                    // フィールドにオブジェクトを注入する
+                    InjectField(target, field);
+                }
             }
-            
+            finally
+            {
+                if (isFirstInjection)
+                {
+                    _context.EndInjection();
+                }
+            }
         }
 
         /// <summary>
@@ -203,9 +220,9 @@ namespace Seasar.Quill
         /// <summary>
         /// Inject済情報のクリア
         /// </summary>
+        [Obsolete("ver.1.4.0から削除予定です。")]
         public void ClearInjected()
         {
-            _alreadyInjected.Clear();
         }
 
         /// <summary>
@@ -336,6 +353,8 @@ namespace Seasar.Quill
                 new object[] { component.GetComponentObject(field.FieldType) });
         }
 
+        
+
         #region IDisposable メンバ
 
         /// <summary>
@@ -348,5 +367,70 @@ namespace Seasar.Quill
         }
 
         #endregion
+
+        #region QuillInjectionContext
+
+        /// <summary>
+        /// インジェクション管理クラス
+        /// </summary>
+        private sealed class QuillInjectionContext
+        {
+            [ThreadStatic]
+            private static IDictionary<Type, Type> _alreadyInjectedTypeMap;
+
+            /// <summary>
+            /// インジェクション中（再帰）中か判定
+            /// </summary>
+            public bool IsInInjection
+            {
+                get { return _alreadyInjectedTypeMap != null; }
+            }
+
+            /// <summary>
+            /// 既にインジェクション済の型か判定
+            /// </summary>
+            /// <param name="targetType"></param>
+            /// <returns></returns>
+            public bool IsAlreadyInjected(Type targetType)
+            {
+                return (IsInInjection && _alreadyInjectedTypeMap.ContainsKey(targetType));
+            }
+
+            /// <summary>
+            /// インジェクション済の型を登録する
+            /// </summary>
+            /// <param name="targetType"></param>
+            public void AddInjectedType(Type targetType)
+            {
+                if(IsInInjection)
+                {
+                    _alreadyInjectedTypeMap.Add(targetType, targetType);
+                }
+            }
+
+            /// <summary>
+            /// インジェクション中状態に遷移
+            /// </summary>
+            public void BeginInjection()
+            {
+                EndInjection();
+                _alreadyInjectedTypeMap = new Dictionary<Type, Type>();
+            }
+
+            /// <summary>
+            /// インジェクション終了
+            /// </summary>
+            public void EndInjection()
+            {
+                if(_alreadyInjectedTypeMap != null)
+                {
+                    _alreadyInjectedTypeMap.Clear();
+                }
+                _alreadyInjectedTypeMap = null;
+            }
+        }
+        #endregion
     }
+
+    
 }
