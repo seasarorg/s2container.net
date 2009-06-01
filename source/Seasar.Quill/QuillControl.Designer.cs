@@ -17,6 +17,7 @@
 #endregion
 
 
+using System.Drawing;
 namespace Seasar.Quill
 {
     partial class QuillControl
@@ -53,7 +54,8 @@ namespace Seasar.Quill
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::Seasar.Quill.Properties.Resources.QuillControl;
+            this.BackgroundImage = global::Properties.Resources.QuillControl;
+            //this.BackgroundImage = Image.FromFile(@"C:\source\seasar\seasar-dotnet-release\source\Seasar.Quill\Resources/QuillControl.gif");
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.Name = "QuillControl";
             this.Size = new System.Drawing.Size(21, 23);
