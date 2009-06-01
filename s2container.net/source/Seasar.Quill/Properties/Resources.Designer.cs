@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Seasar.Quill.Properties {
+namespace Properties {
     using System;
     
     
@@ -39,7 +39,8 @@ namespace Seasar.Quill.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Seasar.Quill.Properties.Resources", typeof(Resources).Assembly);
+                    //global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Seasar.Quill.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
