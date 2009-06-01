@@ -18,6 +18,7 @@
 
 using System;
 using System.Reflection;
+using System.Threading;
 using MbUnit.Framework;
 using Seasar.Framework.Aop.Interceptors;
 using Seasar.Framework.Container;
@@ -50,7 +51,6 @@ namespace Seasar.Tests.Quill
             InjectionMap.GetInstance().Clear();
             //  InjectionMapは毎回クリアしておく
             this.InjectionMap = null;
-            this.ClearInjected();
         }
 
         #region GetInstanceのテスト
@@ -294,8 +294,6 @@ namespace Seasar.Tests.Quill
         [Test]
         public void TestInject_EachInjection()
         {
-            GetInstance().ClearInjected();
-
             EachReferenceA actual = new EachReferenceA();
             Assert.IsNull(actual.B);
 
@@ -311,8 +309,6 @@ namespace Seasar.Tests.Quill
         [Test]
         public void TestInject_RoopInjection()
         {
-            GetInstance().ClearInjected();
-
             RoopReferenceA actual = new RoopReferenceA();
             Assert.IsNull(actual.B);
             Assert.IsNull(actual.C);
@@ -327,7 +323,127 @@ namespace Seasar.Tests.Quill
             Assert.IsNotNull(actual.C.B);
         }
 
+        [Test]
+        public void TestInject_２回インジェクション_通常()
+        {
+            QuillInjector injector = QuillInjector.GetInstance();
+            {
+                Target10 actual = new Target10();
+                Assert.IsNull(actual.Hoge11);
+                Assert.IsNull(actual.Hoge12);
+                injector.Inject(actual);
+                Assert.IsNotNull(actual.Hoge11);
+                Assert.IsNotNull(actual.Hoge12);
+            }
+            {
+                Target10 actual = new Target10();
+                Assert.IsNull(actual.Hoge11);
+                Assert.IsNull(actual.Hoge12);
+                injector.Inject(actual);
+                Assert.IsNotNull(actual.Hoge11);
+                Assert.IsNotNull(actual.Hoge12);
+            }
+        }
 
+        [Test]
+        public void TestInject_２回インジェクション_相互参照()
+        {
+            QuillInjector injector = QuillInjector.GetInstance();
+            {
+                EachReferenceA actual = new EachReferenceA();
+                Assert.IsNull(actual.B);
+                injector.Inject(actual);
+                Assert.IsNotNull(actual.B);
+            }
+            {
+                EachReferenceA actual = new EachReferenceA();
+                Assert.IsNull(actual.B);
+                injector.Inject(actual);
+                Assert.IsNotNull(actual.B);
+            }
+        }
+
+        [Test]
+        public void TestInject_２回インジェクション_循環参照()
+        {
+            QuillInjector injector = QuillInjector.GetInstance();
+            {
+                RoopReferenceC actual = new RoopReferenceC();
+                Assert.IsNull(actual.A);
+                Assert.IsNull(actual.B);
+                injector.Inject(actual);
+                Assert.IsNotNull(actual.A);
+                Assert.IsNotNull(actual.B);
+            }
+            {
+                RoopReferenceC actual = new RoopReferenceC();
+                Assert.IsNull(actual.A);
+                Assert.IsNull(actual.B);
+                injector.Inject(actual);
+                Assert.IsNotNull(actual.A);
+                Assert.IsNotNull(actual.B);
+            }
+        }
+
+        [Test]
+        public void TestInject_マルチスレッドでインジェクション()
+        {
+            QuillInjector injector = QuillInjector.GetInstance();
+            Target10 actual1 = new Target10();
+            Assert.IsNull(actual1.Hoge11);
+            Assert.IsNull(actual1.Hoge12);
+            Thread t1 = new Thread(ExecuteMultiThreadInjection);
+
+            Target10 actual2 = new Target10();
+            Assert.IsNull(actual2.Hoge11);
+            Assert.IsNull(actual2.Hoge12);
+            Thread t2 = new Thread(ExecuteMultiThreadInjection);
+
+            object[] parameter1 = new object[] { injector, actual1 };
+            object[] parameter2 = new object[] { injector, actual2 };
+            t1.Start(parameter1);
+            t2.Start(parameter2);
+
+            t1.Join();
+            t2.Join();
+
+            Assert.IsNotNull(actual1.Hoge11, "1");
+            Assert.IsNotNull(actual1.Hoge12, "2");
+
+            Assert.IsNotNull(actual2.Hoge11, "3");
+            Assert.IsNotNull(actual2.Hoge12, "4");
+        }
+
+        #region マルチスレッドでインジェクション用メソッド
+
+        /// <summary>
+        /// マルチスレッド実行用インジェクション呼び出し
+        /// </summary>
+        /// <param name="parameter"></param>
+        public void ExecuteMultiThreadInjection(object parameter)
+        {
+            object[] parameters = parameter as object[];
+            if(parameters == null)
+            {
+                return;
+            }
+
+            QuillInjector injector = parameters[0] as QuillInjector;
+            if(injector == null)
+            {
+                return;
+            }
+
+            Target10 target = parameters[1] as Target10;
+            if (target == null)
+            {
+                return;
+            }
+
+            injector.Inject(target);
+        }
+        
+        #endregion
 
         #endregion
 
