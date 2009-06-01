@@ -19,11 +19,10 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Seasar.Framework.Log;
 using Seasar.Quill.Attrs;
 using Seasar.Quill.Exception;
 using Seasar.Quill.Util;
-using Seasar.Framework.Log;
-using System.Threading;
 
 namespace Seasar.Quill
 {
@@ -223,6 +222,7 @@ namespace Seasar.Quill
         [Obsolete("ver.1.4.0から削除予定です。")]
         public void ClearInjected()
         {
+            _context.EndInjection();
         }
 
         /// <summary>
@@ -364,6 +364,7 @@ namespace Seasar.Quill
         {
             // 保持しているQuillContainerのDisposeを呼び出す
             container.Dispose();
+            _context.EndInjection();
         }
 
         #endregion
