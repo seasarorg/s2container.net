@@ -1,4 +1,13 @@
-﻿S2Container.NET 1.3.16
+﻿S2Container.NET 1.3.16.1
+2009/06/06
+** Bug
+	* [CONTAINERNET-126] - Quillコントロールをフォームに貼り付け・使用することができない
+	
+S2Dao.NET 1.3.16.1
+2009/06/06
+	変更点なし
+
+S2Container.NET 1.3.16
 2009/06/02
 ** Bug
 	* [CONTAINERNET-120] - [Implementation]属性を付けたクラスが相互参照している場合、インジェクション実行時にオーバーフローとなる
