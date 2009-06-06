@@ -88,6 +88,13 @@ namespace Seasar.Tests.Framework.Log
         }
 
         [Test]
+        public void TestLog_NameSpace()
+        {
+            //  —áŠO‚Í”­¶‚µ‚È‚¢‚±‚Æ‚ªŠm”F‚Å‚«‚ê‚ÎOK
+            _logger.Log("ESSR0001", new object[] { "test" }, null, "Hoge");
+        }
+
+        [Test]
         public void TestPerformance()
         {
             int num = 100;

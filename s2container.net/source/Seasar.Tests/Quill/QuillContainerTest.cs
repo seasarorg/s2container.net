@@ -18,13 +18,13 @@
 
 using System;
 using MbUnit.Framework;
+using Seasar.Extension.ADO;
+using Seasar.Extension.Tx.Impl;
 using Seasar.Framework.Aop;
 using Seasar.Quill;
 using Seasar.Quill.Attrs;
 using Seasar.Quill.Database.DataSource.Impl;
 using Seasar.Quill.Exception;
-using Seasar.Extension.ADO;
-using Seasar.Extension.Tx.Impl;
 using Seasar.Quill.Unit;
 
 namespace Seasar.Tests.Quill
@@ -32,6 +32,12 @@ namespace Seasar.Tests.Quill
     [TestFixture]
 	public class QuillContainerTest : QuillTestCase
     {
+        [SetUp]
+        public void SetUp()
+        {
+            log4net.Config.XmlConfigurator.Configure();
+        }
+
         #region GetComponentのテスト
 
         [Test]

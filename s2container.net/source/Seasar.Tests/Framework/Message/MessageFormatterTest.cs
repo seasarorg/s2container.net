@@ -55,6 +55,7 @@ namespace Seasar.Tests.Framework.Message
         [Test]
         public void TestGetMessage3()
         {
+            //  ここでは「既定の名前空間」が設定されている場合のテストのみ行います。
             string message = MessageFormatter.GetMessage("ESSR0001", new object[] { "test" }, "Seasar.Tests");
             Assert.AreEqual("[ESSR0001] testが見つかりません", message, "メッセージリソースを取得出来る事");
             message = MessageFormatter.GetMessage("ESSR0001", new object[] { "test" });
