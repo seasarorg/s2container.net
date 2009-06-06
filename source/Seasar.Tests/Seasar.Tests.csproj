@@ -129,6 +129,10 @@
       <Project>{FC3A021B-6288-4C34-8303-544640D22FDA}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
+    <ProjectReference Include="..\Seasar.Windows\Seasar.Windows.csproj">
+      <Project>{B361D11C-9C58-499C-8A56-4A677BEEBB2B}</Project>
+      <Name>Seasar.Windows</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Seasar\Seasar.csproj">
       <Name>Seasar</Name>
       <Project>{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}</Project>
@@ -414,6 +418,7 @@
     <Compile Include="Dao\Pager\PagerDataReaderWrapperTest.cs" />
     <Compile Include="Dao\Parser\SqlParserTest.cs" />
     <Compile Include="Dao\Parser\SqlTokenizerTest.cs" />
+    <Compile Include="Dao\Resources\ResourceEnableTest.cs" />
     <Compile Include="Dao\Unit\S2DaoTestCase.cs" />
     <Compile Include="Dxo\BeanA.cs" />
     <Compile Include="Dxo\DateTimeBean.cs" />
@@ -426,6 +431,7 @@
     <Compile Include="Dxo\IEmployeeDxo.cs" />
     <Compile Include="Dxo\INestedDxo.cs" />
     <Compile Include="Dxo\NestedEmployee.cs" />
+    <Compile Include="Dxo\Resources\ResourceEnableTest.cs" />
     <Compile Include="Dxo\S2DxoTest.cs" />
     <Compile Include="Dxo\StringBean.cs" />
     <Compile Include="Dxo\TargetBean.cs" />
@@ -516,6 +522,7 @@
       <DependentUpon>SessionComponentDeployerWebPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Framework\Resources\ResourceEnableTest.cs" />
     <Compile Include="Framework\Util\AssignTypeUtilTest.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -589,6 +596,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Quill\Xml\OuterQuillSectionLoaderTest.cs" />
+    <Compile Include="Windows\Resources\ResourceEnableTest.cs" />
     <Content Include="Framework\Container.Deployer\SessionComponentDeployerWebPage.aspx" />
     <EmbeddedResource Include="Framework\Util\test1.xml" />
     <EmbeddedResource Include="Framework\Xml\test1.xml" />
