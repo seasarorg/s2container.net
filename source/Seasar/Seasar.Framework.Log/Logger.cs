@@ -130,10 +130,15 @@ namespace Seasar.Framework.Log
 
         public void Log(string messageCode, object[] args, Exception exception)
         {
+            Log(messageCode, args, exception, null);
+        }
+
+        public void Log(string messageCode, object[] args, Exception exception, string nameSpace)
+        {
             char messageType = messageCode.ToCharArray()[0];
             if (IsEnabledFor(messageType))
             {
-                string message = MessageFormatter.GetSimpleMessage(messageCode, args, _type.Assembly);
+                string message = MessageFormatter.GetSimpleMessage(messageCode, args, _type.Assembly, nameSpace);
                 switch (messageType)
                 {
                     case 'D':

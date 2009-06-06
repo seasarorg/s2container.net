@@ -27,6 +27,7 @@ using Seasar.Framework.Container.Impl;
 using Seasar.Quill;
 using Seasar.Quill.Attrs;
 using Seasar.Quill.Exception;
+using Seasar.Framework.Log;
 
 namespace Seasar.Tests.Quill
 {
@@ -46,11 +47,13 @@ namespace Seasar.Tests.Quill
         [SetUp]
         public void SetUp()
         {
+            log4net.Config.XmlConfigurator.Configure();
             //  MbUnitはテスト間でstaticな変数を保持してしまうようなので
             //  毎回InjectionMapをクリアしておく
             InjectionMap.GetInstance().Clear();
             //  InjectionMapは毎回クリアしておく
             this.InjectionMap = null;
+            
         }
 
         #region GetInstanceのテスト

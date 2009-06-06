@@ -36,6 +36,12 @@ namespace Seasar.Tests.Quill.Attr
     [TestFixture]
     public class S2DaoAttributeTest : QuillTestCase
     {
+        [SetUp]
+        public void SetUp()
+        {
+            log4net.Config.XmlConfigurator.Configure();
+        }
+
         [Test]
         public void TestSetTypicalDaoSetting()
         {

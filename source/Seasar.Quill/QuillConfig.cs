@@ -239,7 +239,7 @@ namespace Seasar.Quill
             if (HasAssemblyConfig() == false)
             {
                 //  アセンブリ設定がなければ処理を抜ける
-                _log.Log("IQLL0005", null);
+                LogUtil.Output(_log, "IQLL0005");
                 return;
             }
 
@@ -251,7 +251,7 @@ namespace Seasar.Quill
                 {
                     //  指定されたアセンブリをロードする
                     AppDomain.CurrentDomain.Load(assemblyName);
-                    _log.Log("IQLL0006", new object[] { assemblyName });
+                    LogUtil.Output(_log, "IQLL0006", assemblyName);
                 }
             }
         }
@@ -268,7 +268,7 @@ namespace Seasar.Quill
             SetupDataSourceByQuillSection(dataSources);
             if (dataSources.Count > 0)
             {
-                _log.Log("IQLL0007", null);
+                LogUtil.Output(_log, "IQLL0007");
                 return dataSources;
             }
 
@@ -276,7 +276,7 @@ namespace Seasar.Quill
             SetupByConnectionStringSection(dataSources);
             if (dataSources.Count > 0)
             {
-                _log.Log("IQLL0008", null);
+                LogUtil.Output(_log, "IQLL0008");
                 return dataSources;
             }
 
@@ -286,17 +286,17 @@ namespace Seasar.Quill
                 dataSources[DEFALT_DATASOURCE_NAME] =
                     (IDataSource)SingletonS2ContainerConnector.GetComponent(
                     DEFALT_DATASOURCE_NAME, typeof(IDataSource));
-                _log.Log("IQLL0009", null);
+                LogUtil.Output(_log, "IQLL0009");
             }
             else if (SingletonS2ContainerConnector.HasComponentDef(typeof(IDataSource)))
             {
                 dataSources[typeof(IDataSource).Name] =
                     (IDataSource)SingletonS2ContainerConnector.GetComponent(typeof(IDataSource));
-                _log.Log("IQLL0010", null);
+                LogUtil.Output(_log, "IQLL0010");
             }
             else
             {
-                _log.Log("IQLL0011", null);
+                LogUtil.Output(_log, "IQLL0011");
             }
 
             return dataSources;
@@ -488,7 +488,7 @@ namespace Seasar.Quill
             //  指定されたパスの設定を使用する
             if (string.IsNullOrEmpty(configPath) == false)
             {
-                _log.Log("IQLL0004", new object[] { configPath });
+                LogUtil.Output(_log, "IQLL0004", configPath);
                 return OuterQuillSectionLoader.LoadFromOuterConfig(configPath);
             }
 
@@ -500,7 +500,7 @@ namespace Seasar.Quill
                 //  外部ファイルのパスを設定
                 string outerConfigPath = SettingUtil.GetDefaultQuillConfigPath();
 
-                _log.Log("IQLL0004", new object[] { outerConfigPath });
+                LogUtil.Output(_log, "IQLL0004", outerConfigPath);
                 section = OuterQuillSectionLoader.LoadFromOuterConfig(outerConfigPath);
             }
 

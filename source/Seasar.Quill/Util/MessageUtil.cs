@@ -31,7 +31,7 @@ namespace Seasar.Quill.Util
         /// Quillで使用するメッセージを格納しているResourceManager
         /// </summary>
         private static readonly ResourceManager MESSAGES_RESOURCE_MANAGER = 
-            new ResourceManager("QLLMessages", Assembly.GetExecutingAssembly());
+            new ResourceManager("Seasar.Quill.QLLMessages", Assembly.GetExecutingAssembly());
 
         // objectの空の配列
         private static readonly object[] EMPTY_ARRAY = new object[0];

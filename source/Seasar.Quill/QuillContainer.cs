@@ -61,7 +61,7 @@ namespace Seasar.Quill
             //  Quill設定情報の初期化
             QuillConfig.InitializeQuillConfig(this);
             QuillConfig config = QuillConfig.GetInstance();
-            _log.Log("IQLL0003", new object[] {config.HasQuillConfig()});
+            LogUtil.Output(_log, "IQLL0003", config.HasQuillConfig());
             if (config.HasQuillConfig())
             {
                 //  設定情報がある場合はアセンブリ、データソースを登録
