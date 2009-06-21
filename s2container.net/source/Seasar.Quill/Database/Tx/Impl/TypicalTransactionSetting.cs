@@ -42,8 +42,21 @@ namespace Seasar.Quill.Database.Tx.Impl
             Type dataSourceType = dataSource.GetType();
             if (typeof(SelectableDataSourceProxyWithDictionary).IsAssignableFrom(dataSourceType))
             {
-                ((SelectableDataSourceProxyWithDictionary)dataSource).SetTransactionContext(
-                    txContext);
+                SelectableDataSourceProxyWithDictionary dataSourceProxyWithDictionary
+                    = (SelectableDataSourceProxyWithDictionary)dataSource;
+                if (!string.IsNullOrEmpty(DataSourceName))
+                {
+                    IDataSource usingDataSource = dataSourceProxyWithDictionary.GetDataSource(DataSourceName);
+                    if (usingDataSource is TxDataSource)
+                    {
+                        ((TxDataSource)usingDataSource).Context = txContext;
+                    }
+                }
+                else
+                {
+                    //  DataSourceName無指定の場合はDataSourceは一つだけと見なす
+                    dataSourceProxyWithDictionary.SetTransactionContext(txContext);
+                }
             }
             else if (typeof(TxDataSource).IsAssignableFrom(dataSourceType))
             {
