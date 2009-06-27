@@ -20,6 +20,8 @@ using Seasar.Dao.Impl;
 using Seasar.Dao.Interceptors;
 using Seasar.Extension.ADO;
 using Seasar.Extension.ADO.Impl;
+using Seasar.Dao;
+using Seasar.Framework.Aop;
 
 namespace Seasar.Quill.Dao.Impl
 {
@@ -30,12 +32,40 @@ namespace Seasar.Quill.Dao.Impl
     {
         protected override void SetupDao(IDataSource dataSource)
         {
-            BasicCommandFactory commandFacoty = new BasicCommandFactory();
-            BasicDataReaderFactory dataReaderFactory = new BasicDataReaderFactory(commandFacoty);
-            FieldAnnotationReaderFactory annotationReaderFactory = new FieldAnnotationReaderFactory();
-            _daoMetaDataFactory = new DaoMetaDataFactoryImpl(
+            ICommandFactory commandFacoty = CreateCommandFactory();
+            IDataReaderFactory dataReaderFactory = CreateDataReaderFactory(commandFacoty);
+            IAnnotationReaderFactory annotationReaderFactory = CreateAnnotationReaderFactory();
+            IDaoMetaDataFactory daoMetaDataFactory = CreateDaoMetaDataFactory(
                 dataSource, commandFacoty, annotationReaderFactory, dataReaderFactory);
-            _daoInterceptor = new S2DaoInterceptor(_daoMetaDataFactory);
+            _daoInterceptor = CreateS2DaoInterceptor(daoMetaDataFactory);
+        }
+
+        protected virtual ICommandFactory CreateCommandFactory()
+        {
+            return new BasicCommandFactory();
+        }
+
+        protected virtual IDataReaderFactory CreateDataReaderFactory(ICommandFactory commandFactory)
+        {
+            return new BasicDataReaderFactory(commandFactory);
+        }
+
+        protected virtual IAnnotationReaderFactory CreateAnnotationReaderFactory()
+        {
+            return new FieldAnnotationReaderFactory();
+        }
+
+        protected virtual IDaoMetaDataFactory CreateDaoMetaDataFactory(
+            IDataSource dataSource, ICommandFactory commandFactory,
+            IAnnotationReaderFactory annotationReaderFactory, IDataReaderFactory dataReaderFactory)
+        {
+            return new DaoMetaDataFactoryImpl(
+                dataSource, commandFactory, annotationReaderFactory, dataReaderFactory);
+        }
+
+        protected virtual IMethodInterceptor CreateS2DaoInterceptor(IDaoMetaDataFactory daoMetaDataFactory)
+        {
+            return new S2DaoInterceptor(daoMetaDataFactory);
         }
     }
 }

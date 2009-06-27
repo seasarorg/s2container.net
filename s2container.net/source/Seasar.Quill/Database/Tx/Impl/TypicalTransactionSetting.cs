@@ -21,6 +21,7 @@ using System.Data;
 using Seasar.Extension.ADO;
 using Seasar.Extension.Tx;
 using Seasar.Extension.Tx.Impl;
+using Seasar.Framework.Aop;
 using Seasar.Quill.Database.DataSource.Impl;
 
 namespace Seasar.Quill.Database.Tx.Impl
@@ -30,13 +31,26 @@ namespace Seasar.Quill.Database.Tx.Impl
     /// </summary>
     public class TypicalTransactionSetting : AbstractTransactionSetting
     {
+        /// <summary>
+        /// トランザクション分離レベル
+        /// </summary>
+        protected virtual IsolationLevel IsolationLevel
+        {
+            get { return System.Data.IsolationLevel.ReadCommitted; }
+        }
+
+        /// <summary>
+        /// トランザクション設定のセットアップ
+        /// </summary>
+        /// <param name="dataSource"></param>
         protected override void SetupTransaction(IDataSource dataSource)
         {
+            Console.WriteLine("★★★★★★★★　new tx setting !!");
             //  TransactionContext
-            _transactionContext = new TransactionContext();
+            _transactionContext = CreateTransactionContext();
             TransactionContext txContext = (TransactionContext)_transactionContext;
             txContext.DataSouce = dataSource;
-            txContext.IsolationLevel = IsolationLevel.ReadCommitted;
+            txContext.IsolationLevel = this.IsolationLevel;
 
             //  TransactionContextを使用するデータソースにも設定
             Type dataSourceType = dataSource.GetType();
@@ -63,12 +77,46 @@ namespace Seasar.Quill.Database.Tx.Impl
                 ((TxDataSource)dataSource).Context = txContext;
             }
 
-            //  TransactionInterceptor
-            LocalRequiredTxHandler handler = new LocalRequiredTxHandler();
-            handler.Context = txContext;
-            _transactionInterceptor = new TransactionInterceptor(handler);
-            ((TransactionInterceptor)_transactionInterceptor).TransactionStateHandler
+            ITransactionHandler handler = CreateTransactionHandler();
+            if(handler is AbstractLocalTxHandler)
+            {
+                ((AbstractLocalTxHandler)handler).Context = txContext;
+            }
+
+            _transactionInterceptor = CreateTransactionInterceptor(handler);
+            if(_transactionInterceptor is TransactionInterceptor)
+            {
+                ((TransactionInterceptor)_transactionInterceptor).TransactionStateHandler
                 = txContext;
+            }
+        }
+
+        /// <summary>
+        /// TransactionContextインスタンスの生成
+        /// </summary>
+        /// <returns></returns>
+        protected virtual ITransactionContext CreateTransactionContext()
+        {
+            return new TransactionContext();
+        }
+
+        /// <summary>
+        /// Transactionハンドラ生成
+        /// </summary>
+        /// <returns></returns>
+        protected virtual ITransactionHandler CreateTransactionHandler()
+        {
+            return new LocalRequiredTxHandler();
+        }
+
+        /// <summary>
+        /// TransactionInterceptorインスタンスの生成
+        /// </summary>
+        /// <param name="handler"></param>
+        /// <returns></returns>
+        protected virtual IMethodInterceptor CreateTransactionInterceptor(ITransactionHandler handler)
+        {
+            return new TransactionInterceptor(handler);
         }
     }
 }

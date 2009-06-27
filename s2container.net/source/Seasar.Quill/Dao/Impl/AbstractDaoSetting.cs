@@ -16,6 +16,7 @@
  */
 #endregion
 
+using System;
 using Seasar.Dao;
 using Seasar.Extension.ADO;
 using Seasar.Framework.Aop;
@@ -37,6 +38,7 @@ namespace Seasar.Quill.Dao.Impl
 
         #region IDaoSetting メンバ
 
+        [Obsolete("内部で使用していないため、削除予定です。")]
         public virtual IDaoMetaDataFactory DaoMetaDataFactory
         {
             get { return _daoMetaDataFactory; }
