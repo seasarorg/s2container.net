@@ -45,7 +45,6 @@ namespace Seasar.Quill.Database.Tx.Impl
         /// <param name="dataSource"></param>
         protected override void SetupTransaction(IDataSource dataSource)
         {
-            Console.WriteLine("★★★★★★★★　new tx setting !!");
             //  TransactionContext
             _transactionContext = CreateTransactionContext();
             TransactionContext txContext = (TransactionContext)_transactionContext;

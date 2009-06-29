@@ -36,7 +36,7 @@ namespace Seasar.Quill
     /// </remarks>
     public class QuillInjector : IDisposable
     {
-        private readonly Logger _log = Logger.GetLogger(typeof (QuillInjector));
+        private static readonly Logger _log = Logger.GetLogger(typeof(QuillInjector));
 
         // QuillInjectorのインスタンス
         private static QuillInjector quillInjector;
@@ -124,8 +124,17 @@ namespace Seasar.Quill
         /// <returns>QuillInjectorのインスタンス</returns>
         public static QuillInjector GetInstance()
         {
-            if (quillInjector == null)
+            if (quillInjector != null)
             {
+                return quillInjector;
+            }
+
+            lock (typeof(QuillInjector))
+            {
+                if (quillInjector != null)
+                {
+                    return quillInjector;
+                }
                 quillInjector = new QuillInjector();
             }
 

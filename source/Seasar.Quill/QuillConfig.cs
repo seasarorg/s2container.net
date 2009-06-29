@@ -39,7 +39,7 @@ namespace Seasar.Quill
     /// </summary>
     public class QuillConfig
     {
-        private readonly Logger _log = Logger.GetLogger(typeof(QuillConfig));
+        private static readonly Logger _log = Logger.GetLogger(typeof(QuillConfig));
 
         #region static
 

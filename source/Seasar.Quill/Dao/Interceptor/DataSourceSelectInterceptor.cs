@@ -25,26 +25,50 @@ using Seasar.Framework.Aop.Interceptors;
 using Seasar.Framework.Aop;
 using Seasar.Quill.Exception;
 using Seasar.Quill.Util;
+using System;
 
 namespace Seasar.Quill.Dao.Interceptor
 {
     /// <summary>
     /// データソース選択用Intarceptor
+    /// （一つのMemberで複数のデータソース切り替えが設定されている
+    /// 可能性があるのでこのInterceptorはQuillContainerで管理せずに
+    /// データソース名ごとにインスタンスを生成します）
     /// </summary>
     public class DataSourceSelectInterceptor : AbstractInterceptor
     {
-        private readonly Logger _logger = Logger.GetLogger(typeof(DataSourceSelectInterceptor));
+        private static readonly Logger _logger = Logger.GetLogger(typeof(DataSourceSelectInterceptor));
 
+        /// <summary>
+        /// データソース名ごとにインスタンスを生成するためのHashMap
+        /// [Key=データソース名, Value=Interceptorインスタンス]
+        /// </summary>
+        private static readonly IDictionary<string, DataSourceSelectInterceptor> _interceptorMap
+            = new Dictionary<string, DataSourceSelectInterceptor>();
+
+        #region Property
+        [Obsolete("データソース名ごとにInterceptorのインスタンスを生成する方針に切替のため削除予定")]
         private IDictionary<MemberInfo, string> _daoDataSourceMap = new Dictionary<MemberInfo, string>();
 
         /// <summary>
         /// データソース名を指定するメンバとデータソース名のマッピング
         /// </summary>
+        [Obsolete("データソース名ごとにInterceptorのインスタンスを生成する方針に切替のため削除予定")]
         public IDictionary<MemberInfo, string> DaoDataSourceMap
         {
             set { _daoDataSourceMap = value; }
             get { return _daoDataSourceMap; }
         }
+
+        protected readonly string _dataSourceName;
+        /// <summary>
+        /// 切り替え後のデータソース名
+        /// </summary>
+        public virtual string DataSourceName
+        {
+            get { return _dataSourceName; }
+        }
+
 
         private AbstractSelectableDataSourceProxy _dataSourceProxy;
 
@@ -56,6 +80,48 @@ namespace Seasar.Quill.Dao.Interceptor
             set { _dataSourceProxy = value; }
             get { return _dataSourceProxy; }
         }
+        #endregion
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="dataSourceName">(Not Null or Empty</param>
+        protected DataSourceSelectInterceptor(string dataSourceName)
+        {
+            _dataSourceName = dataSourceName;
+        }
+
+        #region static
+        /// <summary>
+        /// １データソース名＝１インスタンスを生成する
+        /// </summary>
+        /// <param name="dataSourceName"></param>
+        /// <returns></returns>
+        public static DataSourceSelectInterceptor GetInstance(string dataSourceName)
+        {
+            if (string.IsNullOrEmpty(dataSourceName))
+            {
+                throw new ArgumentNullException("dataSourceName");
+            }
+   
+            if(_interceptorMap.ContainsKey(dataSourceName))
+            {
+                return _interceptorMap[dataSourceName];
+            }
+
+            lock(typeof(DataSourceSelectInterceptor))
+            {
+                if(_interceptorMap.ContainsKey(dataSourceName))
+                {
+                    return _interceptorMap[dataSourceName];
+                }
+
+                _interceptorMap[dataSourceName] = new DataSourceSelectInterceptor(dataSourceName);
+            }
+            return _interceptorMap[dataSourceName];
+        }
+
+        #endregion
 
         public override object Invoke(IMethodInvocation invocation)
         {
@@ -67,23 +133,24 @@ namespace Seasar.Quill.Dao.Interceptor
             IComponentDef def = GetComponentDef(invocation);
             if (def != null)
             {
-                string dataSourceName = null;
-                //  Daoクラス/メソッド用にデータソース名が設定されていれば
-                //  そのデータソースを適用する
-                MemberInfo daoClassType = def.ComponentType;
-                if (_daoDataSourceMap.ContainsKey(daoClassType))
-                {
-                    dataSourceName = _daoDataSourceMap[daoClassType];
-                }
-                else
-                {
-                    //  クラスになければメソッドに定義されているか
-                    MemberInfo daoMethod = invocation.Method;
-                    if (_daoDataSourceMap.ContainsKey(daoMethod))
-                    {
-                        dataSourceName = _daoDataSourceMap[daoMethod];
-                    }
-                }
+                //string dataSourceName = null;
+                ////  Daoクラス/メソッド用にデータソース名が設定されていれば
+                ////  そのデータソースを適用する
+                //MemberInfo daoClassType = def.ComponentType;
+                //if (_daoDataSourceMap.ContainsKey(daoClassType))
+                //{
+                //    dataSourceName = _daoDataSourceMap[daoClassType];
+                //}
+                //else
+                //{
+                //    //  クラスになければメソッドに定義されているか
+                //    MemberInfo daoMethod = invocation.Method;
+                //    if (_daoDataSourceMap.ContainsKey(daoMethod))
+                //    {
+                //        dataSourceName = _daoDataSourceMap[daoMethod];
+                //    }
+                //}
+                string dataSourceName = DataSourceName;
 
                 if (DataSourceProxy != null && string.IsNullOrEmpty(dataSourceName) == false)
                 {
