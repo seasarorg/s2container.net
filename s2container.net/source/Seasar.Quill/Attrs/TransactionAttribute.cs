@@ -25,7 +25,7 @@ namespace Seasar.Quill.Attrs
     /// トランザクション境界を指定するための属性
     /// </summary>
     [AttributeUsage(AttributeTargets.Interface |
-       AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
+       AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
     public class TransactionAttribute : Attribute
     {
         private readonly Type _transactionSettingType;

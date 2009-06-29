@@ -41,7 +41,7 @@ namespace Seasar.Quill
         /// <summary>
         /// ログ
         /// </summary>
-        private readonly Logger _log = Logger.GetLogger(typeof(QuillContainer));
+        private static readonly Logger _log = Logger.GetLogger(typeof(QuillContainer));
 
         // 作成済みにコンポーネントを格納する
         protected IDictionary<Type, QuillComponent> components =

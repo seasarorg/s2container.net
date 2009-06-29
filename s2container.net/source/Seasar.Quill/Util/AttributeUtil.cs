@@ -203,9 +203,28 @@ namespace Seasar.Quill.Util
                 throw new QuillApplicationException("EQLL0016", new object[] {
                     type.FullName });
             }
-
+            
             // Aspectを指定する属性を取得して返す
             return GetTransactionAttrByMember(type);
+        }
+
+        /// <summary>
+        /// Transactionを指定する為にクラスやインターフェースに設定されている属性
+        /// (<see cref="Seasar.Quill.Attrs.TransactionAttribute"/>)を取得する
+        /// </summary>
+        /// <param name="type">属性を確認するType</param>
+        /// <returns>Aspectが指定された属性の配列</returns>
+        public static TransactionAttribute[] GetTransactionAttrs(Type type)
+        {
+            if (!type.IsPublic && !type.IsNestedPublic)
+            {
+                // メソッドを宣言するクラスがpublicではない場合は例外をスローする
+                throw new QuillApplicationException("EQLL0016", new object[] {
+                    type.FullName });
+            }
+
+            // Aspectを指定する属性を取得して返す
+            return GetTransactionAttrsByMember(type);
         }
 
         /// <summary>
@@ -231,6 +250,28 @@ namespace Seasar.Quill.Util
         }
 
         /// <summary>
+        /// Aspectを指定する為にメソッドに設定されている属性
+        /// (<see cref="Seasar.Quill.Attrs.TransactionAttribute"/>)を取得する
+        /// </summary>
+        /// <param name="method">属性を確認するメソッド</param>
+        /// <returns>Aspectが指定された属性の配列</returns>
+        public static TransactionAttribute[] GetTransactionAttrsByMethod(MethodInfo method)
+        {
+            // Aspectを指定する属性を取得する
+            TransactionAttribute[] attrs = GetTransactionAttrsByMember(method);
+            if (attrs == null || attrs.Length == 0)
+            {
+                // Aspect属性が指定されていない場合はnullを返す
+                return null;
+            }
+
+            ValidateMethodInfo(method);
+
+            // Aspectを指定する属性を返す
+            return attrs;
+        }
+
+        /// <summary>
         /// Aspectを指定する為にメンバに設定されている属性
         /// (<see cref="Seasar.Quill.Attrs.TransactionAttribute"/>)を取得する
         /// </summary>
@@ -244,6 +285,22 @@ namespace Seasar.Quill.Util
                 member, typeof(TransactionAttribute));
 
             return attr;
+        }
+
+        /// <summary>
+        /// Aspectを指定する為にメンバに設定されている属性
+        /// (<see cref="Seasar.Quill.Attrs.TransactionAttribute"/>)を取得する
+        /// </summary>
+        /// <param name="member">属性を確認するメンバ</param>
+        /// <returns>Aspectが指定された属性の配列</returns>
+        public static TransactionAttribute[] GetTransactionAttrsByMember(MemberInfo member)
+        {
+            // Aspectを指定する属性を取得する
+            TransactionAttribute[] attrs =
+                (TransactionAttribute[])Attribute.GetCustomAttributes(
+                member, typeof(TransactionAttribute));
+
+            return attrs;
         }
 
         #endregion
