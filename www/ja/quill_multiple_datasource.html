@@ -233,14 +233,14 @@ public interface IFrontHogeDao  {
 }
 
 /// &lt;summary&gt;
-/// 「MasterDB」のCustomerテーブルに接続するDao
+/// 「MasterDB」のItemテーブルに接続するDao
 /// &lt;/summary&gt;
 [Implementation]
-[Bean(typeof(CustomerEntity))]
+[Bean(typeof(ItemEntity))]
 [S2Dao(typeof(MasterDaoSetting))]
-public interface IMasterCustomerDao  {
-  CustomerEntity Select(int? customerId);
-  int Update(CustomerEntity entity);
+public interface IMasterItemDao  {
+  ItemEntity Select(int? itemId);
+  int Update(ItemEntity entity);
 }
 </pre>
 		</div>
@@ -293,7 +293,7 @@ public class MasterTxSetting : TypicalTransactionSetting {
 [Implementation]
 public class HogeFacade  {
   protected IFrontHogeDao _frontHogeDao;
-  protected IMasterCustomerDao _masterCustomerDao;
+  protected IMasterItemDao _masterItemDao;
   
   /// &lt;summary&gt;
   /// 「FrontDB」にトランザクションをかける
@@ -308,9 +308,9 @@ public class HogeFacade  {
   /// 「MasterDB」にトランザクションをかける
   /// &lt;/summary&gt;
   [Transaction(typeof(MasterTxSetting))]
-  public int ExecuteUpdateCustomer(CustomerEntity entity) {
+  public int ExecuteUpdateItem(ItemEntity entity) {
     (中略)
-    return _masterCustomerDao.Update(entity);
+    return _masterItemDao.Update(entity);
   }
 }
 </pre>
@@ -345,7 +345,7 @@ public class HogeFacade  {
   /// 「MasterDB」にトランザクションをかける
   /// &lt;/summary&gt;
   [Transaction(typeof(MasterTxSetting))]
-  public int ExecuteUpdateCustomer(HogeEntity entity) {
+  public int ExecuteUpdateItem(HogeEntity entity) {
     (中略)
     return _frontHogeDao.Update(entity);
   }
@@ -403,13 +403,13 @@ try {
 <pre class="csharpcode">
 [Transaction(typeof(FrontTxSetting))]
 [Transaction(typeof(MasterTxSetting))]
-public void Update(HogeEntity hoge, CustomerEntity customer) {
+public void Update(HogeEntity hoge, ItemEntity item) {
   _frontHogeDao.Update(hoge);
-  _masterCustomerDao.Update(customer);
+  _masterItemDao.Update(item);
 }
 </pre>
 			<p><font color="red">※Seasar.NET 1.3.17～での使用を想定しています。</font></p>
-			<p>上記のようなコードの「_masterCustomerDao.Update(customer);」で例外が発生した場合</p>
+			<p>上記のようなコードの「_masterItemDao.Update(item);」で例外が発生した場合</p>
 			<p>例外発生<br>
 			↓<br>
 			MasterTxSettingで設定されたLocalRequiredTxSetting#HandleTransactionで例外catch<br>
