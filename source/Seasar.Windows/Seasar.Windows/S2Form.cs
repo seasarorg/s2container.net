@@ -433,11 +433,11 @@ namespace Seasar.Windows
 
             Type type = _dataSource.GetType();
 
+            Control[] controls = _GetControls(this);
             PropertyInfo[] pis = type.GetProperties();
             foreach (PropertyInfo info in pis)
             {
                 bool isFind = false;
-                Control[] controls = _GetControls(this);
                 foreach (Control control in controls)
                 {
                     object[] attributes = formType.GetCustomAttributes(typeof (ControlAttribute), false);
