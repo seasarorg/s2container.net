@@ -1,4 +1,19 @@
-﻿S2Container.NET 1.3.16.1
+﻿S2Container.NET 1.3.17
+2009/09/18
+** Implrovement
+	* [CONTAINERNET-129] Transaction属性を一つのクラスorメソッドに複数付けられるようにする
+	* [CONTAINERNET-131] プロパティが多いPONOをS2Formにバインドすると時間がかかる
+** Bug
+	* [CONTAINERNET-127] 異なるデータソースに対してトランザクションを開始するとDBアクセス時に意図している先と違うデータソースに接続してしまうことがある。
+	* [CONTAINERNET-128] QuillInjector.GetInstance時に排他制御をかける
+** Task
+	* [CONTAINERNET-130] 【Quill】複数データソース接続についてドキュメントを書く
+
+S2Dao.NET 1.3.17
+2009/09/18
+	変更点なし
+	
+S2Container.NET 1.3.16.1
 2009/06/06
 ** Bug
 	* [CONTAINERNET-126] - Quillコントロールをフォームに貼り付け・使用することができない
