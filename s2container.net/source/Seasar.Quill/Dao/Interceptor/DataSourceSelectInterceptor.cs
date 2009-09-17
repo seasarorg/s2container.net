@@ -133,23 +133,6 @@ namespace Seasar.Quill.Dao.Interceptor
             IComponentDef def = GetComponentDef(invocation);
             if (def != null)
             {
-                //string dataSourceName = null;
-                ////  Daoクラス/メソッド用にデータソース名が設定されていれば
-                ////  そのデータソースを適用する
-                //MemberInfo daoClassType = def.ComponentType;
-                //if (_daoDataSourceMap.ContainsKey(daoClassType))
-                //{
-                //    dataSourceName = _daoDataSourceMap[daoClassType];
-                //}
-                //else
-                //{
-                //    //  クラスになければメソッドに定義されているか
-                //    MemberInfo daoMethod = invocation.Method;
-                //    if (_daoDataSourceMap.ContainsKey(daoMethod))
-                //    {
-                //        dataSourceName = _daoDataSourceMap[daoMethod];
-                //    }
-                //}
                 string dataSourceName = DataSourceName;
 
                 if (DataSourceProxy != null && string.IsNullOrEmpty(dataSourceName) == false)
