@@ -82,7 +82,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="QuilInjector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Exception\QuillApplicationException.cs" />
     <Compile Include="QuillComponent.cs" />
@@ -95,6 +94,7 @@
     <Compile Include="QuillControl.Designer.cs">
       <DependentUpon>QuillControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="QuillInjector.cs" />
     <Compile Include="SingletonS2ContainerConnector.cs" />
     <Compile Include="Unit\MockInjector.cs" />
     <Compile Include="Util\AttributeUtil.cs" />
@@ -107,6 +107,7 @@
     <Compile Include="Xml\OuterQuillSectionLoader.cs" />
     <Compile Include="Xml\QuillSection.cs" />
     <Compile Include="Xml\QuillSectionHandler.cs" />
+    <Compile Include="Xml\QuillSectionLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Seasar.Dao\Seasar.Dao.csproj">
@@ -142,6 +143,9 @@
     <EmbeddedResource Include="QLLMessages.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="QuillControl.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
