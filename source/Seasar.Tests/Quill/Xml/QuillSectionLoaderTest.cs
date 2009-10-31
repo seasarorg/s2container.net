@@ -23,7 +23,7 @@ using Seasar.Quill.Xml;
 namespace Seasar.Tests.Quill.Xml
 {
     [TestFixture]
-    public class OuterQuillSectionLoaderTest
+    public class QuillSectionLoaderTest
     {
         /// <summary>
         /// 指定したパスに設定ファイルがない場合のテスト
@@ -32,11 +32,11 @@ namespace Seasar.Tests.Quill.Xml
         public void TestLoadFromOuterConfig_FileNotFound()
         {
             {
-                QuillSection section = OuterQuillSectionLoader.LoadFromOuterConfig(null);
+                QuillSection section = QuillSectionLoader.LoadFromOuterConfig(null);
                 Assert.IsNull(section, "1");
             }
             {
-                QuillSection section = OuterQuillSectionLoader.LoadFromOuterConfig("NotFound");
+                QuillSection section = QuillSectionLoader.LoadFromOuterConfig("NotFound");
                 Assert.IsNull(section, "2");
             }
         }
@@ -49,7 +49,7 @@ namespace Seasar.Tests.Quill.Xml
         {
             string location = Assembly.GetExecutingAssembly().CodeBase;
             string configPath = location.Replace("Seasar.Tests.DLL", "Quill/Xml/Test.Quill.dll.config").Replace("file:///", string.Empty);
-            QuillSection actual = OuterQuillSectionLoader.LoadFromOuterConfig(configPath);
+            QuillSection actual = QuillSectionLoader.LoadFromOuterConfig(configPath);
 
             Assert.IsNotNull(actual, "1_" + configPath);
             Assert.AreEqual("HogeDaoSetting", actual.DaoSetting, "daoSetting");
@@ -67,16 +67,16 @@ namespace Seasar.Tests.Quill.Xml
             Assert.AreEqual(3, actual.DataSources.Count, "DataSourceSections_Count");
             for(int i = 0; i < 0; i++)
             {
-                object item = (DataSourceSection)actual.DataSources[i];
+                object item = actual.DataSources[i];
                 Assert.IsNotNull(item, "DataSourceSection is nothing");
                 Assert.IsTrue(item is DataSourceSection, "Type is [DataSourceSection]");
 
                 DataSourceSection dsSection = (DataSourceSection) item;
 
-                Assert.AreEqual("cs" + i.ToString(), dsSection.ConnectionString, "cs");
-                Assert.AreEqual("ds" + i.ToString(), dsSection.DataSourceClassName, "ds");
-                Assert.AreEqual("ds_name" + i.ToString(), dsSection.DataSourceName, "ds_name");
-                Assert.AreEqual("pv" + i.ToString(), dsSection.ProviderName, "pv");
+                Assert.AreEqual("cs" + i, dsSection.ConnectionString, "cs");
+                Assert.AreEqual("ds" + i, dsSection.DataSourceClassName, "ds");
+                Assert.AreEqual("ds_name" + i, dsSection.DataSourceName, "ds_name");
+                Assert.AreEqual("pv" + i, dsSection.ProviderName, "pv");
             }
         }
     }

@@ -1,6 +1,6 @@
 ﻿#region Copyright
 /*
- * Copyright 2005-2008 the Seasar Foundation and the Others.
+ * Copyright 2005-2009 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,95 +16,72 @@
  */
 #endregion
 
-using System;
-using System.Collections;
-using System.IO;
-using System.Reflection;
-using System.Text;
 using MbUnit.Framework;
-using Seasar.Quill.Exception;
 using Seasar.Quill.Xml;
+using System.Diagnostics;
+using System.Threading;
 
 namespace Seasar.Tests.Quill.Xml
 {
     [TestFixture]
     public class QuillSectionHandlerTest
     {
-        //[Test]
-        //public void TestGetQuillSection()
-        //{
-        //    //  ## Arrange / Act ##
-        //    QuillSection section = QuillSectionHandler.GetQuillSection();
+        /// <summary>
+        /// アプリケーション構成ファイルから設定を読み込めているか確認
+        /// </summary>
+        [Test]
+        public void TestGetQuillSection()
+        {
+            QuillSection actual = QuillSectionHandler.GetQuillSection();
 
-        //    //  ## Assert ##
-        //    Assert.IsNotNull(section, "セクション情報取得");
-        //    Assert.AreEqual("TypicalDaoSetting", section.DaoSetting, "標準S2Dao設定取得");
-        //    Assert.AreEqual("TypicalTransactionSetting", section.TransactionSetting, "標準トランザクション設定取得");
+            Assert.IsNotNull(actual);
 
-        //    IList dataSources = section.DataSources;
-        //    Assert.IsTrue(dataSources.Count > 0, "データソースの設定が取得されている");
-        //    foreach (object item in dataSources)
-        //    {
-        //        Assert.IsTrue(item is DataSourceSection, "dataSourceセクションとして取得されている");
-        //        DataSourceSection dsSection = (DataSourceSection)item;
-        //        Assert.IsFalse(string.IsNullOrEmpty(dsSection.ConnectionString), "接続文字列が取得されている");
-        //        Console.WriteLine("connectionString={0}", dsSection.ConnectionString);
-        //        Assert.IsFalse(string.IsNullOrEmpty(dsSection.DataSourceClassName), "データソースクラス名が取得されている");
-        //        Console.WriteLine("dataSourceNameClass={0}", dsSection.DataSourceClassName);
-        //        Assert.IsFalse(string.IsNullOrEmpty(dsSection.DataSourceName), "データソス名が設定されている");
-        //        Console.WriteLine("dataSourceName={0}", dsSection.DataSourceName);
-        //        Assert.IsFalse(string.IsNullOrEmpty(dsSection.ProviderName), "プロバイダクラス名が取得されている");
-        //        Console.WriteLine("providerName={0}", dsSection.ProviderName);
-        //    }
+            Assert.AreEqual("TypicalDaoSetting", actual.DaoSetting, "daoSetting");
+            Assert.AreEqual("TypicalTransactionSetting", actual.TransactionSetting, "TransactionSetting");
 
-        //    IList assemblys = section.Assemblys;
-        //    Assert.IsTrue(assemblys.Count > 0, "アセンブリ情報が取得されている");
-        //    foreach (object item in assemblys)
-        //    {
-        //        Assert.IsFalse(string.IsNullOrEmpty(item as string), "アセンブリ名が取得されている");
-        //    }
-        //}
+            //  アセンブリ設定
+            string[] expectedAssemblys = new string[] { "Seasar.Tests", "Seasar.Dxo" };
+            for (int i = 0; i < expectedAssemblys.Length; i++)
+            {
+                Assert.AreEqual(expectedAssemblys[i], actual.Assemblys[i],
+                    string.Format("Assembly_[{0}]", actual.Assemblys[i]));
+            }
 
-        //[Test]
-        //public void TestGetQuillSection_FromAppConfig()
-        //{
-            
-        //}
+            //  データソース設定
+            Assert.GreaterThan(actual.DataSources.Count, 0, "DataSourceSections_Count");
+            object item = actual.DataSources[0];
+            Assert.IsNotNull(item, "DataSourceSection is nothing");
+            Assert.IsTrue(item is DataSourceSection, "Type is [DataSourceSection]");
 
-        ///// <summary>
-        ///// Quill設定が見つからない場合のテスト
-        ///// </summary>
-        //[Test]
-        //public void TestGetQuillSection_SectionNotFound()
-        //{
-        //    StringBuilder builder = new StringBuilder();
-        //    builder.Append(Assembly.GetExecutingAssembly().CodeBase);
-        //    builder.Replace("file:///", string.Empty);
-        //    builder.Replace("Seasar.Tests.DLL", "Seasar.Quill.dll.config");
-        //    string configPath = builder.ToString();
+            DataSourceSection dsSection = (DataSourceSection) item;
+            Assert.AreEqual("Hoge1", dsSection.DataSourceName);
+            Assert.AreEqual("SqlServer", dsSection.ProviderName);
+            Assert.IsTrue(dsSection.ConnectionString.StartsWith("\"Server="));
+            Assert.AreEqual("Seasar.Extension.Tx.Impl.TxDataSource", dsSection.DataSourceClassName);
+        }
 
-        //    Assert.IsTrue(File.Exists(configPath), "config exists_" + configPath);
+        /// <summary>
+        /// conime.exeが起動していないか確認
+        /// </summary>
+        [Test]
+        public void TestIsNotCallConime()
+        {
+            const string KILL_TARGET_PROECESS = "conime";
 
-        //    //  一時的に設定ファイルの場所をかえる
-        //    string dummyPath = configPath + "ex";
-        //    File.Move(configPath, dummyPath);
-        //    try
-        //    {
-        //        //  既定の場所には設定ファイルがないことを確認
-        //        Assert.IsFalse(File.Exists(configPath), "config not found_" + configPath);
-        //        try
-        //        {
-        //            QuillSection section = QuillSectionHandler.GetQuillSection();
-        //            Assert.Fail("設定がないので例外となっているはず:" + (section == null ? "null" : section.ToString()));
-        //        }
-        //        catch(QuillConfigNotFoundException)
-        //        {}
-        //    }
-        //    finally
-        //    {
-        //        //  移した設定ファイルを元に戻す
-        //        File.Move(dummyPath, configPath);
-        //    }
-        //}
+            Process[] beforeProecesses = Process.GetProcessesByName(KILL_TARGET_PROECESS);
+            //  conime.exeが起動していた場合は予め終了させておく
+            while(beforeProecesses.Length > 0)
+            {
+                beforeProecesses[0].Kill();
+                Thread.Sleep(1000);
+                beforeProecesses = Process.GetProcessesByName(KILL_TARGET_PROECESS);
+            }
+
+            QuillSection actual = QuillSectionHandler.GetQuillSection();
+            Assert.IsNotNull(actual);
+
+            Process[] afterProecesses = Process.GetProcessesByName(KILL_TARGET_PROECESS);
+            Assert.AreEqual(0, afterProecesses.Length, "conime.exeが起動していないか");
+        }
     }
 }

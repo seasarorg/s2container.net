@@ -23,9 +23,9 @@ using System.Xml;
 namespace Seasar.Quill.Xml
 {
     /// <summary>
-    /// 外部ファイルからQuillの設定を読み込む
+    /// Quill設定の読込・取得を行う
     /// </summary>
-    public class OuterQuillSectionLoader
+    public class QuillSectionLoader
     {
         /// <summary>
         /// 外部設定ファイルからQuill設定情報を取得
@@ -49,11 +49,21 @@ namespace Seasar.Quill.Xml
                 return null;
             }
 
+            return CreateQuillSection(quillElement);
+        }
+
+        /// <summary>
+        /// 外部設定ファイルからQuill設定情報を取得
+        /// </summary>
+        /// <param name="section">XML形式の設定情報</param>
+        /// <returns>Quill設定</returns>
+        public static QuillSection CreateQuillSection(XmlNode section)
+        {
             QuillSection quillSection = new QuillSection();
-            quillSection.Assemblys = GetAssemblyConfig(quillElement);
-            quillSection.DataSources = GetDataSourceConfig(quillElement);
-            quillSection.DaoSetting = GetElementValue(quillElement, QuillConstants.CONFIG_DAO_SETTING_KEY);
-            quillSection.TransactionSetting = GetElementValue(quillElement, QuillConstants.CONFIG_TX_SETTING_KEY);
+            quillSection.Assemblys = GetAssemblyConfig(section);
+            quillSection.DataSources = GetDataSourceConfig(section);
+            quillSection.DaoSetting = GetElementValue(section, QuillConstants.CONFIG_DAO_SETTING_KEY);
+            quillSection.TransactionSetting = GetElementValue(section, QuillConstants.CONFIG_TX_SETTING_KEY);
             return quillSection;
         }
 
@@ -163,7 +173,7 @@ namespace Seasar.Quill.Xml
                 return null;
             }
             XmlNodeList nodeList = element.GetElementsByTagName(childName);
-            if (nodeList == null || nodeList.Count == 0)
+            if (nodeList.Count == 0)
             {
                 return null;
             }
@@ -171,7 +181,7 @@ namespace Seasar.Quill.Xml
             ArrayList retList = new ArrayList();
             foreach (XmlNode node in nodeList)
             {
-                if (node.InnerText != null && node.InnerText.Length > 0)
+                if (!string.IsNullOrEmpty(node.InnerText))
                 {
                     invoker(retList, node);
                 }

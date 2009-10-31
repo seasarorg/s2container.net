@@ -18,7 +18,6 @@
 
 using System.Configuration;
 using System.Xml;
-using System.Xml.Serialization;
 
 namespace Seasar.Quill.Xml
 {
@@ -36,26 +35,6 @@ namespace Seasar.Quill.Xml
             //  App.config上の設定を取得
             QuillSection quillSection = (QuillSection)ConfigurationManager.GetSection(
                                       QuillConstants.QUILL_CONFIG);
-            ////  外部設定ファイル
-            //string outerConfigPath = null;
-
-            ////  アプリケーション構成ファイルになければ外部ファイルがないか確認
-            //if(quillSection == null)
-            //{
-            //    //  外部ファイルのパスを設定
-            //    StringBuilder builder = new StringBuilder();
-            //    builder.Append(Assembly.GetExecutingAssembly().CodeBase);
-            //    builder.Replace("file:///", string.Empty);
-            //    builder.Append(".config");
-            //    outerConfigPath = builder.ToString();
-            //    quillSection = OuterQuillSectionLoader.LoadFromOuterConfig(outerConfigPath);
-            //}
-
-            //////  Quillの設定がどこにも見つからない場合は専用例外
-            ////if(quillSection == null)
-            ////{
-            ////    throw new QuillConfigNotFoundException(outerConfigPath);
-            ////}
             return quillSection;
         }
 
@@ -63,8 +42,7 @@ namespace Seasar.Quill.Xml
 
         public object Create(object parent, object configContext, XmlNode section)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(QuillSection));
-            return serializer.Deserialize(new XmlNodeReader(section));
+            return QuillSectionLoader.CreateQuillSection(section);
         }
 
         #endregion

@@ -153,6 +153,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="App.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <EmbeddedResource Include="DTCTx.dicon" />
     <EmbeddedResource Include="ImplicitTx.dicon" />
@@ -248,7 +249,9 @@
     <Content Include="Seasar.Quill.dll.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="Quill\ResourcesForQuillConfig\HasAssemblyConfig_Empty.config" />
+    <None Include="Quill\ResourcesForQuillConfig\HasAssemblyConfig_Empty.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Quill\ResourcesForQuillConfig\HasAssemblyConfig_Nothing.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -422,6 +425,8 @@
     <Compile Include="Dao\Unit\S2DaoTestCase.cs" />
     <Compile Include="Dxo\BeanA.cs" />
     <Compile Include="Dxo\DateTimeBean.cs" />
+    <Compile Include="Dxo\DateValueDateTime.cs" />
+    <Compile Include="Dxo\DateValueString.cs" />
     <Compile Include="Dxo\Department.cs" />
     <Compile Include="Dxo\Employee.cs" />
     <Compile Include="Dxo\EmployeePage.cs" />
@@ -595,7 +600,8 @@
     <Compile Include="Quill\Util\TypeUtilTest.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Quill\Xml\OuterQuillSectionLoaderTest.cs" />
+    <Compile Include="Quill\Xml\QuillSectionHandlerTest.cs" />
+    <Compile Include="Quill\Xml\QuillSectionLoaderTest.cs" />
     <Compile Include="Windows\Resources\ResourceEnableTest.cs" />
     <Content Include="Framework\Container.Deployer\SessionComponentDeployerWebPage.aspx" />
     <EmbeddedResource Include="Framework\Util\test1.xml" />

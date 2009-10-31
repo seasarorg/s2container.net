@@ -489,7 +489,7 @@ namespace Seasar.Quill
             if (string.IsNullOrEmpty(configPath) == false)
             {
                 LogUtil.Output(_log, "IQLL0004", configPath);
-                return OuterQuillSectionLoader.LoadFromOuterConfig(configPath);
+                return QuillSectionLoader.LoadFromOuterConfig(configPath);
             }
 
             //  アプリケーション構成ファイルからQuill設定読み込み
@@ -501,7 +501,7 @@ namespace Seasar.Quill
                 string outerConfigPath = SettingUtil.GetDefaultQuillConfigPath();
 
                 LogUtil.Output(_log, "IQLL0004", outerConfigPath);
-                section = OuterQuillSectionLoader.LoadFromOuterConfig(outerConfigPath);
+                section = QuillSectionLoader.LoadFromOuterConfig(outerConfigPath);
             }
 
             return section;
