@@ -16,10 +16,13 @@
  */
 #endregion
 
+using System;
+using System.Collections;
 using System.Configuration;
 using System.Xml;
 using System.Xml.Serialization;
 using Seasar.Framework.Container;
+using Seasar.Framework.Util;
 
 namespace Seasar.Framework.Xml
 {
@@ -43,8 +46,48 @@ namespace Seasar.Framework.Xml
 
         public object Create(object parent, object configContext, XmlNode section)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(S2Section));
-            return serializer.Deserialize(new XmlNodeReader(section));
+            return CreateS2Section(section);
+        }
+
+        #endregion
+
+        /// <summary>
+        /// 外部設定ファイルからQuill設定情報を取得
+        /// </summary>
+        /// <param name="section">XML形式の設定情報</param>
+        /// <returns>Quill設定</returns>
+        private static S2Section CreateS2Section(XmlNode section)
+        {
+            S2Section S2Section = new S2Section();
+            S2Section.ConfigPath = ConfigSectionUtil.GetElementValue(
+                section, ContainerConstants.CONFIG_PATH_KEY);
+            S2Section.Assemblys = GetAssemblyConfig(section);
+            return S2Section;
+        }
+
+        #region CreateS2Section関連メソッド
+
+        /// <summary>
+        /// アセンブリ設定情報の取得
+        /// </summary>
+        /// <param name="section"></param>
+        /// <returns></returns>
+        private static IList GetAssemblyConfig(XmlNode section)
+        {
+            return ConfigSectionUtil.GetListConfig(section, 
+                ContainerConstants.CONFIG_ASSEMBLYS_KEY,
+                ContainerConstants.CONFIG_ASSEMBLY_KEY, 
+                Invoke_GetAssemblyConfig);
+        }
+
+        /// <summary>
+        /// アセンブリ設定取得処理デリゲート
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="node"></param>
+        private static void Invoke_GetAssemblyConfig(IList list, XmlNode node)
+        {
+            list.Add(node.InnerText);
         }
 
         #endregion
