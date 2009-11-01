@@ -1,7 +1,7 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -841,6 +841,7 @@
     <Compile Include="Seasar.Framework.Util\CommandUtil.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Seasar.Framework.Util\ConfigSectionUtil.cs" />
     <Compile Include="Seasar.Framework.Util\ConnectionUtil.cs">
       <SubType>Code</SubType>
     </Compile>

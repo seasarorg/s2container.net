@@ -19,6 +19,7 @@
 using System.Collections;
 using System.IO;
 using System.Xml;
+using Seasar.Framework.Util;
 
 namespace Seasar.Quill.Xml
 {
@@ -62,12 +63,14 @@ namespace Seasar.Quill.Xml
             QuillSection quillSection = new QuillSection();
             quillSection.Assemblys = GetAssemblyConfig(section);
             quillSection.DataSources = GetDataSourceConfig(section);
-            quillSection.DaoSetting = GetElementValue(section, QuillConstants.CONFIG_DAO_SETTING_KEY);
-            quillSection.TransactionSetting = GetElementValue(section, QuillConstants.CONFIG_TX_SETTING_KEY);
+            quillSection.DaoSetting = ConfigSectionUtil.GetElementValue(
+                section, QuillConstants.CONFIG_DAO_SETTING_KEY);
+            quillSection.TransactionSetting = ConfigSectionUtil.GetElementValue(
+                section, QuillConstants.CONFIG_TX_SETTING_KEY);
             return quillSection;
         }
 
-        #region LoadFromOuterConfig関連メソッド
+        #region CreateQuillSection関連メソッド
 
         /// <summary>
         /// データソース設定情報の取得
@@ -76,7 +79,7 @@ namespace Seasar.Quill.Xml
         /// <returns></returns>
         private static IList GetDataSourceConfig(XmlNode quillElement)
         {
-            return GetListConfig(quillElement, QuillConstants.CONFIG_DATASOURCES_KEY,
+            return ConfigSectionUtil.GetListConfig(quillElement, QuillConstants.CONFIG_DATASOURCES_KEY,
                 QuillConstants.CONFIG_DATASOURCE_KEY, Invoke_GetDataSourceConfig);
         }
 
@@ -88,16 +91,9 @@ namespace Seasar.Quill.Xml
         /// <returns></returns>
         private static IList GetAssemblyConfig(XmlNode quillElement)
         {
-            return GetListConfig(quillElement, QuillConstants.CONFIG_ASSEMBLYS_KEY,
+            return ConfigSectionUtil.GetListConfig(quillElement, QuillConstants.CONFIG_ASSEMBLYS_KEY,
                 QuillConstants.CONFIG_ASSEMBLY_KEY, Invoke_GetAssemblyConfig);
         }
-
-        /// <summary>
-        /// アセンブリ設定取得処理デリゲート
-        /// </summary>
-        /// <param name="list"></param>
-        /// <param name="node"></param>
-        protected delegate void GetNodeConfig(IList list, XmlNode node);
 
         /// <summary>
         /// データソース設定取得処理デリゲート
@@ -109,22 +105,20 @@ namespace Seasar.Quill.Xml
             DataSourceSection dsSection = new DataSourceSection();
 
             //  データソース名
-            XmlAttribute dsNameAttr = node.Attributes[QuillConstants.CONFIG_DATASOURCE_NAME_ATTR];
-            string dataSourceName = null;
-            if (dsNameAttr != null)
-            {
-                dataSourceName = dsNameAttr.Value;
-            }
-            dsSection.DataSourceName = dataSourceName;
+            dsSection.DataSourceName = ConfigSectionUtil.GetAttributeValue(
+                node, QuillConstants.CONFIG_DATASOURCE_NAME_ATTR);
 
             //  接続文字列
-            dsSection.ConnectionString = GetElementValue(node, QuillConstants.CONFIG_CONNECTION_STRING_KEY);
+            dsSection.ConnectionString = ConfigSectionUtil.GetElementValue(
+                node, QuillConstants.CONFIG_CONNECTION_STRING_KEY);
 
             //  プロバイダ
-            dsSection.ProviderName = GetElementValue(node, QuillConstants.CONFIG_PROVIDER);
+            dsSection.ProviderName = ConfigSectionUtil.GetElementValue(
+                node, QuillConstants.CONFIG_PROVIDER);
 
             //  DataSourceクラス名
-            dsSection.DataSourceClassName = GetElementValue(node, QuillConstants.CONFIG_DATASOURCE_CLASS_KEY);
+            dsSection.DataSourceClassName = ConfigSectionUtil.GetElementValue(
+                node, QuillConstants.CONFIG_DATASOURCE_CLASS_KEY);
 
             list.Add(dsSection);
         }
@@ -139,55 +133,7 @@ namespace Seasar.Quill.Xml
             list.Add(node.InnerText);
         }
 
-        /// <summary>
-        /// 子要素の値を取得する
-        /// </summary>
-        /// <param name="parentNode"></param>
-        /// <param name="childName"></param>
-        /// <returns></returns>
-        private static string GetElementValue(XmlNode parentNode, string childName)
-        {
-            XmlElement retElement = parentNode[childName];
-            string retString = null;
-            if (retElement != null)
-            {
-                retString = retElement.InnerText;
-            }
-            return retString;
-        }
-
-        /// <summary>
-        /// リストで定義された設定情報を取得する
-        /// </summary>
-        /// <param name="parentElement"></param>
-        /// <param name="groupName">親要素の名前</param>
-        /// <param name="childName">子要素の名前</param>
-        /// <param name="invoker"></param>
-        /// <returns></returns>
-        private static IList GetListConfig(XmlNode parentElement, string groupName,
-            string childName, GetNodeConfig invoker)
-        {
-            XmlElement element = parentElement[groupName];
-            if (element == null)
-            {
-                return null;
-            }
-            XmlNodeList nodeList = element.GetElementsByTagName(childName);
-            if (nodeList.Count == 0)
-            {
-                return null;
-            }
-
-            ArrayList retList = new ArrayList();
-            foreach (XmlNode node in nodeList)
-            {
-                if (!string.IsNullOrEmpty(node.InnerText))
-                {
-                    invoker(retList, node);
-                }
-            }
-            return retList;
-        }
+        
         #endregion
     }
 }
