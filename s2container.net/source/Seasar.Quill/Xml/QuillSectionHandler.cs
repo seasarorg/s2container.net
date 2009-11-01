@@ -33,7 +33,7 @@ namespace Seasar.Quill.Xml
         public static QuillSection GetQuillSection()
         {
             //  App.config上の設定を取得
-            QuillSection quillSection = (QuillSection)ConfigurationManager.GetSection(
+             QuillSection quillSection = (QuillSection)ConfigurationManager.GetSection(
                                       QuillConstants.QUILL_CONFIG);
             return quillSection;
         }

@@ -16,32 +16,24 @@
  */
 #endregion
 
-using System;
 using System.Collections;
-using System.Xml.Serialization;
-using Seasar.Framework.Container;
 
 namespace Seasar.Framework.Xml
 {
     /// <summary>
     /// S2.NETの構成セクション
     /// </summary>
-    [Serializable]
-    [XmlRoot(ContainerConstants.SEASAR_CONFIG)]
     public class S2Section
     {
         private string _configPath = null;
         private IList _assemblys = new ArrayList();
 
-        [XmlElement(ContainerConstants.CONFIG_PATH_KEY)]
         public string ConfigPath
         {
             set { _configPath = value; }
             get { return _configPath; }
         }
 
-        [XmlArray(ContainerConstants.CONFIG_ASSEMBLYS_KEY)]
-        [XmlArrayItem(ContainerConstants.CONFIG_ASSEMBLY_KEY, typeof(string))]
         public IList Assemblys
         {
             set { _assemblys = value; }
