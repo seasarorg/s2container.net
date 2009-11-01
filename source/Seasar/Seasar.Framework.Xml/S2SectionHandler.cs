@@ -16,11 +16,9 @@
  */
 #endregion
 
-using System;
 using System.Collections;
 using System.Configuration;
 using System.Xml;
-using System.Xml.Serialization;
 using Seasar.Framework.Container;
 using Seasar.Framework.Util;
 
