@@ -112,10 +112,10 @@
 		</div>
 		<div class="contentBody">
 		
-			<p>　Quillを使うことにより簡単にDIやAOPを行うことができます。
+			<p>Quillを使うことにより簡単にDIやAOPを行うことができます。
 			Quillでは属性を用いてDIやAOPの設定を行います。
 			S2Container.NET 1.3.0から追加された機能です。</p>
-			<p>　ステートレスな業務ロジックを構築するために作成された為、S2Container.NETに比べると機能が制限されています。
+			<p>ステートレスな業務ロジックを構築するために作成された為、S2Container.NETに比べると機能が制限されています。
 			ただしS2Container.NETと連携してS2Container.NETに登録されているコンポーネントを利用する機能があります。</p>
 
 			<ul>
@@ -142,11 +142,8 @@
 					<a href="#nodicon">diconファイルを書かずにSeasarの機能を利用する</a>
 					<ul>
 						<li><a href="#nodicon_advantage">diconファイルを使わないことによる利点</a></li>
-						<li><a href="#nodicon_config">データソースの設定</a></li>
-						<li><a href="#nodicon_assembly">アセンブリの設定</a></li>
 						<li><a href="#nodicon_s2dao">S2Daoを利用してDBアクセス</a></li>
 						<li><a href="#nodicon_tx">トランザクションをかける</a></li>
-						<li><a href="#quill_section">「quill」セクションの使い方</a></li>
 						<li><a href="#nodicon_notice">注意点</a></li>
 						<!--<li><a href="#nodicon_ut">Quillを利用した単体テスト</a></li>-->
 					</ul>
@@ -176,9 +173,11 @@
 		</div>
 		<div class="contentBody">
 		
-			<p>　Quillのセットアップについては、以下のドキュメントを参照してください。</p>
-			<p>　<a href="setup.html#quill">セットアップ - Quillのセットアップ</a></p>
-			
+			<p>Quillのセットアップについては、以下のドキュメントを参照してください。
+			<ul>
+				<li><a href="setup.html#quill">セットアップ - Quillのセットアップ</a></li>
+				<li><a href="quill_config.html">設定ファイル</a></li>
+			</ul><p>
 		</div>
 	</div>
 	
@@ -196,21 +195,21 @@
 		</div>
 		<div class="contentBody">
 
-			<p>　DIを行う為にはSeasar.Quill.QuillInjectorクラスのInjectメソッドに、DIを行わせたいオブジェクトを渡します。</p>
-			<p>　QuillInjectorはInjectメソッドに渡されたオブジェクトのフィールドから自動的に判断して、
+			<p>DIを行う為にはSeasar.Quill.QuillInjectorクラスのInjectメソッドに、DIを行わせたいオブジェクトを渡します。</p>
+			<p>QuillInjectorはInjectメソッドに渡されたオブジェクトのフィールドから自動的に判断して、
 			必要なオブジェクトをフィールドにバインドします。その際にあらかじめ設定ファイルでコンポーネントを登録しておく必要はありません。</p>
-			<p>　QuillではQuillでインスタンスを管理するオブジェクトとS2Containerでインスタンスを管理するオブジェクトをDIすることができます。</p>
+			<p>QuillではQuillでインスタンスを管理するオブジェクトとS2Containerでインスタンスを管理するオブジェクトをDIすることができます。</p>
 			
 			<h2><a name="di_quill">Quillでインスタンスを管理するオブジェクトをDIする</a></h2>
 
-			<p>　Quillでインスタンスを管理するオブジェクトをDIする場合は、
+			<p>Quillでインスタンスを管理するオブジェクトをDIする場合は、
 			フィールドの型にSeasar.Quill.Attrs.ImplementationAttributeクラスを属性として設定します。
 			Quillは設定された属性からバインドすべきと判断して自動的にバインドを行います。</p>
-			<p>　初めてバインドされるオブジェクトは新しくインスタンス化されますが、
+			<p>初めてバインドされるオブジェクトは新しくインスタンス化されますが、
 			一度バインドされたオブジェクトは以後同じインスタンスがバインドされることになります。
 			つまりQuillでバインドするためにインスタンス化されるオブジェクトは全てsingletonになります。
 			これはQuillがステートレスな業務ロジックを構築することを目的に作られたからです。</p>
-			<p>　下記の例ではIEmployeeLogicインターフェースの実装クラスであるEmployeeLogicクラスを
+			<p>下記の例ではIEmployeeLogicインターフェースの実装クラスであるEmployeeLogicクラスを
 			Form1のフィールドにバインドします。もしEmployeeLogicクラスがフィールドを持ち、
 			そのフィールドの型にImplementationAttributeクラスが属性として設定されていれば連鎖的にバインディングが行われていきます。</p>
 			
@@ -255,7 +254,7 @@
     ・・(略)・・
 }</pre>
 
-			<p>　上記のようなインターフェースを用意せずに直接クラスのインスタンスをバインディングする場合は、
+			<p>上記のようなインターフェースを用意せずに直接クラスのインスタンスをバインディングする場合は、
 			下記のようにImplementationAttributeクラスに引数を指定しません。</p>
 
 <!-- code formatted by http://manoli.net/csharpformat/ -->
@@ -279,7 +278,7 @@
     ・・(略)・・
 }</pre>
 
-			<p>　また下記のように引数無しのImplementationAttributeクラスをインターフェースに指定して、
+			<p>また下記のように引数無しのImplementationAttributeクラスをインターフェースに指定して、
 			Aspectで実装を持たせることもできます。</p>
 
 <!-- code formatted by http://manoli.net/csharpformat/ -->
@@ -306,10 +305,10 @@
 
 			<h2><a name="di_s2">S2Containerでインスタンスを管理するオブジェクトをDIする</a></h2>
 			
-			<p>　フィールドにSeasar.Quill.Attrs.BindingAttributeクラスが属性として指定されている場合は、
+			<p>フィールドにSeasar.Quill.Attrs.BindingAttributeクラスが属性として指定されている場合は、
 			S2Containerでインスタンスを管理するオブジェクトをバインディングします。
 			BindingAttributeクラスの引数にはS2Containerのコンポーネント名を指定します。</p>
-			<p>　下記の例ではS2Containerにコンポーネント名"empLogic"として定義されているコンポーネントのインスタンスを
+			<p>下記の例ではS2Containerにコンポーネント名"empLogic"として定義されているコンポーネントのインスタンスを
 			 Form1のフィールドにバインドします。</p>
 			
 <!-- code formatted by http://manoli.net/csharpformat/ -->
@@ -404,24 +403,24 @@
 		</div>
 		<div class="contentBody">
 		
-			<p>　QuillでAOPを利用する為にはSeasar.Quill.Attrs.AspectAttributeクラスを属性として設定します。
+			<p>QuillでAOPを利用する為にはSeasar.Quill.Attrs.AspectAttributeクラスを属性として設定します。
 			AspectAttributeクラスはクラス・インターフェース、メソッドに設定することができます。
 			ただしQuillによってインスタンス化されたオブジェクトにのみ設定が有効となります。</p>
-			<p>　AspectAttributeクラスの第1引数にはInterceptorを指定します。
+			<p>AspectAttributeクラスの第1引数にはInterceptorを指定します。
 			Quillでインスタンスを管理するInterceptorを指定する場合はInterceptorのTypeクラスを指定します。
 			S2Containerでインスタンスを管理するInterceptorを指定する場合はInterceptorのコンポーネント名を指定します。</p>
-			<p>　クラス・インターフェースにAspectAttributeクラスを設定した場合は、
+			<p>クラス・インターフェースにAspectAttributeクラスを設定した場合は、
 			クラス・インターフェースに含まれるメソッドにAspectが適用されます。
 			ただしインターフェースに定義されたメソッド、virtualキーワードが指定されたメソッドが対象となります。</p>
-			<p>　メソッドにAspectAttributeクラスを設定することでメソッド毎にAspectを適用することができます。
+			<p>メソッドにAspectAttributeクラスを設定することでメソッド毎にAspectを適用することができます。
 			ただしインターフェースに定義されたメソッド、virtualキーワードが指定されたメソッドにしか設定することはできません。</p>
 			
 			<h2><a name="aop_quill">Quillでインスタンスを管理するInterceptorを使用する</a></h2>
-			<p>　Quillでインスタンスを管理するInterceptorを使用する場合は、
+			<p>Quillでインスタンスを管理するInterceptorを使用する場合は、
 			Seasar.Quill.Attrs.AspectAttributeクラスを属性として、
 			第1引数にInterceptorのTypeクラスを指定します。</p>
-			<p>　Interceptorのインスタンスは必ずsingletonになります。</p>
-			<p>　下記の例ではEmployeeLogicのGetEmployeeByEmpNoにAspectを適用します。
+			<p>Interceptorのインスタンスは必ずsingletonになります。</p>
+			<p>下記の例ではEmployeeLogicのGetEmployeeByEmpNoにAspectを適用します。
 			InterceptorのインスタンスはQuillで管理されます。</p>
 			
 <!-- code formatted by http://manoli.net/csharpformat/ -->
@@ -485,7 +484,7 @@
     <span class="preproc">#endregion</span>
 }</pre>
 
-			<p>　EmployeeLogicのGetEmployeeByEmpNoをForm1から実行すると下記のようなメッセージがコンソールに出力されます。</p>
+			<p>EmployeeLogicのGetEmployeeByEmpNoをForm1から実行すると下記のようなメッセージがコンソールに出力されます。</p>
 			
 <pre class="csharpcode">
 メソッドを開始します
@@ -495,10 +494,10 @@
 			
 			
 			<h2><a name="aop_s2">S2Containerでインスタンスを管理するInterceptorを使用する</a></h2>
-			<p>　S2Containerでインスタンスを管理するInterceptorを使用する場合は、
+			<p>S2Containerでインスタンスを管理するInterceptorを使用する場合は、
 			Seasar.Quill.Attrs.AspectAttributeクラスを属性として、
 			第1引数にInterceptorのコンポーネント名を指定します。</p>
-			<p>　下記の例ではEmployeeLogicのGetEmployeeByEmpNoにAspectを適用します。
+			<p>下記の例ではEmployeeLogicのGetEmployeeByEmpNoにAspectを適用します。
 			InterceptorのインスタンスはS2Containerで管理されます。</p>
 
 <!-- code formatted by http://manoli.net/csharpformat/ -->
@@ -582,7 +581,7 @@
 
 <span class="kwrd">&lt;/</span><span class="html">components</span><span class="kwrd">&gt;</span></pre>
 			
-			<p>　EmployeeLogicのGetEmployeeByEmpNoをForm1から実行すると下記のようなメッセージがコンソールに出力されます。</p>
+			<p>EmployeeLogicのGetEmployeeByEmpNoをForm1から実行すると下記のようなメッセージがコンソールに出力されます。</p>
 			
 <pre class="csharpcode">
 メソッドを開始します
@@ -592,11 +591,11 @@
 			
 
 			<h2><a name="aop_interceptor">Interceptorの作成方法</a></h2>
-			<p>　Interceptorの作成方法はS2AOP.NETと同じです。下記のドキュメントを参照して下さい。</p>
-			<p>　<a href="aop-reference.html#OriginalInterceptor">AOP - (3) 独自実装によるInterceptor</a></p>
+			<p>Interceptorの作成方法はS2AOP.NETと同じです。下記のドキュメントを参照して下さい。</p>
+			<p><a href="aop-reference.html#OriginalInterceptor">AOP - (3) 独自実装によるInterceptor</a></p>
 			
 			<h2><a name="aop_ordinal">Interceptorが呼び出される順番</a></h2>
-			<p>　クラス・インタフェースに設定されたInterceptorは、メソッドに設定されたInterceptorより先に呼び出されます。
+			<p>クラス・インタフェースに設定されたInterceptorは、メソッドに設定されたInterceptorより先に呼び出されます。
 			クラス・インターフェースに複数のAspectAttributeクラスが設定された場合、
 			もしくはメソッドに複数のAspectAttributeクラスが設定された場合は、
 			AspectAttributeクラスの第2引数に並び順を指定して呼び出される順番を制御することができます。
@@ -644,104 +643,29 @@
 		</div>
 		<div class="contentBody">
 			<h2><a name="nodicon_advantage">diconファイルを使わないことによる利点</a></h2>
-			<p>　QuillではS2Daoやトランザクションの設定も含めてdiconファイルを書かずに<br/>
+			<p>QuillではS2Daoやトランザクションの設定も含めてdiconファイルを書かずに<br/>
 			属性を使用することでDI+AOPを利用することができます。</p>
-			<p>　その利点は大まかに以下のものが挙げられます。</p>
+			<p>その利点は大まかに以下のものが挙げられます。</p>
 			<ul>
 				<li>＜タイプセーフ＞<br/>
-				　・文字列で定義していた項目をコンパイル対象となる属性で定義しているため</li>
+				・文字列で定義していた項目をコンパイル対象となる属性で定義しているため</li>
 				<li>＜diconファイルへの「埋め込まれたリソース」の設定を意識しなくてもよくなる＞</li>
 				<li>＜遅延初期化で起動が速い＞<br/>
-				　DIコンテナの初期化をアプリケーション起動時よりも遅らせることが<br/>
-				　できるため、初回起動時のコストが低くなる。</li>
+				DIコンテナの初期化をアプリケーション起動時よりも遅らせることが<br/>
+				できるため、初回起動時のコストが低くなる。</li>
 			</ul>
-			<h2><a name="nodicon_config">データソースの設定</a></h2>
-			<p>　設定ファイル(<strong>App.config</strong>)の<a href="#quill_section">「quill」セクション</a>内に下記の設定を記述することで<br/>
-			データソースを設定することができます。<br/>
-			各データソースの定義は「<font color="#009900">dataSource</font>」タグに記述し、<br/>
-			複数データソースを定義する場合は「<font color="#009900">dataSources</font>」タグ内に<br/>
-			各データソースの設定を書いていきます。</p>
-			<p>　<font color="#009900">dataSources</font>で定義されたデータソースは<br/>
-			<font color="#0000ff">Seasar.Quill.Database.DataSource.Impl.SelectableDataSourceProxyWithDictionary</font>という<br/>
-			クラスのインスタンスでQuillコンテナ内に保持し、DBアクセス時に使用します。</p>
-			<p>　<font color="009900">dataSource</font>タグ内で設定する内容は以下の通りです。</p>
-			<h3>・<u>データソース名</u></h3>
-			<p>　データソースをアプリケーション中で一意に識別するための名前です。</p>
-			<h3>・<u>プロバイダクラス名</u></h3>
-			<p>　ADO.NET上で使うクラス名を保持する<font color="#0000ff">Seasar.Extension.ADO.DataProvider</font>継承クラス名です。<br/>
-			独自のプロバイダクラスを使う場合は名前空間付きで指定します。<br/>
-			Quill内にあらかじめ定義されているプロバイダクラスを使用する場合は<br/>
-			クラス名のみの指定で使用可能です。</p>
-			<p>　以下のプロバイダがQuill内に定義されています。</p>
-			<table border="0" cellspacing="1">
-				<tr><th width="140">プロバイダ</th><th>説明</th></tr>
-				<tr><td>SqlServer</td><td>SQLServer用プロバイダクラス</td></tr>
-				<tr><td>ODP</td><td>ODP.NET(Oracle)用プロバイダクラス</td></tr>
-				<tr><td>Oracle</td><td>Oracle用プロバイダクラス</td></tr>
-				<tr><td>DB2</td><td>DB2用プロバイダクラス</td></tr>
-				<tr><td>MySQL</td><td>MySQL用プロバイダクラス</td></tr>
-				<tr><td>PostgreSQL</td><td>PostgreSQL用プロバイダクラス</td></tr>
-				<tr><td>Firebird</td><td>Firebird用プロバイダクラス)</td></tr>
-				<tr><td>OleDb</td><td>OleDb用プロバイダクラス)</td></tr>
-			</table>
-			<h3>・<u>接続文字列</u></h3>
-			<p>　<u>クラスを指定する</u>方法と<u>文字列を直接書く</u>方法があります。</p>
-			<p>　クラスを指定する場合は<br/>
-			<font color="#0000ff">Seasar.Quill.Database.DataSource.Connection.IConnectionString</font>インターフェースを<br/>
-			実装し、「<font color="#009900">connectionString</font>」タグにクラス名を名前空間付きで指定して下さい。</p>
-			<p>　文字列で直接書く場合は接続文字列を「&quot;」で囲って指定して下さい。</p><!--"-->
-			<p>　データソースは以下の優先順序でQuill内に保持されます。</p>
-			<li>１．App.config内<a href="#quill_section">「quill」セクション</a>の<font color="#009900">dataSources</font>、<font color="#009900">dataSource</font>の設定</li>
-			<li>２．App.config内<font color="#009900">ConnectionStrings</font>セクションの設定</li>
-			<li>３．XXX.dicon内に記述された設定</li>
-			<h3>・<u>データソースクラス名</u></h3>
-			<p>　Seasar.Extension.ADO.Impl.DataSourceImplや<br/>
-			Seasar.Extension.Tx.Impl.TxDataSourcelなどの<br/>
-			<font color="#0000ff">Seasar.Extension.ADO.IDataSource</font>実装クラス名を<br/>
-			名前空間付きで指定します。</p>
-			<p>　<b>※使用可能なデータソースはS2Container.NETと同じです。</b></p>
-			<p>※<u>トランザクションを利用する</u>場合は必ず<br/>
-			<font color="#0000ff">Seasar.Extension.Tx.Impl.TxDataSourcel.TxDataSource</font>、<br/>
-			またはその継承クラスを使用して下さい。</font></p>
-			<p>　下記は設定ファイル(App.config)の設定例です。</p>
-<!-- code formatted by http://manoli.net/csharpformat/ -->
-<pre class="csharpcode">
-&lt;quill&gt;
-    &lt;!-- (他設定は省略) --&gt;
-    &lt;!-- データソース設定 --&gt;
-    &lt;dataSources&gt;
-        &lt;dataSource name=&quot;ds&quot;&gt;
-            &lt;provider&gt;SqlServer&lt;/provider&gt;
-            &lt;connectionString&gt;&quot;Server=localhost(途中略)&quot;&lt;/connectionString&gt;
-            &lt;class&gt;Seasar.Extension.Tx.Impl.TxDataSource&lt;/class&gt;
-        &lt;/dataSource&gt;
-    &lt;/dataSources&gt;
-&lt;/quill&gt;
-</pre>
-			<h2><a name="nodicon_assembly">アセンブリの設定</a></h2>
-			<p>　SQLServer以外のデータベースを使用する（上記データソースの設定でSqlServer以外の<br/>
-			プロバイダを利用する）場合は<b>App.config</b>で<a href="#quill_section">「quill」セクション</a>の「<font color="#009900">assemblys</font>」、「<font color="#009900">assembly</font>」を<br/>
-			使って参照するアセンブリを指定する必要があります。</p>
-			<p>　アセンブリの設定例（Oracle Data Providerを使用する場合）</p>
-<!-- code formatted by http://manoli.net/csharpformat/ -->
-<p><pre class="csharpcode">
-&lt;quill&gt;
-    &lt;!-- （省略） --&gt;
-    &lt;!-- ロードするアセンブリ名 --&gt;
-    &lt;assemblys&gt;
-      &lt;assembly&gt;Seasar.Dao&lt;/assembly&gt;      
-      &lt;!-- Oracle Data Provider for .NET を使用する場合に必要です。 --&gt;
-      &lt;assembly&gt;Oracle.DataAccess, version=10.2.0.100, Culture=neutral, <br/>
-          PublicKeyToken=89b483f429c47342&lt;/assembly&gt;
-    &lt;/assemblys&gt;
-    &lt;!-- （省略） --&gt;
-&lt;/quill&gt;
-</pre></p>
-			<h2><a name="nodicon_s2dao">S2Daoを利用してDBアクセス</a></h2>
-			<p>　S2Dao.NETの機能を利用して検索、更新などのDBアクセスを行いたい場合は<br/>
+
+			<h2><a name="nodicon_s2dao">S2Dao.NETを利用してDBアクセス</a></h2>
+			<p>S2Dao.NETの機能を利用して検索、更新などのDBアクセスを行いたい場合は<br/>
 			<font color="#0000ff"><b>S2Dao属性</b></font>を使用します。</p>
+			<p>（必要な設定についてはこちらをご覧下さい）
+			<ul>
+				<li><a href="quill_config.html#datasource">データソース</a></li>
+				<li><a href="quill_config.html#assembly">アセンブリ</a></li>
+			</ul>
+			</p>
 			<h3>・<u>適用範囲</u></h3>
-			<p>　S2Dao属性は<b>クラス、インターフェース</b>、<b>メソッド</b>に対して付けることができます。</br>
+			<p>S2Dao属性は<b>クラス、インターフェース</b>、<b>メソッド</b>に対して付けることができます。</br>
 			それぞれのS2Dao(S2DaoInterceptor)の適用範囲は以下の通りです。
 			<table border="0" cellspacing="1">
 				<tr><th>指定箇所</th><th>適用範囲</th></tr>
@@ -769,7 +693,7 @@ public interface IHogeDao {
 </pre></p>
 			<h3>・<u>設定</u></h3>
 			<h4><b>・標準の設定を使う</b></h4>
-			<p>　S2Dao属性を引数なしで設定し、App.configにも設定の記述がない場合<br/>
+			<p>S2Dao属性を引数なしで設定し、<a href="quill_config.html#s2dao">設定ファイル</a>にも設定の記述がない場合<br/>
 			S2Daoの標準的な設定が使われます。</br>
 			具体的には以下のクラスのインスタンスがQuill内で生成され使用されます。</p>
 			<p><li>Seasar.Extension.ADO.Impl.BasicCommandFactory</li>
@@ -777,16 +701,16 @@ public interface IHogeDao {
 			<li>Seasar.Dao.Impl.FieldAnnotationReaderFactory</li>
 			<li>Seasar.Dao.Interceptor.S2DaoInterceptor</li></p>
 			<h4><b>・カスタムした設定を使う</b></h4>
-			<p>　独自に拡張した設定を使用する場合、<br/>
+			<p>独自に拡張した設定を使用する場合、<br/>
 			<font color="#0000ff">Seasar.Quill.Dao.IDaoSetting</font>実装クラスを作成し<br/>
 			後述の方法でカスタム設定の適用範囲を定義します。</p>
-			<p>　IDaoSettingは以下のプロパティ、メソッドをもっています。</p>
+			<p>IDaoSettingは以下のプロパティ、メソッドをもっています。</p>
 			<p><table border="0" cellspacing="1">
 				<tr><th width="130">プロパティ名</th><th width="300">説明</th><th>戻り値Null</th></tr>
 				<tr><td>DaoMetaDataFactory</td><td>IDaoMetaDataFactory実装クラス</td><td>×不可</td></tr>
 				<tr><td>DaoInterceptor</td><td>IMethodInterceptor実装クラス</td><td>×不可</td></tr>
 				<tr><td>DataSourceName</td><td>使用するデータソース名<br/>
-				（App.configの<font color="009900">dataSource</font>タグで設定したもの）</td><td>○可能</td></tr>
+				（<a href="quill_config.html#datasource">設定ファイル</a>の<font color="009900">dataSource</font>タグで設定したもの）</td><td>○可能</td></tr>
 			</table></p>
 			<p><table border="0" cellspacing="1">
 				<tr><th width="130">メソッド名</th><th width="300">説明</th></tr>
@@ -794,7 +718,7 @@ public interface IHogeDao {
 				<tr><td>IsNeedSetup</td><td>Setupメソッドを呼ぶかどうかを返す</td></tr>
 			</table></p>
 			<p>※<font color="#0000ff">Seasar.Quill.Dao.Impl.AbstractDaoSetting</font>（IDaoSettingを実装する抽象クラス）を使うと<br/>
-			　プロパティの定義とIsNeedSetupの実装を省略できます。</p>
+			プロパティの定義とIsNeedSetupの実装を省略できます。</p>
 			<p>AbstractDaoSettingを継承した実装例</p>
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <p><pre class="csharpcode">
@@ -817,7 +741,7 @@ public class TypicalDaoSetting : AbstractDaoSetting
 }
 </pre></p>
 			<h5>カスタム設定を全てのS2Dao属性に一括して適用する</h5>
-			<p>　App.configの<a href="#quill_section">「quill」セクション</a>内に「<font color="#009900">daoSetting</font>」タグを<br/>
+			<p><a href="quill_config.html#quill_section">「quill」セクション</a>内に「<font color="#009900">daoSetting</font>」タグを<br/>
 			記述し、その中に作成した設定クラスを名前空間付で書きます(「&quot;」は不要）。</p>
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <p><pre class="csharpcode">
@@ -828,7 +752,7 @@ public class TypicalDaoSetting : AbstractDaoSetting
 &lt;/quill&gt;
 </pre></p>
 			<h5>カスタム設定をS2Dao属性ごとに適用する</h5>
-			<p　>S2Dao属性の引数にtypeof(カスタム設定クラス)の戻り値を渡します。</p>
+			<p>S2Dao属性の引数にtypeof(カスタム設定クラス)の戻り値を渡します。</p>
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <p><pre class="csharpcode">
 [Bean(typeof(Hoge))]
@@ -839,14 +763,14 @@ public interface IHogeDao
 }
 </pre></p>
 		<p>※S2Dao属性に渡した型のインスタンスはQuillコンテナの中に一つしか作られませんが<br/>
-		　SetupメソッドはIsNeedSetupの戻り値がtrueであれば設定されたS2Dao属性の数だけ呼ばれます。</p>
+		SetupメソッドはIsNeedSetupの戻り値がtrueであれば設定されたS2Dao属性の数だけ呼ばれます。</p>
 		<p>S2Daoの設定は以下の優先順で適用されます。</p>
 		<li>１．S2Dao属性の引数で指定されたS2Dao設定クラス</li>
-		<li>２．App.configの<font color="#009900">daoSetting</font>タグで定義されたS2Dao設定クラス</li>
+		<li>２．<a href="quill_config.html#s2dao">設定ファイル</a>の<font color="#009900">daoSetting</font>タグで定義されたS2Dao設定クラス</li>
 		<li>３．標準設定</li>
-		
+		<br>
 		<h2><a name="nodicon_tx">トランザクションをかける</a></h2>
-		<p>　トランザクションをかける箇所を指定したい場合は<br/>
+		<p>トランザクションをかける箇所を指定したい場合は<br/>
 		<font color="#0000ff"><b>Transaction属性</b></font>を使用します。</p>
 		<h3>・<u>適用範囲</u></h3>
 			<p>Transaction属性は<b>クラス、インターフェース</b>、<b>メソッド</b>に対して付けることができます。</br>
@@ -875,17 +799,17 @@ public interface IHogeBhv {
 </pre>
 			<h3>・<u>設定</u></h3>
 			<h4><b>・標準の設定を使う</b></h4>
-			<p>Transaction属性を引数なしで設定し、App.configにも設定の記述がない場合<br/>
+			<p>Transaction属性を引数なしで設定し、<a href="quill_config.html#tx">設定ファイル</a>にも設定の記述がない場合<br/>
 			S2Daoにおけるトランザクションの標準的な設定が使われます。</br>
 			具体的には以下のクラスのインスタンスがQuill内で生成され使用されます。</p>
 			<p><li>Seasar.Extension.Tx.Impl.TransactionContext</li>
 			<li>Seasar.Extension.Tx.Impl.LocalRequiredTxHandler</li>
 			<li>Seasar.Extension.Tx.TransactionInterceptor</li></p>
 			<h4><b>・カスタムした設定を使う</b></h4>
-			<p>　独自に拡張した設定を使用する場合、<br/>
+			<p>独自に拡張した設定を使用する場合、<br/>
 			<font color="#0000ff">Seasar.Quill.Database.Tx.ITransactionSetting</font>実装クラスを作成し<br/>
 			後述の方法でカスタム設定の適用範囲を定義します。</p>
-			<p>　ITransactionSettingは以下のプロパティ、メソッドをもっています。</p>
+			<p>ITransactionSettingは以下のプロパティ、メソッドをもっています。</p>
 			<p><table border="0" cellspacing="1">
 				<tr><th width="130">プロパティ名</th><th width="300">説明</th><th>戻り値Null</th></tr>
 				<tr><td>TransactionContext</td><td>ITransactionContext実装クラス</td><td>×不可</td></tr>
@@ -897,8 +821,8 @@ public interface IHogeBhv {
 				<tr><td>IsNeedSetup</td><td>Setupメソッドを呼ぶかどうかを返す</td></tr>
 			</table></p>
 			<p>※<font color="#0000ff">Seasar.Quill.Database.Tx.Impl.AbstractTransactionSetting</font><br/>
-			　（ITransactionSettingを実装する抽象クラス）を使うと<br/>
-			　プロパティの定義とIsNeedSetupの実装を省略できます。</p>
+			（ITransactionSettingを実装する抽象クラス）を使うと<br/>
+			プロパティの定義とIsNeedSetupの実装を省略できます。</p>
 			<p>AbstractTransactionSettingを継承した実装例</p>
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <p><pre class="csharpcode">
@@ -938,7 +862,7 @@ public class TypicalTransactionSetting : AbstractTransactionSetting
 }
 </pre></p>
 			<h5>カスタム設定を全てのTransaction属性に一括して適用する</h5>
-			<p>　App.configの<a href="#quill_section">「quill」セクション</a>内に「<font color="#009900">transactionSetting</font>」タグを<br/>
+			<p><a href="quill_config.html#quill_section">「quill」セクション</a>内に「<font color="#009900">transactionSetting</font>」タグを<br/>
 			記述し、その中に作成した設定クラスを名前空間付で書きます(「&quot;」は不要）。</p>
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <p><pre class="csharpcode">
@@ -949,7 +873,7 @@ public class TypicalTransactionSetting : AbstractTransactionSetting
 &lt;/quill&gt;
 </pre></p>
 			<h5>カスタム設定をTransaction属性ごとに適用する</h5>
-			<p>　Transaction属性の引数にtypeof(カスタム設定クラス)の戻り値を渡します。</p>
+			<p>Transaction属性の引数にtypeof(カスタム設定クラス)の戻り値を渡します。</p>
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <p><pre class="csharpcode">
 public interface IHogeBhv
@@ -959,54 +883,12 @@ public interface IHogeBhv
 }
 </pre></p>
 		<p>※Transaction属性に渡した型のインスタンスはQuillコンテナの中に一つしか作られませんが<br/>
-		　SetupメソッドはIsNeedSetupの戻り値がtrueであれば設定されたTransaction属性の数だけ呼ばれます。</p>
-		<p>　Transactionの設定は以下の優先順で適用されます。</p>
+		SetupメソッドはIsNeedSetupの戻り値がtrueであれば設定されたTransaction属性の数だけ呼ばれます。</p>
+		<p>Transactionの設定は以下の優先順で適用されます。</p>
 		<li>１．Transaction属性の引数で指定されたTransaction設定クラス</li>
-		<li>２．App.configの<font color="#009900">transactionSetting</font>タグで定義されたTransaction設定クラス</li>
+		<li>２．<a href="quill_config.html#tx">設定ファイル</a>の<font color="#009900">transactionSetting</font>タグで定義されたTransaction設定クラス</li>
 		<li>３．標準設定</li>
-		
-		<h2><a name="quill_section">「quill」セクションの使い方</a></h2>
-		<p>アプリケーション構成ファイル（App.config）で「quill」セクションを使うためには、以下のようにconfigSections/section要素を追加します。</p>
-		App.config
-<pre class="csharpcode">
-&lt;configuration&gt;
-  &lt;configSections&gt;
-    &lt;section name="quill"
-        type="Seasar.Quill.Xml.QuillSectionHandler, Seasar.Quill" /&gt;
-  &lt;/configSections&gt;
-    ・・・
-&lt;configuration&gt;
-</pre>
-
-		<p>「quill」セクションを使用して、データソースの設定やアセンブリの設定を行うことができます。以下は設定例です。</p>
-App.config
-<pre class="csharpcode">
-&lt;configuration&gt;
-  &lt;configSections&gt;
-    &lt;section name="quill"
-        type="Seasar.Quill.Xml.QuillSectionHandler, Seasar.Quill" /&gt;
-  &lt;/configSections&gt;
-  &lt;quill&gt;
-    &lt;dataSources&gt;
-      &lt;dataSource name="ds"&gt;
-        &lt;provider>Firebird&lt;/provider&gt;
-        &lt;connectionString&gt;
-          "ServerType=1;User=ユーザー;Password=パスワード;
-            Database=C:\Firebird\データベース.FDB"
-        &lt;/connectionString&gt;
-        &lt;class>Seasar.Extension.Tx.Impl.TxDataSource&lt;/class&gt;
-      &lt;/dataSource&gt;
-    &lt;/dataSources&gt;
-    &lt;assemblys&gt;
-      &lt;assembly&gt;
-       FirebirdSql.Data.FirebirdClient, Version=2.1.0.0, 
-         Culture=neutral, PublicKeyToken=3750abcc3150b00c
-      &lt;/assembly&gt;
-    &lt;/assemblys&gt;
-  &lt;/quill&gt;
-&lt;configuration&gt;
-</pre>
-		
+		<br>
 		<h2><a name="nodicon_notice">注意点</a></h2>
 		<ul>
 		<li>データソースに<font color="#0000ff">TxDataSource</font>を使う場合は必ず<font color="#0000ff"><b>Transaction属性</b></font>を<br/>
@@ -1017,7 +899,7 @@ App.config
 		同様の制約があります。</li>
 		</ul>
 		</div>
-	</div>
+	</div><br>
 <!-- ############################################# Windowsアプリケーションから簡単にQuillを利用する ######################################################### -->
 	<div class="content">
 		<a name="form" />
@@ -1032,11 +914,11 @@ App.config
 		</div>
 		<div class="contentBody">
 		
-			<p>　Seasar.Quill.QuillInjectorクラスのInjectメソッドを用いてDIを行ってきましたが、
+			<p>Seasar.Quill.QuillInjectorクラスのInjectメソッドを用いてDIを行ってきましたが、
 			ツールボックスからコントロール（Seasar.Quill.QuillControl）をFormに貼り付けるだけで簡単にDIを利用することもできます。</p>
-			<p>　Seasar.Quill.QuillControlを使う場合はツールボックスに登録する必要があります。
+			<p>Seasar.Quill.QuillControlを使う場合はツールボックスに登録する必要があります。
 			「ツールボックスアイテムの選択」からSeasar.Quill.dllを選択してください。</p>
-			<p>　下記はForm1のフィールドにCulcLogicをバインドする例です。</p>
+			<p>下記はForm1のフィールドにCulcLogicをバインドする例です。</p>
 			
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <pre class="csharpcode">
@@ -1063,9 +945,9 @@ Public <span class="kwrd">class</span> CulcLogic
     }
 }</pre>
 
-			<p>　次にデザイナでQuillControlをForm1に貼り付けます。</p>
+			<p>次にデザイナでQuillControlをForm1に貼り付けます。</p>
 			<p><img src="images/quillControl1.png" /></p>
-			<p>　これでフィールドのculcLogicにAspectが適用されたインスタンスがDIされるようになります。
+			<p>これでフィールドのculcLogicにAspectが適用されたインスタンスがDIされるようになります。
 			実行して「Plusを呼ぶ」ボタンを押すとコンソールにメッセージが出力されます。</p>
 			<p><img src="images/quillControl2.png" /></p>
 			
@@ -1096,11 +978,11 @@ Plusが呼ばれました
 		</div>
 		<div class="contentBody">
 		
-			<p>　バインドされるために Quill によってインスタンス化されたオブジェクトのインスタンスは、 singleton として保持されます。
+			<p>バインドされるために Quill によってインスタンス化されたオブジェクトのインスタンスは、 singleton として保持されます。
 			バインドされるためにインスタンス化されたオブジェクトが System.IDisposable インターフェースを実装している場合は
 			Quill から Dispose メソッドを呼び出すことができます。</p>
 
-			<p>　以下のように QuillInjector の Dispose メソッドを呼び出して、アンマネージ リソースを解放します。</p>
+			<p>以下のように QuillInjector の Dispose メソッドを呼び出して、アンマネージ リソースを解放します。</p>
 
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <pre class="csharpcode">
@@ -1123,10 +1005,10 @@ QuillInjector.GetInstance().Dispose();</pre>
 		</div>
 		<div class="contentBody">
 		
-			<p>　バインドされるために Quill によってインスタンス化されたオブジェクトのインスタンスは、 singleton として保持されます。
+			<p>バインドされるために Quill によってインスタンス化されたオブジェクトのインスタンスは、 singleton として保持されます。
 			しかし Quill が保持するオブジェクトの参照を破棄することができます。</p>
 
-			<p>　以下のように QuillInjector の Destroy メソッドを呼び出して、Quill が保持するオブジェクトの参照を破棄します。
+			<p>以下のように QuillInjector の Destroy メソッドを呼び出して、Quill が保持するオブジェクトの参照を破棄します。
 			破棄するオブジェクトが System.IDisposable を実装している場合は参照を破棄する前に Dispose メソッドが呼び出されます。</p>
 
 <!-- code formatted by http://manoli.net/csharpformat/ -->
@@ -1150,14 +1032,14 @@ QuillInjector.GetInstance().Destroy();</pre>
 		</div>
 		<div class="contentBody">
 		
-			<p>　テストコードでリモートの処理を呼び出す部分等を Mock に置き換えたい場合があります。
+			<p>テストコードでリモートの処理を呼び出す部分等を Mock に置き換えたい場合があります。
 			そんな場合には QuillInjector の代わりに Seasar.Quill.Unit.MockInjector を使います。</p>
-			<p>　通常はインターフェースに Implementation 属性で実装クラスを指定しますが、
+			<p>通常はインターフェースに Implementation 属性で実装クラスを指定しますが、
 			同じように Mock 属性(Seasar.Quill.Attrs.MockAttribute)で Mock クラスを指定することができます。
 			MockInjector を使用すると Mock 属性で Mock クラスが指定されている場合に、
 			Implementation 属性より優先して Mock クラスを Inject します。
 			Mock 属性が指定されていない場合は QuillInjector と同じ動作をします。</p>
-			<p>　以下はサンプルです。</p>
+			<p>以下はサンプルです。</p>
 			
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <pre class="csharpcode">
@@ -1186,7 +1068,7 @@ QuillInjector.GetInstance().Destroy();</pre>
     }
 }</pre>
 
-			<p>　以下はテストクラスです。MockInjector を使っている為、Mock が使われます。</p>
+			<p>以下はテストクラスです。MockInjector を使っている為、Mock が使われます。</p>
 
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <pre class="csharpcode">
@@ -1207,7 +1089,7 @@ QuillInjector.GetInstance().Destroy();</pre>
     }
 }</pre>
 
-			<p>　MockInjector はもっともシンプルな QuillInjector のカスタマイズ例でもあります。
+			<p>MockInjector はもっともシンプルな QuillInjector のカスタマイズ例でもあります。
 			Quill(QuillInjector) はシンプルで機能が限定的です。
 			もし QuillInjector をカスタマイズしたいと考えた場合は MockInjector の実装を参考にしてください。</p>
 			
