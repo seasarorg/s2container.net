@@ -359,7 +359,25 @@ log4net.Config.XmlConfigurator.Configure( _
 			<p><span class="important">※MbUnit v3系には、未対応です。</span></p>
 			<p>　テストクラスはSeasar.Extension.Unit.S2TestCaseクラスを継承します。 
 			S2TestCaseクラスはSeasar.Unit.dllに含まれてるので、テストコードを含むプロジェクトではSeasar.Unit.dllを参照に追加して下さい。</p>
-			<p>　<a href="s2unit.html">詳しくはS2Unit.NETのドキュメントを参照して下さい</a></p>
+			
+			<h2>アプリケーション構成ファイル(app.config)にS2Unit.NETの設定を追加する</h2>
+			<p>S2Unit.NETで参照しているMbUnitとPCにインストールしているMbUnitのバージョン差異を吸収するため、アプリケーション構成ファイル(app.config)に下記の設定を追加します。</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">&lt;?</span><span class="html">xml</span> <span class="attr">version</span><span class="kwrd">="1.0"</span> <span class="attr">encoding</span><span class="kwrd">="utf-8"</span> ?<span class="kwrd">&gt;</span>
+  <span class="kwrd">&lt;</span><span class="html">runtime</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;</span><span class="html">assemblyBinding</span> <span class="attr">xmlns</span><span class="kwrd">="urn:schemas-microsoft-com:asm.v1"</span><span class="kwrd">&gt;</span>
+      <span class="kwrd">&lt;</span><span class="html">probing</span> <span class="attr">privatePath</span><span class="kwrd">="bin"</span><span class="kwrd">/&gt;</span>
+      <span class="kwrd">&lt;</span><span class="html">dependentAssembly</span><span class="kwrd">&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">assemblyIdentity</span> <span class="attr">name</span><span class="kwrd">="MbUnit.Framework"</span>
+<span class="attr">publicKeyToken</span><span class="kwrd">="5e72ecd30bc408d5"</span> <span class="attr">culture</span><span class="kwrd">="neutral"</span> <span class="kwrd">/&gt;</span>
+        <span class="kwrd">&lt;</span><span class="html">bindingRedirect</span> <span class="attr">oldVersion</span><span class="kwrd">="1.0.0.0-2.999.999.999"</span> <span class="attr">newVersion</span><span class="kwrd">="2.4.2.355"</span> <span class="kwrd">/&gt;</span>
+      <span class="kwrd">&lt;/</span><span class="html">dependentAssembly</span><span class="kwrd">&gt;</span>
+    <span class="kwrd">&lt;/</span><span class="html">assemblyBinding</span><span class="kwrd">&gt;</span>
+  <span class="kwrd">&lt;/</span><span class="html">runtime</span><span class="kwrd">&gt;</span>
+<span class="kwrd">&lt;/</span><span class="html">configuration</span><span class="kwrd">&gt;</span>
+</pre>
+			<p>　<a href="s2unit.html">使い方については、S2Unit.NETのドキュメントを参照して下さい</a></p>
 		</div>
 	</div>
 	
