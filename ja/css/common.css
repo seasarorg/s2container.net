@@ -152,6 +152,13 @@ div.contents ul li {
 	/*padding-left:15px;*/
 }
 
+div.contents dl {
+	list-style-image: url('../images/list2.png');
+	list-style-type: none;
+	line-height: 150%;
+	margin:5px 0px 5px 30px;
+}
+
 div.contents p {
 	margin:10px 0px;
 	line-height: 150%;
