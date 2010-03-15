@@ -773,13 +773,15 @@ public interface IHogeDao
 		<p>トランザクションをかける箇所を指定したい場合は<br/>
 		<font color="#0000ff"><b>Transaction属性</b></font>を使用します。</p>
 		<h3>・<u>適用範囲</u></h3>
-			<p>Transaction属性は<b>クラス、インターフェース</b>、<b>メソッド</b>に対して付けることができます。</br>
-			それぞれのトランザクション(TransactionInterceptor)の適用範囲は以下の通りです。
+			<p>Transaction属性は<b>クラス、インターフェース</b>、<b>メソッド</b>に対して付けることができます。<br/>
+			トランザクションが適用されたメソッドは、呼び出された時点でトランザクションを開始し、正常終了でコミット、例外終了でロールバックとなります。
+			<p>それぞれのトランザクション(TransactionInterceptor)の適用範囲は以下の通りです。
 			<table border="0" cellspacing="1">
 				<tr><th>指定箇所</th><th>適用範囲</th></tr>
 				<tr><td>クラス、インターフェース</td><td>クラス、インターフェース内の全てのメソッド(public以外も含む)</td></tr>
 				<tr><td>メソッド</td><td>指定したメソッド(public以外も含む)</td></tr>
 			</table>
+			<p>※全てのメソッドに属性を付けることと、クラス、インターフェースに付けることは等価です。
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <pre class="csharpcode">
 // クラス、インターフェースに対して設定する場合
@@ -789,7 +791,7 @@ public interface IHogeBhv {
     void Update(Hoge entity);     // トランザクションが適用される
 }
 
-// メソッドに対して設定する場合
+// インターフェースのメソッドに対して設定する場合
 public interface IHogeBhv {
     [Transaction]
     void Update(Hoge entity);     // トランザクションが適用される
@@ -797,6 +799,39 @@ public interface IHogeBhv {
     void DoSomething();  // このメソッドにはトランザクションは適用されない
 }
 </pre>
+			<p>トランザクションは AOP を利用しますので、「<a href="#aop_notice">AOP利用の注意点</a>」を必ずお読み下さい</br>
+			特に、virtual キーワードの定義し忘れにご注意下さい。
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+
+// クラスに対して設定する場合
+[Transaction]
+public class HogeBhv {
+    // virtual が付いている
+    public virtual void Update(Hoge entity) {  // トランザクションが適用される
+        ...
+    }
+
+    // virtual が無い
+    public void DoSomething() {  // このメソッドにはトランザクションは適用されない
+        ...
+    }
+}
+
+// クラスのメソッドに対して設定する場合
+public class HogeBhv {
+    [Transaction] // virtual が付いている
+    public virtual void Update(Hoge entity) {  // トランザクションが適用される
+        ...
+    }
+
+    [Transaction] // virtual が無い
+    public void DoSomething() {  // このメソッドにはトランザクションは適用されない
+        ...
+    }
+}
+</pre>
+
 			<h3>・<u>設定</u></h3>
 			<h4><b>・標準の設定を使う</b></h4>
 			<p>Transaction属性を引数なしで設定し、<a href="quill_config.html#tx">設定ファイル</a>にも設定の記述がない場合<br/>
