@@ -205,6 +205,12 @@
 			<p>Quillでインスタンスを管理するオブジェクトをDIする場合は、
 			フィールドの型にSeasar.Quill.Attrs.ImplementationAttributeクラスを属性として設定します。
 			Quillは設定された属性からバインドすべきと判断して自動的にバインドを行います。</p>
+			<p>DI対象となるフィールドのアクセス修飾子(可視性)は以下の通りです。</p>
+			<ul>
+				<li>public</li>
+				<li>protected <strong>※推奨</strong></li>
+				<li>private <a href="#di_notice">※但し、AOP有効コンポーネントは不可</a></li>
+			</ul>
 			<p>初めてバインドされるオブジェクトは新しくインスタンス化されますが、
 			一度バインドされたオブジェクトは以後同じインスタンスがバインドされることになります。
 			つまりQuillでバインドするためにインスタンス化されるオブジェクトは全てsingletonになります。
