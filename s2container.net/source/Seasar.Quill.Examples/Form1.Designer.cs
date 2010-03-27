@@ -31,10 +31,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.EmpButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.empNoTextBox = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.enameTextBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.enameTextBox = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.empNoTextBox = new System.Windows.Forms.TextBox();
             this.quillControl1 = new Seasar.Quill.QuillControl();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
@@ -65,13 +65,22 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "社員検索";
             // 
-            // empNoTextBox
+            // label2
             // 
-            this.empNoTextBox.Location = new System.Drawing.Point(186, 26);
-            this.empNoTextBox.MaxLength = 4;
-            this.empNoTextBox.Name = "empNoTextBox";
-            this.empNoTextBox.Size = new System.Drawing.Size(84, 19);
-            this.empNoTextBox.TabIndex = 4;
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(40, 69);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(156, 12);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "検索結果：社員名を表示します";
+            // 
+            // enameTextBox
+            // 
+            this.enameTextBox.Location = new System.Drawing.Point(202, 66);
+            this.enameTextBox.Name = "enameTextBox";
+            this.enameTextBox.ReadOnly = true;
+            this.enameTextBox.Size = new System.Drawing.Size(150, 19);
+            this.enameTextBox.TabIndex = 6;
             // 
             // label1
             // 
@@ -82,22 +91,13 @@
             this.label1.TabIndex = 5;
             this.label1.Text = "社員コードを入力してください";
             // 
-            // enameTextBox
+            // empNoTextBox
             // 
-            this.enameTextBox.Location = new System.Drawing.Point(202, 66);
-            this.enameTextBox.Name = "enameTextBox";
-            this.enameTextBox.ReadOnly = true;
-            this.enameTextBox.Size = new System.Drawing.Size(150, 19);
-            this.enameTextBox.TabIndex = 6;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(40, 69);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(156, 12);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "検索結果：社員名を表示します";
+            this.empNoTextBox.Location = new System.Drawing.Point(186, 26);
+            this.empNoTextBox.MaxLength = 4;
+            this.empNoTextBox.Name = "empNoTextBox";
+            this.empNoTextBox.Size = new System.Drawing.Size(84, 19);
+            this.empNoTextBox.TabIndex = 4;
             // 
             // quillControl1
             // 
@@ -107,7 +107,6 @@
             this.quillControl1.Name = "quillControl1";
             this.quillControl1.Size = new System.Drawing.Size(21, 23);
             this.quillControl1.TabIndex = 2;
-            this.quillControl1.Visible = false;
             // 
             // label3
             // 

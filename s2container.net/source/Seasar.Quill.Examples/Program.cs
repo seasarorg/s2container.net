@@ -17,13 +17,13 @@
 #endregion
 
 using System;
-using System.Windows.Forms;
-using Seasar.Framework.Container.Factory;
 using System.IO;
-using log4net.Config;
 using System.Reflection;
+using System.Windows.Forms;
 using log4net;
+using log4net.Config;
 using log4net.Util;
+using Seasar.Framework.Container.Factory;
 
 namespace Seasar.Quill.Examples
 {
@@ -49,6 +49,9 @@ namespace Seasar.Quill.Examples
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
+            //  継承フォームを動かしたい場合はコメントアウトを外して
+            //  こちらを呼び出す
+            //Application.Run(new ExtendedForm());
 
             // S2Containerの終了処理を行う
             SingletonS2ContainerFactory.Container.Destroy();

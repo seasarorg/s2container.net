@@ -18,6 +18,7 @@
 
 using System.ComponentModel;
 using System.Windows.Forms;
+using Seasar.Quill.Util;
 
 namespace Seasar.Quill
 {
@@ -55,9 +56,9 @@ namespace Seasar.Quill
         /// </remarks>
         public void EndInit()
         {
-            if (DesignMode)
+            // デザインモードの場合はDIは行わない
+            if (DesignMode || EnvironmentalUtils.IsDesignMode())
             {
-                // デザインモードの場合はDIは行わない
                 return;
             }
 
