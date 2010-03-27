@@ -64,6 +64,8 @@ namespace Seasar.Quill.Examples
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            //quillControl1.Inject(this);
+
             // 初期値をセットする
             empNoTextBox.Text = "7499";
         }

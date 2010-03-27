@@ -99,6 +99,7 @@
     <Compile Include="Unit\MockInjector.cs" />
     <Compile Include="Util\AttributeUtil.cs" />
     <Compile Include="Util\ComponentUtil.cs" />
+    <Compile Include="Util\EnvironmentalUtils.cs" />
     <Compile Include="Util\LogUtil.cs" />
     <Compile Include="Util\MessageUtil.cs" />
     <Compile Include="Util\SettingUtil.cs" />
