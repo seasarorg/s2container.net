@@ -131,11 +131,13 @@ namespace Seasar.Quill
             TransactionAttribute[] txAttrsByType = AttributeUtil.GetTransactionAttrs(targetType);
             if (txAttrsByType != null)
             {
+                
                 foreach (TransactionAttribute txAttrByType in txAttrsByType)
                 {
+                    Console.WriteLine("Oh my god !!");
                     //  データソース選択Interceptorが定義されている場合は
                     //  先にAspectを登録
-                    IAspect dataSourceSelctAspect = GetDataSourceSelectAspect(txAttrByType, targetType);
+                    IAspect dataSourceSelctAspect = GetDataSourceSelectAspect(txAttrByType);
                     if (dataSourceSelctAspect != null)
                     {
                         aspectList.Add(dataSourceSelctAspect);
@@ -214,12 +216,9 @@ namespace Seasar.Quill
         /// <summary>
         /// データソース選択Interceptorの取得
         /// </summary>
-        /// <param name="txAttr">S2Dao属性</param>
-        /// <param name="targetMember">Interceptorをかける対象</param>
+        /// <param name="txAttr">Transaction属性</param>
         /// <returns>データソース選択Interceptor</returns>
-        [Obsolete("targetMemberは使用しないため、シグネチャを変更予定")]
-        protected virtual IMethodInterceptor GetDataSourceSelectInterceptor(TransactionAttribute txAttr,
-            MemberInfo targetMember)
+        protected virtual IMethodInterceptor GetDataSourceSelectInterceptor(TransactionAttribute txAttr)
         {
             DataSourceSelectInterceptor dsInterceptor = null;
             Type txSettingType = txAttr.TransactionSettingType;
@@ -235,9 +234,11 @@ namespace Seasar.Quill
         /// <summary>
         /// データソース選択Interceptorの取得
         /// </summary>
-        /// <param name="txAttr">S2Dao属性</param>
+        /// <param name="txAttr">Transaction属性</param>
+        /// <param name="targetMember">Interceptorをかける対象</param>
         /// <returns>データソース選択Interceptor</returns>
-        protected virtual IMethodInterceptor GetDataSourceSelectInterceptor(TransactionAttribute txAttr)
+        protected virtual IMethodInterceptor GetDataSourceSelectInterceptor(TransactionAttribute txAttr,
+            MemberInfo targetMember)
         {
             DataSourceSelectInterceptor dsInterceptor = null;
             Type txSettingType = txAttr.TransactionSettingType;
@@ -271,15 +272,14 @@ namespace Seasar.Quill
         /// <summary>
         /// データソース選択Aspectの取得
         /// </summary>
-        /// <param name="txAttr">S2Dao属性</param>
+        /// <param name="txAttr">Transaction属性</param>
         /// <param name="targetMember">Aspectをかける対象</param>
         /// <returns>データソース選択Aspect</returns>
-        [Obsolete("targetMemberは使用しないため、シグネチャ変更予定")]
         protected virtual IAspect GetDataSourceSelectAspect(TransactionAttribute txAttr, MemberInfo targetMember)
         {
-            //IMethodInterceptor dataSourceSelectInterceptor = GetDataSourceSelectInterceptor(
-            //    txAttr, targetMember);
-            IMethodInterceptor dataSourceSelectInterceptor = GetDataSourceSelectInterceptor(txAttr);
+            IMethodInterceptor dataSourceSelectInterceptor = 
+                GetDataSourceSelectInterceptor(txAttr, targetMember);
+            //IMethodInterceptor dataSourceSelectInterceptor = GetDataSourceSelectInterceptor(txAttr);
 
             IAspect dataSourceSelectAspect = null;
             if (dataSourceSelectInterceptor != null)
@@ -292,7 +292,7 @@ namespace Seasar.Quill
         /// <summary>
         /// データソース選択Aspectの取得
         /// </summary>
-        /// <param name="txAttr">S2Dao属性</param>
+        /// <param name="txAttr">Transaction属性</param>
         /// <returns>データソース選択Aspect</returns>
         protected virtual IAspect GetDataSourceSelectAspect(TransactionAttribute txAttr)
         {
@@ -386,68 +386,79 @@ namespace Seasar.Quill
         /// <returns>適用するAspectのリスト</returns>
         protected virtual IAspect[] CreateTxAspectList(MethodInfo[] methods)
         {
-            // データソース選択Interceptor適用メソッド名コレクション
-            IDictionary<IMethodInterceptor, List<string>> dataSourceSelectMethodNames =
-                new Dictionary<IMethodInterceptor, List<string>>();
-            IDictionary<IMethodInterceptor, List<string>> txMethodNames =
-                new Dictionary<IMethodInterceptor, List<string>>();
-            // Aspectのリスト
-            List<IAspect> txList = new List<IAspect>();
-
-            foreach ( MethodInfo method in methods )
-            {
-                TransactionAttribute[] txAttrs = AttributeUtil.GetTransactionAttrsByMethod(method);
-                if ( txAttrs != null )
-                {
-                    foreach (TransactionAttribute txAttr in txAttrs)
-                    {
-                        //AddMethodNamesForDataSourceSelectPointcut(dataSourceSelectMethodNames, method, txAttr);
-                        //AddMethodNamesForTxPointcut(txMethodNames, method.Name, txAttr);
-
-                        IAspect dataSourceSelectAspect = GetDataSourceSelectAspect(txAttr);
-                        if (dataSourceSelectAspect != null)
-                        {
-                            txList.Add(dataSourceSelectAspect);
-                        }
-
-                        IAspect transactionAspect = CreateTxAspect(txAttr);
-                        if(transactionAspect != null)
-                        {
-                            txList.Add(transactionAspect);
-                        }
-                    }
-                }
-            }
-
             //// Aspectのリスト
             //List<IAspect> txList = new List<IAspect>();
 
-            
-
-            ////  データソース選択Interceptorは先に登録
-            //foreach (IMethodInterceptor dataSourceSelectInterceptor in dataSourceSelectMethodNames.Keys)
+            //foreach ( MethodInfo method in methods )
             //{
-            //    // Interceptorとメソッド名の配列からAspectを作成する
-            //    IAspect dataSourceSelectAspect = CreateAspect(dataSourceSelectInterceptor,
-            //        dataSourceSelectMethodNames[dataSourceSelectInterceptor].ToArray());
+            //    TransactionAttribute[] txAttrs = AttributeUtil.GetTransactionAttrsByMethod(method);
+            //    if ( txAttrs != null )
+            //    {
+            //        foreach (TransactionAttribute txAttr in txAttrs)
+            //        {
+            //            Console.WriteLine("method tx !!" + method.Name);
+            //            IAspect dataSourceSelectAspect = GetDataSourceSelectAspect(txAttr);
+            //            if (dataSourceSelectAspect != null)
+            //            {
+            //                txList.Add(dataSourceSelectAspect);
+            //            }
 
-            //    // Aspectのリストに追加する
-            //    txList.Add(dataSourceSelectAspect);
+            //            IAspect transactionAspect = CreateTxAspect(txAttr);
+            //            if(transactionAspect != null)
+            //            {
+            //                txList.Add(transactionAspect);
+            //            }
+            //        }
+            //    }
             //}
 
-            //// Interceptorの件数分、Aspectを作成する
-            //foreach ( IMethodInterceptor interceptor in txMethodNames.Keys )
-            //{
-            //    // Interceptorとメソッド名の配列からAspectを作成する
-            //    IAspect aspect = CreateAspect(
-            //        interceptor, txMethodNames[interceptor].ToArray());
+            //// Aspectのリストを返す
+            //return txList.ToArray();
 
-            //    // Aspectのリストに追加する
-            //    txList.Add(aspect);
-            //}
+            // データソース選択Interceptor適用メソッド名コレクション
+            IDictionary<IMethodInterceptor, List<string>> dataSourceSelectMethodNames =
+                new Dictionary<IMethodInterceptor, List<string>>();
+            // TransacionInterceptor適用メソッド名コレクション
+            IDictionary<IMethodInterceptor, List<string>> txMethodNames =
+                new Dictionary<IMethodInterceptor, List<string>>();
+            //  メソッド名とIntarceptorの対応付け
+            foreach (MethodInfo method in methods)
+            {
+                TransactionAttribute txAttr = AttributeUtil.GetTransactionAttrByMethod(method);
+                if (txAttr != null)
+                {
+                    AddMethodNamesForDataSourceSelectPointcut(dataSourceSelectMethodNames, method, txAttr);
+                    AddMethodNamesForTxPointcut(txMethodNames, method.Name, txAttr);
+                }
+            }
+
+            // Aspectのリスト
+            List<IAspect> txAspectList = new List<IAspect>();
+
+            //  データソース選択Interceptorは先に登録
+            foreach (IMethodInterceptor dataSourceSelectInterceptor in dataSourceSelectMethodNames.Keys)
+            {
+                // Interceptorとメソッド名の配列からAspectを作成する
+                IAspect dataSourceSelectAspect = CreateAspect(dataSourceSelectInterceptor,
+                    dataSourceSelectMethodNames[dataSourceSelectInterceptor].ToArray());
+
+                // Aspectのリストに追加する
+                txAspectList.Add(dataSourceSelectAspect);
+            }
+
+            // Interceptorの件数分、Aspectを作成する
+            foreach (IMethodInterceptor txInterceptor in txMethodNames.Keys)
+            {
+                // Interceptorとメソッド名の配列からAspectを作成する
+                IAspect daoAspect = CreateAspect(
+                    txInterceptor, txMethodNames[txInterceptor].ToArray());
+
+                // Aspectのリストに追加する
+                txAspectList.Add(daoAspect);
+            }
 
             // Aspectのリストを返す
-            return txList.ToArray();
+            return txAspectList.ToArray();
         }
 
         /// <summary>
@@ -644,8 +655,7 @@ namespace Seasar.Quill
         /// Interceptor毎にpointcutとなるメソッド名を格納したコレクション
         /// </param>
         /// <param name="method">Aspectを適用するメソッド情報</param>
-        /// <param name="txAttr">S2Dao属性</param>
-        [Obsolete("MethodInfoの指定は必要ないため、シグネチャ変更予定")]
+        /// <param name="txAttr">Transaction属性</param>
         protected void AddMethodNamesForDataSourceSelectPointcut(
             IDictionary<IMethodInterceptor, List<string>> methodNames,
             MethodInfo method, TransactionAttribute txAttr)
