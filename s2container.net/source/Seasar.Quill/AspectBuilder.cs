@@ -134,7 +134,6 @@ namespace Seasar.Quill
                 
                 foreach (TransactionAttribute txAttrByType in txAttrsByType)
                 {
-                    Console.WriteLine("Oh my god !!");
                     //  データソース選択Interceptorが定義されている場合は
                     //  先にAspectを登録
                     IAspect dataSourceSelctAspect = GetDataSourceSelectAspect(txAttrByType);
@@ -386,35 +385,6 @@ namespace Seasar.Quill
         /// <returns>適用するAspectのリスト</returns>
         protected virtual IAspect[] CreateTxAspectList(MethodInfo[] methods)
         {
-            //// Aspectのリスト
-            //List<IAspect> txList = new List<IAspect>();
-
-            //foreach ( MethodInfo method in methods )
-            //{
-            //    TransactionAttribute[] txAttrs = AttributeUtil.GetTransactionAttrsByMethod(method);
-            //    if ( txAttrs != null )
-            //    {
-            //        foreach (TransactionAttribute txAttr in txAttrs)
-            //        {
-            //            Console.WriteLine("method tx !!" + method.Name);
-            //            IAspect dataSourceSelectAspect = GetDataSourceSelectAspect(txAttr);
-            //            if (dataSourceSelectAspect != null)
-            //            {
-            //                txList.Add(dataSourceSelectAspect);
-            //            }
-
-            //            IAspect transactionAspect = CreateTxAspect(txAttr);
-            //            if(transactionAspect != null)
-            //            {
-            //                txList.Add(transactionAspect);
-            //            }
-            //        }
-            //    }
-            //}
-
-            //// Aspectのリストを返す
-            //return txList.ToArray();
-
             // データソース選択Interceptor適用メソッド名コレクション
             IDictionary<IMethodInterceptor, List<string>> dataSourceSelectMethodNames =
                 new Dictionary<IMethodInterceptor, List<string>>();
