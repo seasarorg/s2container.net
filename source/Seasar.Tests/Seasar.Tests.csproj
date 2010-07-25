@@ -540,8 +540,6 @@
     <Compile Include="Quill\AspectBuilderTest.cs" />
     <Compile Include="Quill\Attr\S2DaoAttributeTest.cs" />
     <Compile Include="Quill\Attr\TransactionAttributeTest.cs" />
-    <Compile Include="Quill\Dao\Interceptor\DataSourceSelectInterceptorTest.cs" />
-    <Compile Include="Quill\Database\DataSource\Impl\SelectableDataSourceProxyWithDictionaryTest.cs" />
     <Compile Include="Quill\Database\Provider\MySQLTest.cs" />
     <Compile Include="Quill\Database\Provider\ODP.cs" />
     <Compile Include="Quill\Database\Provider\OracleTest.cs" />
