@@ -22,8 +22,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seasar.Dao.Examples", "Seas
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seasar.Dxo", "Seasar.Dxo\Seasar.Dxo.csproj", "{0C7A87F7-786E-43FB-846C-DE1583622A79}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsApplication1", "WindowsFormsApplication1\WindowsFormsApplication1.csproj", "{63CF5E97-E037-4B98-BCB3-3B416A0A96DA}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,10 +72,6 @@ Global
 		{0C7A87F7-786E-43FB-846C-DE1583622A79}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C7A87F7-786E-43FB-846C-DE1583622A79}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C7A87F7-786E-43FB-846C-DE1583622A79}.Release|Any CPU.Build.0 = Release|Any CPU
-		{63CF5E97-E037-4B98-BCB3-3B416A0A96DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{63CF5E97-E037-4B98-BCB3-3B416A0A96DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{63CF5E97-E037-4B98-BCB3-3B416A0A96DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{63CF5E97-E037-4B98-BCB3-3B416A0A96DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
