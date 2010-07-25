@@ -99,13 +99,16 @@ namespace Seasar.Tests.Quill.Attr
         public void TestRollback()
         {
             const int TEST_ID = 7369;
+            const string UPD_NAME = "Updated";
             TxLogicTestParent actual = new TxLogicTestParent();
             QuillInjector injector = QuillInjector.GetInstance();
             injector.Inject(actual);
 
+            // テスト前の情報を保持
+            Employee originalEmp = actual.GetEmp(TEST_ID);
             try
             {
-                actual.Execute(TEST_ID);
+                actual.ExecuteUpdate(TEST_ID, UPD_NAME);
                 Assert.Fail("1");
             }
             catch (QuillApplicationException)
@@ -115,14 +118,60 @@ namespace Seasar.Tests.Quill.Attr
             try
             {
                 //  更新は確かに行われていたか
-                Assert.AreEqual(TEST_ID, actual.Logic._TempEmployee.Empno, "2");
-                Assert.AreEqual("Updated", actual.Logic._TempEmployee.Ename, "3");
+                Assert.AreEqual(TEST_ID, actual.Logic.TempEmployee.Empno, "2");
+                Assert.AreEqual(UPD_NAME, actual.Logic.TempEmployee.Ename, "3");
+                Assert.AreNotEqual(originalEmp.Ename, actual.Logic.TempEmployee.Ename, "3_5");
 
                 Employee rollbackedEmp = actual.GetEmp(TEST_ID);
                 //  ロールバックされているはずなので
                 //  雇用者名が元に戻っているはず
                 Assert.AreEqual(TEST_ID, rollbackedEmp.Empno, "4");
-                Assert.AreEqual("SMITH", rollbackedEmp.Ename, "5");
+                Assert.AreEqual(originalEmp.Ename, rollbackedEmp.Ename, "5");
+            }
+            finally
+            {
+                injector.Destroy();
+            }
+        }
+
+        [Test, Quill]
+        public void TestRollback_NoTransaction()
+        {
+            const int TEST_ID = 7369;
+            const string UPD_NAME = "Updated";
+            
+            TxLogicTestParent actual = new TxLogicTestParent();
+            QuillInjector injector = QuillInjector.GetInstance();
+            injector.Inject(actual);
+
+            // テスト前の情報を保持
+            Employee originalEmp = actual.GetEmp(TEST_ID);
+            try
+            {
+                actual.ExecuteUpdateNoTransaction(TEST_ID, UPD_NAME);
+                Assert.Fail("1");
+            }
+            catch (QuillApplicationException)
+            {
+            }
+
+            try
+            {
+                //  更新は確かに行われていたか
+                Assert.AreEqual(TEST_ID, actual.Logic.TempEmployee.Empno, "2");
+                Assert.AreEqual(UPD_NAME, actual.Logic.TempEmployee.Ename, "3");
+                Assert.AreNotEqual(originalEmp.Ename, actual.Logic.TempEmployee.Ename, "3_5");
+
+                Employee rollbackedEmp = actual.GetEmp(TEST_ID);
+                //  ロールバックされていないため
+                //  雇用者名は変更されたまま
+                Assert.AreEqual(TEST_ID, rollbackedEmp.Empno, "4");
+                Assert.AreEqual(UPD_NAME, rollbackedEmp.Ename, "5");
+
+                //  変更した名前をテスト前の状態に戻す
+                actual.Logic.Revert(TEST_ID, originalEmp.Ename);
+                Employee revertedEmp = actual.GetEmp(TEST_ID);
+                Assert.AreEqual(originalEmp.Ename, revertedEmp.Ename, "6");
             }
             finally
             {
@@ -248,9 +297,19 @@ namespace Seasar.Tests.Quill.Attr
     {
         public TxLogicTest Logic;
 
-        public void Execute(int empno)
+        public void ExecuteUpdate(int empno, string name)
         {
-            Logic.UpdateAndError(empno);
+            Logic.UpdateAndError(empno, name);
+        }
+
+        public void ExecuteUpdateNoTransaction(int empno, string name)
+        {
+            Logic.UpdateAndError_NoTransaction(empno, name);
+        }
+
+        public void ExecuteRevert(int empno, string name)
+        {
+            Logic.Revert(empno, name);
         }
 
         public Employee GetEmp(int empno)
@@ -264,20 +323,56 @@ namespace Seasar.Tests.Quill.Attr
     {
         public IWithDaoAttrEx Dao;
 
-        public Employee _TempEmployee = null;
+        public Employee TempEmployee = null;
 
         [Transaction]
-        public virtual void UpdateAndError(int empno)
+        public virtual void UpdateAndError(int empno, string name)
         {
             Employee emp = Dao.GetEmployee(empno);
-            emp.Ename = "Updated";
+            emp.Ename = name;
 
             Dao.Update(emp);
 
             Employee empX = Dao.GetEmployee(empno);
-            _TempEmployee = empX;
+            TempEmployee = empX;
 
             throw new QuillApplicationException("Error");
+        }
+
+        /// <summary>
+        /// Transaction属性を設定しない更新処理
+        /// </summary>
+        /// <param name="empno"></param>
+        /// <param name="name"></param>
+        public virtual void UpdateAndError_NoTransaction(int empno, string name)
+        {
+            Employee emp = Dao.GetEmployee(empno);
+            emp.Ename = name;
+
+            Dao.Update(emp);
+
+            Employee empX = Dao.GetEmployee(empno);
+            // 例外を発生させるため結果は戻り値として返すのではなく
+            // プロパティとして設定しておく
+            TempEmployee = empX;
+
+            throw new QuillApplicationException("Error");
+        }
+
+        /// <summary>
+        /// UpdateAndError_NoTransactionで変更した内容を元に戻すための更新処理
+        /// </summary>
+        /// <param name="empno"></param>
+        /// <param name="name"></param>
+        public virtual void Revert(int empno, string name)
+        {
+            Employee emp = Dao.GetEmployee(empno);
+            emp.Ename = name;
+
+            Dao.Update(emp);
+
+            Employee empX = Dao.GetEmployee(empno);
+            TempEmployee = empX;
         }
 
         public Employee GetEmp(int empno)
