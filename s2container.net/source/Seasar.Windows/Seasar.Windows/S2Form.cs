@@ -20,6 +20,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Windows.Forms;
 using Seasar.Windows.Attr;
@@ -93,41 +94,42 @@ namespace Seasar.Windows
             int ret = 0;
             // 修飾子を取得する
             Type formType = this.GetType();
+            object[] attributes = formType.GetCustomAttributes(typeof(ControlAttribute), false);
             string prefix = string.Empty;
             string suffix = string.Empty;
             _GetModifier(formType, ref prefix, ref suffix);
 
             Type type = _dataSource.GetType();
+            IDictionary<string, Control> hashtable = new Dictionary<string, Control>();
+            _GetAllControls(this, hashtable);
+
             PropertyInfo[] pis = type.GetProperties();
             foreach (PropertyInfo info in pis)
             {
                 if (info.Name.ToLower() == propertyName.ToLower())
                 {
                     bool isFind = false;
-                    Control[] controls = _GetControls(this);
-                    foreach (Control control in controls)
+                    foreach (object o in attributes)
                     {
-                        object[] attributes = formType.GetCustomAttributes(typeof (ControlAttribute), false);
-                        foreach (object o in attributes)
+                        // 個別バインディングを行う
+                        ControlAttribute attribute = o as ControlAttribute;
+                        if (attribute != null)
                         {
-                            // 個別バインディングを行う
-                            ControlAttribute attribute = o as ControlAttribute;
-                            if (attribute != null)
+                            if (info.Name.ToLower() == attribute.PropertyName.ToLower()
+                                && hashtable.ContainsKey(attribute.ControlName.ToLower()) )
                             {
-                                if (info.Name.ToLower() == attribute.PropertyName.ToLower()
-                                    && control.Name.ToLower() == attribute.ControlName.ToLower())
-                                {
-                                    ret += _AddSingleRow(info, control, attribute, data, row);
-                                    isFind = true;
-                                    break;
-                                }
+                                Control control = hashtable[attribute.ControlName.ToLower()];
+                                ret += _AddSingleRow(info, control, attribute, data, row);
+                                isFind = true;
                             }
                         }
-                        if (isFind) break;
-
+                    }
+                    if ( !isFind )
+                    {
                         // 自動バインディングを行う
-                        if (control.Name.ToLower() == (prefix.ToLower() + info.Name.ToLower() + suffix.ToLower()))
+                        if ( hashtable.ContainsKey(prefix.ToLower() + info.Name.ToLower() + suffix.ToLower()) )
                         {
+                            Control control = hashtable[prefix.ToLower() + info.Name.ToLower() + suffix.ToLower()];
                             ControlAttribute attr = new ControlAttribute(control.Name, _defaultProperty, propertyName);
                             ret += _AddSingleRow(info, control, attr, data, row);
                             break;
@@ -155,41 +157,42 @@ namespace Seasar.Windows
             int ret = 0;
             // 修飾子を取得する
             Type formType = this.GetType();
+            object[] attributes = formType.GetCustomAttributes(typeof(ControlAttribute), false);
             string prefix = string.Empty;
             string suffix = string.Empty;
             _GetModifier(formType, ref prefix, ref suffix);
 
             Type type = _dataSource.GetType();
+            IDictionary<string, Control> hashtable = new Dictionary<string, Control>();
+            _GetAllControls(this, hashtable);
+
             PropertyInfo[] pis = type.GetProperties();
             foreach (PropertyInfo info in pis)
             {
                 if (info.Name.ToLower() == propertyName.ToLower())
                 {
                     bool isFind = false;
-                    Control[] controls = _GetControls(this);
-                    foreach (Control control in controls)
+                    foreach (object o in attributes)
                     {
-                        object[] attributes = formType.GetCustomAttributes(typeof (ControlAttribute), false);
-                        foreach (object o in attributes)
+                        // 個別バインディングを行う
+                        ControlAttribute attribute = o as ControlAttribute;
+                        if (attribute != null)
                         {
-                            // 個別バインディングを行う
-                            ControlAttribute attribute = o as ControlAttribute;
-                            if (attribute != null)
+                            if (info.Name.ToLower() == attribute.PropertyName.ToLower()
+                                && hashtable.ContainsKey(attribute.ControlName.ToLower()) )
                             {
-                                if (info.Name.ToLower() == attribute.PropertyName.ToLower()
-                                    && control.Name.ToLower() == attribute.ControlName.ToLower())
-                                {
-                                    ret += _DeleteSingleRow(info, control, attribute, row);
-                                    isFind = true;
-                                    break;
-                                }
+                                Control control = hashtable[attribute.ControlName.ToLower()];
+                                ret += _DeleteSingleRow(info, control, attribute, row);
+                                isFind = true;
                             }
                         }
-                        if (isFind) break;
-
+                    }
+                    if ( !isFind )
+                    {
                         // 自動バインディングを行う
-                        if (control.Name.ToLower() == (prefix.ToLower() + info.Name.ToLower() + suffix.ToLower()))
+                        if ( hashtable.ContainsKey(prefix.ToLower() + info.Name.ToLower() + suffix.ToLower()) )
                         {
+                            Control control = hashtable[prefix.ToLower() + info.Name.ToLower() + suffix.ToLower()];
                             ControlAttribute attr = new ControlAttribute(control.Name, _defaultProperty, propertyName);
                             ret += _DeleteSingleRow(info, control, attr, row);
                             break;
@@ -221,45 +224,46 @@ namespace Seasar.Windows
 
             // 修飾子を取得する
             Type formType = this.GetType();
+            object[] attributes = formType.GetCustomAttributes(typeof(ControlAttribute), false);
             string prefix = string.Empty;
             string suffix = string.Empty;
             _GetModifier(formType, ref prefix, ref suffix);
 
             int ret = 0;
             Type type = _dataSource.GetType();
+            IDictionary<string, Control> hashtable = new Dictionary<string, Control>();
+            _GetAllControls(this, hashtable);
+
             PropertyInfo[] pis = type.GetProperties();
             foreach (PropertyInfo info in pis)
             {
                 if (info.Name.ToLower() == propertyName.ToLower())
                 {
                     bool isFind = false;
-                    Control[] controls = _GetControls(this);
-                    foreach (Control control in controls)
+                    foreach (object o in attributes)
                     {
-                        object[] attributes = formType.GetCustomAttributes(typeof (ControlAttribute), false);
-                        foreach (object o in attributes)
+                        // 個別バインディングを行う
+                        ControlAttribute attribute = o as ControlAttribute;
+                        if (attribute != null)
                         {
-                            // 個別バインディングを行う
-                            ControlAttribute attribute = o as ControlAttribute;
-                            if (attribute != null)
+                            if (info.Name.ToLower() == attribute.PropertyName.ToLower()
+                                && hashtable.ContainsKey(attribute.ControlName.ToLower()) )
                             {
-                                if (info.Name.ToLower() == attribute.PropertyName.ToLower()
-                                    && control.Name.ToLower() == attribute.ControlName.ToLower())
-                                {
-                                    for (int i = endRow; i >= startRow; i--)
-                                        ret += _DeleteSingleRow(info, control, attribute, i);
+                                Control control = hashtable[attribute.ControlName.ToLower()];
+                                for ( int i = endRow ; i >= startRow ; i-- )
+                                    ret += _DeleteSingleRow(info, control, attribute, i);
 
-                                    isFind = true;
-                                    break;
-                                }
+                                isFind = true;
                             }
                         }
-                        if (isFind) break;
-
+                    }
+                    if ( !isFind )
+                    {
                         // 自動バインディングを行う
-                        if (control.Name.ToLower() == (prefix.ToLower() + info.Name.ToLower() + suffix.ToLower()))
+                        if ( hashtable.ContainsKey(prefix.ToLower() + info.Name.ToLower() + suffix.ToLower()) )
                         {
-                            for (int i = endRow; i >= startRow; i--)
+                            Control control = hashtable[prefix.ToLower() + info.Name.ToLower() + suffix.ToLower()];
+                            for ( int i = endRow ; i >= startRow ; i-- )
                             {
                                 ControlAttribute attr =
                                     new ControlAttribute(control.Name, _defaultProperty, propertyName);
@@ -267,6 +271,7 @@ namespace Seasar.Windows
                             }
                             break;
                         }
+
                     }
                 }
             }
@@ -288,41 +293,42 @@ namespace Seasar.Windows
 
             // 修飾子を取得する
             Type formType = this.GetType();
+            object[] attributes = formType.GetCustomAttributes(typeof(ControlAttribute), false);
             string prefix = string.Empty;
             string suffix = string.Empty;
             _GetModifier(formType, ref prefix, ref suffix);
 
             Type type = _dataSource.GetType();
+            IDictionary<string, Control> hashtable = new Dictionary<string, Control>();
+            _GetAllControls(this, hashtable);
+
             PropertyInfo[] pis = type.GetProperties();
             foreach (PropertyInfo info in pis)
             {
                 if (info.Name.ToLower() == propertyName.ToLower())
                 {
                     bool isFind = false;
-                    Control[] controls = _GetControls(this);
-                    foreach (Control control in controls)
+                    foreach (object o in attributes)
                     {
-                        object[] attributes = formType.GetCustomAttributes(typeof (ControlAttribute), false);
-                        foreach (object o in attributes)
+                        // 個別バインディングを行う
+                        ControlAttribute attribute = o as ControlAttribute;
+                        if (attribute != null)
                         {
-                            // 個別バインディングを行う
-                            ControlAttribute attribute = o as ControlAttribute;
-                            if (attribute != null)
+                            if (info.Name.ToLower() == attribute.PropertyName.ToLower()
+                                && hashtable.ContainsKey(attribute.ControlName.ToLower()) )
                             {
-                                if (info.Name.ToLower() == attribute.PropertyName.ToLower()
-                                    && control.Name.ToLower() == attribute.ControlName.ToLower())
-                                {
-                                    _MoveSingleRow(info, control, attribute, row, MovingDirection.Upper);
-                                    isFind = true;
-                                    break;
-                                }
+                                Control control = hashtable[attribute.ControlName.ToLower()];
+                                _MoveSingleRow(info, control, attribute, row, MovingDirection.Upper);
+                                isFind = true;
                             }
                         }
-                        if (isFind) break;
-
+                    }
+                    if ( !isFind )
+                    {
                         // 自動バインディングを行う
-                        if (control.Name.ToLower() == (prefix.ToLower() + info.Name.ToLower() + suffix.ToLower()))
+                        if ( hashtable.ContainsKey(prefix.ToLower() + info.Name.ToLower() + suffix.ToLower()) )
                         {
+                            Control control = hashtable[prefix.ToLower() + info.Name.ToLower() + suffix.ToLower()];
                             ControlAttribute attr = new ControlAttribute(control.Name, _defaultProperty, propertyName);
                             _MoveSingleRow(info, control, attr, row, MovingDirection.Upper);
                             break;
@@ -346,41 +352,42 @@ namespace Seasar.Windows
 
             // 修飾子を取得する
             Type formType = this.GetType();
+            object[] attributes = formType.GetCustomAttributes(typeof(ControlAttribute), false);
             string prefix = string.Empty;
             string suffix = string.Empty;
             _GetModifier(formType, ref prefix, ref suffix);
 
             Type type = _dataSource.GetType();
+            IDictionary<string, Control> hashtable = new Dictionary<string, Control>();
+            _GetAllControls(this, hashtable);
+
             PropertyInfo[] pis = type.GetProperties();
             foreach (PropertyInfo info in pis)
             {
                 if (info.Name.ToLower() == propertyName.ToLower())
                 {
                     bool isFind = false;
-                    Control[] controls = _GetControls(this);
-                    foreach (Control control in controls)
+                    foreach (object o in attributes)
                     {
-                        object[] attributes = formType.GetCustomAttributes(typeof (ControlAttribute), false);
-                        foreach (object o in attributes)
+                        // 個別バインディングを行う
+                        ControlAttribute attribute = o as ControlAttribute;
+                        if (attribute != null)
                         {
-                            // 個別バインディングを行う
-                            ControlAttribute attribute = o as ControlAttribute;
-                            if (attribute != null)
+                            if (info.Name.ToLower() == attribute.PropertyName.ToLower()
+                                && hashtable.ContainsKey(attribute.ControlName.ToLower()))
                             {
-                                if (info.Name.ToLower() == attribute.PropertyName.ToLower()
-                                    && control.Name.ToLower() == attribute.ControlName.ToLower())
-                                {
-                                    _MoveSingleRow(info, control, attribute, row, MovingDirection.Lower);
-                                    isFind = true;
-                                    break;
-                                }
+                                Control control = hashtable[attribute.ControlName.ToLower()];
+                                _MoveSingleRow(info, control, attribute, row, MovingDirection.Lower);
+                                isFind = true;
                             }
                         }
-                        if (isFind) break;
-
+                    }
+                    if ( !isFind )
+                    {
                         // 自動バインディングを行う
-                        if (control.Name.ToLower() == (prefix.ToLower() + info.Name.ToLower() + suffix.ToLower()))
+                        if ( hashtable.ContainsKey(prefix.ToLower() + info.Name.ToLower() + suffix.ToLower()) )
                         {
+                            Control control = hashtable[prefix.ToLower() + info.Name.ToLower() + suffix.ToLower()];
                             ControlAttribute attr = new ControlAttribute(control.Name, _defaultProperty, propertyName);
                             _MoveSingleRow(info, control, attr, row, MovingDirection.Lower);
                             break;
@@ -427,46 +434,47 @@ namespace Seasar.Windows
         {
             // 修飾子を取得する
             Type formType = this.GetType();
+            object[] attributes = formType.GetCustomAttributes(typeof(ControlAttribute), false);
             string prefix = string.Empty;
             string suffix = string.Empty;
             _GetModifier(formType, ref prefix, ref suffix);
 
             Type type = _dataSource.GetType();
 
-            Control[] controls = _GetControls(this);
+            IDictionary<string, Control> hashtable = new Dictionary<string, Control>();
+            _GetAllControls(this, hashtable);
             PropertyInfo[] pis = type.GetProperties();
             foreach (PropertyInfo info in pis)
             {
                 bool isFind = false;
-                foreach (Control control in controls)
+                foreach (object o in attributes)
                 {
-                    object[] attributes = formType.GetCustomAttributes(typeof (ControlAttribute), false);
-                    foreach (object o in attributes)
+                    // 個別バインディングを行う
+                    ControlAttribute attribute = o as ControlAttribute;
+                    if (attribute != null)
                     {
-                        // 個別バインディングを行う
-                        ControlAttribute attribute = o as ControlAttribute;
-                        if (attribute != null)
+                        if (info.Name.ToLower() == attribute.PropertyName.ToLower()
+                            && hashtable.ContainsKey(attribute.ControlName.ToLower()))
                         {
-                            if (info.Name.ToLower() == attribute.PropertyName.ToLower()
-                                && control.Name.ToLower() == attribute.ControlName.ToLower())
-                            {
-                                control.DataBindings.Add(attribute.ControlProperty, _dataSource, info.Name,
-                                                         attribute.FormattingEnabled,
-                                                         attribute.UpdateMode, attribute.NullValue,
-                                                         attribute.FormatString);
-                                isFind = true;
-                                break;
-                            }
+                            Control control = hashtable[attribute.ControlName.ToLower()];
+                            control.DataBindings.Add(attribute.ControlProperty, _dataSource, info.Name,
+                                                     attribute.FormattingEnabled,
+                                                     attribute.UpdateMode, attribute.NullValue,
+                                                     attribute.FormatString);
+                            isFind = true;
                         }
-                    }
-                    if (isFind) break;
 
+                    }
+                }
+
+                if (!isFind)
+                {
                     // 自動バインディングを行う
-                    if (control.Name.ToLower() == (prefix.ToLower() + info.Name.ToLower() + suffix.ToLower()))
+                    if ( hashtable.ContainsKey(prefix.ToLower() + info.Name.ToLower() + suffix.ToLower()) )
                     {
+                        Control control = hashtable[prefix.ToLower() + info.Name.ToLower() + suffix.ToLower()];
                         control.DataBindings.Add(_defaultProperty, _dataSource, info.Name, true,
                                                  DataSourceUpdateMode.OnValidation, null, string.Empty);
-                        break;
                     }
                 }
             }
@@ -522,6 +530,22 @@ namespace Seasar.Windows
             return ((Control[]) retList.ToArray(typeof (Control)));
         }
 
+        /// <summary>
+        /// コントロールをすべて取得する
+        /// </summary>
+        /// <param name="controls">コントロール</param>
+        /// <param name="table">取得したコントロールをControl.Nameをキーにして保持するDictinary</param>
+        private static void _GetAllControls (Control controls, IDictionary<string, Control> table)
+        {
+            foreach ( Control control in controls.Controls )
+            {
+                if ( String.Equals(control.Name.ToLower(), String.Empty) == false )
+                {
+                    table.Add(control.Name.ToLower(), control);
+                    _GetAllControls(control, table);
+                }
+            }
+        }
         /// <summary>
         /// 一行を挿入する
         /// </summary>
