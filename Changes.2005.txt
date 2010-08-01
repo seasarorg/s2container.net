@@ -1,9 +1,10 @@
 ﻿S2Container.NET 1.3.18
 2010/08/02
+** improvement
+	* [CONTAINERNET-137] プロパティが多いPONOをバインドすると時間がかかってしまう
 ** Bug
 	* [CONTAINERNET-133] app.configの設定読込時、「conime.exe」が起動しないようにする
 	* [CONTAINERNET-136] QuillControlを使用したフォームを継承した場合、継承フォームをデザイナで開いたときにインジェクションが実行される
-	* [CONTAINERNET-137] プロパティが多いPONOをバインドすると時間がかかってしまう
 	* [CONTAINERNET-139] メソッド単位にかけたトランザクションがクラス全体にかかる
 ** Task
 	* [CONTAINERNET-132] MbUnitのバージョンアップ
