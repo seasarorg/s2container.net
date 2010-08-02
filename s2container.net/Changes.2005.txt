@@ -1,6 +1,6 @@
 ﻿S2Container.NET 1.3.18
 2010/08/02
-** improvement
+** Improvement
 	* [CONTAINERNET-137] プロパティが多いPONOをバインドすると時間がかかってしまう
 ** Bug
 	* [CONTAINERNET-133] app.configの設定読込時、「conime.exe」が起動しないようにする
@@ -12,7 +12,7 @@
 
 S2Dao.NET 1.3.18
 2010/08/02
-変更点なし
+	* [DAONET-85] ストアドプロシージャを実行するメソッドの引数がSystem.Nullable<T>だとエラーが発生する
 
 ---------------------------------------------------------------------------------------
 S2Container.NET 1.3.17
