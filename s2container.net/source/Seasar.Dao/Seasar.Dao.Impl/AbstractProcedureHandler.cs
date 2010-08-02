@@ -226,21 +226,39 @@ namespace Seasar.Dao.Impl
         {
             if (type == typeof(Byte) || type.FullName == "System.Byte&")
                 return DbType.Byte;
+            if (type == typeof(Byte?) || type.FullName == "System.Nullable<Byte>&")
+                return DbType.Byte;
             if (type == typeof(SByte) || type.FullName == "System.SByte&")
+                return DbType.SByte;
+            if (type == typeof(SByte?) || type.FullName == "System.Nullable<SByte>&")
                 return DbType.SByte;
             if (type == typeof(Int16) || type.FullName == "System.Int16&")
                 return DbType.Int16;
-            if (type == typeof(Int32) || type.FullName == "System.Int32&")
+            if (type == typeof(Int16?) || type.FullName == "System.Nullable<Int16>&")
+                return DbType.Int16;
+            if (type == typeof(Int32?) || type.FullName == "System.Int32&")
+                return DbType.Int32;
+            if (type == typeof(Int32) || type.FullName == "System.Nullable<Int32>&")
                 return DbType.Int32;
             if (type == typeof(Int64) || type.FullName == "System.Int64&")
                 return DbType.Int64;
+            if (type == typeof(Int64?) || type.FullName == "System.Nullable<Int64>&")
+                return DbType.Int64;
             if (type == typeof(Single) || type.FullName == "System.Single&")
+                return DbType.Single;
+            if (type == typeof(Single?) || type.FullName == "System.Nullable<Single>&")
                 return DbType.Single;
             if (type == typeof(Double) || type.FullName == "System.Double&")
                 return DbType.Double;
+            if (type == typeof(Double?) || type.FullName == "System.Nullable<Double>&")
+                return DbType.Double;
             if (type == typeof(Decimal) || type.FullName == "System.Decimal&")
                 return DbType.Decimal;
+            if (type == typeof(Decimal?) || type.FullName == "System.Nullable<Decimal>&")
+                return DbType.Decimal;
             if (type == typeof(DateTime) || type.FullName == "System.DateTime&")
+                return DbType.DateTime;
+            if (type == typeof(DateTime?) || type.FullName == "System.Nullable<DateTime>&")
                 return DbType.DateTime;
             if (type == ValueTypes.BYTE_ARRAY_TYPE)
                 return DbType.Binary;
@@ -248,10 +266,14 @@ namespace Seasar.Dao.Impl
                 return DbType.String;
             if (type == typeof(Boolean) || type.FullName == "System.Boolean&")
                 return DbType.Boolean;
+            if (type == typeof(Boolean?) || type.FullName == "System.Nullable<Boolean>&")
+                return DbType.Boolean;
             if (type == typeof(Guid) || type.FullName == "System.Guid&")
                 return DbType.Guid;
-            else
-                return DbType.Object;
+            if (type == typeof(Guid?) || type.FullName == "System.Nullable<Guid>&")
+                return DbType.Guid;
+
+            return DbType.Object;
         }
 
         /// <summary>
