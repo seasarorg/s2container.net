@@ -539,10 +539,21 @@ namespace Seasar.Windows
         {
             foreach ( Control control in controls.Controls )
             {
-                if ( String.Equals(control.Name.ToLower(), String.Empty) == false )
+                if (control is UserControl)
                 {
-                    table.Add(control.Name.ToLower(), control);
-                    _GetAllControls(control, table);
+                    if (String.Equals(control.Name.ToLower(), String.Empty) == false
+                        && table.ContainsKey(control.Name.ToLower()) == false)
+                    {
+                        table.Add(control.Name.ToLower(), control);
+                    }
+                }
+                else
+                {
+                    if ( String.Equals(control.Name.ToLower(), String.Empty) == false )
+                    {
+                        table.Add(control.Name.ToLower(), control);
+                        _GetAllControls(control, table);
+                    }
                 }
             }
         }
