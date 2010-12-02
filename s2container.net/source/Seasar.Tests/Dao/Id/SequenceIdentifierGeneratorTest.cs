@@ -36,7 +36,10 @@ namespace Seasar.Tests.Dao.Id
         {
             if (Dbms.GetSequenceNextValString("SEQ_IDTABLE") == null)
             {
-                Assert.Ignore("シーケンスをサポートしていないDBMS。");
+                // #.NET4.0 Assert.Ignoreがなくなってしまっているのでreturnで戻る
+                //Assert.Ignore("シーケンスをサポートしていないDBMS。");
+                System.Console.WriteLine("シーケンスをサポートしていないDBMS。");
+                return;
             }
 
             SequenceIdentifierGenerator generator = new SequenceIdentifierGenerator("Id", Dbms);

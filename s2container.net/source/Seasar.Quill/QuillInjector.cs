@@ -233,16 +233,16 @@ namespace Seasar.Quill
         /// <param name="field">DIが行われるフィールド情報</param>
         protected virtual void InjectField(object target, FieldInfo field)
         {
-            // フィールドに設定されているバインディング属性を取得する
-            BindingAttribute bindingAttr = AttributeUtil.GetBindingAttr(field);
+            //// フィールドに設定されているバインディング属性を取得する
+            //BindingAttribute bindingAttr = AttributeUtil.GetBindingAttr(field);
 
-            if (bindingAttr != null)
-            {
-                // バインディング属性が設定されている場合はS2Containerの
-                // コンポーネントをDIする
-                InjectField(target, field, bindingAttr);
-                return;
-            }
+            //if (bindingAttr != null)
+            //{
+            //    // バインディング属性が設定されている場合はS2Containerの
+            //    // コンポーネントをDIする
+            //    InjectField(target, field, bindingAttr);
+            //    return;
+            //}
 
             //  インターフェースと実装型の対応情報に登録されている型であれば
             //  その型でDIする
@@ -267,38 +267,38 @@ namespace Seasar.Quill
             }
         }
 
-        /// <summary>
-        /// フィールドにバインディング属性で指定されたコンポーネントをInjectする
-        /// </summary>
-        /// <remarks>S2ContainerのコンポーネントをDIする</remarks>
-        /// <param name="target">DIが行われるオブジェクト</param>
-        /// <param name="field">DIが行われるフィールド情報</param>
-        /// <param name="bindingAttr">DIするコンポーネントを指定するBinding属性</param>
-        protected virtual void InjectField(
-            object target, FieldInfo field, BindingAttribute bindingAttr)
-        {
-            // S2Containerからコンポーネントを取得する
-            object component = SingletonS2ContainerConnector.GetComponent(
-                bindingAttr.ComponentName, field.FieldType);
+        ///// <summary>
+        ///// フィールドにバインディング属性で指定されたコンポーネントをInjectする
+        ///// </summary>
+        ///// <remarks>S2ContainerのコンポーネントをDIする</remarks>
+        ///// <param name="target">DIが行われるオブジェクト</param>
+        ///// <param name="field">DIが行われるフィールド情報</param>
+        ///// <param name="bindingAttr">DIするコンポーネントを指定するBinding属性</param>
+        //protected virtual void InjectField(
+        //    object target, FieldInfo field, BindingAttribute bindingAttr)
+        //{
+        //    // S2Containerからコンポーネントを取得する
+        //    object component = SingletonS2ContainerConnector.GetComponent(
+        //        bindingAttr.ComponentName, field.FieldType);
 
-            // コンポーネントのTypeを取得する
-            Type componentType = TypeUtil.GetType(component);
+        //    // コンポーネントのTypeを取得する
+        //    Type componentType = TypeUtil.GetType(component);
 
-            if (!field.FieldType.IsAssignableFrom(componentType))
-            {
-                // 代入不可能なコンポーネントが指定されている場合は例外をスローする
-                throw new QuillApplicationException("EQLL0014", new object[] {
-                    field.FieldType.FullName, componentType.FullName });
-            }
+        //    if (!field.FieldType.IsAssignableFrom(componentType))
+        //    {
+        //        // 代入不可能なコンポーネントが指定されている場合は例外をスローする
+        //        throw new QuillApplicationException("EQLL0014", new object[] {
+        //            field.FieldType.FullName, componentType.FullName });
+        //    }
 
-            // フィールドに値をセットする為のBindingFlags
-            BindingFlags bindingFlags = BindingFlags.Public |
-                BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetField;
+        //    // フィールドに値をセットする為のBindingFlags
+        //    BindingFlags bindingFlags = BindingFlags.Public |
+        //        BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetField;
 
-            // フィールドに実装クラスのインスタンスを注入する
-            target.GetType().InvokeMember(field.Name, bindingFlags, null, target,
-                new object[] { component });
-        }
+        //    // フィールドに実装クラスのインスタンスを注入する
+        //    target.GetType().InvokeMember(field.Name, bindingFlags, null, target,
+        //        new object[] { component });
+        //}
 
         /// <summary>
         /// フィールドにImplementation属性で指定されたコンポーネントをInjectする
@@ -352,8 +352,6 @@ namespace Seasar.Quill
             target.GetType().InvokeMember(field.Name, bindingFlags, null, target,
                 new object[] { component.GetComponentObject(field.FieldType) });
         }
-
-        
 
         #region IDisposable メンバ
 

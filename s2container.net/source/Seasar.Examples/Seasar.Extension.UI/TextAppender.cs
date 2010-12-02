@@ -20,7 +20,7 @@ using System;
 using System.IO;
 using System.Windows.Forms;
 
-namespace Seasar.Extension.UI
+namespace Seasar.Unit.UI
 {
     /// <summary>
     /// テキストボックスに、文字列ストリームを流し込む為のクラスです。

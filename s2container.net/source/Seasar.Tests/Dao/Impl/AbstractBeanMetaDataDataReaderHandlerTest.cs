@@ -54,8 +54,14 @@ namespace Seasar.Tests.Dao.Impl
 
             Assert.AreEqual(2, columnMetaDatas.Length);
 
-            Assert.AreEqual("empname", columnMetaDatas[0].ColumnName);
-            Assert.AreEqual("emp_no", columnMetaDatas[1].ColumnName);
+            // #.NET4.0 —ñî•ñ‚Ì‡”Ô‚ª•Ï‚í‚Á‚Ä‚¢‚é
+            //Assert.AreEqual("empname", columnMetaDatas[0].ColumnName);
+            //Assert.AreEqual("emp_no", columnMetaDatas[1].ColumnName);
+            foreach (var columnMetaData in columnMetaDatas)
+            {
+                Assert.IsTrue(columnNames.Contains(columnMetaData.ColumnName), columnMetaData.ColumnName);
+                columnNames.Remove(columnMetaData.ColumnName);
+            }
 
         }
 

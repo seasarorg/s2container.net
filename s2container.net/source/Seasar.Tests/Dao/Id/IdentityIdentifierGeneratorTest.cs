@@ -38,7 +38,7 @@ namespace Seasar.Tests.Dao.Id
         {
             if (Dbms.IdentitySelectString == null)
             {
-                Assert.Ignore("IDENTITYをサポートしていないDBMS。");
+                //Assert.Ignore("IDENTITYをサポートしていないDBMS。");
             }
 
             BasicUpdateHandler updateHandler = new BasicUpdateHandler(
@@ -110,7 +110,7 @@ namespace Seasar.Tests.Dao.Id
         {
             if (Dbms.IdentitySelectString == null)
             {
-                Assert.Ignore("IDENTITYをサポートしていないDBMS。");
+                //Assert.Ignore("IDENTITYをサポートしていないDBMS。");
             }
 
             BasicUpdateHandler updateHandler = new BasicUpdateHandler(

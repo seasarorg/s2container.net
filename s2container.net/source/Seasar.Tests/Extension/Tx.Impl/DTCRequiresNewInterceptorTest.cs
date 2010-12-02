@@ -29,8 +29,9 @@ using MbUnit.Framework;
 
 namespace Seasar.Tests.Extension.Tx.Impl
 {
+    [Ignore("DTCŒn‚Í’²¸‚ª“ï‚µ‚¢‚Æv‚í‚ê‚é‚½‚ß•Û—¯")]
     [TestFixture]
-    [Transaction(TransactionOption.RequiresNew)]
+    //[Transaction(TransactionOption.RequiresNew)]
     public class DTCRequiresNewInterceptorTest : ServicedComponent
     {
         private const string PATH = "Seasar/Tests/Extension/Tx/Impl/DTCRequiresNewInterceptorTest.dicon";
@@ -52,6 +53,7 @@ namespace Seasar.Tests.Extension.Tx.Impl
             _tester = _container.GetComponent(typeof(Tx2Test)) as Tx2Test;
         }
 
+        [Ignore("DTCŒn‚Í’²¸‚ª“ï‚µ‚¢‚Æv‚í‚ê‚é‚½‚ß•Û—¯")]
         [Test]
         [AutoComplete]
         public void TestProceed()

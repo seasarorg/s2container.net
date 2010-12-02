@@ -1,70 +1,23 @@
-#region Copyright
-/*
- * Copyright 2005-2010 the Seasar Foundation and the Others.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
- * either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
- */
-#endregion
-
-using System.Data;
+ï»¿using System;
 using Seasar.Extension.ADO;
 using Seasar.Extension.ADO.Impl;
-using Seasar.Extension.DataSets;
-using Seasar.Extension.DataSets.Impl;
-using Seasar.Framework.Exceptions;
-using Seasar.Framework.Unit;
-using Seasar.Framework.Util;
-using IDataReader = Seasar.Extension.DataSets.IDataReader;
+using Seasar.Framework.Container;
+using Seasar.Framework.Container.Factory;
+using Seasar.Unit.Core;
 
 namespace Seasar.Extension.Unit
 {
-    public class S2TestCase : S2FrameworkTestCaseBase
+    public class S2TestCase : S2TestCaseBase
     {
-        private IDataSource _dataSource;
-        private IDbConnection _connection;
         private ICommandFactory _commandFactory;
-
-        public IDataSource DataSource
+        private IS2Container _container;
+        public IS2Container Container
         {
-            get
-            {
-                if (_dataSource == null)
-                {
-                    throw new EmptyRuntimeException("_dataSource");
-                }
-                return _dataSource;
-            }
+            get { return _container; }
+            set { _container = value; }
         }
 
-        public IDbConnection Connection
-        {
-            get
-            {
-                if (_connection != null)
-                {
-                    return _connection;
-                }
-                _connection = DataSourceUtil.GetConnection(_dataSource);
-                return _connection;
-            }
-        }
-
-        public bool HasConnection
-        {
-            get { return _connection != null; }
-        }
-
-        public virtual ICommandFactory CommandFactory
+        protected override ICommandFactory CommandFactory
         {
             get
             {
@@ -80,207 +33,54 @@ namespace Seasar.Extension.Unit
             }
         }
 
-        internal void SetConnection(IDbConnection connection)
+        public object GetComponent(string componentName)
         {
-            _connection = connection;
+            return _container.GetComponent(componentName);
         }
 
-        internal void SetDataSource(IDataSource dataSource)
+        public object GetComponent(Type componentClass)
         {
-            _dataSource = dataSource;
+            return _container.GetComponent(componentClass);
         }
 
-        /// <summary>
-        /// Excelƒtƒ@ƒCƒ‹‚ğ“Ç‚İADataSet‚ğì¬‚µ‚Ü‚·B
-        /// ƒV[ƒg–¼‚ğƒe[ƒuƒ‹–¼Aˆês–Ú‚ğƒJƒ‰ƒ€–¼A“ñs–ÚˆÈ~‚ğƒf[ƒ^ ‚Æ‚µ‚Ä“Ç‚İ‚İ‚Ü‚·B
-        /// 
-        /// ƒpƒX‚ÍAssembly‚Åw’è‚³‚ê‚Ä‚¢‚éƒfƒBƒŒƒNƒgƒŠ‚ğƒ‹[ƒg‚Æ‚·‚éB
-        /// İ’èƒtƒ@ƒCƒ‹‚Ìâ‘ÎƒpƒX‚©Aƒtƒ@ƒCƒ‹–¼‚Ì‚İ‚ğw’è‚µ‚Ü‚·B
-        /// ƒtƒ@ƒCƒ‹–¼‚Ì‚İ‚Ìê‡AƒeƒXƒgƒP[ƒX‚Æ“¯‚¶ƒpƒbƒP[ƒW‚É‚ ‚é‚à‚Ì‚Æ‚µ‚Ü‚·B
-        /// <seealso cref="Seasar.Extension.DataSets.Impl.XlsReader.Read"/>
-        /// </summary>
-        /// <param name="path">Excelƒtƒ@ƒCƒ‹‚ÌƒpƒX</param>
-        /// <returns>Excelƒtƒ@ƒCƒ‹‚Ì“à—e‚©‚çì¬‚µ‚½DataSet</returns>
-        public virtual DataSet ReadXls(string path)
+        public IComponentDef GetComponentDef(string componentName)
         {
-            IDataReader reader = new XlsReader(ConvertPath(path));
-            return reader.Read();
+            return _container.GetComponentDef(componentName);
         }
 
-        /// <summary>
-        /// DataSet‚Ì“à—e‚©‚çAExcelƒtƒ@ƒCƒ‹‚ğì¬‚µ‚Ü‚·B
-        /// ƒV[ƒg–¼‚Éƒe[ƒuƒ‹–¼Aˆês–Ú‚ÉƒJƒ‰ƒ€–¼A“ñs–ÚˆÈ~‚Éƒf[ƒ^ ‚ğ‘‚«‚İ‚Ü‚·B
-        /// 
-        /// ƒpƒX‚ÍAssembly‚Åw’è‚³‚ê‚Ä‚¢‚éƒfƒBƒŒƒNƒgƒŠ‚ğƒ‹[ƒg‚Æ‚·‚éB
-        /// İ’èƒtƒ@ƒCƒ‹‚Ìâ‘ÎƒpƒX‚©Aƒtƒ@ƒCƒ‹–¼‚Ì‚İ‚ğw’è‚µ‚Ü‚·B
-        /// ƒtƒ@ƒCƒ‹–¼‚Ì‚İ‚Ìê‡AƒeƒXƒgƒP[ƒX‚Æ“¯‚¶ƒpƒbƒP[ƒW‚É‚ ‚é‚à‚Ì‚Æ‚µ‚Ü‚·B
-        /// <seealso cref="Seasar.Extension.DataSets.Impl.XlsWriter.Write"/>
-        /// </summary>
-        /// <param name="path">Excelƒtƒ@ƒCƒ‹‚ÌƒpƒX</param>
-        /// <param name="dataSet">Excelƒtƒ@ƒCƒ‹‚É‘‚«‚Ş“à—e‚ÌDataSet</param>
-        public virtual void WriteXls(string path, DataSet dataSet)
+        public IComponentDef GetComponentDef(Type componentClass)
         {
-            IDataWriter writer = new XlsWriter(ConvertPath(path));
-            writer.Write(dataSet);
+            return _container.GetComponentDef(componentClass);
         }
 
-        /// <summary>
-        /// DataSet‚ğDB‚É‘‚«‚İ‚Ü‚·B
-        /// <seealso cref="Seasar.Extension.DataSets.Impl.SqlWriter.Write"/>
-        /// </summary>
-        /// <param name="dataSet">ƒf[ƒ^ƒx[ƒX‚É‘‚«‚Ş“à—e‚ÌDataSet</param>
-        public virtual void WriteDb(DataSet dataSet)
+        public void Register(Type componentClass)
         {
-            IDataWriter writer = SqlWriterFactory.GetSqlWriter(DataSource, CommandFactory);
-            writer.Write(dataSet);
+            _container.Register(componentClass);
         }
 
-        /// <summary>
-        /// DB‚©‚çƒŒƒR[ƒh‚ğ“Ç‚İ‚İADataTable‚ğì¬‚µ‚Ü‚·B
-        /// <seealso cref="Seasar.Extension.DataSets.Impl.SqlTableReader.Read"/>
-        /// </summary>
-        /// <param name="table">“Ç‚İ‚Şƒe[ƒuƒ‹–¼</param>
-        /// <returns>“Ç‚İ‚ñ‚¾“à—e‚©‚çì¬‚µ‚½DataTable</returns>
-        public virtual DataTable ReadDbByTable(string table)
+        public void Register(Type componentClass, string componentName)
         {
-            return ReadDbByTable(table, null);
+            _container.Register(componentClass, componentName);
         }
 
-        /// <summary>
-        /// DB‚©‚çƒŒƒR[ƒh‚ğ“Ç‚İ‚İADataTable‚ğì¬‚µ‚Ü‚·B
-        /// “Ç‚İ‚ŞƒŒƒR[ƒh‚Ícondition‚ÌğŒ‚ğ–‚½‚·ƒŒƒR[ƒh‚Å‚·B condition‚É‚Í" WHERE "‚æ‚èŒã‚ë‚ğƒZƒbƒg‚µ‚Ä‚­‚¾‚³‚¢B
-        /// <seealso cref="Seasar.Extension.DataSets.Impl.SqlTableReader.Read"/>
-        /// </summary>
-        /// <param name="table">“Ç‚İ‚Şƒe[ƒuƒ‹–¼</param>
-        /// <param name="condition">ğŒ‹å(WHERE‚ÌŒã‚ë)</param>
-        /// <returns>“Ç‚İ‚ñ‚¾“à—e‚©‚çì¬‚µ‚½DataTable</returns>
-        public virtual DataTable ReadDbByTable(string table, string condition)
+        public void Register(object component)
         {
-            SqlTableReader reader = new SqlTableReader(DataSource);
-            reader.SetTable(table, condition);
-            return reader.Read();
+            _container.Register(component);
         }
 
-        /// <summary>
-        /// DB‚©‚çSQL•¶‚ÌÀsŒ‹‰Ê‚ğæ“¾‚µADataTable‚ğì¬‚µ‚Ü‚·B
-        /// ì¬‚µ‚½DataTable‚Ìƒe[ƒuƒ‹–¼‚ÍtableName‚É‚È‚è‚Ü‚·B
-        /// <seealso cref="Seasar.Extension.DataSets.Impl.SqlTableReader.Read"/>
-        /// </summary>
-        /// <param name="sql">Às‚·‚éSQL•¶</param>
-        /// <param name="tableName">ì¬‚·‚éDataTable‚Ìƒe[ƒuƒ‹–¼</param>
-        /// <returns>“Ç‚İo‚µ‚½“à—e‚ÌDataTable</returns>
-        public virtual DataTable ReadDbBySql(string sql, string tableName)
+        public void Register(object component, string componentName)
         {
-            SqlTableReader reader = new SqlTableReader(DataSource);
-            reader.SetSql(sql, tableName);
-            return reader.Read();
-
+            _container.Register(component, componentName);
         }
 
-        /// <summary>
-        /// Excelƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚İADB‚É‘‚«‚İ‚Ü‚·B
-        /// ƒV[ƒg–¼‚ğƒe[ƒuƒ‹–¼Aˆês–Ú‚ğƒJƒ‰ƒ€–¼A“ñs–ÚˆÈ~‚ğƒf[ƒ^ ‚Æ‚µ‚Ä“Ç‚İ‚İ‚Ü‚·B
-        /// 
-        /// ƒpƒX‚ÍAssembly‚Åw’è‚³‚ê‚Ä‚¢‚éƒfƒBƒŒƒNƒgƒŠ‚ğƒ‹[ƒg‚Æ‚·‚éB
-        /// İ’èƒtƒ@ƒCƒ‹‚Ìâ‘ÎƒpƒX‚©Aƒtƒ@ƒCƒ‹–¼‚Ì‚İ‚ğw’è‚µ‚Ü‚·B
-        /// ƒtƒ@ƒCƒ‹–¼‚Ì‚İ‚Ìê‡AƒeƒXƒgƒP[ƒX‚Æ“¯‚¶ƒpƒbƒP[ƒW‚É‚ ‚é‚à‚Ì‚Æ‚µ‚Ü‚·B
-        /// <seealso cref="Seasar.Extension.DataSets.Impl.XlsReader.Read"/>
-        /// <seealso cref="Seasar.Extension.DataSets.Impl.SqlWriter.Write"/>
-        /// </summary>
-        /// <param name="path">Excelƒtƒ@ƒCƒ‹‚ÌƒpƒX</param>
-        public virtual void ReadXlsWriteDb(string path)
+        public void Register(IComponentDef componentDef)
         {
-            WriteDb(ReadXls(path));
+            _container.Register(componentDef);
         }
 
-        /// <summary>
-        /// Excelƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚İADB‚É‘‚«‚İ‚Ü‚·B
-        /// ƒV[ƒg–¼‚ğƒe[ƒuƒ‹–¼Aˆês–Ú‚ğƒJƒ‰ƒ€–¼A“ñs–ÚˆÈ~‚ğƒf[ƒ^ ‚Æ‚µ‚Ä“Ç‚İ‚İ‚Ü‚·B
-        /// Excel‚Ì“à—e‚ÆDB‚ÌƒŒƒR[ƒh‚Æ‚ÅåƒL[‚ªˆê’v‚·‚é‚à‚Ì‚ª‚ ‚ê‚ÎA ‚»‚ÌƒŒƒR[ƒh‚ğíœ‚µ‚½Œã‚É‘‚«‚İ‚Ü‚·B
-        /// 
-        /// ƒpƒX‚ÍAssembly‚Åw’è‚³‚ê‚Ä‚¢‚éƒfƒBƒŒƒNƒgƒŠ‚ğƒ‹[ƒg‚Æ‚·‚éB
-        /// İ’èƒtƒ@ƒCƒ‹‚Ìâ‘ÎƒpƒX‚©Aƒtƒ@ƒCƒ‹–¼‚Ì‚İ‚ğw’è‚µ‚Ü‚·B
-        /// ƒtƒ@ƒCƒ‹–¼‚Ì‚İ‚Ìê‡AƒeƒXƒgƒP[ƒX‚Æ“¯‚¶ƒpƒbƒP[ƒW‚É‚ ‚é‚à‚Ì‚Æ‚µ‚Ü‚·B
-        /// <seealso cref="Seasar.Extension.DataSets.Impl.XlsReader.Read"/>
-        /// <seealso cref="Seasar.Extension.DataSets.Impl.SqlWriter.Write"/>
-        /// </summary>
-        /// <param name="path">Excelƒtƒ@ƒCƒ‹‚ÌƒpƒX</param>
-        public virtual void ReadXlsReplaceDb(string path)
+        public void Include(string path)
         {
-            DataSet dataSet = ReadXls(path);
-            DeleteDb(dataSet);
-            WriteDb(dataSet);
-        }
-
-        /// <summary>
-        /// Excelƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚İADB‚É‘‚«‚İ‚Ü‚·B
-        /// ƒV[ƒg–¼‚ğƒe[ƒuƒ‹–¼Aˆês–Ú‚ğƒJƒ‰ƒ€–¼A“ñs–ÚˆÈ~‚ğƒf[ƒ^ ‚Æ‚µ‚Ä“Ç‚İ‚İ‚Ü‚·B
-        /// ‘ÎÛ‚Æ‚È‚éƒe[ƒuƒ‹‚ÌƒŒƒR[ƒh‚ğ‘S‚Äíœ‚µ‚½Œã‚É‘‚«‚İ‚Ü‚·B
-        /// 
-        /// ƒpƒX‚ÍAssembly‚Åw’è‚³‚ê‚Ä‚¢‚éƒfƒBƒŒƒNƒgƒŠ‚ğƒ‹[ƒg‚Æ‚·‚éB
-        /// İ’èƒtƒ@ƒCƒ‹‚Ìâ‘ÎƒpƒX‚©Aƒtƒ@ƒCƒ‹–¼‚Ì‚İ‚ğw’è‚µ‚Ü‚·B
-        /// ƒtƒ@ƒCƒ‹–¼‚Ì‚İ‚Ìê‡AƒeƒXƒgƒP[ƒX‚Æ“¯‚¶ƒpƒbƒP[ƒW‚É‚ ‚é‚à‚Ì‚Æ‚µ‚Ü‚·B
-        /// <seealso cref="Seasar.Extension.DataSets.Impl.XlsReader.Read"/>
-        /// <seealso cref="Seasar.Extension.DataSets.Impl.SqlWriter.Write"/>
-        /// </summary>
-        /// <param name="path">Excelƒtƒ@ƒCƒ‹‚ÌƒpƒX</param>
-        public virtual void ReadXlsAllReplaceDb(string path)
-        {
-            DataSet dataSet = ReadXls(path);
-            for (int i = dataSet.Tables.Count - 1; i >= 0; --i)
-            {
-                DeleteTable(dataSet.Tables[i].TableName);
-            }
-            WriteDb(dataSet);
-        }
-
-        /// <summary>
-        /// DataSet‚É‘Î‰‚·‚éDB‚ÌƒŒƒR[ƒh‚ğ“Ç‚İ‚İADataSet‚ğì¬‚µ‚Ü‚· B
-        /// <seealso cref="Seasar.Extension.DataSets.Impl.SqlReloadReader.Read"/>
-        /// </summary>
-        /// <param name="dataSet">‘ÎÛDB‚É‘Î‰‚·‚éDataSet</param>
-        /// <returns>ÅVó‘Ô‚ÌDataSet</returns>
-        public virtual DataSet Reload(DataSet dataSet)
-        {
-            return new SqlReloadReader(DataSource, dataSet).Read();
-        }
-
-        /// <summary>
-        /// DataTable‚É‘Î‰‚·‚éDB‚ÌƒŒƒR[ƒh‚ğ“Ç‚İ‚İADataTable‚ğì¬ ‚µ‚Ü‚·B
-        /// <seealso cref="Seasar.Extension.DataSets.Impl.SqlReloadReader.Read"/>
-        /// </summary>
-        /// <param name="table">‘ÎÛDB‚É‘Î‰‚·‚éDataTable</param>
-        /// <returns>ÅVó‘Ô‚ÌDataTable</returns>
-        public virtual DataTable Reload(DataTable table)
-        {
-            return new SqlReloadTableReader(DataSource, table).Read();
-        }
-
-        /// <summary>
-        /// DataSet‚É‘Î‰‚·‚éDB‚ÌƒŒƒR[ƒh‚ğíœ‚µ‚Ü‚·B
-        /// <seealso cref="Seasar.Extension.DataSets.Impl.SqlDeleteTableWriter.Write"/>
-        /// </summary>
-        /// <param name="dataSet">‘ÎÛDB‚É‘Î‰‚·‚éDataSet</param>
-        public virtual void DeleteDb(DataSet dataSet)
-        {
-            SqlDeleteTableWriter writer = new SqlDeleteTableWriter(DataSource);
-            for (int i = dataSet.Tables.Count - 1; i >= 0; --i)
-            {
-                writer.Write(dataSet.Tables[i]);
-            }
-        }
-
-        /// <summary>
-        /// DB‚©‚çw’è‚·‚éƒe[ƒuƒ‹‚Ì‘SƒŒƒR[ƒh‚ğíœ‚µ‚Ü‚·B
-        /// </summary>
-        /// <param name="tableName">íœ‘ÎÛ‚Ìƒe[ƒuƒ‹–¼</param>
-        public virtual void DeleteTable(string tableName)
-        {
-            IUpdateHandler handler = new BasicUpdateHandler(
-                DataSource,
-                "DELETE FROM " + tableName
-                );
-            handler.Execute(null);
+            S2ContainerFactory.Include(Container, S2TestUtils.ConvertPath(GetType(), path));
         }
     }
 }

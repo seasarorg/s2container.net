@@ -129,7 +129,6 @@ namespace Seasar.Tests.Dao.Impl
                 using (IDbCommand cmd = con.CreateCommand())
                 {
                     cmd.CommandText = sql;
-
                     using (IDataReader reader = cmd.ExecuteReader())
                     {
                         ret = (Employee) handler.Handle(reader);

@@ -37,7 +37,8 @@ namespace Seasar.Tests.Framework.Container.Factory
             container.Init();
             Assert.IsNotNull(container.GetComponent(typeof(ArrayList)));
             Assert.IsNotNull(container.GetComponent("aaa"));
-            Assert.AreEqual(1, container.GetComponent("bbb"));
+            // #.NET4.0 ˆê“xintŒ^‚É•ÏŠ·‚µ‚Ä‚©‚ç”äŠr
+            Assert.AreEqual(1, Decimal.ToInt32((Decimal)container.GetComponent("bbb")));
             Assert.AreEqual(true, container.GetComponent("ccc") !=
                 container.GetComponent("ccc"));
             IComponentDef cd = container.GetComponentDef("ddd");

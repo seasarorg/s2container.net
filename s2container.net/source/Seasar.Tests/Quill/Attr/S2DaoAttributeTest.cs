@@ -108,7 +108,7 @@ namespace Seasar.Tests.Quill.Attr
             }
         }
 
-        [Test]
+        [Test, Quill]
         public void TestDataSourceNameChange_Class()
         {
             QuillContainer container = new QuillContainer();
@@ -128,7 +128,7 @@ namespace Seasar.Tests.Quill.Attr
                 proxy.GetDataSourceName(), "データソース名が切り替わっているはず");
         }
 
-        [Test]
+        [Test, Quill]
         public void TestDataSourceNameChange_Method()
         {
             QuillContainer container = new QuillContainer();

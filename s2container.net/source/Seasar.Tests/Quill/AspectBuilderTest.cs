@@ -65,41 +65,41 @@ namespace Seasar.Tests.Quill
             Assert.AreEqual(typeof(HogeInterceptor), interceptor.GetType());
         }
 
-        [Test]
-        public void TestGetMethodInterceptor_S2_IMethodInterceptorに代入できない場合()
-        {
-            S2ContainerImpl container = new S2ContainerImpl();
-            ComponentDefImpl def = new ComponentDefImpl(typeof(Hoge1), "hoge");
-            container.Register(def);
-            SingletonS2ContainerFactory.Container = container;
+        //[Test]
+        //public void TestGetMethodInterceptor_S2_IMethodInterceptorに代入できない場合()
+        //{
+        //    S2ContainerImpl container = new S2ContainerImpl();
+        //    ComponentDefImpl def = new ComponentDefImpl(typeof(Hoge1), "hoge");
+        //    container.Register(def);
+        //    SingletonS2ContainerFactory.Container = container;
 
-            this.container = new QuillContainer();
+        //    this.container = new QuillContainer();
 
-            try
-            {
-                this.GetMethodInterceptor("hoge");
-                Assert.Fail();
-            }
-            catch (QuillApplicationException ex)
-            {
-                Assert.AreEqual("EQLL0012", ex.MessageCode);
-            }
-        }
+        //    try
+        //    {
+        //        this.GetMethodInterceptor("hoge");
+        //        Assert.Fail();
+        //    }
+        //    catch (QuillApplicationException ex)
+        //    {
+        //        Assert.AreEqual("EQLL0012", ex.MessageCode);
+        //    }
+        //}
 
-        [Test]
-        public void TestGetMethodInterceptor_S2_正常な場合()
-        {
-            S2ContainerImpl container = new S2ContainerImpl();
-            ComponentDefImpl def = new ComponentDefImpl(typeof(HogeInterceptor), "hoge");
-            container.Register(def);
-            SingletonS2ContainerFactory.Container = container;
+        //[Test]
+        //public void TestGetMethodInterceptor_S2_正常な場合()
+        //{
+        //    S2ContainerImpl container = new S2ContainerImpl();
+        //    ComponentDefImpl def = new ComponentDefImpl(typeof(HogeInterceptor), "hoge");
+        //    container.Register(def);
+        //    SingletonS2ContainerFactory.Container = container;
 
-            this.container = new QuillContainer();
+        //    this.container = new QuillContainer();
 
-            IMethodInterceptor interceptor = this.GetMethodInterceptor("hoge");
+        //    IMethodInterceptor interceptor = this.GetMethodInterceptor("hoge");
 
-            Assert.AreEqual(typeof(HogeInterceptor), interceptor.GetType());
-        }
+        //    Assert.AreEqual(typeof(HogeInterceptor), interceptor.GetType());
+        //}
 
         [Test]
         public void TestGetMethodInterceptor_Aspect属性にパラメータが設定されていない場合()
@@ -134,22 +134,22 @@ namespace Seasar.Tests.Quill
                 typeof(HogeInterceptor).IsAssignableFrom(interceptor.GetType()));
         }
 
-        [Test]
-        public void TestGetMethodInterceptor_Aspect属性にcomponentNameが設定されている場合()
-        {
-            S2ContainerImpl container = new S2ContainerImpl();
-            ComponentDefImpl def = new ComponentDefImpl(typeof(HogeInterceptor), "hoge");
-            container.Register(def);
-            SingletonS2ContainerFactory.Container = container;
+        //[Test]
+        //public void TestGetMethodInterceptor_Aspect属性にcomponentNameが設定されている場合()
+        //{
+        //    S2ContainerImpl container = new S2ContainerImpl();
+        //    ComponentDefImpl def = new ComponentDefImpl(typeof(HogeInterceptor), "hoge");
+        //    container.Register(def);
+        //    SingletonS2ContainerFactory.Container = container;
 
-            this.container = new QuillContainer();
+        //    this.container = new QuillContainer();
 
-            AspectAttribute attr = new AspectAttribute("hoge");
+        //    AspectAttribute attr = new AspectAttribute("hoge");
 
-            IMethodInterceptor interceptor = this.GetMethodInterceptor(attr);
+        //    IMethodInterceptor interceptor = this.GetMethodInterceptor(attr);
 
-            Assert.AreEqual(container.GetComponent("hoge"), interceptor);
-        }
+        //    Assert.AreEqual(container.GetComponent("hoge"), interceptor);
+        //}
 
         #endregion
 

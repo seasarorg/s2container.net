@@ -710,12 +710,12 @@ namespace Seasar.Quill
                 // QuillからTypeを指定してインターセプターを取得する
                 return GetMethodInterceptor(aspectAttr.InterceptorType);
             }
-            else if (aspectAttr.ComponentName != null)
-            {
-                // コンポーネント名が指定されている場合は
-                // S2Containerからコンポーネント名を指定してインターセプターを取得する
-                return GetMethodInterceptor(aspectAttr.ComponentName);
-            }
+            //else if (aspectAttr.ComponentName != null)
+            //{
+            //    // コンポーネント名が指定されている場合は
+            //    // S2Containerからコンポーネント名を指定してインターセプターを取得する
+            //    return GetMethodInterceptor(aspectAttr.ComponentName);
+            //}
             else
             {
                 // Aspect属性にinterceptorTypeとcomponentNameのどちらの指定も
@@ -749,33 +749,33 @@ namespace Seasar.Quill
             }
         }
 
-        /// <summary>
-        /// S2Containerからコンポーネント名を指定してインターセプターを取得する
-        /// </summary>
-        /// <param name="componentName">コンポーネント名</param>
-        /// <returns>インターセプター</returns>
-        protected virtual IMethodInterceptor GetMethodInterceptor(
-            string componentName)
-        {
-            // S2Containerからコンポーネントのオブジェクトを取得する
-            object interceptor =
-                SingletonS2ContainerConnector.GetComponent(componentName);
+        ///// <summary>
+        ///// S2Containerからコンポーネント名を指定してインターセプターを取得する
+        ///// </summary>
+        ///// <param name="componentName">コンポーネント名</param>
+        ///// <returns>インターセプター</returns>
+        //protected virtual IMethodInterceptor GetMethodInterceptor(
+        //    string componentName)
+        //{
+        //    // S2Containerからコンポーネントのオブジェクトを取得する
+        //    object interceptor =
+        //        SingletonS2ContainerConnector.GetComponent(componentName);
 
-            // インターセプターのTypeを取得する
-            Type type = TypeUtil.GetType(interceptor);
+        //    // インターセプターのTypeを取得する
+        //    Type type = TypeUtil.GetType(interceptor);
 
-            if (typeof(IMethodInterceptor).IsAssignableFrom(type))
-            {
-                // IMethodInterceptorに代入ができる場合はInterceptorを返す
-                return (IMethodInterceptor)interceptor;
-            }
-            else
-            {
-                // IMethodInterceptorに代入できない場合は例外をスローする
-                throw new QuillApplicationException("EQLL0012",
-                    new object[] { type.FullName });
-            }
-        }
+        //    if (typeof(IMethodInterceptor).IsAssignableFrom(type))
+        //    {
+        //        // IMethodInterceptorに代入ができる場合はInterceptorを返す
+        //        return (IMethodInterceptor)interceptor;
+        //    }
+        //    else
+        //    {
+        //        // IMethodInterceptorに代入できない場合は例外をスローする
+        //        throw new QuillApplicationException("EQLL0012",
+        //            new object[] { type.FullName });
+        //    }
+        //}
 
         /// <summary>
         /// Transaction属性からインターセプターを取得する

@@ -98,11 +98,14 @@ namespace Seasar.Framework.Aop.Impl
 
         public object Proceed()
         {
+            // 関連付けられているInterceptorを順次呼び出していく
             while (_interceptorsIndex < _interceptors.Length)
             {
                 return _interceptors[_interceptorsIndex++].Invoke(this);
             }
-            return _invocation.Proceed(_arguments);
+            // 呼び出し終わったら元のメソッドの処理を呼び出す
+            _invocation.Proceed();
+            return _invocation.ReturnValue;
         }
 
         #endregion

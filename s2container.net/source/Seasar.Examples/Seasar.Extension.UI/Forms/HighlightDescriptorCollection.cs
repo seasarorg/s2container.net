@@ -19,7 +19,7 @@
 using System;
 using System.Collections;
 
-namespace Seasar.Extension.UI.Forms
+namespace Seasar.Unit.UI.Forms
 {
     /// <summary>
     /// Summary description for SeperaratorCollection.

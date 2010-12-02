@@ -19,7 +19,7 @@
 using System;
 using System.Drawing;
 
-namespace Seasar.Extension.UI.Forms
+namespace Seasar.Unit.UI.Forms
 {
     public class HighlightDescriptor
     {

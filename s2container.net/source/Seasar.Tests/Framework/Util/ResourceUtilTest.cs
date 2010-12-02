@@ -87,57 +87,57 @@ namespace Seasar.Tests.Framework.Util
             }
         }
 
-        [Test]
-        public void TestGetResourceNoException_動的アセンブリ()
-        {
+        //[Test]
+        //public void TestGetResourceNoException_動的アセンブリ()
+        //{
 
-            AssemblyBuilder dynamicAssembly;
-            IResourceWriter resourceWriter;
-            dynamicAssembly = (AssemblyBuilder) CreateAssembly(Thread.GetDomain()).Assembly;
+        //    AssemblyBuilder dynamicAssembly;
+        //    IResourceWriter resourceWriter;
+        //    dynamicAssembly = (AssemblyBuilder) CreateAssembly(Thread.GetDomain()).Assembly;
 
-            resourceWriter = dynamicAssembly.DefineResource("myResourceFile",
-               "A sample Resource File", "MyEmitAssembly.MyResource.resources");
+        //    resourceWriter = dynamicAssembly.DefineResource("myResourceFile",
+        //       "A sample Resource File", "MyEmitAssembly.MyResource.resources");
 
-            resourceWriter.AddResource("AddResource 1", "First added resource");
-            resourceWriter.AddResource("AddResource 2", "Second added resource");
-            resourceWriter.AddResource("AddResource 3", "Third added resource");
+        //    resourceWriter.AddResource("AddResource 1", "First added resource");
+        //    resourceWriter.AddResource("AddResource 2", "Second added resource");
+        //    resourceWriter.AddResource("AddResource 3", "Third added resource");
 
-            using (Stream stream = ResourceUtil.GetResourceNoException(
-                "MyEmitAssembly.MyResource.resources", dynamicAssembly))
-            {
-                Assert.IsNull(stream);
-            }
+        //    using (Stream stream = ResourceUtil.GetResourceNoException(
+        //        "MyEmitAssembly.MyResource.resources", dynamicAssembly))
+        //    {
+        //        Assert.IsNull(stream);
+        //    }
 
-        }
+        //}
 
-        /// <summary>
-        /// テスト用の動的アセンブリを作成する
-        /// </summary>
-        /// <param name="appDomain">アプリケーションドメイン</param>
-        /// <returns>テスト用の動的アセンブリ</returns>
-        private Type CreateAssembly(AppDomain appDomain)
-        {
-            AssemblyName assemblyName = new AssemblyName();
-            assemblyName.Name = "testAssembly";
+        ///// <summary>
+        ///// テスト用の動的アセンブリを作成する
+        ///// </summary>
+        ///// <param name="appDomain">アプリケーションドメイン</param>
+        ///// <returns>テスト用の動的アセンブリ</returns>
+        //private Type CreateAssembly(AppDomain appDomain)
+        //{
+        //    AssemblyName assemblyName = new AssemblyName();
+        //    assemblyName.Name = "testAssembly";
 
-            AssemblyBuilder dynamicAssembly = appDomain.DefineDynamicAssembly(assemblyName,
-               AssemblyBuilderAccess.Save);
+        //    AssemblyBuilder dynamicAssembly = appDomain.DefineDynamicAssembly(assemblyName,
+        //       AssemblyBuilderAccess.Save);
 
-            ModuleBuilder testModule = dynamicAssembly.DefineDynamicModule("EmittedModule",
-               "EmittedModule.mod");
+        //    ModuleBuilder testModule = dynamicAssembly.DefineDynamicModule("EmittedModule",
+        //       "EmittedModule.mod");
 
-            TypeBuilder helloWorldClass =
-               testModule.DefineType("HelloWorld", TypeAttributes.Public);
+        //    TypeBuilder helloWorldClass =
+        //       testModule.DefineType("HelloWorld", TypeAttributes.Public);
 
-            MethodBuilder myMethod = helloWorldClass.DefineMethod("Display",
-               MethodAttributes.Public, typeof(String), null);
+        //    MethodBuilder myMethod = helloWorldClass.DefineMethod("Display",
+        //       MethodAttributes.Public, typeof(String), null);
 
-            ILGenerator methodIL = myMethod.GetILGenerator();
-            methodIL.Emit(OpCodes.Ldstr, "Display _method get called.");
-            methodIL.Emit(OpCodes.Ret);
+        //    ILGenerator methodIL = myMethod.GetILGenerator();
+        //    methodIL.Emit(OpCodes.Ldstr, "Display _method get called.");
+        //    methodIL.Emit(OpCodes.Ret);
 
-            return (helloWorldClass.CreateType());
-        }
+        //    return (helloWorldClass.CreateType());
+        //}
 
     }
 }

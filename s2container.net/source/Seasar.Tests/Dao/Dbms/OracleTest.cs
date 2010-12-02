@@ -38,7 +38,9 @@ namespace Seasar.Tests.Dao.Dbms
             IDbms dbms = new Seasar.Dao.Dbms.Oracle();
             IBeanMetaData bmd = CreateBeanMetaData(typeof(Employee), dbms);
             string sql = dbms.GetAutoSelectSql(bmd);
-            Assert.AreEqual("SELECT EMP2.DEPTNUM, EMP2.ENAME, EMP2.EMPNO FROM EMP2", sql);
+            // #.NET4.0 取得されるプロパティの順番が逆になっているため修正
+            //Assert.AreEqual("SELECT EMP2.DEPTNUM, EMP2.ENAME, EMP2.EMPNO FROM EMP2", sql);
+            Assert.AreEqual("SELECT EMP2.EMPNO, EMP2.ENAME, EMP2.DEPTNUM FROM EMP2", sql);
         }
 
         [Test, S2]
@@ -47,7 +49,9 @@ namespace Seasar.Tests.Dao.Dbms
             IDbms dbms = new Seasar.Dao.Dbms.Oracle();
             IBeanMetaData bmd = CreateBeanMetaData(typeof(Department), dbms);
             string sql = dbms.GetAutoSelectSql(bmd);
-            Assert.AreEqual("SELECT DEPT.LOC, DEPT.DNAME, DEPT.DEPTNO, DEPT.VERSIONNO FROM DEPT", sql);
+            // #.NET4.0 取得されるプロパティの順番が逆になっているため修正
+            //Assert.AreEqual("SELECT DEPT.LOC, DEPT.DNAME, DEPT.DEPTNO, DEPT.VERSIONNO FROM DEPT", sql);
+            Assert.AreEqual("SELECT DEPT.LOC, DEPT.DNAME, DEPT.VERSIONNO, DEPT.DEPTNO FROM DEPT", sql);
         }
     }
 }

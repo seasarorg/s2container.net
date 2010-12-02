@@ -135,64 +135,64 @@ namespace Seasar.Tests.Quill
             Assert.IsNotNull(target.Hoge3);
         }
 
-        [Test]
-        public void TestInjectField_S2_代入不可能な場合()
-        {
-            container = new QuillContainer();
-            IS2Container s2Container = new S2ContainerImpl();
-            IComponentDef def = new ComponentDefImpl(typeof(Hoge1), "hoge3");
-            s2Container.Register(def);
-            SingletonS2ContainerFactory.Container = s2Container;
+        //[Test]
+        //public void TestInjectField_S2_代入不可能な場合()
+        //{
+        //    container = new QuillContainer();
+        //    IS2Container s2Container = new S2ContainerImpl();
+        //    IComponentDef def = new ComponentDefImpl(typeof(Hoge1), "hoge3");
+        //    s2Container.Register(def);
+        //    SingletonS2ContainerFactory.Container = s2Container;
 
-            BindingAttribute attr = new BindingAttribute("hoge3");
-            Target4 target = new Target4();
-            FieldInfo field = typeof(Target4).GetField("Hoge3");
+        //    BindingAttribute attr = new BindingAttribute("hoge3");
+        //    Target4 target = new Target4();
+        //    FieldInfo field = typeof(Target4).GetField("Hoge3");
 
-            try
-            {
-                this.InjectField(target, field, attr);
-                Assert.Fail();
-            }
-            catch (QuillApplicationException ex)
-            {
-                Assert.AreEqual("EQLL0014", ex.MessageCode);
-            }
-        }
+        //    try
+        //    {
+        //        this.InjectField(target, field, attr);
+        //        Assert.Fail();
+        //    }
+        //    catch (QuillApplicationException ex)
+        //    {
+        //        Assert.AreEqual("EQLL0014", ex.MessageCode);
+        //    }
+        //}
 
-        [Test]
-        public void TestInjectField_S2_正常な場合()
-        {
-            container = new QuillContainer();
-            IS2Container s2Container = new S2ContainerImpl();
-            IComponentDef def = new ComponentDefImpl(typeof(Hoge3), "hoge3");
-            s2Container.Register(def);
-            SingletonS2ContainerFactory.Container = s2Container;
+        //[Test]
+        //public void TestInjectField_S2_正常な場合()
+        //{
+        //    container = new QuillContainer();
+        //    IS2Container s2Container = new S2ContainerImpl();
+        //    IComponentDef def = new ComponentDefImpl(typeof(Hoge3), "hoge3");
+        //    s2Container.Register(def);
+        //    SingletonS2ContainerFactory.Container = s2Container;
 
-            BindingAttribute attr = new BindingAttribute("hoge3");
-            Target5 target = new Target5();
-            FieldInfo field = typeof(Target5).GetField("Hoge3");
+        //    BindingAttribute attr = new BindingAttribute("hoge3");
+        //    Target5 target = new Target5();
+        //    FieldInfo field = typeof(Target5).GetField("Hoge3");
 
-            this.InjectField(target, field, attr);
+        //    this.InjectField(target, field, attr);
 
-            Assert.AreSame(s2Container.GetComponent("hoge3"), target.Hoge3);
-        }
+        //    Assert.AreSame(s2Container.GetComponent("hoge3"), target.Hoge3);
+        //}
 
-        [Test]
-        public void TestInjectField_Binding属性が設定されている場合()
-        {
-            container = new QuillContainer();
-            IS2Container s2Container = new S2ContainerImpl();
-            IComponentDef def = new ComponentDefImpl(typeof(Hoge3), "hoge3");
-            s2Container.Register(def);
-            SingletonS2ContainerFactory.Container = s2Container;
+        //[Test]
+        //public void TestInjectField_Binding属性が設定されている場合()
+        //{
+        //    container = new QuillContainer();
+        //    IS2Container s2Container = new S2ContainerImpl();
+        //    IComponentDef def = new ComponentDefImpl(typeof(Hoge3), "hoge3");
+        //    s2Container.Register(def);
+        //    SingletonS2ContainerFactory.Container = s2Container;
 
-            Target5 target = new Target5();
-            FieldInfo field = typeof(Target5).GetField("Hoge3");
+        //    Target5 target = new Target5();
+        //    FieldInfo field = typeof(Target5).GetField("Hoge3");
 
-            this.InjectField(target, field);
+        //    this.InjectField(target, field);
 
-            Assert.AreSame(s2Container.GetComponent("hoge3"), target.Hoge3);
-        }
+        //    Assert.AreSame(s2Container.GetComponent("hoge3"), target.Hoge3);
+        //}
 
         [Test]
         public void TestInjectField_Implementation属性が設定されている場合()

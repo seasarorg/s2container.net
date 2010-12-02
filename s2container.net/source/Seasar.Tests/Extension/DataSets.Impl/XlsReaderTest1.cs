@@ -28,11 +28,13 @@ using IDataReader = Seasar.Extension.DataSets.IDataReader;
 
 namespace Seasar.Tests.Extension.DataSets.Impl
 {
+    [Ignore("Microsoft.Jet.OLEDB4.0は32bitOSでしか動作しないため動かせず。保留。")]
     [TestFixture]
     public class XlsReaderTest1 : S2TestCase
     {
         private const string PATH = "Seasar.Tests.Extension.DataSets.Impl.XlsReaderTest1.xls";
 
+        [Ignore("Microsoft.Jet.OLEDB4.0は32bitOSでしか動作しないため動かせず。保留。")]
         [Test]
         public void TestRead()
         {

@@ -167,29 +167,29 @@ namespace Seasar.Tests.Quill.Util
             Assert.AreEqual(0, aspectAttrs.Length);
         }
 
-        [Test]
-        public void TestGetAspectAttrsByMember_Typeで1つ属性が設定されている場合()
-        {
-            AspectAttribute[] aspectAttrs =
-                AttributeUtil.GetAspectAttrsByMember(typeof(AspectHoge2));
+        //[Test]
+        //public void TestGetAspectAttrsByMember_Typeで1つ属性が設定されている場合()
+        //{
+        //    AspectAttribute[] aspectAttrs =
+        //        AttributeUtil.GetAspectAttrsByMember(typeof(AspectHoge2));
 
-            Assert.AreEqual(1, aspectAttrs.Length);
-            Assert.AreEqual(typeof(TraceInterceptor), aspectAttrs[0].InterceptorType);
-            Assert.IsNull(aspectAttrs[0].ComponentName);
-        }
+        //    Assert.AreEqual(1, aspectAttrs.Length);
+        //    Assert.AreEqual(typeof(TraceInterceptor), aspectAttrs[0].InterceptorType);
+        //    Assert.IsNull(aspectAttrs[0].ComponentName);
+        //}
 
-        [Test]
-        public void TestGetAspectAttrsByMember_Typeで2つ属性が設定されている場合()
-        {
-            AspectAttribute[] aspectAttrs =
-                AttributeUtil.GetAspectAttrsByMember(typeof(AspectHoge3));
+        //[Test]
+        //public void TestGetAspectAttrsByMember_Typeで2つ属性が設定されている場合()
+        //{
+        //    AspectAttribute[] aspectAttrs =
+        //        AttributeUtil.GetAspectAttrsByMember(typeof(AspectHoge3));
 
-            Assert.AreEqual(2, aspectAttrs.Length,"1");
-            Assert.AreEqual(typeof(TraceInterceptor), aspectAttrs[0].InterceptorType, "2");
-            Assert.IsNull(aspectAttrs[0].ComponentName, "3");
-            Assert.IsNull(aspectAttrs[1].InterceptorType, "4");
-            Assert.AreEqual("Hogeceptor", aspectAttrs[1].ComponentName, "5");
-        }
+        //    Assert.AreEqual(2, aspectAttrs.Length,"1");
+        //    Assert.AreEqual(typeof(TraceInterceptor), aspectAttrs[0].InterceptorType, "2");
+        //    Assert.IsNull(aspectAttrs[0].ComponentName, "3");
+        //    Assert.IsNull(aspectAttrs[1].InterceptorType, "4");
+        //    Assert.AreEqual("Hogeceptor", aspectAttrs[1].ComponentName, "5");
+        //}
 
         [Test]
         public void TestGetAspectAttrsByMember_Methodで属性が設定されていない場合()
@@ -200,29 +200,29 @@ namespace Seasar.Tests.Quill.Util
             Assert.AreEqual(0, aspectAttrs.Length);
         }
 
-        [Test]
-        public void TestGetAspectAttrsByMember_Methodで1つ属性が設定されている場合()
-        {
-            AspectAttribute[] aspectAttrs = AttributeUtil.GetAspectAttrsByMember(
-                typeof(AspectHoge2).GetMethod("Hoge"));
+        //[Test]
+        //public void TestGetAspectAttrsByMember_Methodで1つ属性が設定されている場合()
+        //{
+        //    AspectAttribute[] aspectAttrs = AttributeUtil.GetAspectAttrsByMember(
+        //        typeof(AspectHoge2).GetMethod("Hoge"));
 
-            Assert.AreEqual(1, aspectAttrs.Length);
-            Assert.AreEqual(typeof(TraceInterceptor), aspectAttrs[0].InterceptorType);
-            Assert.IsNull(aspectAttrs[0].ComponentName);
-        }
+        //    Assert.AreEqual(1, aspectAttrs.Length);
+        //    Assert.AreEqual(typeof(TraceInterceptor), aspectAttrs[0].InterceptorType);
+        //    Assert.IsNull(aspectAttrs[0].ComponentName);
+        //}
 
-        [Test]
-        public void TestGetAspectAttrsByMember_Methodで2つ属性が設定されている場合()
-        {
-            AspectAttribute[] aspectAttrs = AttributeUtil.GetAspectAttrsByMember(
-                typeof(AspectHoge3).GetMethod("Hoge"));
+        //[Test]
+        //public void TestGetAspectAttrsByMember_Methodで2つ属性が設定されている場合()
+        //{
+        //    AspectAttribute[] aspectAttrs = AttributeUtil.GetAspectAttrsByMember(
+        //        typeof(AspectHoge3).GetMethod("Hoge"));
 
-            Assert.AreEqual(2, aspectAttrs.Length);
-            Assert.IsNull(aspectAttrs[0].InterceptorType);
-            Assert.AreEqual("Hogeceptor", aspectAttrs[0].ComponentName);
-            Assert.IsNull(aspectAttrs[1].ComponentName);
-            Assert.AreEqual(typeof(TraceInterceptor), aspectAttrs[1].InterceptorType);
-        }
+        //    Assert.AreEqual(2, aspectAttrs.Length);
+        //    Assert.IsNull(aspectAttrs[0].InterceptorType);
+        //    Assert.AreEqual("Hogeceptor", aspectAttrs[0].ComponentName);
+        //    Assert.IsNull(aspectAttrs[1].ComponentName);
+        //    Assert.AreEqual(typeof(TraceInterceptor), aspectAttrs[1].InterceptorType);
+        //}
 
         #endregion
 
@@ -240,14 +240,14 @@ namespace Seasar.Tests.Quill.Util
             public void Hoge() { }
         }
 
-        [Aspect(typeof(TraceInterceptor), 1)]
-        [Aspect("Hogeceptor", 2)]
-        private class AspectHoge3
-        {
-            [Aspect(typeof(TraceInterceptor), 2)]
-            [Aspect("Hogeceptor", 1)]
-            public void Hoge() { }
-        }
+        //[Aspect(typeof(TraceInterceptor), 1)]
+        //[Aspect("Hogeceptor", 2)]
+        //private class AspectHoge3
+        //{
+        //    [Aspect(typeof(TraceInterceptor), 2)]
+        //    [Aspect("Hogeceptor", 1)]
+        //    public void Hoge() { }
+        //}
 
         #endregion
 
@@ -261,7 +261,7 @@ namespace Seasar.Tests.Quill.Util
 
             Assert.AreEqual(1, aspectAttrs.Length);
             Assert.AreEqual(typeof(TraceInterceptor), aspectAttrs[0].InterceptorType);
-            Assert.IsNull(aspectAttrs[0].ComponentName);
+            //Assert.IsNull(aspectAttrs[0].ComponentName);
         }
 
         [Test]
@@ -307,82 +307,82 @@ namespace Seasar.Tests.Quill.Util
             Assert.AreEqual(0, aspectAttrs.Length);
         }
 
-        [Test]
-        public void TestGetAspectAttrsByMethod_クラスがpublicではない場合()
-        {
-            try
-            {
-                AspectAttribute[] aspectAttrs = AttributeUtil.GetAspectAttrsByMethod(
-                    typeof(AspectAttrMethodHoge6).GetMethod("Hoge"));
+        //[Test]
+        //public void TestGetAspectAttrsByMethod_クラスがpublicではない場合()
+        //{
+        //    try
+        //    {
+        //        AspectAttribute[] aspectAttrs = AttributeUtil.GetAspectAttrsByMethod(
+        //            typeof(AspectAttrMethodHoge6).GetMethod("Hoge"));
 
-                Assert.Fail();
-            }
-            catch (QuillApplicationException ex)
-            {
-                Assert.AreEqual("EQLL0016", ex.MessageCode);
-            }
-        }
+        //        Assert.Fail();
+        //    }
+        //    catch (QuillApplicationException ex)
+        //    {
+        //        Assert.AreEqual("EQLL0016", ex.MessageCode);
+        //    }
+        //}
 
-        [Test]
-        public void TestGetAspectAttrsByMethod_メソッドがstaticの場合()
-        {
-            try
-            {
-                AspectAttribute[] aspectAttrs = AttributeUtil.GetAspectAttrsByMethod(
-                    typeof(AspectAttrMethodHoge2).GetMethod("Hoge"));
+        //[Test]
+        //public void TestGetAspectAttrsByMethod_メソッドがstaticの場合()
+        //{
+        //    try
+        //    {
+        //        AspectAttribute[] aspectAttrs = AttributeUtil.GetAspectAttrsByMethod(
+        //            typeof(AspectAttrMethodHoge2).GetMethod("Hoge"));
 
-                Assert.Fail();
-            }
-            catch (QuillApplicationException ex)
-            {
-                Assert.AreEqual("EQLL0005", ex.MessageCode);
-            }
-        }
+        //        Assert.Fail();
+        //    }
+        //    catch (QuillApplicationException ex)
+        //    {
+        //        Assert.AreEqual("EQLL0005", ex.MessageCode);
+        //    }
+        //}
 
-        [Test]
-        public void TestGetAspectAttrsByMethod_メソッドがprivateの場合()
-        {
-            try
-            {
-                AspectAttribute[] aspectAttrs = AttributeUtil.GetAspectAttrsByMethod(
-                    typeof(AspectAttrMethodHoge3).GetMethod(
-                    "Hoge", BindingFlags.NonPublic | BindingFlags.Instance));
+        //[Test]
+        //public void TestGetAspectAttrsByMethod_メソッドがprivateの場合()
+        //{
+        //    try
+        //    {
+        //        AspectAttribute[] aspectAttrs = AttributeUtil.GetAspectAttrsByMethod(
+        //            typeof(AspectAttrMethodHoge3).GetMethod(
+        //            "Hoge", BindingFlags.NonPublic | BindingFlags.Instance));
 
-                Assert.Fail();
-            }
-            catch (QuillApplicationException ex)
-            {
-                Assert.AreEqual("EQLL0006", ex.MessageCode);
-            }
-        }
+        //        Assert.Fail();
+        //    }
+        //    catch (QuillApplicationException ex)
+        //    {
+        //        Assert.AreEqual("EQLL0006", ex.MessageCode);
+        //    }
+        //}
 
 
-        [Test]
-        public void TestGetAspectAttrsByMethod_メソッドがvirtualではない場合()
-        {
-            try
-            {
-                AspectAttribute[] aspectAttrs = AttributeUtil.GetAspectAttrsByMethod(
-                    typeof(AspectAttrMethodHoge4).GetMethod("Hoge"));
+        //[Test]
+        //public void TestGetAspectAttrsByMethod_メソッドがvirtualではない場合()
+        //{
+        //    try
+        //    {
+        //        AspectAttribute[] aspectAttrs = AttributeUtil.GetAspectAttrsByMethod(
+        //            typeof(AspectAttrMethodHoge4).GetMethod("Hoge"));
 
-                Assert.Fail();
-            }
-            catch (QuillApplicationException ex)
-            {
-                Assert.AreEqual("EQLL0007", ex.MessageCode);
-            }
-        }
+        //        Assert.Fail();
+        //    }
+        //    catch (QuillApplicationException ex)
+        //    {
+        //        Assert.AreEqual("EQLL0007", ex.MessageCode);
+        //    }
+        //}
 
-        [Test]
-        public void TestGetAspectAttrsByMethod_正常な場合()
-        {
-            AspectAttribute[] aspectAttrs = AttributeUtil.GetAspectAttrsByMethod(
-                typeof(AspectAttrMethodHoge5).GetMethod("Hoge"));
+        //[Test]
+        //public void TestGetAspectAttrsByMethod_正常な場合()
+        //{
+        //    AspectAttribute[] aspectAttrs = AttributeUtil.GetAspectAttrsByMethod(
+        //        typeof(AspectAttrMethodHoge5).GetMethod("Hoge"));
 
-            Assert.AreEqual(1, aspectAttrs.Length);
-            Assert.IsNull(aspectAttrs[0].InterceptorType);
-            Assert.AreEqual("Hogeceptor", aspectAttrs[0].ComponentName);
-        }
+        //    Assert.AreEqual(1, aspectAttrs.Length);
+        //    Assert.IsNull(aspectAttrs[0].InterceptorType);
+        //    Assert.AreEqual("Hogeceptor", aspectAttrs[0].ComponentName);
+        //}
 
         #endregion
 
@@ -393,35 +393,35 @@ namespace Seasar.Tests.Quill.Util
             public void Hoge() { }
         }
 
-        public class AspectAttrMethodHoge2
-        {
-            [Aspect("Hogeceptor")]
-            public static void Hoge() { }
-        }
+        //public class AspectAttrMethodHoge2
+        //{
+        //    [Aspect("Hogeceptor")]
+        //    public static void Hoge() { }
+        //}
 
-        public class AspectAttrMethodHoge3
-        {
-            [Aspect("Hogeceptor")]
-            private void Hoge() { }
-        }
+        //public class AspectAttrMethodHoge3
+        //{
+        //    [Aspect("Hogeceptor")]
+        //    private void Hoge() { }
+        //}
 
-        public class AspectAttrMethodHoge4
-        {
-            [Aspect("Hogeceptor")]
-            public void Hoge() { }
-        }
+        //public class AspectAttrMethodHoge4
+        //{
+        //    [Aspect("Hogeceptor")]
+        //    public void Hoge() { }
+        //}
 
-        public class AspectAttrMethodHoge5
-        {
-            [Aspect("Hogeceptor")]
-            public virtual void Hoge() { }
-        }
+        //public class AspectAttrMethodHoge5
+        //{
+        //    [Aspect("Hogeceptor")]
+        //    public virtual void Hoge() { }
+        //}
 
-        private class AspectAttrMethodHoge6
-        {
-            [Aspect("Hogeceptor")]
-            public virtual void Hoge() { }
-        }
+        //private class AspectAttrMethodHoge6
+        //{
+        //    [Aspect("Hogeceptor")]
+        //    public virtual void Hoge() { }
+        //}
 
         #endregion
 
