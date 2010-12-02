@@ -581,6 +581,7 @@ namespace Seasar.Dao.Impl
                     buf.Append(_tableName);
                     buf.Append(".");
                     buf.Append(pt.ColumnName);
+                    Console.WriteLine(pt.ColumnName);
                     buf.Append(", ");
                 }
             }

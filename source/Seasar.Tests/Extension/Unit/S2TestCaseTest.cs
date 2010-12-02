@@ -31,6 +31,7 @@ using Seasar.Framework.Exceptions;
 using Seasar.Framework.Log;
 using Seasar.Framework.Util;
 using System.Text;
+using Seasar.Unit.Core;
 
 namespace Seasar.Tests.Extension.Unit
 {
@@ -169,10 +170,10 @@ namespace Seasar.Tests.Extension.Unit
         public void SetUpWriteXlsTx()
         {
             Include(PATH);
-            string exportPath = Path.GetFullPath(ConvertPath("aaa.xls"));
+            string exportPath = Path.GetFullPath(S2TestUtils.ConvertPath(GetType(), "aaa.xls"));
             if (File.Exists(exportPath))
             {
-                File.Delete(Path.GetFullPath(ConvertPath("aaa.xls")));
+                File.Delete(Path.GetFullPath(S2TestUtils.ConvertPath(GetType(), "aaa.xls")));
             }
         }
 
@@ -216,7 +217,7 @@ namespace Seasar.Tests.Extension.Unit
             Assert.AreEqual("hoge", row["id_name"], "4");
         }
 
-        [RowTest(Description = "S2Unit.NETでMbUnitの[RowTest]に対応しているか確認。")]
+        [Test, Description("S2Unit.NETでMbUnitの[RowTest]に対応しているか確認。")]
         [Row(1, 2, 3)]
         [Row(0, 0, 0)]
         [Row(-1, -2, -3)]

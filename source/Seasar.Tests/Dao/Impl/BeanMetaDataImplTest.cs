@@ -172,7 +172,7 @@ namespace Seasar.Tests.Dao.Impl
                 set { _aaa = value; }
             }
 
-            [Column("myBbb")]
+            [Seasar.Dao.Attrs.Column("myBbb")]
             public string Bbb
             {
                 get { return _bbb; }

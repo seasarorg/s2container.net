@@ -71,7 +71,9 @@ namespace Seasar.Tests.Dao.Impl
             Assert.IsNotNull(actual);
             Assert.AreEqual(1, actual.Rows.Count);
             DataRow actualRow = actual.Rows[0];
-            Assert.AreEqual(EMP_NO, actualRow["EMPNO"]);
+            // #.NET4.0 å^ÇëµÇ¶Ç»Ç¢Ç∆ê≥èÌÇ…î‰ärÇ≈Ç´Ç»Ç¢
+            Assert.AreEqual(EMP_NO, Int32.Parse(actualRow["EMPNO"].ToString()));
+            //Assert.AreEqual(EMP_NO, actualRow["EMPNO"]);
 
             foreach ( DataColumn col in actual.Columns )
             {
@@ -102,7 +104,9 @@ namespace Seasar.Tests.Dao.Impl
             Assert.IsNotNull(actual);
             Assert.AreEqual(1, actual.Rows.Count);
             DataRow actualRow = actual.Rows[0];
-            Assert.AreEqual(EMP_NO, actualRow["EMPNO"]);
+            // #.NET4.0 å^ÇëµÇ¶Ç»Ç¢Ç∆ê≥èÌÇ…î‰ärÇ≈Ç´Ç»Ç¢
+            Assert.AreEqual(EMP_NO, Int32.Parse(actualRow["EMPNO"].ToString()));
+            //Assert.AreEqual(EMP_NO, actualRow["EMPNO"]);
 
             foreach ( DataColumn col in actual.Columns )
             {
@@ -135,7 +139,9 @@ namespace Seasar.Tests.Dao.Impl
             DataTable actualTable = actual.Tables[0];
             Assert.AreEqual(1, actualTable.Rows.Count);
             DataRow actualRow = actualTable.Rows[0];
-            Assert.AreEqual(EMP_NO, actualRow["EMPNO"]);
+            // #.NET4.0 å^ÇëµÇ¶Ç»Ç¢Ç∆ê≥èÌÇ…î‰ärÇ≈Ç´Ç»Ç¢
+            Assert.AreEqual(EMP_NO, Int32.Parse(actualRow["EMPNO"].ToString()));
+            //Assert.AreEqual(EMP_NO, actualRow["EMPNO"]);
 
             foreach ( DataColumn col in actualTable.Columns )
             {
@@ -168,7 +174,9 @@ namespace Seasar.Tests.Dao.Impl
             DataTable actualTable = actual.Tables[0];
             Assert.AreEqual(1, actualTable.Rows.Count);
             DataRow actualRow = actualTable.Rows[0];
-            Assert.AreEqual(EMP_NO, actualRow["EMPNO"]);
+            // #.NET4.0 å^ÇëµÇ¶Ç»Ç¢Ç∆ê≥èÌÇ…î‰ärÇ≈Ç´Ç»Ç¢
+            Assert.AreEqual(EMP_NO, Int32.Parse(actualRow["EMPNO"].ToString()));
+            //Assert.AreEqual(EMP_NO, actualRow["EMPNO"]);
 
             foreach ( DataColumn col in actualTable.Columns )
             {

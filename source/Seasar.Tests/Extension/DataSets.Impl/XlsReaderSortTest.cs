@@ -27,6 +27,7 @@ using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Extension.DataSets.Impl
 {
+    [Ignore("Microsoft.Jet.OLEDB4.0は32bitOSでしか動作しないため動かせず。保留。")]
     [TestFixture]
     public class XlsReaderSortTest : S2TestCase
     {
@@ -43,6 +44,7 @@ namespace Seasar.Tests.Extension.DataSets.Impl
             }
         }
 
+        [Ignore("Microsoft.Jet.OLEDB4.0は32bitOSでしか動作しないため動かせず。保留。")]
         [Test]
         public void TestCreateTable()
         {
@@ -50,6 +52,7 @@ namespace Seasar.Tests.Extension.DataSets.Impl
             Trace.WriteLine(ToStringUtil.ToString(dataSet));
         }
 
+        [Ignore("Microsoft.Jet.OLEDB4.0は32bitOSでしか動作しないため動かせず。保留。")]
         [Test]
         public void TestSort()
         {

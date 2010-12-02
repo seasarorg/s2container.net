@@ -20,7 +20,7 @@ using System;
 using System.Runtime.InteropServices;
 using HWND = System.IntPtr;
 
-namespace Seasar.Extension.UI
+namespace Seasar.Unit.UI
 {
     /// <summary>
     /// Win32 API を使用する為のファサードクラス

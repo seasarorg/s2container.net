@@ -30,6 +30,7 @@ using System.Configuration;
 namespace Seasar.Tests.Extension.DataSets.Impl
 {
     [TestFixture]
+    [Ignore("Microsoft.Jet.OLEDB4.0は32bitOSでしか動作しないため動かせず。保留。")]
     public class XlsReaderTest : S2TestCase
     {
         private const string PATH = "Seasar.Tests.Extension.DataSets.Impl.XlsReaderImplTest.xls";
@@ -45,6 +46,7 @@ namespace Seasar.Tests.Extension.DataSets.Impl
             }
         }
 
+        [Ignore("Microsoft.Jet.OLEDB4.0は32bitOSでしか動作しないため動かせず。保留。")]
         [Test]
         public void TestCreateTable()
         {
@@ -52,6 +54,7 @@ namespace Seasar.Tests.Extension.DataSets.Impl
             Trace.WriteLine(ToStringUtil.ToString(dataSet));
         }
 
+        [Ignore("Microsoft.Jet.OLEDB4.0は32bitOSでしか動作しないため動かせず。保留。")]
         [Test]
         public void TestSetupColumns()
         {
@@ -64,6 +67,7 @@ namespace Seasar.Tests.Extension.DataSets.Impl
             }
         }
 
+        [Ignore("Microsoft.Jet.OLEDB4.0は32bitOSでしか動作しないため動かせず。保留。")]
         [Test]
         public void TestSetupRows()
         {
@@ -81,6 +85,7 @@ namespace Seasar.Tests.Extension.DataSets.Impl
             Assert.AreEqual(0, table2.Rows.Count, "3");
         }
 
+        [Ignore("Microsoft.Jet.OLEDB4.0は32bitOSでしか動作しないため動かせず。保留。")]
         [Test]
         public void TestGetValue()
         {
@@ -115,6 +120,7 @@ namespace Seasar.Tests.Extension.DataSets.Impl
                 );
         }
 
+        [Ignore("Microsoft.Jet.OLEDB4.0は32bitOSでしか動作しないため動かせず。保留。")]
         [Test]
         public void TestDataRowState()
         {
@@ -122,6 +128,7 @@ namespace Seasar.Tests.Extension.DataSets.Impl
             Assert.AreEqual(DataRowState.Added, ret.Rows[0].RowState);
         }
 
+        [Ignore("Microsoft.Jet.OLEDB4.0は32bitOSでしか動作しないため動かせず。保留。")]
         [Test]
         public void TestInvalidColumn()
         {

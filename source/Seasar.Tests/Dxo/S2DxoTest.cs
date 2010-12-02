@@ -56,7 +56,7 @@ namespace Seasar.Tests.Dxo
         {
             Include(PATH);
 
-            IEmployeeDxo dxo = (IEmployeeDxo) GetComponent(typeof (IEmployeeDxo));
+            IEmployeeDxo dxo = (IEmployeeDxo)GetComponent(typeof(IEmployeeDxo));
 
 
             Employee employee = new Employee();
@@ -114,7 +114,7 @@ namespace Seasar.Tests.Dxo
         public void TestBeanToBean()
         {
             Include(PATH);
-            IBeanToBeanDxo dxo = (IBeanToBeanDxo) GetComponent(typeof (IBeanToBeanDxo));
+            IBeanToBeanDxo dxo = (IBeanToBeanDxo)GetComponent(typeof(IBeanToBeanDxo));
 
             BeanA source = new BeanA();
             source.FlagToBool = true;
@@ -127,11 +127,11 @@ namespace Seasar.Tests.Dxo
             source.IntToLong = 9876;
             source.LongToLong = 7654321;
             source.StringToLong = "1234567";
-            char[] testchar = {'t', 'e', 's', 't'};
+            char[] testchar = { 't', 'e', 's', 't' };
             source.CharToString = testchar;
             DateTime date = new DateTime(2007, 7, 2, 1, 2, 3);
             source.DateToString = date;
-            char[] testchar2 = {'t', 'e', 's', 't', '2'};
+            char[] testchar2 = { 't', 'e', 's', 't', '2' };
             source.CharToChar = testchar2;
             source.StringToChar = "test3";
             source.StringToDateTime = "20070630";
@@ -174,7 +174,7 @@ namespace Seasar.Tests.Dxo
         public void TestArray()
         {
             Include(PATH);
-            ICollectionDxo dxo = (ICollectionDxo) GetComponent(typeof (ICollectionDxo));
+            ICollectionDxo dxo = (ICollectionDxo)GetComponent(typeof(ICollectionDxo));
 
             // ”z—ñTo”z—ñ
             Department dept = new Department();
@@ -339,7 +339,7 @@ namespace Seasar.Tests.Dxo
         {
             Include(PATH);
 
-            INestedDxo dxo = (INestedDxo) GetComponent(typeof (INestedDxo));
+            INestedDxo dxo = (INestedDxo)GetComponent(typeof(INestedDxo));
             NestedEmployee emp1 = new NestedEmployee();
             emp1.Name = "001";
             emp1.Emp = new Employee();

@@ -23,7 +23,7 @@ using System.Reflection;
 using System.Text;
 using Seasar.Framework.Util;
 using Seasar.Examples;
-using Seasar.Extension.UI;
+using Seasar.Unit.UI;
 
 namespace Seasar.Examples.Impl
 {

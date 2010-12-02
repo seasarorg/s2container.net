@@ -115,7 +115,9 @@ namespace Seasar.Tests.Extension.ADO.Impl
             Assert.AreEqual(Int32.MaxValue, ret.Int32Type);
             Assert.AreEqual(Int64.MaxValue, ret.Int64Type);
             Assert.AreEqual(9999999999999999999999999999m, ret.DecimalType);
-            Assert.AreEqual(9.876543, ret.SingleType);
+            // #.NET4.0 floatå^Ç≈Ç‡è¨êîì_à»â∫ÇPÇSåÖÇ‹Ç≈Ç‡Ç¡ÇƒÇ¢ÇÈ
+            Assert.AreEqual(float.Parse("9.87654304504395"), ret.SingleType);
+            //Assert.AreEqual(9.876543, ret.SingleType);
             Assert.AreEqual(9.87654321098765, ret.DoubleType);
             Assert.AreEqual(@"í|\ñ˜Å`", ret.StringType);
             Assert.AreEqual(new DateTime(1980, 12, 17, 12, 34, 56), ret.DateTimeType);
@@ -226,7 +228,9 @@ namespace Seasar.Tests.Extension.ADO.Impl
             Assert.AreEqual(Int32.MaxValue, ret.Int32Type.Value);
             Assert.AreEqual(Int64.MaxValue, ret.Int64Type.Value);
             Assert.AreEqual(9999999999999999999999999999m, ret.DecimalType.Value);
-            Assert.AreEqual(9.876543, ret.SingleType.Value);
+            // #.NET4.0 floatå^Ç≈Ç‡è¨êîì_à»â∫ÇPÇSåÖÇ‹Ç≈Ç‡Ç¡ÇƒÇ¢ÇÈ
+            Assert.AreEqual(float.Parse("9.87654304504395"), ret.SingleType.Value);
+            //Assert.AreEqual(9.876543, ret.SingleType.Value);
             Assert.AreEqual(9.87654321098765, ret.DoubleType.Value);
             Assert.AreEqual(@"í|\ñ˜Å`", ret.StringType);
             Assert.AreEqual(new DateTime(1980, 12, 17, 12, 34, 56), ret.DateTimeType.Value);
@@ -300,7 +304,9 @@ namespace Seasar.Tests.Extension.ADO.Impl
             Assert.AreEqual(Int32.MaxValue, ret.Int32Type.Value, "5");
             Assert.AreEqual(Int64.MaxValue, ret.Int64Type.Value, "6");
             Assert.AreEqual(9999999999999999999999999999m, ret.DecimalType.Value, "7");
-            Assert.AreEqual(9.876543, ret.SingleType.Value, "8");
+            // #.NET4.0 floatå^Ç≈Ç‡è¨êîì_à»â∫ÇPÇSåÖÇ‹Ç≈Ç‡Ç¡ÇƒÇ¢ÇÈ
+            Assert.AreEqual(float.Parse("9.87654304504395"),  ret.SingleType.Value, "8");
+            //Assert.AreEqual(9.876543, ret.SingleType.Value, "8");
             Assert.AreEqual(9.87654321098765, ret.DoubleType.Value, "9");
             Assert.AreEqual(@"í|\ñ˜Å`", ret.StringType.Value, "10");
             Assert.AreEqual(new DateTime(1980, 12, 17, 12, 34, 56), ret.DateTimeType.Value, "11");

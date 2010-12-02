@@ -19,9 +19,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Seasar.Framework.Container;
-using Seasar.Framework.Aop.Proxy;
 using System.Reflection;
+using Seasar.Framework.Aop.Proxy;
+using Seasar.Framework.Container;
 using Seasar.Framework.Util;
 
 namespace Seasar.Framework.Aop.Impl

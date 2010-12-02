@@ -36,10 +36,10 @@ namespace Seasar.Quill.Attrs
         /// </summary>
         protected Type interceptorType;
 
-        /// <summary>
-        /// S2Containerにおけるコンポーネント名
-        /// </summary>
-        protected string componentName;
+        ///// <summary>
+        ///// S2Containerにおけるコンポーネント名
+        ///// </summary>
+        //protected string componentName;
 
         /// <summary>
         /// Aspectを適用する順番(数が小さいほうが先に適用される)
@@ -70,31 +70,31 @@ namespace Seasar.Quill.Attrs
             this.ordinal = ordinal;
         }
 
-        /// <summary>
-        /// InterceptorのS2Containerにおけるコンポーネント名を指定して
-        /// AspectAttributeを初期化するコンストラクタ
-        /// </summary>
-        /// <param name="componentName">S2Containerにおけるコンポーネント名</param>
-        public AspectAttribute(string componentName)
-        {
-            // S2Containerにおけるコンポーネント名を設定する
-            this.componentName = componentName;
-        }
+        ///// <summary>
+        ///// InterceptorのS2Containerにおけるコンポーネント名を指定して
+        ///// AspectAttributeを初期化するコンストラクタ
+        ///// </summary>
+        ///// <param name="componentName">S2Containerにおけるコンポーネント名</param>
+        //public AspectAttribute(string componentName)
+        //{
+        //    // S2Containerにおけるコンポーネント名を設定する
+        //    this.componentName = componentName;
+        //}
 
-        /// <summary>
-        /// InterceptorのS2Containerにおけるコンポーネント名を指定して
-        /// AspectAttributeを初期化するコンストラクタ
-        /// </summary>
-        /// <param name="componentName">S2Containerにおけるコンポーネント名</param>
-        /// <param name="ordinal">Aspectを適用する順番</param>
-        public AspectAttribute(string componentName, int ordinal)
-        {
-            // S2Containerにおけるコンポーネント名を設定する
-            this.componentName = componentName;
+        ///// <summary>
+        ///// InterceptorのS2Containerにおけるコンポーネント名を指定して
+        ///// AspectAttributeを初期化するコンストラクタ
+        ///// </summary>
+        ///// <param name="componentName">S2Containerにおけるコンポーネント名</param>
+        ///// <param name="ordinal">Aspectを適用する順番</param>
+        //public AspectAttribute(string componentName, int ordinal)
+        //{
+        //    // S2Containerにおけるコンポーネント名を設定する
+        //    this.componentName = componentName;
 
-            // Aspectを適用する順番を設定する
-            this.ordinal = ordinal;
-        }
+        //    // Aspectを適用する順番を設定する
+        //    this.ordinal = ordinal;
+        //}
 
         /// <summary>
         /// InterceptorのTypeを取得する
@@ -105,14 +105,14 @@ namespace Seasar.Quill.Attrs
             get { return interceptorType; }
         }
 
-        /// <summary>
-        /// S2Containerにおけるコンポーネント名を取得する
-        /// </summary>
-        /// <value>S2Containerにおけるコンポーネント名</value>
-        public string ComponentName
-        {
-            get { return componentName; }
-        }
+        ///// <summary>
+        ///// S2Containerにおけるコンポーネント名を取得する
+        ///// </summary>
+        ///// <value>S2Containerにおけるコンポーネント名</value>
+        //public string ComponentName
+        //{
+        //    get { return componentName; }
+        //}
 
         /// <summary>
         /// Aspectを適用する順番を取得する

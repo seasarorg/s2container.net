@@ -16,7 +16,7 @@
  */
 #endregion
 
-using Seasar.Extension.UI;
+using Seasar.Unit.UI;
 
 namespace Seasar.Examples
 {

@@ -52,9 +52,15 @@ namespace Seasar.Tests.Dao.Impl
             DataTable actualTable = (DataTable)ret;
             Assert.AreEqual(1, actualTable.Rows.Count);
             DataRow actualRow = actualTable.Rows[0];
-            Assert.AreEqual(EMP_NO, actualRow["EMPNO"]);
+            // #.NET4.0 Œ^‚ð‘µ‚¦‚È‚¢‚Æˆá‚¤’l‚Æ‚µ‚Äˆµ‚í‚ê‚é
+            //Assert.AreEqual(EMP_NO, actualRow["EMPNO"]);
+            Assert.AreEqual(EMP_NO, Int32.Parse(actualRow["EMPNO"].ToString()));
+
             Assert.AreEqual("ALLEN", actualRow["ENAME"]);
-            Assert.AreEqual(DEPT_NO, actualRow["DEPTNO"]);
+            // #.NET4.0 Œ^‚ð‘µ‚¦‚È‚¢‚Æˆá‚¤’l‚Æ‚µ‚Äˆµ‚í‚ê‚é
+            //Assert.AreEqual(DEPT_NO, actualRow["DEPTNO"]);
+            Assert.AreEqual(DEPT_NO, Int32.Parse(actualRow["DEPTNO"].ToString()));
+
             Assert.AreEqual("SALES", actualRow["DNAME"]);
         }
 
@@ -76,9 +82,13 @@ namespace Seasar.Tests.Dao.Impl
             Assert.IsTrue(actualTable is EmployeeDataSet.EmpAndDeptDataTable);
             Assert.AreEqual(1, actualTable.Rows.Count);
             DataRow actualRow = actualTable.Rows[0];
-            Assert.AreEqual(EMP_NO, actualRow["EMPNO"]);
+            // #.NET4.0 Œ^‚ð‘µ‚¦‚È‚¢‚Æˆá‚¤’l‚Æ‚µ‚Äˆµ‚í‚ê‚é
+            //Assert.AreEqual(EMP_NO, actualRow["EMPNO"]);
+            Assert.AreEqual(EMP_NO, Int32.Parse(actualRow["EMPNO"].ToString()));
             Assert.AreEqual("ALLEN", actualRow["ENAME"]);
-            Assert.AreEqual(DEPT_NO, actualRow["DEPTNO"]);
+            // #.NET4.0 Œ^‚ð‘µ‚¦‚È‚¢‚Æˆá‚¤’l‚Æ‚µ‚Äˆµ‚í‚ê‚é
+            Assert.AreEqual(DEPT_NO, Int32.Parse(actualRow["DEPTNO"].ToString()));
+            //Assert.AreEqual(DEPT_NO, actualRow["DEPTNO"]);
             Assert.AreEqual("SALES", actualRow["DNAME"]);
         }
     }

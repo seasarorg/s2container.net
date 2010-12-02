@@ -32,6 +32,7 @@ namespace Seasar.Tests.Dao.Pager
 
         public void SetUpPageLimit()
         {
+            System.Console.WriteLine("SetUpPageLimit");
             Include(PATH);
         }
 
@@ -78,6 +79,7 @@ namespace Seasar.Tests.Dao.Pager
             IPagerCondition condition = new DefaultPagerCondition();
             condition.Limit = 5;
             condition.Offset = 10;
+            System.Console.WriteLine(_employeeDao == null ? "null!!" : _employeeDao.ToString());
             IList employees = _employeeDao.GetEmployees(condition);
             Assert.AreEqual(14, condition.Count);
             Assert.AreEqual(4, employees.Count);

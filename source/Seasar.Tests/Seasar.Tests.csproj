@@ -1,4 +1,5 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
     <ProductVersion>9.0.30729</ProductVersion>
@@ -26,8 +27,24 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <SignAssembly>true</SignAssembly>
-    <OldToolsVersion>2.0</OldToolsVersion>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>bin\Debug\</OutputPath>
@@ -78,14 +95,12 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Gallio, Version=3.1.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL" />
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\net2.0\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="MbUnit.Framework, Version=2.3.0.0, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\net2.0\MbUnit.Framework.dll</HintPath>
-    </Reference>
+    <Reference Include="MbUnit, Version=3.1.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL" />
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -93,6 +108,7 @@
     <Reference Include="System.Data">
       <Name>System.Data</Name>
     </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.OracleClient" />
     <Reference Include="System.Drawing">
       <Name>System.Drawing</Name>
@@ -125,9 +141,8 @@
       <Name>Seasar.Quill</Name>
     </ProjectReference>
     <ProjectReference Include="..\Seasar.Unit\Seasar.Unit.csproj">
-      <Name>Seasar.Unit</Name>
       <Project>{FC3A021B-6288-4C34-8303-544640D22FDA}</Project>
-      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+      <Name>Seasar.Unit</Name>
     </ProjectReference>
     <ProjectReference Include="..\Seasar.Windows\Seasar.Windows.csproj">
       <Project>{B361D11C-9C58-499C-8A56-4A677BEEBB2B}</Project>
@@ -141,10 +156,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Ado.dicon" />
-    <EmbeddedResource Include="Framework\Container.Deployer\SessionComponentDeployerWebPage.aspx.resx">
-      <DependentUpon>SessionComponentDeployerWebPage.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Quill\Resouces\FormForQuillControlTest.resx">
       <DependentUpon>FormForQuillControlTest.cs</DependentUpon>
     </EmbeddedResource>
@@ -152,9 +163,6 @@
     <EmbeddedResource Include="TSTMessages.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <None Include="App.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <EmbeddedResource Include="DTCTx.dicon" />
     <EmbeddedResource Include="ImplicitTx.dicon" />
     <EmbeddedResource Include="LocalTx.dicon" />
@@ -179,7 +187,12 @@
     <EmbeddedResource Include="Dao\Impl\IEmployeeDao_UpdateSqlFileEncodingDefault.sql" />
     <EmbeddedResource Include="Dao\Impl\IEmployeeDao_UpdateSqlFileEncodingUTF8.sql" />
     <EmbeddedResource Include="Dao\Interceptors\IEmployeeDao_Insert.sql" />
-    <EmbeddedResource Include="Dao\Pager\PagerDataReaderWrapperTest.dicon" />
+    <EmbeddedResource Include="Dao\Pager\PagerDataReaderWrapperTest.dicon">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Dao\Impl\EmployeeDataSet.xsc">
       <DependentUpon>EmployeeDataSet.xsd</DependentUpon>
     </None>
@@ -214,28 +227,6 @@
     <None Include="Extension\Unit\testdata.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <EmbeddedResource Include="Framework\Aop.Proxy\AopProxy.dicon" />
-    <EmbeddedResource Include="Framework\Aop.Proxy\DynamicProxy.dicon" />
-    <EmbeddedResource Include="Framework\Container.Factory\aaa.dicon" />
-    <EmbeddedResource Include="Framework\Container.Factory\ArgTagHandlerTest.dicon" />
-    <EmbeddedResource Include="Framework\Container.Factory\AspectTagHandlerTest.dicon" />
-    <EmbeddedResource Include="Framework\Container.Factory\bbb.dicon" />
-    <EmbeddedResource Include="Framework\Container.Factory\ccc.dicon" />
-    <EmbeddedResource Include="Framework\Container.Factory\ComponentsTagHandlerTest.dicon" />
-    <EmbeddedResource Include="Framework\Container.Factory\ComponentTagHandlerTest.dicon" />
-    <EmbeddedResource Include="Framework\Container.Factory\DestroyMethodTagHandlerTest.dicon" />
-    <EmbeddedResource Include="Framework\Container.Factory\IncludeTagHandlerTest.dicon" />
-    <EmbeddedResource Include="Framework\Container.Factory\IncludeTagHandlerTestChild.dicon" />
-    <EmbeddedResource Include="Framework\Container.Factory\IncludeTagHandlerTestGrandChild.dicon" />
-    <EmbeddedResource Include="Framework\Container.Factory\InitMethodTagHandlerTest.dicon" />
-    <EmbeddedResource Include="Framework\Container.Factory\MetaTagHandlerTest.dicon" />
-    <EmbeddedResource Include="Framework\Container.Factory\PropertyTagHandlerTest.dicon" />
-    <EmbeddedResource Include="Framework\Container.Impl\child.dicon" />
-    <EmbeddedResource Include="Framework\Container.Impl\obj.dicon" />
-    <EmbeddedResource Include="Framework\Container.Impl\root.dicon" />
-    <EmbeddedResource Include="Framework\Container.Impl\test1.dicon" />
-    <EmbeddedResource Include="Framework\Container.Impl\test2.dicon" />
-    <EmbeddedResource Include="Framework\Container.Impl\test3.dicon" />
     <EmbeddedResource Include="Framework\Unit\aaa.dicon" />
     <EmbeddedResource Include="Framework\Unit\bbb.dicon" />
     <EmbeddedResource Include="Framework\Unit\ccc.dicon" />
@@ -478,8 +469,6 @@
     <Compile Include="Extension\NullableBasicTypeBean.cs" />
     <Compile Include="Extension\NullableEnumTypeBean.cs" />
     <Compile Include="Extension\SqlTypeBasicTypeBean.cs" />
-    <Compile Include="Extension\Tx.Impl\DTCRequiredInterceptorTest.cs" />
-    <Compile Include="Extension\Tx.Impl\DTCRequiresNewInterceptorTest.cs" />
     <Compile Include="Extension\Tx.Impl\LocalNotSupportedInterceptorTest.cs" />
     <Compile Include="Extension\Tx.Impl\LocalRequiredInterceptorTest.cs" />
     <Compile Include="Extension\Tx.Impl\LocalRequiresNewInterceptorTest.cs" />
@@ -495,37 +484,16 @@
     <Compile Include="Extension\Unit\DictionaryReaderTest.cs" />
     <Compile Include="Extension\Unit\S2AssertTest.cs" />
     <Compile Include="Extension\Unit\S2TestCaseTest.cs" />
-    <Compile Include="Framework\Aop.Impl\MethodInvocationImplTest.cs" />
-    <Compile Include="Framework\Aop.Impl\PointcutImplTest.cs" />
-    <Compile Include="Framework\Aop.Interceptors\InterceptorChainTest.cs" />
-    <Compile Include="Framework\Aop.Interceptors\MockInterceptorTest.cs" />
-    <Compile Include="Framework\Aop.Proxy\AopProxyTest.cs" />
-    <Compile Include="Framework\Aop.Proxy\DynamicAopProxyTest.cs" />
     <Compile Include="Framework\Beans\Factory\BeanDescFactoryTest.cs" />
     <Compile Include="Framework\Beans\Impl\BeanDescImplTest.cs" />
     <Compile Include="Framework\Beans\Impl\FieldDescImplTest.cs" />
     <Compile Include="Framework\Beans\Impl\MethodDescImplTest.cs" />
     <Compile Include="Framework\Beans\Impl\PropertyDescImplTest.cs" />
-    <Compile Include="Framework\Container.Assembler\AutoConstructorAssemblerTest.cs" />
-    <Compile Include="Framework\Container.Assembler\AutoPropertyAssemblerTest.cs" />
-    <Compile Include="Framework\Container.Assembler\DefaultConstructorAssemblerTest.cs" />
-    <Compile Include="Framework\Container.Assembler\DefaultDestroyMethodAssemblerTest.cs" />
-    <Compile Include="Framework\Container.Assembler\DefaultInitMethodAssemblerTest.cs" />
-    <Compile Include="Framework\Container.Assembler\ExpressionConstructorAssemblerTest.cs" />
-    <Compile Include="Framework\Container.Assembler\ManualConstructorAssemblerTest.cs" />
-    <Compile Include="Framework\Container.Assembler\ManualPropertyAssemblerTest.cs" />
-    <Compile Include="Framework\Container.AutoRegister\AbstractComponentAutoRegisterTest.cs" />
-    <Compile Include="Framework\Container.AutoRegister\AspectAutoRegisterTest.cs" />
-    <Compile Include="Framework\Container.AutoRegister\AssemblyComponentAutoRegisterTest.cs" />
-    <Compile Include="Framework\Container.AutoRegister\ClassPatternTest.cs" />
-    <Compile Include="Framework\Container.AutoRegister\DefaultAutoNamingTest.cs" />
-    <Compile Include="Framework\Container.Deployer\OuterComponentDeployerTest.cs" />
-    <Compile Include="Framework\Container.Deployer\PrototypeComponentDeployerTest.cs" />
-    <Compile Include="Framework\Container.Deployer\RequestComponentDeployerTest.cs" />
-    <Compile Include="Framework\Container.Deployer\SessionComponentDeployerTest.cs" />
-    <Compile Include="Framework\Container.Deployer\SessionComponentDeployerWebPage.aspx.cs">
-      <DependentUpon>SessionComponentDeployerWebPage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
+    <Compile Include="Framework\Container.Util\AutoBindingUnitTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Framework\Container.Util\MetaDefSupportTest.cs">
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Framework\Resources\ResourceEnableTest.cs" />
     <Compile Include="Framework\Util\AssignTypeUtilTest.cs" />
@@ -561,24 +529,6 @@
     <Compile Include="Quill\Unit\QuillTestCaseTest.cs" />
     <Compile Include="Quill\Util\AttributeUtilTest.cs" />
     <Compile Include="Quill\Util\MessageUtilTest.cs" />
-    <Compile Include="Framework\Container.Deployer\SingletonComponentDeployerTest.cs" />
-    <Compile Include="Framework\Container.Factory\ArgTagHandlerTest.cs" />
-    <Compile Include="Framework\Container.Factory\AspectTagHandlerTest.cs" />
-    <Compile Include="Framework\Container.Factory\ComponentsTagHandlerTest.cs" />
-    <Compile Include="Framework\Container.Factory\ComponentTagHandlerTest.cs" />
-    <Compile Include="Framework\Container.Factory\DestroyMethodTagHandlerTest.cs" />
-    <Compile Include="Framework\Container.Factory\IncludeTagHandlerTest.cs" />
-    <Compile Include="Framework\Container.Factory\InitMethodTagHandlerTest.cs" />
-    <Compile Include="Framework\Container.Factory\MetaTagHandlerTest.cs" />
-    <Compile Include="Framework\Container.Factory\PropertyTagHandlerTest.cs" />
-    <Compile Include="Framework\Container.Factory\SingletonS2ContainerFactoryTest.cs" />
-    <Compile Include="Framework\Container.Impl\ArgDefImplTest.cs" />
-    <Compile Include="Framework\Container.Impl\AspectDefImplTest.cs" />
-    <Compile Include="Framework\Container.Impl\ComponentDefImplTest.cs" />
-    <Compile Include="Framework\Container.Impl\NestIncludeTest.cs" />
-    <Compile Include="Framework\Container.Impl\S2ContainerImplTest.cs" />
-    <Compile Include="Framework\Container.Util\AutoBindingUnitTest.cs" />
-    <Compile Include="Framework\Container.Util\MetaDefSupportTest.cs" />
     <Compile Include="Framework\Exceptions\SRuntimeExceptionTest.cs" />
     <Compile Include="Framework\Log\LoggerTest.cs" />
     <Compile Include="Framework\Message\MessageFormatterTest.cs" />
@@ -601,9 +551,28 @@
     <Compile Include="Quill\Xml\QuillSectionHandlerTest.cs" />
     <Compile Include="Quill\Xml\QuillSectionLoaderTest.cs" />
     <Compile Include="Windows\Resources\ResourceEnableTest.cs" />
-    <Content Include="Framework\Container.Deployer\SessionComponentDeployerWebPage.aspx" />
     <EmbeddedResource Include="Framework\Util\test1.xml" />
     <EmbeddedResource Include="Framework\Xml\test1.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows インストーラー 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Quill\Dao\Interceptor\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -58,7 +58,8 @@ namespace Seasar.Tests.Extension.Unit
             Assert.AreEqual(DataRowState.Unchanged, row.RowState);
             Assert.AreEqual(12, columns.Count);
 
-            Assert.AreEqual(1, row["id"]);
+            // ”’l‚Å”äŠr‚·‚é‚Æ32bit/64bitŠÂ‹«‚ÅÀsŒ‹‰Ê‚ª•Ï‚í‚é‚Ì‚Å•¶š—ñ‚Å”äŠr
+            Assert.AreEqual("1", row["id"].ToString());
             Assert.AreEqual(true, row["booltype"]);
             Assert.AreEqual(SByte.MaxValue, row["sbytetype"]);
             Assert.AreEqual(Byte.MaxValue, row["bytetype"]);
@@ -221,7 +222,8 @@ namespace Seasar.Tests.Extension.Unit
             Assert.AreEqual(DataRowState.Unchanged, row.RowState);
             Assert.AreEqual(12, columns.Count);
 
-            Assert.AreEqual(1, row["id"]);
+            // ”’l‚Å”äŠr‚·‚é‚Æ32bit/64bitŠÂ‹«‚ÅÀsŒ‹‰Ê‚ª•Ï‚í‚é‚Ì‚Å•¶š—ñ‚Å”äŠr
+            Assert.AreEqual("1", row["id"].ToString());
             Assert.AreEqual(true, row["booltype"]);
             Assert.AreEqual(SByte.MaxValue, row["sbytetype"]);
             Assert.AreEqual(Byte.MaxValue, row["bytetype"]);
@@ -329,7 +331,8 @@ namespace Seasar.Tests.Extension.Unit
             Assert.AreEqual(DataRowState.Unchanged, row.RowState);
             Assert.AreEqual(11, columns.Count);
 
-            Assert.AreEqual(1, row["id"]);
+            // ”’l‚Å”äŠr‚·‚é‚Æ32bit/64bitŠÂ‹«‚ÅÀsŒ‹‰Ê‚ª•Ï‚í‚é‚Ì‚Å•¶š—ñ‚Å”äŠr
+            Assert.AreEqual("1", row["id"].ToString());
             Assert.AreEqual(true, row["booltype"]);
             Assert.AreEqual(Byte.MaxValue, row["bytetype"]);
             Assert.AreEqual(Int16.MaxValue, row["int16type"]);

@@ -23,7 +23,7 @@ using Seasar.Dao.Attrs;
 namespace Seasar.Quill.Examples.Dao
 {
     [Implementation]
-    [Aspect("DaoInterceptor")]
+    //[Aspect("DaoInterceptor")]
     [Bean(typeof(Employee))]
     public interface IEmployeeDao
     {

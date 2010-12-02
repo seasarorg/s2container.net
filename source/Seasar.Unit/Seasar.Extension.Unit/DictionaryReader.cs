@@ -20,6 +20,7 @@ using System;
 using System.Collections;
 using System.Data;
 using Seasar.Framework.Util;
+using Seasar.Unit;
 
 namespace Seasar.Extension.Unit
 {

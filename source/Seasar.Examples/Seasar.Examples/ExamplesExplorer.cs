@@ -21,8 +21,8 @@ using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using Seasar.Extension.UI;
-using Seasar.Extension.UI.Forms;
+using Seasar.Unit.UI;
+using Seasar.Unit.UI.Forms;
 
 namespace Seasar.Examples
 {

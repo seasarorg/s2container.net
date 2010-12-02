@@ -27,6 +27,7 @@ using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Extension.DataSets.Impl
 {
+    [Ignore("Microsoft.Jet.OLEDB4.0は32bitOSでしか動作しないため動かせず。保留。")]
     [TestFixture]
     public class XlsWriterTest : S2TestCase
     {
@@ -55,6 +56,7 @@ namespace Seasar.Tests.Extension.DataSets.Impl
             }
         }
 
+        [Ignore("Microsoft.Jet.OLEDB4.0は32bitOSでしか動作しないため動かせず。保留。")]
         [Test]
         public void TestWrite()
         {

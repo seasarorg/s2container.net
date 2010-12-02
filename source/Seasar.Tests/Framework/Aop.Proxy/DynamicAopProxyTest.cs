@@ -189,7 +189,13 @@ namespace Seasar.Tests.Framework.Aop.Proxy
 
             public string Prop
             {
-                set { _prop = value; }
+                set
+                {
+                    // TEMP S -----
+                    Console.WriteLine("Prop:{0}", value);
+                    // TEMP G -----
+                    _prop = value;
+                }
                 get { return _prop; }
             }
         }

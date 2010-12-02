@@ -1,4 +1,5 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
     <ProductVersion>9.0.21022</ProductVersion>
@@ -27,8 +28,9 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <SignAssembly>true</SignAssembly>
-    <OldToolsVersion>2.0</OldToolsVersion>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>bin\Debug\</OutputPath>
@@ -77,10 +79,8 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MbUnit.Framework, Version=2.3.0.0, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\net2.0\MbUnit.Framework.dll</HintPath>
-    </Reference>
+    <Reference Include="Gallio, Version=3.1.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL" />
+    <Reference Include="MbUnit, Version=3.1.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL" />
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -104,43 +104,25 @@
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Seasar.Extension.Unit\BeanListReader.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Extension.Unit\BeanReader.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Extension.Unit\DictionaryListReader.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Extension.Unit\DictionaryReader.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Extension.Unit\S2Assert.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Extension.Unit\S2Attribute.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Extension.Unit\S2TestCase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Extension.Unit\S2TestCaseRunInvoker.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Extension.Unit\S2TestCaseRunner.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Framework.Unit\S2FrameworkTestCaseBase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Seasar.Framework.Unit\S2FrameworkTestCaseRunner.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Seasar.Extension.Unit\BeanListReader.cs" />
+    <Compile Include="Seasar.Extension.Unit\BeanReader.cs" />
+    <Compile Include="Seasar.Extension.Unit\DictionaryListReader.cs" />
+    <Compile Include="Seasar.Extension.Unit\DictionaryReader.cs" />
+    <Compile Include="Seasar.Extension.Unit\EnumTx.cs" />
+    <Compile Include="Seasar.Extension.Unit\S2Assert.cs" />
+    <Compile Include="Seasar.Extension.Unit\S2Attribute.cs" />
+    <Compile Include="Seasar.Extension.Unit\S2TestCase.cs" />
+    <Compile Include="Seasar.Extension.Unit\S2TestCaseRunner.cs" />
+    <Compile Include="Seasar.Framework.Unit\S2FrameworkTestCaseBase.cs" />
     <Compile Include="Seasar.Quill.Unit\QuillAttribute.cs" />
     <Compile Include="Seasar.Quill.Unit\QuillTestCase.cs" />
-    <Compile Include="Seasar.Quill.Unit\QuillTestCaseRunInvoker.cs" />
     <Compile Include="Seasar.Quill.Unit\QuillTestCaseRunner.cs" />
+    <Compile Include="Seasar.Unit.Core\S2MbUnitAttributeBase.cs" />
+    <Compile Include="Seasar.Unit.Core\S2SpecialMethodNameConst.cs" />
+    <Compile Include="Seasar.Unit.Core\S2TestCaseBase.cs" />
+    <Compile Include="Seasar.Unit.Core\S2TestCaseRunnerBase.cs" />
+    <Compile Include="Seasar.Unit.Core\S2TestExcel.cs" />
+    <Compile Include="Seasar.Unit.Core\S2TestUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Seasar.snk" />

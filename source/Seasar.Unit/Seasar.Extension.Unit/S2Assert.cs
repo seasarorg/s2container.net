@@ -18,7 +18,7 @@
 
 using System.Collections;
 using System.Data;
-using MbUnit.Core.Exceptions;
+using Gallio.Framework.Assertions;
 using MbUnit.Framework;
 using Seasar.Extension.DataSets;
 using Seasar.Extension.DataSets.Types;

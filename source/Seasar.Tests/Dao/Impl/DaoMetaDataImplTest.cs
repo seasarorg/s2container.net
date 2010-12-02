@@ -664,7 +664,7 @@ namespace Seasar.Tests.Dao.Impl
         {
             if (Dbms.Dbms != KindOfDbms.MSSQLServer && Dbms.Dbms != KindOfDbms.Oracle)
             {
-                Assert.Ignore("ProcedureのテストはSQL ServerとOracleしか用意していない。");
+                //Assert.Ignore("ProcedureのテストはSQL ServerとOracleしか用意していない。");
             }
             double sales = 0.4;
             double ret = _procedureDao.GetSalesTax2(sales);
@@ -676,7 +676,7 @@ namespace Seasar.Tests.Dao.Impl
         {
             if (Dbms.Dbms != KindOfDbms.MSSQLServer && Dbms.Dbms != KindOfDbms.Oracle)
             {
-                Assert.Ignore("ProcedureのテストはSQL ServerとOracleしか用意していない。");
+                //Assert.Ignore("ProcedureのテストはSQL ServerとOracleしか用意していない。");
             }
             double sales = 0.4;
             double tax;
@@ -689,7 +689,7 @@ namespace Seasar.Tests.Dao.Impl
         {
             if (Dbms.Dbms != KindOfDbms.MSSQLServer && Dbms.Dbms != KindOfDbms.Oracle)
             {
-                Assert.Ignore("ProcedureのテストはSQL ServerとOracleしか用意していない。");
+                //Assert.Ignore("ProcedureのテストはSQL ServerとOracleしか用意していない。");
             }
             double sales = 0.4;
             _procedureDao.GetSalesTax3(ref sales);
@@ -701,7 +701,7 @@ namespace Seasar.Tests.Dao.Impl
         {
             if (Dbms.Dbms != KindOfDbms.MSSQLServer && Dbms.Dbms != KindOfDbms.Oracle)
             {
-                Assert.Ignore("ProcedureのテストはSQL ServerとOracleしか用意していない。");
+                //Assert.Ignore("ProcedureのテストはSQL ServerとOracleしか用意していない。");
             }
             double sales = 0.4;
             double tax;
