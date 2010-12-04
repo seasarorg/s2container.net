@@ -18,8 +18,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seasar.Quill.Examples", "Se
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seasar.Dao", "Seasar.Dao\Seasar.Dao.csproj", "{474715CA-5C99-4C50-ADFA-FB628824DFF0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seasar.Dao.Examples", "Seasar.Dao.Examples\Seasar.Dao.Examples.csproj", "{D10462BB-F8BB-49E3-94C7-BEC5E94C2263}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seasar.Dxo", "Seasar.Dxo\Seasar.Dxo.csproj", "{0C7A87F7-786E-43FB-846C-DE1583622A79}"
 EndProject
 Global
@@ -122,16 +120,6 @@ Global
 		{474715CA-5C99-4C50-ADFA-FB628824DFF0}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{474715CA-5C99-4C50-ADFA-FB628824DFF0}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{474715CA-5C99-4C50-ADFA-FB628824DFF0}.Release|x86.ActiveCfg = Release|Any CPU
-		{D10462BB-F8BB-49E3-94C7-BEC5E94C2263}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D10462BB-F8BB-49E3-94C7-BEC5E94C2263}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D10462BB-F8BB-49E3-94C7-BEC5E94C2263}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{D10462BB-F8BB-49E3-94C7-BEC5E94C2263}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{D10462BB-F8BB-49E3-94C7-BEC5E94C2263}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{D10462BB-F8BB-49E3-94C7-BEC5E94C2263}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D10462BB-F8BB-49E3-94C7-BEC5E94C2263}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D10462BB-F8BB-49E3-94C7-BEC5E94C2263}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{D10462BB-F8BB-49E3-94C7-BEC5E94C2263}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{D10462BB-F8BB-49E3-94C7-BEC5E94C2263}.Release|x86.ActiveCfg = Release|Any CPU
 		{0C7A87F7-786E-43FB-846C-DE1583622A79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0C7A87F7-786E-43FB-846C-DE1583622A79}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C7A87F7-786E-43FB-846C-DE1583622A79}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
