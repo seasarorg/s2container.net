@@ -265,7 +265,13 @@ namespace Seasar.Tests.Quill
             SelectableDataSourceProxyWithDictionary ds = (SelectableDataSourceProxyWithDictionary)qc.GetComponentObject(
                 typeof(SelectableDataSourceProxyWithDictionary));
             Assert.IsNotNull(ds, "2");
+#if NET_4_0
             Assert.GreaterThanOrEqualTo<int>(ds.DataSourceCollection.Count, 7);
+#else
+#region NET2.0
+            Assert.GreaterEqualThan(ds.DataSourceCollection.Count, 7);
+#endregion
+#endif
 
             foreach (string key in ds.DataSourceCollection.Keys)
             {

@@ -29,6 +29,14 @@ using Seasar.Framework.Aop.Impl;
 
 namespace Seasar.Framework.Aop.Proxy
 {
+#if NET_4_0    
+    /// <summary>
+    /// Castle.DynamicProxyを使用した、Aspect実行のためのプロキシクラス
+    /// </summary>
+    [Serializable]
+    public class DynamicAopProxy
+#else
+    #region NET2.0
     /// <summary>
     /// Castle.DynamicProxyを使用した、Aspect実行のためのプロキシクラス
     /// </summary>
@@ -38,15 +46,25 @@ namespace Seasar.Framework.Aop.Proxy
     /// <version>1.7.2 2006/07/24</version>
     ///
     [Serializable]
-    public class DynamicAopProxy
+    public class DynamicAopProxy : IInterceptor
+#endregion
+#endif
     {
         #region fields
-
         private readonly ProxyGenerator _generator;
+
+#if NET_4_0
         private readonly Type _componentType;
-
         private readonly IInterceptor[] _interceptors;
-
+#else
+#region NET2.0
+        private readonly IAspect[] _aspects;
+        private readonly Hashtable _interceptors = new Hashtable();
+        private readonly Type _type;
+        private readonly Type _enhancedType;
+        private readonly Hashtable _parameters;
+#endregion
+#endif
         #endregion
 
         #region constructors
@@ -81,6 +99,7 @@ namespace Seasar.Framework.Aop.Proxy
         {
         }
 
+#if NET_4_0
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -97,11 +116,44 @@ namespace Seasar.Framework.Aop.Proxy
             _interceptors = new IInterceptor[] { new InterceptorAdapter(
                 interceptorMap, componentType, parameters) };
         }
+#else
+#region NET2.0
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="type">Aspectが適用される型</param>
+        /// <param name="aspects">適用するAspectの配列</param>
+        /// <param name="parameters">パラメータ</param>
+        /// <param name="target">Aspectが適用されるターゲット</param>
+        public DynamicAopProxy(Type type, IAspect[] aspects, Hashtable parameters, object target)
+        {
+            _type = type;
+            _aspects = aspects;
+            _parameters = parameters;
+            _generator = new ProxyGenerator();
+
+            if (_type.IsInterface)
+            {
+                if (target == null)
+                {
+                    target = new object();
+                }
+                _enhancedType = _generator.ProxyBuilder.CreateInterfaceProxy(new Type[] { _type }, target.GetType());
+            }
+            else
+            {
+                _enhancedType = _generator.ProxyBuilder.CreateClassProxy(_type);
+            }
+            SetUpAspects();
+        }
+#endregion
+#endif
 
         #endregion
 
         #region public method
 
+#if NET_4_0
         /// <summary>
         /// プロキシオブジェクトを生成します
         /// </summary>
@@ -164,11 +216,116 @@ namespace Seasar.Framework.Aop.Proxy
         {
             return (T)Create(typeof(T), target);
         }
+#else
+#region NET2.0
+        /// <summary>
+        /// プロキシオブジェクトを生成します
+        /// </summary>
+        public object Create()
+        {
+            if (_type.IsInterface)
+            {
+                return Create(new object());
+            }
+            else
+            {
+                return Activator.CreateInstance(_enhancedType, new object[] { this });
+            }
+        }
+
+        /// <summary>
+        /// プロキシオブジェクトを生成します
+        /// </summary>
+        public object Create(object target)
+        {
+            return Create(_type, target);
+        }
+
+        public object Create(Type type, object target)
+        {
+            ArrayList args = new ArrayList();
+            args.Add(this);
+            if (_type.IsInterface)
+            {
+                args.AddRange(new object[] { null });
+            }
+            if (type.IsInterface && target.GetType() != typeof(object))
+            {
+                return _generator.CreateProxy(type, this, target);
+            }
+            else
+            {
+                return Activator.CreateInstance(_enhancedType, args.ToArray());
+            }
+        }
+
+        /// <summary>
+        /// プロキシオブジェクトを生成します    
+        /// </summary>
+        /// <param name="argTypes">パラメタ型の配列</param>
+        /// <param name="args">生成時のパラメタの配列</param>
+        public object Create(Type[] argTypes, object[] args)
+        {
+            ArrayList newArgs = new ArrayList();
+            newArgs.Add(this);
+            newArgs.AddRange(args);
+            return Activator.CreateInstance(_enhancedType, newArgs.ToArray());
+        }
+
+        /// <summary>
+        /// プロキシオブジェクトを生成します
+        /// </summary>
+        /// <param name="argTypes">パラメタ型の配列</param>
+        /// <param name="args">生成時のパラメタの配列</param>
+        /// <param name="targetType">ターゲットの型</param>
+        public object Create(Type[] argTypes, object[] args, Type targetType)
+        {
+            if (_type.IsInterface)
+            {
+                return _generator.CreateProxy(targetType, this, args);
+            }
+            else
+            {
+                return _generator.CreateClassProxy(targetType, this, args);
+            }
+        }
+#endregion
+#endif
 
         #endregion
 
-        #region private methods
+#if NET_4_0
+        // 実装なし
+#else
+#region NET2.0
+        #region IInterceptor member
 
+        public object Intercept(IInvocation invocation, params object[] args)
+        {
+            object ret;
+            if ((invocation.Proxy == invocation.InvocationTarget ||
+                !(invocation.Method.IsVirtual && !invocation.Method.IsFinal)) &&
+                _interceptors.ContainsKey(invocation.Method))
+            {
+                IMethodInterceptor[] interceptors = _interceptors[invocation.Method] as IMethodInterceptor[];
+                IMethodInvocation mehotdInvocation =
+                   new DynamicProxyMethodInvocation(invocation.InvocationTarget, _type, invocation, args, interceptors, _parameters);
+                ret = interceptors[0].Invoke(mehotdInvocation);
+
+            }
+            else
+            {
+                ret = invocation.Proceed(args);
+            }
+            return ret;
+        }
+
+        #endregion
+#endregion
+#endif
+
+        #region private methods
+#if NET_4_0
         /// <summary>
         /// アスペクトをセットアップします
         /// </summary>
@@ -207,8 +364,41 @@ namespace Seasar.Framework.Aop.Proxy
             
             return interceptorMap;
         }
-
+#else
+#region NET2.0
+        /// <summary>
+        /// アスペクトをセットアップします
+        /// </summary>
+        private void SetUpAspects()
+        {
+            if (_aspects != null)
+            {
+                MethodInfo[] methodInfos = _type.GetMethods();
+                foreach (MethodInfo method in methodInfos)
+                {
+                    if (method.IsVirtual || _type.IsInterface)
+                    {
+                        ArrayList interceptorList = new ArrayList();
+                        foreach (IAspect aspect in _aspects)
+                        {
+                            IPointcut pointcut = aspect.Pointcut;
+                            if (pointcut == null || pointcut.IsApplied(method))
+                            {
+                                interceptorList.Add(aspect.MethodInterceptor);
+                            }
+                        }
+                        if (interceptorList.Count > 0)
+                        {
+                            IMethodInterceptor[] interceptors = (IMethodInterceptor[])
+                            interceptorList.ToArray(typeof(IMethodInterceptor));
+                            _interceptors.Add(method, interceptors);
+                        }
+                    }
+                }
+            }
+        }
+#endregion
+#endif
         #endregion
-
     }
 }

@@ -16,6 +16,7 @@
  */
 #endregion
 
+#if NET_4_0
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -109,3 +110,4 @@ namespace Seasar.Framework.Aop.Impl
         }
     }
 }
+#endif

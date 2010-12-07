@@ -48,8 +48,8 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\net2.0\Release\</OutputPath>
-    <DefineConstants>TRACE;NET_2_0</DefineConstants>
+    <OutputPath>bin\net4.0\Release\</OutputPath>
+    <DefineConstants>TRACE;NET_4_0</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>

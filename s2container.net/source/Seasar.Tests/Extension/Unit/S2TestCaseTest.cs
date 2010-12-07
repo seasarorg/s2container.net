@@ -31,7 +31,9 @@ using Seasar.Framework.Exceptions;
 using Seasar.Framework.Log;
 using Seasar.Framework.Util;
 using System.Text;
+#if NET_4_0
 using Seasar.Unit.Core;
+#endif
 
 namespace Seasar.Tests.Extension.Unit
 {
@@ -112,6 +114,9 @@ namespace Seasar.Tests.Extension.Unit
         }
 
         [Test, S2(Seasar.Extension.Unit.Tx.NotSupported)]
+#if NET_4_0
+        [Ignore(".NET4でのS2Container対応はペンディング")]
+#endif
         public void TestCommandFactoryNull()
         {
             Assert.AreSame(BasicCommandFactory.INSTANCE, CommandFactory);
@@ -149,7 +154,8 @@ namespace Seasar.Tests.Extension.Unit
             Assert.AreEqual(2, table.Rows.Count, "2");
             Assert.AreEqual(3, table.Columns.Count, "3");
             DataRow row = table.Rows[0];
-            Assert.AreEqual(9900m, row["empno"], "4");
+            // 数値だと環境によって結果が変わるので文字列で比較
+            Assert.AreEqual("9900", row["empno"].ToString(), "4");
             Assert.AreEqual("hoge", row["ename"], "5");
             Assert.AreEqual("aaa", row["dname"], "6");
         }
@@ -170,10 +176,22 @@ namespace Seasar.Tests.Extension.Unit
         public void SetUpWriteXlsTx()
         {
             Include(PATH);
+#if NET_4_0
             string exportPath = Path.GetFullPath(S2TestUtils.ConvertPath(GetType(), "aaa.xls"));
+#else
+#region NET2.0
+            string exportPath = Path.GetFullPath(ConvertPath("aaa.xls"));
+#endregion
+#endif
             if (File.Exists(exportPath))
             {
+#if NET_4_0
                 File.Delete(Path.GetFullPath(S2TestUtils.ConvertPath(GetType(), "aaa.xls")));
+#else
+#region NET2.0
+                File.Delete(Path.GetFullPath(ConvertPath("aaa.xls")));
+#endregion
+#endif
             }
         }
 
@@ -213,11 +231,18 @@ namespace Seasar.Tests.Extension.Unit
             Assert.AreEqual(2, table.Rows.Count, "1");
             Assert.AreEqual(2, table.Columns.Count, "2");
             DataRow row = table.Rows[0];
-            Assert.AreEqual(831m, row["id"], "3");
+            // 数値だと環境によって結果が変わるので文字列で比較
+            Assert.AreEqual("831", row["id"].ToString(), "3");
             Assert.AreEqual("hoge", row["id_name"], "4");
         }
 
+#if NET_4_0
         [Test, Description("S2Unit.NETでMbUnitの[RowTest]に対応しているか確認。")]
+#else
+#region NET2.0
+        [RowTest(Description = "S2Unit.NETでMbUnitの[RowTest]に対応しているか確認。")]
+#endregion
+#endif
         [Row(1, 2, 3)]
         [Row(0, 0, 0)]
         [Row(-1, -2, -3)]

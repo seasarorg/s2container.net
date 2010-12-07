@@ -1,10 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B361D11C-9C58-499C-8A56-4A677BEEBB2B}</ProjectGuid>
+    <ProjectGuid>{AE895955-F47F-4976-A1D4-A388C5C808FA}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ApplicationIcon>
@@ -27,9 +26,8 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <SignAssembly>true</SignAssembly>
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile />
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>bin\Debug\</OutputPath>
@@ -55,13 +53,13 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <OutputPath>bin\net4.0\Release\</OutputPath>
+    <OutputPath>bin\net2.0\Release\</OutputPath>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <BaseAddress>285212672</BaseAddress>
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>TRACE;NET_4_0</DefineConstants>
+    <DefineConstants>TRACE;NET_2_0</DefineConstants>
     <DocumentationFile>
     </DocumentationFile>
     <DebugSymbols>false</DebugSymbols>
@@ -136,16 +134,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Seasar.Quill\Seasar.Quill.csproj">
-      <Project>{4C1D6F42-4178-4C68-8277-B2978BF784FF}</Project>
-      <Name>Seasar.Quill</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Seasar\Seasar.csproj">
-      <Project>{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}</Project>
-      <Name>Seasar</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Seasar.snk" />
   </ItemGroup>
   <ItemGroup>
@@ -157,6 +145,16 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SWFMessages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Seasar.Quill\Seasar.Quill-2008.csproj">
+      <Project>{14FDE5A2-C163-4EB4-8D41-E5F612126A4E}</Project>
+      <Name>Seasar.Quill-2008</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Seasar\Seasar-2008.csproj">
+      <Project>{A64532EE-8303-4477-80A0-9B873D17AF9D}</Project>
+      <Name>Seasar-2008</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

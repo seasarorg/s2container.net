@@ -18,11 +18,17 @@
 
 using System.Collections;
 using System.Data;
-using Gallio.Framework.Assertions;
 using MbUnit.Framework;
 using Seasar.Extension.DataSets;
 using Seasar.Extension.DataSets.Types;
 using Seasar.Framework.Util;
+#if NET_4_0
+using Gallio.Framework.Assertions;
+#else
+#region NET2.0
+using MbUnit.Core.Exceptions;
+#endregion
+#endif
 
 namespace Seasar.Extension.Unit
 {

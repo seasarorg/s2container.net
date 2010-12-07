@@ -115,7 +115,13 @@ namespace Seasar.Tests.Dao.Impl
                 entity.EntityNo = 1001;
                 int count = (int) cmdUpd.Execute(new object[] { entity });
                 Assert.AreEqual(1, count, "1");
+#if NET_4_0
                 Assert.GreaterThanOrEqualTo<DateTime>(entity.Ddate.Value, beforeDate);
+#else
+#region NET2.0
+                Assert.GreaterEqualThan(entity.Ddate.Value, beforeDate);
+#endregion
+#endif
             }
             {
                 GenericNullableEntity entity = (GenericNullableEntity) cmdGet.Execute(new object[] { 101 });
@@ -127,7 +133,13 @@ namespace Seasar.Tests.Dao.Impl
                 entity.EntityNo = 1002;
                 int count = (int) cmdProps.Execute(new object[] { entity });
                 Assert.AreEqual(1, count, "2");
+#if NET_4_0
                 Assert.GreaterThanOrEqualTo<DateTime>(entity.Ddate.Value, beforeDate);
+#else
+#region NET2.0
+                Assert.GreaterEqualThan(entity.Ddate.Value, beforeDate);
+#endregion
+#endif
             }
         }
 #endif

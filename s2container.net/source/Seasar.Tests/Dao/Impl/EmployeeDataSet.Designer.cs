@@ -277,7 +277,13 @@ namespace Seasar.Tests.Dao.Impl {
         ///</summary>
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+#if NET_4_0
         public partial class EmpAndDeptDataTable : global::System.Data.TypedTableBase<EmpAndDeptRow> {
+#else
+#region NET2.0
+        public partial class EmpAndDeptDataTable : System.Data.DataTable, System.Collections.IEnumerable {
+#endregion
+#endif
             
             private global::System.Data.DataColumn columnDEPTNO;
             
@@ -647,6 +653,17 @@ namespace Seasar.Tests.Dao.Impl {
                 xs.Add(dsSchema);
                 return type;
             }
+#if NET_4_0
+            // 実装なし
+#else
+#region NET2.0
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual System.Collections.IEnumerator GetEnumerator()
+            {
+                return this.Rows.GetEnumerator();
+            }
+#endregion
+#endif
         }
         
         /// <summary>

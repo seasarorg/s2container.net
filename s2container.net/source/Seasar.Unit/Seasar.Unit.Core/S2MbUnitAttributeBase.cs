@@ -15,7 +15,7 @@
  * governing permissions and limitations under the License.
  */
 #endregion
-
+#if NET_4_0
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -174,8 +174,7 @@ namespace Seasar.Unit.Core
                 }
             }
             return false;
-        }
-
-        
+        }        
     }
 }
+#endif

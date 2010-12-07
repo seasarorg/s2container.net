@@ -382,7 +382,14 @@ namespace Seasar.Tests.Extension.ADO.Impl {
         ///</summary>
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+#if NET_4_0
         public partial class EMPDataTable : global::System.Data.TypedTableBase<EMPRow> {
+#else
+#region NET2.0
+        public partial class EMPDataTable : System.Data.DataTable, System.Collections.IEnumerable
+        {
+#endregion
+#endif
             
             private global::System.Data.DataColumn columnEMPNO;
             
@@ -747,6 +754,18 @@ namespace Seasar.Tests.Extension.ADO.Impl {
                 xs.Add(dsSchema);
                 return type;
             }
+
+#if NET_4_0
+            // 実装なし
+#else
+            #region NET2.0
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual System.Collections.IEnumerator GetEnumerator()
+            {
+                return this.Rows.GetEnumerator();
+            }
+            #endregion
+#endif
         }
         
         /// <summary>
@@ -754,7 +773,14 @@ namespace Seasar.Tests.Extension.ADO.Impl {
         ///</summary>
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+#if NET_4_0
         public partial class EMP2DataTable : global::System.Data.TypedTableBase<EMP2Row> {
+#else
+#region NET2.0
+        public partial class EMP2DataTable : System.Data.DataTable, System.Collections.IEnumerable
+        {
+#endregion
+#endif
             
             private global::System.Data.DataColumn columnEMPNO;
             
@@ -1034,6 +1060,17 @@ namespace Seasar.Tests.Extension.ADO.Impl {
                 xs.Add(dsSchema);
                 return type;
             }
+#if NET_4_0
+            // 実装なし
+#else
+            #region NET2.0
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual System.Collections.IEnumerator GetEnumerator()
+            {
+                return this.Rows.GetEnumerator();
+            }
+            #endregion
+#endif
         }
         
         /// <summary>
@@ -1041,7 +1078,14 @@ namespace Seasar.Tests.Extension.ADO.Impl {
         ///</summary>
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+#if NET_4_0
         public partial class DEPTDataTable : global::System.Data.TypedTableBase<DEPTRow> {
+#else
+#region NET2.0
+        public partial class DEPTDataTable : System.Data.DataTable, System.Collections.IEnumerable
+        {
+#endregion
+#endif
             
             private global::System.Data.DataColumn columnDEPTNO;
             
@@ -1350,6 +1394,17 @@ namespace Seasar.Tests.Extension.ADO.Impl {
                 xs.Add(dsSchema);
                 return type;
             }
+#if NET_4_0
+            // 実装なし
+#else
+            #region NET2.0
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual System.Collections.IEnumerator GetEnumerator()
+            {
+                return this.Rows.GetEnumerator();
+            }
+            #endregion
+#endif
         }
         
         /// <summary>
@@ -1357,7 +1412,14 @@ namespace Seasar.Tests.Extension.ADO.Impl {
         ///</summary>
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+#if NET_4_0
         public partial class IDTABLEDataTable : global::System.Data.TypedTableBase<IDTABLERow> {
+#else
+#region NET2.0
+        public partial class IDTABLEDataTable : System.Data.DataTable, System.Collections.IEnumerable
+        {
+#endregion
+#endif
             
             private global::System.Data.DataColumn columnID;
             
@@ -1625,6 +1687,18 @@ namespace Seasar.Tests.Extension.ADO.Impl {
                 xs.Add(dsSchema);
                 return type;
             }
+
+#if NET_4_0
+            // 実装なし
+#else
+            #region NET2.0
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual System.Collections.IEnumerator GetEnumerator()
+            {
+                return this.Rows.GetEnumerator();
+            }
+            #endregion
+#endif
         }
         
         /// <summary>

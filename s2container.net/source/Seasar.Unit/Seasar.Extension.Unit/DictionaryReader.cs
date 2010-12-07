@@ -20,7 +20,9 @@ using System;
 using System.Collections;
 using System.Data;
 using Seasar.Framework.Util;
+#if NET_4_0
 using Seasar.Unit;
+#endif
 
 namespace Seasar.Extension.Unit
 {

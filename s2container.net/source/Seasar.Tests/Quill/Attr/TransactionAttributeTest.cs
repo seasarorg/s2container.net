@@ -82,13 +82,25 @@ namespace Seasar.Tests.Quill.Attr
                 emp.Ename = "TestCommit";
                 //  トランザクション境界がInsert,Deleteといったメソッドに
                 //  なっているはずなので実行ごとにコミットされているはず
+#if NET_4_0
                 Assert.GreaterThan<int>(actual.Insert(emp), 0);
+#else
+#region NET2.0
+                Assert.GreaterThan(actual.Insert(emp), 0);
+#endregion
+#endif
 
                 Employee emp1 = actual.GetEmployee((int)emp.Empno);
                 Assert.IsNotNull(emp1);
                 Assert.AreEqual(emp.Ename, emp1.Ename);
 
+#if NET_4_0
                 Assert.GreaterThan<int>(actual.Delete(emp1), 0);
+#else
+#region NET2.0
+                Assert.GreaterThan(actual.Delete(emp), 0);
+#endregion
+#endif
 
                 Employee emp2 = actual.GetEmployee((int)emp.Empno);
                 Assert.IsNull(emp2);

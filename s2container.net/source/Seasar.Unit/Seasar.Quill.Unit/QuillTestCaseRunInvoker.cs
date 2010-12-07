@@ -16,17 +16,27 @@
  */
 #endregion
 
-#if NET_4_0
-namespace Seasar.Extension.Unit
+using System.Collections;
+using MbUnit.Core.Invokers;
+using Seasar.Extension.Unit;
+
+namespace Seasar.Quill.Unit
 {
-    /// <summary>
-    /// テストトランザクション動作定義列挙体
-    /// </summary>
-    public enum Tx
-    {
-        Rollback,
-        Commit,
-        NotSupported
-    }
+	public class QuillTestCaseRunInvoker : DecoratorRunInvoker
+	{
+        private readonly QuillTestCaseRunner _runner;
+        private readonly Tx _tx;
+
+        public QuillTestCaseRunInvoker(IRunInvoker invoker, Tx tx)
+            : base(invoker)
+        {
+            _tx = tx;
+            _runner = new QuillTestCaseRunner();
+        }
+
+        public override object Execute(object o, IList args)
+        {
+            return _runner.Run(Invoker, o, args, _tx);
+        }
+	}
 }
-#endif

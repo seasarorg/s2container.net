@@ -16,6 +16,7 @@
  */
 #endregion
 
+#if NET_4_0
 using System.Data;
 using Seasar.Extension.ADO;
 using Seasar.Extension.ADO.Impl;
@@ -264,3 +265,4 @@ namespace Seasar.Unit.Core
         }
     }
 }
+#endif
