@@ -69,22 +69,13 @@ namespace Seasar.Extension.Unit
                 {
                     if (Container.HasComponentDef(typeof(ICommandFactory)))
                     {
-                        //*
-                        Console.WriteLine("□□□");
-                        //*/
                         _commandFactory = Container.GetComponent(typeof(ICommandFactory)) as ICommandFactory;
                     }
                     else
                     {
-                        //*
-                        Console.WriteLine("☆☆☆");
-                        //*/
                         _commandFactory = BasicCommandFactory.INSTANCE;
                     }
                 }
-                //*
-                Console.WriteLine("○○○");
-                //*/
                 return _commandFactory;
             }
         }
