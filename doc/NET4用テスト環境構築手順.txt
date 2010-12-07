@@ -1,0 +1,23 @@
+１．必要環境
+	・Windows XP(sp3) or 7 (VISTAも可能と思いますが未確認）
+	・VisualStudio2010（エディションはどれでも可）
+	　（VS2010のインストールに伴ってコンパイルに必要なSDKなどもインストールされる）
+	・SQLServer2005 or 2008（エディションはどれでも可）
+	・Gallio 3.1
+		http://www.gallio.org/Downloads.aspx
+		Gallio v3.1 Update 2 build 397 - x86 (32bit用）
+		Gallio v3.1 Update 2 build 397 - x64 (64bit用）
+
+２．テストデータ準備
+	・SQLServer2005 or 2008で下記SQLファイルを実行する
+		data/demo.sql
+
+３．コンパイル
+	・下記のどちらかの方法でコンパイルを実行
+		a. VisualStudio2010でsource/Seasar.slnを開いてビルド
+		b. souce/Seasar-Build-Tests.batを実行
+
+４．テスト実行
+	・Galiioを起動し、メニュー「Project」から「Add Files」を選択
+	・source/Seasar.Tests/bin/net4.0/Release/Seasar.Test.dllを選択
+	・F5キー、またはメニュー「Tests」から「Start」を選択
