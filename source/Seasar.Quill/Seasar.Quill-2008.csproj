@@ -1,11 +1,10 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4C1D6F42-4178-4C68-8277-B2978BF784FF}</ProjectGuid>
+    <ProjectGuid>{14FDE5A2-C163-4EB4-8D41-E5F612126A4E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Seasar.Quill</RootNamespace>
@@ -16,9 +15,8 @@
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile />
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,18 +30,15 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\net4.0\Release\</OutputPath>
-    <DefineConstants>TRACE;NET_4_0</DefineConstants>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Castle.Core, Version=2.5.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+    <Reference Include="Castle.DynamicProxy, Version=1.1.5.0, Culture=neutral, PublicKeyToken=f362209d9bee91d8, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\net4.0\Castle.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Castle.Windsor">
-      <HintPath>..\..\lib\net4.0\Castle.Windsor.dll</HintPath>
+      <HintPath>..\..\lib\net2.0\Castle.DynamicProxy.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -115,20 +110,6 @@
     <Compile Include="Xml\QuillSectionLoader.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Seasar.Dao\Seasar.Dao.csproj">
-      <Project>{474715CA-5C99-4C50-ADFA-FB628824DFF0}</Project>
-      <Name>Seasar.Dao</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Seasar.DynamicProxy\Seasar.DynamicProxy.csproj">
-      <Project>{063DED73-CA16-4038-904D-5A18A630843D}</Project>
-      <Name>Seasar.DynamicProxy</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Seasar\Seasar.csproj">
-      <Project>{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}</Project>
-      <Name>Seasar</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\QuillControl.gif" />
     <None Include="Seasar.snk" />
   </ItemGroup>
@@ -151,6 +132,20 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="QuillControl.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Seasar.Dao\Seasar.Dao-2008.csproj">
+      <Project>{C291B662-8DAC-48E1-8964-2B19F1DC61F1}</Project>
+      <Name>Seasar.Dao-2008</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Seasar.DynamicProxy\Seasar.DynamicProxy-2008.csproj">
+      <Project>{F450C0F8-FBA4-49F4-B602-2931480301D0}</Project>
+      <Name>Seasar.DynamicProxy-2008</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Seasar\Seasar-2008.csproj">
+      <Project>{A64532EE-8303-4477-80A0-9B873D17AF9D}</Project>
+      <Name>Seasar-2008</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

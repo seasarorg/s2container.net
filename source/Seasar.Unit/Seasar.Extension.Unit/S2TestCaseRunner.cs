@@ -16,24 +16,41 @@
  */
 #endregion
 
-using System;
 using System.Collections;
-using System.Reflection;
 using Seasar.Extension.ADO;
 using Seasar.Extension.Tx;
 using Seasar.Framework.Container;
+using Seasar.Framework.Util;
+
+#if NET_4_0
+using System;
+using System.Reflection;
 using Seasar.Framework.Container.Factory;
 using Seasar.Unit.Core;
+#else
+#region NET2.0
+using MbUnit.Core.Invokers;
+using Seasar.Extension.Tx.Impl;
+using Seasar.Framework.Unit;
+#endregion
+#endif
 
 namespace Seasar.Extension.Unit
 {
     /// <summary>
     /// S2Containerを使用したテスト実行クラス
     /// </summary>
+#if NET_4_0
     public class S2TestCaseRunner : S2TestCaseRunnerBase
+#else
+#region NET2.0
+    public class S2TestCaseRunner : S2FrameworkTestCaseRunner
+#endregion
+#endif
     {
         private static readonly string DATASOURCE_NAME = string.Format("Ado{0}DataSource", ContainerConstants.NS_SEP);
 
+#if NET_4_0
         private IS2Container _container;
         private IList _bindedFields;
 
@@ -235,5 +252,95 @@ namespace Seasar.Extension.Unit
                 }
             }
         }
+#else
+#region NET2.0
+        protected Tx _tx;
+        private ITransactionContext _tc;
+        private IDataSource _dataSource;
+
+        public object Run(IRunInvoker invoker, object o, IList args, Tx tx)
+        {
+            _tx = tx;
+            _fixture = o as S2TestCase;
+            return Run(invoker, o, args);
+        }
+
+        protected override void BeginTransactionContext()
+        {
+            if (Tx.NotSupported != _tx)
+            {
+                _tc = (ITransactionContext)Container.GetComponent(typeof(ITransactionContext));
+                _tc.Begin();
+            }
+        }
+
+        protected override void EndTransactionContext()
+        {
+            if (_tc != null)
+            {
+                if (Tx.Commit == _tx)
+                {
+                    _tc.Commit();
+                }
+                if (Tx.Rollback == _tx)
+                {
+                    _tc.Rollback();
+                }
+            }
+        }
+
+        protected override void SetUpAfterContainerInit()
+        {
+            base.SetUpAfterContainerInit();
+            SetupDataSource();
+        }
+
+        protected override void TearDownBeforeContainerDestroy()
+        {
+            TearDownDataSource();
+            base.TearDownBeforeContainerDestroy();
+        }
+
+        protected virtual void SetupDataSource()
+        {
+            if (Container.HasComponentDef(DATASOURCE_NAME))
+            {
+                _dataSource = Container.GetComponent(DATASOURCE_NAME) as IDataSource;
+            }
+            else if (Container.HasComponentDef(typeof(IDataSource)))
+            {
+                _dataSource = Container.GetComponent(typeof(IDataSource)) as IDataSource;
+            }
+            if (_fixture != null && _dataSource != null)
+            {
+                ((S2TestCase)_fixture).SetDataSource(_dataSource);
+            }
+        }
+
+        protected virtual void TearDownDataSource()
+        {
+            TxDataSource txDataSource = _dataSource as TxDataSource;
+            if (txDataSource != null)
+            {
+                if (txDataSource.Context.Connection != null)
+                {
+                    txDataSource.CloseConnection(txDataSource.Context.Connection);
+                }
+            }
+
+            S2TestCase fixture = _fixture as S2TestCase;
+            if (fixture != null)
+            {
+                if (fixture.HasConnection)
+                {
+                    ConnectionUtil.Close(fixture.Connection);
+                    fixture.SetConnection(null);
+                }
+                fixture.SetDataSource(null);
+            }
+            _dataSource = null;
+        }
+#endregion
+#endif
     }
 }

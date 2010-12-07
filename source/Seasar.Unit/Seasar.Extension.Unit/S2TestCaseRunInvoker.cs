@@ -1,4 +1,4 @@
-﻿#region Copyright
+#region Copyright
 /*
  * Copyright 2005-2010 the Seasar Foundation and the Others.
  *
@@ -16,17 +16,26 @@
  */
 #endregion
 
-#if NET_4_0
+using System.Collections;
+using MbUnit.Core.Invokers;
+
 namespace Seasar.Extension.Unit
 {
-    /// <summary>
-    /// テストトランザクション動作定義列挙体
-    /// </summary>
-    public enum Tx
+    public class S2TestCaseRunInvoker : DecoratorRunInvoker
     {
-        Rollback,
-        Commit,
-        NotSupported
+        private readonly S2TestCaseRunner _runner;
+        private readonly Tx _tx;
+
+        public S2TestCaseRunInvoker(IRunInvoker invoker, Tx tx)
+            : base(invoker)
+        {
+            _tx = tx;
+            _runner = new S2TestCaseRunner();
+        }
+
+        public override object Execute(object o, IList args)
+        {
+            return _runner.Run(Invoker, o, args, _tx);
+        }
     }
 }
-#endif

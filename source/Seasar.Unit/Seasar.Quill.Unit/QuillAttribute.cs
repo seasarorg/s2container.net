@@ -16,13 +16,24 @@
  */
 #endregion
 
+#if NET_4_0
 using Seasar.Unit.Core;
+#else
+#region NET2.0
+using System;
+using MbUnit.Core.Framework;
+using MbUnit.Core.Invokers;
+using Seasar.Extension.Unit;
+using Seasar.Quill.Util;
+#endregion
+#endif
 
 namespace Seasar.Quill.Unit
 {
     /// <summary>
     /// Quillを使用するテスト属性
     /// </summary>
+#if NET_4_0
     public class QuillAttribute : S2MbUnitAttributeBase
     {
         public QuillAttribute() : base()
@@ -39,4 +50,28 @@ namespace Seasar.Quill.Unit
             return new QuillTestCaseRunner(txTreatment);
         }
     }
+#else
+#region NET2.0
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
+    public sealed class QuillAttribute : DecoratorPatternAttribute
+    {
+        private readonly Tx _tx;
+
+        public QuillAttribute()
+        {
+            _tx = Tx.NotSupported;
+        }
+
+        public QuillAttribute(Tx tx)
+        {
+            _tx = tx;
+        }
+
+        public override IRunInvoker GetInvoker(IRunInvoker invoker)
+        {
+            return new QuillTestCaseRunInvoker(invoker, _tx);
+        }
+    }
+#endregion
+#endif
 }

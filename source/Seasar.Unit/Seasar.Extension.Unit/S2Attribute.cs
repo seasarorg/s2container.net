@@ -16,13 +16,22 @@
  */
 #endregion
 
+#if NET_4_0
 using Seasar.Unit.Core;
+#else
+#region NET2.0
+using System;
+using MbUnit.Core.Framework;
+using MbUnit.Core.Invokers;
+#endregion
+#endif
 
 namespace Seasar.Extension.Unit
 {
     /// <summary>
     /// S2Container用テスト属性
     /// </summary>
+#if NET_4_0
     public class S2Attribute : S2MbUnitAttributeBase
     {
         public S2Attribute()
@@ -40,4 +49,35 @@ namespace Seasar.Extension.Unit
             return new S2TestCaseRunner(txTreatment);
         }
     }
+#else
+#region NET2.0
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
+    public sealed class S2Attribute : DecoratorPatternAttribute
+    {
+        private readonly Tx _tx;
+
+        public S2Attribute()
+        {
+            _tx = Tx.NotSupported;
+        }
+
+        public S2Attribute(Tx tx)
+        {
+            _tx = tx;
+        }
+
+        public override IRunInvoker GetInvoker(IRunInvoker invoker)
+        {
+            return new S2TestCaseRunInvoker(invoker, _tx);
+        }
+    }
+
+    public enum Tx
+    {
+        Rollback,
+        Commit,
+        NotSupported
+    }
+#endregion
+#endif
 }

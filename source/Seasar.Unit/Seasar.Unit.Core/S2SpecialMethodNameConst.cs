@@ -16,6 +16,7 @@
  */
 #endregion
 
+#if NET_4_0
 namespace Seasar.Unit.Core
 {
     /// <summary>
@@ -27,3 +28,4 @@ namespace Seasar.Unit.Core
         public const string TEAR_DOWN = "TearDown";
     }
 }
+#endif

@@ -103,9 +103,16 @@ namespace Seasar.Framework.Aop.Impl
             {
                 return _interceptors[_interceptorsIndex++].Invoke(this);
             }
+
             // 呼び出し終わったら元のメソッドの処理を呼び出す
+#if NET_4_0
             _invocation.Proceed();
             return _invocation.ReturnValue;
+#else
+#region NET2.0
+            return _invocation.Proceed(_arguments);
+#endregion
+#endif
         }
 
         #endregion

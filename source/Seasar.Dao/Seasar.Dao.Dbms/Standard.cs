@@ -39,7 +39,6 @@ namespace Seasar.Dao.Dbms
         {
             StringBuilder buf = new StringBuilder(100);
             buf.Append(beanMetaData.AutoSelectList);
-            System.Console.WriteLine("Åôaaa_" + beanMetaData.AutoSelectList);
             buf.Append(" ");
             string beanName = beanMetaData.BeanType.Name;
             lock (_autoSelectFromClauseCache)
