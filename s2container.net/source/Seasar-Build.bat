@@ -10,3 +10,4 @@ msbuild Seasar.sln /p:Configuration=Release /t:Clean;Rebuild
 msbuild Seasar-Build.xml /target:CopyBuildFiles
 
 ENDLOCAL
+pause
