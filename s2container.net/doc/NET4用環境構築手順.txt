@@ -31,6 +31,8 @@ http://s2container.net.seasar.org/ja/index.html
 ・lib/net4.0/Castle.Core.dll
 ・lib/net4.0/Gallio.dll
 ・lib/net4.0/MbUnit.dll
+（他、必要に応じて。詳細は下記URLをご参照下さい）
+http://s2container.net.seasar.org/ja/index.html
 
 =================================================================
                                                  Seasar.Tests実行
