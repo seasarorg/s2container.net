@@ -45,34 +45,6 @@ namespace Seasar.Tests.Quill
         private const string CONFIG_EMPTY = "QuillConfigTest_Empty";
         private const string CONFIG_FULL = "QuillConfigTest_Full";
 
-        /// <summary>
-        /// ConnectionStringを変更するだけで接続先を切り替えることができるか確認するためのテスト
-        /// </summary>
-        [Ignore("環境依存、実験用のテストのため")]
-        [Test]
-        public void TestChangeConnection()
-        {
-            // 接続に失敗する接続文字列で初期化
-            using (IDbConnection connection = new SqlConnection("Server=xxxx"))
-            {
-                try
-                {
-                    connection.Open();
-                    Assert.Fail();
-                }
-                catch (SqlException ex)
-                {
-                    Console.WriteLine("接続失敗 Exception={0},Message={1}", ex.GetType().Name, ex.Message);
-                }
-
-                // 接続に成功する文字列を指定
-                connection.ConnectionString = "Server=localhost\\SQLEXPRESS;database=s2dotnetdemo;Integrated Security=SSPI";
-                // 接続に成功する（ConnectionStringの変更のみで接続先を変更できる
-                connection.Open();
-                connection.Close();
-            }
-        }
-
         #region HasXxx 設定有無判定
         [Test]
         public void TestHasQuillConfig()
