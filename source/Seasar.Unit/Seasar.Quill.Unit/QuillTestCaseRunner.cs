@@ -63,6 +63,8 @@ namespace Seasar.Quill.Unit
         protected override void SetUpContainer(object fixtureInstance)
         {
             QuillConfig.ConfigPath = null;
+            GetInjector().Inject(fixtureInstance);
+
             var config = QuillConfig.GetInstance();
 
             //  Quillの設定ファイルがあればS2Dao、Transaction設定を使用する
@@ -76,9 +78,6 @@ namespace Seasar.Quill.Unit
                 _daoSettingType = SettingUtil.GetDefaultDaoSettingType();
                 _transactionSettingType = SettingUtil.GetDefaultTransactionType();
             }
-
-            //  必要なコンポーネントを作成した上でインジェクション実行
-            QuillInjector.GetInstance().Inject(fixtureInstance);
         }
 
         protected override void SetUpAfterContainerInit(object fixtureInstance)
@@ -93,12 +92,12 @@ namespace Seasar.Quill.Unit
 
         protected override void TearDownContainer(object fixtureInstance)
         {
-            QuillInjector.GetInstance().Destroy();
+            GetInjector().Destroy();
         }
 
         protected override ITransactionContext GetTransactionContext()
         {
-            var container = QuillInjector.GetInstance().Container;
+            var container = GetInjector().Container;
             var txSetting = (ITransactionSetting)ComponentUtil.GetComponent(
                 container, _transactionSettingType);
 
@@ -108,7 +107,7 @@ namespace Seasar.Quill.Unit
 
         protected override Extension.ADO.IDataSource GetDataSource(object fixtureInstance)
         {
-            var container = QuillInjector.GetInstance().Container;
+            var container = GetInjector().Container;
             var dataSource = (SelectableDataSourceProxyWithDictionary)ComponentUtil.GetComponent(
                 container, typeof(SelectableDataSourceProxyWithDictionary));
             dataSource.SetDataSourceName(null);
@@ -157,6 +156,15 @@ namespace Seasar.Quill.Unit
             }
             ds.SetDataSourceName(null);
             base.TearDownDataSource(fixtureInstance);
+        }
+
+        /// <summary>
+        /// singletonなQuillInjectorインスタンス取得のショートカットメソッド
+        /// </summary>
+        /// <returns></returns>
+        protected virtual QuillInjector GetInjector()
+        {
+            return QuillInjector.GetInstance();
         }
 #else
 #region NET2.0
