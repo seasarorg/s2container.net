@@ -155,6 +155,7 @@ namespace Seasar.Unit.Core
                     txDataSource.CloseConnection(txDataSource.Context.Connection);
                 }
             }
+
             if (typeof(S2TestCaseBase).IsAssignableFrom(fixtureInstance.GetType()))
             {
                 var fixture = (S2TestCaseBase)fixtureInstance;
