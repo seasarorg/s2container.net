@@ -135,26 +135,16 @@ namespace Seasar.Quill.Unit
 
         protected override void TearDownDataSource(object fixtureInstance)
         {
-            if (_dataSource == null || 
-                ! typeof(SelectableDataSourceProxyWithDictionary).IsAssignableFrom(_dataSource.GetType()))
+            if (_dataSource != null && _transactionContext != null)
             {
-                return;
+                _dataSource.CloseConnection(_transactionContext.Connection);
             }
 
             var ds = (SelectableDataSourceProxyWithDictionary)_dataSource;
-            foreach (var dataSourceName in ds.DataSourceCollection.Keys)
+            if (ds != null)
             {
-                var currentDataSource = ds.GetDataSource(dataSourceName);
-                var txDataSource = currentDataSource as TxDataSource;
-                if (txDataSource != null)
-                {
-                    if (txDataSource.Context != null && txDataSource.Context.Connection != null)
-                    {
-                        txDataSource.CloseConnection(txDataSource.Context.Connection);
-                    }
-                }
+                ds.SetDataSourceName(null);
             }
-            ds.SetDataSourceName(null);
             base.TearDownDataSource(fixtureInstance);
         }
 
