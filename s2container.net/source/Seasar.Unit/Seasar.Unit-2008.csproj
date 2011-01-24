@@ -1,0 +1,156 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{05DB1E9F-5AA1-48C2-BB1E-2CDBAE533F03}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>Seasar.Unit</AssemblyName>
+    <AssemblyOriginatorKeyFile>Seasar.snk</AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <RootNamespace>
+    </RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <SignAssembly>true</SignAssembly>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE;DEBUG;NET_2_0</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\net2.0\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE;NET_2_0</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MbUnit.Framework, Version=2.3.0.0, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\net2.0\MbUnit.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Extension.Unit\BeanListReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Extension.Unit\BeanReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Extension.Unit\DictionaryListReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Extension.Unit\DictionaryReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Extension.Unit\S2Assert.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Extension.Unit\S2Attribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Extension.Unit\S2TestCase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Extension.Unit\S2TestCaseRunInvoker.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Extension.Unit\S2TestCaseRunner.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Framework.Unit\S2FrameworkTestCaseBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Framework.Unit\S2FrameworkTestCaseRunner.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Seasar.Quill.Unit\QuillAttribute.cs" />
+    <Compile Include="Seasar.Quill.Unit\QuillTestCase.cs" />
+    <Compile Include="Seasar.Quill.Unit\QuillTestCaseRunInvoker.cs" />
+    <Compile Include="Seasar.Quill.Unit\QuillTestCaseRunner.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Seasar.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Seasar.Quill\Seasar.Quill-2008.csproj">
+      <Project>{14FDE5A2-C163-4EB4-8D41-E5F612126A4E}</Project>
+      <Name>Seasar.Quill-2008</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Seasar\Seasar-2008.csproj">
+      <Project>{A64532EE-8303-4477-80A0-9B873D17AF9D}</Project>
+      <Name>Seasar-2008</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

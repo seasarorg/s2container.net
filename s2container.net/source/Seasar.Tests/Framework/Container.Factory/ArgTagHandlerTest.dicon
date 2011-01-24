@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
+"http://www.seasar.org/dtd/components21.dtd">
+<components>
+  <component class="System.Decimal">
+    <arg>
+      1
+    </arg>
+  </component>
+  <component class="Seasar.Tests.Framework.Container.Factory.ArgTagHandlerTest+A">
+    <arg>"A"</arg>
+    <arg>DayOfWeek.Friday</arg>
+    <arg>System.DayOfWeek.Sunday</arg>
+  </component>
+
+</components>
