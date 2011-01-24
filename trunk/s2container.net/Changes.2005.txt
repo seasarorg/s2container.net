@@ -1,0 +1,451 @@
+﻿S2Container.NET 1.3.18
+2010/08/03
+** Improvement
+	* [CONTAINERNET-137] プロパティが多いPONOをバインドすると時間がかかってしまう
+** Bug
+	* [CONTAINERNET-133] app.configの設定読込時、「conime.exe」が起動しないようにする
+	* [CONTAINERNET-136] QuillControlを使用したフォームを継承した場合、継承フォームをデザイナで開いたときにインジェクションが実行される
+	* [CONTAINERNET-139] メソッド単位にかけたトランザクションがクラス全体にかかる
+** Task
+	* [CONTAINERNET-132] MbUnitのバージョンアップ
+	* [CONTAINERNET-135] ソースファイルとhtmlファイルのCopyright の"2005-2009"の文字列を"2005-2010"の文字列に更新する。
+
+S2Dao.NET 1.3.18
+2010/08/03
+	* [DAONET-85] ストアドプロシージャを実行するメソッドの引数がSystem.Nullable<T>だとエラーが発生する
+
+---------------------------------------------------------------------------------------
+S2Container.NET 1.3.17
+2009/09/18
+** Implrovement
+	* [CONTAINERNET-129] Transaction属性を一つのクラスorメソッドに複数付けられるようにする
+	* [CONTAINERNET-131] プロパティが多いPONOをS2Formにバインドすると時間がかかる
+** Bug
+	* [CONTAINERNET-127] 異なるデータソースに対してトランザクションを開始するとDBアクセス時に意図している先と違うデータソースに接続してしまうことがある。
+	* [CONTAINERNET-128] QuillInjector.GetInstance時に排他制御をかける
+** Task
+	* [CONTAINERNET-130] 【Quill】複数データソース接続についてドキュメントを書く
+
+S2Dao.NET 1.3.17
+2009/09/18
+	変更点なし
+
+---------------------------------------------------------------------------------------
+S2Container.NET 1.3.16.1
+2009/06/06
+** Bug
+	* [CONTAINERNET-126] - Quillコントロールをフォームに貼り付け・使用することができない
+	
+S2Dao.NET 1.3.16.1
+2009/06/06
+	変更点なし
+
+---------------------------------------------------------------------------------------
+S2Container.NET 1.3.16
+2009/06/02
+** Bug
+	* [CONTAINERNET-120] - [Implementation]属性を付けたクラスが相互参照している場合、インジェクション実行時にオーバーフローとなる
+	* [CONTAINERNET-121] - {Quill}: ログ出力の名前空間による原因での例外
+	
+S2Dao.NET 1.3.16
+2009/06/02
+	変更点なし
+
+---------------------------------------------------------------------------------------
+S2Container.NET 1.3.15
+2009/04/12
+** Bug
+	* [CONTAINERNET-117] - MbUnitの[RowTest]に対応する
+	* [CONTAINERNET-118] - Dxoを使用する際にあるメソッドへのDatePatternAttribute の指定が、指定されていないメソッドに影響する
+	* [CONTAINERNET-119] - IList<XXX>型のプロパティをDataGridViewにバインドしてDeleteRow/AddRowを呼ぶとInvalidCastExceptionとなる
+	* [CONTAINERNET-121] - S2Dxo.NETでネストされたPONOのプロパティの階層制限がない
+	
+S2Dao.NET 1.3.15
+2009/04/12
+** Task
+	* [DAONET-81] - Daoインターフェースの初期化時のデータベースからテーブル定義情報の高速化
+
+---------------------------------------------------------------------------------------
+S2Container.NET 1.3.14
+2009/02/11
+** Improvement
+	* [CONTAINERNET-107]      QuillでHashMapを使ってインジェクションできるようにする
+	* [CONTAINERNET-113]      quillセクションの説明を追加する
+	* [CONTAINERNET-116]      SQLite版のQuill用プロバイダクラスを追加する
+** Bug
+	* [CONTAINERNET-106]      Firebird .NET Data Provider 2.xに対応する
+	* [CONTAINERNET-110]      データソース名のログ出力を必要最低限にする
+	* [CONTAINERNET-111]      QuillTestCaseでS2Containerの設定がなくてもExcelを扱えるようにする
+	* [CONTAINERNET-112]	  AbstractTransactionSetting#Setup内で必要ないITransactionContext設定が行われている
+** Task
+	* [CONTAINERNET-114]      Copyright の"2004-2008"を"2004-2009"に更新
+	* [CONTAINERNET-115]      Quill用メッセージ(QLLMessages.resx)を英語化する
+
+S2Dao 1.3.14
+2009/02/11
+	変更点なし
+
+---------------------------------------------------------------------------------------
+S2Container.NET 1.3.13
+2008/11/26
+** Improvement
+	* [CONTAINERNET-101] - Quillの設定で必要なクラスがない場合、明示的な情報（固有の例外など）を出力するようにする
+** Bug
+	* [CONTAINERNET-104] - トランザクションを設定するとデータソースを切り替えての接続に失敗する。
+** Task
+	* [CONTAINERNET-103] - BeanDescをJava版から移植する
+	
+S2Dao.NET 1.3.13
+2008/11/26
+** Bug
+	* [DAONET-79] - "OleDb"でSQL　serverに接続、SQL ServerのIDENTITY列(ID列と略記)をプライマリキーに指定しているテーブルがある場合は、DBに登録してエラーが発生する
+
+---------------------------------------------------------------------------------------
+S2Container.NET 1.3.12
+2008/10/13
+** Improvement
+	* [CONTAINERNET-100] - 最小構成の場合は設定ファイルなしでQuillを利用できるようにする
+	
+S2Dao.NET 1.3.12
+2008/10/13
+	変更無し
+
+---------------------------------------------------------------------------------------
+S2Container.NET 1.3.11
+2008/08/22
+** Improvement
+    * [CONTAINERNET-98] - Quillの設定をApp.config以外のファイルでもできるようにする
+    * [CONTAINERNET-99] - 接続文字列設定クラスをQuillComponent化する
+
+S2Dao.NET 1.3.11
+2008/08/22
+** New Feature
+	* [DAONET-78] - 検索(select文）を実行したときの戻り値でユーザ定義型を使えるようにする。
+
+---------------------------------------------------------------------------------------
+S2Container.NET 1.3.10
+2008/07/25
+** Improvement
+    * [CONTAINERNET-97] - QuillでTxDataSourceが使われていた場合、Transaction属性が指定されていなくてもデータソースの各種設定が行われるようにする
+
+S2Dao.NET 1.3.10
+2008/07/25
+** Bug
+	* [DAONET-77] - 外部結合にWHERE句を使うDBMSでQuery句に「/*BEGIN*/WHERE～/*END*/」を使えない
+
+---------------------------------------------------------------------------------------
+S2Container.NET 1.3.9
+2008/05/09
+** Bug
+	* [CONTAINERNET-93] - S2Unit ReadXlsWriteDbでICommandFactory未定義の場合にデフォルトクラスを使用していない
+	* [CONTAINERNET-94] - QuillTestCaseでTransaction属性をもつクラスがインジェクション対象のときにトランザクションが正しく制御されない
+	* [CONTAINERNET-95] - インスタンスがsingletonではなくprototypeになる場合がある
+
+S2Dao.NET 1.3.9
+2008/05/09
+** Improvement
+    * [DAONET-76] - 基本型を要素にもつList、配列で検索結果を返せるようにする
+
+---------------------------------------------------------------------------------------
+S2Container.NET 1.3.8
+2008/04/13
+** Bug
+	* [CONTAINERNET-91] - S2Containerを使わずQuill単独で動かす場合、アセンブリ情報がロードされていない
+** Improvement
+	* [CONTAINERNET-92] - ControlのSiteプロパティを自動バインディング対象外にする
+** New Feature
+	* [CONTAINERNET-90] - S2Windows.NETをQuillに対応させる
+
+S2Dao.NET 1.3.8
+2008/04/13
+** Bug
+    * [DAONET-75] - DaoMetaDataFactoryImplでDBMetaDataプロパティの警告
+
+---------------------------------------------------------------------------------------
+S2Container.NET 1.3.7
+2008/03/13
+** Bug
+	* [CONTAINERNET-86] - RelationRowCreatorを他のフレームワークが拡張した場合の不具合
+	* [CONTAINERNET-89] - BooleanToIntCommandFactoryでSQLRuntimeException
+** Task
+	* [CONTAINERNET-84] - NHibernate Nullablesの廃止
+** Improvement
+	* [CONTAINERNET-82] - MS DTC利用のためのCOM+ への登録についてドキュメントに追記する
+	* [CONTAINERNET-83] - [開発環境整備]VisualStudio2008用のソリューションファイルを作成する。
+** New Feature
+	* [CONTAINERNET-79] - Quill単独でトランザクション処理・S2Dao.NETの利用を行えるようにする
+	* [CONTAINERNET-87] - DataSourceを動的に切り替えられるようにする
+
+S2Dao.NET 1.3.7
+2008/03/13
+	変更無し
+
+---------------------------------------------------------------------------------------
+S2Container.NET 1.3.6
+2008/01/16
+** Bug
+    * [CONTAINERNET-81] - NpgSQLを使うと発行するSQLが小文字になる
+    
+S2Dao.NET 1.3.6
+2008/01/16
+** Bug
+    * [DAONET-72] - [seasar-dotnet:696] シーケンスを使った ID をもつテーブルへのinsertに失敗する。
+** Task
+    * [DAONET-71] - SQLServer以外用のテーブル構造、テストデータもdemo.sqlに合わせる
+    * [DAONET-74] - Timestampプロパティの型にSqlDateTimeを追加する
+
+---------------------------------------------------------------------------------------
+S2Container.NET 1.3.5
+2007/12/10
+** Improvement
+    * [CONTAINERNET-78] - QuillInjector に QuillContainer を取得するメソッドを追加する
+
+S2Dao.NET 1.3.5
+2007/12/10
+** Improvement
+    * [DAONET-3] - [seasar-dotnet:238] 自動生成するInsert文からEntityのnullであるPropertyを除外する
+    * [DAONET-21] - SQLファイルの名前空間を指定できるようにする
+    * [DAONET-57] - Setterが呼ばれたColumnだけをUpdateするUpdateModifiedOnly()をSupportする。
+    * [DAONET-67] - クラスの生成をファクトリメソッド化・virtualを付与などの拡張のためのリファクタ
+
+---------------------------------------------------------------------------------------
+S2Container.NET 1.3.4
+2007/11/21
+** Improvement
+    * [CONTAINERNET-77] - WindowsFormを自動登録したときの起動Formを指定するコンポーネントを追加する
+
+** New Feature
+    * [CONTAINERNET-74] - Dicon ファイル中の JScript.NET 式で connectionStrings を参照できるようにする
+
+S2Dao.NET 1.3.4
+2007/11/21
+** Bug
+    * [DAONET-65] - トランザクション無しでDBに接続すると、ログ取得のログが余分に出力
+    * [DAONET-66] - StoredProcedureでOUT（または、IN OUT）の値を取得すると一つ前のパラメータの値が戻る
+
+---------------------------------------------------------------------------------------
+S2Container.NET 1.3.3
+2007/11/03
+** Improvement
+    * [CONTAINERNET-75] - データプロバイダの指定方法を改善する
+
+** New Feature
+    * [CONTAINERNET-72] - コンポーネント・アスペクトを自動登録する機能を追加する
+
+S2Dao.NET 1.3.3
+2007/11/03
+** Bug
+    * [DAONET-64] - S2PagerでVB.NET経由の呼び出しに対応する
+
+---------------------------------------------------------------------------------------
+S2Container.NET 1.3.2
+2007/10/18
+** Bug
+    * [CONTAINERNET-69] - S2Unitで"F+数字"のパターンに一致するカラムを読み込まない
+    * [CONTAINERNET-73] - GC発生時にS2UnitのReadXlsWriteDbで例外が発生する
+
+** New Feature
+    * [CONTAINERNET-68] - Quill でコンポーネントを破棄するための Destroy メソッドを実装する
+    * [CONTAINERNET-70] - [Quill] テスト時にMockに置き換えることができる機能を追加する
+    * [CONTAINERNET-71] - PONOを相互交換するS2Dxo.NETを追加する
+
+S2Dao.NET 1.3.2
+2007/10/18
+** Improvement
+    * [DAONET-57] - Setterが呼ばれたColumnだけをUpdateするUpdateModifiedOnly()をSupportする。
+    * [DAONET-60] - 検索(select)でDataSet型を返せるようにする
+    * [DAONET-63] - S2PagerのOracle ROW_NUMBER対応
+
+** New Feature
+    * [DAONET-62] - SQLite対応
+
+---------------------------------------------------------------------------------------
+S2Container.NET 1.3.1
+2007/9/3
+- [CONTAINERNET-67]Quill で Dispose パターンを実装する
+
+S2Dao.NET 1.1.1
+2007/9/3
+- [DAONET-56]検索結果Mapping時のPerformanceTuningについて(Mapping無関係のPropertyを除外する)
+- [DAONET-58]MDB利用時に自動生成されたID列が取得できない
+- [DAONET-59]S2Assert.AreEqual で NullReference エラーが発生する
+
+S2Container.NET 1.3.0
+2007/07/20
+- [CONTAINERNET-62]自動バインディング機能を持つS2Formの追加
+- [CONTAINERNET-63]簡単DI＋AOP機能のQuillを追加する
+- [CONTAINERNET-64]S2Container.NETのページをリニューアルする
+- [CONTAINERNET-65]DataDirect Connect for ADO.NET 3.0を使ったときバインド変数のエラーが発生
+- [CONTAINERNET-66]S2Unit.NEtでSetUp(),TeadrDown()を呼び出し、S2Container.NETに関する初期化・終了処理を行う。
+
+S2Dao.NET 1.1.0
+2007/07/20
+- [DAONET-52]VersionNoをNullable型に対応させる
+- [DAONET-53]ページング機能の実装
+- [DAONET-55]S2Dao.NETをSeasar.NETソリューションに追加
+
+S2Container.NET 1.2.9
+2007/3/20
+- [CONTAINERNET-53]テスト用のDB作成スクリプトを追加する
+- [CONTAINERNET-57]Oracle Data Provider.NETで～(WAVE DASH)が文字化け
+- [CONTAINERNET-58]Boolean型に未対応のRDBMSに対処するためにBoolean->Int型の変換を行う
+- [CONTAINERNET-59]SQLログの日付の書式を指定できるようにする
+- [CONTAINERNET-60]Nullableな列挙型プロパティへのデータのマッピングへの対応
+- [CONTAINERNET-61]S2ADO BeanListDataReaderHandlerのGeneric対応
+
+S2Dao.NET 1.0.4
+2007/3/20
+- [DAONET-47]ID属性の複数DBMS対応(※テスト用DBの再作成が必要)
+- [DAONET-48]decimal以外のNullable数値型もIdentityを設定できるようにする
+- [DAONET-49]数字を含む引数をDaoのメソッドに渡すとJScriptEvaluateRuntimeExceptionが発生する問題を修正する
+- [DAONET-50]IDbCommand.CommandTimeoutプロパティの設定をDiconファイルから設定可能にする
+- [DAONET-51]負数を含むSQLコメントで負数の評価が正しく行われない
+
+S2Container.NET 1.2.8
+2007/1/15
+- [CONTAINERNET-56]インスタンス属性がrequest, sessionのコンポーネントでAOPが適用されないを修正する
+
+S2Dao.NET 1.0.3
+2007/1/15
+- [DAONET-43]DaoMetaDataImplを拡張できるようにIAnnotationReaderFactoryを追加する
+             Ver1.0.2以前からアップデートする場合、FieldAnnotationReaderFactoryをdiconファイルに追加する必要がある
+             追加方法は、Seasar/Dao/Tests/Dao.diconを参照
+- [DAONET-44]ID属性の種類を文字列ではなく列挙型で指定する
+
+S2Container.NET 1.2.7
+2007/12/11
+- [CONTAINERNET-51]動的アセンブリをdiconファイル読込対象から除外する
+
+S2Dao.NET 1.0.2
+2006/12/11
+- [DAONET-35]DaoMetaDataImplとAbstractBeanMetaDataDataReaderHandlerを拡張できるようにリファクタリングする
+- [DAONET-36]PostgreSQL前提のテストであるSequenceIdentifierGeneratorTestをOracleなどSequence機能があるDBMSでもテストが通るように修正する。
+- [DAONET-37]「IF&埋め込み変数」コメントが正常なのにWarnログが発生する
+- [DAONET-38]Stored Procedureに対応する(結果セットを返すStoredProcedureには未対応)
+- [DAONET-39]IdentityとTimestampのNullable対応をNET2.0版Nullableにも適用する
+- [DAONET-40]アンダーバーを含むカラム名とアンダーバーを省略したプロパティのマッピングが動作しない問題を修正する
+- [DAONET-41]列名のアンダーバーを除くと同じ名称になってしまう場合にも、同じ列と見なさずにプロパティをセットできるようにする
+
+S2Container.NET 1.2.6
+2006/11/8
+- [CONTAINERNET-43]S2Unit.NETのExcelデータ投入時、ID列にデータを挿入できるようにする
+- [CONTAINERNET-45]S2Windows.NETの画面遷移インターフェイス用メソッドの引数の大文字小文字を区別しないようにする
+- [CONTAINERNET-46]複数のInterceptorをグルーピング化するInterceptorChainを追加する
+- [CONTAINERNET-47]S2Unit.NETが参照しているMbUnitのバージョンを最新版にする
+                   S2Unit.NETを使用する場合、MbUnit 2.3.83以上をインストールする必要がある
+- [CONTAINERNET-48]System.Windows.Forms.FormクラスのプロパティAcceptButton, CancelButton, Siteを自動バインディングの対象から外す
+- [CONTAINERNET-49]Nunit関連のdllファイルを削除する
+- ExamplesにWindowsFormExampleのサンプル解説パワーポイントファイルを追加する
+- [CONTEINERNET-50]S2ContainerからTypeと名前でコンポーネントを取得できるようにする
+
+S2Dao.NET 1.0.1
+2006/11/8
+- [DAONET-19]ID属性とTimestamp属性で指定されたプロパティでNullables型に対応する
+- [DAONET-32]S2Unit.NETが参照しているMbUnitのバージョンを最新版にする。
+             S2Unit.NETを使用する場合、MbUnit 2.3.83以上をインストールする必要がある。
+- [DAONET-33]Nunit関連のdllファイルを削除する
+- [DAONET-34]複数行取得する際にカラム情報をキャッシュすることでパフォーマンスを向上させる
+
+S2Container.NET 1.2.5
+2006/9/25
+- [CONTAINERNET-40]Seasar.Extension.Tx.Impl.TransactionContextのLevelプロパティの名前をIsolationLevelに変更する
+- [CONTAINERNET-41]TransactionContextにIsolationLevelを設定できない場合がある問題を修正する
+- [CONTAINERNET-44]SQLRuntimeExceptionでSQLを保持するようにする
+- ExamplesにWindowsFormExampleのサンプルとブランクソリューションを追加する
+
+S2Dao.NET 1.0.0
+2006/9/25
+- 変更無し
+
+S2Container.NET 1.2.4
+2006/9/5
+- S2Unitで使用するクラスの(public|protected)メソッドにvirtualキーワードを付ける
+- ToStringUtilでコレクションの中にコレクションを含む場合、クラス名が出力される問題を修正
+- [CONTAINERNET-37]S2Unitでトランザクション有効時、DBセッション情報が残る問題を修正
+- [CONTAINERNET-19]Connectionを持ち回るための新しいDataSourceを作成する
+- ConversionUtilクラスのメソッド名をリファクタリングする
+- ConversionUtilクラスにNullable<>構造体によるnull許容型に対応したメソッドを追加する
+
+S2Dao.NET 1.0.0-rc1
+2006/9/5
+- [DAONET-6]トランザクションを指定しない場合でも、identityで自動生成された値をセットするようにする
+- [DAONET-27].NET 2.0のnull許容型に対応する
+- [DAONET-28]Daoメソッドの戻り値の型に、Entity型を要素としたListジェネリッククラスを使用できるようにする
+
+S2Container.NET 1.2.3
+2006/8/14
+- TraceInterceptor使用時に例外が発生すると部分的にStackTraceの内容が失われる問題を修正する
+- Seasar.DynamicProxy使用時にオーバーロードされたメソッドがある場合、例外が発生する問題を修正する
+- '(シングルクォート)に囲まれた文字列に(@|:|?)が入っているSQL文を実行に失敗する問題を修正する
+
+S2Container.NET 1.2.2
+2006/7/24
+- BasicHandlerでDTOのパラメータが解析できない問題を修正する
+- Seasar.DynamicProxyのDynamicProxyMethodInvocationがIS2MethodInvocationを実装するように変更する
+- outパラメータを含むメソッドにAspectを適用するとIndexOutOfRangeExceptionが発生する問題を修正する
+- S2ContainerFactoryのGetBuilderでNullReferenceExceptionが発生する問題を修正する
+- S2ContainerFactoryで正常経路内で例外を利用しているのを止める
+- RealProxyによるAspectが適用される場合に部分的にStackTraceの内容が失われる問題を修正する
+- RealProxyでAspectが適用されない場合に例外が発生するとTargetInvocationExceptionがthrowされる問題を修正する
+- SqlType. Nullable型に対するパラメータバインド時、型変換に失敗する場合がある問題を修正する
+- Seasar.DynamicProxyでコンストラクタ・インジェクションを行うコンポーネントのインスタンスを作成できない問題を修正する
+- 画面遷移インターフェイスのメソッドで自由に戻り値を設定できるようにする
+
+S2Container.NET 1.2.1
+2006/7/5
+- 正常経路中での例外の利用を止める
+- DatabaseMetaDataImplで存在しないテーブル定義取得の場合、例外を発生しないようにする
+- TransactionInterceptorで本来の例外が消される問題を修正する
+- AOP適用時の例外でTargetInvocationExceptionがthrowされた場合、InnerExceptionをthrowする
+- Seasar.DynamicProxyで2重にInterceptorが実行される問題を修正する
+- Seasar.DynamicProxyでprotectedスコープのメソッドにAOPが適用される問題を修正する
+- Diconファイルでアプリケーション構成ファイルの設定をDIできる機能を追加する
+- BasicHandlerで重複したパラメータを登録すると、エラーになる場合がある問題を修正する
+- BasicHandler, BasicSelectHandler, BasicUpdateHandler のprotectedメソッドにvirtualキーワードを付ける
+- コンストラクタインジェクション利用時にAspectが適用されない問題を修正する
+- JScript.NET式で改行した文字列を受け付けるようにする
+- Windowsアプリケーションを開発するためのライブラリであるS2Windowsを追加する
+
+S2Container.NET 1.2.0
+2006/6/17
+- S2ADO.NETでSystem.Data.SqlTypesのバイト配列とSystem.Nullableバイト配列のデータマッピングを追加。
+- S2ADO.NETのSqlGuid型の変換処理でGuid型からSqlGuid型を返すように修正。
+- Seasar.Extension.Tx.ImplTx.diconをLocalTx.diconとして、System.Transactions用に
+    新しくTx.diconを作成する
+- BasicHandlerで重複したパラメータを登録すると、エラーになる場合がある問題を修正する
+
+S2Container.NET 1.2.0-rc2
+2006/5/30
+- .NET 2.0環境でのテーブル定義でエラーが発生する場合がある不具合を修正する
+- CastleプロジェクトのDynamicProxyを使用する場合の不具合を修正する
+- S2Unit.NETでBeanReader, DictionaryReaderで変換する変数のデータ型が
+NullableまたはSqlTypeの場合、対応する値型をDataColumnのDbTypeにセットする
+
+S2Container.NET 1.2.0-rc1
+2006/5/13
+- .NET 2.0でビルドされたバージョンをリリースする
+- S2ADO.NETの機能を追加する
+- .NET 2.0から提供されたSystem.Transactionsを用いた新しいトランザクション・インターセプター
+を追加する
+- AOPを提供するためのProxyにこれまでのRealProxyに加え、CastleプロジェクトのDynamicProxyを
+選択できる機能を追加する(試用機能)
+- 手動でバインディング(Property, Constractor)した場合に、Aspectが効かない問題を修正する
+- アプリケーション構成ファイルでSingletonS2ContainerFactoryで使用されるデフォルトのdicon
+ファイルを指定した場合に、コード上からそのdiconファイルを上書きできない問題を修正する
+- S2Unit.NETでExcel周りのデータ型の扱いをJava版と同等にする
+- S2ADO.NETで.NET 2.0から提供されたSystem.Nullableに対応
+
+S2Container.NET 1.1.1
+2006/3/15
+- S2Unit.NETでデータをExcelに用意できるようになりました
+- S2Unit.NETでSingletonS2ContainerFactoryを初期化するように修正する
+- S2AOP.NETでPointcutを"Get"と指定した場合、"GetComponent"等も対象になる問題を修正する
+- S2XmlResolverでURLデコードするように修正する
+- S2HttpModuleでS2Containerの初期化, 破棄を止め、Global.asaxで指定するように修正する
+
+S2Container.NET 1.1.0
+2006/2/22
+- S2Unit.NETの機能を追加する
+- 1つのスレッドで複数のDB接続を扱う場合に発生していた不具合を修正する
+- MockInterceptor使用時にAutoPropertyAssemblyで発生していた不具合を修正する
+- AOPを用いたメソッドで参照渡しパラメータに対応する
