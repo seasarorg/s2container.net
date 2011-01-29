@@ -1,6 +1,6 @@
 ﻿S2Container.NET 1.4.0-RC1
 2011/01/29
-** Improvement
+** Bug
 	* [CONTAINERNET-146] S2Unit.NETを利用したテスト実行時にデータソースの解放が行われていない（1.4.0-RC1のみ）
 
 S2Dao.NET 1.4.0-RC1
