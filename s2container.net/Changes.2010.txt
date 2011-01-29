@@ -1,10 +1,19 @@
-﻿S2Container.NET 1.4.0
+﻿S2Container.NET 1.4.0-RC1
+2011/01/29
+** Bug
+	* [CONTAINERNET-146] S2Unit.NETを利用したテスト実行時にデータソースの解放が行われていない（1.4.0-RC1のみ）
+
+S2Dao.NET 1.4.0-RC1
+2011/01/29
+	* 変更なし
+
+S2Container.NET 1.4.0-RC1
 2010/12/09
 ** Improvement
 	* [CONTAINERNET-138] .NET4.0上でSeasar.DynamicProxyが動的プロキシを生成できない（Quill）
 	* [CONTAINERNET-141] Seasar.Unitの.NET4.0対応
 	* [CONTAINERNET-142] Seasar.Testsの.NET4.0対応
 
-S2Dao.NET 1.4.0
+S2Dao.NET 1.4.0-RC1
 2010/12/09
 	* 変更なし
