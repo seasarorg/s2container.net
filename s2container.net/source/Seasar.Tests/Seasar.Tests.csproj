@@ -93,6 +93,7 @@
     <DebugType>none</DebugType>
     <ErrorReport>prompt</ErrorReport>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Gallio, Version=3.1.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
@@ -243,9 +244,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <Content Include="Seasar.Quill.dll.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="Quill\ResourcesForQuillConfig\HasAssemblyConfig_Empty.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -302,6 +300,9 @@
     </None>
     <None Include="Quill\Xml\Test.Quill.dll.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Seasar.Quill.dll.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Seasar.snk" />
     <EmbeddedResource Include="Dao\Tests.dicon" />

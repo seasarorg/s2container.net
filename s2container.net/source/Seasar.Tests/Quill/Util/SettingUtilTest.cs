@@ -50,7 +50,7 @@ namespace Seasar.Tests.Quill.Util
         {
             string path = SettingUtil.GetDefaultQuillConfigPath();
             Trace.WriteLine(path);
-            Assert.IsTrue(File.Exists(path), "テスト用のQuill設定ファイルを見つけられるか");
+            Assert.IsTrue(File.Exists(path), "テスト用のQuill設定ファイルを見つけられるか:" + path);
         }
     }
 }

@@ -40,11 +40,11 @@ namespace Seasar.Quill.Examples
                 Assembly.GetExecutingAssembly()) + ".exe.config");
             XmlConfigurator.Configure(LogManager.GetRepository(), info);
 
-            // 定義(dicon)ファイルをセットする
-            SingletonS2ContainerFactory.ConfigPath = "Seasar.Quill.Examples.App.dicon";
+            //// 定義(dicon)ファイルをセットする
+            //SingletonS2ContainerFactory.ConfigPath = "Seasar.Quill.Examples.App.dicon";
 
-            // S2Containerを初期化する
-            SingletonS2ContainerFactory.Init();
+            //// S2Containerを初期化する
+            //SingletonS2ContainerFactory.Init();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -54,7 +54,7 @@ namespace Seasar.Quill.Examples
             //Application.Run(new ExtendedForm());
 
             // S2Containerの終了処理を行う
-            SingletonS2ContainerFactory.Container.Destroy();
+            //SingletonS2ContainerFactory.Container.Destroy();
         }
     }
 }

@@ -28,7 +28,7 @@ namespace Seasar.Quill.Examples.Logic
         protected IEmployeeDao employeeDao;
 
         [Aspect(typeof(ConsoleWriteInterceptor), 1)]
-        //[Aspect("LocalRequiredTx", 2)]
+        [Transaction]
         public virtual Employee GetEmployeeByEmpNo(int empNo)
         {
             Employee emp = employeeDao.GetByEmpNo(empNo);

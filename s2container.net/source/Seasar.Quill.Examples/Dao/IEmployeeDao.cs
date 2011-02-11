@@ -19,11 +19,12 @@
 using Seasar.Quill.Attrs;
 using Seasar.Quill.Examples.Entity;
 using Seasar.Dao.Attrs;
+using Seasar.Dao.Interceptors;
 
 namespace Seasar.Quill.Examples.Dao
 {
     [Implementation]
-    //[Aspect("DaoInterceptor")]
+    [S2Dao]
     [Bean(typeof(Employee))]
     public interface IEmployeeDao
     {
