@@ -681,6 +681,7 @@
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <p><pre class="csharpcode">
 // クラス、インターフェースに対して設定する場合
+[Implementation]
 [S2Dao]
 [Bean(typeof(Hoge))]
 public interface IHogeDao {
@@ -689,6 +690,7 @@ public interface IHogeDao {
 }
 
 // メソッドに対して設定する場合
+[Implementation]
 [Bean(typeof(Hoge))]
 public interface IHogeDao {
     [S2Dao]
@@ -760,7 +762,8 @@ public class TypicalDaoSetting : AbstractDaoSetting
 			<h5>カスタム設定をS2Dao属性ごとに適用する</h5>
 			<p>S2Dao属性の引数にtypeof(カスタム設定クラス)の戻り値を渡します。</p>
 <!-- code formatted by http://manoli.net/csharpformat/ -->
-<p><pre class="csharpcode">
+<p><pre class="csharpcode"> 
+[Implementation]
 [Bean(typeof(Hoge))]
 public interface IHogeDao
 {
@@ -791,18 +794,33 @@ public interface IHogeDao
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <pre class="csharpcode">
 // クラス、インターフェースに対して設定する場合
+[Implementation]
 [Transaction]
-public interface IHogeBhv {
-    Employee GetHoge(int hogeNo); // トランザクションが適用される
-    void Update(Hoge entity);     // トランザクションが適用される
+public class HogeBhv {
+    // トランザクションが適用される
+    public virtual Employee GetHoge(int hogeNo) {
+        (省略)
+    }
+    
+    // トランザクションが適用される
+    public virtual void Update(Hoge entity) {
+        (省略)
+    }
 }
 
-// インターフェースのメソッドに対して設定する場合
-public interface IHogeBhv {
+// メソッドに対して設定する場合
+[Implementation]
+public class HogeBhv {
+    // トランザクションが適用される
     [Transaction]
-    void Update(Hoge entity);     // トランザクションが適用される
+    public virtual void Update(Hoge entity) {
+        (省略)
+    }
     
-    void DoSomething();  // このメソッドにはトランザクションは適用されない
+    // このメソッドにはトランザクションは適用されない
+    public void DoSomething() {
+        (省略)
+    }
 }
 </pre>
 			<p>トランザクションは AOP を利用しますので、「<a href="#aop_notice">AOP利用の注意点</a>」を必ずお読み下さい</br>
@@ -811,6 +829,7 @@ public interface IHogeBhv {
 <pre class="csharpcode">
 
 // クラスに対して設定する場合
+[Implementation]
 [Transaction]
 public class HogeBhv {
     // virtual が付いている
@@ -825,6 +844,7 @@ public class HogeBhv {
 }
 
 // クラスのメソッドに対して設定する場合
+[Implementation]
 public class HogeBhv {
     [Transaction] // virtual が付いている
     public virtual void Update(Hoge entity) {  // トランザクションが適用される
@@ -917,10 +937,13 @@ public class TypicalTransactionSetting : AbstractTransactionSetting
 			<p>Transaction属性の引数にtypeof(カスタム設定クラス)の戻り値を渡します。</p>
 <!-- code formatted by http://manoli.net/csharpformat/ -->
 <p><pre class="csharpcode">
-public interface IHogeBhv
+[Implementation]
+public class HogeBhv
 {
     [Transaction(typeof(CustomTransactionSetting))]
-    void Update(Hoge entity);
+    public virtual void Update(Hoge entity) {
+        // (省略)
+    }
 }
 </pre></p>
 		<p>※Transaction属性に渡した型のインスタンスはQuillコンテナの中に一つしか作られませんが<br/>
