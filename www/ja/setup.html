@@ -354,11 +354,26 @@ log4net.Config.XmlConfigurator.Configure( _
 		</div>
 		<div class="contentBody">
 			<p>　S2Unit.NETはS2Container.NETを使ったテストを楽しく簡単に行うためのテスティングフレームワークです。 </p>
-			<p>　S2Unit.NETではMbUnit v2系を使用しています。
-			事前に<a href="http://www.mbunit.com/Downloads.aspx" target="_blank">MbUnit 2.4.2.355</a>をインストールします。</p>
-			<p><span class="important">※MbUnit v3系には、未対応です。</span></p>
-			<p>　テストクラスはSeasar.Extension.Unit.S2TestCaseクラスを継承します。 
-			S2TestCaseクラスはSeasar.Unit.dllに含まれてるので、テストコードを含むプロジェクトではSeasar.Unit.dllを参照に追加して下さい。</p>
+			<p>　S2Unit.NETではGallioというテスト環境を使用しています。
+			事前に<a href="http://www.gallio.org/Downloads.aspx" target="_blank">Gallio v3.1 Update 2 build 397</a>をインストールします。</p>
+			<p>　※S2Unit.NETのバージョン1.4.0より前（.NET Framework3.5以前）のバージョンをお使いの場合は「Gallio GUI Test Runner」の「Tools->Plugins Browser」より「Gallio.MbUnit2Adapter」の「Disabled」というプロパティが「False」になっていることを確認して下さい。</p>
+			<p>　テストプロジェクトの「参照設定」で下記DLLを参照して下さい（「入手場所」はs2container.net-1.X.X.zipの解凍先下のパスです）。
+			<p>　○S2Unit.NET 1.4.X～
+			<table>
+			<tr><th>DLL</th><th>バージョン</th><th>入手場所</th><th>備考</th></tr>
+			<tr><td>Seasar.Unit.dll</td><td>1.4.0～<td>build/net4.0/</td><td>S2Unit.NET本体</td></tr>
+			<tr><td>Gallio.dll</td><td>3.1.397.0</td><td>lib/net4.0/</td><td>MbUnit3の実行に必要</td></tr>
+			<tr><td>MbUnit.dll</td><td>3.1.397.0</td><td>lib/net4.0/</td><td>MbUnit3の実行に必要</td></tr>
+			</table>
+			</p>
+			<p>　○S2Unit.NET 1.3.X以前
+			<table>
+			<tr><th>DLL</th><th>バージョン</th><th>入手場所</th><th>備考</th></tr>
+			<tr><td>Seasar.Unit.dll</td><td>～1.3.X<td>build/net2.0/</td><td>S2Unit.NET本体</td></tr>
+			<tr><td>MbUnit.Framework.dll</td><td>2.4.2.355</td><td>lib/net2.0/</td><td>MbUnit2の実行に必要</td></tr>
+			</table>
+			</p>
+			<p>　テストクラスはSeasar.Extension.Unit.S2TestCaseクラスを継承します。</p>
 			
 			<h2>アプリケーション構成ファイル(app.config)にS2Unit.NETの設定を追加する</h2>
 			<p>S2Unit.NETで参照しているMbUnitとPCにインストールしているMbUnitのバージョン差異を吸収するため、アプリケーション構成ファイル(app.config)に下記の設定を追加します。</p>
