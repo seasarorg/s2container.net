@@ -85,6 +85,19 @@ namespace Seasar.Tests.Quill
         #region InjectFieldのテスト
 
         [Test]
+        public void TestGetFields()
+        {
+            var actual = new BaseClass4GetFieldTest();
+            QuillInjector.GetInstance().Inject(actual);
+
+            Assert.IsNotNull(actual.IF, "TestGetFields01");
+            Assert.AreEqual(Impl4GetFieldTest.EXPECT_VALUE, actual.IF.TargetMethod(), "TestGetFields02");
+
+            Assert.IsNotNull(actual.IF.GetEntity(), "TestGetFields11");
+            Assert.AreEqual(Hoge1.EXPECT_VALUE, actual.IF.GetEntity().AspectedMethod(), "TestGetFields12");
+        }
+
+        [Test]
         public void TestInjectField_Quill_型がクラスの場合()
         {
             container = new QuillContainer();
@@ -119,7 +132,7 @@ namespace Seasar.Tests.Quill
             Target3 target = new Target3();
 
             this.InjectField(target, field, attr);
-
+            Console.WriteLine(target.Hoge3.GetEmpName(0));
             Assert.IsNotNull(target.Hoge3);
         }
 
@@ -135,6 +148,7 @@ namespace Seasar.Tests.Quill
             Assert.IsNotNull(target.Hoge3);
         }
 
+        #region .NET4.0上でのS2Containerの動作が保障できないためコメントアウト -------------------
         //[Test]
         //public void TestInjectField_S2_代入不可能な場合()
         //{
@@ -193,6 +207,8 @@ namespace Seasar.Tests.Quill
 
         //    Assert.AreSame(s2Container.GetComponent("hoge3"), target.Hoge3);
         //}
+        // .NET4.0上でのS2Containerの動作が保障できないためコメントアウト -------------------
+        #endregion
 
         [Test]
         public void TestInjectField_Implementation属性が設定されている場合()
@@ -218,6 +234,11 @@ namespace Seasar.Tests.Quill
         [Implementation()]
         public class Hoge1
         {
+            public const string EXPECT_VALUE = "Hoge1EXPECT_VALUE";
+            public string GetResult()
+            {
+                return EXPECT_VALUE;
+            }
         }
 
         public class Target2
@@ -233,16 +254,23 @@ namespace Seasar.Tests.Quill
 
         public class Target3
         {
+            
             public IHoge3 Hoge3;
         }
 
         [Implementation(typeof(Hoge3))]
         public interface IHoge3
         {
+            string GetEmpName(int empNo);
         }
 
         public class Hoge3 : IHoge3
         {
+            [Aspect(typeof(TraceInterceptor))]
+            public virtual string GetEmpName(int empNo)
+            {
+                return "targetHoge3";
+            }
         }
 
         public class Target4
@@ -744,5 +772,54 @@ namespace Seasar.Tests.Quill
 
         #endregion
 
+    }
+
+    public class BaseClass4GetFieldTest
+    {
+        public IF4GetFieldTest IF;
+    }
+
+    [Implementation(typeof(Impl4GetFieldTest))]
+    public interface IF4GetFieldTest
+    {
+        string TargetMethod();
+        IFieldsTestEntity GetEntity();
+    }
+
+    public class Impl4GetFieldTest : IF4GetFieldTest
+    {
+        public const string EXPECT_VALUE = "TargetMethod4GetFieldTest";
+
+        // このフィールドがnullになっていないかテスト
+        public IFieldsTestEntity FT;
+
+        [Aspect(typeof(TraceInterceptor))]
+        public virtual string TargetMethod()
+        {
+            return EXPECT_VALUE;
+        }
+
+        public IFieldsTestEntity GetEntity()
+        {
+            return FT;
+        }
+    }
+
+    [Implementation(typeof(GetFieldsTestEntity))]
+    public interface IFieldsTestEntity
+    {
+        string AspectedMethod();
+    }
+
+    public class GetFieldsTestEntity : IFieldsTestEntity
+    {
+        // このフィールドがnullになっていないかテスト
+        protected Seasar.Tests.Quill.QuillInjectorTest.Hoge1 _field;
+
+        [Aspect(typeof(TraceInterceptor))]
+        public virtual string AspectedMethod()
+        {
+            return _field.GetResult();
+        }
     }
 }
