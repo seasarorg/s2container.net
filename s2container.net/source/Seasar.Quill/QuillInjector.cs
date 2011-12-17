@@ -177,6 +177,7 @@ namespace Seasar.Quill
                 {
                     return;
                 }
+                
                 _context.AddInjectedType(targetType);
 
                 // フィールドを取得する
@@ -233,6 +234,7 @@ namespace Seasar.Quill
         /// <param name="field">DIが行われるフィールド情報</param>
         protected virtual void InjectField(object target, FieldInfo field)
         {
+            // .NET4.0上でのS2Containerの動作が保障できないためコメントアウト -------------------
             //// フィールドに設定されているバインディング属性を取得する
             //BindingAttribute bindingAttr = AttributeUtil.GetBindingAttr(field);
 
@@ -243,6 +245,7 @@ namespace Seasar.Quill
             //    InjectField(target, field, bindingAttr);
             //    return;
             //}
+            // .NET4.0上でのS2Containerの動作が保障できないためコメントアウト -------------------
 
             //  インターフェースと実装型の対応情報に登録されている型であれば
             //  その型でDIする
@@ -266,7 +269,7 @@ namespace Seasar.Quill
                 InjectField(target, field, implAttr);
             }
         }
-
+        // .NET4.0上でのS2Containerの動作が保障できないためコメントアウト -------------------
         ///// <summary>
         ///// フィールドにバインディング属性で指定されたコンポーネントをInjectする
         ///// </summary>
@@ -299,6 +302,7 @@ namespace Seasar.Quill
         //    target.GetType().InvokeMember(field.Name, bindingFlags, null, target,
         //        new object[] { component });
         //}
+        // .NET4.0上でのS2Containerの動作が保障できないためコメントアウト -------------------
 
         /// <summary>
         /// フィールドにImplementation属性で指定されたコンポーネントをInjectする
@@ -342,7 +346,7 @@ namespace Seasar.Quill
             QuillComponent component = container.GetComponent(field.FieldType, implType);
 
             // 再帰的に実装クラスのインスタンスにDIを行う
-            Inject(component.GetComponentObject(implType));
+            Inject(component.GetComponentObject(field.FieldType));
 
             // フィールドに値をセットする為のBindingFlags
             BindingFlags bindingFlags = BindingFlags.Public |
