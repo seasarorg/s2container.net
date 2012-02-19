@@ -139,6 +139,9 @@ namespace Seasar.Tests.Extension.Unit
         }
 
         [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
+#if NET_4_0
+        [Ignore(".NET4でのExcel読込対応はペンディング")]
+#endif
         public void ReadXlsTx()
         {
             //  リソースファイルの場所を明確に指定する
@@ -196,6 +199,9 @@ namespace Seasar.Tests.Extension.Unit
         }
 
         [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
+#if NET_4_0
+        [Ignore(".NET4でのExcel読込対応はペンディング")]
+#endif
         public void WriteXlsTx()
         {
             //  リソースファイルの場所を明確に指定する
@@ -217,6 +223,9 @@ namespace Seasar.Tests.Extension.Unit
         }
 
         [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
+#if NET_4_0
+        [Ignore(".NET4でのExcel読込対応はペンディング")]
+#endif
         public void ReadXlsWriteDbTx()
         {
             //  リソースファイルの場所を明確に指定する
