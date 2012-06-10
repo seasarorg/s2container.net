@@ -21,13 +21,9 @@ using System.Reflection;
 using System.Threading;
 using MbUnit.Framework;
 using Seasar.Framework.Aop.Interceptors;
-using Seasar.Framework.Container;
-using Seasar.Framework.Container.Factory;
-using Seasar.Framework.Container.Impl;
 using Seasar.Quill;
 using Seasar.Quill.Attrs;
 using Seasar.Quill.Exception;
-using Seasar.Framework.Log;
 
 namespace Seasar.Tests.Quill
 {
@@ -53,7 +49,7 @@ namespace Seasar.Tests.Quill
             InjectionMap.GetInstance().Clear();
             //  InjectionMapは毎回クリアしておく
             this.InjectionMap = null;
-            
+
         }
 
         #region GetInstanceのテスト
@@ -254,7 +250,7 @@ namespace Seasar.Tests.Quill
 
         public class Target3
         {
-            
+
             public IHoge3 Hoge3;
         }
 
@@ -355,7 +351,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestInject_２回インジェクション_通常()
+        public void TestInject_TwoTimesInjection_Normal()
         {
             QuillInjector injector = QuillInjector.GetInstance();
             {
@@ -377,7 +373,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestInject_２回インジェクション_相互参照()
+        public void TestInject_TwoTimesInjection_EachReference()
         {
             QuillInjector injector = QuillInjector.GetInstance();
             {
@@ -395,11 +391,11 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestInject_２回インジェクション_循環参照()
+        public void TestInject_TwoTimesInjection_LoopReference()
         {
             QuillInjector injector = QuillInjector.GetInstance();
             {
-                RoopReferenceC actual = new RoopReferenceC();
+                LoopReferenceC actual = new LoopReferenceC();
                 Assert.IsNull(actual.A);
                 Assert.IsNull(actual.B);
                 injector.Inject(actual);
@@ -407,7 +403,7 @@ namespace Seasar.Tests.Quill
                 Assert.IsNotNull(actual.B);
             }
             {
-                RoopReferenceC actual = new RoopReferenceC();
+                LoopReferenceC actual = new LoopReferenceC();
                 Assert.IsNull(actual.A);
                 Assert.IsNull(actual.B);
                 injector.Inject(actual);
@@ -454,13 +450,13 @@ namespace Seasar.Tests.Quill
         public void ExecuteMultiThreadInjection(object parameter)
         {
             object[] parameters = parameter as object[];
-            if(parameters == null)
+            if (parameters == null)
             {
                 return;
             }
 
             QuillInjector injector = parameters[0] as QuillInjector;
-            if(injector == null)
+            if (injector == null)
             {
                 return;
             }
@@ -473,7 +469,7 @@ namespace Seasar.Tests.Quill
 
             injector.Inject(target);
         }
-        
+
         #endregion
 
         #endregion
@@ -559,8 +555,8 @@ namespace Seasar.Tests.Quill
                 set { _b = value; }
             }
 
-            private RoopReferenceC _c;
-            public RoopReferenceC C
+            private LoopReferenceC _c;
+            public LoopReferenceC C
             {
                 get { return _c; }
                 set { _c = value; }
@@ -580,8 +576,8 @@ namespace Seasar.Tests.Quill
                 set { _a = value; }
             }
 
-            private RoopReferenceC _c;
-            public RoopReferenceC C
+            private LoopReferenceC _c;
+            public LoopReferenceC C
             {
                 get { return _c; }
                 set { _c = value; }
@@ -592,7 +588,7 @@ namespace Seasar.Tests.Quill
         /// 循環参照クラスC
         /// </summary>
         [Implementation]
-        public class RoopReferenceC
+        public class LoopReferenceC
         {
             private EachReferenceA _a;
             public EachReferenceA A
@@ -754,7 +750,7 @@ namespace Seasar.Tests.Quill
                 Inject(new DestroyHoge());
                 Assert.Fail();
             }
-            catch(QuillApplicationException ex)
+            catch (QuillApplicationException ex)
             {
                 Assert.AreEqual("EQLL0018", ex.MessageCode);
             }

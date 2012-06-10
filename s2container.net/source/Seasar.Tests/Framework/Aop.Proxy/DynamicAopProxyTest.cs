@@ -189,13 +189,7 @@ namespace Seasar.Tests.Framework.Aop.Proxy
 
             public string Prop
             {
-                set
-                {
-                    // TEMP S -----
-                    Console.WriteLine("Prop:{0}", value);
-                    // TEMP G -----
-                    _prop = value;
-                }
+                set { _prop = value; }
                 get { return _prop; }
             }
         }
@@ -268,7 +262,7 @@ namespace Seasar.Tests.Framework.Aop.Proxy
         {
             private readonly string _str = "abc";
 
-            public string Greeting()
+            public virtual string Greeting()
             {
                 return _str;
             }
