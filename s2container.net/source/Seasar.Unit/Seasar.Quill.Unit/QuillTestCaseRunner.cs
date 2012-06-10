@@ -135,11 +135,6 @@ namespace Seasar.Quill.Unit
 
         protected override void TearDownDataSource(object fixtureInstance)
         {
-            if (_dataSource != null && _transactionContext != null)
-            {
-                _dataSource.CloseConnection(_transactionContext.Connection);
-            }
-
             var ds = (SelectableDataSourceProxyWithDictionary)_dataSource;
             if (ds != null)
             {

@@ -166,6 +166,12 @@ namespace Seasar.Unit.Core
                 }
                 fixture.DataSource = null;
             }
+
+            if (_dataSource != null && _transactionContext != null)
+            {
+                _dataSource.CloseConnection(_transactionContext.Connection);
+            }
+            _transactionContext = null;
             _dataSource = null;
         }
 
@@ -203,7 +209,7 @@ namespace Seasar.Unit.Core
             {
                 _transactionContext.Rollback();
             }
-        } 
+        }
     }
 }
 #endif

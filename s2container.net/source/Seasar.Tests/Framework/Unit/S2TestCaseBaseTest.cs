@@ -31,6 +31,7 @@ using Seasar.Framework.Aop.Impl;
 using Seasar.Framework.Aop.Proxy;
 using Seasar.Framework.Container;
 using Seasar.Framework.Log;
+using System.Data;
 
 namespace Seasar.Tests.Framework.Unit
 {
@@ -197,6 +198,97 @@ namespace Seasar.Tests.Framework.Unit
         public void TestEmptyComponent()
         {
             Include("empty.dicon");
+        }
+
+        public void SetUpWriteAndReadDb()
+        {
+            Include("Seasar.Tests.Ado.dicon");
+        }
+
+        /// <summary>
+        /// ロールバックが自動的にかかっているか確認
+        /// (２回実行して二度ともテストが通ればＯＫ)
+        /// </summary>
+        [Test, S2(Tx.Rollback)]
+        public void TestWriteAndReadDb()
+        {
+            _logger.Debug("++RollbackTest Start");
+            //  ## Arrange ##
+            DataTable table = new DataTable("EMP");
+            table.Columns.Add("EMPNO");
+            table.Columns.Add("ENAME");
+            table.Columns.Add("JOB");
+            table.Columns.Add("MGR");
+            table.Columns.Add("HIREDATE");
+            table.Columns.Add("SAL");
+            table.Columns.Add("COMM");
+            table.Columns.Add("DEPTNO");
+            table.Columns.Add("TSTAMP");
+            DataRow testRow = table.NewRow();
+            testRow["EMPNO"] = 5001;
+            testRow["ENAME"] = "ROCK";
+            testRow["JOB"] = "TH";
+            testRow["MGR"] = 7369;
+            testRow["HIREDATE"] = DateTime.Now;
+            testRow["SAL"] = 1000.0;
+            testRow["COMM"] = 300.0;
+            testRow["DEPTNO"] = 20;
+            testRow["TSTAMP"] = DateTime.Now;
+            table.Rows.Add(testRow);
+
+            DataSet ds = new DataSet();
+            ds.Tables.Add(table);
+
+            //  ## Act ##
+            WriteDb(ds);
+
+            DataTable resultTable = ReadDbByTable("EMP");
+
+            //  ## Assert ##
+            Assert.IsNotNull(resultTable);
+            Assert.GreaterThan(resultTable.Rows.Count, 0);
+            bool isExist = false;
+            foreach (DataRow row in resultTable.Rows)
+            {
+                if (((Decimal)row["EMPNO"]) == 5001)
+                {
+                    isExist = true;
+                    Assert.AreEqual(row["ENAME"], "ROCK");
+                    Assert.AreEqual(row["JOB"], "TH");
+                    break;
+                }
+            }
+            Assert.IsTrue(isExist);
+        }
+
+        public void SetUpWriteAndReadDb2()
+        {
+            SetUpWriteAndReadDb();
+        }
+
+        /// <summary>
+        /// ロールバックが自動的にかかっているか確認
+        /// (２回実行して二度ともテストが通ればＯＫ)
+        /// </summary>
+        [Test, S2(Tx.Rollback)]
+        public void TestWriteAndReadDb2()
+        {
+            TestWriteAndReadDb();
+        }
+
+        public void SetUpWriteAndReadDb3()
+        {
+            SetUpWriteAndReadDb();
+        }
+
+        /// <summary>
+        /// ロールバックが自動的にかかっているか確認
+        /// (２回実行して二度ともテストが通ればＯＫ)
+        /// </summary>
+        [Test, S2(Tx.Rollback)]
+        public void TestWriteAndReadDb3()
+        {
+            TestWriteAndReadDb();
         }
     }
 }
