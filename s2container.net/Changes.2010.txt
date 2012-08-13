@@ -1,9 +1,20 @@
-﻿S2Container.NET 1.4.0-RC1
+﻿S2Container.NET 1.4.0-RC3
+2012/08/13
+** Bug
+	* [CONTAINERNET-148] Quill(.NET4.0)上でAOP利用時、実行時にNullReferenceExceptionが発生する
+	* [CONTAINERNET-149] Gallio(MbUnit v3.3)にSeasar.Tests.dllを登録できない
+	* [CONTAINERNET-150] S2Unit.NETを利用したテスト実行時にデータソースの解放が行われていない（v1.4.0）
+
+S2Dao.NET 1.4.0-RC3
+2012/08/13
+	* 変更なし
+
+S2Container.NET 1.4.0-RC2
 2011/01/29
 ** Bug
 	* [CONTAINERNET-146] S2Unit.NETを利用したテスト実行時にデータソースの解放が行われていない（1.4.0-RC1のみ）
 
-S2Dao.NET 1.4.0-RC1
+S2Dao.NET 1.4.0-RC2
 2011/01/29
 	* 変更なし
 
