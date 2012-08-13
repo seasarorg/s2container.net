@@ -1,0 +1,222 @@
+﻿namespace Seasar.WindowsExample.Forms
+{
+    partial class FrmEmployeeList
+    {
+        /// <summary>
+        /// 必要なデザイナ変数です。
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// 使用中のリソースをすべてクリーンアップします。
+        /// </summary>
+        /// <param name="disposing">マネージ リソースが破棄される場合 true、破棄されない場合は false です。</param>
+        protected override void Dispose( bool disposing )
+        {
+            if ( disposing && ( components != null ) )
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows フォーム デザイナで生成されたコード
+
+        /// <summary>
+        /// デザイナ サポートに必要なメソッドです。このメソッドの内容を
+        /// コード エディタで変更しないでください。
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.gridList = new System.Windows.Forms.DataGridView();
+            this.btnClose = new System.Windows.Forms.Button();
+            this.btnOutput = new System.Windows.Forms.Button();
+            this.btnNew = new System.Windows.Forms.Button();
+            this.dlgSave = new System.Windows.Forms.SaveFileDialog();
+            this.label1 = new System.Windows.Forms.Label();
+            this.ColumnCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnDepart = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnGender = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnEntryDay = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnDeptNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnDepartment = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            ( ( System.ComponentModel.ISupportInitialize ) ( this.gridList ) ).BeginInit();
+            this.SuspendLayout();
+            // 
+            // gridList
+            // 
+            this.gridList.AllowUserToAddRows = false;
+            this.gridList.AllowUserToDeleteRows = false;
+            this.gridList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridList.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ColumnCode,
+            this.ColumnName,
+            this.ColumnDepart,
+            this.ColumnId,
+            this.ColumnGender,
+            this.ColumnEntryDay,
+            this.ColumnDeptNo,
+            this.ColumnDepartment});
+            this.gridList.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.gridList.Location = new System.Drawing.Point(31, 24);
+            this.gridList.MultiSelect = false;
+            this.gridList.Name = "gridList";
+            this.gridList.ReadOnly = true;
+            this.gridList.RowTemplate.Height = 21;
+            this.gridList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.gridList.Size = new System.Drawing.Size(457, 177);
+            this.gridList.TabIndex = 0;
+            this.gridList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridList_CellDoubleClick);
+            // 
+            // btnClose
+            // 
+            this.btnClose.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ( ( byte ) ( 128 ) ));
+            this.btnClose.Location = new System.Drawing.Point(398, 227);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(90, 46);
+            this.btnClose.TabIndex = 16;
+            this.btnClose.Text = "閉じる(&C)";
+            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            // 
+            // btnOutput
+            // 
+            this.btnOutput.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ( ( byte ) ( 128 ) ));
+            this.btnOutput.Location = new System.Drawing.Point(302, 227);
+            this.btnOutput.Name = "btnOutput";
+            this.btnOutput.Size = new System.Drawing.Size(90, 46);
+            this.btnOutput.TabIndex = 15;
+            this.btnOutput.Text = "出力(&O)";
+            this.btnOutput.UseVisualStyleBackColor = true;
+            this.btnOutput.Click += new System.EventHandler(this.btnOutput_Click);
+            // 
+            // btnNew
+            // 
+            this.btnNew.Font = new System.Drawing.Font("MS UI Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ( ( byte ) ( 128 ) ));
+            this.btnNew.Location = new System.Drawing.Point(206, 227);
+            this.btnNew.Name = "btnNew";
+            this.btnNew.Size = new System.Drawing.Size(90, 46);
+            this.btnNew.TabIndex = 14;
+            this.btnNew.Text = "新規(&N)";
+            this.btnNew.UseVisualStyleBackColor = true;
+            this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
+            // 
+            // label1
+            // 
+            this.label1.BackColor = System.Drawing.Color.FromArgb(( ( int ) ( ( ( byte ) ( 192 ) ) ) ), ( ( int ) ( ( ( byte ) ( 255 ) ) ) ), ( ( int ) ( ( ( byte ) ( 192 ) ) ) ));
+            this.label1.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ( ( byte ) ( 128 ) ));
+            this.label1.Location = new System.Drawing.Point(31, 226);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(161, 46);
+            this.label1.TabIndex = 17;
+            this.label1.Text = "社員一覧";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // ColumnCode
+            // 
+            this.ColumnCode.DataPropertyName = "Code";
+            this.ColumnCode.HeaderText = "コード";
+            this.ColumnCode.Name = "ColumnCode";
+            this.ColumnCode.ReadOnly = true;
+            this.ColumnCode.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // ColumnName
+            // 
+            this.ColumnName.DataPropertyName = "Name";
+            this.ColumnName.FillWeight = 150F;
+            this.ColumnName.HeaderText = "名前";
+            this.ColumnName.Name = "ColumnName";
+            this.ColumnName.ReadOnly = true;
+            this.ColumnName.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.ColumnName.Width = 150;
+            // 
+            // ColumnDepart
+            // 
+            this.ColumnDepart.DataPropertyName = "DeptName";
+            this.ColumnDepart.FillWeight = 150F;
+            this.ColumnDepart.HeaderText = "部門";
+            this.ColumnDepart.Name = "ColumnDepart";
+            this.ColumnDepart.ReadOnly = true;
+            this.ColumnDepart.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.ColumnDepart.Width = 150;
+            // 
+            // ColumnId
+            // 
+            this.ColumnId.DataPropertyName = "Id";
+            this.ColumnId.HeaderText = "ID";
+            this.ColumnId.Name = "ColumnId";
+            this.ColumnId.ReadOnly = true;
+            this.ColumnId.Visible = false;
+            // 
+            // ColumnGender
+            // 
+            this.ColumnGender.DataPropertyName = "Gender";
+            this.ColumnGender.HeaderText = "Gender";
+            this.ColumnGender.Name = "ColumnGender";
+            this.ColumnGender.ReadOnly = true;
+            this.ColumnGender.Visible = false;
+            // 
+            // ColumnEntryDay
+            // 
+            this.ColumnEntryDay.DataPropertyName = "EntryDay";
+            this.ColumnEntryDay.HeaderText = "EntryDay";
+            this.ColumnEntryDay.Name = "ColumnEntryDay";
+            this.ColumnEntryDay.ReadOnly = true;
+            this.ColumnEntryDay.Visible = false;
+            // 
+            // ColumnDeptNo
+            // 
+            this.ColumnDeptNo.DataPropertyName = "DeptNo";
+            this.ColumnDeptNo.HeaderText = "DeptNo";
+            this.ColumnDeptNo.Name = "ColumnDeptNo";
+            this.ColumnDeptNo.ReadOnly = true;
+            this.ColumnDeptNo.Visible = false;
+            // 
+            // ColumnDepartment
+            // 
+            this.ColumnDepartment.DataPropertyName = "Department";
+            this.ColumnDepartment.HeaderText = "Department";
+            this.ColumnDepartment.Name = "ColumnDepartment";
+            this.ColumnDepartment.ReadOnly = true;
+            this.ColumnDepartment.Visible = false;
+            // 
+            // FrmEmployeeList
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(512, 285);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.btnClose);
+            this.Controls.Add(this.btnOutput);
+            this.Controls.Add(this.btnNew);
+            this.Controls.Add(this.gridList);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.Name = "FrmEmployeeList";
+            this.Text = "社員一覧";
+            this.Load += new System.EventHandler(this.FrmEmployeeList_Load);
+            ( ( System.ComponentModel.ISupportInitialize ) ( this.gridList ) ).EndInit();
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.DataGridView gridList;
+        private System.Windows.Forms.Button btnClose;
+        private System.Windows.Forms.Button btnOutput;
+        private System.Windows.Forms.Button btnNew;
+        private System.Windows.Forms.SaveFileDialog dlgSave;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnCode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnDepart;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnGender;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnEntryDay;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnDeptNo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnDepartment;
+    }
+}
