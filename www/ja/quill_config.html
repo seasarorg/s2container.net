@@ -214,11 +214,8 @@ Seasar.Quill.QuillConfig.ConfigPath = "c:/hoge.config"; // 任意のファイル
   &lt;quill&gt;
     &lt;dataSources&gt;
       &lt;dataSource name="ds"&gt;
-        &lt;provider>Firebird&lt;/provider&gt;
-        &lt;connectionString&gt;
-          "ServerType=1;User=ユーザー;Password=パスワード;
-            Database=C:\Firebird\データベース.FDB"
-        &lt;/connectionString&gt;
+        &lt;provider&gt;SqlServer&lt;/provider&gt;
+        &lt;connectionString&gt;"（接続文字列）"&lt;/connectionString&gt;
         &lt;class>Seasar.Extension.Tx.Impl.TxDataSource&lt;/class&gt;
       &lt;/dataSource&gt;
     &lt;/dataSources&gt;
