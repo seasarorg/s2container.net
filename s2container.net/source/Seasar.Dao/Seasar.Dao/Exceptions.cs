@@ -173,6 +173,11 @@ namespace Seasar.Dao
             : base(bean, rows)
         {
         }
+
+        public NotSingleRowUpdatedRuntimeException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+        }
     }
 
     [Serializable]

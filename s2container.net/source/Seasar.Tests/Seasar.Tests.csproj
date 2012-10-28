@@ -163,6 +163,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dao\ExceptionTest.cs" />
     <Compile Include="Quill\AspectBuilderTest.cs">
       <SubType>Code</SubType>
     </Compile>
