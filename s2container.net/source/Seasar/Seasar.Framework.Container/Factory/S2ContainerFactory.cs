@@ -52,6 +52,7 @@ namespace Seasar.Framework.Container.Factory
         {
         }
 
+        [Obsolete("[S2Container] is obsolete function. Please use [QuillContainer]")]
         public static IS2Container Create(string path)
         {
             string ext = GetExtension(path);

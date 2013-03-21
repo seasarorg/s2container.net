@@ -19,6 +19,7 @@
 using Seasar.Framework.Exceptions;
 using Seasar.Framework.Util;
 using Seasar.Framework.Xml;
+using System;
 
 namespace Seasar.Framework.Container.Factory
 {
@@ -50,6 +51,7 @@ namespace Seasar.Framework.Container.Factory
             get { return _configPath; }
         }
 
+        [Obsolete("[S2Container] is obsolete function. Please use [QuillContainer]")]
         public static void Init()
         {
             _container = S2ContainerFactory.Create(_configPath);
