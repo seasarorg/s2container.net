@@ -178,7 +178,7 @@ namespace Seasar.Dao.Impl
                     Timestamp = DateTime.Now;
                     SetupTimestampVariableList(varList, pt);
                 }
-                else if (pt.PropertyName.Equals(BeanMetaData.VersionNoPropertyName))
+                else if (string.Compare(pt.PropertyName, BeanMetaData.VersionNoPropertyName, true) == 0)
                 {
                     VersionNo = 0;
                     varList.Add(ConversionUtil.ConvertTargetType(VersionNo, pt.PropertyInfo.PropertyType));

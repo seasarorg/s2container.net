@@ -76,5 +76,29 @@ namespace Seasar.Tests.Dao.Impl
             Assert.AreEqual(emp.Sal, after.Sal, "通常の値設定も行われる");
             Assert.IsNotNull(emp.Version);
         }
+
+        [Test, S2(Tx.Rollback)]
+        public void TestExecute_VersionNoIgnoreCaseTx()
+        {
+            IDaoMetaData dmd = CreateDaoMetaData(typeof(IEmployeeDefaultVersionNoIgnoreCaseDao));
+            ISqlCommand cmd = dmd.GetSqlCommand("Insert");
+            EmployeeDefaultVersionNoIgnoreCase emp = new EmployeeDefaultVersionNoIgnoreCase();
+            emp.Empno = 99;
+            emp.Ename = null;
+            emp.JobName = null;
+            emp.Sal = 99;
+            int count = (int)cmd.Execute(new object[] { emp });
+            Assert.AreEqual(1, count, "1");
+
+            ISqlCommand afterCmd = dmd.GetSqlCommand("GetEmployee");
+            EmployeeDefaultVersionNoIgnoreCase after = (EmployeeDefaultVersionNoIgnoreCase)afterCmd.Execute(new object[] { emp.Empno });
+            Assert.IsNotNull(after);
+            Assert.AreEqual(emp.Empno, after.Empno);
+            Assert.AreEqual("def_name", after.Ename, "デフォルト値が設定されている。");
+            Assert.IsNull(after.JobName, "デフォルト値は設定されていない列にはnull設定");
+            Assert.AreEqual(emp.Sal, after.Sal, "通常の値設定も行われる");
+            Assert.IsNotNull(emp.vERSION);
+            Assert.AreEqual(0, emp.vERSION);
+        }
     }
 }

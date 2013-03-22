@@ -37,4 +37,13 @@ namespace Seasar.Tests.Dao.Impl
         [Query("empno=/*empno*/")]
         EmployeeDefaultVersionNo GetEmployee(int empno);
     }
+
+    [Bean(typeof(EmployeeDefaultVersionNoIgnoreCase))]
+    public interface IEmployeeDefaultVersionNoIgnoreCaseDao
+    {
+        void Insert(EmployeeDefaultVersionNoIgnoreCase employee);
+
+        [Query("empno=/*empno*/")]
+        EmployeeDefaultVersionNoIgnoreCase GetEmployee(int empno);
+    }
 }
