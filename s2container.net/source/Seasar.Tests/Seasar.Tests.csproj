@@ -164,6 +164,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dao\ExceptionTest.cs" />
+    <Compile Include="Dao\Impl\HashtableBasicProcedureHandlerTest.cs" />
+    <Compile Include="Dao\Impl\ObjectBasicProcedureHandlerTest.cs" />
     <Compile Include="Quill\AspectBuilderTest.cs">
       <SubType>Code</SubType>
     </Compile>

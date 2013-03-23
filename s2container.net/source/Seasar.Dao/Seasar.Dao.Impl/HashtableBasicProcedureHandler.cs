@@ -96,7 +96,8 @@ namespace Seasar.Dao.Impl
                         if (ArgumentDirection[i] == ParameterDirection.InputOutput ||
                              ArgumentDirection[i] == ParameterDirection.Output)
                         {
-                            args[i] = ((IDataParameter) cmd.Parameters[i+outParamNames.Length]).Value;
+                            IDbDataParameter param = (IDbDataParameter)cmd.Parameters[i + outParamNames.Length];
+                            args[i] = ConversionUtil.ConvertTargetType(param.Value, ArgumentTypes[i]);
                         }
                     }
 
