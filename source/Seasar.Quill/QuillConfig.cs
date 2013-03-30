@@ -317,7 +317,6 @@ namespace Seasar.Quill
                 {
                     if (!string.IsNullOrEmpty(setting.Name))
                     {
-                        Console.WriteLine(setting.Name);
                         IDataSource ds = new TxDataSource(setting.Name);
                         dataSources[setting.Name] = ds;
                     }
