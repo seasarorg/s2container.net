@@ -1,6 +1,6 @@
 #region Copyright
 /*
- * Copyright 2005-2010 the Seasar Foundation and the Others.
+ * Copyright 2005-2013 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,5 +39,5 @@ using System.Runtime.InteropServices;
 // 次の GUID は、このプロジェクトが COM に公開される場合の、typelib の ID です
 [assembly: Guid("ebd42a47-2f22-4299-b71d-4f5fb82c70e7")]
 
-[assembly: AssemblyVersion("1.3.18.0")]
-[assembly: AssemblyFileVersionAttribute("1.3.18.0")]
+[assembly: AssemblyVersion("1.3.19.0")]
+[assembly: AssemblyFileVersionAttribute("1.3.19.0")]

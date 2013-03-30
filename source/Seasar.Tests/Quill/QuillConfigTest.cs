@@ -1,6 +1,6 @@
 ﻿#region Copyright
 /*
- * Copyright 2005-2010 the Seasar Foundation and the Others.
+ * Copyright 2005-2013 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,7 +48,7 @@ namespace Seasar.Tests.Quill
         [Test]
         public void TestChangeConnection()
         {
-            using (IDbConnection connection = new SqlConnection("Server=localhost;database=s2dotnetdemo;Integrated Security=SSPI"))
+            using (IDbConnection connection = new SqlConnection("Server=localhost\\XXXX;database=s2dotnetdemo;Integrated Security=SSPI"))
             {
                 try
                 {
@@ -61,7 +61,7 @@ namespace Seasar.Tests.Quill
                 }
 
 
-                connection.ConnectionString = "Server=localhost\\SQLEXPRESS;database=s2dotnetdemo;Integrated Security=SSPI";
+                connection.ConnectionString = "Server=localhost;database=s2dotnetdemo;Integrated Security=SSPI";
                 connection.Open();
                 connection.Close();
 
