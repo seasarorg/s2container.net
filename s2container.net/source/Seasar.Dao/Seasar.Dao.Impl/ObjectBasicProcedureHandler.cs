@@ -1,7 +1,7 @@
 #region Copyright
 
 /*
- * Copyright 2005-2010 the Seasar Foundation and the Others.
+ * Copyright 2005-2013 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -97,7 +97,8 @@ namespace Seasar.Dao.Impl
                         if (ArgumentDirection[i] == ParameterDirection.InputOutput ||
                              ArgumentDirection[i] == ParameterDirection.Output)
                         {
-                            args[i] = ((IDataParameter) cmd.Parameters[i+cnt]).Value;
+                            IDbDataParameter param = (IDbDataParameter)cmd.Parameters[i + cnt];
+                            args[i] = ConversionUtil.ConvertTargetType(param.Value, ArgumentTypes[i]);
                         }
                     }
 

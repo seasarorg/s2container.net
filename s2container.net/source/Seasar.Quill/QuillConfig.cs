@@ -315,11 +315,8 @@ namespace Seasar.Quill
             {
                 foreach (ConnectionStringSettings setting in ConfigurationManager.ConnectionStrings)
                 {
-                    if (!string.IsNullOrEmpty(setting.Name))
-                    {
-                        IDataSource ds = new TxDataSource(setting.Name);
-                        dataSources[setting.Name] = ds;
-                    }
+                    IDataSource ds = new TxDataSource(setting.Name);
+                    dataSources[setting.Name] = ds;
                 }
             }
         }

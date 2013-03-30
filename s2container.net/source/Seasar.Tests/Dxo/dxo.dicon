@@ -2,7 +2,7 @@
 <!DOCTYPE components PUBLIC "-//SEASAR2.1//DTD S2Container//EN"
 "http://www.seasar.org/dtd/components21.dtd">
 <components namespace="dxo">
-	<component name="interceptor" class="Seasar.Dxo.Interceptor.DxoInterceptor"/>
+	<component name="interceptor" class="Seasar.Dxo.Interceptor.DxoInterceptor" instance="singleton"/>
     <component class="Seasar.Tests.Dxo.IEmployeeDxo">
         <aspect pointcut="*">interceptor</aspect>
     </component>

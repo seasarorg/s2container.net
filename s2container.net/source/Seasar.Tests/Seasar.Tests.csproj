@@ -207,9 +207,9 @@
       <DependentUpon>S2DotNetDemoDataSet.xsd</DependentUpon>
     </None>
     <EmbeddedResource Include="Extension\ADO.Impl\SelectableDataSourceProxyWithContainer.dicon" />
-    <None Include="Extension\DataSets.Impl\XlsReaderTest_InvalidColumn.xls">
+    <EmbeddedResource Include="Extension\DataSets.Impl\XlsReaderTest_InvalidColumn.xls">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </EmbeddedResource>
     <None Include="Extension\Unit\S2TestCaseTest_ReadXlsWriteDbTx.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -320,6 +320,7 @@
     <Compile Include="Dao\Dbms\Employee.cs" />
     <Compile Include="Dao\Dbms\OracleTest.cs" />
     <Compile Include="Dao\Dbms\StandardTest.cs" />
+    <Compile Include="Dao\ExceptionTest.cs" />
     <Compile Include="Dao\Id\Hoge.cs" />
     <Compile Include="Dao\Id\HogeNullable.cs" />
     <Compile Include="Dao\Id\HogeSystemNullable.cs" />
@@ -358,6 +359,7 @@
     <Compile Include="Dao\Impl\EmployeeVersionNo.cs" />
     <Compile Include="Dao\Impl\FormUseHistory.cs" />
     <Compile Include="Dao\Impl\GenericNullableEntity.cs" />
+    <Compile Include="Dao\Impl\HashtableBasicProcedureHandlerTest.cs" />
     <Compile Include="Dao\Impl\IDepartmentAutoDao.cs" />
     <Compile Include="Dao\Impl\IDepartmentAutoDynamicDao.cs" />
     <Compile Include="Dao\Impl\IDepartmentTotalSalaryDao.cs" />
@@ -389,6 +391,7 @@
     <Compile Include="Dao\Impl\IStoredProcedureTestDao.cs" />
     <Compile Include="Dao\Impl\IUnderscoreEntityDao.cs" />
     <Compile Include="Dao\Impl\ObjectArrayDataReaderHandlerTest.cs" />
+    <Compile Include="Dao\Impl\ObjectBasicProcedureHandlerTest.cs" />
     <Compile Include="Dao\Impl\ObjectGenericListDataReaderHandlerTest.cs" />
     <Compile Include="Dao\Impl\ObjectListDataReaderHandlerTest.cs" />
     <Compile Include="Dao\Impl\RelationKeyTest.cs" />
