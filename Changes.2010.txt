@@ -1,0 +1,12 @@
+﻿S2Container.NET 1.3.19
+2013/03/31
+** Bug
+	* [CONTAINERNET-155] DxoInterceptorをスレッドセーフにする
+
+S2DaoNET 1.3.19
+2013/03/31
+** Bug
+	* [DAONET-86] NotSingleRowUpdatedRuntimeException をデシリアライズできない
+	* [DAONET-88] INSERTでVERSIONNOにゼロが設定されない
+	* [DAONET-89] ストアド呼び出しでoutパラメータへの設定値がnullの場合InvalidCastExceptionが発生する
+	
