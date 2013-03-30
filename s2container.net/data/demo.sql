@@ -275,7 +275,36 @@ BEGIN
 	FROM dbo.EMP
 	WHERE EMPNO=@Empno
 END
+GO
 
+/****** Object:  StoredProcedure [dbo].[SelectForOutputParam]    Script Date: 03/30/2013 13:34:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<koyak>
+-- Create date: <2013/03/23>
+-- Description:	<outパラメータ設定テスト>
+-- =============================================
+ALTER PROCEDURE [dbo].[SelectForOutputParam]
+	-- Add the parameters for the stored procedure here
+	@Mgr numeric(4,0)OUTPUT,
+	@Empno numeric(4,0)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT @Mgr=MGR
+	FROM dbo.EMP
+	WHERE EMPNO=@Empno
+END
+
+GO
+/****** Object:  StoredProcedure [dbo].[SelectForOutputParamMulti]    Script Date: 03/30/2013 13:34:57 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -285,7 +314,7 @@ GO
 -- Create date: <2013/03/23>
 -- Description:	<outパラメータ取得テスト（複数行取得）>
 -- =============================================
-CREATE PROCEDURE [dbo].[SelectForOutputParamMulti]
+ALTER PROCEDURE [dbo].[SelectForOutputParamMulti]
 	-- Add the parameters for the stored procedure here
 	@Mgr numeric(4,0) OUTPUT,
 	@Job varchar(9),
@@ -301,4 +330,3 @@ BEGIN
 	FROM dbo.EMP
 	WHERE JOB=@Job;
 END
-GO
