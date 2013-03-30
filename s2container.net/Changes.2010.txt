@@ -1,4 +1,20 @@
-﻿S2Container.NET 1.4.0-RC3
+﻿S2Container.NET 1.4.0
+2013/03/31
+** Bug
+	* [CONTAINERNET-155] DxoInterceptorをスレッドセーフにする
+
+** Improvement
+	* [CONTAINERNET-154] S2Container機能をObsolete（非推奨）にする
+
+S2DaoNET 1.4.0
+2013/03/31
+** Bug
+	* [DAONET-86] NotSingleRowUpdatedRuntimeException をデシリアライズできない
+	* [DAONET-88] INSERTでVERSIONNOにゼロが設定されない
+	* [DAONET-89] ストアド呼び出しでoutパラメータへの設定値がnullの場合InvalidCastExceptionが発生する
+	
+===============================================================================================================
+S2Container.NET 1.4.0-RC3
 2012/08/13
 ** Bug
 	* [CONTAINERNET-148] Quill(.NET4.0)上でAOP利用時、実行時にNullReferenceExceptionが発生する
@@ -9,6 +25,7 @@ S2Dao.NET 1.4.0-RC3
 2012/08/13
 	* 変更なし
 
+===============================================================================================================
 S2Container.NET 1.4.0-RC2
 2011/01/29
 ** Bug
@@ -18,6 +35,7 @@ S2Dao.NET 1.4.0-RC2
 2011/01/29
 	* 変更なし
 
+===============================================================================================================
 S2Container.NET 1.4.0-RC1
 2010/12/09
 ** Improvement
