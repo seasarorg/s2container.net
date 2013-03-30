@@ -1,6 +1,6 @@
 #region Copyright
 /*
- * Copyright 2005-2010 the Seasar Foundation and the Others.
+ * Copyright 2005-2013 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,17 +33,6 @@ namespace Seasar.Dxo.Interceptor
     /// </summary>
     public class DxoInterceptor : AbstractInterceptor
     {
-        private string _dateFormat;
-        private IDictionary<string, ConversionRuleAttribute> _dxoMapping;
-
-        /// <summary>
-        /// DxoMapping用の取得アノテーションのコレクション
-        /// </summary>
-        public IDictionary<string, ConversionRuleAttribute> DxoMapping
-        {
-            get { return _dxoMapping; }
-        }
-
         public event EventHandler<ConvertEventArgs> PrepareConvert;
         public event EventHandler<ConvertEventArgs> ConvertCompleted;
         public event EventHandler<ConvertEventArgs> ConvertFail;
@@ -56,23 +45,27 @@ namespace Seasar.Dxo.Interceptor
         public override object Invoke(IMethodInvocation invocation)
         {
             if (invocation == null)
+            {
                 throw new ArgumentNullException("invocation");
+            }
 
             MethodBase methodBase = invocation.Method;
             if (methodBase.IsAbstract)
             {
+                IDictionary<string, ConversionRuleAttribute> dxoMapping = CreateDxoMapping();
+                
                 MethodInfo methodInfo = GetComponentDef(invocation).ComponentType.GetMethod(methodBase.Name);
-                Type type = methodInfo.ReturnType;
-                if (!type.IsInterface && !type.IsAbstract)
+                Type returnType = methodInfo.ReturnType;
+                if (!returnType.IsInterface && !returnType.IsAbstract)
                 {
                     object[] args = invocation.Arguments;
                     object dest;
-                    if (type != typeof (void))
+                    if (returnType != typeof (void))
                     {
-                        if (type.IsArray)
-                            dest = Array.CreateInstance(type.GetElementType(), 0);
+                        if (returnType.IsArray)
+                            dest = Array.CreateInstance(returnType.GetElementType(), 0);
                         else
-                            dest = Activator.CreateInstance(type);
+                            dest = Activator.CreateInstance(returnType);
                     }
                     else
                     {
@@ -85,30 +78,30 @@ namespace Seasar.Dxo.Interceptor
                         throw new DxoException();
                     object source = args[0];
 
-                    _CollectConversionRuleAttribute(methodInfo);
-                    _CollectDatePatternMapping(methodInfo);
+                    _CollectConversionRuleAttribute(dxoMapping, methodInfo);
+                    string dateFormat = GetDatePatternFormat(methodInfo);
                     // sourceが配列の場合
                     if (source.GetType().IsArray)
                     {
-                        return AssignFromArrayToArray(source, dest);
+                        return AssignFromArrayToArray(dxoMapping, source, dest, dateFormat);
                     }
                     else if (source.GetType().IsGenericType)
                     {
                         if (source.GetType().IsInterface && dest.GetType().IsInterface)
                         {
                             if (source.GetType().Name == "IList" && dest.GetType().Name == "IList")
-                                return AssignFromListToList(source, dest);
+                                return AssignFromListToList(dxoMapping, source, dest, dateFormat);
                             else
-                                return AssignTo(source, dest, 0);
+                                return AssignTo(dxoMapping, source, dest, 0, dateFormat);
                         }
                         else
                         {
                             Type srcType = source.GetType().GetInterface("IList");
                             Type destType = dest.GetType().GetInterface("IList");
                             if (srcType != null && destType != null && srcType == destType)
-                                return AssignFromListToList(source, dest);
+                                return AssignFromListToList(dxoMapping, source, dest, dateFormat);
                             else
-                                return AssignTo(source, dest, 0);
+                                return AssignTo(dxoMapping, source, dest, 0, dateFormat);
                         }
                     }
                     else if(dest.GetType().GetInterface("IDictionary") == typeof(IDictionary))
@@ -120,11 +113,11 @@ namespace Seasar.Dxo.Interceptor
                     }
                     else if(!source.GetType().IsGenericType && dest.GetType().GetInterface("IList") == typeof(IList))
                     {
-                        return AssignFromObjectToList(source, dest);
+                        return AssignFromObjectToList(dxoMapping, source, dest, dateFormat);
                     }
                     else
                     {
-                        return AssignTo(source, dest, 0);
+                        return AssignTo(dxoMapping, source, dest, 0, dateFormat);
                     }
                 }
                 else
@@ -139,11 +132,23 @@ namespace Seasar.Dxo.Interceptor
         }
 
         /// <summary>
+        /// 変換ルール情報の格納場所を生成
+        /// </summary>
+        /// <returns></returns>
+        protected virtual IDictionary<string, ConversionRuleAttribute> CreateDxoMapping()
+        {
+            return new Dictionary<string, ConversionRuleAttribute>();
+        }
+
+        /// <summary>
         /// 配列から配列へオブジェクトへのアサインを実施する
         /// </summary>
+        /// <param name="dxoMapping">Dxo変換情報</param>
         /// <param name="source">変換元配列</param>
         /// <param name="dest">変換先配列</param>
-        protected virtual object AssignFromArrayToArray(object source, object dest)
+        /// <param name="dateFormat">日付書式</param>
+        protected virtual object AssignFromArrayToArray(IDictionary<string, ConversionRuleAttribute> dxoMapping, 
+            object source, object dest, string dateFormat)
         {
             object[] sourceObjs = source as object[];
 
@@ -164,7 +169,7 @@ namespace Seasar.Dxo.Interceptor
                 if (destObjs[i] == null)
                     destObjs[i] = Activator.CreateInstance(dest.GetType().GetElementType(), false);
 
-                AssignTo(sourceObjs[i], destObjs[i], 0);
+                AssignTo(dxoMapping, sourceObjs[i], destObjs[i], 0, dateFormat);
             }
             return dest;
         }
@@ -172,9 +177,12 @@ namespace Seasar.Dxo.Interceptor
         /// <summary>
         /// IListからIListへオブジェクトへのアサインを実施する
         /// </summary>
+        /// <param name="dxoMapping">Dxo変換情報</param>
         /// <param name="source">変換元配列</param>
         /// <param name="dest">変換先配列</param>
-        protected virtual object AssignFromListToList(object source, object dest)
+        /// <param name="dateFormat">日付書式</param>
+        protected virtual object AssignFromListToList(IDictionary<string, ConversionRuleAttribute> dxoMapping, 
+            object source, object dest, string dateFormat)
         {
             IList srcList = source as IList;
             IList destList = dest as IList;
@@ -184,7 +192,7 @@ namespace Seasar.Dxo.Interceptor
                 {
                     Type[] types = dest.GetType().GetGenericArguments();
                     object destObj = Activator.CreateInstance(types[0], false);
-                    AssignTo(srcObj, destObj, 0);
+                    AssignTo(dxoMapping, srcObj, destObj, 0, dateFormat);
                     destList.Add(destObj);
                 }
             }
@@ -194,16 +202,19 @@ namespace Seasar.Dxo.Interceptor
         /// <summary>
         /// ObjectからIListへオブジェクトへのアサインを実施する
         /// </summary>
+        /// <param name="dxoMapping">Dxo変換情報</param>
         /// <param name="source">変換オブジェクト</param>
         /// <param name="dest">変換先配列</param>
-        protected virtual object AssignFromObjectToList(object source, object dest)
+        /// <param name="dateFormat">日付書式</param>
+        protected virtual object AssignFromObjectToList(IDictionary<string, ConversionRuleAttribute> dxoMapping, 
+            object source, object dest, string dateFormat)
         {
             IList destList = dest as IList;
             if (destList != null)
             {
                 Type[] types = dest.GetType().GetGenericArguments();
                 object destObj = Activator.CreateInstance(types[0], false);
-                AssignTo(source, destObj, 0);
+                AssignTo(dxoMapping, source, destObj, 0, dateFormat);
                 destList.Add(destObj);
             }
 
@@ -213,17 +224,19 @@ namespace Seasar.Dxo.Interceptor
         /// <summary>
         /// オブジェクトへのアサインを実施します
         /// </summary>
+        /// <param name="dxoMapping">Dxo変換情報</param>
         /// <param name="source">変換元のオブジェクト</param>
         /// <param name="dest">変換対象のオブジェクト</param>
         /// <param name="cnt">ネストカウンター</param>
-        protected virtual object AssignTo(object source, object dest, int cnt)
+        /// <param name="dateFormat">日付書式</param>
+        protected virtual object AssignTo(IDictionary<string, ConversionRuleAttribute> dxoMapping, object source, object dest, int cnt, string dateFormat)
         {
             if (cnt < 2)
             {
                 PropertyInfo[] properties = source.GetType().GetProperties();
                 foreach (PropertyInfo property in properties)
                 {
-                    _TryExchangeSameNameProperty(property, source, dest, dest.GetType(), cnt);
+                    _TryExchangeSameNameProperty(dxoMapping, property, source, dest, dest.GetType(), cnt, dateFormat);
                 }
             }
             return dest;
@@ -232,22 +245,16 @@ namespace Seasar.Dxo.Interceptor
         /// <summary>
         /// DxoMapping用属性を全て取得して、内部に保持します
         /// </summary>
+        /// <param name="dxoMapping">Dxo変換情報</param>
         /// <param name="method">実行メソッド情報</param>
-        private void _CollectConversionRuleAttribute(MethodInfo method)
+        protected virtual void _CollectConversionRuleAttribute(IDictionary<string, ConversionRuleAttribute> dxoMapping, MethodInfo method)
         {
-            if (_dxoMapping == null)
-                _dxoMapping = new Dictionary<string, ConversionRuleAttribute>();
-
-            if (_dxoMapping.Count > 0)
-                _dxoMapping.Clear();
-
-            lock (_dxoMapping)
+            object[] attrs = method.GetCustomAttributes(typeof(ConversionRuleAttribute), false);
+            foreach (ConversionRuleAttribute attr in attrs)
             {
-                object[] attrs = method.GetCustomAttributes(typeof (ConversionRuleAttribute), false);
-                foreach (ConversionRuleAttribute attr in attrs)
+                if (attr != null && !String.IsNullOrEmpty(attr.PropertyName))
                 {
-                    if (attr != null && !String.IsNullOrEmpty(attr.PropertyName))
-                        _dxoMapping.Add(attr.PropertyName, attr);
+                    dxoMapping.Add(attr.PropertyName, attr);
                 }
             }
         }
@@ -256,47 +263,55 @@ namespace Seasar.Dxo.Interceptor
         /// DatePattern用属性を全て取得して、内部に保持します。
         /// </summary>
         /// <param name="method">実行メソッド情報</param>
-        private void _CollectDatePatternMapping(MemberInfo method)
+        protected virtual string GetDatePatternFormat(MemberInfo method)
         {
-            _dateFormat = String.Empty;
+            string dateFormat = String.Empty;
             object[] attrs = method.GetCustomAttributes(typeof (DatePatternAttribute), false);
             foreach (DatePatternAttribute attr in attrs)
             {
                 if (attr != null && !String.IsNullOrEmpty(attr.Format))
-                    _dateFormat = attr.Format;
+                    dateFormat = attr.Format;
             }
+            return dateFormat;
         }
 
         /// <summary>
         /// 任意のプロパティを対象のオブジェクトのプロパティに変換します
         /// </summary>
+        /// <param name="dxoMapping">Dxo変換情報</param>
         /// <param name="sourceInfo">対象となっているプロパティ情報</param>
         /// <param name="source">対象となっているプロパティを持つオブジェクト</param>
         /// <param name="dest">変換対象のオブジェクト</param>
         /// <param name="destType">変換対象のオブジェクトの型</param>
         /// <param name="cnt">ネストカウンター</param>
-        private void _TryExchangeSameNameProperty(PropertyInfo sourceInfo, object source, object dest, Type destType, int cnt)
+        /// <param name="dateFormat">日付書式</param>
+        private void _TryExchangeSameNameProperty(IDictionary<string, ConversionRuleAttribute> dxoMapping,
+            PropertyInfo sourceInfo, object source, object dest, Type destType, int cnt, string dateFormat)
         {
             try
             {
                 cnt++;
                 PropertyInfo destInfo;
                 string targetPropertyName = sourceInfo.Name;
-                bool existProperty = _dxoMapping.ContainsKey(sourceInfo.Name);
+                bool existProperty = dxoMapping.ContainsKey(sourceInfo.Name);
                 if (existProperty)
                 {
-                    string targetName = _dxoMapping[sourceInfo.Name].TargetPropertyName;
+                    string targetName = dxoMapping[sourceInfo.Name].TargetPropertyName;
                     if (String.IsNullOrEmpty(targetPropertyName))
+                    {
                         targetPropertyName = sourceInfo.Name;
+                    }
                     else
+                    {
                         targetPropertyName = targetName;
+                    }
                 }
 
                 //同じ名前のプロパティが変換先同一プロパティにあるか?
                 destInfo = destType.GetProperty(targetPropertyName);
                 if (destInfo != null && destInfo.CanRead && destInfo.CanWrite)
                 {
-                    _ConvertProperty(sourceInfo, source, dest, destInfo, existProperty);
+                    _ConvertProperty(dxoMapping, sourceInfo, source, dest, destInfo, existProperty, dateFormat);
                 }
                     // 異なる場合、再帰で調査する
                 else
@@ -307,7 +322,7 @@ namespace Seasar.Dxo.Interceptor
                         // 変換元を調査する
                         if (srcValue.GetType().Namespace != "System")
                         {
-                            AssignTo(srcValue, dest, cnt);
+                            AssignTo(dxoMapping, srcValue, dest, cnt, dateFormat);
                         }
                             // 変換先を調査する
                         else
@@ -316,9 +331,11 @@ namespace Seasar.Dxo.Interceptor
                             foreach (PropertyInfo property in properties)
                             {
                                 object destValue = property.GetValue(dest, null);
-                                if (destValue != null && destValue.GetType().BaseType != typeof (ValueType) &&
+                                if (destValue != null && destValue.GetType().BaseType != typeof(ValueType) &&
                                     destValue.GetType().Namespace != "System")
-                                    AssignTo(source, destValue, cnt);
+                                {
+                                    AssignTo(dxoMapping, source, destValue, cnt, dateFormat);
+                                }
                             }
                         }
                     }
@@ -333,13 +350,15 @@ namespace Seasar.Dxo.Interceptor
         /// <summary>
         /// 同じ名前のプロパティが変換先同一プロパティにあるときにコンバートする
         /// </summary>
+        /// <param name="dxoMapping">Dxo変換情報</param>
         /// <param name="sourceInfo">対象となっているプロパティ情報</param>
         /// <param name="source">対象となっているプロパティを持つオブジェクト</param>
         /// <param name="dest">変換対象のオブジェクト</param>
         /// <param name="destInfo">変換対象のオブジェクト情報</param>
         /// <param name="existProperty">属性の存在フラグ</param>
-        private void _ConvertProperty(PropertyInfo sourceInfo, object source, object dest, PropertyInfo destInfo,
-                                      bool existProperty)
+        /// <param name="dateFormat">日付書式</param>
+        private void _ConvertProperty(IDictionary<string, ConversionRuleAttribute> dxoMapping, PropertyInfo sourceInfo, 
+            object source, object dest, PropertyInfo destInfo, bool existProperty, string dateFormat)
         {
             object sourceValue = sourceInfo.GetValue(source, null);
             object destValue = destInfo.GetValue(dest, null);
@@ -349,7 +368,7 @@ namespace Seasar.Dxo.Interceptor
                 IPropertyConverter converter;
                 if (existProperty)
                 {
-                    ConversionRuleAttribute attr = _dxoMapping[sourceInfo.Name];
+                    ConversionRuleAttribute attr = dxoMapping[sourceInfo.Name];
                     if (attr.Ignore)
                     {
                         converter = null;
@@ -369,11 +388,7 @@ namespace Seasar.Dxo.Interceptor
                 }
                 if (converter != null)
                 {
-                    if (_dateFormat == null)
-                        converter.Format = String.Empty;
-                    else
-                        converter.Format = _dateFormat;
-
+                    converter.Format = (dateFormat == null ? String.Empty : dateFormat);
                     _AttachConverterEvent(converter);
                     try
                     {

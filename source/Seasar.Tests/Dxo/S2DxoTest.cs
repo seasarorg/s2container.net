@@ -1,6 +1,6 @@
 #region Copyright
 /*
- * Copyright 2005-2010 the Seasar Foundation and the Others.
+ * Copyright 2005-2013 the Seasar Foundation and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ using log4net.Config;
 using log4net.Util;
 using MbUnit.Framework;
 using Seasar.Extension.Unit;
+using System.Threading;
 
 namespace Seasar.Tests.Dxo 
 {
@@ -41,7 +42,6 @@ namespace Seasar.Tests.Dxo
         /// </summary>
         private const string PATH = "Seasar.Tests.Dxo.dxo.dicon";
 
-        [SetUp]
         public void SetUp()
         {
             FileInfo info = new FileInfo(
@@ -49,15 +49,13 @@ namespace Seasar.Tests.Dxo
                                                     Assembly.GetExecutingAssembly())));
 
             XmlConfigurator.Configure(LogManager.GetRepository(), info);
+            Include(PATH);
         }
 
         [Test, S2]
         public void TestSimple()
         {
-            Include(PATH);
-
-            IEmployeeDxo dxo = (IEmployeeDxo) GetComponent(typeof (IEmployeeDxo));
-
+            IEmployeeDxo dxo = (IEmployeeDxo)GetComponent(typeof(IEmployeeDxo));
 
             Employee employee = new Employee();
             employee.EName = "Mike";
@@ -113,8 +111,7 @@ namespace Seasar.Tests.Dxo
         [Test, S2]
         public void TestBeanToBean()
         {
-            Include(PATH);
-            IBeanToBeanDxo dxo = (IBeanToBeanDxo) GetComponent(typeof (IBeanToBeanDxo));
+            IBeanToBeanDxo dxo = (IBeanToBeanDxo)GetComponent(typeof(IBeanToBeanDxo));
 
             BeanA source = new BeanA();
             source.FlagToBool = true;
@@ -127,11 +124,11 @@ namespace Seasar.Tests.Dxo
             source.IntToLong = 9876;
             source.LongToLong = 7654321;
             source.StringToLong = "1234567";
-            char[] testchar = {'t', 'e', 's', 't'};
+            char[] testchar = { 't', 'e', 's', 't' };
             source.CharToString = testchar;
             DateTime date = new DateTime(2007, 7, 2, 1, 2, 3);
             source.DateToString = date;
-            char[] testchar2 = {'t', 'e', 's', 't', '2'};
+            char[] testchar2 = { 't', 'e', 's', 't', '2' };
             source.CharToChar = testchar2;
             source.StringToChar = "test3";
             source.StringToDateTime = "20070630";
@@ -173,8 +170,7 @@ namespace Seasar.Tests.Dxo
         [Test, S2]
         public void TestArray()
         {
-            Include(PATH);
-            ICollectionDxo dxo = (ICollectionDxo) GetComponent(typeof (ICollectionDxo));
+            ICollectionDxo dxo = (ICollectionDxo)GetComponent(typeof(ICollectionDxo));
 
             // 配列To配列
             Department dept = new Department();
@@ -213,7 +209,6 @@ namespace Seasar.Tests.Dxo
         [Test, S2]
         public void TestList()
         {
-            Include(PATH);
             ICollectionDxo dxo = (ICollectionDxo)GetComponent(typeof(ICollectionDxo));
 
             IList<Employee> srcList = new List<Employee>();
@@ -256,7 +251,6 @@ namespace Seasar.Tests.Dxo
         [Test, S2]
         public void TestList2()
         {
-            Include(PATH);
             ICollectionDxo dxo = (ICollectionDxo)GetComponent(typeof(ICollectionDxo));
 
             Department dept = new Department();
@@ -281,8 +275,6 @@ namespace Seasar.Tests.Dxo
         [Test, S2]
         public void TestDictionary()
         {
-            Include(PATH);
-
             ICollectionDxo dxo = (ICollectionDxo)GetComponent(typeof(ICollectionDxo));
 
             IDictionary dict = new Hashtable();
@@ -303,14 +295,11 @@ namespace Seasar.Tests.Dxo
             Department dept2 = (Department)hash["Department"];
             Assert.AreEqual(1, dept2.Id, "Id");
             Assert.AreEqual("Sales", dept2.DName, "DName");
-
         }
 
         [Test, S2]
         public void TestDateTime()
         {
-            Include(PATH);
-
             IDateTimeToStringBean dxo = (IDateTimeToStringBean)GetComponent(typeof(IDateTimeToStringBean));
 
             DateTimeBean bean = new DateTimeBean();
@@ -337,9 +326,7 @@ namespace Seasar.Tests.Dxo
         [Test, S2]
         public void TestNested()
         {
-            Include(PATH);
-
-            INestedDxo dxo = (INestedDxo) GetComponent(typeof (INestedDxo));
+            INestedDxo dxo = (INestedDxo)GetComponent(typeof(INestedDxo));
             NestedEmployee emp1 = new NestedEmployee();
             emp1.Name = "001";
             emp1.Emp = new Employee();
@@ -370,8 +357,83 @@ namespace Seasar.Tests.Dxo
             NestedEmployee emp4 = new NestedEmployee();
             dxo.ConvertFromPage(emp3, emp4);
             Assert.AreEqual("name3", emp4.Name);
-            Assert.IsNull(emp4.Emp);
-            
+            Assert.IsNull(emp4.Emp);            
+        }
+
+        private static string _multiAccessErrMsg;
+        /// <summary>
+        /// 同時に複数のスレッドから使用した場合のテスト
+        /// </summary>
+        [Test, S2]
+        public void TestMultiAccess()
+        {
+            _multiAccessErrMsg = string.Empty;
+            Thread[] threads = {
+                                   new Thread(new ExecuteInvoker(TestArray).Execute),
+                                   new Thread(new ExecuteInvoker(TestBeanToBean).Execute),
+                                   new Thread(new ExecuteInvoker(TestDateTime).Execute),
+                                   new Thread(new ExecuteInvoker(TestDictionary).Execute),
+                                   new Thread(new ExecuteInvoker(TestList).Execute),
+                                   new Thread(new ExecuteInvoker(TestList2).Execute),
+                                   new Thread(new ExecuteInvoker(TestSimple).Execute),
+                                   new Thread(new ExecuteInvoker(TestNested).Execute),
+                                   new Thread(new ExecuteInvoker(TestArray).Execute),
+                                   new Thread(new ExecuteInvoker(TestBeanToBean).Execute),
+                                   new Thread(new ExecuteInvoker(TestDateTime).Execute),
+                                   new Thread(new ExecuteInvoker(TestDictionary).Execute),
+                                   new Thread(new ExecuteInvoker(TestList).Execute),
+                                   new Thread(new ExecuteInvoker(TestList2).Execute),
+                                   new Thread(new ExecuteInvoker(TestSimple).Execute),
+                                   new Thread(new ExecuteInvoker(TestNested).Execute)
+                               };
+            // 複数スレッドでのDxo処理開始
+            foreach(Thread t in threads)
+            {
+                t.Start();
+            }
+
+            bool isAlive = true;
+            while (isAlive)
+            {
+                // 全てのスレッドが終了するまで待ち続ける
+                Thread.Sleep(10);
+                isAlive = false;
+                foreach (Thread t in threads)
+                {
+                    if (t.IsAlive)
+                    {
+                        isAlive = true;
+                        break;
+                    }
+                }
+            }
+            // 全て正常終了しているかチェック
+            Assert.AreEqual(0, _multiAccessErrMsg.Length, _multiAccessErrMsg);
+        }
+
+        /// <summary>
+        /// マルチスレッドでのDxoInterceptor処理確認用クラス
+        /// </summary>
+        private class ExecuteInvoker
+        {
+            private readonly ThreadStart _testTarget;
+            public ExecuteInvoker(ThreadStart testTarget)
+            {
+                _testTarget = testTarget;
+            }
+
+            public void Execute()
+            {
+                try
+                {
+                    _testTarget();
+                }
+                catch (Exception ex)
+                {
+                    // 例外が発生したらエラーメッセージをstatic領域に格納
+                    _multiAccessErrMsg = string.Format("{0}:{1}", ex.Message, ex.StackTrace);
+                }  
+            }
         }
     }
 }
