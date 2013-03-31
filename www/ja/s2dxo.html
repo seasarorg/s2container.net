@@ -119,6 +119,7 @@
 				<li><a href="#difinition">Dxoの定義</a></li>
 				<li><a href="#rule">変換ルール</a></li>
 				<li><a href="#customize">変換のカスタマイズ</a></li>
+				<li><a href="#worning">Seasar.NET1.4.0,1.3.19に移行する際のの注意点</li>
 			</ul>
 
 			<p>　<span class="important">S2Dxo.NETを使用するときには、
@@ -579,6 +580,35 @@
 <span class="kwrd">End</span> <span class="kwrd">Interface</span>
 </pre>
 		</div>
+	</div>
+<!-- ############################################# Seasar.NET1.4.0,1.3.19に移行する際のの注意点 ######################################################### -->
+
+	<div class="content">
+		<a name="worning" />
+		<div class="contentHeader">
+			<div class="contentHeader1">
+				<h1>Seasar.NET1.4.0,1.3.19に移行する際のの注意点</h1>
+			</div>
+			<div class="contentHeader2">
+				<a href="#top"><img src="images/up.png" />上へ</a>
+			</div>
+			<br class="clear" />
+		</div>
+		<p>　Seasar.NET 1.4.0, 1.3.19以降では、<a href="https://www.seasar.org/issues/browse/CONTAINERNET-155">DxoInterceptorをスレッドセーフにする対応</a>のため、下記プロパティ、メソッドが変更になっています。<br>
+		　Seasar.Dxo.Interceptor.DxoInterceptorを拡張してご利用している場合はご注意下さい。</p>
+		<ul>
+			<li>DxoMappingプロパティ　⇒　廃止</li>
+			<li>AssignFromArrayToArrayメソッド　⇒　シグネチャ変更</li>
+			<li>AssignFromListToListメソッド　⇒　シグネチャ変更</li>
+			<li>AssignFromObjectToListメソッド　⇒　シグネチャ変更</li>
+			<li>AssignToメソッド　⇒　シグネチャ変更</li>
+			<li>_CollectConversionRuleAttributeメソッド　⇒　シグネチャ変更</li>
+			<li>_TryExchangeSameNamePropertyメソッド　⇒　シグネチャ変更</li>
+			<li>_ConvertPropertyメソッド　⇒　シグネチャ変更</li>
+			<li>_CollectDatePatternMappingメソッド　⇒　GetDataPatternFormatに名称変更、シグネチャ変更</li>
+			<li>CreateDxoMappingメソッド（protected, 拡張可）　⇒　新規追加</li>
+		</ul>
+		<br>
 	</div>
 <!-- div.contents -->
 </div>
