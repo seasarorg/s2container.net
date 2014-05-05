@@ -56,9 +56,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AOP\Aspect\IAspectBuilder.cs" />
-    <Compile Include="AOP\Aspect\IInterceptorBuilder.cs" />
-    <Compile Include="AOP\IAOPAdapterFactory.cs" />
     <Compile Include="AOP\IMethodInterceptor.cs" />
     <Compile Include="AOP\IMethodInvocation.cs" />
     <Compile Include="Attr\AspectAttribute.cs" />
@@ -128,9 +125,8 @@
     <Content Include="QuillControl.gif" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="AOP\Aspect\Impl\" />
+    <Folder Include="AOP\Aspect\" />
     <Folder Include="AOP\Interceptor\" />
-    <Folder Include="AOP\Proxy\" />
     <Folder Include="Config\Impl\" />
     <Folder Include="Util\" />
   </ItemGroup>
