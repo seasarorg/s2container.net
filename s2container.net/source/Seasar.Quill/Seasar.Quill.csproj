@@ -60,13 +60,15 @@
     <Compile Include="AOP\IMethodInvocation.cs" />
     <Compile Include="Attr\AspectAttribute.cs" />
     <Compile Include="Attr\ImplementationAttribute.cs" />
+    <Compile Include="Config\Impl\AbstractQuillConfigBuilder.cs" />
+    <Compile Include="Config\Impl\DefaultQuillConfigBuilder.cs" />
+    <Compile Include="Config\IQuillConfigBuilder.cs" />
     <Compile Include="Config\QuillConfig.cs" />
     <Compile Include="Container\IComponentCreater.cs" />
     <Compile Include="Container\IInstanceManager.cs" />
     <Compile Include="Container\IImplTypeDetector.cs" />
     <Compile Include="Container\Impl\ComponentCreator\NewInstanceCreator.cs" />
     <Compile Include="Container\Impl\ComponentCreator\CastleDynamicProxyCreator.cs" />
-    <Compile Include="Container\Impl\DefaultQuillContainerBuilder.cs" />
     <Compile Include="Container\Impl\Detector\AttributeImplTypeDetector.cs" />
     <Compile Include="Container\Impl\Detector\MappingImplTypeDetector.cs" />
     <Compile Include="Container\Impl\InstanceManager\AbstractInstanceManager.cs" />
@@ -74,8 +76,8 @@
     <Compile Include="Container\Impl\QuillContainer.cs" />
     <Compile Include="Container\Impl\InstanceManager\SingletonInstanceManager.cs" />
     <Compile Include="Container\IQuillContainer.cs" />
-    <Compile Include="Container\IQuillContainerBuilder.cs" />
     <Compile Include="Exception\ComponentCreatorNotFoundException.cs" />
+    <Compile Include="Exception\ConfigNeverSetupException.cs" />
     <Compile Include="Exception\ImplementTypeNotFoundException.cs" />
     <Compile Include="Exception\QuillApplicationException.cs" />
     <Compile Include="Extensiion\MemberInfoExtension.cs" />
@@ -127,7 +129,6 @@
   <ItemGroup>
     <Folder Include="AOP\Aspect\" />
     <Folder Include="AOP\Interceptor\" />
-    <Folder Include="Config\Impl\" />
     <Folder Include="Util\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

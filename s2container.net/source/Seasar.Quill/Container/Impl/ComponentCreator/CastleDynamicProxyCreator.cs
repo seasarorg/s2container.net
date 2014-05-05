@@ -49,8 +49,6 @@ namespace Seasar.Quill.Container.Impl.ComponentCreator
 
         #region 内部メソッド
 
-        
-
         private IInterceptor[] GetInterceptors(Type target)
         {
             var aspectAttributes = new HashSet<AspectAttribute>();
@@ -100,24 +98,6 @@ namespace Seasar.Quill.Container.Impl.ComponentCreator
             return _interceptorMap[interceptorType];
         }
 
-        private void RegisterInterceptors(IDictionary<Type, IInterceptor> interceptors, IEnumerable<AspectAttribute> aspects)
-        {
-            foreach(var aspect in aspects)
-            {
-                Type interceptorType = aspect.InterceptorType;
-                if (!interceptors.ContainsKey(interceptorType))
-                {
-                    if (!_interceptorMap.ContainsKey(interceptorType))
-                    {
-                        var interceptor = new CastleInterceptorAdapter(
-                            (IMethodInterceptor)_injector.CreateInjectedInstance(interceptorType), aspect.Ordinal);
-                        _interceptorMap.AddOrUpdate(interceptorType, interceptor, (m, i) => interceptor);
-                    }
-
-                    interceptors.Add(interceptorType, _interceptorMap[interceptorType]);
-                }
-            }
-        }
         #endregion
 
         #region 内部クラス
