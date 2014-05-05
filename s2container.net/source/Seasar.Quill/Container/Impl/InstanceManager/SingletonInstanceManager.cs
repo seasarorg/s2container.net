@@ -1,5 +1,4 @@
-﻿using Seasar.Quill.Exception;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Seasar.Quill.Container.Impl.InstanceManager
