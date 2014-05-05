@@ -1,144 +1,19 @@
-#region Copyright
-/*
- * Copyright 2005-2013 the Seasar Foundation and the Others.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
- * either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
- */
-#endregion
-
-using System;
-using Seasar.Quill.Util;
+ï»¿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace Seasar.Quill.Exception
 {
-    /// <summary>
-    /// Quill‚ÅƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒGƒ‰[‚ª”­¶‚µ‚½ê‡‚ÉƒXƒ[‚³‚ê‚é—áŠOƒNƒ‰ƒX
-    /// </summary>
-    [Serializable]
-    public class QuillApplicationException : ApplicationException
+    public class QuillApplicationException : System.Exception
     {
-        /// <summary>
-        /// ƒƒbƒZ[ƒWƒR[ƒh
-        /// </summary>
-        protected string messageCode;
+        public QuillApplicationException() : base()
+        { }
 
-        /// <summary>
-        /// ƒƒbƒZ[ƒW‚É–„‚ß‚Ş’l‚Ì”z—ñ
-        /// </summary>
-        protected object[] args;
+        public QuillApplicationException(string message) : base(message)
+        { }
 
-        /// <summary>
-        /// ƒƒbƒZ[ƒW(ƒƒbƒZ[ƒWƒR[ƒh‚ğŠÜ‚Ş)
-        /// </summary>
-        protected string message;
-
-        /// <summary>
-        /// ŠÈ’P‚ÈƒƒbƒZ[ƒW(ƒƒbƒZ[ƒWƒR[ƒh‚ğŠÜ‚Ü‚È‚¢)
-        /// </summary>
-        protected string simpleMessage;
-
-        /// <summary>
-        /// ƒƒbƒZ[ƒWƒR[ƒh‚ğw’è‚µ‚ÄQuillApplicationException‚ğ‰Šú‰»‚·‚é
-        /// </summary>
-        /// <param name="messageCode">ƒƒbƒZ[ƒWƒR[ƒh</param>
-        public QuillApplicationException(string messageCode)
-            : this(messageCode, null, null)
-        {
-        }
-
-        /// <summary>
-        /// ƒƒbƒZ[ƒWƒR[ƒh‚ÆƒƒbƒZ[ƒW‚ğw’è‚µ‚ÄQuillApplicationException‚ğ‰Šú‰»‚·‚é
-        /// </summary>
-        /// <param name="messageCode">ƒƒbƒZ[ƒWƒR[ƒh</param>
-        /// <param name="message">ƒƒbƒZ[ƒW</param>
-        public QuillApplicationException(string messageCode, string message)
-        {
-            // ƒƒbƒZ[ƒW‚ğƒZƒbƒg‚·‚é
-            simpleMessage = message;
-
-            // ƒƒbƒZ[ƒWƒR[ƒh•t‚«‚ÌƒƒbƒZ[ƒW‚ğƒZƒbƒg‚·‚é
-            this.message = "[" + messageCode + "]" + simpleMessage;
-        }
-
-        /// <summary>
-        /// ƒƒbƒZ[ƒWƒR[ƒhEƒƒbƒZ[ƒW’†‚É–„‚ß‚Ş•¶š—ñ‚Ì”z—ñ‚ğw’è‚µ‚Ä
-        /// QuillApplicationException‚ğ‰Šú‰»‚·‚é
-        /// </summary>
-        /// <param name="messageCode">ƒƒbƒZ[ƒWƒR[ƒh</param>
-        /// <param name="args">ƒƒbƒZ[ƒW’†‚É–„‚ß‚Ş•¶š—ñ‚Ì”z—ñ</param>
-        public QuillApplicationException(string messageCode, object[] args)
-            : this(messageCode, args, null)
-        {
-        }
-
-        /// <summary>
-        /// ƒƒbƒZ[ƒWƒR[ƒhEƒƒbƒZ[ƒW’†‚É–„‚ß‚Ş•¶š—ñ‚Ì”z—ñEŒ³‚Æ‚È‚Á‚½—áŠO
-        /// ‚ğw’è‚µ‚ÄQuillApplicationException‚ğ‰Šú‰»‚·‚é
-        /// </summary>
-        /// <param name="messageCode">ƒƒbƒZ[ƒWƒR[ƒh</param>
-        /// <param name="args">ƒƒbƒZ[ƒW’†‚É–„‚ß‚Ş’l‚Ì”z—ñ</param>
-        /// <param name="cause">Œ³‚Æ‚È‚Á‚½—áŠO</param>
-        public QuillApplicationException(
-            string messageCode, object[] args, System.Exception cause)
-            : base(null, cause)
-        {
-            // ƒƒbƒZ[ƒWƒR[ƒh‚ğƒZƒbƒg‚·‚é
-            this.messageCode = messageCode;
-
-            // ƒƒbƒZ[ƒW’†‚É–„‚ß‚Ş’l‚Ì”z—ñ‚ğƒZƒbƒg‚·‚é
-            this.args = args;
-
-            // ƒƒbƒZ[ƒW‚ğƒZƒbƒg‚·‚é
-            simpleMessage = MessageUtil.GetSimpleMessage(messageCode, args);
-
-            // ƒƒbƒZ[ƒWƒR[ƒh•t‚«‚ÌƒƒbƒZ[ƒW‚ğƒZƒbƒg‚·‚é
-            message = "[" + messageCode + "]" + simpleMessage;
-        }
-
-        /// <summary>
-        /// ƒƒbƒZ[ƒWƒR[ƒh‚ğæ“¾‚·‚é
-        /// </summary>
-        /// <value>ƒƒbƒZ[ƒWƒR[ƒh</value>
-        public string MessageCode
-        {
-            get { return messageCode; }
-        }
-
-        /// <summary>
-        /// ƒƒbƒZ[ƒW‚É–„‚ß‚Ş’l‚Ì”z—ñ‚ğæ“¾‚·‚é
-        /// </summary>
-        /// <value>ƒƒbƒZ[ƒW‚É–„‚ß‚Ş’l‚Ì”z—ñ</value>
-        public object[] Args
-        {
-            get { return args; }
-        }
-
-        /// <summary>
-        /// ƒƒbƒZ[ƒW(ƒƒbƒZ[ƒWƒR[ƒh‚ğŠÜ‚Ş)‚ğæ“¾Eİ’è‚·‚é
-        /// </summary>
-        /// <value>ƒƒbƒZ[ƒW(ƒƒbƒZ[ƒWƒR[ƒh‚ğŠÜ‚Ş)</value>
-        public override string Message
-        {
-            get { return message; }
-        }
-
-        /// <summary>
-        /// ŠÈ’P‚ÈƒƒbƒZ[ƒW(ƒƒbƒZ[ƒWƒR[ƒh‚ğŠÜ‚Ü‚È‚¢)‚ğæ“¾‚·‚é
-        /// </summary>
-        /// <value>ŠÈ’P‚ÈƒƒbƒZ[ƒW(ƒƒbƒZ[ƒWƒR[ƒh‚ğŠÜ‚Ü‚È‚¢)</value>
-        public string SimpleMessage
-        {
-            get { return simpleMessage; }
-        }
+        public QuillApplicationException(string message, System.Exception innerException) : base(message, innerException)
+        { }
     }
 }

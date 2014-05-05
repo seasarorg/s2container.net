@@ -17,7 +17,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>3.5</OldToolsVersion>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -28,6 +28,7 @@
     <DefineConstants>TRACE;DEBUG;NET_4_0</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -37,8 +38,16 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core, Version=3.2.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Castle.Core\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\..\lib\log4net\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
@@ -47,84 +56,56 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AspectBuilder.cs" />
-    <Compile Include="Attrs\AspectAttribute.cs" />
-    <Compile Include="Attrs\BindingAttribute.cs" />
-    <Compile Include="Attrs\ImplementationAttribute.cs" />
-    <Compile Include="Attrs\MockAttribute.cs" />
-    <Compile Include="Attrs\S2DaoAttribute.cs" />
-    <Compile Include="Attrs\TransactionAttribute.cs" />
-    <Compile Include="Dao\IDaoSetting.cs" />
-    <Compile Include="Dao\Impl\AbstractDaoSetting.cs" />
-    <Compile Include="Dao\Impl\TypicalDaoSetting.cs" />
-    <Compile Include="Dao\Interceptor\DataSourceSelectInterceptor.cs" />
-    <Compile Include="Database\DataSource\Connection\IConnectionString.cs" />
-    <Compile Include="Database\Provider\DB2.cs" />
-    <Compile Include="Database\Provider\Firebird.cs" />
-    <Compile Include="Database\Provider\MySQL.cs" />
-    <Compile Include="Database\Provider\ODBC.cs" />
-    <Compile Include="Database\Provider\ODP.cs" />
-    <Compile Include="Database\Provider\OleDb.cs" />
-    <Compile Include="Database\Provider\Oracle.cs" />
-    <Compile Include="Database\Provider\PostgreSQL.cs" />
-    <Compile Include="Database\Provider\SqlServer.cs" />
-    <Compile Include="Database\Provider\SQLite.cs" />
-    <Compile Include="Database\Tx\Impl\AbstractTransactionSetting.cs" />
-    <Compile Include="Database\Tx\Impl\TypicalTransactionSetting.cs" />
-    <Compile Include="Database\Tx\ITransactionSetting.cs" />
-    <Compile Include="Database\DataSource\Selector\IDataSourceSelector.cs" />
-    <Compile Include="Database\DataSource\Impl\SelectableDataSourceProxyWithDictionary.cs" />
-    <Compile Include="Exception\QuillConfigNotFoundException.cs" />
-    <Compile Include="Exception\QuillInvalidClassException.cs" />
-    <Compile Include="InjectionMap.cs" />
+    <Compile Include="AOP\Adapter\Castle\CastleDynamicProxyAdapterFactory.cs" />
+    <Compile Include="AOP\Aspect\IAspectBuilder.cs" />
+    <Compile Include="AOP\Aspect\IInterceptorBuilder.cs" />
+    <Compile Include="AOP\IAOPAdapterFactory.cs" />
+    <Compile Include="AOP\IMethodInterceptor.cs" />
+    <Compile Include="AOP\IMethodInvocation.cs" />
+    <Compile Include="AOP\Adapter\Castle\InterceptorAdapter.cs" />
+    <Compile Include="AOP\Adapter\Castle\MethodInvocationAdapter.cs" />
+    <Compile Include="Attr\AspectAttribute.cs" />
+    <Compile Include="Attr\ImplementationAttribute.cs" />
+    <Compile Include="Config\QuillConfig.cs" />
+    <Compile Include="Container\IComponentCreater.cs" />
+    <Compile Include="Container\IInstanceManager.cs" />
+    <Compile Include="Container\IImplTypeDetector.cs" />
+    <Compile Include="Container\Impl\ComponentCreator\NewInstanceCreator.cs" />
+    <Compile Include="Container\Impl\ComponentCreator\CastleDynamicProxyCreator.cs" />
+    <Compile Include="Container\Impl\DefaultQuillContainerBuilder.cs" />
+    <Compile Include="Container\Impl\Detector\AttributeImplTypeDetector.cs" />
+    <Compile Include="Container\Impl\Detector\MappingImplTypeDetector.cs" />
+    <Compile Include="Container\Impl\InstanceManager\AbstractInstanceManager.cs" />
+    <Compile Include="Container\Impl\InstanceManager\PrototypeInstanceManager.cs" />
+    <Compile Include="Container\Impl\QuillContainer.cs" />
+    <Compile Include="Container\Impl\InstanceManager\SingletonInstanceManager.cs" />
+    <Compile Include="Container\IQuillContainer.cs" />
+    <Compile Include="Container\IQuillContainerBuilder.cs" />
+    <Compile Include="Exception\ComponentCreatorNotFoundException.cs" />
+    <Compile Include="Exception\ImplementTypeNotFoundException.cs" />
+    <Compile Include="Exception\QuillApplicationException.cs" />
+    <Compile Include="Injection\Impl\AbstractQuillInjector.cs" />
+    <Compile Include="Injection\Impl\QuillInjector.cs" />
+    <Compile Include="Injection\IQuillInjector.cs" />
+    <Compile Include="Log\ILogger.cs" />
+    <Compile Include="Log\ILoggerFactory.cs" />
+    <Compile Include="Log\Impl\log4net\Log4netLoggerFactory.cs" />
+    <Compile Include="Log\Impl\log4net\Logger.cs" />
+    <Compile Include="Message\MessageFormatter.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Exception\QuillApplicationException.cs" />
-    <Compile Include="QuillComponent.cs" />
-    <Compile Include="QuillConfig.cs" />
-    <Compile Include="QuillConstants.cs" />
-    <Compile Include="QuillContainer.cs" />
     <Compile Include="QuillControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="QuillControl.Designer.cs">
       <DependentUpon>QuillControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="QuillInjector.cs" />
-    <Compile Include="SingletonS2ContainerConnector.cs" />
-    <Compile Include="Unit\MockInjector.cs" />
-    <Compile Include="Util\AttributeUtil.cs" />
-    <Compile Include="Util\ComponentUtil.cs" />
-    <Compile Include="Util\EnvironmentalUtils.cs" />
-    <Compile Include="Util\LogUtil.cs" />
-    <Compile Include="Util\MessageUtil.cs" />
-    <Compile Include="Util\SettingUtil.cs" />
-    <Compile Include="Util\TypeUtil.cs" />
-    <Compile Include="Xml\DataSourceSection.cs" />
-    <Compile Include="Xml\QuillSection.cs" />
-    <Compile Include="Xml\QuillSectionHandler.cs" />
-    <Compile Include="Xml\QuillSectionLoader.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Seasar.Dao\Seasar.Dao.csproj">
-      <Project>{474715CA-5C99-4C50-ADFA-FB628824DFF0}</Project>
-      <Name>Seasar.Dao</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Seasar.DynamicProxy\Seasar.DynamicProxy.csproj">
-      <Project>{063DED73-CA16-4038-904D-5A18A630843D}</Project>
-      <Name>Seasar.DynamicProxy</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Seasar\Seasar.csproj">
-      <Project>{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}</Project>
-      <Name>Seasar</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\QuillControl.gif" />
     <None Include="Seasar.snk" />
   </ItemGroup>
   <ItemGroup>
@@ -146,6 +127,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="QuillControl.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="AOP\Aspect\Impl\" />
+    <Folder Include="AOP\Interceptor\" />
+    <Folder Include="AOP\Proxy\" />
+    <Folder Include="Config\Impl\" />
+    <Folder Include="Util\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

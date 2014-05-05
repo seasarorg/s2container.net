@@ -18,7 +18,7 @@
 
 using System.ComponentModel;
 using System.Windows.Forms;
-using Seasar.Quill.Util;
+//using Seasar.Quill.Util;
 
 namespace Seasar.Quill
 {
@@ -56,17 +56,17 @@ namespace Seasar.Quill
         /// </remarks>
         public void EndInit()
         {
-            // デザインモードの場合はDIは行わない
-            if (DesignMode || EnvironmentalUtils.IsDesignMode())
-            {
-                return;
-            }
+            //// デザインモードの場合はDIは行わない
+            //if (DesignMode || EnvironmentalUtils.IsDesignMode())
+            //{
+            //    return;
+            //}
 
-            // QuilInjectorのインスタンスを取得する
-            QuillInjector injector = QuillInjector.GetInstance();
+            //// QuilInjectorのインスタンスを取得する
+            //QuillInjector injector = QuillInjector.GetInstance();
 
-            // 親コンテナに対してDIを行う
-            injector.Inject(Parent);
+            //// 親コンテナに対してDIを行う
+            //injector.Inject(Parent);
         }
 
         #endregion
