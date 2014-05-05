@@ -56,14 +56,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AOP\Adapter\Castle\CastleDynamicProxyAdapterFactory.cs" />
     <Compile Include="AOP\Aspect\IAspectBuilder.cs" />
     <Compile Include="AOP\Aspect\IInterceptorBuilder.cs" />
     <Compile Include="AOP\IAOPAdapterFactory.cs" />
     <Compile Include="AOP\IMethodInterceptor.cs" />
     <Compile Include="AOP\IMethodInvocation.cs" />
-    <Compile Include="AOP\Adapter\Castle\InterceptorAdapter.cs" />
-    <Compile Include="AOP\Adapter\Castle\MethodInvocationAdapter.cs" />
     <Compile Include="Attr\AspectAttribute.cs" />
     <Compile Include="Attr\ImplementationAttribute.cs" />
     <Compile Include="Config\QuillConfig.cs" />
@@ -84,6 +81,8 @@
     <Compile Include="Exception\ComponentCreatorNotFoundException.cs" />
     <Compile Include="Exception\ImplementTypeNotFoundException.cs" />
     <Compile Include="Exception\QuillApplicationException.cs" />
+    <Compile Include="Extensiion\MemberInfoExtension.cs" />
+    <Compile Include="Extensiion\TypeExtension.cs" />
     <Compile Include="Injection\Impl\AbstractQuillInjector.cs" />
     <Compile Include="Injection\Impl\QuillInjector.cs" />
     <Compile Include="Injection\IQuillInjector.cs" />

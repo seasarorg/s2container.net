@@ -7,8 +7,6 @@ namespace Seasar.Quill.Container
 {
     public interface IComponentCreater
     {
-        bool IsTarget(Type t);
         object Create(Type t);
-        object Create(Type i, Type impl);
     }
 }

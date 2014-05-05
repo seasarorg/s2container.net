@@ -23,17 +23,18 @@ namespace Seasar.Quill.Container.Impl.InstanceManager
 
         public virtual object GetInstance(Type i, Type impl)
         {
-            return GetInstance(impl, c => c.Create(i, impl));
+            return GetInstance(impl, c => c.Create(impl));
         }
 
-        protected virtual object GetInstance(Type t, Func<IComponentCreater, object> createInvoker)
+        protected virtual object GetInstance(Type t, Func<IComponentCreater, object> invokeCreateInstance)
         {
             Validate(t);
             foreach (IComponentCreater creator in _creators)
             {
-                if (creator.IsTarget(t))
+                object instance = invokeCreateInstance(creator);
+                if (instance != null)
                 {
-                    return createInvoker(creator);
+                    return instance;
                 }
             }
             throw new ComponentCreatorNotFoundException(t.FullName);

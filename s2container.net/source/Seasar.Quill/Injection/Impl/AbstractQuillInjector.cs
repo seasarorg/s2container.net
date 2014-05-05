@@ -59,6 +59,34 @@ namespace Seasar.Quill.Injection.Impl
             return component;
         }
 
+        public virtual object CreateInjectedInstance(Type t)
+        {
+            var component = _container.GetComponent(t);
+            Inject(component, true);
+            return component;
+        }
+
+        public virtual object CreateInjectedInstance(Type t, bool isImplementationOnly)
+        {
+            var component = _container.GetComponent(t);
+            Inject(component, isImplementationOnly);
+            return component;
+        }
+
+        public virtual object CreateInjectedInstance(Type i, Type t)
+        {
+            var component = _container.GetComponent(i, t);
+            Inject(component, true);
+            return component;
+        }
+
+        public virtual object CreateInjectedInstance(Type i, Type t, bool isImplementationOnly)
+        {
+            var component = _container.GetComponent(i, t);
+            Inject(component, isImplementationOnly);
+            return component;
+        }
+
         protected virtual void InjectField(object target, FieldInfo field, bool isImplementationOnly)
         {
             var component = _container.GetComponent(field.FieldType);

@@ -9,20 +9,9 @@ namespace Seasar.Quill.Container.Impl.ComponentCreator
     /// </summary>
     public class NewInstanceCreator : IComponentCreater
     {
-        public bool IsTarget(Type t)
-        {
-            // デフォルトのインスタンス生成クラスとして機能
-            return true;
-        }
-
         public object Create(Type t)
         {
             return CreateInstance(t);
-        }
-
-        public object Create(Type i, Type impl)
-        {
-            return CreateInstance(impl);
         }
 
         private object CreateInstance(Type t)
