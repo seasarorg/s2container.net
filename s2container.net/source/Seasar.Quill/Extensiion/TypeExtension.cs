@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using Seasar.Quill.Exception;
+using System.Collections.Generic;
 
 namespace Seasar.Quill.Extensiion
 {
@@ -11,17 +12,22 @@ namespace Seasar.Quill.Extensiion
     /// </summary>
     public static class TypeExtension
     {
-        /// <summary>
-        /// 適用順にソートされたAspect属性の取得
-        /// </summary>
-        /// <typeparam name="ATTR"></typeparam>
-        /// <param name="t"></param>
-        /// <returns>ソートされたAspect属性オブジェクト（見つからない場合はnull）</returns>
-        public static IOrderedEnumerable<ATTR> GetAspectAttributes<ATTR>(this Type target) where ATTR : AspectAttribute
-        {
-            //var classAttrs = target.GetCustomAttributes<ATTR>(false);
-            return null;
-        }
+        ///// <summary>
+        ///// 適用順にソートされたAspect属性の取得
+        ///// </summary>
+        ///// <typeparam name="ATTR"></typeparam>
+        ///// <param name="t"></param>
+        ///// <returns>ソートされたAspect属性オブジェクト（見つからない場合はnull）</returns>
+        //public static ATTR[] GetAspectAttributes<ATTR>(this Type target) where ATTR : AspectAttribute
+        //{
+        //    var aspectAttributes = new HashSet<ATTR>();
+        //    AddAspectAttributes(aspectAttributes, target);
+        //    foreach (var member in target.GetMembers(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+        //    {
+        //        AddAspectAttributes(aspectAttributes, member);
+        //    }
+        //    return aspectAttributes.ToArray();
+        //}
 
         /// <summary>
         /// 型、または構成メンバーに指定属性が設定されているか判定
@@ -43,6 +49,8 @@ namespace Seasar.Quill.Extensiion
             }
             return false;
         }
+
+        
 
         ///// <summary>
         ///// 適用順にソートされたAspect属性の取得

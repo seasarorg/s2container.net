@@ -29,7 +29,6 @@ namespace Seasar.Quill.Container.Impl.ComponentCreator
         public CastleDynamicProxyCreator(IQuillInjector injector)
         {
             _injector = injector;
-            
             var selector = new InterceptorSelectorImpl();
             _proxyGenerationHook = new ProxyGenerationHookImpl();
             _options = new ProxyGenerationOptions(_proxyGenerationHook) { Selector = selector };
@@ -49,23 +48,56 @@ namespace Seasar.Quill.Container.Impl.ComponentCreator
         }
 
         #region 内部メソッド
-        private IInterceptor[] GetInterceptors(Type t)
+
+        
+
+        private IInterceptor[] GetInterceptors(Type target)
         {
-            var interceptors = new Dictionary<Type, IInterceptor>();
-
-            var attrs = t.GetCustomAttributes<AspectAttribute>(false);
-            RegisterInterceptors(interceptors, attrs);
-
-            var members = t.GetMembers(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-            if (members != null && members.Count() > 0)
+            var aspectAttributes = new HashSet<AspectAttribute>();
+            AddAspectAttributes(aspectAttributes, target);
+            foreach (var member in target.GetMembers(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
             {
-                foreach (var member in members)
+                AddAspectAttributes(aspectAttributes, member);
+            }
+
+            var interceptors = new Dictionary<Type, IInterceptor>();
+            foreach(var aspectAttr in aspectAttributes)
+            {
+                if (!interceptors.ContainsKey(aspectAttr.InterceptorType))
                 {
-                    var memberAttrs = member.GetCustomAttributes<AspectAttribute>(false);
-                    RegisterInterceptors(interceptors, memberAttrs);
+                    interceptors.Add(target, GetInterceptor(aspectAttr));
                 }
             }
             return interceptors.Values.ToArray();
+        }
+
+        private static void AddAspectAttributes<ATTR>(ISet<ATTR> aspectAttributes, MemberInfo target) where ATTR : AspectAttribute
+        {
+            var attrs = target.GetCustomAttributes<ATTR>();
+            if (attrs == null || attrs.Count() == 0)
+            {
+                return;
+            }
+
+            foreach (var attr in attrs)
+            {
+                if (!aspectAttributes.Contains(attr))
+                {
+                    aspectAttributes.Add(attr);
+                }
+            }
+        }
+
+        private IInterceptor GetInterceptor(AspectAttribute aspect)
+        {
+            var interceptorType = aspect.InterceptorType;
+            if (!_interceptorMap.ContainsKey(interceptorType))
+            {
+                var interceptor = new CastleInterceptorAdapter(
+                    (IMethodInterceptor)_injector.CreateInjectedInstance(interceptorType), aspect.Ordinal);
+                _interceptorMap.AddOrUpdate(interceptorType, interceptor, (m, i) => interceptor);
+            }
+            return _interceptorMap[interceptorType];
         }
 
         private void RegisterInterceptors(IDictionary<Type, IInterceptor> interceptors, IEnumerable<AspectAttribute> aspects)
@@ -93,7 +125,10 @@ namespace Seasar.Quill.Container.Impl.ComponentCreator
         private class CastleInterceptorAdapter : IInterceptor
         {
             private readonly int _ordinal;
+            public int Ordinal { get { return _ordinal; } }
+
             private readonly IMethodInterceptor _interceptor;
+            public IMethodInterceptor Interceptor { get { return _interceptor; } }
 
             public CastleInterceptorAdapter(IMethodInterceptor interceptor, int ordinal)
             {
@@ -148,7 +183,16 @@ namespace Seasar.Quill.Container.Impl.ComponentCreator
         {
             public IInterceptor[] SelectInterceptors(Type type, System.Reflection.MethodInfo method, IInterceptor[] interceptors)
             {
-                throw new NotImplementedException();
+                var aspectAttrs = new HashSet<AspectAttribute>();
+                AddAspectAttributes(aspectAttrs, type);
+                AddAspectAttributes(aspectAttrs, method);
+                // メソッドに関連づけられているInterceptorの型セットを取り出す
+                var targetInterceptorTypes = aspectAttrs.Select(attr => attr.InterceptorType);
+
+                CastleInterceptorAdapter[] adapters = (CastleInterceptorAdapter[])interceptors;
+                // メソッドに適用するInterceptorを抽出、ソート
+                var appliedInterceptors = adapters.Where(i => targetInterceptorTypes.Contains(i.Interceptor.GetType())).OrderBy(i => i.Ordinal);
+                return appliedInterceptors.ToArray();
             }
         }
 
