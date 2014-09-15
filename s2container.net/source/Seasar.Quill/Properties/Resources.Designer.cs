@@ -59,15 +59,5 @@ namespace Seasar.Quill.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
-        /// </summary>
-        internal static System.Drawing.Bitmap QuillControl {
-            get {
-                object obj = ResourceManager.GetObject("QuillControl", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
     }
 }

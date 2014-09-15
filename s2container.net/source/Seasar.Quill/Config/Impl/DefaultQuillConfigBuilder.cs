@@ -35,7 +35,7 @@ namespace Seasar.Quill.Config.Impl
 
         protected override IQuillInjectionContext CreateContext()
         {
-            return new QuillInjectionContext();
+            return new QuillInjectionSingletonContext();
         }
 
         protected override IQuillInjector CreateInjector(IQuillContainer container, Injection.IQuillInjectionContext context)

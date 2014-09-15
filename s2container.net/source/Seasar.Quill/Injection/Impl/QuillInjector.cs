@@ -14,12 +14,44 @@ namespace Seasar.Quill.Injection.Impl
         /// <summary>
         /// DIコンテナ
         /// </summary>
-        public IQuillContainer Container { get; set; }
+        private IQuillContainer _container;
+
+        /// <summary>
+        /// DIコンテナ
+        /// </summary>
+        public IQuillContainer Container
+        {
+            get { return _container; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException("Container");
+                }
+                _container = value;
+            }
+        }
 
         /// <summary>
         /// インジェクション状態
         /// </summary>
-        public IQuillInjectionContext Context { get; set; }
+        private IQuillInjectionContext _context;
+
+        /// <summary>
+        /// インジェクション状態
+        /// </summary>
+        public IQuillInjectionContext Context
+        {
+            get { return _context; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException("Context");
+                }
+                _context = value;
+            }
+        }
 
         /// <summary>
         /// インジェクション実行
@@ -40,6 +72,7 @@ namespace Seasar.Quill.Injection.Impl
 
             try
             {
+                // インジェクション済の型はとばして次へ
                 if (Context.IsAlreadyInjected(target.GetType()))
                 {
                     return;
