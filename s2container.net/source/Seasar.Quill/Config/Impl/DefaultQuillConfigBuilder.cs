@@ -1,10 +1,12 @@
 ﻿using Seasar.Quill.Container;
 using Seasar.Quill.Container.Impl;
-using Seasar.Quill.Container.Impl.ComponentCreator;
 using Seasar.Quill.Container.Impl.Detector;
 using Seasar.Quill.Container.Impl.InstanceManager;
+using Seasar.Quill.Injection;
 using Seasar.Quill.Injection.Impl;
 using Seasar.Quill.Log.Impl.log4net;
+using System;
+using System.Collections.Concurrent;
 
 namespace Seasar.Quill.Config.Impl
 {
@@ -13,31 +15,40 @@ namespace Seasar.Quill.Config.Impl
     /// </summary>
     public class DefaultQuillConfigBuilder : AbstractQuillConfigBuilder
     {
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        public DefaultQuillConfigBuilder()
+        protected override IInstanceManager CreateInstanceManager()
+        {
+            return new SingletonInstanceManager();
+        }
+
+        protected override IImplTypeDetector[] CreateImplTypeDetectors()
+        {
+            return new IImplTypeDetector[] { new MappingImplTypeDetector(new ConcurrentDictionary<Type, Type>()), new AttributeImplTypeDetector() };
+        }
+
+        protected override IQuillContainer CreateContainer(IInstanceManager instanceManager, IImplTypeDetector[] implTypeDetectors)
         {
             var container = new QuillContainer();
-            var injector = new QuillInjector(container);
-
-            // そのままインスタンスnew
-            var newInstanceCreator = new NewInstanceCreator();
-            // Interceptorを適用したProxyオブジェクトを生成（Castle.DynamicProxyを使用）
-            var proxyCreator = new CastleDynamicProxyCreator(injector);
-            // コンテナでのインスタンス生成はSingleton
-            var instanceManager = new SingletonInstanceManager();
-            // ProxyCreater, NewInstanceの優先順でインスタンスを生成
-            instanceManager.SetComponentCreator(proxyCreator, newInstanceCreator);
-
             container.SetInstanceManager(instanceManager);
-            // Implementation属性から実装クラスを取得する
-            container.SetImplTypeDetector(new IImplTypeDetector[] { new AttributeImplTypeDetector() });
+            container.SetImplTypeDetector(implTypeDetectors);
+            return container;
+        }
 
-            // 作成した設定を適用
-            Container = container;
-            Injector = injector;
-            LoggerFactory = new Log4netLoggerFactory();
+        protected override IQuillInjectionContext CreateContext()
+        {
+            return new QuillInjectionContext();
+        }
+
+        protected override IQuillInjector CreateInjector(IQuillContainer container, Injection.IQuillInjectionContext context)
+        {
+            var injector = new QuillInjector();
+            injector.Container = container;
+            injector.Context = context;
+            return injector;
+        }
+
+        protected override Log.ILoggerFactory CreateLoggerFactory()
+        {
+            return new Log4netLoggerFactory();
         }
     }
 }

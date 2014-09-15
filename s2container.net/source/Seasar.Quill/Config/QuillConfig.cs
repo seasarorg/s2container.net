@@ -40,7 +40,7 @@ namespace Seasar.Quill.Config
         public virtual IQuillContainer Container { get; protected set; }
 
         /// <summary>
-        /// インジェクション
+        /// インジェクションオブジェクト
         /// </summary>
         public virtual IQuillInjector Injector { get; protected set; }
 
