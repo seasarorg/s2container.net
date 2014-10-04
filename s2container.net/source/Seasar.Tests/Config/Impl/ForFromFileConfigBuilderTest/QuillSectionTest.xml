@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <quill>
+    <Assemblies>
+      <Assembly>Seasar.Tests.dll</Assembly>
+    </Assemblies>
+    <Container>Seasar.Tests.Config.Impl.ForFromFileConfigBuilderTest.CustomContainer</Container>
+    <Injector>Seasar.Tests.Config.Impl.ForFromFileConfigBuilderTest.CustomInjector</Injector>
+    <LoggerFactory>Seasar.Tests.Config.Impl.ForFromFileConfigBuilderTest.CustomLoggerFactory</LoggerFactory>
+    <Extension>
+      <hoge>aaaaa</hoge>
+      <huga>bbbbb</huga>
+      <rarara>cccc</rarara>
+    </Extension>
+  </quill>
+</configuration>

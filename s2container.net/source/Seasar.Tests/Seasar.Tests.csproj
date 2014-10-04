@@ -125,10 +125,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config\Impl\ForFromFileConfigBuilderTest\CustomContainer.cs" />
+    <Compile Include="Config\Impl\ForFromFileConfigBuilderTest\CustomInjector.cs" />
+    <Compile Include="Config\Impl\ForFromFileConfigBuilderTest\CustomLoggerFactory.cs" />
+    <Compile Include="Config\Impl\FromFileConfigBuilderTest.cs" />
     <Compile Include="TestTest.cs" />
     <EmbeddedResource Include="TSTMessages.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <None Include="App.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -169,6 +174,17 @@
       <Project>{fc3a021b-6288-4c34-8303-544640d22fda}</Project>
       <Name>Seasar.Unit</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config\Impl\ForFromFileConfigBuilderTest\NoQuillSection.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\Impl\ForFromFileConfigBuilderTest\QuillSectionOnly.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\Impl\ForFromFileConfigBuilderTest\QuillSectionTest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
