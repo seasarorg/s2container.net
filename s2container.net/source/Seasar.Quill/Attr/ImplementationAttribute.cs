@@ -13,17 +13,31 @@ namespace Seasar.Quill.Attr
         /// </summary>
         /// <exception cref="NotImplementedException">実装型に誤り</exception>
         public Type ImplType { get; set; }
+    }
 
-        /// <summary>
-        /// インスタンス生成クラスの型（要IComponentCreator実装）
-        /// </summary>
-        /// <exception cref="NotImplementedException">実装型に誤り</exception>
-        public Type ComponentCreatorType { get; set; }
+    public static class ImplementationAttrExtension
+    {
+        public static bool IsImplementationAttrAttached(this Type targetType)
+        {
+            var attr = GetImplementationAttribute(targetType);
+            return attr != null;
+        }
 
-        /// <summary>
-        /// インスタンス管理クラスの型（要IInstanceManager実装）
-        /// </summary>
-        /// <exception cref="NotImplementedException">実装型に誤り</exception>
-        public Type InstanceManagerType { get; set; } 
+        public static Type GetImplType(this Type targetType)
+        {
+            var attr = GetImplementationAttribute(targetType);
+            return attr.ImplType;
+        }
+
+        private static ImplementationAttribute GetImplementationAttribute(Type targetType)
+        {
+            if (targetType == null) { throw new ArgumentNullException("targetType"); }
+            var attrs = targetType.GetCustomAttributes(typeof(ImplementationAttribute), true);
+            if (attrs != null && attrs.Length > 0)
+            {
+                return (ImplementationAttribute)attrs[0];
+            }
+            return null;
+        }
     }
 }

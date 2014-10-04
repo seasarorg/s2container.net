@@ -50,12 +50,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attr\ImplementationAttribute.cs" />
-    <Compile Include="Exception\ComponentCreatorNotFoundException.cs" />
-    <Compile Include="Exception\ConfigNeverSetupException.cs" />
-    <Compile Include="Exception\ImplementTypeNotFoundException.cs" />
-    <Compile Include="Exception\IllegalImplementationTypeException.cs" />
+    <Compile Include="Exception\ComponentNotFoundException.cs" />
+    <Compile Include="Exception\IllegalReceiptTypeException.cs" />
     <Compile Include="Exception\QuillApplicationException.cs" />
-    <Compile Include="Exception\ConfigFileLoadException.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -65,8 +62,6 @@
     <Compile Include="QuillContainer.cs" />
     <Compile Include="QuillInjectionContext.cs" />
     <Compile Include="QuillInjector.cs" />
-    <Compile Include="Scope\SingletonInjectionManager.cs" />
-    <Compile Include="Scope\SingletonInstanceManager.cs" />
     <Compile Include="SupportType\QuillSet.cs" />
     <Compile Include="Util\CollectionUtils.cs" />
     <Compile Include="Util\SingletonUtils.cs" />
