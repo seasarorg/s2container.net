@@ -1,5 +1,6 @@
 ﻿using Seasar.Quill.Attr;
 using Seasar.Quill.Exception;
+using Seasar.Quill.Typical.Creation;
 using Seasar.Quill.Util;
 using System;
 using System.Collections.Concurrent;
@@ -76,6 +77,7 @@ namespace Seasar.Quill
             OnInjectHandler = OnInjectDefault;
             SelectTargetFieldsCallback = SelectFieldDefault;
             OnFieldInjectedHandler = OnFieldInjectedDefault;
+            DoInjectCallback = DoInjectDefault;
             OnInjectedHandler = OnInjectedDefault;
             OnErrorHandler = OnFailureDefault;
         }
@@ -238,6 +240,20 @@ namespace Seasar.Quill
             var targetFields = targetType.GetFields(context.Condition);
             // Implementation属性が設定されている型のみ対象とする
             return targetFields.Where(fieldInfo => fieldInfo.FieldType.IsImplementationAttrAttached());
+        }
+
+        /// <summary>
+        /// インジェクション既定処理
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="fieldInfo"></param>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        protected virtual object DoInjectDefault(object target, FieldInfo fieldInfo, QuillInjectionContext context)
+        {
+            var component = PreparedSingletonFactory.GetInstance<QuillContainer>().GetComponent(fieldInfo.FieldType);
+            fieldInfo.SetValue(target, component);
+            return component;
         }
 
         /// <summary>

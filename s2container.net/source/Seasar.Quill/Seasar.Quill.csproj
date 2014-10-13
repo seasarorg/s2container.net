@@ -50,6 +50,7 @@
     <Compile Include="Exception\ComponentNotFoundException.cs" />
     <Compile Include="Exception\IllegalReceiptTypeException.cs" />
     <Compile Include="Exception\QuillApplicationException.cs" />
+    <Compile Include="IQuillContainerContext.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -60,8 +61,13 @@
     <Compile Include="QuillInjectionContext.cs" />
     <Compile Include="QuillInjector.cs" />
     <Compile Include="SupportType\QuillSet.cs" />
+    <Compile Include="Typical\Creation\PreparedSingletonFactory.cs" />
+    <Compile Include="Typical\ImplType\IImplTypeFactory.cs" />
+    <Compile Include="Typical\ImplType\Impl\ImplementationAttributeImplTypeFactory.cs" />
+    <Compile Include="Typical\ImplType\Impl\ImplTypeFactories.cs" />
+    <Compile Include="Typical\ImplType\Impl\MappingImplTypeFactory.cs" />
     <Compile Include="Util\CollectionUtils.cs" />
-    <Compile Include="Util\SingletonUtils.cs" />
+    <Compile Include="Typical\Creation\SingletonFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Seasar.snk" />
