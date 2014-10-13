@@ -109,6 +109,15 @@ namespace Seasar.Quill.Typical.Creation
         }
 
         /// <summary>
+        /// 保持、変更内容のリセット
+        /// </summary>
+        public static void Reset()
+        {
+            Clear();
+            _valueFactory = CreateInstance;
+        }
+
+        /// <summary>
         /// インスタンス生成
         /// </summary>
         /// <param name="targetType"></param>

@@ -125,6 +125,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Typical\Creation\SingletonFactoryTest.cs" />
     <EmbeddedResource Include="TSTMessages.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
