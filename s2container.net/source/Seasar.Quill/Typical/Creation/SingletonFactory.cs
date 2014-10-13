@@ -101,6 +101,14 @@ namespace Seasar.Quill.Typical.Creation
         }
 
         /// <summary>
+        /// キャッシュしている情報のクリア
+        /// </summary>
+        public static void Clear()
+        {
+            _instances.Clear();
+        }
+
+        /// <summary>
         /// インスタンス生成
         /// </summary>
         /// <param name="targetType"></param>

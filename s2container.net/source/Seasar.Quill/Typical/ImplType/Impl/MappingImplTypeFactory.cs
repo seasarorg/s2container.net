@@ -13,7 +13,7 @@ namespace Seasar.Quill.Typical.ImplType.Impl
             _implTypeMap = implTypeMap;
         }
 
-        public Type GetImplType(Type targetType, IQuillContainerContext context)
+        public Type GetImplType(Type targetType)
         {
             if (_implTypeMap.ContainsKey(targetType))
             {

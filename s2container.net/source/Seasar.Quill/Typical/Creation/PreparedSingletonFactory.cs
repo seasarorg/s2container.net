@@ -41,5 +41,11 @@ namespace Seasar.Quill.Typical.Creation
             }
             return SingletonFactory.GetInstance(targetType);
         }
+
+        public static void Clear()
+        {
+            _preparedInstances.Clear();
+            SingletonFactory.Clear();
+        }
     }
 }

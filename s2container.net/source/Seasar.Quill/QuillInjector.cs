@@ -114,10 +114,6 @@ namespace Seasar.Quill
         {
             Inject(target, context, (targetFields, actualContext) =>
             {
-                // 対象のインスタンスを予め並列で型の重複を排除して生成しておく
-                var prepareTargets = targetFields.Select(fi => fi.FieldType).Distinct().AsParallel();
-                prepareTargets.ForAll(t => context.Container.GetComponent(t));
-
                 // 各フィールドへの設定を並列に実行
                 var components = new ConcurrentBag<object>();
                 targetFields.AsParallel().ForAll(fieldInfo =>
@@ -251,7 +247,7 @@ namespace Seasar.Quill
         /// <returns></returns>
         protected virtual object DoInjectDefault(object target, FieldInfo fieldInfo, QuillInjectionContext context)
         {
-            var component = PreparedSingletonFactory.GetInstance<QuillContainer>().GetComponent(fieldInfo.FieldType);
+            var component = context.Container.GetComponent(fieldInfo.FieldType);
             fieldInfo.SetValue(target, component);
             return component;
         }

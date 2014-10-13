@@ -50,7 +50,6 @@
     <Compile Include="Exception\ComponentNotFoundException.cs" />
     <Compile Include="Exception\IllegalReceiptTypeException.cs" />
     <Compile Include="Exception\QuillApplicationException.cs" />
-    <Compile Include="IQuillContainerContext.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -7,11 +7,11 @@ namespace Seasar.Quill.Typical.ImplType.Impl
     {
         private readonly IList<IImplTypeFactory> _factories = new List<IImplTypeFactory>();
 
-        public Type GetImplType(Type targetType, IQuillContainerContext context)
+        public Type GetImplType(Type targetType)
         {
             foreach (var factory in _factories)
             {
-                var implType = factory.GetImplType(targetType, context);
+                var implType = factory.GetImplType(targetType);
                 if (implType != null)
                 {
                     return implType;

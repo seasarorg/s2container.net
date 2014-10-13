@@ -4,6 +4,6 @@ namespace Seasar.Quill.Typical.ImplType
 {
     public interface IImplTypeFactory
     {
-        Type GetImplType(Type targetType, IQuillContainerContext context);
+        Type GetImplType(Type targetType);
     }
 }

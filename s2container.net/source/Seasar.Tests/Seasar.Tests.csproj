@@ -165,10 +165,6 @@
       <Project>{4c1d6f42-4178-4c68-8277-b2978bf784ff}</Project>
       <Name>Seasar.Quill</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Seasar.Unit\Seasar.Unit.csproj">
-      <Project>{fc3a021b-6288-4c34-8303-544640d22fda}</Project>
-      <Name>Seasar.Unit</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
