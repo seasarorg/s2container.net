@@ -1,6 +1,6 @@
 ﻿using Seasar.Quill.Exception;
-using Seasar.Quill.FieldSelector;
-using Seasar.Quill.FieldSelector.Impl;
+using Seasar.Quill.FieldSelect;
+using Seasar.Quill.FieldSelect.Impl;
 using Seasar.Quill.ForEach;
 using Seasar.Quill.ForEach.Impl;
 using Seasar.Quill.Handler;
@@ -49,6 +49,13 @@ namespace Seasar.Quill
         // ====================================================================================================
         #region delegate
         public delegate IEnumerable<FieldInfo> CallbackSelectField(object target, QuillInjectionContext context);
+
+        /// <summary>
+        /// フィールドへのインジェクションデリゲート
+        /// </summary>
+        /// <param name="target">設定するオブジェクト</param>
+        /// <param name="fieldInfo">設定するフィールド</param>
+        /// <param name="context">インジェクション状態</param>
         public delegate void CallbackInjectField(object target, FieldInfo fieldInfo, QuillInjectionContext context);
         public delegate void CallbackFieldForEach(object target, QuillInjectionContext context, IEnumerable<FieldInfo> fields, CallbackInjectField callbackInjectField);
 

@@ -125,6 +125,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FieldSelect\Impl\FieldSelectorImplTest.cs" />
+    <Compile Include="ForEach\Impl\FieldForEachParallelTest.cs" />
+    <Compile Include="ForEach\Impl\FieldForEachSerialTest.cs" />
     <Compile Include="Typical\Creation\SingletonFactoryTest.cs" />
     <EmbeddedResource Include="TSTMessages.resx">
       <SubType>Designer</SubType>

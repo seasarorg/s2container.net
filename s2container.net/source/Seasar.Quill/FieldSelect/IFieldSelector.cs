@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 
-namespace Seasar.Quill.FieldSelector
+namespace Seasar.Quill.FieldSelect
 {
     public interface IFieldSelector
     {
