@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Seasar.Quill.Factory;
+using System;
 using System.Collections.Generic;
 
-namespace Seasar.Quill.Typical.ImplType.Impl
+namespace Seasar.Quill.Factory.Impl
 {
     public class ImplTypeFactories : IImplTypeFactory
     {

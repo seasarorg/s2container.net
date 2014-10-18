@@ -1,11 +1,16 @@
-﻿using Seasar.Quill.Attr;
-using Seasar.Quill.Exception;
-using Seasar.Quill.Typical.Creation;
+﻿using Seasar.Quill.Exception;
+using Seasar.Quill.FieldSelector;
+using Seasar.Quill.FieldSelector.Impl;
+using Seasar.Quill.ForEach;
+using Seasar.Quill.ForEach.Impl;
+using Seasar.Quill.Handler;
+using Seasar.Quill.Handler.Impl;
+using Seasar.Quill.Injection;
+using Seasar.Quill.Injection.Impl;
+using Seasar.Quill.Scope.Impl;
 using Seasar.Quill.Util;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 
 namespace Seasar.Quill
@@ -16,53 +21,28 @@ namespace Seasar.Quill
     public class QuillInjector
     {
         // ====================================================================================================
-        #region Callback
-        /// <summary>
-        /// インジェクション開始コールバック
-        /// （引数　：インジェクションを行うオブジェクト）
-        /// （　　　　インジェクション状態）
-        /// （戻り値：なし）
-        /// </summary>
-        public Action<object, QuillInjectionContext> OnInjectHandler { get; set; }
+        #region Consts
 
-        /// <summary>
-        /// フィールド抽出処理
-        /// （引数　：抽出対象の型）
-        /// （　　　　インジェクション状態オブジェクト）
-        /// （戻り値：抽出したフィールドリスト）
-        /// </summary>
-        public Func<Type, QuillInjectionContext, IEnumerable<FieldInfo>> SelectTargetFieldsCallback { get; set; }
+        private const string MSG_START_INJECTION = "QuillInjector#Inject start.";
+        private const string MSG_END_INJECTION = "QuillInjector#Inject end.";
 
-        /// <summary>
-        /// インジェクション実行
-        /// （引数　：インジェクションを行うオブジェクト）
-        /// （　　　　インジェクションを行うフィールド）
-        /// （　　　　インジェクション状態）
-        /// （戻り値：設定したオブジェクト）
-        /// </summary>
-        public Func<object, FieldInfo, QuillInjectionContext, object> DoInjectCallback { get; set; }
+        private const string MSG_FIELD_NOT_FOUND = "Injection target is not found in the target.";
+        private const string MSG_INJECTOR_NOT_FOUND = "Injection invoker is not found.";
+        private const string MSG_FIELD_FOR_EACH_NOT_FOUND = "FieldForEach method is not found.";
+        private const string MSG_QUILL_APP_EX_HANDLER_NOT_FOUND = "Quill application exception handler is not found.";
+        private const string MSG_SYS_EX_HANDLER_NOT_FOUND = "System exception handler is not found.";
 
-        /// <summary>
-        /// フィールドへのインジェクション終了コールバック
-        /// （引数　：設定したコンポーネント）
-        /// （　　　　インジェクション状態）
-        /// （　　　　インジェクション処理コールバック）
-        /// （戻り値：なし）
-        /// </summary>
-        public Action<object, QuillInjectionContext, Action<object, QuillInjectionContext>> OnFieldInjectedHandler { get; set; }
+        #endregion
 
-        /// <summary>
-        /// インジェクション終了コールバック
-        /// （引数　：インジェクションを行うオブジェクト）
-        /// （　　　　インジェクション状態）
-        /// （戻り値：なし）
-        /// </summary>
-        public Action<object, QuillInjectionContext> OnInjectedHandler { get; set; }
+        // ====================================================================================================
+        #region Callback, Handler
 
-        /// <summary>
-        /// インジェクション失敗時に呼び出されるコールバック
-        /// </summary>
-        public Action<object, QuillInjectionContext, System.Exception> OnErrorHandler { get; set; }
+        public virtual Action<string> Log { protected get; set; }
+        public virtual IFieldSelector FieldSelector { protected get; set; }
+        public virtual IFieldInjector FieldInjector { protected get; set; }
+        public virtual IFieldForEach FieldForEach { protected get; set; }
+        public virtual IQuillApplicationExceptionHandler QuillApplicationExceptionHandler { protected get; set; }
+        public virtual ISystemExceptionHandler SystemExceptionHandler { protected get; set; }
 
         #endregion
 
@@ -74,217 +54,135 @@ namespace Seasar.Quill
         /// </summary>
         public QuillInjector()
         {
-            OnInjectHandler = OnInjectDefault;
-            SelectTargetFieldsCallback = SelectFieldDefault;
-            OnFieldInjectedHandler = OnFieldInjectedDefault;
-            DoInjectCallback = DoInjectDefault;
-            OnInjectedHandler = OnInjectedDefault;
-            OnErrorHandler = OnFailureDefault;
+            // 既定の設定
+            Log = (message => { /* ログ出力処理はデフォルトでは何もしない */ });                     
+            FieldSelector = new FieldSelectorImpl();
+            FieldInjector = new FieldInjectorImpl();
+            FieldForEach = new FieldForEachSerial();
+            QuillApplicationExceptionHandler = new QuillApplicationExceptionHandlerImpl();
+            SystemExceptionHandler = new SystemExceptionHandlerImpl();
         }
 
         #endregion
 
         // ====================================================================================================
-        /// <summary>
-        /// インジェクション実行（直列）
-        /// </summary>
-        /// <param name="target">インジェクション対象オブジェクト</param>
-        /// <param name="context">インジェクション状態</param>
-        public virtual void Inject(object target, QuillInjectionContext context = null)
-        {
-            Inject(target, context, (targetFields, actualContext) =>
-            {
-                // インジェクション実行
-                var components = new List<object>(targetFields.Count());
-                targetFields.ForEach(fieldInfo =>
-                {
-                    var component = DoInjectCallback(target, fieldInfo, actualContext);
-                    // 子フィールドに対して再帰的にインジェクションを実行していく
-                    OnFieldInjectedHandler(component, actualContext, Inject);
-                });
-            });
-        }
+        #region delegate
+        public delegate IEnumerable<FieldInfo> CallbackSelectField(object target, QuillInjectionContext context);
+        public delegate void CallbackInjectField(object target, FieldInfo fieldInfo, QuillInjectionContext context);
+        public delegate void CallbackFieldForEach(object target, QuillInjectionContext context, IEnumerable<FieldInfo> fields, CallbackInjectField callbackInjectField);
+        
+        #endregion
 
-        /// <summary>
-        /// インジェクション実行（並列）※QuillContainerがsingletonであること前提です
-        /// </summary>
-        /// <param name="target">インジェクション対象オブジェクト</param>
-        /// <param name="context">インジェクション状態</param>
-        public virtual void InjectAsParallel(object target, QuillInjectionContext context = null)
-        {
-            Inject(target, context, (targetFields, actualContext) =>
-            {
-                // 各フィールドへの設定を並列に実行
-                var components = new ConcurrentBag<object>();
-                targetFields.AsParallel().ForAll(fieldInfo =>
-                {
-                    var component = DoInjectCallback(target, fieldInfo, actualContext);
-                    components.Add(component);
-                });
+        // ====================================================================================================
 
-                // インジェクション済の型管理にずれが生じる可能性があるので子フィールドへの再帰処理は並列化しない
-                foreach(var component in components)
-                {
-                    OnFieldInjectedHandler(component, actualContext, InjectAsParallel);
-                }
-            });
-        }
-
-        /// <summary>
-        /// インジェクション実行
-        /// </summary>
-        /// <param name="target">インジェクション対象オブジェクト</param>
-        /// <param name="context">インジェクション状態</param>
-        /// <param name="injectCallback">インジェクション委譲処理</param>
-        public virtual void Inject(object target, QuillInjectionContext context, Action<IEnumerable<FieldInfo>, QuillInjectionContext> injectCallback)
+        public virtual void Inject(object target, 
+            QuillInjectionContext context = null, 
+            CallbackSelectField callbackSelectField = null,
+            CallbackInjectField callbackInjectField = null,
+            CallbackFieldForEach callbackFieldForEach = null,
+            HandleQuillApplicationException handleQuillApplicationException = null,
+            HandleSystemException handleSystemException = null)
         {
             if (target == null) { throw new ArgumentNullException("target"); }
-
-            var actualContext = (context == null ? GetDefaultContext() : context);
-            var targetType = target.GetType();
-
-            // インジェクション開始
-            OnInjectHandler(target, actualContext);
-            actualContext.BeginInjection(targetType);
-
-            try
-            {
-                // インジェクション実行
-                var targetFields = SelectTargetFieldsCallback(targetType, actualContext);
-                injectCallback(targetFields, actualContext);
-            }
-            catch (System.Exception ex)
-            {
-                OnErrorHandler(target, actualContext, ex);
-            }
-            finally
-            {
-                // インジェクション終了
-                actualContext.EndInjection();
-                OnInjectedHandler(target, actualContext);
-            }
+            InvokeInject(target,
+                context == null ? GetDefaultContext() : context,
+                LogicUtils.GetLogic(callbackSelectField, FieldSelector, f => f.Select, MSG_FIELD_NOT_FOUND),
+                LogicUtils.GetLogic(callbackInjectField, FieldInjector, f => f.InjectField, MSG_INJECTOR_NOT_FOUND),
+                LogicUtils.GetLogic(callbackFieldForEach, FieldForEach, f => f.ForEach, MSG_FIELD_FOR_EACH_NOT_FOUND),
+                LogicUtils.GetLogic(handleQuillApplicationException, QuillApplicationExceptionHandler, handler => handler.Handle, MSG_QUILL_APP_EX_HANDLER_NOT_FOUND),
+                LogicUtils.GetLogic(handleSystemException, SystemExceptionHandler, handler => handler.Handle, MSG_SYS_EX_HANDLER_NOT_FOUND));
         }
 
-        /// <summary>
-        /// インジェクション済コンポーネントの取得（直列処理）
-        /// </summary>
-        /// <typeparam name="COMPONENT">コンポーネントの型</typeparam>
-        /// <param name="context">インジェクション状態</param>
-        /// <returns>インジェクション済のコンポーネント</returns>
-        public virtual COMPONENT GetInjectedComponent<COMPONENT>(QuillInjectionContext context = null)
+        public virtual INJECTED_COMPONENT GetInjectedComponent<INJECTED_COMPONENT>(
+            QuillContainer container = null,
+            QuillInjectionContext context = null,
+            CallbackSelectField callbackSelectField = null,
+            CallbackInjectField callbackInjectField = null,
+            CallbackFieldForEach callbackFieldForEach = null,
+            HandleQuillApplicationException handleQuillApplicationException = null,
+            HandleSystemException handleSystemException = null)
         {
-            return GetInjectedComponent<COMPONENT>(context, Inject);
-        }
-
-        /// <summary>
-        /// インジェクション済コンポーネントの取得（並列処理） ※QuillContainerがsingletonであること前提です
-        /// </summary>
-        /// <typeparam name="COMPONENT">コンポーネントの型</typeparam>
-        /// <param name="context">インジェクション状態</param>
-        /// <returns>インジェクション済のコンポーネント</returns>
-        public virtual COMPONENT GetInjectedComponentAsParallel<COMPONENT>(QuillInjectionContext context = null)
-        {
-            return GetInjectedComponent<COMPONENT>(context, InjectAsParallel);
+            var actualContainer = (container == null ? PreparedSingletonFactory.GetInstance<QuillContainer>() : container);
+            var component = actualContainer.GetComponent<INJECTED_COMPONENT>();
+            Inject(component, context, callbackSelectField, callbackInjectField, callbackFieldForEach, 
+                handleQuillApplicationException, handleSystemException);
+            return component;
         }
 
         // ====================================================================================================
-        #region Helper
+        #region Support method
 
-        /// <summary>
-        /// インジェクション済コンポーネントの取得
-        /// </summary>
-        /// <typeparam name="COMPONENT">コンポーネントの型</typeparam>
-        /// <param name="context">インジェクション状態</param>
-        /// <param name="injectionInvoker">インジェクション委譲処理</param>
-        /// <returns>インジェクション済のコンポーネント</returns>
-        protected virtual COMPONENT GetInjectedComponent<COMPONENT>(QuillInjectionContext context, Action<object, QuillInjectionContext> injectionInvoker)
+        protected virtual void InvokeInject(object target, QuillInjectionContext context,
+            CallbackSelectField callbackSelectField,
+            CallbackInjectField callbackInjectField,
+            CallbackFieldForEach callbackFieldForEach,
+            HandleQuillApplicationException handleQuillApplicationException,
+            HandleSystemException handleSystemException)
         {
-            var actualContext = (context == null ? GetDefaultContext() : context);
-            var component = actualContext.Container.GetComponent<COMPONENT>();
-            injectionInvoker(component, actualContext);
-            return component;
+            Log(MSG_START_INJECTION);
+            context.BeginInjection(target.GetType());
+            try
+            {
+                // インジェクション実行
+                var fieldInfos = SelectField(target, context, callbackSelectField);
+                InjectFields(target, context, fieldInfos, callbackFieldForEach, callbackInjectField);
+
+                // 再帰的なインジェクション実行は並列処理を許可せず、必ず直列で実行
+                // （スレッドが無数に作られてしまう可能性があるため）
+                foreach (var fieldInfo in fieldInfos)
+                {
+                    InjectRecursive(fieldInfo, context, callbackSelectField, callbackInjectField, callbackFieldForEach,
+                        handleQuillApplicationException, handleSystemException);
+                }
+            }
+            catch (QuillApplicationException qe)
+            {
+                handleQuillApplicationException(qe);
+            }
+            catch (System.Exception ex)
+            {
+                handleSystemException(ex);
+            }
+            finally
+            {
+                context.EndInjection();
+                Log(MSG_END_INJECTION);
+            }
+        }
+
+        protected virtual IEnumerable<FieldInfo> SelectField(object target, QuillInjectionContext context, CallbackSelectField callback)
+        {
+            return callback(target, context);
+        }
+
+        protected virtual void InjectFields(object target, QuillInjectionContext context, IEnumerable<FieldInfo> fieldInfos,
+            CallbackFieldForEach callbackFieldForEach, CallbackInjectField callbackInjectField)
+        {
+            callbackFieldForEach(target, context, fieldInfos, callbackInjectField);
+        }
+
+        protected virtual void InjectRecursive(FieldInfo fieldInfo, QuillInjectionContext context, 
+            CallbackSelectField callbackSelectField,
+            CallbackInjectField callbackInjectField,
+            CallbackFieldForEach callbackFieldForEach,
+            HandleQuillApplicationException handleQuillApplicationException,
+            HandleSystemException handleSystemException)
+        {
+            if (!context.IsAlreadyInjected(fieldInfo.GetType()))
+            {
+                InvokeInject(context.Container.GetComponent(fieldInfo.FieldType), context,
+                    callbackSelectField, callbackInjectField, callbackFieldForEach,
+                    handleQuillApplicationException, handleSystemException);
+            }
         }
 
         /// <summary>
         /// 既定のインジェクション状態オブジェクトを取得
         /// </summary>
         /// <returns>インジェクション状態</returns>
-        private QuillInjectionContext GetDefaultContext()
+        protected virtual QuillInjectionContext GetDefaultContext()
         {
-            return new QuillInjectionContext(); 
-        }
-        #endregion
-
-        // ====================================================================================================
-        #region Default callback methods
-
-        /// <summary>
-        /// インジェクション開始既定処理
-        /// </summary>
-        /// <param name="target">インジェクション対象オブジェクト</param>
-        /// <param name="context">インジェクション状態</param>
-        protected virtual void OnInjectDefault(object target, QuillInjectionContext context) { /* デフォルトでは処理なし */ }
-
-        /// <summary>
-        /// インジェクション対象抽出既定処理
-        /// </summary>
-        /// <param name="targetType">インジェクション対象の型</param>
-        /// <param name="context">インジェクション状態</param>
-        /// <returns>インジェクション対象のフィールドリスト</returns>
-        protected virtual IEnumerable<FieldInfo> SelectFieldDefault(Type targetType, QuillInjectionContext context)
-        {
-            var targetFields = targetType.GetFields(context.Condition);
-            // Implementation属性が設定されている型のみ対象とする
-            return targetFields.Where(fieldInfo => fieldInfo.FieldType.IsImplementationAttrAttached());
-        }
-
-        /// <summary>
-        /// インジェクション既定処理
-        /// </summary>
-        /// <param name="target"></param>
-        /// <param name="fieldInfo"></param>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        protected virtual object DoInjectDefault(object target, FieldInfo fieldInfo, QuillInjectionContext context)
-        {
-            var component = context.Container.GetComponent(fieldInfo.FieldType);
-            fieldInfo.SetValue(target, component);
-            return component;
-        }
-
-        /// <summary>
-        /// フィールドへのインジェクション終了既定処理
-        /// </summary>
-        /// <param name="component">フィールドに設定したコンポーネント</param>
-        /// <param name="context">インジェクション状態</param>
-        /// <param name="injectionInvoke">インジェクション委譲処理</param>
-        protected virtual void OnFieldInjectedDefault(object component, QuillInjectionContext context, Action<object, QuillInjectionContext> injectionInvoke)
-        {
-            var componentType = component.GetType();
-            if (!context.IsAlreadyInjected(componentType))
-            {
-                // インジェクション済の型でなければ再帰的にインジェクション処理を呼び出す
-                injectionInvoke(component, context);
-            }
-        }
-
-        /// <summary>
-        /// インジェクション終了既定処理
-        /// </summary>
-        /// <param name="target"></param>
-        /// <param name="context"></param>
-        private void OnInjectedDefault(object target, QuillInjectionContext context) { /* デフォルトでは処理なし */ }
-
-        /// <summary>
-        /// インジェクション失敗既定処理
-        /// </summary>
-        /// <param name="target">インジェクション対象オブジェクト</param>
-        /// <param name="context">インジェクション状態</param>
-        /// <param name="ex">発生例外</param>
-        private void OnFailureDefault(object target, QuillInjectionContext context, System.Exception ex)
-        {
-            // TODO 例外メッセージ詳細設定
-            throw new QuillApplicationException("");
+            return new QuillInjectionContext();
         }
         #endregion
     }

@@ -50,6 +50,18 @@
     <Compile Include="Exception\ComponentNotFoundException.cs" />
     <Compile Include="Exception\IllegalReceiptTypeException.cs" />
     <Compile Include="Exception\QuillApplicationException.cs" />
+    <Compile Include="FieldSelector\Impl\FieldSelectorImpl.cs" />
+    <Compile Include="ForEach\IFieldForEach.cs" />
+    <Compile Include="ForEach\Impl\FieldForEachParallel.cs" />
+    <Compile Include="ForEach\Impl\FieldForEachSerial.cs" />
+    <Compile Include="ImplType\IImplTypeFactory.cs" />
+    <Compile Include="Injection\IFieldInjector.cs" />
+    <Compile Include="Injection\Impl\FieldInjectorImpl.cs" />
+    <Compile Include="Scope\IInstanceFactory.cs" />
+    <Compile Include="Handler\Impl\QuillApplicationExceptionHandlerImpl.cs" />
+    <Compile Include="Handler\Impl\SystemExceptionHandlerImpl.cs" />
+    <Compile Include="Handler\IQuillApplicationExceptionHandler.cs" />
+    <Compile Include="Handler\ISystemExceptionHandler.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -59,14 +71,16 @@
     <Compile Include="QuillContainer.cs" />
     <Compile Include="QuillInjectionContext.cs" />
     <Compile Include="QuillInjector.cs" />
+    <Compile Include="FieldSelector\IFieldSelector.cs" />
+    <Compile Include="Scope\Impl\PrototypeFactory.cs" />
     <Compile Include="SupportType\QuillSet.cs" />
-    <Compile Include="Typical\Creation\PreparedSingletonFactory.cs" />
-    <Compile Include="Typical\ImplType\IImplTypeFactory.cs" />
-    <Compile Include="Typical\ImplType\Impl\ImplementationAttributeImplTypeFactory.cs" />
-    <Compile Include="Typical\ImplType\Impl\ImplTypeFactories.cs" />
-    <Compile Include="Typical\ImplType\Impl\MappingImplTypeFactory.cs" />
+    <Compile Include="Scope\Impl\PreparedSingletonFactory.cs" />
+    <Compile Include="ImplType\Impl\ImplementationAttributeImplTypeFactory.cs" />
+    <Compile Include="ImplType\Impl\ImplTypeFactories.cs" />
+    <Compile Include="ImplType\Impl\MappingImplTypeFactory.cs" />
     <Compile Include="Util\CollectionUtils.cs" />
-    <Compile Include="Typical\Creation\SingletonFactory.cs" />
+    <Compile Include="Scope\Impl\SingletonFactory.cs" />
+    <Compile Include="Util\LogicUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Seasar.snk" />
@@ -78,7 +92,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Consts\" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

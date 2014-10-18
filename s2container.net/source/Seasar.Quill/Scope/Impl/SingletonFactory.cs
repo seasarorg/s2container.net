@@ -1,13 +1,20 @@
-﻿using System;
+﻿using Seasar.Quill.Factory;
+using System;
 using System.Collections.Concurrent;
 
-namespace Seasar.Quill.Typical.Creation
+namespace Seasar.Quill.Scope.Impl
 {
     /// <summary>
     /// singletonとしてインスタンスを取得するstaticなファクトリクラス
     /// </summary>
-    public static class SingletonFactory
+    public class SingletonFactory : IInstanceFactory
     {
+        public object CreateInstance(Type targetType)
+        {
+            return GetInstance(targetType);
+        }
+
+        #region static methods
         /// <summary>
         /// スレッドセーフに型ごとのインスタンスを保持する
         /// </summary>
@@ -24,7 +31,7 @@ namespace Seasar.Quill.Typical.Creation
         static SingletonFactory()
         {
             _instances = new ConcurrentDictionary<Type, object>();
-            _valueFactory = CreateInstance;
+            _valueFactory = CreateInstanceNormal;
         }
 
         /// <summary>
@@ -114,7 +121,7 @@ namespace Seasar.Quill.Typical.Creation
         public static void Reset()
         {
             Clear();
-            _valueFactory = CreateInstance;
+            _valueFactory = CreateInstanceNormal;
         }
 
         /// <summary>
@@ -122,9 +129,11 @@ namespace Seasar.Quill.Typical.Creation
         /// </summary>
         /// <param name="targetType"></param>
         /// <returns></returns>
-        private static object CreateInstance(Type targetType)
+        private static object CreateInstanceNormal(Type targetType)
         {
             return Activator.CreateInstance(targetType);
         }
+
+        #endregion
     }
 }

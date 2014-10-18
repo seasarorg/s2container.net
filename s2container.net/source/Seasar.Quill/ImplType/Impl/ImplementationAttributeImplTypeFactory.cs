@@ -1,7 +1,8 @@
 ﻿using Seasar.Quill.Attr;
+using Seasar.Quill.Factory;
 using System;
 
-namespace Seasar.Quill.Typical.ImplType.Impl
+namespace Seasar.Quill.Factory.Impl
 {
     public class ImplementationAttributeImplTypeFactory : IImplTypeFactory
     {

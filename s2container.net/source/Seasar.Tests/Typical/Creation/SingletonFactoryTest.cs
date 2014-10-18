@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
-using Seasar.Quill.Typical.Creation;
+using Seasar.Quill.Factory.Impl;
+using Seasar.Quill.Scope.Impl;
 using System;
 
 namespace Seasar.Tests.Typical.Creation
@@ -10,7 +11,6 @@ namespace Seasar.Tests.Typical.Creation
         [TearDown]
         public void TearDown()
         {
-            Console.WriteLine("Called !!!");
             SingletonFactory.Reset();
         }
 

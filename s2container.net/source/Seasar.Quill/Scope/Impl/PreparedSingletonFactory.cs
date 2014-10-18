@@ -1,10 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Seasar.Quill.Typical.Creation
+namespace Seasar.Quill.Scope.Impl
 {
-    public class PreparedSingletonFactory
+    public class PreparedSingletonFactory : IInstanceFactory
     {
+        public object CreateInstance(Type targetType)
+        {
+            return GetInstance(targetType);
+        }
+
+        #region static
         private static IDictionary<Type, object> _preparedInstances
             = new Dictionary<Type, object>();
 
@@ -47,5 +53,7 @@ namespace Seasar.Quill.Typical.Creation
             _preparedInstances.Clear();
             SingletonFactory.Clear();
         }
+
+        #endregion
     }
 }
