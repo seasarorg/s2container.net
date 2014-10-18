@@ -47,6 +47,14 @@ namespace Seasar.Quill
         #endregion
 
         // ====================================================================================================
+        #region delegate
+        public delegate IEnumerable<FieldInfo> CallbackSelectField(object target, QuillInjectionContext context);
+        public delegate void CallbackInjectField(object target, FieldInfo fieldInfo, QuillInjectionContext context);
+        public delegate void CallbackFieldForEach(object target, QuillInjectionContext context, IEnumerable<FieldInfo> fields, CallbackInjectField callbackInjectField);
+
+        #endregion
+
+        // ====================================================================================================
         #region Constructor
 
         /// <summary>
@@ -63,14 +71,6 @@ namespace Seasar.Quill
             SystemExceptionHandler = new SystemExceptionHandlerImpl();
         }
 
-        #endregion
-
-        // ====================================================================================================
-        #region delegate
-        public delegate IEnumerable<FieldInfo> CallbackSelectField(object target, QuillInjectionContext context);
-        public delegate void CallbackInjectField(object target, FieldInfo fieldInfo, QuillInjectionContext context);
-        public delegate void CallbackFieldForEach(object target, QuillInjectionContext context, IEnumerable<FieldInfo> fields, CallbackInjectField callbackInjectField);
-        
         #endregion
 
         // ====================================================================================================

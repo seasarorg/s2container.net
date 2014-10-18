@@ -1,5 +1,4 @@
-﻿using Seasar.Quill.Factory;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Seasar.Quill.Factory.Impl

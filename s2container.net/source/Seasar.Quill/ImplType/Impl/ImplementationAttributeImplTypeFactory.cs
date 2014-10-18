@@ -1,5 +1,4 @@
 ﻿using Seasar.Quill.Attr;
-using Seasar.Quill.Factory;
 using System;
 
 namespace Seasar.Quill.Factory.Impl
