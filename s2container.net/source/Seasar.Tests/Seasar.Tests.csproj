@@ -125,10 +125,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FieldSelect\Impl\FieldSelectorImplTest.cs" />
-    <Compile Include="ForEach\Impl\FieldForEachParallelTest.cs" />
-    <Compile Include="ForEach\Impl\FieldForEachSerialTest.cs" />
-    <Compile Include="Typical\Creation\SingletonFactoryTest.cs" />
+    <Compile Include="Quill\Preset\FieldSelect\Impl\FieldSelectorImplTest.cs" />
+    <Compile Include="Quill\Preset\ForEach\Impl\FieldForEachParallelTest.cs" />
+    <Compile Include="Quill\Preset\ForEach\Impl\FieldForEachSerialTest.cs" />
+    <Compile Include="Quill\Preset\Handler\Impl\SystemExceptionHandlerImplTest.cs" />
+    <Compile Include="Quill\Preset\Handler\Impl\QuillApplicationExceptionHandlerImplTest.cs" />
+    <Compile Include="Quill\Preset\Scope\Impl\SingletonFactoryTest.cs" />
     <EmbeddedResource Include="TSTMessages.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -140,7 +142,7 @@
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Attr\ImplementationAttributeTest.cs" />
+    <Compile Include="Quill\Attr\ImplementationAttributeTest.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -170,6 +172,7 @@
       <Name>Seasar.Quill</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
