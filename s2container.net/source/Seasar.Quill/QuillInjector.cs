@@ -70,8 +70,8 @@ namespace Seasar.Quill
         public QuillInjector()
         {
             // 既定の設定
-            Log = (message => { /* ログ出力処理はデフォルトでは何もしない */ });                     
-            FieldSelector = new FieldSelectorImpl();
+            Log = (message => { /* ログ出力処理はデフォルトでは何もしない */ });
+            FieldSelector = new ImplementationFieldSelector();
             FieldInjector = new FieldInjectorImpl();
             FieldForEach = new FieldForEachSerial();
             QuillApplicationExceptionHandler = new QuillApplicationExceptionHandlerImpl();

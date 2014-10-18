@@ -1,6 +1,4 @@
-﻿using Seasar.Quill.Attr;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace Seasar.Quill.Preset.FieldSelect.Impl
 {
@@ -8,8 +6,7 @@ namespace Seasar.Quill.Preset.FieldSelect.Impl
     {
         public IEnumerable<System.Reflection.FieldInfo> Select(object target, QuillInjectionContext context)
         {
-            var fields = target.GetType().GetFields(context.Condition);
-            return fields.Where(fi => fi.FieldType.IsImplementationAttrAttached());
+            return target.GetType().GetFields(context.Condition);
         }
     }
 }

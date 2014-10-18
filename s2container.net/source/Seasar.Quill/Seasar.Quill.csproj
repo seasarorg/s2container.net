@@ -51,6 +51,7 @@
     <Compile Include="Exception\IllegalReceiptTypeException.cs" />
     <Compile Include="Exception\QuillApplicationException.cs" />
     <Compile Include="Preset\FieldSelect\Impl\FieldSelectorImpl.cs" />
+    <Compile Include="Preset\FieldSelect\Impl\ImplementationFieldSelector.cs" />
     <Compile Include="Preset\ForEach\IFieldForEach.cs" />
     <Compile Include="Preset\ForEach\Impl\FieldForEachParallel.cs" />
     <Compile Include="Preset\ForEach\Impl\FieldForEachSerial.cs" />

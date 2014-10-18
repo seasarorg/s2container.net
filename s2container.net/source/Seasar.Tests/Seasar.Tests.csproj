@@ -125,11 +125,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Quill\Preset\FieldSelect\Impl\FieldSelectorImplTest.cs" />
+    <Compile Include="Quill\Preset\FieldSelect\Impl\ImplementationFieldSelectorTest.cs" />
     <Compile Include="Quill\Preset\ForEach\Impl\FieldForEachParallelTest.cs" />
     <Compile Include="Quill\Preset\ForEach\Impl\FieldForEachSerialTest.cs" />
     <Compile Include="Quill\Preset\Handler\Impl\SystemExceptionHandlerImplTest.cs" />
     <Compile Include="Quill\Preset\Handler\Impl\QuillApplicationExceptionHandlerImplTest.cs" />
+    <Compile Include="Quill\Preset\ImplType\Impl\ImplementationAttributeImplTypeFactoryTest.cs" />
+    <Compile Include="Quill\Preset\ImplType\Impl\ImplTypeFactoriesTest.cs" />
+    <Compile Include="Quill\Preset\ImplType\Impl\MappingImplTypeFactoryTest.cs" />
     <Compile Include="Quill\Preset\Scope\Impl\SingletonFactoryTest.cs" />
     <EmbeddedResource Include="TSTMessages.resx">
       <SubType>Designer</SubType>
