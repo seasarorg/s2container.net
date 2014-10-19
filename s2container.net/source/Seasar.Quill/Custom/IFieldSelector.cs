@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 
-namespace Seasar.Quill.Preset.FieldSelect
+namespace Seasar.Quill.Custom
 {
     public interface IFieldSelector
     {

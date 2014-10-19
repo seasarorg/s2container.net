@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Seasar.Quill.Preset.Injection
+namespace Seasar.Quill.Custom
 {
     public interface IFieldInjector
     {

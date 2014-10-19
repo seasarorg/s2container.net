@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Seasar.Quill.Preset.Factory
+namespace Seasar.Quill.Custom
 {
     public interface IImplTypeFactory
     {

@@ -1,13 +1,10 @@
-﻿using Seasar.Quill.Exception;
+﻿using Seasar.Quill.Custom;
+using Seasar.Quill.Exception;
 using Seasar.Quill.Preset.FieldSelect;
-using Seasar.Quill.Preset.FieldSelect.Impl;
 using Seasar.Quill.Preset.ForEach;
-using Seasar.Quill.Preset.ForEach.Impl;
 using Seasar.Quill.Preset.Handler;
-using Seasar.Quill.Preset.Handler.Impl;
 using Seasar.Quill.Preset.Injection;
-using Seasar.Quill.Preset.Injection.Impl;
-using Seasar.Quill.Preset.Scope.Impl;
+using Seasar.Quill.Preset.Scope;
 using Seasar.Quill.Util;
 using System;
 using System.Collections.Generic;

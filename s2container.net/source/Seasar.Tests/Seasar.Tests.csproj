@@ -125,15 +125,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Quill\Preset\FieldSelect\Impl\ImplementationFieldSelectorTest.cs" />
-    <Compile Include="Quill\Preset\ForEach\Impl\FieldForEachParallelTest.cs" />
-    <Compile Include="Quill\Preset\ForEach\Impl\FieldForEachSerialTest.cs" />
-    <Compile Include="Quill\Preset\Handler\Impl\SystemExceptionHandlerImplTest.cs" />
-    <Compile Include="Quill\Preset\Handler\Impl\QuillApplicationExceptionHandlerImplTest.cs" />
-    <Compile Include="Quill\Preset\ImplType\Impl\ImplementationAttributeImplTypeFactoryTest.cs" />
-    <Compile Include="Quill\Preset\ImplType\Impl\ImplTypeFactoriesTest.cs" />
-    <Compile Include="Quill\Preset\ImplType\Impl\MappingImplTypeFactoryTest.cs" />
-    <Compile Include="Quill\Preset\Scope\Impl\SingletonFactoryTest.cs" />
+    <Compile Include="Quill\Preset\FieldSelect\ImplementationFieldSelectorTest.cs" />
+    <Compile Include="Quill\Preset\ForEach\FieldForEachParallelTest.cs" />
+    <Compile Include="Quill\Preset\ForEach\FieldForEachSerialTest.cs" />
+    <Compile Include="Quill\Preset\Handler\SystemExceptionHandlerImplTest.cs" />
+    <Compile Include="Quill\Preset\Handler\QuillApplicationExceptionHandlerImplTest.cs" />
+    <Compile Include="Quill\Preset\ImplType\ImplementationAttributeImplTypeFactoryTest.cs" />
+    <Compile Include="Quill\Preset\ImplType\ImplTypeFactoriesTest.cs" />
+    <Compile Include="Quill\Preset\ImplType\MappingImplTypeFactoryTest.cs" />
+    <Compile Include="Quill\Preset\Injection\FieldInjectorImplTest.cs" />
+    <Compile Include="Quill\Preset\Scope\SingletonFactoryTest.cs" />
+    <Compile Include="Quill\QuillTestBase.cs" />
     <EmbeddedResource Include="TSTMessages.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>

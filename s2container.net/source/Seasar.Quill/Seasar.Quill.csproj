@@ -50,19 +50,19 @@
     <Compile Include="Exception\ComponentNotFoundException.cs" />
     <Compile Include="Exception\IllegalReceiptTypeException.cs" />
     <Compile Include="Exception\QuillApplicationException.cs" />
-    <Compile Include="Preset\FieldSelect\Impl\FieldSelectorImpl.cs" />
-    <Compile Include="Preset\FieldSelect\Impl\ImplementationFieldSelector.cs" />
-    <Compile Include="Preset\ForEach\IFieldForEach.cs" />
-    <Compile Include="Preset\ForEach\Impl\FieldForEachParallel.cs" />
-    <Compile Include="Preset\ForEach\Impl\FieldForEachSerial.cs" />
-    <Compile Include="Preset\ImplType\IImplTypeFactory.cs" />
-    <Compile Include="Preset\Injection\IFieldInjector.cs" />
-    <Compile Include="Preset\Injection\Impl\FieldInjectorImpl.cs" />
-    <Compile Include="Preset\Scope\IInstanceFactory.cs" />
-    <Compile Include="Preset\Handler\Impl\QuillApplicationExceptionHandlerImpl.cs" />
-    <Compile Include="Preset\Handler\Impl\SystemExceptionHandlerImpl.cs" />
-    <Compile Include="Preset\Handler\IQuillApplicationExceptionHandler.cs" />
-    <Compile Include="Preset\Handler\ISystemExceptionHandler.cs" />
+    <Compile Include="Preset\FieldSelect\FieldSelectorImpl.cs" />
+    <Compile Include="Preset\FieldSelect\ImplementationFieldSelector.cs" />
+    <Compile Include="Custom\IFieldForEach.cs" />
+    <Compile Include="Preset\ForEach\FieldForEachParallel.cs" />
+    <Compile Include="Preset\ForEach\FieldForEachSerial.cs" />
+    <Compile Include="Custom\IImplTypeFactory.cs" />
+    <Compile Include="Custom\IFieldInjector.cs" />
+    <Compile Include="Preset\Injection\FieldInjectorImpl.cs" />
+    <Compile Include="Custom\IInstanceFactory.cs" />
+    <Compile Include="Preset\Handler\QuillApplicationExceptionHandlerImpl.cs" />
+    <Compile Include="Preset\Handler\SystemExceptionHandlerImpl.cs" />
+    <Compile Include="Custom\IQuillApplicationExceptionHandler.cs" />
+    <Compile Include="Custom\ISystemExceptionHandler.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -72,15 +72,15 @@
     <Compile Include="QuillContainer.cs" />
     <Compile Include="QuillInjectionContext.cs" />
     <Compile Include="QuillInjector.cs" />
-    <Compile Include="Preset\FieldSelect\IFieldSelector.cs" />
-    <Compile Include="Preset\Scope\Impl\PrototypeFactory.cs" />
+    <Compile Include="Custom\IFieldSelector.cs" />
+    <Compile Include="Preset\Scope\PrototypeFactory.cs" />
     <Compile Include="SupportType\QuillSet.cs" />
-    <Compile Include="Preset\Scope\Impl\PreparedSingletonFactory.cs" />
-    <Compile Include="Preset\ImplType\Impl\ImplementationAttributeImplTypeFactory.cs" />
-    <Compile Include="Preset\ImplType\Impl\ImplTypeFactories.cs" />
-    <Compile Include="Preset\ImplType\Impl\MappingImplTypeFactory.cs" />
+    <Compile Include="Preset\Scope\PreparedSingletonFactory.cs" />
+    <Compile Include="Preset\ImplType\ImplementationAttributeImplTypeFactory.cs" />
+    <Compile Include="Preset\ImplType\ImplTypeFactories.cs" />
+    <Compile Include="Preset\ImplType\MappingImplTypeFactory.cs" />
     <Compile Include="Util\CollectionUtils.cs" />
-    <Compile Include="Preset\Scope\Impl\SingletonFactory.cs" />
+    <Compile Include="Preset\Scope\SingletonFactory.cs" />
     <Compile Include="Util\LogicUtils.cs" />
   </ItemGroup>
   <ItemGroup>

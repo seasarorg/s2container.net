@@ -1,5 +1,5 @@
 ﻿
-namespace Seasar.Quill.Preset.Handler
+namespace Seasar.Quill.Custom
 {
     public delegate void HandleSystemException(System.Exception ex);
 

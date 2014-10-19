@@ -1,6 +1,6 @@
 ﻿using Seasar.Quill.Exception;
 
-namespace Seasar.Quill.Preset.Handler
+namespace Seasar.Quill.Custom
 {
     public delegate void HandleQuillApplicationException(QuillApplicationException ex);
 
