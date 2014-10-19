@@ -134,6 +134,8 @@
     <Compile Include="Quill\Preset\ImplType\ImplTypeFactoriesTest.cs" />
     <Compile Include="Quill\Preset\ImplType\MappingImplTypeFactoryTest.cs" />
     <Compile Include="Quill\Preset\Injection\FieldInjectorImplTest.cs" />
+    <Compile Include="Quill\Preset\Scope\PreparedSingletonFactoryTest.cs" />
+    <Compile Include="Quill\Preset\Scope\PrototypeFactoryTest.cs" />
     <Compile Include="Quill\Preset\Scope\SingletonFactoryTest.cs" />
     <Compile Include="Quill\QuillTestBase.cs" />
     <EmbeddedResource Include="TSTMessages.resx">
