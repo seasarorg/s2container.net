@@ -14,15 +14,10 @@ namespace Seasar.Quill.Util
         /// <typeparam name="ITEM"></typeparam>
         /// <param name="targetSet"></param>
         /// <param name="newItems"></param>
-        /// <param name="isCheckDupricate"></param>
-        public static void AddAll<ITEM>(this ISet<ITEM> targetSet, IEnumerable<ITEM> newItems, bool isCheckDupricate = false)
+        public static void AddAll<ITEM>(this ISet<ITEM> targetSet, IEnumerable<ITEM> newItems)
         {
             foreach(ITEM newItem in newItems)
             {
-                if (isCheckDupricate && targetSet.Contains(newItem))
-                {
-                    continue;
-                }
                 targetSet.Add(newItem);
             }
         }

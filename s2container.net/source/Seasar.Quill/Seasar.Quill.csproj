@@ -74,7 +74,6 @@
     <Compile Include="QuillInjector.cs" />
     <Compile Include="Custom\IFieldSelector.cs" />
     <Compile Include="Preset\Scope\PrototypeFactory.cs" />
-    <Compile Include="SupportType\QuillSet.cs" />
     <Compile Include="Preset\Scope\PreparedSingletonFactory.cs" />
     <Compile Include="Preset\ImplType\ImplementationAttributeImplTypeFactory.cs" />
     <Compile Include="Preset\ImplType\ImplTypeFactories.cs" />

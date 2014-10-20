@@ -172,7 +172,8 @@ namespace Seasar.Quill
             HandleQuillApplicationException handleQuillApplicationException,
             HandleSystemException handleSystemException)
         {
-            if (!context.IsAlreadyInjected(fieldInfo.GetType()))
+            var fieldType = fieldInfo.GetType();
+            if (!context.IsAlreadyInjected(fieldType))
             {
                 InvokeInject(context.Container.GetComponent(fieldInfo.FieldType), context,
                     callbackSelectField, callbackInjectField, callbackFieldForEach,

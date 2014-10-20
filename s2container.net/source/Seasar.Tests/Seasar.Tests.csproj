@@ -138,6 +138,8 @@
     <Compile Include="Quill\Preset\Scope\PrototypeFactoryTest.cs" />
     <Compile Include="Quill\Preset\Scope\SingletonFactoryTest.cs" />
     <Compile Include="Quill\QuillTestBase.cs" />
+    <Compile Include="Quill\Util\CollectionUtilsTest.cs" />
+    <Compile Include="Quill\Util\LogicUtilsTest.cs" />
     <EmbeddedResource Include="TSTMessages.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
