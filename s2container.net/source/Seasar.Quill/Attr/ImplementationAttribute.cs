@@ -5,7 +5,7 @@ namespace Seasar.Quill.Attr
     /// <summary>
     /// 実装定義属性
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = false)]
     public class ImplementationAttribute : Attribute
     {
         /// <summary>

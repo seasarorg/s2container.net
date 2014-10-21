@@ -63,6 +63,8 @@
     <Compile Include="Preset\Handler\SystemExceptionHandlerImpl.cs" />
     <Compile Include="Custom\IQuillApplicationExceptionHandler.cs" />
     <Compile Include="Custom\ISystemExceptionHandler.cs" />
+    <Compile Include="Preset\Scope\ContainerPreparedSingletonFactory.cs" />
+    <Compile Include="Preset\Scope\ContainerSingletonFactory.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

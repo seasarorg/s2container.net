@@ -1,10 +1,10 @@
 ﻿
 namespace Seasar.Quill.Custom
 {
-    public delegate void HandleSystemException(System.Exception ex);
+    public delegate object HandleSystemException(System.Exception ex);
 
     public interface ISystemExceptionHandler
     {
-        void Handle(System.Exception ex);
+        object Handle(System.Exception ex);
     }
 }
