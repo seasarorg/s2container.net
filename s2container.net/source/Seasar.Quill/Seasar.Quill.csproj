@@ -63,8 +63,9 @@
     <Compile Include="Preset\Handler\SystemExceptionHandlerImpl.cs" />
     <Compile Include="Custom\IQuillApplicationExceptionHandler.cs" />
     <Compile Include="Custom\ISystemExceptionHandler.cs" />
-    <Compile Include="Preset\Scope\ContainerPreparedSingletonFactory.cs" />
-    <Compile Include="Preset\Scope\ContainerSingletonFactory.cs" />
+    <Compile Include="Preset\Scope\PreparedSingletonInstanceFactory.cs" />
+    <Compile Include="Preset\Scope\PrototypeInstanceFactory.cs" />
+    <Compile Include="Preset\Scope\SingletonInstanceFactory.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -75,14 +76,12 @@
     <Compile Include="QuillInjectionContext.cs" />
     <Compile Include="QuillInjector.cs" />
     <Compile Include="Custom\IFieldSelector.cs" />
-    <Compile Include="Preset\Scope\PrototypeFactory.cs" />
-    <Compile Include="Preset\Scope\PreparedSingletonFactory.cs" />
     <Compile Include="Preset\ImplType\ImplementationAttributeImplTypeFactory.cs" />
     <Compile Include="Preset\ImplType\ImplTypeFactories.cs" />
     <Compile Include="Preset\ImplType\MappingImplTypeFactory.cs" />
     <Compile Include="Util\CollectionUtils.cs" />
-    <Compile Include="Preset\Scope\SingletonFactory.cs" />
     <Compile Include="Util\LogicUtils.cs" />
+    <Compile Include="Util\SingletonInstances.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Seasar.snk" />

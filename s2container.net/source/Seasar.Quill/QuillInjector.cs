@@ -106,7 +106,7 @@ namespace Seasar.Quill
             HandleQuillApplicationException handleQuillApplicationException = null,
             HandleSystemException handleSystemException = null)
         {
-            var actualContainer = (container == null ? PreparedSingletonFactory.GetInstance<QuillContainer>() : container);
+            var actualContainer = (container == null ? SingletonInstances.GetInstance<QuillContainer>() : container);
             var component = actualContainer.GetComponent<INJECTED_COMPONENT>();
             Inject(component, context, callbackSelectField, callbackInjectField, callbackFieldForEach, 
                 handleQuillApplicationException, handleSystemException);

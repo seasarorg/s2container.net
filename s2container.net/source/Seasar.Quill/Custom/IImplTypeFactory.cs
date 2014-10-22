@@ -2,7 +2,7 @@
 
 namespace Seasar.Quill.Custom
 {
-    public interface IImplTypeFactory
+    public interface IImplTypeFactory : IDisposable
     {
         Type GetImplType(Type receiptType);
     }

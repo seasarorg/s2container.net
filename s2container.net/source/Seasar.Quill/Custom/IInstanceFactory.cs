@@ -2,8 +2,8 @@
 
 namespace Seasar.Quill.Custom
 {
-    public interface IInstanceFactory
+    public interface IInstanceFactory : IDisposable
     {
-        object CreateInstance(Type targetType);
+        object GetInstance(Type targetType);
     }
 }
