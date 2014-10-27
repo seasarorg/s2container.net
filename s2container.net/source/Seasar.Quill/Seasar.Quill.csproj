@@ -49,25 +49,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attr\ImplementationAttribute.cs" />
-    <Compile Include="Exception\ComponentNotFoundException.cs" />
-    <Compile Include="Exception\IllegalReceiptTypeException.cs" />
     <Compile Include="Exception\QuillApplicationException.cs" />
-    <Compile Include="Preset\FieldSelect\FieldSelectorImpl.cs" />
-    <Compile Include="Preset\FieldSelect\ImplementationFieldSelector.cs" />
-    <Compile Include="Custom\IFieldForEach.cs" />
-    <Compile Include="Preset\ForEach\FieldForEachParallel.cs" />
-    <Compile Include="Preset\ForEach\FieldForEachSerial.cs" />
-    <Compile Include="Custom\IImplTypeFactory.cs" />
-    <Compile Include="Custom\IFieldInjector.cs" />
-    <Compile Include="Preset\Injection\FieldInjectorImpl.cs" />
-    <Compile Include="Custom\IInstanceFactory.cs" />
-    <Compile Include="Preset\Handler\QuillApplicationExceptionHandlerImpl.cs" />
-    <Compile Include="Preset\Handler\SystemExceptionHandlerImpl.cs" />
-    <Compile Include="Custom\IQuillApplicationExceptionHandler.cs" />
-    <Compile Include="Custom\ISystemExceptionHandler.cs" />
-    <Compile Include="Preset\Scope\PreparedSingletonInstanceFactory.cs" />
-    <Compile Include="Preset\Scope\PrototypeInstanceFactory.cs" />
-    <Compile Include="Preset\Scope\SingletonInstanceFactory.cs" />
+    <Compile Include="Parts\Injector\FieldSelector\Impl\FieldSelectorImpl.cs" />
+    <Compile Include="Parts\Injector\FieldSelector\Impl\ImplementationFieldSelector.cs" />
+    <Compile Include="Parts\Injector\FieldForEach\IFieldForEach.cs" />
+    <Compile Include="Parts\Injector\FieldForEach\Impl\FieldForEachParallel.cs" />
+    <Compile Include="Parts\Injector\FieldForEach\Impl\FieldForEachSerial.cs" />
+    <Compile Include="Parts\Container\ImplTypeFactory\IImplTypeFactory.cs" />
+    <Compile Include="Parts\Injector\FieldInjector\IFieldInjector.cs" />
+    <Compile Include="Parts\Injector\FieldInjector\Impl\FieldInjectorImpl.cs" />
+    <Compile Include="Parts\Container\InstanceFactory\IInstanceFactory.cs" />
+    <Compile Include="Parts\Handler\Impl\QuillApplicationExceptionHandlerImpl.cs" />
+    <Compile Include="Parts\Handler\Impl\SystemExceptionHandlerImpl.cs" />
+    <Compile Include="Parts\Handler\IQuillApplicationExceptionHandler.cs" />
+    <Compile Include="Parts\Handler\ISystemExceptionHandler.cs" />
+    <Compile Include="Parts\Container\InstanceFactory\Impl\PreparedSingletonInstanceFactory.cs" />
+    <Compile Include="Parts\Container\InstanceFactory\Impl\PrototypeInstanceFactory.cs" />
+    <Compile Include="Parts\Container\InstanceFactory\Impl\SingletonInstanceFactory.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -77,10 +75,10 @@
     <Compile Include="QuillContainer.cs" />
     <Compile Include="QuillInjectionContext.cs" />
     <Compile Include="QuillInjector.cs" />
-    <Compile Include="Custom\IFieldSelector.cs" />
-    <Compile Include="Preset\ImplType\ImplementationAttributeImplTypeFactory.cs" />
-    <Compile Include="Preset\ImplType\ImplTypeFactories.cs" />
-    <Compile Include="Preset\ImplType\MappingImplTypeFactory.cs" />
+    <Compile Include="Parts\Injector\FieldSelector\IFieldSelector.cs" />
+    <Compile Include="Parts\Container\ImplTypeFactory\Impl\ImplementationAttributeImplTypeFactory.cs" />
+    <Compile Include="Parts\Container\ImplTypeFactory\Impl\ImplTypeFactories.cs" />
+    <Compile Include="Parts\Container\ImplTypeFactory\Impl\MappingImplTypeFactory.cs" />
     <Compile Include="Util\CollectionUtils.cs" />
     <Compile Include="Util\LogicUtils.cs" />
     <Compile Include="Util\SingletonInstances.cs" />

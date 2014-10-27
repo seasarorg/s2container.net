@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using Seasar.Quill;
 using Seasar.Quill.Attr;
-using Seasar.Quill.Preset.FieldSelect;
+using Seasar.Quill.Parts.Injector.FieldSelector.Impl;
 using System.Collections.Generic;
 using System.Linq;
 

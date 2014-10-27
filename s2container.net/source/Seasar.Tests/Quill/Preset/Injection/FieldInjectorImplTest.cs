@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
 using Seasar.Quill;
-using Seasar.Quill.Preset.Injection;
-using Seasar.Quill.Preset.Scope;
+using Seasar.Quill.Parts.Injector.FieldInjector.Impl;
 
 namespace Seasar.Tests.Quill.Preset.Injection
 {
