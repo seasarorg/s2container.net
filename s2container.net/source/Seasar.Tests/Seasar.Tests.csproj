@@ -139,6 +139,7 @@
     <Compile Include="Quill\Preset\Scope\SingletonInstanceFactoryTest.cs" />
     <Compile Include="Quill\QuillContainerTest.cs" />
     <Compile Include="Quill\QuillInjectionContextTest.cs" />
+    <Compile Include="Quill\QuillInjectorTest.cs" />
     <Compile Include="Quill\QuillTestBase.cs" />
     <Compile Include="Quill\Util\CollectionUtilsTest.cs" />
     <Compile Include="Quill\Util\LogicUtilsTest.cs" />
