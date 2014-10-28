@@ -22,13 +22,39 @@ namespace Seasar.Quill
         // ====================================================================================================
         #region Consts
 
+        /// <summary>
+        /// メッセージ：インジェクション開始
+        /// </summary>
         private const string MSG_START_INJECTION = "QuillInjector#Inject start.";
+
+        /// <summary>
+        /// メッセージ：インジェクション終了
+        /// </summary>
         private const string MSG_END_INJECTION = "QuillInjector#Inject end.";
 
+        /// <summary>
+        /// メッセージ：インジェクション対象のフィールドが見つからない
+        /// </summary>
         private const string MSG_FIELD_NOT_FOUND = "Injection target is not found in the target.";
+
+        /// <summary>
+        /// メッセージ：インジェクション処理コールバックが見つからない
+        /// </summary>
         private const string MSG_INJECTOR_NOT_FOUND = "Injection invoker is not found.";
+
+        /// <summary>
+        /// メッセージ：抽出フィールドループ処理コールバックが見つからない
+        /// </summary>
         private const string MSG_FIELD_FOR_EACH_NOT_FOUND = "FieldForEach method is not found.";
+
+        /// <summary>
+        /// メッセージ：QuillApplicationExceptionハンドラが見つからない
+        /// </summary>
         private const string MSG_QUILL_APP_EX_HANDLER_NOT_FOUND = "Quill application exception handler is not found.";
+
+        /// <summary>
+        /// メッセージ：System.Exceptionハンドラが見つからない
+        /// </summary>
         private const string MSG_SYS_EX_HANDLER_NOT_FOUND = "System exception handler is not found.";
 
         #endregion
@@ -36,11 +62,34 @@ namespace Seasar.Quill
         // ====================================================================================================
         #region Callback, Handler
 
+        /// <summary>
+        /// ログ出力コールバック
+        /// </summary>
         public virtual Action<string> Log { protected get; set; }
+
+        /// <summary>
+        /// フィールド抽出
+        /// </summary>
         public virtual IFieldSelector FieldSelector { protected get; set; }
+
+        /// <summary>
+        /// フィールドへのインジェクション
+        /// </summary>
         public virtual IFieldInjector FieldInjector { protected get; set; }
+
+        /// <summary>
+        /// 抽出フィールドへのループ処理
+        /// </summary>
         public virtual IFieldForEach FieldForEach { protected get; set; }
+
+        /// <summary>
+        /// QuillApplicationExceptionハンドラ
+        /// </summary>
         public virtual IQuillApplicationExceptionHandler QuillApplicationExceptionHandler { protected get; set; }
+
+        /// <summary>
+        /// System.Exceptionハンドラ
+        /// </summary>
         public virtual ISystemExceptionHandler SystemExceptionHandler { protected get; set; }
 
         #endregion
@@ -134,7 +183,7 @@ namespace Seasar.Quill
         /// <param name="callbackFieldForEach">抽出したフィールドへのループ処理 Action&lt;object, QuillInjectionContext, IEnumerable&lt;FieldInfo&gt;, Action&lt;object, FieldInfo, QuillInjectionContext&gt;&gt;</param>
         /// <param name="handleQuillApplicationException">QuillApplicationExceptionハンドラ Func&lt;QuillApplicationException, object&gt;</param>
         /// <param name="handleSystemException">System.Exceptionハンドラ Func&lt;System.Exception, object&gt;</param>
-        /// <returns></returns>
+        /// <returns>インジェクション済のコンポーネント</returns>
         public virtual INJECTED_COMPONENT GetInjectedComponent<INJECTED_COMPONENT>(
             QuillContainer container = null,
             QuillInjectionContext context = null,
@@ -154,6 +203,16 @@ namespace Seasar.Quill
         // ====================================================================================================
         #region Support method
 
+        /// <summary>
+        /// インジェクション実行
+        /// </summary>
+        /// <param name="target">インジェクション対象オブジェクト</param>
+        /// <param name="context">インジェクション状態管理</param>
+        /// <param name="callbackSelectField">フィールド抽出 Func&lt;object,QuillInjectionContext,IEnumerable&lt;FieldInfo&gt;&gt;</param>
+        /// <param name="callbackInjectField">インジェクション実行 Action&lt;object, FieldInfo, QuillInjectionContext&gt;</param>
+        /// <param name="callbackFieldForEach">抽出したフィールドへのループ処理 Action&lt;object, QuillInjectionContext, IEnumerable&lt;FieldInfo&gt;, Action&lt;object, FieldInfo, QuillInjectionContext&gt;&gt;</param>
+        /// <param name="handleQuillApplicationException">QuillApplicationExceptionハンドラ Func&lt;QuillApplicationException, object&gt;</param>
+        /// <param name="handleSystemException">System.Exceptionハンドラ Func&lt;System.Exception, object&gt;</param>
         protected virtual void InvokeInject(object target, QuillInjectionContext context,
             CallbackSelectField callbackSelectField,
             CallbackInjectField callbackInjectField,
@@ -192,17 +251,42 @@ namespace Seasar.Quill
             }
         }
 
+        /// <summary>
+        /// インジェクション対象フィールド抽出
+        /// </summary>
+        /// <param name="target">インジェクション対象オブジェクト</param>
+        /// <param name="context">インジェクション状態管理</param>
+        /// <param name="callback">インジェクション対象フィールド抽出コールバック</param>
+        /// <returns>抽出したフィールド</returns>
         protected virtual IEnumerable<FieldInfo> SelectField(object target, QuillInjectionContext context, CallbackSelectField callback)
         {
             return callback(target, context);
         }
 
+        /// <summary>
+        /// 抽出した各フィールドへのインジェクション
+        /// </summary>
+        /// <param name="target">インジェクション対象オブジェクト</param>
+        /// <param name="context">インジェクション状態管理</param>
+        /// <param name="fieldInfos">抽出したフィールド</param>
+        /// <param name="callbackFieldForEach">抽出した各フィールドへのループ処理コールバック</param>
+        /// <param name="callbackInjectField">フィールドへのインジェクション処理コールバック</param>
         protected virtual void InjectFields(object target, QuillInjectionContext context, IEnumerable<FieldInfo> fieldInfos,
             CallbackFieldForEach callbackFieldForEach, CallbackInjectField callbackInjectField)
         {
             callbackFieldForEach(target, context, fieldInfos, callbackInjectField);
         }
 
+        /// <summary>
+        /// 再帰的なインジェクション実行
+        /// </summary>
+        /// <param name="fieldInfo">フィールド情報</param>
+        /// <param name="context">インジェクション状態管理</param>
+        /// <param name="callbackSelectField">インジェクション対象フィールド抽出コールバック</param>
+        /// <param name="callbackInjectField">フィールドへのインジェクションコールバック</param>
+        /// <param name="callbackFieldForEach">抽出したフィールドへのループ処理コールバック</param>
+        /// <param name="handleQuillApplicationException">QuillApplicationExceptionハンドラ</param>
+        /// <param name="handleSystemException">System.Exceptionハンドラ</param>
         protected virtual void InjectRecursive(FieldInfo fieldInfo, QuillInjectionContext context, 
             CallbackSelectField callbackSelectField,
             CallbackInjectField callbackInjectField,
