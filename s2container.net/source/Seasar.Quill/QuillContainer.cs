@@ -11,7 +11,7 @@ using System;
 namespace Seasar.Quill
 {
     /// <summary>
-    /// Quillコンテナ
+    /// Quillコンテナクラス
     /// </summary>
     public class QuillContainer : IDisposable
     {

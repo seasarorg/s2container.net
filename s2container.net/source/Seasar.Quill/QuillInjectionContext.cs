@@ -72,7 +72,7 @@ namespace Seasar.Quill
         /// <summary>
         /// インジェクション中か判定
         /// </summary>
-        /// <returns></returns>
+        /// <returns>判定結果(true:インジェクション実行中, false:インジェクション実行中ではない)</returns>
         public virtual bool IsInInjection()
         {
             return _injectionDepth > 0;
@@ -81,7 +81,7 @@ namespace Seasar.Quill
         /// <summary>
         /// インジェクション開始
         /// </summary>
-        /// <param name="targetType"></param>
+        /// <param name="targetType">インジェクション対象の型</param>
         public virtual void BeginInjection(Type targetType)
         {
             _injectionDepth++;
@@ -111,8 +111,8 @@ namespace Seasar.Quill
         /// <summary>
         /// 既にインジェクション済の型か判定
         /// </summary>
-        /// <param name="targetType"></param>
-        /// <returns></returns>
+        /// <param name="targetType">判定対象の型</param>
+        /// <returns>判定結果（true:インジェクション済, false:初インジェクション</returns>
         public virtual bool IsAlreadyInjected(Type targetType)
         {
             return _injectedTypes.Contains(targetType);

@@ -16,7 +16,7 @@ namespace Seasar.Quill.Util
         /// <summary>
         /// インスタンス生成ファクトリの設定
         /// </summary>
-        /// <param name="valueFactory"></param>
+        /// <param name="valueFactory">Singletonインスタンス取得ファクトリ</param>
         public static void SetValueFactory(Func<Type, object> valueFactory)
         {
             if (valueFactory == null) { throw new ArgumentNullException("valueFactory"); }
