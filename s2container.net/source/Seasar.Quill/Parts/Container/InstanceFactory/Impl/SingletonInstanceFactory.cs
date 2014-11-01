@@ -40,6 +40,9 @@ namespace Seasar.Quill.Parts.Container.InstanceFactory.Impl
             return _instances.GetOrAdd(targetType, _valueFactory);
         }
 
+        /// <summary>
+        /// リソースの破棄
+        /// </summary>
         public virtual void Dispose()
         {
             _instances.Clear();

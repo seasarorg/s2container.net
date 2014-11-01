@@ -19,11 +19,11 @@ namespace Seasar.Quill.Parts.Container.ImplTypeFactory.Impl
         /// </summary>
         /// <param name="receiptType">受け取り側の型</param>
         /// <returns>実装型</returns>
-        public virtual Type GetImplType(Type targetType)
+        public virtual Type GetImplType(Type receiptType)
         {
             foreach (var factory in _factories)
             {
-                var implType = factory.GetImplType(targetType);
+                var implType = factory.GetImplType(receiptType);
                 if (implType != null)
                 {
                     return implType;
@@ -41,6 +41,9 @@ namespace Seasar.Quill.Parts.Container.ImplTypeFactory.Impl
             _factories.Add(factory);
         }
 
+        /// <summary>
+        /// リソースの破棄
+        /// </summary>
         public virtual void Dispose()
         {
             foreach(var factory in _factories)

@@ -29,15 +29,18 @@ namespace Seasar.Quill.Parts.Container.ImplTypeFactory.Impl
         /// </summary>
         /// <param name="receiptType">受け取り側の型</param>
         /// <returns>実装型</returns>
-        public virtual Type GetImplType(Type targetType)
+        public virtual Type GetImplType(Type receiptType)
         {
-            if (_implTypeMap.ContainsKey(targetType))
+            if (_implTypeMap.ContainsKey(receiptType))
             {
-                return _implTypeMap[targetType];
+                return _implTypeMap[receiptType];
             }
             return null;
         }
 
+        /// <summary>
+        /// リソースの破棄
+        /// </summary>
         public virtual void Dispose()
         {
             _implTypeMap.Clear();

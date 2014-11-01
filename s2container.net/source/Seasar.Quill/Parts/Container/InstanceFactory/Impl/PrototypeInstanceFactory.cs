@@ -33,9 +33,12 @@ namespace Seasar.Quill.Parts.Container.InstanceFactory.Impl
             return _valueFactory(targetType);
         }
 
+        /// <summary>
+        /// リソースの破棄
+        /// </summary>
         public virtual void Dispose()
         {
-            // キャッシュはしていないので処理なし
+            // キャッシュなどはしていないので処理なし
         }
     }
 }

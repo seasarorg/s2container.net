@@ -14,7 +14,7 @@ namespace Seasar.Quill.Parts.Injector.FieldForEach.Impl
         /// <param name="target">インジェクション対象オブジェクト</param>
         /// <param name="context">インジェクション状態管理</param>
         /// <param name="fields">インジェクション先として抽出したフィールドのコレクション</param>
-        /// <param name="injectField">フィールドへのインジェクション実行コールバック Action&lt;object, FieldInfo, QuillInjectionContext&gt;</param>
+        /// <param name="callbackInjectField">フィールドへのインジェクション実行コールバック Action&lt;object, FieldInfo, QuillInjectionContext&gt;</param>
         public virtual void ForEach(object target, QuillInjectionContext context, IEnumerable<System.Reflection.FieldInfo> fields, 
             QuillInjector.CallbackInjectField callbackInjectField)
         {

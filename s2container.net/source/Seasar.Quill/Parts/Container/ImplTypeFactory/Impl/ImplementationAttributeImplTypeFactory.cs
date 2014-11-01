@@ -14,18 +14,21 @@ namespace Seasar.Quill.Parts.Container.ImplTypeFactory.Impl
         /// </summary>
         /// <param name="receiptType">受け取り側の型</param>
         /// <returns>実装型</returns>
-        public virtual Type GetImplType(Type targetType)
+        public virtual Type GetImplType(Type receiptType)
         {
-            if (targetType.IsImplementationAttrAttached())
+            if (receiptType.IsImplementationAttrAttached())
             {
-                return targetType.GetImplType();
+                return receiptType.GetImplType();
             }
             return null;
         }
 
+        /// <summary>
+        /// リソースの破棄
+        /// </summary>
         public virtual void Dispose()
         {
-            // キャッシュはしていないので処理なし
+            // キャッシュなどはしていないので処理なし
         }
     }
 }
