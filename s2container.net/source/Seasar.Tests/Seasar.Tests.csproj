@@ -105,17 +105,6 @@
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
-    <Reference Include="System.configuration" />
-    <Reference Include="System.Data">
-      <Name>System.Data</Name>
-    </Reference>
-    <Reference Include="System.Drawing">
-      <Name>System.Drawing</Name>
-    </Reference>
-    <Reference Include="System.EnterpriseServices">
-      <Name>System.EnterpriseServices</Name>
-    </Reference>
-    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
@@ -140,9 +129,6 @@
     <Compile Include="Quill\Util\CollectionUtilsTest.cs" />
     <Compile Include="Quill\Util\LogicUtilsTest.cs" />
     <Compile Include="Quill\Util\SingletonInstancesTest.cs" />
-    <EmbeddedResource Include="TSTMessages.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

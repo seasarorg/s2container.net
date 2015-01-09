@@ -49,6 +49,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attr\ImplementationAttribute.cs" />
+    <Compile Include="Decorator\Facade\DecorationFacade.cs" />
+    <Compile Include="Decorator\Facade\AbstractDecorationFacade.cs" />
+    <Compile Include="Decorator\Impl\ScopeDecorators.cs" />
+    <Compile Include="Decorator\Impl\TryCacthDecorator.cs" />
+    <Compile Include="Decorator\IScopeDecorator.cs" />
     <Compile Include="Exception\QuillApplicationException.cs" />
     <Compile Include="Parts\Injector\FieldSelector\Impl\FieldSelectorImpl.cs" />
     <Compile Include="Parts\Injector\FieldSelector\Impl\ImplementationFieldSelector.cs" />
@@ -93,7 +98,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="やりたいことメモ.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
