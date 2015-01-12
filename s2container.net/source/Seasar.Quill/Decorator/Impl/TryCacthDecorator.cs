@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Reflection;
 
 namespace Seasar.Quill.Decorator.Impl
 {
@@ -17,13 +15,13 @@ namespace Seasar.Quill.Decorator.Impl
         /// <param name="f"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public RETURN_TYPE Exec<RETURN_TYPE>(Func<RETURN_TYPE> f, object[] parameters)
+        public RETURN_TYPE Execute<RETURN_TYPE>(Func<RETURN_TYPE> f, object[] parameters)
         {
             try
             {
-                BeginTryCatch();
+                BeginTryCatch(f.Target, f.Method, parameters);
                 var returnValue = f();
-                EndTryCatch();
+                EndTryCatch(f.Target, f.Method, parameters);
                 return returnValue;
             }
             catch(System.Exception)
@@ -40,12 +38,18 @@ namespace Seasar.Quill.Decorator.Impl
         /// <summary>
         /// 
         /// </summary>
-        protected abstract void BeginTryCatch();
+        /// <param name="target"></param>
+        /// <param name="method"></param>
+        /// <param name="parameters"></param>
+        protected abstract void BeginTryCatch(object target, MethodInfo method, object[] parameters);
 
         /// <summary>
         /// 
         /// </summary>
-        protected abstract void EndTryCatch();
+        /// <param name="target"></param>
+        /// <param name="method"></param>
+        /// <param name="parameters"></param>
+        protected abstract void EndTryCatch(object target, MethodInfo method, object[] parameters);
 
         /// <summary>
         /// 

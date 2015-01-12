@@ -218,7 +218,7 @@ namespace Seasar.Quill.Decorator.Facade
         /// <returns></returns>
         protected virtual RETURN_TYPE DoDecorate<RETURN_TYPE>(Func<RETURN_TYPE> f, params object[] parameters)
         {
-            return GetScopeDecorator().Exec(f, parameters);
+            return GetScopeDecorator().Execute(f, parameters);
         }
 
         /// <summary>

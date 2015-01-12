@@ -20,7 +20,7 @@ namespace Seasar.Quill.Decorator.Impl
             _decorators.Clear();
         }
 
-        public RETURN_TYPE Exec<RETURN_TYPE>(Func<RETURN_TYPE> f, object[] parameters)
+        public RETURN_TYPE Execute<RETURN_TYPE>(Func<RETURN_TYPE> f, object[] parameters)
         {
             return DoDecorate(f,  _decorators.Count - 1, parameters);
         }
@@ -29,11 +29,11 @@ namespace Seasar.Quill.Decorator.Impl
         {
             if (nextIndex > 0)
             {
-                return _decorators[nextIndex].Exec(() => DoDecorate(f, nextIndex - 1, parameters), parameters);
+                return _decorators[nextIndex].Execute(() => DoDecorate(f, nextIndex - 1, parameters), parameters);
             }
             else if(nextIndex == 0)
             {
-                return _decorators[nextIndex].Exec(f, parameters);
+                return _decorators[nextIndex].Execute(f, parameters);
             }
             return f();
         }

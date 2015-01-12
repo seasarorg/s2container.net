@@ -4,18 +4,32 @@ using System;
 namespace Seasar.Quill.Decorator.Facade
 {
     /// <summary>
-    /// 
+    /// スコープ修飾起点クラス
     /// </summary>
     /// <typeparam name="DECORATOR"></typeparam>
     public static class DecorationFacade<DECORATOR> where DECORATOR : IScopeDecorator
     {
+        /// <summary>
+        /// ScopeDecorator取得コールバックの設定
+        /// </summary>
+        private static Func<Type, IScopeDecorator> _callbackGetScopeDecorator = GetDecotatorDefault;
+
+        /// <summary>
+        /// ScopeDecorator取得コールバックの設定
+        /// </summary>
+        /// <param name="callback"></param>
+        public static void SetCallbackGetScopeDecorator(Func<Type, IScopeDecorator> callback)
+        {
+            _callbackGetScopeDecorator = callback;
+        }
+
         #region Func
         /// <summary>
-        /// 
+        /// スコープ修飾
         /// </summary>
-        /// <typeparam name="RETURN_TYPE"></typeparam>
-        /// <param name="f"></param>
-        /// <returns></returns>
+        /// <typeparam name="RETURN_TYPE">修飾メソッド戻り値型</typeparam>
+        /// <param name="f">修飾メソッド</param>
+        /// <returns>修飾メソッド戻り値</returns>
         public static RETURN_TYPE Decorate<RETURN_TYPE>(Func<RETURN_TYPE> f)
         {
             return DoDecorate(typeof(DECORATOR), () => f());
@@ -221,8 +235,18 @@ namespace Seasar.Quill.Decorator.Facade
         /// <returns></returns>
         private static RETURN_TYPE DoDecorate<RETURN_TYPE>(Type decoratorType, Func<RETURN_TYPE> f, params object[] parameters)
         {
-            var decorator = (IScopeDecorator)SingletonInstances.GetInstance<QuillContainer>().GetComponent(decoratorType);
-            return decorator.Exec(f, parameters);
+            var decorator = _callbackGetScopeDecorator(decoratorType);
+            return decorator.Execute(f, parameters);
+        }
+
+        /// <summary>
+        /// ScopeDecorator取得コールバックの設定既定処理
+        /// </summary>
+        /// <param name="decoratorType"></param>
+        /// <returns></returns>
+        private static IScopeDecorator GetDecotatorDefault(Type decoratorType)
+        {
+            return (IScopeDecorator)SingletonInstances.GetInstance<QuillContainer>().GetComponent(decoratorType);
         }
     }
 }
