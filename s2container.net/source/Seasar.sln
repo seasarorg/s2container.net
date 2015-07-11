@@ -1,5 +1,7 @@
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seasar", "Seasar\Seasar.csproj", "{7224C3B3-2C10-4AC5-A118-56558ED4C3C9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seasar.Tests", "Seasar.Tests\Seasar.Tests.csproj", "{6D6327B1-4252-470A-A76B-8E923F34AB7C}"
