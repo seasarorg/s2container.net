@@ -183,7 +183,7 @@ namespace Seasar.Dao.Impl
                     Assembly asm = null;
                     foreach (Assembly assembly in asms)
                     {
-                        if (assembly.GetName().Name == "Oracle.DataAccess")
+                        if (assembly.GetName().Name == "Oracle.DataAccess" || assembly.GetName().Name == "Oracle.ManagedDataAccess")
                         {
                             asm = assembly;
                             break;
@@ -191,7 +191,11 @@ namespace Seasar.Dao.Impl
                     }
                     if (asm != null)
                     {
-                        Type t = asm.GetType("Oracle.DataAccess.Client.OracleCollectionType");
+                        Type t;
+                        if (asm.GetName().Name == "Oracle.DataAccess")
+                            t = asm.GetType("Oracle.DataAccess.Client.OracleCollectionType");
+                        else
+                            t = asm.GetType("Oracle.ManagedDataAccess.Client.OracleCollectionType");
                         FieldInfo f = t.GetField("PLSQLAssociativeArray");
                         info.SetValue(parameter, f.GetValue(null), null);
                     }
