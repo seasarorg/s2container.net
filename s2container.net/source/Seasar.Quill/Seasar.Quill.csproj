@@ -63,6 +63,7 @@
     <Compile Include="Database\Provider\Firebird.cs" />
     <Compile Include="Database\Provider\MySQL.cs" />
     <Compile Include="Database\Provider\ODBC.cs" />
+    <Compile Include="Database\Provider\ODPM.cs" />
     <Compile Include="Database\Provider\ODP.cs" />
     <Compile Include="Database\Provider\OleDb.cs" />
     <Compile Include="Database\Provider\Oracle.cs" />

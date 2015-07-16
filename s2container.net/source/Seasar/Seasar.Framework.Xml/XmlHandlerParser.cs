@@ -103,8 +103,8 @@ namespace Seasar.Framework.Xml
             XmlReaderSettings settings = new XmlReaderSettings();
             settings.XmlResolver = new S2XmlResolver();
             settings.ValidationType = ValidationType.DTD;
-            settings.ValidationEventHandler += new ValidationEventHandler(ValidationHandler);
-            settings.ProhibitDtd = false;
+            settings.ValidationEventHandler += ValidationHandler;
+            settings.DtdProcessing = DtdProcessing.Parse;
             XmlReader reader = XmlReader.Create(input, settings);
 #endif
 
