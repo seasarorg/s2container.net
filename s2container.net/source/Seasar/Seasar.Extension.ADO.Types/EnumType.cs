@@ -44,8 +44,7 @@ namespace Seasar.Extension.ADO.Types
             return GetValue(_underlyingValueType.GetValue(reader, columnName));
         }
 
-        public override void BindValue(
-            IDbCommand cmd, string columnName, object value)
+        public override void BindValue(IDbCommand cmd, string columnName, object value)
         {
             object convertedValue = null;
             if (value != null)

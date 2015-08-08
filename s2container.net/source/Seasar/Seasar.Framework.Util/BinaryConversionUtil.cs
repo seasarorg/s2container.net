@@ -31,7 +31,7 @@ namespace Seasar.Framework.Util
         {
             if (o == null || o == DBNull.Value)
             {
-                throw new ArgumentNullException("o");
+                throw new ArgumentNullException(nameof(o));
             }
             else if (o is byte[])
             {
@@ -41,7 +41,7 @@ namespace Seasar.Framework.Util
             {
                 return Encoding.Default.GetBytes((string) o);
             }
-            throw new ArgumentException(o.GetType().Name);
+            throw new ArgumentException(o.GetExType().Name);
         }
     }
 }

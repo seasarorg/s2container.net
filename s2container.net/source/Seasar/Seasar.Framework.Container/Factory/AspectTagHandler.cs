@@ -17,9 +17,9 @@
 #endregion
 
 using Seasar.Framework.Aop.Impl;
-using Seasar.Framework.Xml;
-using Seasar.Framework.Util;
 using Seasar.Framework.Container.Impl;
+using Seasar.Framework.Util;
+using Seasar.Framework.Xml;
 
 namespace Seasar.Framework.Container.Factory
 {
@@ -28,10 +28,10 @@ namespace Seasar.Framework.Container.Factory
         public override void Start(TagHandlerContext context, IAttributes attributes)
         {
             IAspectDef aspectDef;
-            string pointcutStr = attributes["pointcut"];
+            var pointcutStr = attributes["pointcut"];
             if (pointcutStr != null)
             {
-                string[] methodNames = pointcutStr.Split(new char[] { ',' });
+                var methodNames = pointcutStr.Split(',');
                 aspectDef = new AspectDefImpl(new PointcutImpl(methodNames));
             }
             else
@@ -43,12 +43,12 @@ namespace Seasar.Framework.Container.Factory
 
         public override void End(TagHandlerContext context, string body)
         {
-            IAspectDef aspectDef = (IAspectDef) context.Pop();
+            var aspectDef = (IAspectDef) context.Pop();
             if (!StringUtil.IsEmpty(body))
             {
                 aspectDef.Expression = body;
             }
-            IComponentDef componentDef = (IComponentDef) context.Peek();
+            var componentDef = (IComponentDef) context.Peek();
             componentDef.AddAspeceDef(aspectDef);
         }
     }

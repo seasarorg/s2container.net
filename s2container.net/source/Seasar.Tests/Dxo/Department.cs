@@ -20,19 +20,8 @@ namespace Seasar.Tests.Dxo
 {
     public class Department
     {
-        private int? _id;
-        private string _dname;
+        public int? Id { get; set; }
 
-        public int? Id
-        {
-            get { return _id; }
-            set { _id = value; }
-        }
-
-        public string DName
-        {
-            get { return _dname; }
-            set { _dname = value; }
-        }
+        public string DName { get; set; }
     }
 }

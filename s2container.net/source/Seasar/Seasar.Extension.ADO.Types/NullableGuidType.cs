@@ -40,15 +40,15 @@ namespace Seasar.Extension.ADO.Types
             }
             else if (value is Guid)
             {
-                return new Nullable<Guid>((Guid) value);
+                return new Guid?((Guid) value);
             }
             else if (value is string)
             {
-                return new Nullable<Guid>(new Guid((string) value));
+                return new Guid?(new Guid((string) value));
             }
             else if (value is byte[])
             {
-                return new Nullable<Guid>(new Guid((byte[]) value));
+                return new Guid?(new Guid((byte[]) value));
             }
             else
             {

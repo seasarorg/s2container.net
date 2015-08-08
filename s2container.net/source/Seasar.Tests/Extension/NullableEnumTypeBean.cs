@@ -140,7 +140,7 @@ namespace Seasar.Tests.Extension
 
         public override string ToString()
         {
-            StringBuilder buf = new StringBuilder();
+            var buf = new StringBuilder();
             buf.Append(_id).Append(", ");
             buf.Append(_sbyteType).Append(", ");
             buf.Append(_byteType).Append(", ");

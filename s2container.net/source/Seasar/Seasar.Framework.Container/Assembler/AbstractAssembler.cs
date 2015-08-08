@@ -20,46 +20,33 @@ using System;
 using System.Reflection;
 using Seasar.Framework.Container.Util;
 using Seasar.Framework.Log;
+using Seasar.Framework.Util;
 
 namespace Seasar.Framework.Container.Assembler
 {
     public abstract class AbstractAssembler
     {
         private static readonly Logger _logger = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private readonly IComponentDef _componentDef;
 
-        public AbstractAssembler(IComponentDef componentDef)
+        protected AbstractAssembler(IComponentDef componentDef)
         {
-            _componentDef = componentDef;
+            ComponentDef = componentDef;
         }
 
-        protected IComponentDef ComponentDef
-        {
-            get { return _componentDef; }
-        }
+        protected IComponentDef ComponentDef { get; }
 
-        protected Type GetComponentType()
-        {
-            return _componentDef.ComponentType;
-        }
+        protected Type GetComponentType() => ComponentDef.ComponentType;
 
         protected Type GetComponentType(object component)
         {
-            Type type = _componentDef.ComponentType;
-            if (type != null)
-            {
-                return type;
-            }
-            else
-            {
-                return component.GetType();
-            }
+            var type = ComponentDef.ComponentType;
+            return type ?? component.GetExType();
         }
 
         protected object[] GetArgs(Type[] argTypes)
         {
-            object[] args = new Object[argTypes.Length];
-            for (int i = 0; i < argTypes.Length; i++)
+            var args = new object[argTypes.Length];
+            for (var i = 0; i < argTypes.Length; i++)
             {
                 if (ComponentDef.Container.HasComponentDef(argTypes[i]))
                 {
@@ -83,13 +70,13 @@ namespace Seasar.Framework.Container.Assembler
         /// <returns>expressionからコンポーネント定義を探す</returns>
         protected object GetComponentByReceiveType(Type receiveType, string expression)
         {
-            IS2Container container = ComponentDef.Container;
+            var container = ComponentDef.Container;
             object value = null;
 
             if (AutoBindingUtil.IsSuitable(receiveType) && expression != null
                 && container.HasComponentDef(expression))
             {
-                IComponentDef cd = container.GetComponentDef(expression);
+                var cd = container.GetComponentDef(expression);
                 value = cd.GetComponent(receiveType);
             }
 

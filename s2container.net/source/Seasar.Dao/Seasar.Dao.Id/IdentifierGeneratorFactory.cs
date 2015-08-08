@@ -18,7 +18,6 @@
 
 using System;
 using System.Collections;
-using System.Reflection;
 using Seasar.Dao.Attrs;
 using Seasar.Framework.Util;
 
@@ -44,19 +43,17 @@ namespace Seasar.Dao.Id
             _generatorTypes[idType] = type;
         }
 
-        public static IIdentifierGenerator CreateIdentifierGenerator(
-            string propertyName, IDbms dbms)
+        public static IIdentifierGenerator CreateIdentifierGenerator(string propertyName, IDbms dbms)
         {
             return CreateIdentifierGenerator(propertyName, dbms, null);
         }
 
-        public static IIdentifierGenerator CreateIdentifierGenerator(
-            string propertyName, IDbms dbms, IDAttribute idAttr)
+        public static IIdentifierGenerator CreateIdentifierGenerator(string propertyName, IDbms dbms, IDAttribute idAttr)
         {
             if (idAttr == null)
                 return new AssignedIdentifierGenerator(propertyName, dbms);
-            Type type = GetGeneratorType(idAttr.IDType);
-            IIdentifierGenerator generator = CreateIdentifierGenerator(type, propertyName, dbms);
+            var type = GetGeneratorType(idAttr.IDType);
+            var generator = CreateIdentifierGenerator(type, propertyName, dbms);
             if (idAttr.IDType == IDType.SEQUENCE)
             {
                 SetProperty(generator, "SequenceName", idAttr.SequenceName);
@@ -66,7 +63,7 @@ namespace Seasar.Dao.Id
 
         protected static Type GetGeneratorType(IDType idType)
         {
-            Type type = (Type) _generatorTypes[idType];
+            var type = (Type) _generatorTypes[idType];
             if (type == null)
             {
                 throw new InvalidOperationException("generatorTypes");
@@ -74,19 +71,19 @@ namespace Seasar.Dao.Id
             return type;
         }
 
-        protected static IIdentifierGenerator CreateIdentifierGenerator(
-            Type type, string propertyName, IDbms dbms)
+        protected static IIdentifierGenerator CreateIdentifierGenerator(Type type, string propertyName, IDbms dbms)
         {
-            ConstructorInfo constructor =
-                ClassUtil.GetConstructorInfo(type, new Type[] { typeof(string), typeof(IDbms) });
-            return (IIdentifierGenerator)
-                ConstructorUtil.NewInstance(constructor, new object[] { propertyName, dbms });
+            var constructor =
+                ClassUtil.GetConstructorInfo(type, new[] { typeof(string), typeof(IDbms) });
+
+            return (IIdentifierGenerator) ConstructorUtil.NewInstance<string, IDbms>(constructor, new object[] { propertyName, dbms });
         }
 
         protected static void SetProperty(IIdentifierGenerator generator, string propertyName, string value)
         {
-            PropertyInfo property = generator.GetType().GetProperty(propertyName);
-            property.SetValue(generator, value, null);
+            var property = generator.GetExType().GetProperty(propertyName);
+//            property.SetValue(generator, value, null);
+            PropertyUtil.SetValue(generator, generator.GetExType(), property.Name, property.PropertyType, value);
         }
     }
 }

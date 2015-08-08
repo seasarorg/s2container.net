@@ -27,14 +27,14 @@ namespace Seasar.Tests.Framework.Container.AutoRegister
         [Test]
         public void TestAppliedForShortClassNameNull()
         {
-            ClassPattern cp = new ClassPattern();
+            var cp = new ClassPattern();
             Assert.IsTrue(cp.IsAppliedShortClassName("Hoge"));
         }
 
         [Test]
         public void TestAppliedForNormalPattern()
         {
-            ClassPattern cp = new ClassPattern();
+            var cp = new ClassPattern();
             cp.ShortClassNames = ".*Impl";
             Assert.IsTrue(cp.IsAppliedShortClassName("HogeImpl"), "1");
             Assert.IsFalse(cp.IsAppliedShortClassName("Hoge"), "2");
@@ -43,7 +43,7 @@ namespace Seasar.Tests.Framework.Container.AutoRegister
         [Test]
         public void TestAppliedForMulti()
         {
-            ClassPattern cp = new ClassPattern();
+            var cp = new ClassPattern();
             cp.ShortClassNames = "Hoge$, HogeImpl$";
             Assert.IsTrue(cp.IsAppliedShortClassName("HogeImpl"), "1");
             Assert.IsTrue(cp.IsAppliedShortClassName("Hoge"), "2");
@@ -53,10 +53,10 @@ namespace Seasar.Tests.Framework.Container.AutoRegister
         [Test]
         public void TestAppliedNamespaceName()
         {
-            ClassPattern cp = new ClassPattern();
+            var cp = new ClassPattern();
             cp.NamespaceName = "Seasar.Framework";
             Assert.IsTrue(cp.IsAppliedNamespaceName("Seasar.Framework"), "1");
-            Assert.IsTrue(cp.IsAppliedNamespaceName("Seasar.Framework.Container"), "2");
+            Assert.IsTrue(cp.IsAppliedNamespaceName("Seasar.Framework.container"), "2");
             Assert.IsFalse(cp.IsAppliedNamespaceName("Seasar"), "3");
             Assert.IsFalse(cp.IsAppliedNamespaceName("Seasar.Framework2"), "4");
             Assert.IsFalse(cp.IsAppliedNamespaceName(null), "5");

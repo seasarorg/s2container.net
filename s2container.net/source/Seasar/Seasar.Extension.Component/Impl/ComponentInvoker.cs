@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -40,31 +40,31 @@ namespace Seasar.Extension.Component.Impl
 
         public object Invoke(string componentName, string methodName, object[] args)
         {
-            object component = _container.GetComponent(componentName);
+            var component = _container.GetComponent(componentName);
             Type type = null;
             try
             {
                 if (RemotingServices.IsTransparentProxy(component))
                 {
-                    AopProxy aopProxy = RemotingServices.GetRealProxy(component) as AopProxy;
-                    type = aopProxy.TargetType;
+                    var aopProxy = RemotingServices.GetRealProxy(component) as AopProxy;
+                    type = aopProxy?.TargetType;
                 }
                 else
                 {
-                    type = component.GetType();
+                    type = component.GetExType();
                 }
 
-                MethodInfo methodInfo = type.GetMethod(methodName);
+                var methodInfo = type?.GetMethod(methodName);
 
                 if (methodInfo == null)
                 {
                     throw new MissingMethodException();
                 }
 
-                int ParametersSize = methodInfo.GetParameters().Length;
+                var parametersSize = methodInfo.GetParameters().Length;
 
-                if ((ParametersSize > 0 && args == null) ||
-                     (args != null && ParametersSize != args.Length))
+                if ((parametersSize > 0 && args == null) ||
+                     (args != null && parametersSize != args.Length))
                 {
                     throw new IllegalMethodRuntimeException(type, methodName, null);
                 }
@@ -75,9 +75,9 @@ namespace Seasar.Extension.Component.Impl
                 }
                 else
                 {
-                    IComponentDef componentDef = _container.GetComponentDef(componentName);
+                    var componentDef = _container.GetComponentDef(componentName);
                     return InvokeNonMarshalByRefObject(component,
-                        GetAspects(componentDef), methodInfo, args);
+                        _GetAspects(componentDef), methodInfo, args);
                 }
             }
 
@@ -95,18 +95,18 @@ namespace Seasar.Extension.Component.Impl
             object target, IAspect[] aspects, MethodBase method, object[] args)
         {
 
-            ArrayList interceptorList = new ArrayList();
+            var interceptorList = new ArrayList();
 
             if (aspects != null)
             {
-                // ’è‹`‚³‚ê‚½Aspect‚©‚çInterceptor‚ÌƒŠƒXƒg‚Ìì¬
-                foreach (IAspect aspect in aspects)
+                // ï¿½ï¿½`ï¿½ï¿½ï¿½ê‚½Aspectï¿½ï¿½ï¿½ï¿½Interceptorï¿½Ìƒï¿½ï¿½Xï¿½gï¿½Ìì¬
+                foreach (var aspect in aspects)
                 {
-                    IPointcut pointcut = aspect.Pointcut;
-                    // IPointcut‚æ‚èAdvice(Interceptor)‚ğ‘}“ü‚·‚é‚©Šm”F
+                    var pointcut = aspect.Pointcut;
+                    // IPointcutï¿½ï¿½ï¿½Advice(Interceptor)ï¿½ï¿½}ï¿½ï¿½ï¿½ï¿½ï¿½é‚©ï¿½mï¿½F
                     if (pointcut == null || pointcut.IsApplied(method))
                     {
-                        // Aspect‚ğ“K—p‚·‚éê‡
+                        // Aspectï¿½ï¿½Kï¿½pï¿½ï¿½ï¿½ï¿½ê‡
                         interceptorList.Add(aspect.MethodInterceptor);
                     }
                 }
@@ -115,13 +115,14 @@ namespace Seasar.Extension.Component.Impl
             object ret;
             if (interceptorList.Count == 0)
             {
-                // Interceptor‚ğ‘}“ü‚µ‚È‚¢ê‡
-                ret = method.Invoke(target, args);
+                // Interceptorï¿½ï¿½}ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ê‡
+                ret = MethodUtil.Invoke((MethodInfo)method, target, args);
+//                ret = method.Invoke(target, args);
             }
             else
             {
-                // Interceptor‚ğ‘}“ü‚·‚éê‡
-                IMethodInterceptor[] interceptors = (IMethodInterceptor[])
+                // Interceptorï¿½ï¿½}ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡
+                var interceptors = (IMethodInterceptor[])
                     interceptorList.ToArray(typeof(IMethodInterceptor));
 
                 IMethodInvocation invocation = new MethodInvocationImpl(target,
@@ -133,11 +134,11 @@ namespace Seasar.Extension.Component.Impl
             return ret;
         }
 
-        private static IAspect[] GetAspects(IComponentDef componentDef)
+        private static IAspect[] _GetAspects(IComponentDef componentDef)
         {
-            int size = componentDef.AspectDefSize;
-            IAspect[] aspects = new IAspect[size];
-            for (int i = 0; i < size; ++i)
+            var size = componentDef.AspectDefSize;
+            var aspects = new IAspect[size];
+            for (var i = 0; i < size; ++i)
             {
                 aspects[i] = componentDef.GetAspectDef(i).Aspect;
             }

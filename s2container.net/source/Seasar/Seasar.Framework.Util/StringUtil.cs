@@ -26,7 +26,7 @@ namespace Seasar.Framework.Util
 
         public static bool IsEmpty(string text)
         {
-            return text == null || text.Length == 0 ? true : false;
+            return string.IsNullOrEmpty(text);
         }
 
         public static string Decapitalize(string name)
@@ -35,7 +35,7 @@ namespace Seasar.Framework.Util
             {
                 return name;
             }
-            char[] chars = name.ToCharArray();
+            var chars = name.ToCharArray();
             chars[0] = char.ToLower(chars[0]);
             return new string(chars);
         }
@@ -47,8 +47,7 @@ namespace Seasar.Framework.Util
                 return false;
             }
             return text.Length > fragment.Length
-                && text.Substring(0, fragment.Length).ToLower()
-                .Equals(fragment.ToLower());
+                && text.Substring(0, fragment.Length).ToLower() == fragment.ToLower();
         }
     }
 }

@@ -40,15 +40,15 @@ namespace Seasar.Extension.ADO.Types
             }
             if (value is byte)
             {
-                return new Nullable<Byte>((byte) value);
+                return new byte?((byte) value);
             }
             else
             {
-                byte[] bytes = (byte[]) value;
-                Nullable<Byte>[] nBytes = new Nullable<Byte>[bytes.Length];
-                for (int i = 0; i < bytes.Length; ++i)
+                var bytes = (byte[]) value;
+                var nBytes = new byte?[bytes.Length];
+                for (var i = 0; i < bytes.Length; ++i)
                 {
-                    nBytes[i] = new Nullable<Byte>(bytes[i]);
+                    nBytes[i] = new byte?(bytes[i]);
                 }
                 return nBytes;
             }

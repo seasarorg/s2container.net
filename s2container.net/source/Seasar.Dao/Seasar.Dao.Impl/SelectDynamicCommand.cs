@@ -35,14 +35,11 @@ namespace Seasar.Dao.Impl
             _dataReaderFactory = dataReaderFactory;
         }
 
-        public virtual IDataReaderHandler DataReaderHandler
-        {
-            get { return _dataReaderHandler; }
-        }
+        public virtual IDataReaderHandler DataReaderHandler => _dataReaderHandler;
 
         public override object Execute(object[] args)
         {
-            ICommandContext ctx = Apply(args);
+            var ctx = Apply(args);
             ISelectHandler handler = new BasicSelectHandler(DataSource,
                 ctx.Sql, _dataReaderHandler, CommandFactory, _dataReaderFactory);
             return handler.Execute(ctx.BindVariables, ctx.BindVariableTypes);

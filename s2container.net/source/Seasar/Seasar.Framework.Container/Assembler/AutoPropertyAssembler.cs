@@ -16,12 +16,12 @@
  */
 #endregion
 
-using System;
 using System.Reflection;
 using System.Runtime.Remoting;
 using Seasar.Framework.Aop.Proxy;
-using Seasar.Framework.Log;
 using Seasar.Framework.Container.Util;
+using Seasar.Framework.Log;
+using Seasar.Framework.Util;
 
 namespace Seasar.Framework.Container.Assembler
 {
@@ -36,24 +36,24 @@ namespace Seasar.Framework.Container.Assembler
 
         public override void Assemble(object component)
         {
-            Type type = component.GetType();
+            var type = component.GetExType();
             if (RemotingServices.IsTransparentProxy(component))
             {
-                AopProxy aopProxy = RemotingServices.GetRealProxy(component) as AopProxy;
+                var aopProxy = RemotingServices.GetRealProxy(component) as AopProxy;
                 if (aopProxy != null)
                 {
                     type = aopProxy.TargetType;
                 }
             }
 
-            IS2Container container = ComponentDef.Container;
-            foreach (PropertyInfo property in type.GetProperties())
+            var container = ComponentDef.Container;
+            foreach (var property in type.GetProperties())
             {
                 object value;
-                string propName = property.Name;
+                var propName = property.Name;
                 if (ComponentDef.HasPropertyDef(propName))
                 {
-                    IPropertyDef propDef = ComponentDef.GetPropertyDef(propName);
+                    var propDef = ComponentDef.GetPropertyDef(propName);
 
                     value = GetComponentByReceiveType(property.PropertyType, propDef.Expression);
 

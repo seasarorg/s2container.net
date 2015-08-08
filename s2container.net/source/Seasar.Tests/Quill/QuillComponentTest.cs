@@ -1,4 +1,4 @@
-#region Copyright
+﻿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -36,10 +36,10 @@ namespace Seasar.Tests.Quill
         [Test]
         public void TestGetComponentObject_コンポーネントのオブジェクトが存在する場合()
         {
-            QuillComponent component = new QuillComponent(
+            var component = new QuillComponent(
                 typeof(ArrayList), typeof(ArrayList), new IAspect[] { });
 
-            object ret = component.GetComponentObject(typeof(ArrayList));
+            var ret = component.GetComponentObject(typeof(ArrayList));
 
             Assert.IsNotNull(ret);
         }
@@ -47,10 +47,10 @@ namespace Seasar.Tests.Quill
         [Test]
         public void TestGetComponentObject_コンポーネントのオブジェクトが存在しない場合()
         {
-            QuillComponent component = new QuillComponent(
+            var component = new QuillComponent(
                 typeof(ArrayList), typeof(ArrayList), new IAspect[] { });
 
-            object ret = component.GetComponentObject(typeof(string));
+            var ret = component.GetComponentObject(typeof(string));
 
             Assert.IsNull(ret);
         }
@@ -58,7 +58,7 @@ namespace Seasar.Tests.Quill
         [Test]
         public void TestGetComponentObject_Destroy済みの場合()
         {
-            QuillComponent component = new QuillComponent(
+            var component = new QuillComponent(
                 typeof(ArrayList), typeof(ArrayList), new IAspect[] { });
 
             component.Destroy();
@@ -84,10 +84,10 @@ namespace Seasar.Tests.Quill
         {
             IAspect aspect = new AspectImpl(new HogeInterceptor());
 
-            QuillComponent component = new QuillComponent(
+            var component = new QuillComponent(
                 typeof(Hoge1), typeof(Hoge1), new IAspect[] { aspect });
 
-            Hoge1 hoge = (Hoge1)component.GetComponentObject(typeof(Hoge1));
+            var hoge = (Hoge1)component.GetComponentObject(typeof(Hoge1));
 
             Assert.AreEqual(2, hoge.HogeHoge());
         }
@@ -97,10 +97,10 @@ namespace Seasar.Tests.Quill
         {
             IAspect aspect = new AspectImpl(new HogeInterceptor());
 
-            QuillComponent component = new QuillComponent(
+            var component = new QuillComponent(
                 typeof(Hoge1), typeof(IHoge1), new IAspect[] { aspect });
 
-            IHoge1 hoge = (IHoge1)component.GetComponentObject(typeof(IHoge1));
+            var hoge = (IHoge1)component.GetComponentObject(typeof(IHoge1));
 
             Assert.AreEqual(2, hoge.HogeHoge());
         }
@@ -108,10 +108,10 @@ namespace Seasar.Tests.Quill
         [Test]
         public void TestQuillComponent_Aspectが適用されていない場合()
         {
-            QuillComponent component = new QuillComponent(
+            var component = new QuillComponent(
                 typeof(Hoge1), typeof(Hoge1), new IAspect[0]);
 
-            Hoge1 hoge = (Hoge1)component.GetComponentObject(typeof(Hoge1));
+            var hoge = (Hoge1)component.GetComponentObject(typeof(Hoge1));
 
             Assert.AreEqual(1, hoge.HogeHoge());
         }
@@ -121,7 +121,7 @@ namespace Seasar.Tests.Quill
         {
             try
             {
-                QuillComponent component = new QuillComponent(
+                var component = new QuillComponent(
                     typeof(Hoge2), typeof(Hoge2), new IAspect[0]);
 
                 Assert.Fail();
@@ -137,7 +137,7 @@ namespace Seasar.Tests.Quill
         {
             try
             {
-                QuillComponent component = new QuillComponent(
+                var component = new QuillComponent(
                     typeof(Hoge3), typeof(Hoge3), new IAspect[0]);
 
                 Assert.Fail();
@@ -153,7 +153,7 @@ namespace Seasar.Tests.Quill
         {
             try
             {
-                QuillComponent component = new QuillComponent(
+                var component = new QuillComponent(
                     typeof(ExceptionHoge), typeof(ExceptionHoge), new IAspect[0]);
                 Assert.Fail();
             }
@@ -168,7 +168,7 @@ namespace Seasar.Tests.Quill
         {
             try
             {
-                QuillComponent component = new QuillComponent(
+                var component = new QuillComponent(
                     typeof(UnableCreateProxyHoge), typeof(UnableCreateProxyHoge), 
                     new IAspect[] { new AspectImpl(new TraceInterceptor())});
                 Assert.Fail();
@@ -245,13 +245,13 @@ namespace Seasar.Tests.Quill
         [Test]
         public void TestDispose_コンポーネントがIDisposableを実装している場合()
         {
-            Type type = typeof(DisposableClass);
+            var type = typeof(DisposableClass);
 
-            QuillComponent component = new QuillComponent(type, type, new IAspect[0]);
+            var component = new QuillComponent(type, type, new IAspect[0]);
 
             component.Dispose();
 
-            DisposableClass disposable =
+            var disposable =
                 (DisposableClass)component.GetComponentObject(type);
 
             Assert.IsTrue(disposable.Disposed);
@@ -260,9 +260,9 @@ namespace Seasar.Tests.Quill
         [Test]
         public void TestDispose_コンポーネントがIDisposableを実装していない場合()
         {
-            Type type = typeof(NotDisposableClass);
+            var type = typeof(NotDisposableClass);
 
-            QuillComponent component = new QuillComponent(type, type, new IAspect[0]);
+            var component = new QuillComponent(type, type, new IAspect[0]);
 
             component.Dispose();
         }
@@ -270,9 +270,9 @@ namespace Seasar.Tests.Quill
         [Test]
         public void TestDispose_Destroy済みの場合()
         {
-            Type type = typeof(DisposableClass);
+            var type = typeof(DisposableClass);
 
-            QuillComponent component = new QuillComponent(type, type, new IAspect[0]);
+            var component = new QuillComponent(type, type, new IAspect[0]);
 
             component.Destroy();
 
@@ -316,7 +316,7 @@ namespace Seasar.Tests.Quill
         [Test]
         public void TestDestroy()
         {
-            QuillComponent component = new QuillComponent(
+            var component = new QuillComponent(
                 typeof(ArrayList), typeof(ArrayList), new IAspect[] { });
 
             component.Destroy();

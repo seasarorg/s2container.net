@@ -41,13 +41,13 @@ namespace Seasar.Tests.Extension.ADO.Impl
         public void Handle()
         {
             IDataReaderHandler handler = new BeanGenericListDataReaderHandler(typeof(Employee));
-            string sql = "select * from emp";
-            IDbConnection con = Connection;
-            IDbCommand cmd = con.CreateCommand();
+            var sql = "select * from emp";
+            var con = Connection;
+            var cmd = con.CreateCommand();
             cmd.CommandText = sql;
             IList<Employee> ret;
             DataSource.SetTransaction(cmd);
-            IDataReader reader = cmd.ExecuteReader();
+            var reader = cmd.ExecuteReader();
             try
             {
                 ret = (IList<Employee>) handler.Handle(reader);
@@ -57,7 +57,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
                 reader.Close();
             }
             Assert.IsNotNull(ret, "1");
-            foreach (Employee emp in ret)
+            foreach (var emp in ret)
             {
                 Trace.WriteLine(emp.Empno + "," + emp.Ename);
             }

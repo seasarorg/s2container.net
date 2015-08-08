@@ -33,7 +33,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
         {
             //  ## Arrange ##
             const string DS_NAME = "HOGE_DATASOURCE";
-            SelectableDataSourceProxyWithContainer ds = new SelectableDataSourceProxyWithContainer();
+            var ds = new SelectableDataSourceProxyWithContainer();
 
             //  ## Act ##
             ds.SetDataSourceName(DS_NAME);
@@ -51,11 +51,11 @@ namespace Seasar.Tests.Extension.ADO.Impl
             const string NO_NAME = "NotExist";
 
             //  データソースを二つ扱う関係上、別枠でConainerを初期化
-            S2ContainerImpl container = new S2ContainerImpl();
+            var container = new S2ContainerImpl();
             container.Register(typeof(TxDataSource), DS_NAME);
             container.Register(typeof(DataSourceImpl), SUB_NAME);
 
-            SelectableDataSourceProxyWithContainer ds = new SelectableDataSourceProxyWithContainer();
+            var ds = new SelectableDataSourceProxyWithContainer();
             ds.Container = container;
             Assert.IsNotNull(ds.Container);
 
@@ -63,19 +63,19 @@ namespace Seasar.Tests.Extension.ADO.Impl
                 //  ## Act ##
                 ds.SetDataSourceName(DS_NAME);
                 //  ## Assert ##
-                IDataSource actual = ds.GetDataSource();
+                var actual = ds.GetDataSource();
                 Assert.IsNotNull(actual, "1");
                 Assert.IsTrue(actual is TxDataSource, "2");
-                TxDataSource txDs = (TxDataSource)actual;
+                var txDs = (TxDataSource)actual;
             }
             {
                 //  ## Act ##
                 ds.SetDataSourceName(SUB_NAME);
                 //  ## Assert ##
-                IDataSource actual = ds.GetDataSource();
+                var actual = ds.GetDataSource();
                 Assert.IsNotNull(actual, "11");
                 Assert.IsTrue(actual is DataSourceImpl, "12");
-                DataSourceImpl implDs = (DataSourceImpl)actual;
+                var implDs = (DataSourceImpl)actual;
             }
             {
                 //  ## Act ##

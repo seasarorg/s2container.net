@@ -1,4 +1,4 @@
-#region Copyright
+﻿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -32,7 +32,7 @@ namespace Seasar.Tests.Quill.Util
         {
             try
             {
-                string message = MessageUtil.GetSimpleMessage("hoge", null);
+                var message = MessageUtil.GetSimpleMessage("hoge", null);
                 Assert.Fail();
             }
             catch (QuillApplicationException ex)
@@ -44,7 +44,7 @@ namespace Seasar.Tests.Quill.Util
         [Test]
         public void TestGetSimpleMessage_メッセージ中に埋め込む値がnullの場合()
         {
-            string message = MessageUtil.GetSimpleMessage("EQLL0009", null);
+            var message = MessageUtil.GetSimpleMessage("EQLL0009", null);
 
             Assert.AreEqual("S2Containerが作成されていません。" +
                 "SingletonS2ContainerFactoryからS2Containerが作成してください", message);
@@ -53,7 +53,7 @@ namespace Seasar.Tests.Quill.Util
         [Test]
         public void TestGetSimpleMessage_メッセージ中に埋め込む値がnullでないの場合()
         {
-            string message = MessageUtil.GetSimpleMessage("EQLL0010",
+            var message = MessageUtil.GetSimpleMessage("EQLL0010",
                 new object[] { "hoge" });
 
             Assert.AreEqual(
@@ -67,7 +67,7 @@ namespace Seasar.Tests.Quill.Util
         [Test]
         public void TestGetMessage()
         {
-            string message = MessageUtil.GetMessage("EQLL0010",
+            var message = MessageUtil.GetMessage("EQLL0010",
                 new object[] { "hoge" });
 
             Assert.AreEqual(

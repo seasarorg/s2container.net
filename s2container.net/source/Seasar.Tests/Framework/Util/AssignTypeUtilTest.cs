@@ -33,61 +33,61 @@ namespace Seasar.Tests.Framework.Util
         {
             //  true ----------------------------------------------------
             {
-                bool ret = AssignTypeUtil.IsSimpleType(typeof(string));
+                var ret = AssignTypeUtil.IsSimpleType(typeof(string));
                 Assert.IsTrue(ret, "string");
             }
             {
-                bool ret = AssignTypeUtil.IsSimpleType(typeof(int));
+                var ret = AssignTypeUtil.IsSimpleType(typeof(int));
                 Assert.IsTrue(ret, "int");
             }
             {
-                bool ret = AssignTypeUtil.IsSimpleType(typeof(long));
+                var ret = AssignTypeUtil.IsSimpleType(typeof(long));
                 Assert.IsTrue(ret, "long");
             }
             {
-                bool ret = AssignTypeUtil.IsSimpleType(typeof(char));
+                var ret = AssignTypeUtil.IsSimpleType(typeof(char));
                 Assert.IsTrue(ret, "char");
             }
             {
-                bool ret = AssignTypeUtil.IsSimpleType(typeof(byte[]));
+                var ret = AssignTypeUtil.IsSimpleType(typeof(byte[]));
                 Assert.IsTrue(ret, "byte[]");
             }
             {
-                bool ret = AssignTypeUtil.IsSimpleType(typeof(double));
+                var ret = AssignTypeUtil.IsSimpleType(typeof(double));
                 Assert.IsTrue(ret, "double");
             }
             {
-                bool ret = AssignTypeUtil.IsSimpleType(typeof(float));
+                var ret = AssignTypeUtil.IsSimpleType(typeof(float));
                 Assert.IsTrue(ret, "float");
             }
             {
-                bool ret = AssignTypeUtil.IsSimpleType(typeof(DateTime));
+                var ret = AssignTypeUtil.IsSimpleType(typeof(DateTime));
                 Assert.IsTrue(ret, "DateTime");
             }
             
             //  false ----------------------------------------------------
             {
-                bool ret = AssignTypeUtil.IsSimpleType(typeof(Employee));
+                var ret = AssignTypeUtil.IsSimpleType(typeof(Employee));
                 Assert.IsFalse(ret, "Employee");
             }
             {
-                bool ret = AssignTypeUtil.IsSimpleType(typeof(int[]));
+                var ret = AssignTypeUtil.IsSimpleType(typeof(int[]));
                 Assert.IsFalse(ret, "int[]");
             }
             {
-                bool ret = AssignTypeUtil.IsSimpleType(typeof(Employee[]));
+                var ret = AssignTypeUtil.IsSimpleType(typeof(Employee[]));
                 Assert.IsFalse(ret, "Employee[]");
             }
             {
-                bool ret = AssignTypeUtil.IsSimpleType(typeof(ArrayList));
+                var ret = AssignTypeUtil.IsSimpleType(typeof(ArrayList));
                 Assert.IsFalse(ret, "ArrayList");
             }
             {
-                bool ret = AssignTypeUtil.IsSimpleType(typeof(IList<string>));
+                var ret = AssignTypeUtil.IsSimpleType(typeof(IList<string>));
                 Assert.IsFalse(ret, "ArrayList");
             }
             {
-                bool ret = AssignTypeUtil.IsSimpleType(typeof(IList<Employee>));
+                var ret = AssignTypeUtil.IsSimpleType(typeof(IList<Employee>));
                 Assert.IsFalse(ret, "IList<Employee>");
             }
         }
@@ -97,33 +97,33 @@ namespace Seasar.Tests.Framework.Util
         {
             //  true --------------------------------------------------
             {
-                bool ret = AssignTypeUtil.IsList(typeof(IList));
+                var ret = AssignTypeUtil.IsList(typeof(IList));
                 Assert.IsTrue(ret, "IList");
             }
             {
-                bool ret = AssignTypeUtil.IsList(typeof(ArrayList));
+                var ret = AssignTypeUtil.IsList(typeof(ArrayList));
                 Assert.IsTrue(ret, "ArrayList");
             }
 
             //  false -------------------------------------------------
             {
-                bool ret = AssignTypeUtil.IsList(typeof(string));
+                var ret = AssignTypeUtil.IsList(typeof(string));
                 Assert.IsFalse(ret, "string");
             }
             {
-                bool ret = AssignTypeUtil.IsList(typeof(Employee));
+                var ret = AssignTypeUtil.IsList(typeof(Employee));
                 Assert.IsFalse(ret, "Employee");
             }
             {
-                bool ret = AssignTypeUtil.IsList(typeof(DateTime));
+                var ret = AssignTypeUtil.IsList(typeof(DateTime));
                 Assert.IsFalse(ret, "DateTime");
             }
             {
-                bool ret = AssignTypeUtil.IsList(typeof(IList<string>));
+                var ret = AssignTypeUtil.IsList(typeof(IList<string>));
                 Assert.IsFalse(ret, "IList<string>");
             }
             {
-                bool ret = AssignTypeUtil.IsList(typeof(string[]));
+                var ret = AssignTypeUtil.IsList(typeof(string[]));
                 Assert.IsFalse(ret, "string[]");
             }
         }
@@ -133,33 +133,33 @@ namespace Seasar.Tests.Framework.Util
         {
             //  true ------------------------------------------------------
             {
-                bool ret = AssignTypeUtil.IsGenericList(typeof(IList<string>));
+                var ret = AssignTypeUtil.IsGenericList(typeof(IList<string>));
                 Assert.IsTrue(ret, "IList<string>");
             }
             {
-                bool ret = AssignTypeUtil.IsGenericList(typeof(List<string>));
+                var ret = AssignTypeUtil.IsGenericList(typeof(List<string>));
                 Assert.IsTrue(ret, "List<string>");
             }
 
             //  false -----------------------------------------------------
             {
-                bool ret = AssignTypeUtil.IsGenericList(typeof(string));
+                var ret = AssignTypeUtil.IsGenericList(typeof(string));
                 Assert.IsFalse(ret, "string");
             }
             {
-                bool ret = AssignTypeUtil.IsGenericList(typeof(Employee));
+                var ret = AssignTypeUtil.IsGenericList(typeof(Employee));
                 Assert.IsFalse(ret, "Employee");
             }
             {
-                bool ret = AssignTypeUtil.IsGenericList(typeof(DateTime));
+                var ret = AssignTypeUtil.IsGenericList(typeof(DateTime));
                 Assert.IsFalse(ret, "DateTime");
             }
             {
-                bool ret = AssignTypeUtil.IsGenericList(typeof(string[]));
+                var ret = AssignTypeUtil.IsGenericList(typeof(string[]));
                 Assert.IsFalse(ret, "string[]");
             }
             {
-                bool ret = AssignTypeUtil.IsGenericList(typeof(IList));
+                var ret = AssignTypeUtil.IsGenericList(typeof(IList));
                 Assert.IsFalse(ret, "IList");
             }
         }

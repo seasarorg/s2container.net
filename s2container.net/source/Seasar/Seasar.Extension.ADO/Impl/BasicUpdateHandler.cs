@@ -18,6 +18,7 @@
 
 using System;
 using System.Data;
+using System.Reflection;
 using Seasar.Framework.Log;
 using Seasar.Framework.Util;
 
@@ -25,7 +26,7 @@ namespace Seasar.Extension.ADO.Impl
 {
     public class BasicUpdateHandler : BasicHandler, IUpdateHandler
     {
-        private static readonly Logger _logger = Logger.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly Logger _logger = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         public BasicUpdateHandler()
         {
@@ -55,7 +56,7 @@ namespace Seasar.Extension.ADO.Impl
             {
                 _logger.Debug(GetCompleteSql(args));
             }
-            IDbConnection con = Connection;
+            var con = Connection;
             try
             {
                 return Execute(con, args, argTypes);
@@ -75,7 +76,7 @@ namespace Seasar.Extension.ADO.Impl
 
         protected virtual int Execute(IDbConnection connection, object[] args, Type[] argTypes)
         {
-            IDbCommand cmd = Command(connection);
+            var cmd = Command(connection);
             try
             {
                 BindArgs(cmd, args, argTypes);

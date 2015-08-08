@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -27,14 +27,14 @@ namespace Seasar.Tests.Framework.Container.Util
     public class AutoBindingUtilTest
     {
         [Test]
-        public void TestIsSuitable_ControlƒNƒ‰ƒX‚Ìê‡()
+        public void TestIsSuitableControlã‚¯ãƒ©ã‚¹ã®å ´åˆ()
         {
             Assert.IsFalse(AutoBindingUtil.IsSuitable(typeof(ISite), new Control(), "Site"));
             Assert.IsTrue(AutoBindingUtil.IsSuitable(typeof(ISite), new Control(), "Test"));
         }
 
         [Test]
-        public void TestIsSuitable_FormƒNƒ‰ƒX‚Ìê‡()
+        public void TestIsSuitableFormã‚¯ãƒ©ã‚¹ã®å ´åˆ()
         {
             Assert.IsFalse(AutoBindingUtil.IsSuitable(typeof(ISite), new Form(), "Site"));
             Assert.IsFalse(AutoBindingUtil.IsSuitable(typeof(ISite), new Form(), "CancelButton"));
@@ -44,16 +44,16 @@ namespace Seasar.Tests.Framework.Container.Util
         }
 
         [Test]
-        public void TestIsSuitable_Form‚ğŒp³‚µ‚½ƒNƒ‰ƒX‚Ìê‡()
+        public void TestIsSuitableFormã‚’ç¶™æ‰¿ã—ãŸã‚¯ãƒ©ã‚¹ã®å ´åˆ()
         {
-            Assert.IsFalse(AutoBindingUtil.IsSuitable(typeof(ISite), new TestForm(), "Site"));
-            Assert.IsFalse(AutoBindingUtil.IsSuitable(typeof(ISite), new TestForm(), "CancelButton"));
-            Assert.IsFalse(AutoBindingUtil.IsSuitable(typeof(ISite), new TestForm(), "AcceptButton"));
-            Assert.IsTrue(AutoBindingUtil.IsSuitable(typeof(ISite), new TestForm(), "Test"));
-            Assert.IsFalse(AutoBindingUtil.IsSuitable(typeof(string), new TestForm(), "Text"));
+            Assert.IsFalse(AutoBindingUtil.IsSuitable(typeof(ISite), new _TestForm(), "Site"));
+            Assert.IsFalse(AutoBindingUtil.IsSuitable(typeof(ISite), new _TestForm(), "CancelButton"));
+            Assert.IsFalse(AutoBindingUtil.IsSuitable(typeof(ISite), new _TestForm(), "AcceptButton"));
+            Assert.IsTrue(AutoBindingUtil.IsSuitable(typeof(ISite), new _TestForm(), "Test"));
+            Assert.IsFalse(AutoBindingUtil.IsSuitable(typeof(string), new _TestForm(), "Text"));
         }
 
-        class TestForm : Form
+        class _TestForm : Form
         {
         }
     }

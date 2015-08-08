@@ -1,4 +1,4 @@
-#region Copyright
+Ôªø#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -30,14 +30,14 @@ namespace Seasar.Tests.Framework.Aop.Impl
         [Test]
         public void TestProceed()
         {
-            TestInterceptor interceptor = new TestInterceptor();
-            TestInterceptor interceptor2 = new TestInterceptor();
+            var interceptor = new TestInterceptor();
+            var interceptor2 = new TestInterceptor();
             IPointcut pointcut = new PointcutImpl(new string[] { "Foo" });
             IAspect aspect = new AspectImpl(interceptor, pointcut);
             IAspect aspect2 = new AspectImpl(interceptor2, pointcut);
 
             Hoge proxy = new HogeImpl();
-            AopProxy aopProxy = new AopProxy(typeof(Hoge), new IAspect[] { aspect, aspect2 }, null, proxy);
+            var aopProxy = new AopProxy(typeof(Hoge), new IAspect[] { aspect, aspect2 }, null, proxy);
             proxy = (Hoge) aopProxy.GetTransparentProxy();
             Trace.WriteLine(proxy.Foo());
             Assert.AreEqual(true, interceptor.invoked_);
@@ -47,10 +47,10 @@ namespace Seasar.Tests.Framework.Aop.Impl
         [Test]
         public void TestProceedForAbstractMethod()
         {
-            HogeInterceptor interceptor = new HogeInterceptor();
+            var interceptor = new HogeInterceptor();
             IAspect aspect = new AspectImpl(interceptor);
             Hoge proxy = new HogeImpl();
-            AopProxy aopProxy = new AopProxy(typeof(Hoge), new IAspect[] { aspect }, null, proxy);
+            var aopProxy = new AopProxy(typeof(Hoge), new IAspect[] { aspect }, null, proxy);
             proxy = (Hoge) aopProxy.GetTransparentProxy();
             Assert.AreEqual("Hello", proxy.Foo());
         }
@@ -63,7 +63,7 @@ namespace Seasar.Tests.Framework.Aop.Impl
             {
                 invoked_ = true;
                 Trace.WriteLine("before");
-                object ret = invocation.Proceed();
+                var ret = invocation.Proceed();
                 Trace.WriteLine("after");
                 return ret;
             }
@@ -76,11 +76,11 @@ namespace Seasar.Tests.Framework.Aop.Impl
 
         public class HogeImpl : Hoge
         {
-            #region Hoge ÉÅÉìÉo
+            #region Hoge „É°„É≥„Éê
 
             public string Foo()
             {
-                // TODO:  HogeImpl.Foo é¿ëïÇí«â¡ÇµÇ‹Ç∑ÅB
+                // TODO:  HogeImpl.Foo ÂÆüË£Ö„ÇíËøΩÂä†„Åó„Åæ„Åô„ÄÇ
                 Trace.WriteLine("Foo");
                 return "hogehoge";
             }

@@ -23,16 +23,11 @@ namespace Seasar.Dao.Attrs
     [AttributeUsage(AttributeTargets.Class)]
     public class TimestampPropertyAttribute : Attribute
     {
-        private readonly string _propertyName;
-
         public TimestampPropertyAttribute(string propertyName)
         {
-            _propertyName = propertyName;
+            PropertyName = propertyName;
         }
 
-        public string PropertyName
-        {
-            get { return _propertyName; }
-        }
+        public string PropertyName { get; }
     }
 }

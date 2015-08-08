@@ -21,8 +21,8 @@
 using System;
 using System.Collections;
 using System.Diagnostics;
-using System.Reflection;
 using Seasar.Dxo.Exception;
+using Seasar.Framework.Util;
 
 namespace Seasar.Dxo.Converter.Impl
 {
@@ -42,7 +42,8 @@ namespace Seasar.Dxo.Converter.Impl
             {
                 if (expectType.IsClass && !expectType.IsAbstract)
                 {
-                    dest = Activator.CreateInstance(expectType);
+                    dest = ClassUtil.NewInstance(expectType);
+//                    dest = Activator.CreateInstance(expectType);
                 }
                 else
                 {
@@ -53,14 +54,14 @@ namespace Seasar.Dxo.Converter.Impl
                 }
             }
 
-            IDictionary target = dest as IDictionary;
-            IDictionary src = source as IDictionary;
+            var target = dest as IDictionary;
+            var src = source as IDictionary;
             if (src == null && target != null)
             {
                 target.Clear();
 
-                PropertyInfo[] properties = source.GetType().GetProperties();
-                foreach (PropertyInfo info in properties)
+                var properties = source.GetExType().GetProperties();
+                foreach (var info in properties)
                 {
                     target.Add(info.Name, info.GetValue(source, null));
                 }

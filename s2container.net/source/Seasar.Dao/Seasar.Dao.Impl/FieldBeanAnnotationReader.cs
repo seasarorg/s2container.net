@@ -35,49 +35,33 @@ namespace Seasar.Dao.Impl
 
         public string GetColumn(PropertyInfo pi)
         {
-            ColumnAttribute attr = AttributeUtil.GetColumnAttribute(pi);
-            if (attr != null)
-            {
-                return attr.ColumnName;
-            }
-            return null;
+            var attr = AttributeUtil.GetColumnAttribute(pi);
+            return attr?.ColumnName;
         }
 
         public string GetTable()
         {
-            TableAttribute attr = AttributeUtil.GetTableAttribute(beanType);
-            if (attr != null)
-            {
-                return attr.TableName;
-            }
-            return null;
+            var attr = AttributeUtil.GetTableAttribute(beanType);
+            return attr?.TableName;
         }
 
         public string GetVersionNoProteryName()
         {
-            VersionNoPropertyAttribute attr = AttributeUtil.GetVersionNoPropertyAttribute(beanType);
-            if (attr != null)
-            {
-                return attr.PropertyName;
-            }
-            return null;
+            var attr = AttributeUtil.GetVersionNoPropertyAttribute(beanType);
+            return attr?.PropertyName;
         }
 
         public string GetTimestampPropertyName()
         {
-            TimestampPropertyAttribute attr = AttributeUtil.GetTimestampPropertyAttribute(beanType);
-            if (attr != null)
-            {
-                return attr.PropertyName;
-            }
-            return null;
+            var attr = AttributeUtil.GetTimestampPropertyAttribute(beanType);
+            return attr?.PropertyName;
         }
 
         public IDAttribute GetIdAttribute(PropertyInfo pi, IDbms dbms)
         {
-            IDAttribute[] attrs = AttributeUtil.GetIDAttribute(pi);
+            var attrs = AttributeUtil.GetIDAttribute(pi);
             IDAttribute defaultAttr = null;
-            foreach (IDAttribute attr in attrs)
+            foreach (var attr in attrs)
             {
                 if (attr.Dbms == dbms.Dbms)
                 {
@@ -104,32 +88,20 @@ namespace Seasar.Dao.Impl
 
         public string[] GetNoPersisteneProps()
         {
-            NoPersistentPropsAttribute attr = AttributeUtil.GetNoPersistentPropsAttribute(beanType);
-            if (attr != null)
-            {
-                return attr.Props;
-            }
-            return null;
+            var attr = AttributeUtil.GetNoPersistentPropsAttribute(beanType);
+            return attr?.Props;
         }
 
         public RelnoAttribute GetRelnoAttribute(PropertyInfo pi)
         {
-            RelnoAttribute attr = AttributeUtil.GetRelnoAttribute(pi);
-            if (attr != null)
-            {
-                return attr;
-            }
-            return null;
+            var attr = AttributeUtil.GetRelnoAttribute(pi);
+            return attr;
         }
 
         public string GetRelationKey(PropertyInfo pi)
         {
-            RelkeysAttribute attr = AttributeUtil.GetRelkeysAttribute(pi);
-            if (attr != null)
-            {
-                return attr.Relkeys;
-            }
-            return null;
+            var attr = AttributeUtil.GetRelkeysAttribute(pi);
+            return attr?.Relkeys;
         }
 
         #endregion

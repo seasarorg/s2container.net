@@ -28,14 +28,14 @@ namespace Seasar.Tests.Dao.Impl
         {
             // ## Arrange ##
             const int TEST_VALUE = 99;
-            HashtableBasicProcedureHandler handler = new HashtableBasicProcedureHandler(DataSource, CommandFactory, "dbo.SelectForOutputParamMulti");
+            var handler = new HashtableBasicProcedureHandler(DataSource, CommandFactory, "dbo.SelectForOutputParamMulti");
             Object[] arguments = { 100, "SALESMAN", TEST_VALUE };
             handler.ArgumentTypes = new Type[] { typeof(int), typeof(string), typeof(int) };
             handler.ArgumentNames = new string[] { "Mgr", "Job", "TestValue" };
             handler.ArgumentDirection = new ParameterDirection[] { ParameterDirection.Output, ParameterDirection.Input, ParameterDirection.Input };
 
             // ## Act ##
-            Hashtable result = handler.Execute(arguments);
+            var result = handler.Execute(arguments);
 
             // ## Assert ##
             Assert.AreEqual(TEST_VALUE, (int)arguments[0]);
@@ -49,14 +49,14 @@ namespace Seasar.Tests.Dao.Impl
         public void TestExecuteOutputParamNull()
         {
             // ## Arrange ##
-            HashtableBasicProcedureHandler handler = new HashtableBasicProcedureHandler(DataSource, CommandFactory, "dbo.SelectForOutputParamMulti");
+            var handler = new HashtableBasicProcedureHandler(DataSource, CommandFactory, "dbo.SelectForOutputParamMulti");
             Object[] arguments = { 100, "SALESMAN", DBNull.Value };
             handler.ArgumentTypes = new Type[] { typeof(int), typeof(string), typeof(int) };
             handler.ArgumentNames = new string[] { "Mgr", "Job", "TestValue" };
             handler.ArgumentDirection = new ParameterDirection[] { ParameterDirection.Output, ParameterDirection.Input, ParameterDirection.Input };
 
             // ## Act ##
-            Hashtable result = handler.Execute(arguments);
+            var result = handler.Execute(arguments);
 
             // ## Assert ##
             Assert.AreEqual(0, (int)arguments[0]);

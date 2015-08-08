@@ -34,8 +34,8 @@ namespace Seasar.Tests.Framework.Container.Deployer
         [SetUp]
         public void SetUp()
         {
-            HttpRequest request = new HttpRequest("hello.html", "http://localhost/hello.html", string.Empty);
-            HttpResponse response = new HttpResponse(null);
+            var request = new HttpRequest("hello.html", "http://localhost/hello.html", string.Empty);
+            var response = new HttpResponse(null);
             HttpContext.Current = new HttpContext(request, response);
             _container = new S2ContainerImpl();
             _container.HttpContext = HttpContext.Current;
@@ -47,7 +47,7 @@ namespace Seasar.Tests.Framework.Container.Deployer
             IComponentDef cd = new ComponentDefImpl(typeof(Foo), "foo");
             _container.Register(cd);
             IComponentDeployer deployer = new RequestComponentDeployer(cd);
-            Foo foo = (Foo) deployer.Deploy(typeof(Foo));
+            var foo = (Foo) deployer.Deploy(typeof(Foo));
             Assert.AreSame(foo, HttpContext.Current.Items["foo"]);
             Assert.AreSame(foo, deployer.Deploy(typeof(Foo)));
         }
@@ -56,18 +56,18 @@ namespace Seasar.Tests.Framework.Container.Deployer
         public void TestDeployAspect1()
         {
             _container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(CulcImpl1));
+            var cd = new ComponentDefImpl(typeof(CulcImpl1));
 
             IAspectDef ad = new AspectDefImpl();
             ad.Expression = "plusOne";
             ad.Container = _container;
             cd.AddAspeceDef(ad);
-            ComponentDefImpl plusOneCd = new ComponentDefImpl(typeof(PlusOneInterceptor), "plusOne");
+            var plusOneCd = new ComponentDefImpl(typeof(PlusOneInterceptor), "plusOne");
             _container.Register(plusOneCd);
             _container.Register(cd);
 
             IComponentDeployer deployer = new RequestComponentDeployer(cd);
-            ICulc culc = (ICulc) deployer.Deploy(typeof(ICulc));
+            var culc = (ICulc) deployer.Deploy(typeof(ICulc));
             PlusOneInterceptor.Count = 0;
             Assert.AreEqual(1, culc.Count());
         }
@@ -76,18 +76,18 @@ namespace Seasar.Tests.Framework.Container.Deployer
         public void TestDeployAspect2()
         {
             _container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(CulcImpl2));
+            var cd = new ComponentDefImpl(typeof(CulcImpl2));
 
             IAspectDef ad = new AspectDefImpl();
             ad.Expression = "plusOne";
             ad.Container = _container;
             cd.AddAspeceDef(ad);
-            ComponentDefImpl plusOneCd = new ComponentDefImpl(typeof(PlusOneInterceptor), "plusOne");
+            var plusOneCd = new ComponentDefImpl(typeof(PlusOneInterceptor), "plusOne");
             _container.Register(plusOneCd);
             _container.Register(cd);
 
             IComponentDeployer deployer = new RequestComponentDeployer(cd);
-            CulcImpl2 culc = (CulcImpl2) deployer.Deploy(typeof(CulcImpl2));
+            var culc = (CulcImpl2) deployer.Deploy(typeof(CulcImpl2));
             PlusOneInterceptor.Count = 0;
             Assert.AreEqual(1, culc.Count());
         }
@@ -96,7 +96,7 @@ namespace Seasar.Tests.Framework.Container.Deployer
         public void TestDeployAspect3()
         {
             _container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(CulcImpl2));
+            var cd = new ComponentDefImpl(typeof(CulcImpl2));
 
             IAspectDef ad = new AspectDefImpl();
             ad.Expression = "plusOne";
@@ -108,12 +108,12 @@ namespace Seasar.Tests.Framework.Container.Deployer
 
             cd.AddAspeceDef(ad);
             cd.AddAspeceDef(ad2);
-            ComponentDefImpl plusOneCd = new ComponentDefImpl(typeof(PlusOneInterceptor), "plusOne");
+            var plusOneCd = new ComponentDefImpl(typeof(PlusOneInterceptor), "plusOne");
             _container.Register(plusOneCd);
             _container.Register(cd);
 
             IComponentDeployer deployer = new RequestComponentDeployer(cd);
-            CulcImpl2 culc = (CulcImpl2) deployer.Deploy(typeof(CulcImpl2));
+            var culc = (CulcImpl2) deployer.Deploy(typeof(CulcImpl2));
             PlusOneInterceptor.Count = 0;
             Assert.AreEqual(2, culc.Count());
         }
@@ -122,34 +122,28 @@ namespace Seasar.Tests.Framework.Container.Deployer
         public void TestDeployAspect4()
         {
             _container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(CulcImpl1));
+            var cd = new ComponentDefImpl(typeof(CulcImpl1));
 
             IAspectDef ad = new AspectDefImpl();
             ad.Expression = "plusOne";
             ad.Container = _container;
             cd.AddAspeceDef(ad);
-            ComponentDefImpl plusOneCd = new ComponentDefImpl(typeof(PlusOneInterceptor), "plusOne");
+            var plusOneCd = new ComponentDefImpl(typeof(PlusOneInterceptor), "plusOne");
             _container.Register(plusOneCd);
             _container.Register(cd);
 
             IComponentDeployer deployer = new RequestComponentDeployer(cd);
-            ICulc culc = (ICulc) deployer.Deploy(typeof(ICulc));
+            var culc = (ICulc) deployer.Deploy(typeof(ICulc));
             PlusOneInterceptor.Count = 0;
             Assert.AreEqual(1, culc.Count());
 
-            ICulc culc2 = (ICulc) deployer.Deploy(typeof(ICulc));
+            var culc2 = (ICulc) deployer.Deploy(typeof(ICulc));
             Assert.AreEqual(2, culc2.Count());
         }
 
         public class Foo
         {
-            private string _message;
-
-            public string Message
-            {
-                set { _message = value; }
-                get { return _message; }
-            }
+            public string Message { set; get; }
         }
 
         public class PlusOneInterceptor : IMethodInterceptor

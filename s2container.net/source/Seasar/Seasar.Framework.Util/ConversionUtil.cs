@@ -51,7 +51,7 @@ namespace Seasar.Framework.Util
             }
 #if !NET_1_1
             else if (targetType.IsGenericType &&
-                targetType.GetGenericTypeDefinition().Equals(typeof(Nullable<>)))
+                targetType.GetGenericTypeDefinition() == typeof(Nullable<>))
             {
                 ret = ConvertNullable(o, targetType);
             }
@@ -95,9 +95,13 @@ namespace Seasar.Framework.Util
             }
             else
             {
-                Type paramType = GetValueType(targetType);
-                ret = (INullable) Activator.CreateInstance(targetType,
-                    new object[] { Convert.ChangeType(o, paramType) });
+                var paramType = _GetValueType(targetType);
+//                ret = (INullable) Activator.CreateInstance(targetType,
+//                    new object[] { Convert.ChangeType(o, paramType) });
+                ret =
+                    (INullable)
+                        ClassArgumentsUtil<object, Type>.NewInstance(Convert.ChangeType(o, paramType));
+
             }
 
             return ret;
@@ -148,9 +152,10 @@ namespace Seasar.Framework.Util
             }
             else
             {
-                Type paramType = GetValueType(targetType);
-                ret = Activator.CreateInstance(targetType,
-                    new object[] { Convert.ChangeType(o, paramType) });
+                var paramType = _GetValueType(targetType);
+//                ret = Activator.CreateInstance(targetType,
+//                    new object[] { Convert.ChangeType(o, paramType) });
+                ret = ClassArgumentsUtil<object, Type>.NewInstance(Convert.ChangeType(o, paramType));
             }
 
             return ret;
@@ -169,7 +174,7 @@ namespace Seasar.Framework.Util
 
             if (o == null || o == DBNull.Value)
             {
-                if (!targetType.Equals(typeof(string)))
+                if (targetType != typeof(string))
                 {
                     ret = Convert.ChangeType(decimal.Zero, targetType);
                 }
@@ -187,9 +192,9 @@ namespace Seasar.Framework.Util
         /// </summary>
         /// <param name="targetType">Type</param>
         /// <returns></returns>
-        private static Type GetValueType(Type targetType)
+        private static Type _GetValueType(Type targetType)
         {
-            PropertyInfo pi = targetType.GetProperty("Value");
+            var pi = targetType.GetProperty("Value");
             return pi.PropertyType;
         }
     }

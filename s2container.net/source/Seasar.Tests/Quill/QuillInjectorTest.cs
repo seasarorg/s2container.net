@@ -1,4 +1,4 @@
-#region Copyright
+﻿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -27,6 +27,7 @@ using Seasar.Quill.Exception;
 using Seasar.Framework.Container.Factory;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Impl;
+using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Quill
 {
@@ -61,19 +62,19 @@ namespace Seasar.Tests.Quill
         public void TestGetInstance()
         {
             container = new QuillContainer();
-            QuillInjector injector1 = QuillInjector.GetInstance();
-            QuillInjector injector2 = QuillInjector.GetInstance();
+            var injector1 = QuillInjector.GetInstance();
+            var injector2 = QuillInjector.GetInstance();
 
             Assert.AreSame(injector1, injector2);
             Assert.IsNotNull(injector1.Container);
         }
 
         [Test]
-        public void TestGetInstance_Destroy済みの場合()
+        public void TestGetInstanceDestroy済みの場合()
         {
-            QuillInjector injector1 = QuillInjector.GetInstance();
+            var injector1 = QuillInjector.GetInstance();
             QuillInjector.GetInstance().Destroy();
-            QuillInjector injector2 = QuillInjector.GetInstance();
+            var injector2 = QuillInjector.GetInstance();
 
             Assert.IsNotNull(injector2);
             Assert.AreNotSame(injector1, injector2);
@@ -97,12 +98,12 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestInjectField_Quill_型がクラスの場合()
+        public void TestInjectFieldQuill型がクラスの場合()
         {
             container = new QuillContainer();
-            ImplementationAttribute attr = new ImplementationAttribute();
-            FieldInfo field = typeof(Target1).GetField("Hoge1");
-            Target1 target = new Target1();
+            var attr = new ImplementationAttribute();
+            var field = typeof(Target1).GetField("Hoge1");
+            var target = new Target1();
 
             this.InjectField(target, field, attr);
 
@@ -110,12 +111,12 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestInjectField_Quill_型がインターフェースで実装クラスが指定されていない場合()
+        public void TestInjectFieldQuill型がインターフェースで実装クラスが指定されていない場合()
         {
             container = new QuillContainer();
-            ImplementationAttribute attr = new ImplementationAttribute();
-            FieldInfo field = typeof(Target2).GetField("Hoge2");
-            Target2 target = new Target2();
+            var attr = new ImplementationAttribute();
+            var field = typeof(Target2).GetField("Hoge2");
+            var target = new Target2();
 
             this.InjectField(target, field, attr);
 
@@ -123,12 +124,12 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestInjectField_Quill_型がインターフェースで実装クラスが指定されている場合()
+        public void TestInjectFieldQuill型がインターフェースで実装クラスが指定されている場合()
         {
             container = new QuillContainer();
-            ImplementationAttribute attr = new ImplementationAttribute(typeof(Hoge3));
-            FieldInfo field = typeof(Target3).GetField("Hoge3");
-            Target3 target = new Target3();
+            var attr = new ImplementationAttribute(typeof(Hoge3));
+            var field = typeof(Target3).GetField("Hoge3");
+            var target = new Target3();
 
             this.InjectField(target, field, attr);
             Console.WriteLine(target.Hoge3.GetEmpName(0));
@@ -136,11 +137,11 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestInjectField_Type()
+        public void TestInjectFieldType()
         {
             container = new QuillContainer();
-            FieldInfo field = typeof(Target3).GetField("Hoge3");
-            Target3 target = new Target3();
+            var field = typeof(Target3).GetField("Hoge3");
+            var target = new Target3();
 
             this.InjectField(target, field, typeof(Hoge3));
 
@@ -148,7 +149,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestInjectField_S2_代入不可能な場合()
+        public void TestInjectFieldS2代入不可能な場合()
         {
             container = new QuillContainer();
             IS2Container s2Container = new S2ContainerImpl();
@@ -156,9 +157,9 @@ namespace Seasar.Tests.Quill
             s2Container.Register(def);
             SingletonS2ContainerFactory.Container = s2Container;
 
-            BindingAttribute attr = new BindingAttribute("hoge3");
-            Target4 target = new Target4();
-            FieldInfo field = typeof(Target4).GetField("Hoge3");
+            var attr = new BindingAttribute("hoge3");
+            var target = new Target4();
+            var field = typeof(Target4).GetField("Hoge3");
 
             try
             {
@@ -172,7 +173,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestInjectField_S2_正常な場合()
+        public void TestInjectFieldS2正常な場合()
         {
             container = new QuillContainer();
             IS2Container s2Container = new S2ContainerImpl();
@@ -180,9 +181,9 @@ namespace Seasar.Tests.Quill
             s2Container.Register(def);
             SingletonS2ContainerFactory.Container = s2Container;
 
-            BindingAttribute attr = new BindingAttribute("hoge3");
-            Target5 target = new Target5();
-            FieldInfo field = typeof(Target5).GetField("Hoge3");
+            var attr = new BindingAttribute("hoge3");
+            var target = new Target5();
+            var field = typeof(Target5).GetField("Hoge3");
 
             this.InjectField(target, field, attr);
 
@@ -190,7 +191,7 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestInjectField_Binding属性が設定されている場合()
+        public void TestInjectFieldBinding属性が設定されている場合()
         {
             container = new QuillContainer();
             IS2Container s2Container = new S2ContainerImpl();
@@ -198,8 +199,8 @@ namespace Seasar.Tests.Quill
             s2Container.Register(def);
             SingletonS2ContainerFactory.Container = s2Container;
 
-            Target5 target = new Target5();
-            FieldInfo field = typeof(Target5).GetField("Hoge3");
+            var target = new Target5();
+            var field = typeof(Target5).GetField("Hoge3");
 
             this.InjectField(target, field);
 
@@ -207,11 +208,11 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestInjectField_Implementation属性が設定されている場合()
+        public void TestInjectFieldImplementation属性が設定されている場合()
         {
             container = new QuillContainer();
-            FieldInfo field = typeof(Target3).GetField("Hoge3");
-            Target3 target = new Target3();
+            var field = typeof(Target3).GetField("Hoge3");
+            var target = new Target3();
 
             this.InjectField(target, field);
 
@@ -290,7 +291,7 @@ namespace Seasar.Tests.Quill
         public void TestInject()
         {
             container = new QuillContainer();
-            Target10 target = new Target10();
+            var target = new Target10();
             Inject(target);
 
             Assert.IsNotNull(target.Hoge10, "1");
@@ -299,10 +300,10 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestInject_Destroy済みの場合()
+        public void TestInjectDestroy済みの場合()
         {
             container = new QuillContainer();
-            Target10 target = new Target10();
+            var target = new Target10();
             Destroy();
             try
             {
@@ -319,9 +320,9 @@ namespace Seasar.Tests.Quill
         /// 相互参照がある型のオブジェクトに対してInjectを行った場合のテスト
         /// </summary>
         [Test]
-        public void TestInject_EachInjection()
+        public void TestInjectEachInjection()
         {
-            EachReferenceA actual = new EachReferenceA();
+            var actual = new EachReferenceA();
             Assert.IsNull(actual.B);
 
             GetInstance().Inject(actual);
@@ -334,9 +335,9 @@ namespace Seasar.Tests.Quill
         /// 循環参照がある型のオブジェクトに対してInjectを行った場合のテスト
         /// </summary>
         [Test]
-        public void TestInject_RoopInjection()
+        public void TestInjectRoopInjection()
         {
-            RoopReferenceA actual = new RoopReferenceA();
+            var actual = new RoopReferenceA();
             Assert.IsNull(actual.B);
             Assert.IsNull(actual.C);
 
@@ -351,11 +352,11 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestInject_TwoTimesInjection_Normal()
+        public void TestInjectTwoTimesInjectionNormal()
         {
-            QuillInjector injector = QuillInjector.GetInstance();
+            var injector = QuillInjector.GetInstance();
             {
-                Target10 actual = new Target10();
+                var actual = new Target10();
                 Assert.IsNull(actual.Hoge11);
                 Assert.IsNull(actual.Hoge12);
                 injector.Inject(actual);
@@ -363,7 +364,7 @@ namespace Seasar.Tests.Quill
                 Assert.IsNotNull(actual.Hoge12);
             }
             {
-                Target10 actual = new Target10();
+                var actual = new Target10();
                 Assert.IsNull(actual.Hoge11);
                 Assert.IsNull(actual.Hoge12);
                 injector.Inject(actual);
@@ -373,17 +374,17 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestInject_TwoTimesInjection_EachReference()
+        public void TestInjectTwoTimesInjectionEachReference()
         {
-            QuillInjector injector = QuillInjector.GetInstance();
+            var injector = QuillInjector.GetInstance();
             {
-                EachReferenceA actual = new EachReferenceA();
+                var actual = new EachReferenceA();
                 Assert.IsNull(actual.B);
                 injector.Inject(actual);
                 Assert.IsNotNull(actual.B);
             }
             {
-                EachReferenceA actual = new EachReferenceA();
+                var actual = new EachReferenceA();
                 Assert.IsNull(actual.B);
                 injector.Inject(actual);
                 Assert.IsNotNull(actual.B);
@@ -391,11 +392,11 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestInject_TwoTimesInjection_LoopReference()
+        public void TestInjectTwoTimesInjectionLoopReference()
         {
-            QuillInjector injector = QuillInjector.GetInstance();
+            var injector = QuillInjector.GetInstance();
             {
-                LoopReferenceC actual = new LoopReferenceC();
+                var actual = new LoopReferenceC();
                 Assert.IsNull(actual.A);
                 Assert.IsNull(actual.B);
                 injector.Inject(actual);
@@ -403,7 +404,7 @@ namespace Seasar.Tests.Quill
                 Assert.IsNotNull(actual.B);
             }
             {
-                LoopReferenceC actual = new LoopReferenceC();
+                var actual = new LoopReferenceC();
                 Assert.IsNull(actual.A);
                 Assert.IsNull(actual.B);
                 injector.Inject(actual);
@@ -413,21 +414,21 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestInject_マルチスレッドでインジェクション()
+        public void TestInjectマルチスレッドでインジェクション()
         {
-            QuillInjector injector = QuillInjector.GetInstance();
-            Target10 actual1 = new Target10();
+            var injector = QuillInjector.GetInstance();
+            var actual1 = new Target10();
             Assert.IsNull(actual1.Hoge11);
             Assert.IsNull(actual1.Hoge12);
-            Thread t1 = new Thread(ExecuteMultiThreadInjection);
+            var t1 = new Thread(ExecuteMultiThreadInjection);
 
-            Target10 actual2 = new Target10();
+            var actual2 = new Target10();
             Assert.IsNull(actual2.Hoge11);
             Assert.IsNull(actual2.Hoge12);
-            Thread t2 = new Thread(ExecuteMultiThreadInjection);
+            var t2 = new Thread(ExecuteMultiThreadInjection);
 
-            object[] parameter1 = new object[] { injector, actual1 };
-            object[] parameter2 = new object[] { injector, actual2 };
+            var parameter1 = new object[] { injector, actual1 };
+            var parameter2 = new object[] { injector, actual2 };
             t1.Start(parameter1);
             t2.Start(parameter2);
 
@@ -449,19 +450,19 @@ namespace Seasar.Tests.Quill
         /// <param name="parameter"></param>
         public void ExecuteMultiThreadInjection(object parameter)
         {
-            object[] parameters = parameter as object[];
+            var parameters = parameter as object[];
             if (parameters == null)
             {
                 return;
             }
 
-            QuillInjector injector = parameters[0] as QuillInjector;
+            var injector = parameters[0] as QuillInjector;
             if (injector == null)
             {
                 return;
             }
 
-            Target10 target = parameters[1] as Target10;
+            var target = parameters[1] as Target10;
             if (target == null)
             {
                 return;
@@ -480,17 +481,13 @@ namespace Seasar.Tests.Quill
         {
             public IHoge10 Hoge10;
             protected Hoge11 hoge11;
-            private Hoge12 hoge12 = null;
 
             public Hoge11 Hoge11
             {
                 get { return hoge11; }
             }
 
-            public Hoge12 Hoge12
-            {
-                get { return hoge12; }
-            }
+            public Hoge12 Hoge12 { get; } = null;
         }
 
         [Implementation(typeof(Hoge10))]
@@ -520,12 +517,7 @@ namespace Seasar.Tests.Quill
         [Implementation]
         public class EachReferenceA
         {
-            private EachReferenceB _b;
-            public EachReferenceB B
-            {
-                get { return _b; }
-                set { _b = value; }
-            }
+            public EachReferenceB B { get; set; }
         }
 
         /// <summary>
@@ -534,12 +526,7 @@ namespace Seasar.Tests.Quill
         [Implementation]
         public class EachReferenceB
         {
-            private EachReferenceA _a;
-            public EachReferenceA A
-            {
-                get { return _a; }
-                set { _a = value; }
-            }
+            public EachReferenceA A { get; set; }
         }
 
         /// <summary>
@@ -548,19 +535,9 @@ namespace Seasar.Tests.Quill
         [Implementation]
         public class RoopReferenceA
         {
-            private RoopReferenceB _b;
-            public RoopReferenceB B
-            {
-                get { return _b; }
-                set { _b = value; }
-            }
+            public RoopReferenceB B { get; set; }
 
-            private LoopReferenceC _c;
-            public LoopReferenceC C
-            {
-                get { return _c; }
-                set { _c = value; }
-            }
+            public LoopReferenceC C { get; set; }
         }
 
         /// <summary>
@@ -569,19 +546,9 @@ namespace Seasar.Tests.Quill
         [Implementation]
         public class RoopReferenceB
         {
-            private EachReferenceA _a;
-            public EachReferenceA A
-            {
-                get { return _a; }
-                set { _a = value; }
-            }
+            public EachReferenceA A { get; set; }
 
-            private LoopReferenceC _c;
-            public LoopReferenceC C
-            {
-                get { return _c; }
-                set { _c = value; }
-            }
+            public LoopReferenceC C { get; set; }
         }
 
         /// <summary>
@@ -590,19 +557,9 @@ namespace Seasar.Tests.Quill
         [Implementation]
         public class LoopReferenceC
         {
-            private EachReferenceA _a;
-            public EachReferenceA A
-            {
-                get { return _a; }
-                set { _a = value; }
-            }
+            public EachReferenceA A { get; set; }
 
-            private RoopReferenceB _b;
-            public RoopReferenceB B
-            {
-                get { return _b; }
-                set { _b = value; }
-            }
+            public RoopReferenceB B { get; set; }
         }
 
         #endregion
@@ -612,46 +569,46 @@ namespace Seasar.Tests.Quill
         #region InjectionMap（プロパティ）のテスト
 
         [Test]
-        public void TestInject_InjectionMapあり()
+        public void TestInjectInjectionMapあり()
         {
             container = new QuillContainer();
-            Seasar.Quill.InjectionMap map = Seasar.Quill.InjectionMap.GetInstance();
+            var map = Seasar.Quill.InjectionMap.GetInstance();
             map.Add(typeof(IInjectTest), typeof(InjectTestImpl4InjectionMap));
             map.Add(typeof(InjectTestAnother4InjectionMap));
             this.InjectionMap = map;
 
-            InjectTestTarget actual = new InjectTestTarget();
+            var actual = new InjectTestTarget();
 
             Inject(actual);
 
             Assert.IsNotNull(actual.InjectTest, "11");
             Assert.AreEqual(typeof(InjectTestImpl4InjectionMap),
-                actual.InjectTest.GetType(), "InjectionMapで指定された方優先でInjectされているはず");
-            Assert.IsNotNull(actual.InjectionTest_InjectMapOnly, "21");
+                actual.InjectTest.GetExType(), "InjectionMapで指定された方優先でInjectされているはず");
+            Assert.IsNotNull(actual.InjectionTestInjectMapOnly, "21");
             Assert.AreEqual(typeof(InjectTestAnother4InjectionMap),
-                actual.InjectionTest_InjectMapOnly.GetType(), "22");
-            Assert.IsNotNull(actual.InjectTest_ImplementationOnly,
+                actual.InjectionTestInjectMapOnly.GetExType(), "22");
+            Assert.IsNotNull(actual.InjectTestImplementationOnly,
                 "InjectionMapに含まれていなくてもImplementationで指定されていればInjectされているはず");
         }
 
         [Test]
-        public void TestInject_InjectionMapなし()
+        public void TestInjectInjectionMapなし()
         {
             container = new QuillContainer();
-            InjectTestTarget actual = new InjectTestTarget();
+            var actual = new InjectTestTarget();
 
             Assert.IsNull(this.InjectionMap, "00");
             Inject(actual);
 
-            Assert.IsNull(actual.InjectionTest_InjectMapOnly,
+            Assert.IsNull(actual.InjectionTestInjectMapOnly,
                 "Implementationで指定されていないクラスはInjectされないはず");
             Assert.IsNotNull(actual.InjectTest, "11");
             Assert.AreEqual(typeof(InjectTestImpl4Implementation),
-                actual.InjectTest.GetType(),
+                actual.InjectTest.GetExType(),
                 "InjectionMapがないのでImplementation指定されている型を適用");
-            Assert.IsNotNull(actual.InjectTest_ImplementationOnly, "21");
+            Assert.IsNotNull(actual.InjectTestImplementationOnly, "21");
             Assert.AreEqual(typeof(InjectTestAnother4Implementation),
-                actual.InjectTest_ImplementationOnly.GetType(), "22");
+                actual.InjectTestImplementationOnly.GetExType(), "22");
         }
 
         #region テスト用クラス
@@ -659,8 +616,8 @@ namespace Seasar.Tests.Quill
         private class InjectTestTarget
         {
             public IInjectTest InjectTest = null;
-            public InjectTestAnother4Implementation InjectTest_ImplementationOnly = null;
-            public InjectTestAnother4InjectionMap InjectionTest_InjectMapOnly = null;
+            public InjectTestAnother4Implementation InjectTestImplementationOnly = null;
+            public InjectTestAnother4InjectionMap InjectionTestInjectMapOnly = null;
         }
 
         [Implementation(typeof(InjectTestImpl4Implementation))]
@@ -701,7 +658,7 @@ namespace Seasar.Tests.Quill
         public void TestDispose()
         {
             container = new QuillContainer();
-            DisposableTarget target = new DisposableTarget();
+            var target = new DisposableTarget();
             Inject(target);
 
             Assert.IsFalse(target.DisposableClass.Disposed);
@@ -810,12 +767,12 @@ namespace Seasar.Tests.Quill
     public class GetFieldsTestEntity : IFieldsTestEntity
     {
         // このフィールドがnullになっていないかテスト
-        protected Seasar.Tests.Quill.QuillInjectorTest.Hoge1 _field;
+        protected Seasar.Tests.Quill.QuillInjectorTest.Hoge1 field;
 
         [Aspect(typeof(TraceInterceptor))]
         public virtual string AspectedMethod()
         {
-            return _field.GetResult();
+            return field.GetResult();
         }
     }
 }

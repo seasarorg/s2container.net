@@ -23,16 +23,11 @@ namespace Seasar.Dao.Attrs
     [AttributeUsage(AttributeTargets.Method)]
     public class QueryAttribute : Attribute
     {
-        private readonly string _query;
-
         public QueryAttribute(string query)
         {
-            _query = query;
+            Query = query;
         }
 
-        public string Query
-        {
-            get { return _query; }
-        }
+        public string Query { get; }
     }
 }

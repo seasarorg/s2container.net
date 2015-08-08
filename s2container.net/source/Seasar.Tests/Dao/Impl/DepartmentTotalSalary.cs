@@ -22,20 +22,8 @@ namespace Seasar.Tests.Dao.Impl
 {
     public class DepartmentTotalSalary
     {
-        private SqlInt32 _deptno;
+        public SqlInt32 Deptno { set; get; }
 
-        private decimal _totalSalary;
-
-        public SqlInt32 Deptno
-        {
-            set { _deptno = value; }
-            get { return _deptno; }
-        }
-
-        public decimal TotalSalary
-        {
-            set { _totalSalary = value; }
-            get { return _totalSalary; }
-        }
+        public decimal TotalSalary { set; get; }
     }
 }

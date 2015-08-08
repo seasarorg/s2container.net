@@ -16,7 +16,8 @@
  */
 #endregion
 
-using System;
+using Seasar.Dao.Context;
+using Seasar.Framework.Util;
 
 namespace Seasar.Dao.Node
 {
@@ -24,7 +25,7 @@ namespace Seasar.Dao.Node
     {
         public override void Accept(ICommandContext ctx)
         {
-            ICommandContext childCtx = GetCommandContext(ctx);
+            var childCtx = GetCommandContext(ctx);
             base.Accept(childCtx);
             if (childCtx.IsEnabled)
             {
@@ -35,8 +36,9 @@ namespace Seasar.Dao.Node
 
         private ICommandContext GetCommandContext(ICommandContext ctx)
         {
-            return (ICommandContext) Activator.CreateInstance(
-                ctx.GetType(), new object[] { ctx });
+//            return (ICommandContext) Activator.CreateInstance(
+//                ctx.GetExType(), new object[] { ctx });
+            return (ICommandContext) ClassArgumentsUtil<ICommandContext, CommandContextImpl>.NewInstance(ctx);
         }
     }
 }

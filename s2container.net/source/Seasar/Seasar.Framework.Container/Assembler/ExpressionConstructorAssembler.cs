@@ -31,18 +31,18 @@ namespace Seasar.Framework.Container.Assembler
 
         public override object Assemble()
         {
-            IComponentDef cd = ComponentDef;
-            IS2Container container = cd.Container;
-            string expression = cd.Expression;
-            Type componentType = cd.ComponentType;
-            object component = JScriptUtil.Evaluate(expression, container);
+            var cd = ComponentDef;
+            var container = cd.Container;
+            var expression = cd.Expression;
+            var componentType = cd.ComponentType;
+            var component = JScriptUtil.Evaluate(expression, container);
             if (componentType != null)
             {
                 if (component is DBNull ||
-                    !componentType.IsAssignableFrom(component.GetType()))
+                    !componentType.IsAssignableFrom(component.GetExType()))
                 {
                     throw new TypeUnmatchRuntimeException(componentType,
-                        component != null ? component.GetType() : null);
+                        component?.GetExType());
                 }
             }
             return component;

@@ -20,11 +20,11 @@ using System.Data;
 
 namespace Seasar.Extension.ADO.Impl
 {
-    public class DbCommandWrapper : IDbCommand
+    public class IDbCommandWrapper : IDbCommand
     {
         private readonly IDbCommand _original;
 
-        public DbCommandWrapper(IDbCommand original)
+        public IDbCommandWrapper(IDbCommand original)
         {
             _original = original;
         }
@@ -60,35 +60,17 @@ namespace Seasar.Extension.ADO.Impl
             set { _original.Connection = value; }
         }
 
-        public virtual IDbDataParameter CreateParameter()
-        {
-            return _original.CreateParameter();
-        }
+        public virtual IDbDataParameter CreateParameter() => _original.CreateParameter();
 
-        public virtual int ExecuteNonQuery()
-        {
-            return _original.ExecuteNonQuery();
-        }
+        public virtual int ExecuteNonQuery() => _original.ExecuteNonQuery();
 
-        public virtual IDataReader ExecuteReader(CommandBehavior behavior)
-        {
-            return _original.ExecuteReader(behavior);
-        }
+        public virtual IDataReader ExecuteReader(CommandBehavior behavior) => _original.ExecuteReader(behavior);
 
-        public virtual IDataReader ExecuteReader()
-        {
-            return _original.ExecuteReader();
-        }
+        public virtual IDataReader ExecuteReader() => _original.ExecuteReader();
 
-        public virtual object ExecuteScalar()
-        {
-            return _original.ExecuteScalar();
-        }
+        public virtual object ExecuteScalar() => _original.ExecuteScalar();
 
-        public virtual IDataParameterCollection Parameters
-        {
-            get { return _original.Parameters; }
-        }
+        public virtual IDataParameterCollection Parameters => _original.Parameters;
 
         public virtual void Prepare()
         {

@@ -19,26 +19,26 @@
 using System;
 using System.Collections;
 using System.Reflection;
-using Seasar.Framework.Util;
 using Seasar.Framework.Beans;
 using Seasar.Framework.Container.Util;
+using Seasar.Framework.Util;
 
 namespace Seasar.Framework.Container.Assembler
 {
     public abstract class AbstractMethodAssembler : AbstractAssembler, IMethodAssembler
     {
-        public AbstractMethodAssembler(IComponentDef componentDef)
+        protected AbstractMethodAssembler(IComponentDef componentDef)
             : base(componentDef)
         {
         }
 
         protected void Invoke(Type type, object component, IMethodDef methodDef)
         {
-            string expression = methodDef.Expression;
-            string methodName = methodDef.MethodName;
+            var expression = methodDef.Expression;
+            var methodName = methodDef.MethodName;
             if (methodName != null)
             {
-                object[] args = new object[0];
+                var args = new object[0];
                 MethodInfo method = null;
                 try
                 {
@@ -48,13 +48,13 @@ namespace Seasar.Framework.Container.Assembler
                     }
                     else
                     {
-                        MethodInfo[] methods = type.GetMethods();
+                        var methods = type.GetMethods();
                         method = GetSuitableMethod(methods, methodName);
                         if (method != null)
                         {
-                            ParameterInfo[] parameters = method.GetParameters();
-                            Type[] argTypes = new Type[parameters.Length];
-                            for (int i = 0; i < parameters.Length; ++i)
+                            var parameters = method.GetParameters();
+                            var argTypes = new Type[parameters.Length];
+                            for (var i = 0; i < parameters.Length; ++i)
                             {
                                 argTypes[i] = parameters[i].ParameterType;
                             }
@@ -84,20 +84,22 @@ namespace Seasar.Framework.Container.Assembler
 
         private void InvokeExpression(object component, string expression)
         {
-            Hashtable ctx = new Hashtable();
-            ctx["self"] = component;
-            ctx["out"] = Console.Out;
-            ctx["err"] = Console.Error;
+            var ctx = new Hashtable
+            {
+                ["self"] = component,
+                ["out"] = Console.Out,
+                ["err"] = Console.Error
+            };
             JScriptUtil.Evaluate(expression, ctx, null);
         }
 
         private MethodInfo GetSuitableMethod(MethodInfo[] methods, string methodName)
         {
-            int argSize = -1;
+            var argSize = -1;
             MethodInfo method = null;
-            for (int i = 0; i < methods.Length; ++i)
+            for (var i = 0; i < methods.Length; ++i)
             {
-                int tempArgSize = methods[i].GetParameters().Length;
+                var tempArgSize = methods[i].GetParameters().Length;
                 if (methods[i].Name.Equals(methodName)
                     && tempArgSize > argSize
                     && AutoBindingUtil.IsSuitable(methods[i].GetParameters()))
@@ -123,8 +125,7 @@ namespace Seasar.Framework.Container.Assembler
             }
             catch (Exception ex)
             {
-                throw new IllegalMethodRuntimeException(ComponentDef.ComponentType,
-                    methodName, ex);
+                throw new IllegalMethodRuntimeException(ComponentDef.ComponentType, methodName, ex);
             }
         }
 

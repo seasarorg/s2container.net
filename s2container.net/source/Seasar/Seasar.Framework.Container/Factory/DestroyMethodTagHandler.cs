@@ -16,8 +16,8 @@
  */
 #endregion
 
-using Seasar.Framework.Xml;
 using Seasar.Framework.Container.Impl;
+using Seasar.Framework.Xml;
 
 namespace Seasar.Framework.Container.Factory
 {
@@ -25,15 +25,15 @@ namespace Seasar.Framework.Container.Factory
     {
         public override void Start(TagHandlerContext context, IAttributes attributes)
         {
-            string name = attributes["name"];
+            var name = attributes["name"];
             context.Push(new DestroyMethodDefImpl(name));
         }
 
         public override void End(TagHandlerContext context, string body)
         {
-            IDestroyMethodDef methodDef = (IDestroyMethodDef) context.Pop();
+            var methodDef = (IDestroyMethodDef) context.Pop();
             ProcessExpression(methodDef, body, "destroyMethod");
-            IComponentDef componentDef = (IComponentDef) context.Peek();
+            var componentDef = (IComponentDef) context.Peek();
             componentDef.AddDestroyMethodDef(methodDef);
         }
     }

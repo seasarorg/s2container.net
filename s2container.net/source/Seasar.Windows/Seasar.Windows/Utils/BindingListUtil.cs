@@ -20,6 +20,7 @@ using System;
 using System.Collections;
 using System.Reflection;
 using System.Windows.Forms;
+using Seasar.Framework.Util;
 using Seasar.Windows.Attr;
 
 namespace Seasar.Windows.Seasar.Windows.Utils
@@ -46,9 +47,10 @@ namespace Seasar.Windows.Seasar.Windows.Utils
             if (data == null)
                 throw new ArgumentNullException(String.Format(SWFMessages.FSWF0001, "data"));
 
-            int ret = 0;
-            object target = info.GetValue(source, null);
-            IList list = target as IList;
+            var ret = 0;
+            var target = PropertyUtil.GetValue(source, source.GetExType(), info.Name);
+//            var target = info.GetValue(source, null);
+            var list = target as IList;
             if (list != null)
             {
                 if (row > list.Count)
@@ -56,13 +58,15 @@ namespace Seasar.Windows.Seasar.Windows.Utils
 
                 list.Insert(row, data);
                 IList list2 = new ArrayList();
-                foreach (object o in list)
+                foreach (var o in list)
                     list2.Add(o);
 
-                info.SetValue(source, new ArrayList(), null);
+                PropertyUtil.SetValue(source, source.GetExType(), info.Name, info.PropertyType, new ArrayList());
+//                info.SetValue(source, new ArrayList(), null);
                 control.DataBindings.Clear();
 
-                info.SetValue(source, list2, null);
+                PropertyUtil.SetValue(source, source.GetExType(), info.Name, info.PropertyType, list2);
+//                info.SetValue(source, list2, null);
                 control.DataBindings.Add(
                     attr.ControlProperty, source, info.Name, attr.FormattingEnabled, attr.UpdateMode,
                     attr.NullValue, attr.FormatString);
@@ -83,9 +87,10 @@ namespace Seasar.Windows.Seasar.Windows.Utils
         /// <returns>çÌèúåèêî</returns>
         public int DeleteData(ref object source, PropertyInfo info, ref Control control, ControlAttribute attr, int row)
         {
-            int ret = 0;
-            object target = info.GetValue(source, null);
-            IList list = target as IList;
+            var ret = 0;
+            var target = PropertyUtil.GetValue(source, source.GetExType(), info.Name);
+//            var target = info.GetValue(source, null);
+            var list = target as IList;
             if (list != null)
             {
                 if (row >= list.Count - 1)
@@ -93,13 +98,15 @@ namespace Seasar.Windows.Seasar.Windows.Utils
 
                 list.RemoveAt(row);
                 IList list2 = new ArrayList();
-                foreach (object o in list)
+                foreach (var o in list)
                     list2.Add(o);
 
-                info.SetValue(source, new ArrayList(), null);
+                PropertyUtil.SetValue(source, source.GetExType(), info.Name, info.PropertyType, new ArrayList());
+//                info.SetValue(source, new ArrayList(), null);
                 control.DataBindings.Clear();
 
-                info.SetValue(source, list2, null);
+                PropertyUtil.SetValue(source, source.GetExType(), info.Name, info.PropertyType, list2);
+//                info.SetValue(source, list2, null);
                 control.DataBindings.Add(
                     attr.ControlProperty, source, info.Name, attr.FormattingEnabled, attr.UpdateMode,
                     attr.NullValue, attr.FormatString);
@@ -129,17 +136,18 @@ namespace Seasar.Windows.Seasar.Windows.Utils
             else
                 targetRow = row + 1;
 
-            object target = info.GetValue(source, null);
-            IList list = target as IList;
+            var target = PropertyUtil.GetValue(source, source.GetExType(), info.Name);
+//            var target = info.GetValue(source, null);
+            var list = target as IList;
             if (list != null)
             {
                 if (targetRow >= list.Count)
                     throw new ArgumentOutOfRangeException(String.Format(SWFMessages.FSWF0003, "row"));
 
                 IList list2 = new ArrayList();
-                object src = list[row];
-                int pos = 0;
-                foreach (object o in list)
+                var src = list[row];
+                var pos = 0;
+                foreach (var o in list)
                 {
                     if (pos == targetRow)
                         list2.Add(src);
@@ -153,10 +161,12 @@ namespace Seasar.Windows.Seasar.Windows.Utils
                     pos++;
                 }
 
-                info.SetValue(source, new ArrayList(), null);
+                PropertyUtil.SetValue(source, source.GetExType(), info.Name, info.PropertyType, new ArrayList());
+//                info.SetValue(source, new ArrayList(), null);
                 control.DataBindings.Clear();
 
-                info.SetValue(source, list2, null);
+                PropertyUtil.SetValue(source, source.GetExType(), info.Name, info.PropertyType, list2);
+//                info.SetValue(source, list2, null);
                 control.DataBindings.Add(
                     attr.ControlProperty, source, info.Name, attr.FormattingEnabled, attr.UpdateMode,
                     attr.NullValue, attr.FormatString);

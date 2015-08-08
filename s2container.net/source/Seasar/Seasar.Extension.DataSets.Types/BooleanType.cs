@@ -35,20 +35,11 @@ namespace Seasar.Extension.DataSets.Types
             return BooleanConversionUtil.ToBoolean(value);
         }
 
-        public override string ToDbTypeString()
-        {
-            return "BIT";
-        }
+        public override string ToDbTypeString() => "BIT";
 
-        public override DbType GetDbType()
-        {
-            return DbType.Boolean;
-        }
+        public override DbType GetDbType() => DbType.Boolean;
 
-        public override Type GetColumnType()
-        {
-            return typeof(bool);
-        }
+        public override Type GetColumnType() => typeof(bool);
 
         #endregion
     }

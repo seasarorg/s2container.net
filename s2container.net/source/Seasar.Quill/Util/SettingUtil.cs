@@ -17,14 +17,14 @@
 #endregion
 
 using System;
+using System.IO;
+using System.Reflection;
+using System.Text;
 using Seasar.Quill.Dao;
 using Seasar.Quill.Dao.Impl;
 using Seasar.Quill.Database.Tx;
 using Seasar.Quill.Database.Tx.Impl;
 using Seasar.Quill.Exception;
-using System.Reflection;
-using System.Text;
-using System.IO;
 
 namespace Seasar.Quill.Util
 {
@@ -38,7 +38,7 @@ namespace Seasar.Quill.Util
         ///// <summary>
         ///// 文字列("で囲まれているか)判定するための正規表現
         ///// </summary>
-        //private static readonly Regex _regexIsString = new Regex("^\".*\"$");
+        //private static readonly Regex regexIsString = new Regex("^\".*\"$");
 
         ///// <summary>
         ///// Dao設定クラスの型を取得する
@@ -108,16 +108,16 @@ namespace Seasar.Quill.Util
         /// <returns></returns>
         public static string GetAssemblyDirectoryPath()
         {
-            Assembly assembly = Assembly.GetExecutingAssembly();
+            var assembly = Assembly.GetExecutingAssembly();
 
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
             builder.Append(assembly.CodeBase);
             //  アドレス表記を削除
             builder.Replace("file:///", string.Empty);
             builder.Replace(assembly.GetName().Name + ".DLL", string.Empty);
             //  ディレクトリパスのみ取り出す
-            string retPath = Path.GetDirectoryName(builder.ToString());
-            return retPath + Path.DirectorySeparatorChar.ToString();
+            var retPath = Path.GetDirectoryName(builder.ToString());
+            return retPath + Path.DirectorySeparatorChar;
         }
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace Seasar.Quill.Util
         /// <returns></returns>
         public static string GetQuillConfigPath(string configFileName)
         {
-            StringBuilder builder = new StringBuilder(GetAssemblyDirectoryPath());
+            var builder = new StringBuilder(GetAssemblyDirectoryPath());
             builder.Append(configFileName);
             return builder.ToString();
         }
@@ -138,7 +138,7 @@ namespace Seasar.Quill.Util
         /// <returns></returns>
         public static string GetDefaultQuillConfigPath()
         {
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
             builder.Append(GetAssemblyDirectoryPath());
             builder.Append(Assembly.GetExecutingAssembly().GetName().Name);
             builder.Append(".dll.config");
@@ -175,18 +175,12 @@ namespace Seasar.Quill.Util
         /// 標準で使うトランザクション設定クラスの型を返す
         /// </summary>
         /// <returns></returns>
-        public static Type GetDefaultTransactionType()
-        {
-            return typeof(TypicalTransactionSetting);
-        }
+        public static Type GetDefaultTransactionType() => typeof(TypicalTransactionSetting);
 
         /// <summary>
         /// 標準で使うDao設定クラスの型を返す
         /// </summary>
         /// <returns></returns>
-        public static Type GetDefaultDaoSettingType()
-        {
-            return typeof(TypicalDaoSetting);
-        }
+        public static Type GetDefaultDaoSettingType() => typeof(TypicalDaoSetting);
     }
 }

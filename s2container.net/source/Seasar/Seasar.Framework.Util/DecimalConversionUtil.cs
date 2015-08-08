@@ -35,7 +35,7 @@ namespace Seasar.Framework.Util
         {
             if (o == null || o == DBNull.Value)
             {
-                throw new ArgumentNullException("o");
+                throw new ArgumentNullException(nameof(o));
             }
             else if (o is decimal)
             {

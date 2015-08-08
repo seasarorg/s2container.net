@@ -22,8 +22,6 @@ namespace Seasar.Extension.Tx.Impl
 {
     public abstract class AbstractLocalTxHandler : ITransactionHandler
     {
-        private ITransactionContext _context;
-
         #region ITransactionHandler ÉÅÉìÉo
 
         public virtual object Handle(IMethodInvocation invocation, bool alreadyInTransaction)
@@ -33,10 +31,6 @@ namespace Seasar.Extension.Tx.Impl
 
         #endregion
 
-        public ITransactionContext Context
-        {
-            get { return _context; }
-            set { _context = value; }
-        }
+        public ITransactionContext Context { get; set; }
     }
 }

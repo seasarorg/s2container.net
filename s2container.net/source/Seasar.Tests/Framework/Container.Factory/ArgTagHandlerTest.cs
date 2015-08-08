@@ -27,20 +27,20 @@ namespace Seasar.Tests.Framework.Container.Factory
     public class ArgTagHandlerTest
     {
         private const string PATH =
-            "Seasar/Tests/Framework/Container/Factory/ArgTagHandlerTest.dicon";
+            "Seasar/Tests/Framework/container/Factory/ArgTagHandlerTest.dicon";
 
         [Test]
         public void TestArg()
         {
-            IS2Container container = S2ContainerFactory.Create(PATH);
+            var container = S2ContainerFactory.Create(PATH);
             Assert.AreEqual(new Decimal(1), container.GetComponent(typeof(Decimal)));
         }
 
         [Test]
         public void TestArg2()
         {
-            IS2Container container = S2ContainerFactory.Create(PATH);
-            A a = (A) container.GetComponent(typeof(A));
+            var container = S2ContainerFactory.Create(PATH);
+            var a = (A) container.GetComponent(typeof(A));
             Assert.AreEqual("A", a.Name);
             Assert.AreEqual(DayOfWeek.Friday, a.DayOfWeek1);
             Assert.AreEqual(DayOfWeek.Sunday, a.DayOfWeek2);
@@ -48,31 +48,18 @@ namespace Seasar.Tests.Framework.Container.Factory
 
         public class A
         {
-            private readonly string _name;
-            private readonly DayOfWeek _dayOfWeek1;
-            private readonly DayOfWeek _dayOfWeek2;
-
             public A(string name, DayOfWeek dayOfWeek1, DayOfWeek dayOfWeek2)
             {
-                _name = name;
-                _dayOfWeek1 = dayOfWeek1;
-                _dayOfWeek2 = dayOfWeek2;
+                Name = name;
+                DayOfWeek1 = dayOfWeek1;
+                DayOfWeek2 = dayOfWeek2;
             }
 
-            public string Name
-            {
-                get { return _name; }
-            }
+            public string Name { get; }
 
-            public DayOfWeek DayOfWeek1
-            {
-                get { return _dayOfWeek1; }
-            }
+            public DayOfWeek DayOfWeek1 { get; }
 
-            public DayOfWeek DayOfWeek2
-            {
-                get { return _dayOfWeek2; }
-            }
+            public DayOfWeek DayOfWeek2 { get; }
         }
     }
 }

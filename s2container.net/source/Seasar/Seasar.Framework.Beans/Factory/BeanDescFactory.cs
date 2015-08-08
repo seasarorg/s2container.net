@@ -46,7 +46,7 @@ namespace Seasar.Framework.Beans.Factory
         {
             if (_beanDescCache.ContainsKey(type) == false)
             {
-                IBeanDesc newBeanDesc = CreateBeanDesc(type);
+                var newBeanDesc = _CreateBeanDesc(type);
                 _beanDescCache.Add(type, newBeanDesc);
             }
             return _beanDescCache[type];
@@ -68,9 +68,6 @@ namespace Seasar.Framework.Beans.Factory
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        private static IBeanDesc CreateBeanDesc(Type type)
-        {
-            return new BeanDescImpl(type);
-        }
+        private static IBeanDesc _CreateBeanDesc(Type type) => new BeanDescImpl(type);
     }
 }

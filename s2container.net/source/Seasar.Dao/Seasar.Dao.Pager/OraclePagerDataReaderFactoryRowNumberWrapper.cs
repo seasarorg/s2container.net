@@ -21,17 +21,16 @@ using System.Data;
 using System.Reflection;
 using System.Text;
 using Seasar.Extension.ADO;
+using Seasar.Extension.ADO.Types;
 using Seasar.Framework.Exceptions;
 using Seasar.Framework.Log;
 using Seasar.Framework.Util;
-using Seasar.Extension.ADO.Types;
 
 namespace Seasar.Dao.Pager
 {
     public class OraclePagerDataReaderFactoryRowNumberWrapper : AbstractPagerDataReaderFactoryWrapper, IDataReaderFactory
     {
         private static readonly Logger _logger = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private string _rowNumberColumnName = "pagerrownumber";
 
         public OraclePagerDataReaderFactoryRowNumberWrapper(
             IDataReaderFactory dataReaderFactory,
@@ -41,20 +40,16 @@ namespace Seasar.Dao.Pager
         {
         }
 
-        public string RowNumberColumnName
-        {
-            get { return _rowNumberColumnName; }
-            set { _rowNumberColumnName = value; }
-        }
+        public string RowNumberColumnName { get; set; } = "pagerrownumber";
 
         #region IDataReaderFactory ÉÅÉìÉo
 
         public IDataReader CreateDataReader(IDataSource dataSource, IDbCommand cmd)
         {
-            IPagerCondition condition = PagerContext.GetContext().PeekArgs();
+            var condition = PagerContext.GetContext().PeekArgs();
             if (condition != null)
             {
-                string baseSql = GetBaseSql(cmd);
+                var baseSql = GetBaseSql(cmd);
                 if (_logger.IsDebugEnabled)
                 {
                     _logger.Debug("S2Pager base SQL : " + baseSql);
@@ -80,24 +75,24 @@ namespace Seasar.Dao.Pager
 
         protected string MakeRowNumSql(string baseSql, int limit, int offset)
         {
-            string orderBySql = GetOrderBySql(baseSql);
+            var orderBySql = GetOrderBySql(baseSql);
             if (StringUtil.IsEmpty(orderBySql))
             {
                 throw new SQLRuntimeException(new Exception("'ORDER BY' is not included."), baseSql);
             }
-            StringBuilder buf = new StringBuilder(baseSql.Length + 64);
+            var buf = new StringBuilder(baseSql.Length + 64);
             buf.Append("SELECT * FROM (SELECT ROW_NUMBER() OVER (");
             buf.Append(orderBySql);
-            buf.AppendFormat(") {0}, ", RowNumberColumnName);
+            buf.Append($") {RowNumberColumnName}, ");
             buf.Append(RemoveOrderBySql(baseSql).Substring("SELECT".Length));
             buf.Append(") a ");
-            buf.AppendFormat("WHERE {0} BETWEEN {1} AND {2}", RowNumberColumnName, offset + 1, offset + limit);
+            buf.Append($"WHERE {RowNumberColumnName} BETWEEN {(offset + 1)} AND {(offset + limit)}");
             return buf.ToString();
         }
 
         protected virtual int GetCountForOracle(IDataSource dataSource, IDbCommand cmd, string baseSql)
         {
-            string countSql = MakeCountSqlForOracle(baseSql);
+            var countSql = MakeCountSqlForOracle(baseSql);
             if (_logger.IsDebugEnabled)
             {
                 _logger.Debug("S2Pager execute SQL : " + countSql);
@@ -110,7 +105,7 @@ namespace Seasar.Dao.Pager
                 countCmd = CommandFactory.CreateCommand(cmd.Connection, countSql);
                 foreach (IDbDataParameter src in cmd.Parameters)
                 {
-                    IDbDataParameter desc = countCmd.CreateParameter();
+                    var desc = countCmd.CreateParameter();
                     desc.ParameterName = src.ParameterName;
                     desc.DbType = src.DbType;
                     desc.Value = src.Value;
@@ -136,7 +131,7 @@ namespace Seasar.Dao.Pager
 
         protected string MakeCountSqlForOracle(string baseSql)
         {
-            StringBuilder buf = new StringBuilder("SELECT COUNT(*) FROM (");
+            var buf = new StringBuilder("SELECT COUNT(*) FROM (");
             buf.Append(baseSql);
             buf.Append(") total");
             return buf.ToString();

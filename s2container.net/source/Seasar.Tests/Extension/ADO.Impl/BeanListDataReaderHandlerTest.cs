@@ -41,13 +41,13 @@ namespace Seasar.Tests.Extension.ADO.Impl
         public void Handle()
         {
             IDataReaderHandler handler = new BeanListDataReaderHandler(typeof(Employee));
-            string sql = "select * from emp";
-            IDbConnection con = Connection;
-            IDbCommand cmd = con.CreateCommand();
+            var sql = "select * from emp";
+            var con = Connection;
+            var cmd = con.CreateCommand();
             cmd.CommandText = sql;
             IList ret;
             DataSource.SetTransaction(cmd);
-            IDataReader reader = cmd.ExecuteReader();
+            var reader = cmd.ExecuteReader();
             try
             {
                 ret = (IList) handler.Handle(reader);

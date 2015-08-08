@@ -22,28 +22,19 @@ namespace Seasar.Dao.Id
 {
     public class SequenceIdentifierGenerator : AbstractIdentifierGenerator
     {
-        private string _sequenceName;
-
         public SequenceIdentifierGenerator(string propertyName, IDbms dbms)
             : base(propertyName, dbms)
         {
         }
 
-        public string SequenceName
-        {
-            get { return _sequenceName; }
-            set { _sequenceName = value; }
-        }
+        public string SequenceName { get; set; }
 
         public override void SetIdentifier(object bean, IDataSource ds)
         {
-            object value = ExecuteSql(ds, Dbms.GetSequenceNextValString(_sequenceName), null);
+            var value = ExecuteSql(ds, Dbms.GetSequenceNextValString(SequenceName), null);
             SetIdentifier(bean, value);
         }
 
-        public override bool IsSelfGenerate
-        {
-            get { return true; }
-        }
+        public override bool IsSelfGenerate => true;
     }
 }

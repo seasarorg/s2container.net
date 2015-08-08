@@ -23,6 +23,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Windows.Forms;
+using Seasar.Framework.Util;
 using Seasar.Windows.Attr;
 using Seasar.Windows.Seasar.Windows.Utils;
 
@@ -37,11 +38,6 @@ namespace Seasar.Windows
         /// バインディングデータ
         /// </summary>
         private object _dataSource;
-
-        /// <summary>
-        /// バインディング用デフォルトプロパティ
-        /// </summary>
-        private string _defaultProperty = "Text";
 
         /// <summary>
         /// コンストラクタ
@@ -71,11 +67,7 @@ namespace Seasar.Windows
         /// <summary>
         /// バインディング用デフォルトプロパティ
         /// </summary>
-        public string DefaultProperty
-        {
-            get { return _defaultProperty; }
-            set { _defaultProperty = value; }
-        }
+        public string DefaultProperty { get; set; } = "Text";
 
         /// <summary>
         /// Gridに列を追加する
@@ -91,34 +83,34 @@ namespace Seasar.Windows
             if (row < 0)
                 throw new ArgumentOutOfRangeException(String.Format(SWFMessages.FSWF0002, "row"));
 
-            int ret = 0;
+            var ret = 0;
             // 修飾子を取得する
-            Type formType = this.GetType();
-            object[] attributes = formType.GetCustomAttributes(typeof(ControlAttribute), false);
-            string prefix = string.Empty;
-            string suffix = string.Empty;
+            var formType = GetType();
+            var attributes = formType.GetCustomAttributes(typeof(ControlAttribute), false);
+            var prefix = string.Empty;
+            var suffix = string.Empty;
             _GetModifier(formType, ref prefix, ref suffix);
 
-            Type type = _dataSource.GetType();
+            var type = _dataSource.GetExType();
             IDictionary<string, Control> hashtable = new Dictionary<string, Control>();
             _GetAllControls(this, hashtable);
 
-            PropertyInfo[] pis = type.GetProperties();
-            foreach (PropertyInfo info in pis)
+            var pis = type.GetProperties();
+            foreach (var info in pis)
             {
                 if (info.Name.ToLower() == propertyName.ToLower())
                 {
-                    bool isFind = false;
-                    foreach (object o in attributes)
+                    var isFind = false;
+                    foreach (var o in attributes)
                     {
                         // 個別バインディングを行う
-                        ControlAttribute attribute = o as ControlAttribute;
+                        var attribute = o as ControlAttribute;
                         if (attribute != null)
                         {
                             if (info.Name.ToLower() == attribute.PropertyName.ToLower()
                                 && hashtable.ContainsKey(attribute.ControlName.ToLower()) )
                             {
-                                Control control = hashtable[attribute.ControlName.ToLower()];
+                                var control = hashtable[attribute.ControlName.ToLower()];
                                 ret += _AddSingleRow(info, control, attribute, data, row);
                                 isFind = true;
                             }
@@ -129,8 +121,8 @@ namespace Seasar.Windows
                         // 自動バインディングを行う
                         if ( hashtable.ContainsKey(prefix.ToLower() + info.Name.ToLower() + suffix.ToLower()) )
                         {
-                            Control control = hashtable[prefix.ToLower() + info.Name.ToLower() + suffix.ToLower()];
-                            ControlAttribute attr = new ControlAttribute(control.Name, _defaultProperty, propertyName);
+                            var control = hashtable[prefix.ToLower() + info.Name.ToLower() + suffix.ToLower()];
+                            var attr = new ControlAttribute(control.Name, DefaultProperty, propertyName);
                             ret += _AddSingleRow(info, control, attr, data, row);
                             break;
                         }
@@ -154,34 +146,34 @@ namespace Seasar.Windows
             if (row < 0)
                 throw new ArgumentOutOfRangeException(String.Format(SWFMessages.FSWF0002, "row"));
 
-            int ret = 0;
+            var ret = 0;
             // 修飾子を取得する
-            Type formType = this.GetType();
-            object[] attributes = formType.GetCustomAttributes(typeof(ControlAttribute), false);
-            string prefix = string.Empty;
-            string suffix = string.Empty;
+            var formType = GetType();
+            var attributes = formType.GetCustomAttributes(typeof(ControlAttribute), false);
+            var prefix = string.Empty;
+            var suffix = string.Empty;
             _GetModifier(formType, ref prefix, ref suffix);
 
-            Type type = _dataSource.GetType();
+            var type = _dataSource.GetExType();
             IDictionary<string, Control> hashtable = new Dictionary<string, Control>();
             _GetAllControls(this, hashtable);
 
-            PropertyInfo[] pis = type.GetProperties();
-            foreach (PropertyInfo info in pis)
+            var pis = type.GetProperties();
+            foreach (var info in pis)
             {
                 if (info.Name.ToLower() == propertyName.ToLower())
                 {
-                    bool isFind = false;
-                    foreach (object o in attributes)
+                    var isFind = false;
+                    foreach (var o in attributes)
                     {
                         // 個別バインディングを行う
-                        ControlAttribute attribute = o as ControlAttribute;
+                        var attribute = o as ControlAttribute;
                         if (attribute != null)
                         {
                             if (info.Name.ToLower() == attribute.PropertyName.ToLower()
                                 && hashtable.ContainsKey(attribute.ControlName.ToLower()) )
                             {
-                                Control control = hashtable[attribute.ControlName.ToLower()];
+                                var control = hashtable[attribute.ControlName.ToLower()];
                                 ret += _DeleteSingleRow(info, control, attribute, row);
                                 isFind = true;
                             }
@@ -192,8 +184,8 @@ namespace Seasar.Windows
                         // 自動バインディングを行う
                         if ( hashtable.ContainsKey(prefix.ToLower() + info.Name.ToLower() + suffix.ToLower()) )
                         {
-                            Control control = hashtable[prefix.ToLower() + info.Name.ToLower() + suffix.ToLower()];
-                            ControlAttribute attr = new ControlAttribute(control.Name, _defaultProperty, propertyName);
+                            var control = hashtable[prefix.ToLower() + info.Name.ToLower() + suffix.ToLower()];
+                            var attr = new ControlAttribute(control.Name, DefaultProperty, propertyName);
                             ret += _DeleteSingleRow(info, control, attr, row);
                             break;
                         }
@@ -223,34 +215,34 @@ namespace Seasar.Windows
                 throw new ArgumentOutOfRangeException(String.Format(SWFMessages.FSWF0004, "endRow"));
 
             // 修飾子を取得する
-            Type formType = this.GetType();
-            object[] attributes = formType.GetCustomAttributes(typeof(ControlAttribute), false);
-            string prefix = string.Empty;
-            string suffix = string.Empty;
+            var formType = GetType();
+            var attributes = formType.GetCustomAttributes(typeof(ControlAttribute), false);
+            var prefix = string.Empty;
+            var suffix = string.Empty;
             _GetModifier(formType, ref prefix, ref suffix);
 
-            int ret = 0;
-            Type type = _dataSource.GetType();
+            var ret = 0;
+            var type = _dataSource.GetExType();
             IDictionary<string, Control> hashtable = new Dictionary<string, Control>();
             _GetAllControls(this, hashtable);
 
-            PropertyInfo[] pis = type.GetProperties();
-            foreach (PropertyInfo info in pis)
+            var pis = type.GetProperties();
+            foreach (var info in pis)
             {
                 if (info.Name.ToLower() == propertyName.ToLower())
                 {
-                    bool isFind = false;
-                    foreach (object o in attributes)
+                    var isFind = false;
+                    foreach (var o in attributes)
                     {
                         // 個別バインディングを行う
-                        ControlAttribute attribute = o as ControlAttribute;
+                        var attribute = o as ControlAttribute;
                         if (attribute != null)
                         {
                             if (info.Name.ToLower() == attribute.PropertyName.ToLower()
                                 && hashtable.ContainsKey(attribute.ControlName.ToLower()) )
                             {
-                                Control control = hashtable[attribute.ControlName.ToLower()];
-                                for ( int i = endRow ; i >= startRow ; i-- )
+                                var control = hashtable[attribute.ControlName.ToLower()];
+                                for ( var i = endRow ; i >= startRow ; i-- )
                                     ret += _DeleteSingleRow(info, control, attribute, i);
 
                                 isFind = true;
@@ -262,11 +254,11 @@ namespace Seasar.Windows
                         // 自動バインディングを行う
                         if ( hashtable.ContainsKey(prefix.ToLower() + info.Name.ToLower() + suffix.ToLower()) )
                         {
-                            Control control = hashtable[prefix.ToLower() + info.Name.ToLower() + suffix.ToLower()];
-                            for ( int i = endRow ; i >= startRow ; i-- )
+                            var control = hashtable[prefix.ToLower() + info.Name.ToLower() + suffix.ToLower()];
+                            for ( var i = endRow ; i >= startRow ; i-- )
                             {
-                                ControlAttribute attr =
-                                    new ControlAttribute(control.Name, _defaultProperty, propertyName);
+                                var attr =
+                                    new ControlAttribute(control.Name, DefaultProperty, propertyName);
                                 ret += _DeleteSingleRow(info, control, attr, i);
                             }
                             break;
@@ -292,32 +284,32 @@ namespace Seasar.Windows
                 throw new ArgumentOutOfRangeException(String.Format(SWFMessages.FSWF0005, "row"));
 
             // 修飾子を取得する
-            Type formType = this.GetType();
-            object[] attributes = formType.GetCustomAttributes(typeof(ControlAttribute), false);
-            string prefix = string.Empty;
-            string suffix = string.Empty;
+            var formType = GetType();
+            var attributes = formType.GetCustomAttributes(typeof(ControlAttribute), false);
+            var prefix = string.Empty;
+            var suffix = string.Empty;
             _GetModifier(formType, ref prefix, ref suffix);
 
-            Type type = _dataSource.GetType();
+            var type = _dataSource.GetExType();
             IDictionary<string, Control> hashtable = new Dictionary<string, Control>();
             _GetAllControls(this, hashtable);
 
-            PropertyInfo[] pis = type.GetProperties();
-            foreach (PropertyInfo info in pis)
+            var pis = type.GetProperties();
+            foreach (var info in pis)
             {
                 if (info.Name.ToLower() == propertyName.ToLower())
                 {
-                    bool isFind = false;
-                    foreach (object o in attributes)
+                    var isFind = false;
+                    foreach (var o in attributes)
                     {
                         // 個別バインディングを行う
-                        ControlAttribute attribute = o as ControlAttribute;
+                        var attribute = o as ControlAttribute;
                         if (attribute != null)
                         {
                             if (info.Name.ToLower() == attribute.PropertyName.ToLower()
                                 && hashtable.ContainsKey(attribute.ControlName.ToLower()) )
                             {
-                                Control control = hashtable[attribute.ControlName.ToLower()];
+                                var control = hashtable[attribute.ControlName.ToLower()];
                                 _MoveSingleRow(info, control, attribute, row, MovingDirection.Upper);
                                 isFind = true;
                             }
@@ -328,8 +320,8 @@ namespace Seasar.Windows
                         // 自動バインディングを行う
                         if ( hashtable.ContainsKey(prefix.ToLower() + info.Name.ToLower() + suffix.ToLower()) )
                         {
-                            Control control = hashtable[prefix.ToLower() + info.Name.ToLower() + suffix.ToLower()];
-                            ControlAttribute attr = new ControlAttribute(control.Name, _defaultProperty, propertyName);
+                            var control = hashtable[prefix.ToLower() + info.Name.ToLower() + suffix.ToLower()];
+                            var attr = new ControlAttribute(control.Name, DefaultProperty, propertyName);
                             _MoveSingleRow(info, control, attr, row, MovingDirection.Upper);
                             break;
                         }
@@ -351,32 +343,32 @@ namespace Seasar.Windows
                 throw new ArgumentOutOfRangeException(String.Format(SWFMessages.FSWF0002, "row"));
 
             // 修飾子を取得する
-            Type formType = this.GetType();
-            object[] attributes = formType.GetCustomAttributes(typeof(ControlAttribute), false);
-            string prefix = string.Empty;
-            string suffix = string.Empty;
+            var formType = GetType();
+            var attributes = formType.GetCustomAttributes(typeof(ControlAttribute), false);
+            var prefix = string.Empty;
+            var suffix = string.Empty;
             _GetModifier(formType, ref prefix, ref suffix);
 
-            Type type = _dataSource.GetType();
+            var type = _dataSource.GetExType();
             IDictionary<string, Control> hashtable = new Dictionary<string, Control>();
             _GetAllControls(this, hashtable);
 
-            PropertyInfo[] pis = type.GetProperties();
-            foreach (PropertyInfo info in pis)
+            var pis = type.GetProperties();
+            foreach (var info in pis)
             {
                 if (info.Name.ToLower() == propertyName.ToLower())
                 {
-                    bool isFind = false;
-                    foreach (object o in attributes)
+                    var isFind = false;
+                    foreach (var o in attributes)
                     {
                         // 個別バインディングを行う
-                        ControlAttribute attribute = o as ControlAttribute;
+                        var attribute = o as ControlAttribute;
                         if (attribute != null)
                         {
                             if (info.Name.ToLower() == attribute.PropertyName.ToLower()
                                 && hashtable.ContainsKey(attribute.ControlName.ToLower()))
                             {
-                                Control control = hashtable[attribute.ControlName.ToLower()];
+                                var control = hashtable[attribute.ControlName.ToLower()];
                                 _MoveSingleRow(info, control, attribute, row, MovingDirection.Lower);
                                 isFind = true;
                             }
@@ -387,8 +379,8 @@ namespace Seasar.Windows
                         // 自動バインディングを行う
                         if ( hashtable.ContainsKey(prefix.ToLower() + info.Name.ToLower() + suffix.ToLower()) )
                         {
-                            Control control = hashtable[prefix.ToLower() + info.Name.ToLower() + suffix.ToLower()];
-                            ControlAttribute attr = new ControlAttribute(control.Name, _defaultProperty, propertyName);
+                            var control = hashtable[prefix.ToLower() + info.Name.ToLower() + suffix.ToLower()];
+                            var attr = new ControlAttribute(control.Name, DefaultProperty, propertyName);
                             _MoveSingleRow(info, control, attr, row, MovingDirection.Lower);
                             break;
                         }
@@ -402,10 +394,10 @@ namespace Seasar.Windows
         /// </summary>
         protected virtual void ReadValues()
         {
-            Control[] controls = _GetControls(this);
-            foreach (Control control in controls)
+            var controls = _GetControls(this);
+            foreach (var control in controls)
             {
-                for (int i = 0; i < control.DataBindings.Count; i++)
+                for (var i = 0; i < control.DataBindings.Count; i++)
                 {
                     control.DataBindings[i].ReadValue();
                 }
@@ -417,10 +409,10 @@ namespace Seasar.Windows
         /// </summary>
         protected virtual void WriteValues()
         {
-            Control[] controls = _GetControls(this);
-            foreach (Control control in controls)
+            var controls = _GetControls(this);
+            foreach (var control in controls)
             {
-                for (int i = 0; i < control.DataBindings.Count; i++)
+                for (var i = 0; i < control.DataBindings.Count; i++)
                 {
                     control.DataBindings[i].WriteValue();
                 }
@@ -433,30 +425,30 @@ namespace Seasar.Windows
         private void _SetDataToControls()
         {
             // 修飾子を取得する
-            Type formType = this.GetType();
-            object[] attributes = formType.GetCustomAttributes(typeof(ControlAttribute), false);
-            string prefix = string.Empty;
-            string suffix = string.Empty;
+            var formType = GetType();
+            var attributes = formType.GetCustomAttributes(typeof(ControlAttribute), false);
+            var prefix = string.Empty;
+            var suffix = string.Empty;
             _GetModifier(formType, ref prefix, ref suffix);
 
-            Type type = _dataSource.GetType();
+            var type = _dataSource.GetExType();
 
             IDictionary<string, Control> hashtable = new Dictionary<string, Control>();
             _GetAllControls(this, hashtable);
-            PropertyInfo[] pis = type.GetProperties();
-            foreach (PropertyInfo info in pis)
+            var pis = type.GetProperties();
+            foreach (var info in pis)
             {
-                bool isFind = false;
-                foreach (object o in attributes)
+                var isFind = false;
+                foreach (var o in attributes)
                 {
                     // 個別バインディングを行う
-                    ControlAttribute attribute = o as ControlAttribute;
+                    var attribute = o as ControlAttribute;
                     if (attribute != null)
                     {
                         if (info.Name.ToLower() == attribute.PropertyName.ToLower()
                             && hashtable.ContainsKey(attribute.ControlName.ToLower()))
                         {
-                            Control control = hashtable[attribute.ControlName.ToLower()];
+                            var control = hashtable[attribute.ControlName.ToLower()];
                             control.DataBindings.Add(attribute.ControlProperty, _dataSource, info.Name,
                                                      attribute.FormattingEnabled,
                                                      attribute.UpdateMode, attribute.NullValue,
@@ -472,8 +464,8 @@ namespace Seasar.Windows
                     // 自動バインディングを行う
                     if ( hashtable.ContainsKey(prefix.ToLower() + info.Name.ToLower() + suffix.ToLower()) )
                     {
-                        Control control = hashtable[prefix.ToLower() + info.Name.ToLower() + suffix.ToLower()];
-                        control.DataBindings.Add(_defaultProperty, _dataSource, info.Name, true,
+                        var control = hashtable[prefix.ToLower() + info.Name.ToLower() + suffix.ToLower()];
+                        control.DataBindings.Add(DefaultProperty, _dataSource, info.Name, true,
                                                  DataSourceUpdateMode.OnValidation, null, string.Empty);
                     }
                 }
@@ -488,11 +480,11 @@ namespace Seasar.Windows
         /// <param name="suffix">サフィックス</param>
         private static void _GetModifier(Type formType, ref string prefix, ref string suffix)
         {
-            object[] modifiers =
+            var modifiers =
                 formType.GetCustomAttributes(typeof (ControlModifierAttribute), false);
-            foreach (object modifier in modifiers)
+            foreach (var modifier in modifiers)
             {
-                ControlModifierAttribute attribute = modifier as ControlModifierAttribute;
+                var attribute = modifier as ControlModifierAttribute;
                 if (attribute != null)
                 {
                     prefix = attribute.Prefix;
@@ -506,8 +498,8 @@ namespace Seasar.Windows
         /// </summary>
         private void _RemoveBindings()
         {
-            Control[] controls = _GetControls(this);
-            foreach (Control control in controls)
+            var controls = _GetControls(this);
+            foreach (var control in controls)
             {
                 control.DataBindings.Clear();
             }
@@ -520,7 +512,7 @@ namespace Seasar.Windows
         /// <returns>コントロールの持つコントロール</returns>
         private static Control[] _GetControls(Control controls)
         {
-            ArrayList retList = new ArrayList();
+            var retList = new ArrayList();
             foreach (Control control in controls.Controls)
             {
                 retList.Add(control);
@@ -568,9 +560,9 @@ namespace Seasar.Windows
         /// <returns>削除行数</returns>
         private int _AddSingleRow(PropertyInfo info, Control control, ControlAttribute attr, object data, int row)
         {
-            Type propertyType = info.PropertyType;
-            BindingUtilFactory factory = BindingUtilFactory.Factory;
-            IBindingUtil util = factory.Create(propertyType);
+            var propertyType = info.PropertyType;
+            var factory = BindingUtilFactory.Factory;
+            var util = factory.Create(propertyType);
             return (util.AddData(ref _dataSource, info, ref control, attr, data, row));
         }
 
@@ -584,9 +576,9 @@ namespace Seasar.Windows
         /// <returns>削除行数</returns>
         private int _DeleteSingleRow(PropertyInfo info, Control control, ControlAttribute attr, int row)
         {
-            Type propertyType = info.PropertyType;
-            BindingUtilFactory factory = BindingUtilFactory.Factory;
-            IBindingUtil util = factory.Create(propertyType);
+            var propertyType = info.PropertyType;
+            var factory = BindingUtilFactory.Factory;
+            var util = factory.Create(propertyType);
             return (util.DeleteData(ref _dataSource, info, ref control, attr, row));
         }
 
@@ -602,9 +594,9 @@ namespace Seasar.Windows
         private void _MoveSingleRow(PropertyInfo info, Control control, ControlAttribute attr, int row,
                                     MovingDirection direction)
         {
-            Type propertyType = info.PropertyType;
-            BindingUtilFactory factory = BindingUtilFactory.Factory;
-            IBindingUtil util = factory.Create(propertyType);
+            var propertyType = info.PropertyType;
+            var factory = BindingUtilFactory.Factory;
+            var util = factory.Create(propertyType);
             util.MoveRow(ref _dataSource, info, ref control, attr, row, direction);
         }
     }

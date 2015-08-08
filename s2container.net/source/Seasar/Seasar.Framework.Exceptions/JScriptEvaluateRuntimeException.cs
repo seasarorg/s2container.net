@@ -1,4 +1,4 @@
-#region Copyright
+Ôªø#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -22,34 +22,29 @@ using System.Runtime.Serialization;
 namespace Seasar.Framework.Exceptions
 {
     /// <summary>
-    /// Microsoft.JScript.Eval.JScriptEvaluateÇ≈î≠ê∂Ç∑ÇÈé¿çséûó·äOÇ≈Ç∑ÅB
+    /// Microsoft.JScript.Eval.JScriptEvaluateÔøΩ≈îÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩsÔøΩÔøΩÔøΩÔøΩOÔøΩ≈ÇÔøΩÔøΩB
     /// </summary>
     [Serializable]
     public sealed class JScriptEvaluateRuntimeException : SRuntimeException
     {
-        private readonly string _expression;
-
         public JScriptEvaluateRuntimeException(string expression, Exception cause)
             : base("ESSR0073", new object[] { expression, cause }, cause)
         {
-            _expression = expression;
+            Expression = expression;
         }
 
         public JScriptEvaluateRuntimeException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            _expression = info.GetString("_expression");
+            Expression = info.GetString("_expression");
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("_expression", _expression, typeof(string));
+            info.AddValue("_expression", Expression, typeof(string));
             base.GetObjectData(info, context);
         }
 
-        public string Expression
-        {
-            get { return _expression; }
-        }
+        public string Expression { get; }
     }
 }

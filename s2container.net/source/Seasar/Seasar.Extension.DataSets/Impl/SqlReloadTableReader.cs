@@ -27,16 +27,14 @@ namespace Seasar.Extension.DataSets.Impl
 {
     public class SqlReloadTableReader : ITableReader
     {
-        private readonly IDataSource _dataSource;
-        private readonly DataTable _table;
         private string _sql;
         private string[] _primaryKeys;
 
         public SqlReloadTableReader(IDataSource dataSource, DataTable table)
         {
-            _dataSource = dataSource;
-            _table = table;
-            IDbConnection con = DataSourceUtil.GetConnection(DataSource);
+            DataSource = dataSource;
+            Table = table;
+            var con = DataSourceUtil.GetConnection(DataSource);
             try
             {
                 IDatabaseMetaData dbMetaData = new DatabaseMetaDataImpl(DataSource);
@@ -44,23 +42,23 @@ namespace Seasar.Extension.DataSets.Impl
             }
             finally
             {
-                _dataSource.CloseConnection(con);
+                DataSource.CloseConnection(con);
             }
-            SetUp();
+            _SetUp();
         }
 
-        private void SetUp()
+        private void _SetUp()
         {
-            StringBuilder buf = new StringBuilder(100);
+            var buf = new StringBuilder(100);
             buf.Append("SELECT ");
-            StringBuilder whereBuf = new StringBuilder(100);
+            var whereBuf = new StringBuilder(100);
             whereBuf.Append(" WHERE");
-            ArrayList primaryKeyList = new ArrayList();
-            foreach (DataColumn column in _table.Columns)
+            var primaryKeyList = new ArrayList();
+            foreach (DataColumn column in Table.Columns)
             {
                 buf.Append(column.ColumnName);
                 buf.Append(", ");
-                if (DataTableUtil.IsPrimaryKey(_table, column))
+                if (DataTableUtil.IsPrimaryKey(Table, column))
                 {
                     whereBuf.AppendFormat(" {0} = @{1} AND", column.ColumnName, column.ColumnName);
                     primaryKeyList.Add(column.ColumnName);
@@ -69,30 +67,24 @@ namespace Seasar.Extension.DataSets.Impl
             buf.Length -= 2;
             whereBuf.Length -= 4;
             buf.Append(" FROM ");
-            buf.Append(_table.TableName);
+            buf.Append(Table.TableName);
             buf.Append(whereBuf);
             _sql = buf.ToString();
             _primaryKeys = (string[]) primaryKeyList.ToArray(typeof(string));
         }
 
-        public IDataSource DataSource
-        {
-            get { return _dataSource; }
-        }
+        public IDataSource DataSource { get; }
 
-        public DataTable Table
-        {
-            get { return _table; }
-        }
+        public DataTable Table { get; }
 
         #region ITableReader ÉÅÉìÉo
 
         public virtual DataTable Read()
         {
-            DataTable newTable = _table.Clone();
-            foreach (DataRow row in _table.Rows)
+            var newTable = Table.Clone();
+            foreach (DataRow row in Table.Rows)
             {
-                DataRow newRow = newTable.NewRow();
+                var newRow = newTable.NewRow();
                 Reload(row, newRow);
                 newTable.Rows.Add(newRow);
             }
@@ -105,12 +97,12 @@ namespace Seasar.Extension.DataSets.Impl
         protected virtual void Reload(DataRow row, DataRow newRow)
         {
             ISelectHandler selectHandler = new BasicSelectHandler(
-                _dataSource,
+                DataSource,
                 _sql,
                 new DataRowReloadDataReaderHandler(row, newRow)
                 );
-            object[] args = new object[_primaryKeys.Length];
-            for (int i = 0; i < _primaryKeys.Length; ++i)
+            var args = new object[_primaryKeys.Length];
+            for (var i = 0; i < _primaryKeys.Length; ++i)
             {
                 args[i] = row[_primaryKeys[i]];
             }

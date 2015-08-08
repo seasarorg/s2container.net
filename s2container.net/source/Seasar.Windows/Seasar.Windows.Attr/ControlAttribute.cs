@@ -27,42 +27,8 @@ namespace Seasar.Windows.Attr
     [AttributeUsage(AttributeTargets.Class, AllowMultiple=true)]
     public class ControlAttribute : Attribute
     {
-        /// <summary>
-        /// 対象コントロール名
-        /// </summary>
-        private string _controlName;
-
-        /// <summary>
-        /// 対象コントロールのプロパティ
-        /// </summary>
-        private string _controlProperty;
-
-        /// <summary>
-        /// 取得プロパティ名
-        /// </summary>
-        private string _propertyName;
-
 #if NET_1_1
 #else
-        /// <summary>
-        /// 表示されるデータの書式を指定するフラグ
-        /// </summary>
-        private bool _formattingEnabled;
-
-        /// <summary>
-        /// データソースの更新タイミング
-        /// </summary>
-        private DataSourceUpdateMode _updateMode;
-
-        /// <summary>
-        /// データ ソースの値がDBNullである場合に、バインドされたコントロールプロパティに適用されるObject
-        /// </summary>
-        private object _nullValue;
-
-        /// <summary>
-        /// 値の表示方法を示す1つ以上の書式指定子文字
-        /// </summary>
-        private string _formatString;
 
 #endif
         /// <summary>
@@ -73,16 +39,16 @@ namespace Seasar.Windows.Attr
         /// <param name="propertyName">バインディングプロパティ名</param>
         public ControlAttribute(string controlName, string controlProperty, string propertyName)
         {
-            this._controlName = controlName;
-            this._controlProperty = controlProperty;
-            this._propertyName = propertyName;
+            ControlName = controlName;
+            ControlProperty = controlProperty;
+            PropertyName = propertyName;
 
 #if NET_1_1
 #else
-            this._formattingEnabled = true;
-            this._updateMode = DataSourceUpdateMode.OnValidation;
-            this._nullValue = null;
-            this._formatString = "";
+            FormattingEnabled = true;
+            UpdateMode = DataSourceUpdateMode.OnValidation;
+            NullValue = null;
+            FormatString = "";
 #endif
 
         }
@@ -99,13 +65,13 @@ namespace Seasar.Windows.Attr
         /// <param name="updateMode">データソースの更新タイミング</param>
         public ControlAttribute(string controlName, string controlProperty, string propertyName, DataSourceUpdateMode updateMode)
         {
-            this._controlName = controlName;
-            this._controlProperty = controlProperty;
-            this._propertyName = propertyName;
-            this._formattingEnabled = true;
-            this._updateMode = updateMode;
-            this._nullValue = null;
-            this._formatString = "";
+            ControlName = controlName;
+            ControlProperty = controlProperty;
+            PropertyName = propertyName;
+            FormattingEnabled = true;
+            UpdateMode = updateMode;
+            NullValue = null;
+            FormatString = "";
         }
 
         /// <summary>
@@ -118,13 +84,13 @@ namespace Seasar.Windows.Attr
         /// <param name="updateMode">データソースの更新タイミング</param>
         public ControlAttribute(string controlName, string controlProperty, string propertyName, bool formattingEnabled, DataSourceUpdateMode updateMode)
         {
-            this._controlName = controlName;
-            this._controlProperty = controlProperty;
-            this._propertyName = propertyName;
-            this._formattingEnabled = formattingEnabled;
-            this._updateMode = updateMode;
-            this._nullValue = null;
-            this._formatString = "";
+            ControlName = controlName;
+            ControlProperty = controlProperty;
+            PropertyName = propertyName;
+            FormattingEnabled = formattingEnabled;
+            UpdateMode = updateMode;
+            NullValue = null;
+            FormatString = "";
         }
 
         /// <summary>
@@ -140,13 +106,13 @@ namespace Seasar.Windows.Attr
         public ControlAttribute(string controlName, string controlProperty, string propertyName, bool formattingEnabled, DataSourceUpdateMode updateMode, 
             object nullValue, string formatString)
         {
-            this._controlName = controlName;
-            this._controlProperty = controlProperty;
-            this._propertyName = propertyName;
-            this._formattingEnabled = formattingEnabled;
-            this._updateMode = updateMode;
-            this._nullValue = nullValue;
-            this._formatString = formatString;
+            ControlName = controlName;
+            ControlProperty = controlProperty;
+            PropertyName = propertyName;
+            FormattingEnabled = formattingEnabled;
+            UpdateMode = updateMode;
+            NullValue = nullValue;
+            FormatString = formatString;
         }
 
 #endif
@@ -154,67 +120,39 @@ namespace Seasar.Windows.Attr
         /// <summary>
         /// 対象コントロール名
         /// </summary>
-        public string ControlName
-        {
-            get { return _controlName; }
-            set { _controlName = value; }
-        }
+        public string ControlName { get; set; }
 
         /// <summary>
         /// 対象コントロールのプロパティ
         /// </summary>
-        public string ControlProperty
-        {
-            get { return _controlProperty; }
-            set { _controlProperty = value; }
-        }
+        public string ControlProperty { get; set; }
 
         /// <summary>
         /// 取得プロパティ名
         /// </summary>
-        public string PropertyName
-        {
-            get { return _propertyName; }
-            set { _propertyName = value; }
-        }
+        public string PropertyName { get; set; }
 
 #if NET_1_1
 #else
         /// <summary>
         /// 表示されるデータの書式を指定するフラグ
         /// </summary>
-        public bool FormattingEnabled
-        {
-            get { return _formattingEnabled; }
-            set { _formattingEnabled = value; }
-        }
+        public bool FormattingEnabled { get; set; }
 
         /// <summary>
         /// データソースの更新タイミング
         /// </summary>
-        public DataSourceUpdateMode UpdateMode
-        {
-            get { return _updateMode; }
-            set { _updateMode = value; }
-        }
+        public DataSourceUpdateMode UpdateMode { get; set; }
 
         /// <summary>
         /// データ ソースの値がDBNullである場合に、バインドされたコントロールプロパティに適用されるObject
         /// </summary>
-        public object NullValue
-        {
-            get { return _nullValue; }
-            set { _nullValue = value; }
-        }
+        public object NullValue { get; set; }
 
         /// <summary>
         /// 値の表示方法を示す1つ以上の書式指定子文字
         /// </summary>
-        public string FormatString
-        {
-            get { return _formatString; }
-            set { _formatString = value; }
-        }
+        public string FormatString { get; set; }
 
 #endif
 

@@ -43,7 +43,7 @@ namespace Seasar.Tests.Dao.Pager
             condition.Limit = 2;
             Assert.AreEqual(0, condition.Offset);
             Assert.AreEqual(0, condition.Count);
-            IList employees = _employeeDao.GetEmployees(condition);
+            var employees = _employeeDao.GetEmployees(condition);
             Assert.AreEqual(14, condition.Count);
             Assert.AreEqual(2, employees.Count);
             Assert.AreEqual(7369, GetEmployee(employees, 0).Empno);
@@ -61,7 +61,7 @@ namespace Seasar.Tests.Dao.Pager
             IPagerCondition condition = new DefaultPagerCondition();
             condition.Limit = 2;
             condition.Offset = 1;
-            IList employees = _employeeDao.GetEmployees(condition);
+            var employees = _employeeDao.GetEmployees(condition);
             Assert.AreEqual(14, condition.Count);
             Assert.AreEqual(2, employees.Count);
             Assert.AreEqual(7499, GetEmployee(employees, 0).Empno);
@@ -80,7 +80,7 @@ namespace Seasar.Tests.Dao.Pager
             condition.Limit = 5;
             condition.Offset = 10;
             System.Console.WriteLine(_employeeDao == null ? "null!!" : _employeeDao.ToString());
-            IList employees = _employeeDao.GetEmployees(condition);
+            var employees = _employeeDao.GetEmployees(condition);
             Assert.AreEqual(14, condition.Count);
             Assert.AreEqual(4, employees.Count);
             Assert.AreEqual(7876, GetEmployee(employees, 0).Empno);
@@ -98,7 +98,7 @@ namespace Seasar.Tests.Dao.Pager
         public void PagerAttribute()
         {
             int count;
-            IList employees = _employeeDao.GetEmployeesPager(2, 1, out count);
+            var employees = _employeeDao.GetEmployeesPager(2, 1, out count);
             Assert.AreEqual(14, count);
             Assert.AreEqual(2, employees.Count);
             Assert.AreEqual(7499, GetEmployee(employees, 0).Empno);
@@ -114,7 +114,7 @@ namespace Seasar.Tests.Dao.Pager
         public void PagerAttributeRenameParameter()
         {
             int count;
-            IList employees = _employeeDao.GetEmployeesPager2(2, 1, out count);
+            var employees = _employeeDao.GetEmployeesPager2(2, 1, out count);
             Assert.AreEqual(14, count);
             Assert.AreEqual(2, employees.Count);
             Assert.AreEqual(7499, GetEmployee(employees, 0).Empno);
@@ -130,7 +130,7 @@ namespace Seasar.Tests.Dao.Pager
         public void PagerAttributeWithParameter()
         {
             int count;
-            IList employees = _employeeDao.GetEmployeesPager3(20, 2, 1, out count);
+            var employees = _employeeDao.GetEmployeesPager3(20, 2, 1, out count);
             Assert.AreEqual(5, count);
             Assert.AreEqual(2, employees.Count);
             Assert.AreEqual(7566, GetEmployee(employees, 0).Empno);

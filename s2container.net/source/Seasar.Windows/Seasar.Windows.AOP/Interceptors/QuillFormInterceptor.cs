@@ -18,10 +18,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Windows.Forms;
 using Seasar.Framework.Aop;
 using Seasar.Framework.Aop.Interceptors;
+using Seasar.Framework.Util;
 using Seasar.Quill;
 using Seasar.Windows.Attr;
 
@@ -40,73 +40,77 @@ namespace Seasar.Windows.AOP.Interceptors
         /// <remarks>Defaultの戻り値はDialgResult.No</remarks>
         public override object Invoke(IMethodInvocation invocation)
         {
-            DialogResult retOfReplace = DialogResult.No;
+            var retOfReplace = DialogResult.No;
 
             object ret = retOfReplace;
 
             // メソッドの引数値の取得
-            object[] args = invocation.Arguments;
-            ParameterInfo[] pis = invocation.Method.GetParameters();
+            var args = invocation.Arguments;
+            var pis = invocation.Method.GetParameters();
 
             IDictionary<string, object> hashOfParams = new Dictionary<string, object>();
             IList<string> listOfParams = new List<string>();
             IDictionary<string, string> hashOfPropNames = new Dictionary<string, string>();
 
-            foreach (ParameterInfo pi in pis)
+            foreach (var pi in pis)
             {
                 hashOfParams.Add(pi.Name.ToLower(), args[pi.Position]);
                 listOfParams.Add(pi.Name.ToLower());
             }
 
             // WindowsFormの表示
-            object[] attributes = invocation.Method.GetCustomAttributes(false);
-            foreach (object o in attributes)
+            var attributes = invocation.Method.GetCustomAttributes(false);
+            foreach (var o in attributes)
             {
-                if (o is TargetFormAttribute)
+                var formAttribute = o as TargetFormAttribute;
+                if (formAttribute != null)
                 {
                     // 戻り値のプロパティ名を取得する
-                    TargetFormAttribute attribute = (TargetFormAttribute)o;
-                    Type formType = attribute.FormType;
+                    var attribute = formAttribute;
+                    var formType = attribute.FormType;
 
                     // Formオブジェクトの取得
-                    QuillInjector injector = QuillInjector.GetInstance();
-                    QuillContainer container = injector.Container;
-                    QuillComponent component = container.GetComponent(formType);
+                    var injector = QuillInjector.GetInstance();
+                    var container = injector.Container;
+                    var component = container.GetComponent(formType);
                     Form form;
                     if (component != null)
                     {
                         form = (Form) component.GetComponentObject(formType);
                         if (form == null)
                         {
-                            form = (Form)Activator.CreateInstance(formType);
+                            form = (Form) ClassUtil.NewInstance(formType);
+//                            form = (Form)Activator.CreateInstance(formType);
                             injector.Inject(form);
                         }
                     }
                     else
                     {
-                        form = (Form)Activator.CreateInstance(formType);
+                        form = (Form)ClassUtil.NewInstance(formType);
+//                        form = (Form)Activator.CreateInstance(formType);
                         injector.Inject(form);
                     }
 
                     // 戻り値プロパティ名の取得
-                    string propertyName = String.Empty;
+                    var propertyName = String.Empty;
                     if (attribute.ReturnPropertyName != String.Empty)
                         propertyName = attribute.ReturnPropertyName;
 
                     // フォームに値をセットする
-                    PropertyInfo[] infos = form.GetType().GetProperties();
-                    foreach (PropertyInfo info in infos)
+                    var infos = form.GetExType().GetProperties();
+                    foreach (var info in infos)
                     {
                         hashOfPropNames.Add(info.Name.ToLower(), info.Name);
                     }
 
-                    for (int i = 0; i < listOfParams.Count; i++)
+                    for (var i = 0; i < listOfParams.Count; i++)
                     {
                         if (hashOfPropNames.ContainsKey(listOfParams[i]))
                         {
-                            string propName = hashOfPropNames[listOfParams[i]];
-                            PropertyInfo property = form.GetType().GetProperty(propName);
-                            property.SetValue(form, hashOfParams[listOfParams[i]], null);
+                            var propName = hashOfPropNames[listOfParams[i]];
+                            var property = form.GetExType().GetProperty(propName);
+                            PropertyUtil.SetValue(form, form.GetExType(), property.Name, property.PropertyType, hashOfParams[listOfParams[i]]);
+//                            property.SetValue(form, hashOfParams[listOfParams[i]], null);
                         }
                     }
 
@@ -118,9 +122,10 @@ namespace Seasar.Windows.AOP.Interceptors
                         // WindowsFormから戻り値用プロパティから値を取得する
                         if (propertyName != String.Empty)
                         {
-                            PropertyInfo propInfo = form.GetType().GetProperty(propertyName);
+                            var propInfo = form.GetExType().GetProperty(propertyName);
                             if (propInfo != null)
-                                ret = propInfo.GetValue(form, null);
+                                ret = PropertyUtil.GetValue(form, form.GetExType(), propInfo.Name);
+//                                ret = propInfo.GetValue(form, null);
                         }
                     }
                     else

@@ -18,68 +18,43 @@
 
 using System.Text;
 using Seasar.Dao.Attrs;
+using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Dao.Impl
 {
     [Table("DEPT")]
     public class Department
     {
-        private int _deptno;
-        private string _dname;
-        private string _loc;
-        private int _versionNo;
-        private string _dummy;
+        public int Deptno { set; get; }
 
-        public int Deptno
-        {
-            set { _deptno = value; }
-            get { return _deptno; }
-        }
+        public string Dname { set; get; }
 
-        public string Dname
-        {
-            set { _dname = value; }
-            get { return _dname; }
-        }
+        public string Loc { set; get; }
 
-        public string Loc
-        {
-            set { _loc = value; }
-            get { return _loc; }
-        }
-
-        public int VersionNo
-        {
-            set { _versionNo = value; }
-            get { return _versionNo; }
-        }
+        public int VersionNo { set; get; }
 
         public bool equals(object other)
         {
-            if (!(other.GetType() == typeof(Department))) return false;
-            Department castOther = (Department) other;
+            if (!(other.GetExType() == typeof(Department))) return false;
+            var castOther = (Department) other;
             return Deptno == castOther.Deptno;
         }
 
-        public int hashCode()
+        public int HashCode()
         {
             return Deptno;
         }
 
         public override string ToString()
         {
-            StringBuilder buf = new StringBuilder();
-            buf.Append(_deptno).Append(", ");
-            buf.Append(_dname).Append(", ");
-            buf.Append(_loc).Append(", ");
-            buf.Append(_versionNo);
+            var buf = new StringBuilder();
+            buf.Append(Deptno).Append(", ");
+            buf.Append(Dname).Append(", ");
+            buf.Append(Loc).Append(", ");
+            buf.Append(VersionNo);
             return buf.ToString();
         }
 
-        public string Dummy
-        {
-            set { _dummy = value; }
-            get { return _dummy; }
-        }
+        public string Dummy { set; get; }
     }
 }

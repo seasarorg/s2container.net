@@ -17,12 +17,12 @@
 #endregion
 
 using System;
-using System.Data;
 using MbUnit.Framework;
 using Seasar.Dao.Impl;
 using Seasar.Dao.Unit;
 using Seasar.Extension.ADO;
 using Seasar.Extension.Unit;
+using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Dao.Impl
 {
@@ -42,15 +42,15 @@ namespace Seasar.Tests.Dao.Impl
         {
             IDataReaderHandler handler = new ObjectArrayDataReaderHandler(typeof(string));
 
-            string sql = "select emp.ename from emp";
-            string[] ret = null;
-            using (IDbConnection con = Connection)
+            var sql = "select emp.ename from emp";
+            string[] ret;
+            using (var con = Connection)
             {
-                using (IDbCommand cmd = con.CreateCommand())
+                using (var cmd = con.CreateCommand())
                 {
                     cmd.CommandText = sql;
 
-                    using (IDataReader reader = cmd.ExecuteReader())
+                    using (var reader = cmd.ExecuteReader())
                     {
                         ret = (string[])handler.Handle(reader);
                     }
@@ -58,10 +58,10 @@ namespace Seasar.Tests.Dao.Impl
             }
             Assert.IsNotNull(ret, "1");
             Assert.IsTrue(ret.Length > 0, "2");
-            Assert.IsTrue(ret.GetType().IsArray, "3");
-            foreach (string val in ret)
+            Assert.IsTrue(ret.GetExType().IsArray, "3");
+            foreach (var val in ret)
             {
-                Console.WriteLine("ename = {0}", val);
+                Console.WriteLine($"ename = {val}");
             }
         }
 
@@ -70,15 +70,15 @@ namespace Seasar.Tests.Dao.Impl
         {
             IDataReaderHandler handler = new ObjectArrayDataReaderHandler(typeof(DateTime));
 
-            string sql = "select emp.tstamp from emp";
-            DateTime[] ret = null;
-            using (IDbConnection con = Connection)
+            var sql = "select emp.tstamp from emp";
+            DateTime[] ret;
+            using (var con = Connection)
             {
-                using (IDbCommand cmd = con.CreateCommand())
+                using (var cmd = con.CreateCommand())
                 {
                     cmd.CommandText = sql;
 
-                    using (IDataReader reader = cmd.ExecuteReader())
+                    using (var reader = cmd.ExecuteReader())
                     {
                         ret = (DateTime[])handler.Handle(reader);
                     }
@@ -86,10 +86,10 @@ namespace Seasar.Tests.Dao.Impl
             }
             Assert.IsNotNull(ret, "1");
             Assert.IsTrue(ret.Length > 0, "2");
-            Assert.IsTrue(ret.GetType().IsArray, "3");
-            foreach (DateTime val in ret)
+            Assert.IsTrue(ret.GetExType().IsArray, "3");
+            foreach (var val in ret)
             {
-                Console.WriteLine("ename = {0}", val);
+                Console.WriteLine($"ename = {val}");
             }
         }
 
@@ -98,15 +98,15 @@ namespace Seasar.Tests.Dao.Impl
         {
             IDataReaderHandler handler = new ObjectArrayDataReaderHandler(typeof(decimal));
 
-            string sql = "select emp.empno from emp";
-            decimal[] ret = null;
-            using (IDbConnection con = Connection)
+            var sql = "select emp.empno from emp";
+            decimal[] ret;
+            using (var con = Connection)
             {
-                using (IDbCommand cmd = con.CreateCommand())
+                using (var cmd = con.CreateCommand())
                 {
                     cmd.CommandText = sql;
 
-                    using (IDataReader reader = cmd.ExecuteReader())
+                    using (var reader = cmd.ExecuteReader())
                     {
                         ret = (decimal[])handler.Handle(reader);
                     }
@@ -114,10 +114,10 @@ namespace Seasar.Tests.Dao.Impl
             }
             Assert.IsNotNull(ret, "1");
             Assert.IsTrue(ret.Length > 0, "2");
-            Assert.IsTrue(ret.GetType().IsArray, "3");
-            foreach (decimal val in ret)
+            Assert.IsTrue(ret.GetExType().IsArray, "3");
+            foreach (var val in ret)
             {
-                Console.WriteLine("empno = {0}", val);
+                Console.WriteLine($"empno = {val}");
             }
         }
 
@@ -126,15 +126,15 @@ namespace Seasar.Tests.Dao.Impl
         {
             IDataReaderHandler handler = new ObjectArrayDataReaderHandler(typeof(int));
 
-            string sql = "select emp.empno from emp";
-            int[] ret = null;
-            using (IDbConnection con = Connection)
+            var sql = "select emp.empno from emp";
+            int[] ret;
+            using (var con = Connection)
             {
-                using (IDbCommand cmd = con.CreateCommand())
+                using (var cmd = con.CreateCommand())
                 {
                     cmd.CommandText = sql;
 
-                    using (IDataReader reader = cmd.ExecuteReader())
+                    using (var reader = cmd.ExecuteReader())
                     {
                         ret = (int[])handler.Handle(reader);
                     }
@@ -142,10 +142,10 @@ namespace Seasar.Tests.Dao.Impl
             }
             Assert.IsNotNull(ret, "1");
             Assert.IsTrue(ret.Length > 0, "2");
-            Assert.IsTrue(ret.GetType().IsArray, "3");
-            foreach (int val in ret)
+            Assert.IsTrue(ret.GetExType().IsArray, "3");
+            foreach (var val in ret)
             {
-                Console.WriteLine("empno = {0}", val);
+                Console.WriteLine($"empno = {val}");
             }
         }
     }

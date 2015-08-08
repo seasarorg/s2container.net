@@ -36,8 +36,8 @@ namespace Seasar.Tests.Dao.Interceptors
         [Test, S2()]
         public void TestSelectBeanList()
         {
-            IList employees = _employeeDao.GetAllEmployees();
-            for (int i = 0; i < employees.Count; ++i)
+            var employees = _employeeDao.GetAllEmployees();
+            for (var i = 0; i < employees.Count; ++i)
             {
                 Trace.WriteLine(employees[i].ToString());
             }
@@ -47,7 +47,7 @@ namespace Seasar.Tests.Dao.Interceptors
         [Test, S2()]
         public void TestSelectBean()
         {
-            Employee employee = _employeeDao.GetEmployee(7788);
+            var employee = _employeeDao.GetEmployee(7788);
             Trace.WriteLine(employee.ToString());
             Assert.AreEqual("SCOTT", employee.Ename, "1");
         }
@@ -55,7 +55,7 @@ namespace Seasar.Tests.Dao.Interceptors
         [Test, S2()]
         public void TestSelectObject()
         {
-            int count = _employeeDao.GetCount();
+            var count = _employeeDao.GetCount();
             Trace.WriteLine("count:" + count);
             Assert.AreEqual(true, count > 0, "1");
         }
@@ -63,7 +63,7 @@ namespace Seasar.Tests.Dao.Interceptors
         [Test, S2(Tx.Rollback)]
         public void TestUpdate()
         {
-            Employee employee = _employeeDao.GetEmployee(7788);
+            var employee = _employeeDao.GetEmployee(7788);
             Assert.AreEqual(1, _employeeDao.Update(employee), "1");
         }
 
@@ -76,7 +76,7 @@ namespace Seasar.Tests.Dao.Interceptors
         [Test, S2()]
         public void TestSelectNullables()
         {
-            Employee emp = new Employee();
+            var emp = new Employee();
             emp.Ename = "SCOTT";
             Assert.AreEqual(7788, _employeeDao.GetEmpnoByEmp(emp).Value);
             Assert.IsTrue(_employeeDao.GetEmpnoByEmp(null).HasValue);
@@ -87,8 +87,8 @@ namespace Seasar.Tests.Dao.Interceptors
         [Test, S2()]
         public void TestSelectSqlTypes()
         {
-            Hoge hoge = new Hoge();
-            Hoge hoge2 = new Hoge();
+            var hoge = new Hoge();
+            var hoge2 = new Hoge();
             hoge2.Val = "SCOTT";
             hoge.Parent = hoge2;
             Assert.AreEqual(7788, _employeeDao.GetEmpnoByHoge(hoge).Value);

@@ -70,16 +70,16 @@ namespace Seasar.Extension.ADO.Impl
             switch (DataProviderUtil.GetBindVariableType(cmd))
             {
                 case BindVariableType.AtmarkWithParam:
-                    ret = GetChangeSignCommandText(original, "@");
+                    ret = _GetChangeSignCommandText(original, "@");
                     break;
                 case BindVariableType.Question:
-                    ret = GetCommandText(original, "?");
+                    ret = _GetCommandText(original, "?");
                     break;
                 case BindVariableType.QuestionWithParam:
-                    ret = GetChangeSignCommandText(original, "?");
+                    ret = _GetChangeSignCommandText(original, "?");
                     break;
                 case BindVariableType.ColonWithParam:
-                    ret = GetChangeSignCommandText(original, ":");
+                    ret = _GetChangeSignCommandText(original, ":");
                     break;
                 default:
                     ret = original;
@@ -91,7 +91,7 @@ namespace Seasar.Extension.ADO.Impl
         public string[] GetArgNames(IDbCommand cmd, object[] args)
         {
             string sign;
-            BindVariableType vt = DataProviderUtil.GetBindVariableType(cmd);
+            var vt = DataProviderUtil.GetBindVariableType(cmd);
             switch (vt)
             {
                 case BindVariableType.QuestionWithParam:
@@ -105,42 +105,42 @@ namespace Seasar.Extension.ADO.Impl
                     break;
             }
 
-            string[] argNames = new string[args.Length];
-            for (int i = 0; i < argNames.Length; ++i)
+            var argNames = new string[args.Length];
+            for (var i = 0; i < argNames.Length; ++i)
             {
                 argNames[i] = sign + Convert.ToString(i);
             }
             return argNames;
         }
 
-        private string GetChangeSignCommandText(string sql, string sign)
+        private string _GetChangeSignCommandText(string sql, string sign)
         {
-            StringBuilder text = new StringBuilder(sql);
+            var text = new StringBuilder(sql);
             for (int startIndex = 0, parameterIndex = 0; ; ++parameterIndex)
             {
-                Match match = Match(text.ToString(), startIndex);
+                var match = Match(text.ToString(), startIndex);
                 if (!match.Success)
                 {
                     break;
                 }
-                string parameterName = sign + parameterIndex;
+                var parameterName = sign + parameterIndex;
                 text.Replace(match.Value, parameterName, match.Index, match.Length);
                 startIndex = match.Index + parameterName.Length;
             }
             return text.ToString();
         }
 
-        private string GetCommandText(string sql, string sign)
+        private string _GetCommandText(string sql, string sign)
         {
-            return ReplaceSql(sql, sign);
+            return _ReplaceSql(sql, sign);
         }
 
-        private string ReplaceSql(string sql, string newValue)
+        private string _ReplaceSql(string sql, string newValue)
         {
-            StringBuilder text = new StringBuilder(sql);
-            for (int startIndex = 0; ; )
+            var text = new StringBuilder(sql);
+            for (var startIndex = 0; ; )
             {
-                Match match = Match(text.ToString(), startIndex);
+                var match = Match(text.ToString(), startIndex);
                 if (!match.Success)
                 {
                     break;

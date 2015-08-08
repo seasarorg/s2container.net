@@ -32,7 +32,7 @@ namespace Seasar.Tests.Quill.Xml
         [Test]
         public void TestGetQuillSection()
         {
-            QuillSection actual = QuillSectionHandler.GetQuillSection();
+            var actual = QuillSectionHandler.GetQuillSection();
 
             Assert.IsNotNull(actual);
 
@@ -40,8 +40,8 @@ namespace Seasar.Tests.Quill.Xml
             Assert.AreEqual("TypicalTransactionSetting", actual.TransactionSetting, "TransactionSetting");
 
             //  アセンブリ設定
-            string[] expectedAssemblys = new string[] { "Seasar.Tests", "Seasar.Dxo" };
-            for (int i = 0; i < expectedAssemblys.Length; i++)
+            var expectedAssemblys = new string[] { "Seasar.Tests", "Seasar.Dxo" };
+            for (var i = 0; i < expectedAssemblys.Length; i++)
             {
                 Assert.AreEqual(expectedAssemblys[i], actual.Assemblys[i],
                     string.Format("Assembly_[{0}]", actual.Assemblys[i]));
@@ -49,11 +49,11 @@ namespace Seasar.Tests.Quill.Xml
 
             //  データソース設定
             Assert.GreaterThan(actual.DataSources.Count, 0, "DataSourceSections_Count");
-            object item = actual.DataSources[0];
+            var item = actual.DataSources[0];
             Assert.IsNotNull(item, "DataSourceSection is nothing");
             Assert.IsTrue(item is DataSourceSection, "Type is [DataSourceSection]");
 
-            DataSourceSection dsSection = (DataSourceSection) item;
+            var dsSection = (DataSourceSection) item;
             Assert.AreEqual("Hoge1", dsSection.DataSourceName);
             Assert.AreEqual("SqlServer", dsSection.ProviderName);
             Assert.IsTrue(dsSection.ConnectionString.StartsWith("\"Server="));
@@ -68,7 +68,7 @@ namespace Seasar.Tests.Quill.Xml
         {
             const string KILL_TARGET_PROECESS = "conime";
 
-            Process[] beforeProecesses = Process.GetProcessesByName(KILL_TARGET_PROECESS);
+            var beforeProecesses = Process.GetProcessesByName(KILL_TARGET_PROECESS);
             //  conime.exeが起動していた場合は予め終了させておく
             while(beforeProecesses.Length > 0)
             {
@@ -77,10 +77,10 @@ namespace Seasar.Tests.Quill.Xml
                 beforeProecesses = Process.GetProcessesByName(KILL_TARGET_PROECESS);
             }
 
-            QuillSection actual = QuillSectionHandler.GetQuillSection();
+            var actual = QuillSectionHandler.GetQuillSection();
             Assert.IsNotNull(actual);
 
-            Process[] afterProecesses = Process.GetProcessesByName(KILL_TARGET_PROECESS);
+            var afterProecesses = Process.GetProcessesByName(KILL_TARGET_PROECESS);
             Assert.AreEqual(0, afterProecesses.Length, "conime.exeが起動していないか");
         }
     }

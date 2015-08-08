@@ -23,7 +23,6 @@ namespace Seasar.Extension.ADO.Impl
     public class BasicDataReaderFactory : IDataReaderFactory
     {
         public readonly static IDataReaderFactory INSTANCE = new BasicDataReaderFactory(BasicCommandFactory.INSTANCE);
-        private ICommandFactory _commandFactory;
 
         public BasicDataReaderFactory()
         {
@@ -34,11 +33,7 @@ namespace Seasar.Extension.ADO.Impl
             CommandFactory = commandFactory;
         }
 
-        public ICommandFactory CommandFactory
-        {
-            get { return _commandFactory; }
-            set { _commandFactory = value; }
-        }
+        public ICommandFactory CommandFactory { get; set; }
 
         #region IDataReaderFactory ÉÅÉìÉo
 

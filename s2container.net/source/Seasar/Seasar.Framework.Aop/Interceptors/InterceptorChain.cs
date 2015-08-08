@@ -16,7 +16,6 @@
  */
 #endregion
 
-using Seasar.Framework.Aop;
 using Seasar.Framework.Aop.Impl;
 using Seasar.Framework.Util;
 
@@ -35,8 +34,7 @@ namespace Seasar.Framework.Aop.Interceptors
         /// <param name="interceptor"></param>
         public void Add(IMethodInterceptor interceptor)
         {
-            _interceptors = (IMethodInterceptor[]) ArrayUtil.Add(
-                _interceptors, interceptor);
+            _interceptors = (IMethodInterceptor[]) ArrayUtil.Add(_interceptors, interceptor);
         }
 
         /// <summary>
@@ -46,8 +44,7 @@ namespace Seasar.Framework.Aop.Interceptors
         /// <returns></returns>
         public override object Invoke(IMethodInvocation invocation)
         {
-            IMethodInvocation nestInvocation = new NestedMethodInvocation(
-                (IS2MethodInvocation) invocation, _interceptors);
+            IMethodInvocation nestInvocation = new NestedMethodInvocation((IS2MethodInvocation) invocation, _interceptors);
             return nestInvocation.Proceed();
         }
     }

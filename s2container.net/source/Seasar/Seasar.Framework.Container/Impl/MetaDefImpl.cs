@@ -20,29 +20,24 @@ namespace Seasar.Framework.Container.Impl
 {
     public class MetaDefImpl : ArgDefImpl, IMetaDef
     {
-        private readonly string name;
-
         public MetaDefImpl()
         {
         }
 
         public MetaDefImpl(string name)
         {
-            this.name = name;
+            Name = name;
         }
 
         public MetaDefImpl(string name, object value)
         {
-            base.Value = value;
-            this.name = name;
+            Value = value;
+            Name = name;
         }
 
         #region MetaDef ÉÅÉìÉo
 
-        public string Name
-        {
-            get { return name; }
-        }
+        public string Name { get; }
 
         #endregion
     }

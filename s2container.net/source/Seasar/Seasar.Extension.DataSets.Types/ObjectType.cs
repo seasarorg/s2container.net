@@ -38,25 +38,13 @@ namespace Seasar.Extension.DataSets.Types
             return value;
         }
 
-        public bool Equals1(object arg1, object arg2)
-        {
-            return DoEquals(arg1, arg2);
-        }
+        public bool Equals1(object arg1, object arg2) => DoEquals(arg1, arg2);
 
-        public virtual string ToDbTypeString()
-        {
-            return "VARCHAR";
-        }
+        public virtual string ToDbTypeString() => "VARCHAR";
 
-        public virtual DbType GetDbType()
-        {
-            return DbType.Object;
-        }
+        public virtual DbType GetDbType() => DbType.Object;
 
-        public virtual Type GetColumnType()
-        {
-            return typeof(object);
-        }
+        public virtual Type GetColumnType() => typeof(object);
 
         #endregion
 

@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -27,7 +27,7 @@ namespace Seasar.Framework.Container.Util
         private IS2Container _container;
 
         /// <summary>
-        /// PropertyDef‚ğ’Ç‰Á‚µ‚Ü‚·B
+        /// PropertyDefï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
         /// </summary>
         /// <param name="propertyDef">IPropertyDef</param>
         public void AddPropertyDef(IPropertyDef propertyDef)
@@ -40,22 +40,19 @@ namespace Seasar.Framework.Container.Util
         }
 
         /// <summary>
-        /// IPropertyDef‚Ì”
+        /// IPropertyDefï¿½Ìï¿½
         /// </summary>
-        public int PropertyDefSize
-        {
-            get { return _propertyDefs.Count; }
-        }
+        public int PropertyDefSize => _propertyDefs.Count;
 
         /// <summary>
-        /// ”Ô†‚ğw’è‚µ‚ÄIPropertyDef‚ğæ“¾‚µ‚Ü‚·B
+        /// ï¿½Ôï¿½ï¿½ï¿½wï¿½è‚µï¿½ï¿½IPropertyDefï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
         /// </summary>
-        /// <param name="index">IPropertyDef‚Ì”Ô†</param>
+        /// <param name="index">IPropertyDefï¿½Ì”Ôï¿½</param>
         /// <returns>IPropertyDef</returns>
         public IPropertyDef GetPropertyDef(int index)
         {
-            int i = 0;
-            IEnumerator enu = _propertyDefs.Values.GetEnumerator();
+            var i = 0;
+            var enu = _propertyDefs.Values.GetEnumerator();
             while (enu.MoveNext())
             {
                 if (i++ == index)
@@ -67,24 +64,18 @@ namespace Seasar.Framework.Container.Util
         }
 
         /// <summary>
-        /// –¼‘O‚ğw’è‚µ‚ÄIPropertyDef‚ğæ“¾‚µ‚Ü‚·B
+        /// ï¿½ï¿½ï¿½Oï¿½ï¿½wï¿½è‚µï¿½ï¿½IPropertyDefï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
         /// </summary>
-        /// <param name="propertyName">IPropertyDef‚Ì–¼‘O</param>
+        /// <param name="propertyName">IPropertyDefï¿½Ì–ï¿½ï¿½O</param>
         /// <returns>IPropertyDef</returns>
-        public IPropertyDef GetPropertyDef(string propertyName)
-        {
-            return (IPropertyDef) _propertyDefs[propertyName];
-        }
+        public IPropertyDef GetPropertyDef(string propertyName) => (IPropertyDef) _propertyDefs[propertyName];
 
         /// <summary>
-        /// w’è‚³‚ê‚½–¼‘O‚ÌIPropertyDef‚ğ‚Á‚Ä‚¢‚é‚©”»’è‚µ‚Ü‚·B
+        /// ï¿½wï¿½è‚³ï¿½ê‚½ï¿½ï¿½ï¿½Oï¿½ï¿½IPropertyDefï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½ï¿½ï¿½è‚µï¿½Ü‚ï¿½ï¿½B
         /// </summary>
-        /// <param name="propertyName">IPropertyDef‚Ì–¼‘O</param>
-        /// <returns>‘¶İ‚·‚é‚È‚çtrue</returns>
-        public bool HasPropertyDef(string propertyName)
-        {
-            return _propertyDefs.ContainsKey(propertyName);
-        }
+        /// <param name="propertyName">IPropertyDefï¿½Ì–ï¿½ï¿½O</param>
+        /// <returns>ï¿½ï¿½ï¿½İ‚ï¿½ï¿½ï¿½È‚ï¿½true</returns>
+        public bool HasPropertyDef(string propertyName) => _propertyDefs.ContainsKey(propertyName);
 
         /// <summary>
         /// S2Container
@@ -94,10 +85,10 @@ namespace Seasar.Framework.Container.Util
             set
             {
                 _container = value;
-                IEnumerator enu = _propertyDefs.Values.GetEnumerator();
+                var enu = _propertyDefs.Values.GetEnumerator();
                 while (enu.MoveNext())
                 {
-                    IPropertyDef propertyDef = (IPropertyDef) enu.Current;
+                    var propertyDef = (IPropertyDef) enu.Current;
                     propertyDef.Container = value;
                 }
             }

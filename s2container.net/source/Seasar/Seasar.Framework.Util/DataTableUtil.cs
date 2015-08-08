@@ -36,9 +36,9 @@ namespace Seasar.Framework.Util
 
         public static void SetupMetaData(IDatabaseMetaData dbMetaData, DataTable table)
         {
-            IList primaryKeySet = dbMetaData.GetPrimaryKeySet(table.TableName);
-            IList columnSet = dbMetaData.GetColumnSet(table.TableName);
-            ArrayList primaryKeyList = new ArrayList();
+            var primaryKeySet = dbMetaData.GetPrimaryKeySet(table.TableName);
+            var columnSet = dbMetaData.GetColumnSet(table.TableName);
+            var primaryKeyList = new ArrayList();
             foreach (DataColumn column in table.Columns)
             {
                 if (primaryKeySet.Contains(column.ColumnName))
@@ -46,14 +46,7 @@ namespace Seasar.Framework.Util
                     primaryKeyList.Add(column);
                 }
 
-                if (columnSet.Contains(column.ColumnName))
-                {
-                    column.ReadOnly = false;
-                }
-                else
-                {
-                    column.ReadOnly = true;
-                }
+                column.ReadOnly = !columnSet.Contains(column.ColumnName);
             }
 
             table.BeginLoadData();
@@ -63,10 +56,10 @@ namespace Seasar.Framework.Util
 
         public static DataColumn GetColumn(DataTable table, string columnName)
         {
-            DataColumn column = table.Columns[columnName];
+            var column = table.Columns[columnName];
             if (column == null)
             {
-                string name = columnName.Replace("_", string.Empty);
+                var name = columnName.Replace("_", string.Empty);
                 column = table.Columns[name];
             }
             return column;

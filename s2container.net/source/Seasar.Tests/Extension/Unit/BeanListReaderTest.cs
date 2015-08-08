@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -30,7 +30,7 @@ namespace Seasar.Tests.Extension.Unit
         [Test]
         public void TestRead()
         {
-            BasicTypeBean bean = new BasicTypeBean();
+            var bean = new BasicTypeBean();
             bean.Id = 1;
             bean.BoolType = true;
             bean.SbyteType = SByte.MaxValue;
@@ -47,16 +47,16 @@ namespace Seasar.Tests.Extension.Unit
             IList list = new ArrayList();
             list.Add(bean);
 
-            BeanListReader reader = new BeanListReader(list);
-            DataSet ds = reader.Read();
-            DataTable table = ds.Tables[0];
-            DataRow row = table.Rows[0];
-            DataColumnCollection columns = table.Columns;
+            var reader = new BeanListReader(list);
+            var ds = reader.Read();
+            var table = ds.Tables[0];
+            var row = table.Rows[0];
+            var columns = table.Columns;
 
             Assert.AreEqual(DataRowState.Unchanged, row.RowState);
             Assert.AreEqual(12, columns.Count);
 
-            // ”’l‚Å”äŠr‚·‚é‚Æ32bit/64bitŠÂ‹«‚ÅÀsŒ‹‰Ê‚ª•Ï‚í‚é‚Ì‚Å•¶š—ñ‚Å”äŠr
+            // æ•°å€¤ã§æ¯”è¼ƒã™ã‚‹ã¨32bit/64bitç’°å¢ƒã§å®Ÿè¡ŒçµæœãŒå¤‰ã‚ã‚‹ã®ã§æ–‡å­—åˆ—ã§æ¯”è¼ƒ
             Assert.AreEqual("1", row["id"].ToString());
             Assert.AreEqual(true, row["booltype"]);
             Assert.AreEqual(SByte.MaxValue, row["sbytetype"]);

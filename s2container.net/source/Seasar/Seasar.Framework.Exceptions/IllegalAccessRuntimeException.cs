@@ -30,29 +30,24 @@ namespace Seasar.Framework.Exceptions
     [Serializable]
     public class IllegalAccessRuntimeException : SRuntimeException
     {
-        private readonly Type _targetType;
-
         public IllegalAccessRuntimeException(Type targetType, Exception cause)
             : base("ESSR0042", new object[] { targetType.FullName, cause }, cause)
         {
-            _targetType = targetType;
+            TargetType = targetType;
         }
 
         public IllegalAccessRuntimeException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            _targetType = info.GetValue("_targetType", typeof(Type)) as Type;
+            TargetType = info.GetValue("_targetType", typeof(Type)) as Type;
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("_targetType", _targetType, typeof(Type));
+            info.AddValue("_targetType", TargetType, typeof(Type));
             base.GetObjectData(info, context);
         }
 
-        public Type TargetType
-        {
-            get { return _targetType; }
-        }
+        public Type TargetType { get; }
     }
 }

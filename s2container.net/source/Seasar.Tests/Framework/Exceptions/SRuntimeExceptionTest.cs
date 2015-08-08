@@ -29,7 +29,7 @@ namespace Seasar.Tests.Framework.Exceptions
         [Test]
         public void TestSRuntimeException()
         {
-            SRuntimeException ex = new SRuntimeException("ESSR0001", new object[] { "hoge" });
+            var ex = new SRuntimeException("ESSR0001", new object[] { "hoge" });
             Assert.AreEqual("ESSR0001", ex.MessageCode);
             Assert.AreEqual(1, ex.Args.Length);
             Assert.AreEqual("hoge", ex.Args[0]);
@@ -40,7 +40,7 @@ namespace Seasar.Tests.Framework.Exceptions
         public void TestGetCause()
         {
             Exception ex = new NullReferenceException("test");
-            SRuntimeException sre = new SRuntimeException("ESSR0017",
+            var sre = new SRuntimeException("ESSR0017",
                 new object[] { ex }, ex);
             Assert.AreEqual(ex, sre.InnerException);
             Trace.WriteLine(sre.Message);

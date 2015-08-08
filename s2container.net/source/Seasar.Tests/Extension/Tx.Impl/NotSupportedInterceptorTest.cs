@@ -31,17 +31,11 @@ namespace Seasar.Tests.Extension.Tx.Impl
     [TestFixture]
     public class NotSupportedInterceptorTest : S2FrameworkTestCaseBase
     {
-        private ITxTest _txTest;
-
-        public ITxTest TxTest
-        {
-            get { return _txTest; }
-            set { _txTest = value; }
-        }
+        public ITxTest TxTest { get; set; }
 
         public NotSupportedInterceptorTest()
         {
-            FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
+            var info = new FileInfo(SystemInfo.AssemblyFileName(
                 Assembly.GetExecutingAssembly()) + ".config");
             XmlConfigurator.Configure(LogManager.GetRepository(), info);
             base.Container = S2ContainerFactory.Create(base.ConvertPath("NotSupportedInterceptorTest.dicon"));
@@ -58,9 +52,9 @@ namespace Seasar.Tests.Extension.Tx.Impl
         [Test]
         public void StartTxInTx()
         {
-            using (TransactionScope scope = new TransactionScope())
+            using (var scope = new TransactionScope())
             {
-                Transaction tx = Transaction.Current;
+                var tx = Transaction.Current;
                 Assert.IsNull(TxTest.TxId);
             }
         }

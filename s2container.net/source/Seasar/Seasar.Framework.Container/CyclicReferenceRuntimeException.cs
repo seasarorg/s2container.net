@@ -28,29 +28,24 @@ namespace Seasar.Framework.Container
     [Serializable]
     public class CyclicReferenceRuntimeException : SRuntimeException
     {
-        private readonly Type _componentType;
-
         public CyclicReferenceRuntimeException(Type componentType)
             : base("ESSR0047", new object[] { componentType.FullName })
         {
-            _componentType = componentType;
+            ComponentType = componentType;
         }
 
         public CyclicReferenceRuntimeException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            _componentType = info.GetValue("_componentType", typeof(Type)) as Type;
+            ComponentType = info.GetValue("_componentType", typeof(Type)) as Type;
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("_componentType", _componentType, typeof(Type));
+            info.AddValue("_componentType", ComponentType, typeof(Type));
             base.GetObjectData(info, context);
         }
 
-        public Type ComponentType
-        {
-            get { return _componentType; }
-        }
+        public Type ComponentType { get; }
     }
 }

@@ -44,26 +44,26 @@ namespace Seasar.Tests.Dao.Impl
         {
             IDataReaderHandler handler = new ObjectListDataReaderHandler();
 
-            string sql = "select emp.ename from emp";
+            var sql = "select emp.ename from emp";
             object ret = null;
-            using (IDbConnection con = Connection)
+            using (var con = Connection)
             {
-                using (IDbCommand cmd = con.CreateCommand())
+                using (var cmd = con.CreateCommand())
                 {
                     cmd.CommandText = sql;
 
-                    using (IDataReader reader = cmd.ExecuteReader())
+                    using (var reader = cmd.ExecuteReader())
                     {
                         ret = handler.Handle(reader);
                     }
                 }
             }
             Assert.IsNotNull(ret, "1");
-            Assert.IsTrue(AssignTypeUtil.IsList(ret.GetType()), "2_1");
-            Assert.IsFalse(AssignTypeUtil.IsGenericList(ret.GetType()), "2_2");
-            IList resultList = (IList)ret;
+            Assert.IsTrue(AssignTypeUtil.IsList(ret.GetExType()), "2_1");
+            Assert.IsFalse(AssignTypeUtil.IsGenericList(ret.GetExType()), "2_2");
+            var resultList = (IList)ret;
             Assert.IsTrue(resultList.Count > 0, "3");
-            foreach (object val in resultList)
+            foreach (var val in resultList)
             {
                 Console.WriteLine("ename = {0}", val);
             }
@@ -74,26 +74,26 @@ namespace Seasar.Tests.Dao.Impl
         {
             IDataReaderHandler handler = new ObjectListDataReaderHandler();
 
-            string sql = "select emp.tstamp from emp";
+            var sql = "select emp.tstamp from emp";
             object ret = null;
-            using (IDbConnection con = Connection)
+            using (var con = Connection)
             {
-                using (IDbCommand cmd = con.CreateCommand())
+                using (var cmd = con.CreateCommand())
                 {
                     cmd.CommandText = sql;
 
-                    using (IDataReader reader = cmd.ExecuteReader())
+                    using (var reader = cmd.ExecuteReader())
                     {
                         ret = handler.Handle(reader);
                     }
                 }
             }
             Assert.IsNotNull(ret, "1");
-            Assert.IsTrue(AssignTypeUtil.IsList(ret.GetType()), "2_1");
-            Assert.IsFalse(AssignTypeUtil.IsGenericList(ret.GetType()), "2_2");
-            IList resultList = (IList)ret;
+            Assert.IsTrue(AssignTypeUtil.IsList(ret.GetExType()), "2_1");
+            Assert.IsFalse(AssignTypeUtil.IsGenericList(ret.GetExType()), "2_2");
+            var resultList = (IList)ret;
             Assert.IsTrue(resultList.Count > 0, "3");
-            foreach (object val in resultList)
+            foreach (var val in resultList)
             {
                 Console.WriteLine("ename = {0}", val);
             }
@@ -104,26 +104,26 @@ namespace Seasar.Tests.Dao.Impl
         {
             IDataReaderHandler handler = new ObjectListDataReaderHandler();
 
-            string sql = "select emp.empno from emp";
+            var sql = "select emp.empno from emp";
             object ret = null;
-            using (IDbConnection con = Connection)
+            using (var con = Connection)
             {
-                using (IDbCommand cmd = con.CreateCommand())
+                using (var cmd = con.CreateCommand())
                 {
                     cmd.CommandText = sql;
 
-                    using (IDataReader reader = cmd.ExecuteReader())
+                    using (var reader = cmd.ExecuteReader())
                     {
                         ret = handler.Handle(reader);
                     }
                 }
             }
             Assert.IsNotNull(ret, "1");
-            Assert.IsTrue(AssignTypeUtil.IsList(ret.GetType()), "2_1");
-            Assert.IsFalse(AssignTypeUtil.IsGenericList(ret.GetType()), "2_2");
-            IList resultList = (IList)ret;
+            Assert.IsTrue(AssignTypeUtil.IsList(ret.GetExType()), "2_1");
+            Assert.IsFalse(AssignTypeUtil.IsGenericList(ret.GetExType()), "2_2");
+            var resultList = (IList)ret;
             Assert.IsTrue(resultList.Count > 0, "3");
-            foreach (object val in resultList)
+            foreach (var val in resultList)
             {
                 Console.WriteLine("empno = {0}", val);
             }
@@ -134,26 +134,26 @@ namespace Seasar.Tests.Dao.Impl
         {
             IDataReaderHandler handler = new ObjectListDataReaderHandler();
 
-            string sql = "select emp.empno from emp";
+            var sql = "select emp.empno from emp";
             object ret = null;
-            using (IDbConnection con = Connection)
+            using (var con = Connection)
             {
-                using (IDbCommand cmd = con.CreateCommand())
+                using (var cmd = con.CreateCommand())
                 {
                     cmd.CommandText = sql;
 
-                    using (IDataReader reader = cmd.ExecuteReader())
+                    using (var reader = cmd.ExecuteReader())
                     {
                         ret = handler.Handle(reader);
                     }
                 }
             }
             Assert.IsNotNull(ret, "1");
-            Assert.IsTrue(AssignTypeUtil.IsList(ret.GetType()), "2_1");
-            Assert.IsFalse(AssignTypeUtil.IsGenericList(ret.GetType()), "2_2");
-            IList resultList = (IList)ret;
+            Assert.IsTrue(AssignTypeUtil.IsList(ret.GetExType()), "2_1");
+            Assert.IsFalse(AssignTypeUtil.IsGenericList(ret.GetExType()), "2_2");
+            var resultList = (IList)ret;
             Assert.IsTrue(resultList.Count > 0, "3");
-            foreach (object val in resultList)
+            foreach (var val in resultList)
             {
                 Console.WriteLine("empno = {0}", val);
             }

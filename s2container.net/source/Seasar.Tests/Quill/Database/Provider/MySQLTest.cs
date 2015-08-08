@@ -33,7 +33,7 @@ namespace Seasar.Tests.Quill.Database.Provider
     //        MySQL provider = new MySQL();
     //        object instance = ClassUtil.NewInstance(ClassUtil.ForName(provider.CommandType));
     //        Assert.IsNotNull(instance);
-    //        Assert.IsTrue(instance is MySqlCommand, instance.GetType().Name);
+    //        Assert.IsTrue(instance is MySqlCommand, instance.GetExType().Name);
     //    }
 
     //    [Test]
@@ -42,7 +42,7 @@ namespace Seasar.Tests.Quill.Database.Provider
     //        MySQL provider = new MySQL();
     //        object instance = ClassUtil.NewInstance(ClassUtil.ForName(provider.ConnectionType));
     //        Assert.IsNotNull(instance);
-    //        Assert.IsTrue(instance is MySqlConnection, instance.GetType().Name);
+    //        Assert.IsTrue(instance is MySqlConnection, instance.GetExType().Name);
     //    }
 
     //    [Test]
@@ -51,7 +51,7 @@ namespace Seasar.Tests.Quill.Database.Provider
     //        MySQL provider = new MySQL();
     //        object instance = ClassUtil.NewInstance(ClassUtil.ForName(provider.DataAdapterType));
     //        Assert.IsNotNull(instance);
-    //        Assert.IsTrue(instance is MySqlDataAdapter, instance.GetType().Name);
+    //        Assert.IsTrue(instance is MySqlDataAdapter, instance.GetExType().Name);
     //    }
 
     //    [Test]
@@ -60,7 +60,7 @@ namespace Seasar.Tests.Quill.Database.Provider
     //        MySQL provider = new MySQL();
     //        object instance = ClassUtil.NewInstance(ClassUtil.ForName(provider.ParameterType));
     //        Assert.IsNotNull(instance);
-    //        Assert.IsTrue(instance is MySqlParameter, instance.GetType().Name);
+    //        Assert.IsTrue(instance is MySqlParameter, instance.GetExType().Name);
     //    }
     //}
 }

@@ -35,17 +35,15 @@ namespace Seasar.Dao.Impl
 
         public override object Handle(IDataReader dataReader)
         {
-            Type listType = typeof(List<>);
-            Type genericType = listType.MakeGenericType(_elementType);
-            object resultList = Activator.CreateInstance(genericType);
+            var listType = typeof(List<>);
+            var genericType = listType.MakeGenericType(_elementType);
+//            object resultList = Activator.CreateInstance(genericType);
+            var resultList = ClassUtil.NewInstance(genericType);
             Handle(dataReader, (IList)resultList);
 
             return resultList;
         }
 
-        protected override object GetValue(object val)
-        {
-            return ConversionUtil.ConvertTargetType(val, _elementType);
-        }
+        protected override object GetValue(object val) => ConversionUtil.ConvertTargetType(val, _elementType);
     }
 }

@@ -26,18 +26,18 @@ namespace Seasar.Tests.Framework.Container.Factory
     public class MetaTagHandlerTest
     {
         private const string PATH
-            = "Seasar/Tests/Framework/Container/Factory/MetaTagHandlerTest.dicon";
+            = "Seasar/Tests/Framework/container/Factory/MetaTagHandlerTest.dicon";
 
         [Test]
         public void TestMeta()
         {
-            IS2Container container = S2ContainerFactory.Create(PATH);
+            var container = S2ContainerFactory.Create(PATH);
             Assert.AreEqual(1, container.MetaDefSize);
-            IMetaDef md = container.GetMetaDef("aaa");
+            var md = container.GetMetaDef("aaa");
             Assert.AreEqual("111", md.Value);
             Assert.IsNotNull(md.Container);
             Assert.AreEqual(1, md.MetaDefSize);
-            IMetaDef md2 = md.GetMetaDef(0);
+            var md2 = md.GetMetaDef(0);
             Assert.AreEqual("222", md2.Value);
         }
     }

@@ -22,39 +22,33 @@ namespace Seasar.Dao.Dbms
 {
     public class Oracle : Standard
     {
-        public override string Suffix
-        {
-            get { return "_oracle"; }
-        }
+        public override string Suffix => "_oracle";
 
         public override string GetSequenceNextValString(string sequenceName)
         {
             return "select " + sequenceName + ".nextval from dual";
         }
 
-        public override KindOfDbms Dbms
-        {
-            get { return KindOfDbms.Oracle; }
-        }
+        public override KindOfDbms Dbms => KindOfDbms.Oracle;
 
 
         protected override string CreateAutoSelectFromClause(IBeanMetaData beanMetaData)
         {
-            StringBuilder buf = new StringBuilder(100);
+            var buf = new StringBuilder(100);
             buf.Append("FROM ");
-            string myTableName = beanMetaData.TableName;
+            var myTableName = beanMetaData.TableName;
             buf.Append(myTableName);
-            StringBuilder whereBuf = new StringBuilder(100);
-            for (int i = 0; i < beanMetaData.RelationPropertyTypeSize; ++i)
+            var whereBuf = new StringBuilder(100);
+            for (var i = 0; i < beanMetaData.RelationPropertyTypeSize; ++i)
             {
-                IRelationPropertyType rpt = beanMetaData.GetRelationPropertyType(i);
-                IBeanMetaData bmd = rpt.BeanMetaData;
+                var rpt = beanMetaData.GetRelationPropertyType(i);
+                var bmd = rpt.BeanMetaData;
                 buf.Append(", ");
                 buf.Append(bmd.TableName);
                 buf.Append(" ");
-                string yourAliasName = rpt.PropertyName;
+                var yourAliasName = rpt.PropertyName;
                 buf.Append(yourAliasName);
-                for (int j = 0; j < rpt.KeySize; ++j)
+                for (var j = 0; j < rpt.KeySize; ++j)
                 {
                     whereBuf.Append(myTableName);
                     whereBuf.Append(".");

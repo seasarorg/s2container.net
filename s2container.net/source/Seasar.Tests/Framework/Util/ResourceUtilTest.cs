@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -16,15 +16,11 @@
  */
 #endregion
 
-using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using MbUnit.Framework;
 using Seasar.Framework.Util;
-using System.Resources;
-using System.Reflection.Emit;
-using System.Threading;
 
 namespace Seasar.Tests.Framework.Util
 {
@@ -41,7 +37,7 @@ namespace Seasar.Tests.Framework.Util
         [Test]
         public void TestGetResourceAsStream()
         {
-            StreamReader stream = ResourceUtil.GetResourceAsStreamReader(
+            var stream = ResourceUtil.GetResourceAsStreamReader(
                 "Seasar.Tests.Framework.Util.test1.xml", Assembly.GetExecutingAssembly());
             Trace.WriteLine(stream.ReadToEnd());
             stream.Close();
@@ -63,14 +59,14 @@ namespace Seasar.Tests.Framework.Util
             }
             finally
             {
-                if (stream != null) stream.Close();
+                stream?.Close();
             }
         }
 
         [Test]
-        public void TestGetResourceNoException_ƒŠƒ\[ƒX‚ª‘¶İ‚·‚éê‡()
+        public void TestGetResourceNoExceptionãƒªã‚½ãƒ¼ã‚¹ãŒå­˜åœ¨ã™ã‚‹å ´åˆ()
         {
-            using (Stream stream = ResourceUtil.GetResourceNoException(
+            using (var stream = ResourceUtil.GetResourceNoException(
                 "Seasar.Tests.Framework.Util.test1.xml", Assembly.GetExecutingAssembly()))
             {
                 Assert.IsNotNull(stream);
@@ -78,9 +74,9 @@ namespace Seasar.Tests.Framework.Util
         }
 
         [Test]
-        public void TestGetResourceNoException_ƒŠƒ\[ƒX‚ª‘¶İ‚µ‚È‚¢ê‡()
+        public void TestGetResourceNoExceptionãƒªã‚½ãƒ¼ã‚¹ãŒå­˜åœ¨ã—ãªã„å ´åˆ()
         {
-            using (Stream stream = ResourceUtil.GetResourceNoException(
+            using (var stream = ResourceUtil.GetResourceNoException(
                 "Seasar.Tests.Framework.Util.test2.xml", Assembly.GetExecutingAssembly()))
             {
                 Assert.IsNull(stream);
@@ -88,7 +84,7 @@ namespace Seasar.Tests.Framework.Util
         }
 
         //[Test]
-        //public void TestGetResourceNoException_“®“IƒAƒZƒ“ƒuƒŠ()
+        //public void TestGetResourceNoException_å‹•çš„ã‚¢ã‚»ãƒ³ãƒ–ãƒª()
         //{
 
         //    AssemblyBuilder dynamicAssembly;
@@ -111,10 +107,10 @@ namespace Seasar.Tests.Framework.Util
         //}
 
         ///// <summary>
-        ///// ƒeƒXƒg—p‚Ì“®“IƒAƒZƒ“ƒuƒŠ‚ğì¬‚·‚é
+        ///// ãƒ†ã‚¹ãƒˆç”¨ã®å‹•çš„ã‚¢ã‚»ãƒ³ãƒ–ãƒªã‚’ä½œæˆã™ã‚‹
         ///// </summary>
-        ///// <param name="appDomain">ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒhƒƒCƒ“</param>
-        ///// <returns>ƒeƒXƒg—p‚Ì“®“IƒAƒZƒ“ƒuƒŠ</returns>
+        ///// <param name="appDomain">ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ãƒ‰ãƒ¡ã‚¤ãƒ³</param>
+        ///// <returns>ãƒ†ã‚¹ãƒˆç”¨ã®å‹•çš„ã‚¢ã‚»ãƒ³ãƒ–ãƒª</returns>
         //private Type CreateAssembly(AppDomain appDomain)
         //{
         //    AssemblyName assemblyName = new AssemblyName();

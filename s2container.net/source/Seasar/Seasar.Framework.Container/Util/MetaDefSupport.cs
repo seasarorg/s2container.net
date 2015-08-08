@@ -60,20 +60,14 @@ namespace Seasar.Framework.Container.Util
         /// <summary>
         /// IMetaDefの数
         /// </summary>
-        public int MetaDefSize
-        {
-            get { return _metaDefs.Count; }
-        }
+        public int MetaDefSize => _metaDefs.Count;
 
         /// <summary>
         /// 番号を指定してIMetaDefを取得します。
         /// </summary>
         /// <param name="index"></param>
         /// <returns>IMetaDef</returns>
-        public IMetaDef GetMetaDef(int index)
-        {
-            return (IMetaDef) _metaDefs[index];
-        }
+        public IMetaDef GetMetaDef(int index) => (IMetaDef) _metaDefs[index];
 
         /// <summary>
         /// 名前を指定してIMetaDefを取得します。
@@ -82,10 +76,10 @@ namespace Seasar.Framework.Container.Util
         /// <returns>IMetaDef</returns>
         public IMetaDef GetMetaDef(string name)
         {
-            IEnumerator enu = _metaDefs.GetEnumerator();
+            var enu = _metaDefs.GetEnumerator();
             while (enu.MoveNext())
             {
-                IMetaDef metaDef = (IMetaDef) enu.Current;
+                var metaDef = (IMetaDef) enu.Current;
                 if ((name == null && metaDef.Name == null) || name != null
                     && name.ToLower().CompareTo(metaDef.Name.ToLower()) == 0)
                 {
@@ -102,11 +96,11 @@ namespace Seasar.Framework.Container.Util
         /// <returns>IMetaDefの配列</returns>
         public IMetaDef[] GetMetaDefs(string name)
         {
-            ArrayList defs = new ArrayList();
-            IEnumerator enu = _metaDefs.GetEnumerator();
+            var defs = new ArrayList();
+            var enu = _metaDefs.GetEnumerator();
             while (enu.MoveNext())
             {
-                IMetaDef metaDef = (IMetaDef) enu.Current;
+                var metaDef = (IMetaDef) enu.Current;
                 if ((name == null && metaDef.Name == null) || name != null
                     && name.ToLower().CompareTo(metaDef.Name.ToLower()) == 0)
                 {
@@ -124,10 +118,10 @@ namespace Seasar.Framework.Container.Util
             set
             {
                 _container = value;
-                IEnumerator enu = _metaDefs.GetEnumerator();
+                var enu = _metaDefs.GetEnumerator();
                 while (enu.MoveNext())
                 {
-                    IMetaDef metaDef = (IMetaDef) enu.Current;
+                    var metaDef = (IMetaDef) enu.Current;
                     metaDef.Container = value;
                 }
             }

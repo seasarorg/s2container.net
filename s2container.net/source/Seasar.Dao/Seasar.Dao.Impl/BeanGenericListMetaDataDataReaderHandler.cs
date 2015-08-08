@@ -16,9 +16,10 @@
  */
 #endregion
 
-using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Data;
+using Seasar.Framework.Util;
 
 namespace Seasar.Dao.Impl
 {
@@ -33,10 +34,11 @@ namespace Seasar.Dao.Impl
 
         public override object Handle(IDataReader dataReader)
         {
-            Type generic = typeof(System.Collections.Generic.List<>);
-            Type constructed = generic.MakeGenericType(BeanMetaData.BeanType);
+            var generic = typeof(List<>);
+            var constructed = generic.MakeGenericType(BeanMetaData.BeanType);
 
-            object list = Activator.CreateInstance(constructed);
+//            object list = Activator.CreateInstance(constructed);
+            var list = ClassUtil.NewInstance(constructed);
 
             Handle(dataReader, (IList) list);
 

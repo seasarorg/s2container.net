@@ -29,11 +29,11 @@ namespace Seasar.Tests.Framework.Container.Util
         [Test]
         public void TestGetMetaDefs()
         {
-            MetaDefSupport support = new MetaDefSupport();
+            var support = new MetaDefSupport();
             support.AddMetaDef(new MetaDefImpl("aaa"));
             support.AddMetaDef(new MetaDefImpl("bbb"));
             support.AddMetaDef(new MetaDefImpl("aaa"));
-            IMetaDef[] metaDefs = support.GetMetaDefs("aaa");
+            var metaDefs = support.GetMetaDefs("aaa");
             Assert.AreEqual(2, metaDefs.Length);
         }
     }

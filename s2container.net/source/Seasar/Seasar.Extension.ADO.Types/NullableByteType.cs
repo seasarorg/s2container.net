@@ -40,7 +40,7 @@ namespace Seasar.Extension.ADO.Types
             }
             if (value is byte)
             {
-                return new Nullable<Byte>((byte) value);
+                return new byte?((byte) value);
             }
             else
             {

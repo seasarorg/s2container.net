@@ -17,9 +17,10 @@
 #endregion
 
 using System;
-using Seasar.Extension.ADO;
 using System.Collections;
 using System.Data.SqlTypes;
+using Seasar.Extension.ADO;
+using Seasar.Framework.Util;
 
 #if NHIBERNATE_NULLABLES
 using Nullables;
@@ -31,32 +32,27 @@ namespace Seasar.Dao.Impl
     {
         private const int NO_UPDATE = 0;
 
-        private readonly IBeanMetaData _beanMetaData;
-
-        private readonly string[] _propertyNames;
-
-        public AbstractAutoDynamicCommand(IDataSource dataSource, ICommandFactory commandFactory,
+        protected AbstractAutoDynamicCommand(IDataSource dataSource, ICommandFactory commandFactory,
             IBeanMetaData beanMetaData, string[] propertyNames)
             : base(dataSource, commandFactory)
         {
-            _beanMetaData = beanMetaData;
-            _propertyNames = propertyNames;
+            BeanMetaData = beanMetaData;
+            PropertyNames = propertyNames;
         }
 
         public override object Execute(object[] args)
         {
-            object bean = args[0];
-            IBeanMetaData bmd = BeanMetaData;
-            string[] propertyNames = PropertyNames;
-            IPropertyType[] propertyTypes = CreateTargetPropertyTypes(bmd,
-                bean, propertyNames);
+            var bean = args[0];
+            var bmd = BeanMetaData;
+            var propertyNames = PropertyNames;
+            var propertyTypes = CreateTargetPropertyTypes(bmd, bean, propertyNames);
             if (CanExecute(bean, bmd, propertyTypes, propertyNames) == false)
             {
                 return NO_UPDATE;
             }
-            AbstractAutoHandler handler = CreateAutoHandler(DataSource, CommandFactory, bmd, propertyTypes);
+            var handler = CreateAutoHandler(DataSource, CommandFactory, bmd, propertyTypes);
             handler.Sql = SetupSql(bmd, propertyTypes);
-            int i = handler.Execute(args);
+            var i = handler.Execute(args);
             if (i < 1)
             {
                 throw new NotSingleRowUpdatedRuntimeException(args[0], i);
@@ -72,18 +68,18 @@ namespace Seasar.Dao.Impl
         protected virtual IPropertyType[] CreateTargetPropertyTypes(IBeanMetaData bmd, object bean, string[] propertyNames)
         {
             IList types = new ArrayList();
-            string timestampPropertyName = bmd.TimestampPropertyName;
-            string versionNoPropertyName = bmd.VersionNoPropertyName;
-            for (int i = 0; i < propertyNames.Length; ++i)
+            var timestampPropertyName = bmd.TimestampPropertyName;
+            var versionNoPropertyName = bmd.VersionNoPropertyName;
+            for (var i = 0; i < propertyNames.Length; ++i)
             {
-                IPropertyType pt = bmd.GetPropertyType(propertyNames[i]);
+                var pt = bmd.GetPropertyType(propertyNames[i]);
                 if (IsTargetProperty(pt, timestampPropertyName, versionNoPropertyName, bean))
                 {
                     types.Add(pt);
                 }
             }
 
-            IPropertyType[] propertyTypes = new IPropertyType[types.Count];
+            var propertyTypes = new IPropertyType[types.Count];
             types.CopyTo(propertyTypes, 0);
             return propertyTypes;
         }
@@ -91,14 +87,15 @@ namespace Seasar.Dao.Impl
         protected virtual bool IsTargetProperty(IPropertyType pt, string timestampPropertyName,
             string versionNoPropertyName, object bean)
         {
-            string propertyName = pt.PropertyName;
+            var propertyName = pt.PropertyName;
             if (propertyName.Equals(timestampPropertyName, StringComparison.CurrentCultureIgnoreCase)
                         || propertyName.Equals(versionNoPropertyName, StringComparison.CurrentCultureIgnoreCase))
             {
                 return true;
             }
 
-            object value = pt.PropertyInfo.GetValue(bean, null);
+//            object value = pt.PropertyInfo.GetValue(bean, null);
+            var value = PropertyUtil.GetValue(bean, bean.GetExType(), pt.PropertyInfo.Name);
 
             //  for normal type include Nullable<T>
             if (value == null)
@@ -115,7 +112,8 @@ namespace Seasar.Dao.Impl
 #endif
 
             //  for Sytem.Data.SqlTypes.INullable
-            if (value is INullable && ((INullable)value).IsNull)
+            var nullable = value as INullable;
+            if (nullable != null && nullable.IsNull)
             {
                 return false;
             }
@@ -132,15 +130,8 @@ namespace Seasar.Dao.Impl
             return true;
         }
 
+        public IBeanMetaData BeanMetaData { get; }
 
-        public IBeanMetaData BeanMetaData
-        {
-            get { return _beanMetaData; }
-        }
-
-        public string[] PropertyNames
-        {
-            get { return _propertyNames; }
-        }
+        public string[] PropertyNames { get; }
     }
 }

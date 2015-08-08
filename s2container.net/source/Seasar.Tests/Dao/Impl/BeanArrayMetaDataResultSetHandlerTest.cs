@@ -40,24 +40,24 @@ namespace Seasar.Tests.Dao.Impl
             IDataReaderHandler handler = new BeanArrayMetaDataDataReaderHandler(
                 CreateBeanMetaData(typeof(Employee)), new RowCreatorImpl(), new RelationRowCreatorImpl());
 
-            string sql = "select * from emp";
-            using (IDbConnection con = Connection)
+            var sql = "select * from emp";
+            using (var con = Connection)
             {
-                using (IDbCommand cmd = con.CreateCommand())
+                using (var cmd = con.CreateCommand())
                 {
                     cmd.CommandText = sql;
 
                     Employee[] ret;
 
-                    using (IDataReader reader = cmd.ExecuteReader())
+                    using (var reader = cmd.ExecuteReader())
                     {
                         ret = (Employee[]) handler.Handle(reader);
                     }
 
                     Assert.IsNotNull(ret, "1");
-                    for (int i = 0; i < ret.Length; ++i)
+                    for (var i = 0; i < ret.Length; ++i)
                     {
-                        Employee emp = ret[i];
+                        var emp = ret[i];
                         Trace.WriteLine(emp.Empno + "," + emp.Ename);
                     }
                 }

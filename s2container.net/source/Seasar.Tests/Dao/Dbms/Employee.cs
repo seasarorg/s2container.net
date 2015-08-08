@@ -50,7 +50,7 @@ namespace Seasar.Tests.Dao.Dbms
 
         public override string ToString()
         {
-            StringBuilder buf = new StringBuilder(50);
+            var buf = new StringBuilder(50);
             buf.Append("Empno=");
             buf.Append(Empno);
             buf.Append(", Ename=");

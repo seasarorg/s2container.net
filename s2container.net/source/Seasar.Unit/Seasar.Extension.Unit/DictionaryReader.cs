@@ -16,7 +16,6 @@
  */
 #endregion
 
-using System;
 using System.Collections;
 using System.Data;
 using Seasar.Framework.Util;
@@ -52,10 +51,10 @@ namespace Seasar.Extension.Unit
         {
             foreach (string key in dictionary.Keys)
             {
-                object value = dictionary[key];
+                var value = dictionary[key];
                 if (value != null)
                 {
-                    Type type = PropertyUtil.GetPrimitiveType(value.GetType());
+                    var type = PropertyUtil.GetPrimitiveType(value.GetExType());
                     _table.Columns.Add(key, type);
                 }
                 else
@@ -67,10 +66,10 @@ namespace Seasar.Extension.Unit
 
         protected virtual void SetupRow(IDictionary dictionary)
         {
-            DataRow row = _table.NewRow();
+            var row = _table.NewRow();
             foreach (DataColumn column in _table.Columns)
             {
-                object value = dictionary[column.ColumnName];
+                var value = dictionary[column.ColumnName];
                 row[column.ColumnName] = PropertyUtil.GetPrimitiveValue(value);
             }
             _table.Rows.Add(row);
@@ -79,10 +78,7 @@ namespace Seasar.Extension.Unit
 
         #region IDataReader ƒƒ“ƒo
 
-        public DataSet Read()
-        {
-            return _dataSet;
-        }
+        public DataSet Read() => _dataSet;
 
         #endregion
     }

@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -23,43 +23,34 @@ using Seasar.Framework.Exceptions;
 namespace Seasar.Framework.Beans
 {
     /// <summary>
-    /// ƒvƒƒpƒeƒB‚ªŒ©‚Â‚©‚ç‚È‚¢‚Æ‚«‚É“Š‚°‚ç‚ê‚é—áŠO‚Å‚·
+    /// ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½ï¿½ï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½È‚ï¿½ï¿½Æ‚ï¿½ï¿½É“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½Å‚ï¿½
     /// </summary>
     [Serializable]
     public class PropertyNotFoundRuntimeException : SRuntimeException
     {
-        private readonly Type _componentType;
-        private readonly string _propertyName;
-
         public PropertyNotFoundRuntimeException(Type componentType, string propertyName)
             : base("ESSR0065", new object[] { componentType.FullName, propertyName })
         {
-            _componentType = componentType;
-            _propertyName = propertyName;
+            ComponentType = componentType;
+            PropertyName = propertyName;
         }
 
         public PropertyNotFoundRuntimeException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            _componentType = info.GetValue("_componentType", typeof(Type)) as Type;
-            _propertyName = info.GetString("_propertyName");
+            ComponentType = info.GetValue("_componentType", typeof(Type)) as Type;
+            PropertyName = info.GetString("_propertyName");
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("_componentType", _componentType, typeof(Type));
-            info.AddValue("_propertyName", _propertyName, typeof(string));
+            info.AddValue("_componentType", ComponentType, typeof(Type));
+            info.AddValue("_propertyName", PropertyName, typeof(string));
             base.GetObjectData(info, context);
         }
 
-        public Type ComponentType
-        {
-            get { return _componentType; }
-        }
+        public Type ComponentType { get; }
 
-        public string PropertyName
-        {
-            get { return _propertyName; }
-        }
+        public string PropertyName { get; }
     }
 }

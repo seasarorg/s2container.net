@@ -19,6 +19,7 @@
 using System;
 using System.Collections;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -47,26 +48,26 @@ namespace Seasar.Dao.Impl
         private const string BEGIN_WHERE = @"/*BEGIN*/WHERE";
         private const string BEGIN_AND = @"/*BEGIN*/AND";
 
-        protected string[] _insertPrefixes = new string[] { "Insert", "Create", "Add" };
-        protected string[] _updatePrefixes = new string[] { "Update", "Modify", "Store" };
-        protected string[] _deletePrefixes = new string[] { "Delete", "Remove" };
-        protected string[] _modifiedOnlySuffixes = new string[] { "ModifiedOnly" };
-        protected string[] _unlessNullSuffixes = new string[] { "UnlessNull" };
+        protected string[] insertPrefixes = { "Insert", "Create", "Add" };
+        protected string[] updatePrefixes = { "Update", "Modify", "Store" };
+        protected string[] deletePrefixes = { "Delete", "Remove" };
+        protected string[] modifiedOnlySuffixes = { "ModifiedOnly" };
+        protected string[] unlessNullSuffixes = { "UnlessNull" };
 
-        protected Type _daoType;
-        protected Type _daoInterface;
-        protected IDataSource _dataSource;
-        protected IAnnotationReaderFactory _annotationReaderFactory;
-        protected IDaoAnnotationReader _annotationReader;
-        protected ICommandFactory _commandFactory;
-        protected IDataReaderFactory _dataReaderFactory;
-        protected IDataReaderHandlerFactory _dataReaderHandlerFactory;
-        protected string _sqlFileEncoding = Encoding.Default.WebName;
-        protected IDbms _dbms;
-        protected Type _beanType;
-        protected IBeanMetaData _beanMetaData;
-        protected IDatabaseMetaData _dbMetaData;
-        protected Hashtable _sqlCommands = new Hashtable();
+        protected Type daoType;
+        protected Type daoInterface;
+        protected IDataSource dataSource;
+        protected IAnnotationReaderFactory annotationReaderFactory;
+        protected IDaoAnnotationReader annotationReader;
+        protected ICommandFactory commandFactory;
+        protected IDataReaderFactory dataReaderFactory;
+        protected IDataReaderHandlerFactory dataReaderHandlerFactory;
+        protected string sqlFileEncoding = Encoding.Default.WebName;
+        protected IDbms dbms;
+        protected Type beanType;
+        protected IBeanMetaData beanMetaData;
+        protected IDatabaseMetaData dbMetaData;
+        protected Hashtable sqlCommands = new Hashtable();
 
         public DaoMetaDataImpl()
         {
@@ -98,34 +99,34 @@ namespace Seasar.Dao.Impl
 
         public virtual void Initialize()
         {
-            _daoInterface = GetDaoInterface(_daoType);
-            _annotationReader = AnnotationReaderFactory.CreateDaoAnnotationReader(_daoType);
-            _beanType = _annotationReader.GetBeanType();
-            _dbms = DbmsManager.GetDbms(_dataSource);
-            _beanMetaData = new BeanMetaDataImpl(_beanType, _dbMetaData, _dbms, _annotationReaderFactory);
+            daoInterface = GetDaoInterface(daoType);
+            annotationReader = AnnotationReaderFactory.CreateDaoAnnotationReader(daoType);
+            beanType = annotationReader.GetBeanType();
+            dbms = DbmsManager.GetDbms(dataSource);
+            beanMetaData = new BeanMetaDataImpl(beanType, dbMetaData, dbms, annotationReaderFactory);
             SetupSqlCommand();
         }
 
         public IAnnotationReaderFactory AnnotationReaderFactory
         {
-            get { return _annotationReaderFactory; }
-            set { _annotationReaderFactory = value; }
+            get { return annotationReaderFactory; }
+            set { annotationReaderFactory = value; }
         }
 
         protected virtual void SetupSqlCommand()
         {
-            MethodInfo[] allMethods = _daoInterface.GetMethods();
-            Hashtable names = new Hashtable();
-            foreach (MethodInfo mi in allMethods)
+            var allMethods = daoInterface.GetMethods();
+            var names = new Hashtable();
+            foreach (var mi in allMethods)
             {
                 names[mi.Name] = mi;
             }
-            IDictionaryEnumerator enu = names.GetEnumerator();
+            var enu = names.GetEnumerator();
             while (enu.MoveNext())
             {
                 try
                 {
-                    MethodInfo method = _daoType.GetMethod((string)enu.Key);
+                    var method = daoType.GetMethod((string)enu.Key);
                     if (method.IsAbstract) SetupMethod(method);
                 }
                 catch (AmbiguousMatchException) { }
@@ -134,7 +135,7 @@ namespace Seasar.Dao.Impl
 
         protected virtual string ReadText(string path, Assembly asm)
         {
-            using (Stream stream = ResourceUtil.GetResourceAsStream(path, asm))
+            using (var stream = ResourceUtil.GetResourceAsStream(path, asm))
             {
                 using (TextReader reader = new StreamReader(stream, Encoding.GetEncoding(SqlFileEncoding)))
                 {
@@ -152,10 +153,10 @@ namespace Seasar.Dao.Impl
                 SetupMethodBySqlFile(mi);
             }
 
-            if (!CompletedSetupMethod(mi) && _annotationReader.IsSqlFile(mi.Name))
+            if (!CompletedSetupMethod(mi) && annotationReader.IsSqlFile(mi.Name))
             {
-                string fileName = GetSqlFilePath(mi) + ".sql";
-                throw new SqlFileNotFoundRuntimeException(_daoType, mi, fileName);
+                var fileName = GetSqlFilePath(mi) + ".sql";
+                throw new SqlFileNotFoundRuntimeException(daoType, mi, fileName);
             }
 
             if (!CompletedSetupMethod(mi))
@@ -166,35 +167,34 @@ namespace Seasar.Dao.Impl
 
         protected virtual void SetupMethodByAttribute(MethodInfo mi)
         {
-            string sql = _annotationReader.GetSql(mi.Name, _dbms);
+            var sql = annotationReader.GetSql(mi.Name, dbms);
             if (sql != null)
             {
                 SetupMethodByManual(mi, sql);
                 return;
             }
 
-            string procedureName = _annotationReader.GetProcedure(mi.Name);
+            var procedureName = annotationReader.GetProcedure(mi.Name);
             if (procedureName != null)
             {
                 SetupProcedure(mi, procedureName);
-                return;
             }
         }
 
         protected virtual void SetupMethodBySqlFile(MethodInfo mi)
         {
-            string baseName = GetSqlFilePath(mi);
-            string dbmsPath = baseName + _dbms.Suffix + ".sql";
-            string standardPath = baseName + ".sql";
-            Assembly asm = _daoInterface.Assembly;
+            var baseName = GetSqlFilePath(mi);
+            var dbmsPath = baseName + dbms.Suffix + ".sql";
+            var standardPath = baseName + ".sql";
+            var asm = daoInterface.Assembly;
             if (ResourceUtil.IsExist(dbmsPath, asm))
             {
-                string sql = ReadText(dbmsPath, asm);
+                var sql = ReadText(dbmsPath, asm);
                 SetupMethodByManual(mi, sql);
             }
             else if (ResourceUtil.IsExist(standardPath, asm))
             {
-                string sql = ReadText(standardPath, asm);
+                var sql = ReadText(standardPath, asm);
                 SetupMethodByManual(mi, sql);
             }
         }
@@ -202,10 +202,10 @@ namespace Seasar.Dao.Impl
         protected virtual string GetSqlFilePath(MethodInfo mi)
         {
             string baseName;
-            string fileByAttribute = _annotationReader.GetSqlFilePath(mi.Name);
+            var fileByAttribute = annotationReader.GetSqlFilePath(mi.Name);
             if (StringUtil.IsEmpty(fileByAttribute))
             {
-                baseName = _daoInterface.FullName + "_" + mi.Name;
+                baseName = daoInterface.FullName + "_" + mi.Name;
             }
             else
             {
@@ -249,31 +249,31 @@ namespace Seasar.Dao.Impl
 
         protected virtual void SetupSelectMethodByManual(MethodInfo mi, string sql)
         {
-            SelectDynamicCommand cmd = CreateSelectDynamicCommand(CreateDataReaderHandler(mi));
+            var cmd = CreateSelectDynamicCommand(CreateDataReaderHandler(mi));
             cmd.Sql = sql;
             cmd.ArgNames = GetArgNames(mi);
             cmd.ArgTypes = GetArgTypes(mi);
-            _sqlCommands[mi.Name] = cmd;
+            sqlCommands[mi.Name] = cmd;
         }
 
         protected virtual SelectDynamicCommand CreateSelectDynamicCommand(IDataReaderHandler drh)
         {
-            return new SelectDynamicCommand(_dataSource, _commandFactory, drh, _dataReaderFactory);
+            return new SelectDynamicCommand(dataSource, commandFactory, drh, dataReaderFactory);
         }
 
         protected virtual SelectDynamicCommand CreateSelectDynamicCommand(
             IDataReaderHandler dataReaderHandler, string query)
         {
-            SelectDynamicCommand cmd = CreateSelectDynamicCommand(dataReaderHandler);
-            StringBuilder buf = new StringBuilder(255);
-            bool isBaseSqlIncludeWhereClause = false;
+            var cmd = CreateSelectDynamicCommand(dataReaderHandler);
+            var buf = new StringBuilder(255);
+            var isBaseSqlIncludeWhereClause = false;
             if (StartsWithSelect(query))
             {
                 buf.Append(query);
             }
             else
             {
-                string sql = _dbms.GetAutoSelectSql(BeanMetaData);
+                var sql = dbms.GetAutoSelectSql(BeanMetaData);
                 buf.Append(sql);
                 if (query != null)
                 {
@@ -285,7 +285,7 @@ namespace Seasar.Dao.Impl
                     {
                         buf.Append(" ");
                     }
-                    else if (sql.LastIndexOf("WHERE") < 0)
+                    else if (sql.LastIndexOf("WHERE", StringComparison.Ordinal) < 0)
                     {
                         buf.Append(" WHERE ");
                     }
@@ -299,7 +299,7 @@ namespace Seasar.Dao.Impl
                 isBaseSqlIncludeWhereClause = IsIncludeWhereClause(sql);
             }
 
-            string cmdSql = buf.ToString();
+            var cmdSql = buf.ToString();
             //  外部結合の記述がFROM句ではなくWHERE句に書かれている場合
             if (isBaseSqlIncludeWhereClause)
             {
@@ -309,37 +309,43 @@ namespace Seasar.Dao.Impl
             return cmd;
         }
 
-        protected virtual AbstractSqlCommand CreateUpdateAutoStaticCommand(MethodInfo methodInfo, IDataSource dataSource, ICommandFactory commandFactory, IBeanMetaData beanMetaData, string[] propertyNames)
+        protected virtual AbstractSqlCommand CreateUpdateAutoStaticCommand(MethodInfo methodInfo, IDataSource ds, ICommandFactory factory, 
+            IBeanMetaData beanMeta, string[] propertyNames)
         {
-            return new UpdateAutoStaticCommand(dataSource, commandFactory, beanMetaData, propertyNames);
+            return new UpdateAutoStaticCommand(ds, factory, beanMeta, propertyNames);
         }
 
-        protected virtual AbstractSqlCommand CreateUpdateModifiedOnlyCommand(MethodInfo methodInfo, IDataSource dataSource, ICommandFactory commandFactory, IBeanMetaData beanMetaData, string[] propertyNames)
+        protected virtual AbstractSqlCommand CreateUpdateModifiedOnlyCommand(MethodInfo methodInfo, IDataSource ds, ICommandFactory factory, 
+            IBeanMetaData beanMeta, string[] propertyNames)
         {
-            return new UpdateModifiedOnlyCommand(dataSource, commandFactory, beanMetaData, propertyNames);
+            return new UpdateModifiedOnlyCommand(ds, factory, beanMeta, propertyNames);
         }
 
-        protected virtual AbstractSqlCommand CreateUpdateAutoDynamicCommand(MethodInfo methodInfo, IDataSource dataSource, ICommandFactory commandFactory, IBeanMetaData beanMetaData, string[] propertyNames)
+        protected virtual AbstractSqlCommand CreateUpdateAutoDynamicCommand(MethodInfo methodInfo, IDataSource ds, ICommandFactory factory, 
+            IBeanMetaData beanMeta, string[] propertyNames)
         {
-            return new UpdateAutoDynamicCommand(dataSource, commandFactory, beanMetaData, propertyNames);
+            return new UpdateAutoDynamicCommand(ds, factory, beanMeta, propertyNames);
         }
 
-        protected virtual AbstractSqlCommand CreateDeleteAutoStaticCommand(MethodInfo methodInfo, IDataSource dataSource, ICommandFactory commandFactory, IBeanMetaData beanMetaData, string[] propertyNames)
+        protected virtual AbstractSqlCommand CreateDeleteAutoStaticCommand(MethodInfo methodInfo, IDataSource ds, ICommandFactory factory, 
+            IBeanMetaData beanMeta, string[] propertyNames)
         {
-            return new DeleteAutoStaticCommand(dataSource, commandFactory, beanMetaData, propertyNames);
+            return new DeleteAutoStaticCommand(ds, factory, beanMeta, propertyNames);
         }
 
         /// <summary>
         /// 現在は使用していません。(DAONET-3)
         /// </summary>
-        protected virtual AbstractSqlCommand CreateInsertAutoStaticCommand(MethodInfo methodInfo, IDataSource dataSource, ICommandFactory commandFactory, IBeanMetaData beanMetaData, string[] propertyNames)
+        protected virtual AbstractSqlCommand CreateInsertAutoStaticCommand(MethodInfo methodInfo, IDataSource ds, ICommandFactory factory, 
+            IBeanMetaData beanMeta, string[] propertyNames)
         {
-            return new InsertAutoStaticCommand(dataSource, commandFactory, beanMetaData, propertyNames);
+            return new InsertAutoStaticCommand(ds, factory, beanMeta, propertyNames);
         }
 
-        protected virtual AbstractSqlCommand CreateInsertAutoDynamicCommand(MethodInfo methodInfo, IDataSource dataSource, ICommandFactory commandFactory, IBeanMetaData beanMetaData, string[] propertyNames)
+        protected virtual AbstractSqlCommand CreateInsertAutoDynamicCommand(MethodInfo methodInfo, IDataSource ds, ICommandFactory factory, 
+            IBeanMetaData beanMeta, string[] propertyNames)
         {
-            return new InsertAutoDynamicCommand(dataSource, commandFactory, beanMetaData, propertyNames);
+            return new InsertAutoDynamicCommand(ds, factory, beanMeta, propertyNames);
         }
 
         protected static bool IsIncludeWhereClause(string sql)
@@ -358,7 +364,7 @@ namespace Seasar.Dao.Impl
         {
             if (query != null)
             {
-                Match m = _startWithBeginCommentPattern.Match(query);
+                var m = _startWithBeginCommentPattern.Match(query);
                 if (m.Success)
                 {
                     return true;
@@ -367,16 +373,13 @@ namespace Seasar.Dao.Impl
             return false;
         }
 
-        protected static bool StartsWithSelect(string query)
-        {
-            return StringUtil.StartWith(query, "select");
-        }
+        protected static bool StartsWithSelect(string query) => StringUtil.StartWith(query, "select");
 
         protected static bool StartsWithOrderBy(string query)
         {
             if (query != null)
             {
-                string replaceQuery = _startWithOrderByReplacePattern.Replace(query, string.Empty);
+                var replaceQuery = _startWithOrderByReplacePattern.Replace(query, string.Empty);
                 if (StringUtil.StartWith(replaceQuery.Trim(), "order by"))
                 {
                     return true;
@@ -387,12 +390,12 @@ namespace Seasar.Dao.Impl
 
         protected virtual IDataReaderHandler CreateDataReaderHandler(MethodInfo mi)
         {
-            return CreateDataReaderHandler(mi, _beanMetaData);
+            return CreateDataReaderHandler(mi, beanMetaData);
         }
 
         protected virtual IDataReaderHandler CreateDataReaderHandler(MethodInfo mi, IBeanMetaData bmd)
         {
-            return _dataReaderHandlerFactory.GetResultSetHandler(_beanType, bmd, mi);
+            return dataReaderHandlerFactory.GetResultSetHandler(beanType, bmd, mi);
         }
 
         // [DAONET-76] (2009/05/05)
@@ -460,25 +463,24 @@ namespace Seasar.Dao.Impl
 
         protected virtual bool IsBeanTypeAssignable(Type type)
         {
-            return _beanType.IsAssignableFrom(type) ||
-                type.IsAssignableFrom(_beanType);
+            return beanType.IsAssignableFrom(type) ||
+                type.IsAssignableFrom(beanType);
         }
 
         protected virtual void SetupUpdateMethodByManual(MethodInfo mi, string sql)
         {
-            UpdateDynamicCommand cmd = new UpdateDynamicCommand(_dataSource, _commandFactory);
-            cmd.Sql = sql;
-            string[] argNames = GetArgNames(mi);
+            var cmd = new UpdateDynamicCommand(dataSource, commandFactory) {Sql = sql};
+            var argNames = GetArgNames(mi);
             if (argNames.Length == 0 && IsUpdateSignatureForBean(mi))
-                argNames = new string[] { StringUtil.Decapitalize(_beanType.Name) };
+                argNames = new[] { StringUtil.Decapitalize(beanType.Name) };
             cmd.ArgNames = argNames;
             cmd.ArgTypes = GetArgTypes(mi);
-            _sqlCommands[mi.Name] = cmd;
+            sqlCommands[mi.Name] = cmd;
         }
 
         protected virtual bool IsUpdateSignatureForBean(MethodInfo mi)
         {
-            Type[] paramTypes = GetArgTypes(mi);
+            var paramTypes = GetArgTypes(mi);
             return paramTypes.Length == 1
                 && IsBeanTypeAssignable(paramTypes[0]);
         }
@@ -486,7 +488,7 @@ namespace Seasar.Dao.Impl
         protected virtual void SetupInsertMethodByAuto(MethodInfo mi)
         {
             CheckAutoUpdateMethod(mi);
-            string[] propertyNames = GetPersistentPropertyNames(mi.Name);
+            var propertyNames = GetPersistentPropertyNames(mi.Name);
             ISqlCommand cmd;
             if (IsUpdateSignatureForBean(mi))
             {
@@ -494,33 +496,33 @@ namespace Seasar.Dao.Impl
                 //  nullのプロパティをINSERTの対象に含めない
                 //  Java版と合わせる為、InsertAutoStaticCommandは使用しません。
                 //cmd = CreateInsertAutoStaticCommand(mi, _dataSource, _commandFactory, _beanMetaData, propertyNames);
-                cmd = CreateInsertAutoDynamicCommand(mi, _dataSource, _commandFactory, _beanMetaData, propertyNames);
+                cmd = CreateInsertAutoDynamicCommand(mi, dataSource, commandFactory, beanMetaData, propertyNames);
             }
             else
             {
                 throw new NotSupportedException("InsertBatchAutoStaticCommand");
             }
-            _sqlCommands[mi.Name] = cmd;
+            sqlCommands[mi.Name] = cmd;
         }
 
         protected virtual void SetupUpdateMethodByAuto(MethodInfo mi)
         {
             CheckAutoUpdateMethod(mi);
-            string[] propertyNames = GetPersistentPropertyNames(mi.Name);
+            var propertyNames = GetPersistentPropertyNames(mi.Name);
             AbstractSqlCommand cmd;
             if (IsUpdateSignatureForBean(mi))
             {
                 if (IsUnlessNull(mi.Name))
                 {
-                    cmd = CreateUpdateAutoDynamicCommand(mi, _dataSource, _commandFactory, _beanMetaData, propertyNames);
+                    cmd = CreateUpdateAutoDynamicCommand(mi, dataSource, commandFactory, beanMetaData, propertyNames);
                 }
                 else if (IsModifiedOnly(mi.Name))
                 {
-                    cmd = CreateUpdateModifiedOnlyCommand(mi, _dataSource, _commandFactory, _beanMetaData, propertyNames);
+                    cmd = CreateUpdateModifiedOnlyCommand(mi, dataSource, commandFactory, beanMetaData, propertyNames);
                 }
                 else
                 {
-                    cmd = CreateUpdateAutoStaticCommand(mi, _dataSource, _commandFactory, _beanMetaData, propertyNames);
+                    cmd = CreateUpdateAutoStaticCommand(mi, dataSource, commandFactory, beanMetaData, propertyNames);
                 }
             }
             else
@@ -528,31 +530,31 @@ namespace Seasar.Dao.Impl
                 throw new NotSupportedException("UpdateBatchAutoStaticCommand");
             }
 
-            _sqlCommands[mi.Name] = cmd;
+            sqlCommands[mi.Name] = cmd;
         }
 
         protected virtual void SetupDeleteMethodByAuto(MethodInfo mi)
         {
             CheckAutoUpdateMethod(mi);
-            string[] propertyNames = GetPersistentPropertyNames(mi.Name);
+            var propertyNames = GetPersistentPropertyNames(mi.Name);
             ISqlCommand cmd;
             if (IsUpdateSignatureForBean(mi))
 
-                cmd = CreateDeleteAutoStaticCommand(mi, _dataSource, _commandFactory, _beanMetaData, propertyNames);
+                cmd = CreateDeleteAutoStaticCommand(mi, dataSource, commandFactory, beanMetaData, propertyNames);
             else
                 throw new NotSupportedException("DeleteBatchAutoStaticCommand");
-            _sqlCommands[mi.Name] = cmd;
+            sqlCommands[mi.Name] = cmd;
         }
 
         protected virtual string[] GetPersistentPropertyNames(string methodName)
         {
-            ArrayList names = new ArrayList();
-            string[] props = _annotationReader.GetNoPersistentProps(methodName);
+            var names = new ArrayList();
+            var props = annotationReader.GetNoPersistentProps(methodName);
             if (props != null)
             {
-                for (int i = 0; i < _beanMetaData.PropertyTypeSize; ++i)
+                for (var i = 0; i < beanMetaData.PropertyTypeSize; ++i)
                 {
-                    IPropertyType pt = _beanMetaData.GetPropertyType(i);
+                    var pt = beanMetaData.GetPropertyType(i);
                     if (pt.IsPersistent
                         && !IsPropertyExist(props, pt.PropertyName))
                         names.Add(pt.PropertyName);
@@ -560,28 +562,28 @@ namespace Seasar.Dao.Impl
             }
             else
             {
-                props = _annotationReader.GetPersistentProps(methodName);
+                props = annotationReader.GetPersistentProps(methodName);
                 if (props != null)
                 {
 
-                    foreach (string prop in props) names.Add(prop);
-                    for (int i = 0; i < _beanMetaData.PrimaryKeySize; ++i)
+                    foreach (var prop in props) names.Add(prop);
+                    for (var i = 0; i < beanMetaData.PrimaryKeySize; ++i)
                     {
-                        string pk = _beanMetaData.GetPrimaryKey(i);
-                        IPropertyType pt = _beanMetaData.GetPropertyTypeByColumnName(pk);
+                        var pk = beanMetaData.GetPrimaryKey(i);
+                        var pt = beanMetaData.GetPropertyTypeByColumnName(pk);
                         names.Add(pt.PropertyName);
                     }
-                    if (_beanMetaData.HasVersionNoPropertyType)
-                        names.Add(_beanMetaData.VersionNoPropertyName);
-                    if (_beanMetaData.HasTimestampPropertyType)
-                        names.Add(_beanMetaData.TimestampPropertyName);
+                    if (beanMetaData.HasVersionNoPropertyType)
+                        names.Add(beanMetaData.VersionNoPropertyName);
+                    if (beanMetaData.HasTimestampPropertyType)
+                        names.Add(beanMetaData.TimestampPropertyName);
                 }
             }
             if (names.Count == 0)
             {
-                for (int i = 0; i < _beanMetaData.PropertyTypeSize; ++i)
+                for (var i = 0; i < beanMetaData.PropertyTypeSize; ++i)
                 {
-                    IPropertyType pt = _beanMetaData.GetPropertyType(i);
+                    var pt = beanMetaData.GetPropertyType(i);
                     if (pt.IsPersistent) names.Add(pt.PropertyName);
                 }
             }
@@ -590,21 +592,16 @@ namespace Seasar.Dao.Impl
 
         protected virtual bool IsPropertyExist(string[] props, string propertyName)
         {
-            foreach (string prop in props)
-            {
-                if (string.Compare(prop, propertyName, true) == 0)
-                    return true;
-            }
-            return false;
+            return props.Any(prop => String.Compare(prop, propertyName, StringComparison.OrdinalIgnoreCase) == 0);
         }
 
         protected virtual void SetupSelectMethodByAuto(MethodInfo mi)
         {
-            string query = _annotationReader.GetQuery(mi.Name);
-            IDataReaderHandler handler = CreateDataReaderHandler(mi);
+            var query = annotationReader.GetQuery(mi.Name);
+            var handler = CreateDataReaderHandler(mi);
             SelectDynamicCommand cmd;
-            string[] argNames = GetArgNames(mi);
-            Type[] argTypes = GetArgTypes(mi);
+            var argNames = GetArgNames(mi);
+            var argTypes = GetArgTypes(mi);
             if (query != null && !StartsWithOrderBy(query))
             {
                 cmd = CreateSelectDynamicCommand(handler, query);
@@ -617,7 +614,7 @@ namespace Seasar.Dao.Impl
                 if (argTypes.Length == 1
                     && ValueTypes.GetValueType(argTypes[0]) == ValueTypes.OBJECT)
                 {
-                    argNames = new string[] { "dto" };
+                    argNames = new[] { "dto" };
                     sql = CreateAutoSelectSqlByDto(argTypes[0]);
                 }
                 else
@@ -629,34 +626,34 @@ namespace Seasar.Dao.Impl
             }
             cmd.ArgNames = argNames;
             cmd.ArgTypes = argTypes;
-            _sqlCommands[mi.Name] = cmd;
+            sqlCommands[mi.Name] = cmd;
         }
 
         protected virtual string CreateAutoSelectSqlByDto(Type dtoType)
         {
-            string sql = _dbms.GetAutoSelectSql(BeanMetaData);
-            StringBuilder buf = new StringBuilder(sql);
-            IDtoMetaData dmd = new DtoMetaDataImpl(dtoType, _annotationReaderFactory.CreateBeanAnnotationReader(dtoType));
-            bool began = false;
-            if (!(sql.LastIndexOf("WHERE") > 0))
+            var sql = dbms.GetAutoSelectSql(BeanMetaData);
+            var buf = new StringBuilder(sql);
+            IDtoMetaData dmd = new DtoMetaDataImpl(dtoType, annotationReaderFactory.CreateBeanAnnotationReader(dtoType));
+            var began = false;
+            if (!(sql.LastIndexOf("WHERE", StringComparison.Ordinal) > 0))
             {
                 buf.Append("/*BEGIN*/ WHERE ");
                 began = true;
             }
-            for (int i = 0; i < dmd.PropertyTypeSize; ++i)
+            for (var i = 0; i < dmd.PropertyTypeSize; ++i)
             {
-                IPropertyType pt = dmd.GetPropertyType(i);
-                string aliasName = pt.ColumnName;
-                if (!_beanMetaData.HasPropertyTypeByAliasName(aliasName))
+                var pt = dmd.GetPropertyType(i);
+                var aliasName = pt.ColumnName;
+                if (!beanMetaData.HasPropertyTypeByAliasName(aliasName))
                 {
                     continue;
                 }
-                if (!_beanMetaData.GetPropertyTypeByAliasName(aliasName).IsPersistent)
+                if (!beanMetaData.GetPropertyTypeByAliasName(aliasName).IsPersistent)
                 {
                     continue;
                 }
-                string columnName = _beanMetaData.ConvertFullColumnName(aliasName);
-                string propertyName = "dto." + pt.PropertyName;
+                var columnName = beanMetaData.ConvertFullColumnName(aliasName);
+                var propertyName = "dto." + pt.PropertyName;
 
                 // IFコメントを作成する
                 CreateAutoIFComment(buf, columnName, propertyName, pt.PropertyType, i == 0, began);
@@ -667,19 +664,19 @@ namespace Seasar.Dao.Impl
 
         protected virtual string CreateAutoSelectSql(string[] argNames, Type[] argTypes)
         {
-            string sql = _dbms.GetAutoSelectSql(BeanMetaData);
-            StringBuilder buf = new StringBuilder(sql);
+            var sql = dbms.GetAutoSelectSql(BeanMetaData);
+            var buf = new StringBuilder(sql);
             if (argNames.Length != 0)
             {
-                bool began = false;
-                if (!(sql.LastIndexOf("WHERE") > 0))
+                var began = false;
+                if (!(sql.LastIndexOf("WHERE", StringComparison.Ordinal) > 0))
                 {
                     buf.Append("/*BEGIN*/ WHERE ");
                     began = true;
                 }
-                for (int i = 0; i < argNames.Length; ++i)
+                for (var i = 0; i < argNames.Length; ++i)
                 {
-                    string columnName = _beanMetaData.ConvertFullColumnName(argNames[i]);
+                    var columnName = beanMetaData.ConvertFullColumnName(argNames[i]);
 
                     // IFコメントを作成する
                     CreateAutoIFComment(buf, columnName, argNames[i], argTypes[i], i == 0, began);
@@ -727,7 +724,7 @@ namespace Seasar.Dao.Impl
         /// <param name="propertyType">プロパティの型</param>
         protected virtual void CreateIFExpression(StringBuilder buf, string propertyName, Type propertyType)
         {
-            IValueType valueType = ValueTypes.GetValueType(propertyType);
+            var valueType = ValueTypes.GetValueType(propertyType);
 
             buf.Append(propertyName);
 
@@ -755,7 +752,7 @@ namespace Seasar.Dao.Impl
 
         protected virtual void CheckAutoUpdateMethod(MethodInfo mi)
         {
-            Type[] parameterTypes = GetArgTypes(mi);
+            var parameterTypes = GetArgTypes(mi);
             if (parameterTypes.Length != 1
                 || !IsBeanTypeAssignable(parameterTypes[0])
                 && !parameterTypes[0].IsAssignableFrom(typeof(IList))
@@ -773,113 +770,54 @@ namespace Seasar.Dao.Impl
             return true;
         }
 
-        protected virtual bool IsInsert(string methodName)
-        {
-            foreach (string insertName in _insertPrefixes)
-            {
-                if (methodName.StartsWith(insertName)) return true;
-            }
-            return false;
-        }
+        protected virtual bool IsInsert(string methodName) => insertPrefixes.Any(methodName.StartsWith);
 
-        protected virtual bool IsUpdate(string methodName)
-        {
-            foreach (string updateName in _updatePrefixes)
-            {
-                if (methodName.StartsWith(updateName)) return true;
-            }
-            return false;
-        }
+        protected virtual bool IsUpdate(string methodName) => updatePrefixes.Any(methodName.StartsWith);
 
-        protected virtual bool IsDelete(string methodName)
-        {
-            foreach (string deleteName in _deletePrefixes)
-            {
-                if (methodName.StartsWith(deleteName)) return true;
-            }
-            return false;
-        }
+        protected virtual bool IsDelete(string methodName) => deletePrefixes.Any(methodName.StartsWith);
 
-        protected virtual bool IsUnlessNull(string methodName)
-        {
-            foreach (string unlessNullSuffix in _unlessNullSuffixes)
-            {
-                if (methodName.EndsWith(unlessNullSuffix)) return true;
-            }
-            return false;
-        }
+        protected virtual bool IsUnlessNull(string methodName) => unlessNullSuffixes.Any(methodName.EndsWith);
 
-        protected virtual bool IsModifiedOnly(string methodName)
-        {
-            foreach (string modifiedOnlySuffix in _modifiedOnlySuffixes)
-            {
-                if (methodName.EndsWith(modifiedOnlySuffix)) return true;
-            }
-            return false;
-        }
+        protected virtual bool IsModifiedOnly(string methodName) => modifiedOnlySuffixes.Any(methodName.EndsWith);
 
-        protected virtual string[] GetArgNames(MethodInfo mi)
-        {
-            return MethodUtil.GetParameterNames(mi);
-        }
+        protected virtual string[] GetArgNames(MethodInfo mi) => MethodUtil.GetParameterNames(mi);
 
-        protected virtual Type[] GetArgTypes(MethodInfo mi)
-        {
-            return MethodUtil.GetParameterTypes(mi);
-        }
+        protected virtual Type[] GetArgTypes(MethodInfo mi) => MethodUtil.GetParameterTypes(mi);
 
         #region IDaoMetaData メンバ
 
-        public Type BeanType
-        {
-            get
-            {
-                return _beanType;
-            }
-        }
+        public Type BeanType => beanType;
 
-        public IBeanMetaData BeanMetaData
-        {
-            get
-            {
-                return _beanMetaData;
-            }
-        }
+        public IBeanMetaData BeanMetaData => beanMetaData;
 
-        protected bool CompletedSetupMethod(MethodInfo mi)
-        {
-            return HasSqlCommand(mi.Name);
-        }
+        protected bool CompletedSetupMethod(MethodInfo mi) => HasSqlCommand(mi.Name);
 
-        public virtual bool HasSqlCommand(string methodName)
-        {
-            return _sqlCommands.Contains(methodName);
-        }
+        public virtual bool HasSqlCommand(string methodName) => sqlCommands.Contains(methodName);
 
         public virtual ISqlCommand GetSqlCommand(string methodName)
         {
-            ISqlCommand cmd = (ISqlCommand)_sqlCommands[methodName];
+            var cmd = (ISqlCommand)sqlCommands[methodName];
             if (cmd == null)
-                throw new MethodNotFoundRuntimeException(_daoType, methodName, null);
+                throw new MethodNotFoundRuntimeException(daoType, methodName, null);
             return cmd;
         }
 
         public virtual ISqlCommand CreateFindCommand(string query)
         {
             return CreateSelectDynamicCommand(new BeanListMetaDataDataReaderHandler(
-                _beanMetaData, CreateRowCreator(), CreateRelationRowCreator()), query);
+                beanMetaData, CreateRowCreator(), CreateRelationRowCreator()), query);
         }
 
         public virtual ISqlCommand CreateFindArrayCommand(string query)
         {
             return CreateSelectDynamicCommand(new BeanArrayMetaDataDataReaderHandler(
-                _beanMetaData, CreateRowCreator(), CreateRelationRowCreator()), query);
+                beanMetaData, CreateRowCreator(), CreateRelationRowCreator()), query);
         }
 
         public virtual ISqlCommand CreateFindBeanCommand(string query)
         {
             return CreateSelectDynamicCommand(new BeanMetaDataDataReaderHandler(
-                _beanMetaData, CreateRowCreator(), CreateRelationRowCreator()), query);
+                beanMetaData, CreateRowCreator(), CreateRelationRowCreator()), query);
         }
 
         public virtual ISqlCommand CreateFindObjectCommand(string query)
@@ -887,15 +825,9 @@ namespace Seasar.Dao.Impl
             return CreateSelectDynamicCommand(new ObjectDataReaderHandler(), query);
         }
 
-        protected virtual IRowCreator CreateRowCreator()
-        {// [DAONET-56] (2007/08/29)
-            return new RowCreatorImpl();
-        }
+        protected virtual IRowCreator CreateRowCreator() => new RowCreatorImpl();
 
-        protected virtual IRelationRowCreator CreateRelationRowCreator()
-        {// [DAONET-56] (2007/08/29)
-            return new RelationRowCreatorImpl();
-        }
+        protected virtual IRelationRowCreator CreateRelationRowCreator() => new RelationRowCreatorImpl();
 
         #endregion
 
@@ -910,59 +842,59 @@ namespace Seasar.Dao.Impl
 
         public IDbms Dbms
         {
-            set { _dbms = value; }
+            set { dbms = value; }
         }
 
         public IDataSource DataSource
         {
-            set { _dataSource = value; }
+            set { dataSource = value; }
         }
 
         public IDataReaderFactory DataReaderFactory
         {
-            set { _dataReaderFactory = value; }
+            set { dataReaderFactory = value; }
         }
 
         public IDataReaderHandlerFactory DataReaderHandlerFactory
         {
-            set { _dataReaderHandlerFactory = value; }
+            set { dataReaderHandlerFactory = value; }
         }
 
         public ICommandFactory CommandFactory
         {
-            set { _commandFactory = value; }
+            set { commandFactory = value; }
         }
 
         public string[] InsertPrefixes
         {
-            set { _insertPrefixes = value; }
+            set { insertPrefixes = value; }
         }
 
         public string[] UpdatePrefixes
         {
-            set { _updatePrefixes = value; }
+            set { updatePrefixes = value; }
         }
 
         public string[] DeletePrefixes
         {
-            set { _deletePrefixes = value; }
+            set { deletePrefixes = value; }
         }
 
         public string SqlFileEncoding
         {
-            get { return _sqlFileEncoding; }
-            set { _sqlFileEncoding = value; }
+            get { return sqlFileEncoding; }
+            set { sqlFileEncoding = value; }
         }
 
         public Type DaoType
         {
-            get { return _daoType; }
-            set { _daoType = value; }
+            get { return daoType; }
+            set { daoType = value; }
         }
 
         public IDatabaseMetaData DatabaseMetaData
         {
-            set { _dbMetaData = value; }
+            set { dbMetaData = value; }
         }
 
         /// <summary>
@@ -972,14 +904,14 @@ namespace Seasar.Dao.Impl
         /// <param name="sql">ストアドプロシージャ名</param>
         protected virtual void SetupProcedure(MethodInfo mi, string sql)
         {
-            ProcedureDynamicCommand cmd = new ProcedureDynamicCommand(_dataSource, _commandFactory);
+            var cmd = new ProcedureDynamicCommand(dataSource, commandFactory);
             cmd.Sql = sql;
             cmd.ArgNames = GetArgNames(mi);
             cmd.ArgTypes = GetArgTypes(mi);
             cmd.ArgDirections = AbstractProcedureHandler.GetParameterDirections(mi);
             cmd.ReturnType = mi.ReturnType;
 
-            _sqlCommands[mi.Name] = cmd;
+            sqlCommands[mi.Name] = cmd;
         }
     }
 }

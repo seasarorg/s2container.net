@@ -35,7 +35,7 @@ namespace Seasar.Tests.Framework.Container.Factory
         [Test]
         public void TestConfigPathUseConfigPath()
         {
-            string configPath = SingletonS2ContainerFactory.ConfigPath;
+            var configPath = SingletonS2ContainerFactory.ConfigPath;
             try
             {
                 SingletonS2ContainerFactory.ConfigPath = "Seasar.Tests.Ado.dicon";

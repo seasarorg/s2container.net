@@ -35,16 +35,9 @@ namespace Seasar.Dao.Pager
 
         public IDataReader CreateDataReader(IDataSource dataSource, IDbCommand cmd)
         {
-            IDataReader reader = DataReaderFactory.CreateDataReader(dataSource, cmd);
-            IPagerCondition condition = PagerContext.GetContext().PeekArgs();
-            if (condition != null)
-            {
-                return new PagerDataReaderWrapper(reader, condition);
-            }
-            else
-            {
-                return reader;
-            }
+            var reader = DataReaderFactory.CreateDataReader(dataSource, cmd);
+            var condition = PagerContext.GetContext().PeekArgs();
+            return condition != null ? new PagerDataReaderWrapper(reader, condition) : reader;
         }
 
         #endregion

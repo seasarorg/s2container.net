@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -17,12 +17,9 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using MbUnit.Framework;
-using Seasar.Dao.Unit;
 using Seasar.Dao;
-using Seasar.Dao.Impl;
+using Seasar.Dao.Unit;
 using Seasar.Extension.Unit;
 
 namespace Seasar.Tests.Dao.Impl
@@ -38,199 +35,199 @@ namespace Seasar.Tests.Dao.Impl
         [Test, S2(Tx.Rollback)]
         public void TestExecuteModifiedOnlyTx()
         {
-            IDaoMetaData dmd = CreateDaoMetaData(typeof(IEmployeeModifiedOnlyDao));
-            ISqlCommand updateCommand = dmd.GetSqlCommand("UpdateModifiedOnly");
-            ISqlCommand selectCommand = dmd.GetSqlCommand("GetEmployee");
+            var dmd = CreateDaoMetaData(typeof(IEmployeeModifiedOnlyDao));
+            var updateCommand = dmd.GetSqlCommand("UpdateModifiedOnly");
+            var selectCommand = dmd.GetSqlCommand("GetEmployee");
             const int TEST_EMP_NO = 7369;
             {
-                EmployeeModifiedOnly entity = new EmployeeModifiedOnly();
+                var entity = new EmployeeModifiedOnly();
                 Assert.AreEqual(0, entity.ModifiedPropertyNames.Count);
                 entity.Empno = TEST_EMP_NO;
                 entity.JobName = "Hoge";
                 Assert.IsTrue(entity.ModifiedPropertyNames.Count > 0);
 
-                int modifiedCount = (int)updateCommand.Execute(new object[] { entity });
+                var modifiedCount = (int)updateCommand.Execute(new object[] { entity });
 
                 Assert.IsTrue(modifiedCount > 0);
-                EmployeeModifiedOnly afterEntity = selectCommand.Execute(new object[] { TEST_EMP_NO }) as EmployeeModifiedOnly;
-                Assert.IsNotNull(afterEntity, "XV‚µ‚½ƒGƒ“ƒeƒBƒeƒB‚ª‘¶İ‚·‚é");
+                var afterEntity = selectCommand.Execute(new object[] { TEST_EMP_NO }) as EmployeeModifiedOnly;
+                Assert.IsNotNull(afterEntity, "æ›´æ–°ã—ãŸã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãŒå­˜åœ¨ã™ã‚‹");
                 Console.WriteLine(afterEntity.ToString());
-                Assert.AreEqual(entity.JobName, afterEntity.JobName, "XV‚µ‚½ƒvƒƒpƒeƒB‚ÍXVŒã‚Ì’l‚É‚È‚Á‚Ä‚¢‚é");
-                Assert.IsFalse(string.IsNullOrEmpty(afterEntity.Ename), "XV‚µ‚Ä‚¢‚È‚¢ƒvƒƒpƒeƒB‚ÍXVÀs‘O‚Ì’l‚Ì‚Ü‚Ü1");
-                Assert.IsTrue(afterEntity.Hiredate.HasValue, "XV‚µ‚Ä‚¢‚È‚¢ƒvƒƒpƒeƒB‚ÍXVÀs‘O‚Ì’l‚Ì‚Ü‚Ü2");
-                Assert.IsTrue(afterEntity.Mgr.HasValue, "XV‚µ‚Ä‚¢‚È‚¢ƒvƒƒpƒeƒB‚ÍXVÀs‘O‚Ì’l‚Ì‚Ü‚Ü3");
-                Assert.IsTrue(afterEntity.Sal.HasValue, "XV‚µ‚Ä‚¢‚È‚¢ƒvƒƒpƒeƒB‚ÍXVÀs‘O‚Ì’l‚Ì‚Ü‚Ü4");
+                Assert.AreEqual(entity.JobName, afterEntity.JobName, "æ›´æ–°ã—ãŸãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã¯æ›´æ–°å¾Œã®å€¤ã«ãªã£ã¦ã„ã‚‹");
+                Assert.IsFalse(string.IsNullOrEmpty(afterEntity.Ename), "æ›´æ–°ã—ã¦ã„ãªã„ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã¯æ›´æ–°å®Ÿè¡Œå‰ã®å€¤ã®ã¾ã¾1");
+                Assert.IsTrue(afterEntity.Hiredate.HasValue, "æ›´æ–°ã—ã¦ã„ãªã„ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã¯æ›´æ–°å®Ÿè¡Œå‰ã®å€¤ã®ã¾ã¾2");
+                Assert.IsTrue(afterEntity.Mgr.HasValue, "æ›´æ–°ã—ã¦ã„ãªã„ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã¯æ›´æ–°å®Ÿè¡Œå‰ã®å€¤ã®ã¾ã¾3");
+                Assert.IsTrue(afterEntity.Sal.HasValue, "æ›´æ–°ã—ã¦ã„ãªã„ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã¯æ›´æ–°å®Ÿè¡Œå‰ã®å€¤ã®ã¾ã¾4");
             }
             {
-                EmployeeModifiedOnly entity = selectCommand.Execute(new object[] { TEST_EMP_NO }) as EmployeeModifiedOnly;
+                var entity = selectCommand.Execute(new object[] { TEST_EMP_NO }) as EmployeeModifiedOnly;
                 Assert.IsNotNull(entity);
-                Assert.AreEqual(0, entity.ModifiedPropertyNames.Count, "select’¼Œã‚ÍXVƒvƒƒpƒeƒB‚Í–³‚µ‚Ìó‘Ô");
+                Assert.AreEqual(0, entity.ModifiedPropertyNames.Count, "selectç›´å¾Œã¯æ›´æ–°ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã¯ç„¡ã—ã®çŠ¶æ…‹");
                 entity.Empno = TEST_EMP_NO;
                 entity.JobName = "Hoge";
                 Assert.IsTrue(entity.ModifiedPropertyNames.Count > 0);
 
-                int modifiedCount = (int)updateCommand.Execute(new object[] { entity });
+                var modifiedCount = (int)updateCommand.Execute(new object[] { entity });
 
                 Assert.IsTrue(modifiedCount > 0);
-                EmployeeModifiedOnly afterEntity = selectCommand.Execute(new object[] { TEST_EMP_NO }) as EmployeeModifiedOnly;
-                Assert.IsNotNull(afterEntity, "XV‚µ‚½ƒGƒ“ƒeƒBƒeƒB‚ª‘¶İ‚·‚é");
+                var afterEntity = selectCommand.Execute(new object[] { TEST_EMP_NO }) as EmployeeModifiedOnly;
+                Assert.IsNotNull(afterEntity, "æ›´æ–°ã—ãŸã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãŒå­˜åœ¨ã™ã‚‹");
                 Console.WriteLine(afterEntity.ToString());
-                Assert.AreEqual(entity.JobName, afterEntity.JobName, "XV‚µ‚½ƒvƒƒpƒeƒB‚ÍXVŒã‚Ì’l‚É‚È‚Á‚Ä‚¢‚é");
-                Assert.IsFalse(string.IsNullOrEmpty(afterEntity.Ename), "XV‚µ‚Ä‚¢‚È‚¢ƒvƒƒpƒeƒB‚ÍXVÀs‘O‚Ì’l‚Ì‚Ü‚Ü1");
-                Assert.IsTrue(afterEntity.Hiredate.HasValue, "XV‚µ‚Ä‚¢‚È‚¢ƒvƒƒpƒeƒB‚ÍXVÀs‘O‚Ì’l‚Ì‚Ü‚Ü2");
-                Assert.IsTrue(afterEntity.Mgr.HasValue, "XV‚µ‚Ä‚¢‚È‚¢ƒvƒƒpƒeƒB‚ÍXVÀs‘O‚Ì’l‚Ì‚Ü‚Ü3");
-                Assert.IsTrue(afterEntity.Sal.HasValue, "XV‚µ‚Ä‚¢‚È‚¢ƒvƒƒpƒeƒB‚ÍXVÀs‘O‚Ì’l‚Ì‚Ü‚Ü4");
+                Assert.AreEqual(entity.JobName, afterEntity.JobName, "æ›´æ–°ã—ãŸãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã¯æ›´æ–°å¾Œã®å€¤ã«ãªã£ã¦ã„ã‚‹");
+                Assert.IsFalse(string.IsNullOrEmpty(afterEntity.Ename), "æ›´æ–°ã—ã¦ã„ãªã„ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã¯æ›´æ–°å®Ÿè¡Œå‰ã®å€¤ã®ã¾ã¾1");
+                Assert.IsTrue(afterEntity.Hiredate.HasValue, "æ›´æ–°ã—ã¦ã„ãªã„ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã¯æ›´æ–°å®Ÿè¡Œå‰ã®å€¤ã®ã¾ã¾2");
+                Assert.IsTrue(afterEntity.Mgr.HasValue, "æ›´æ–°ã—ã¦ã„ãªã„ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã¯æ›´æ–°å®Ÿè¡Œå‰ã®å€¤ã®ã¾ã¾3");
+                Assert.IsTrue(afterEntity.Sal.HasValue, "æ›´æ–°ã—ã¦ã„ãªã„ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã¯æ›´æ–°å®Ÿè¡Œå‰ã®å€¤ã®ã¾ã¾4");
             }
             {
-                EmployeeModifiedOnly entity = selectCommand.Execute(new object[] { TEST_EMP_NO }) as EmployeeModifiedOnly;
+                var entity = selectCommand.Execute(new object[] { TEST_EMP_NO }) as EmployeeModifiedOnly;
                 Assert.IsNotNull(entity);
-                Assert.AreEqual(0, entity.ModifiedPropertyNames.Count, "select’¼Œã‚ÍXVƒvƒƒpƒeƒB‚Í–³‚µ‚Ìó‘Ô");
+                Assert.AreEqual(0, entity.ModifiedPropertyNames.Count, "selectç›´å¾Œã¯æ›´æ–°ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã¯ç„¡ã—ã®çŠ¶æ…‹");
                 entity.Empno = TEST_EMP_NO;
 
-                int modifiedCount = (int)updateCommand.Execute(new object[] { entity });
+                var modifiedCount = (int)updateCommand.Execute(new object[] { entity });
 
-                Assert.AreEqual(0, modifiedCount, "XVƒvƒƒpƒeƒB‚ª‚È‚¢‚Æ‚«‚ÍXV‚ªÀs‚³‚ê‚È‚¢");
+                Assert.AreEqual(0, modifiedCount, "æ›´æ–°ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãŒãªã„ã¨ãã¯æ›´æ–°ãŒå®Ÿè¡Œã•ã‚Œãªã„");
             }
         }
 
         [Test, S2(Tx.Rollback)]
         public void TestExecuteModifiedOnlyWithoutClearMethodTx()
         {
-            IDaoMetaData dmd = CreateDaoMetaData(typeof(IEmployeeModifiedOnlyWithoutClearMethodDao));
-            ISqlCommand updateCommand = dmd.GetSqlCommand("UpdateModifiedOnly");
-            ISqlCommand selectCommand = dmd.GetSqlCommand("GetEmployee");
+            var dmd = CreateDaoMetaData(typeof(IEmployeeModifiedOnlyWithoutClearMethodDao));
+            var updateCommand = dmd.GetSqlCommand("UpdateModifiedOnly");
+            var selectCommand = dmd.GetSqlCommand("GetEmployee");
             const int TEST_EMP_NO = 7369;
             {
-                EmployeeModifiedOnlyWithoutClearMethod entity = new EmployeeModifiedOnlyWithoutClearMethod();
+                var entity = new EmployeeModifiedOnlyWithoutClearMethod();
                 Assert.AreEqual(0, entity.ModifiedPropertyNames.Count);
                 entity.Empno = TEST_EMP_NO;
                 entity.JobName = "Hoge";
                 Assert.IsTrue(entity.ModifiedPropertyNames.Count > 0);
 
-                int modifiedCount = (int)updateCommand.Execute(new object[] { entity });
+                var modifiedCount = (int)updateCommand.Execute(new object[] { entity });
 
                 Assert.IsTrue(modifiedCount > 0);
-                EmployeeModifiedOnlyWithoutClearMethod afterEntity = selectCommand.Execute(new object[] { TEST_EMP_NO }) as EmployeeModifiedOnlyWithoutClearMethod;
-                Assert.IsNotNull(afterEntity, "XV‚µ‚½ƒGƒ“ƒeƒBƒeƒB‚ª‘¶İ‚·‚é");
+                var afterEntity = selectCommand.Execute(new object[] { TEST_EMP_NO }) as EmployeeModifiedOnlyWithoutClearMethod;
+                Assert.IsNotNull(afterEntity, "æ›´æ–°ã—ãŸã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãŒå­˜åœ¨ã™ã‚‹");
                 Console.WriteLine(afterEntity.ToString());
-                Assert.AreEqual(entity.JobName, afterEntity.JobName, "XV‚µ‚½ƒvƒƒpƒeƒB‚ÍXVŒã‚Ì’l‚É‚È‚Á‚Ä‚¢‚é");
-                Assert.IsFalse(string.IsNullOrEmpty(afterEntity.Ename), "XV‚µ‚Ä‚¢‚È‚¢ƒvƒƒpƒeƒB‚ÍXVÀs‘O‚Ì’l‚Ì‚Ü‚Ü1");
-                Assert.IsTrue(afterEntity.Hiredate.HasValue, "XV‚µ‚Ä‚¢‚È‚¢ƒvƒƒpƒeƒB‚ÍXVÀs‘O‚Ì’l‚Ì‚Ü‚Ü2");
-                Assert.IsTrue(afterEntity.Mgr.HasValue, "XV‚µ‚Ä‚¢‚È‚¢ƒvƒƒpƒeƒB‚ÍXVÀs‘O‚Ì’l‚Ì‚Ü‚Ü3");
-                Assert.IsTrue(afterEntity.Sal.HasValue, "XV‚µ‚Ä‚¢‚È‚¢ƒvƒƒpƒeƒB‚ÍXVÀs‘O‚Ì’l‚Ì‚Ü‚Ü4");
+                Assert.AreEqual(entity.JobName, afterEntity.JobName, "æ›´æ–°ã—ãŸãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã¯æ›´æ–°å¾Œã®å€¤ã«ãªã£ã¦ã„ã‚‹");
+                Assert.IsFalse(string.IsNullOrEmpty(afterEntity.Ename), "æ›´æ–°ã—ã¦ã„ãªã„ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã¯æ›´æ–°å®Ÿè¡Œå‰ã®å€¤ã®ã¾ã¾1");
+                Assert.IsTrue(afterEntity.Hiredate.HasValue, "æ›´æ–°ã—ã¦ã„ãªã„ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã¯æ›´æ–°å®Ÿè¡Œå‰ã®å€¤ã®ã¾ã¾2");
+                Assert.IsTrue(afterEntity.Mgr.HasValue, "æ›´æ–°ã—ã¦ã„ãªã„ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã¯æ›´æ–°å®Ÿè¡Œå‰ã®å€¤ã®ã¾ã¾3");
+                Assert.IsTrue(afterEntity.Sal.HasValue, "æ›´æ–°ã—ã¦ã„ãªã„ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã¯æ›´æ–°å®Ÿè¡Œå‰ã®å€¤ã®ã¾ã¾4");
             }
             {
-                EmployeeModifiedOnlyWithoutClearMethod entity = selectCommand.Execute(new object[] { TEST_EMP_NO }) as EmployeeModifiedOnlyWithoutClearMethod;
+                var entity = selectCommand.Execute(new object[] { TEST_EMP_NO }) as EmployeeModifiedOnlyWithoutClearMethod;
                 Assert.IsNotNull(entity);
-                Assert.AreEqual(0, entity.ModifiedPropertyNames.Count, "select’¼Œã‚ÍXVƒvƒƒpƒeƒB‚Í–³‚µ‚Ìó‘Ô");
+                Assert.AreEqual(0, entity.ModifiedPropertyNames.Count, "selectç›´å¾Œã¯æ›´æ–°ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã¯ç„¡ã—ã®çŠ¶æ…‹");
                 entity.Empno = TEST_EMP_NO;
                 entity.JobName = "Hoge";
                 Assert.IsTrue(entity.ModifiedPropertyNames.Count > 0);
 
-                int modifiedCount = (int)updateCommand.Execute(new object[] { entity });
+                var modifiedCount = (int)updateCommand.Execute(new object[] { entity });
 
                 Assert.IsTrue(modifiedCount > 0);
-                EmployeeModifiedOnlyWithoutClearMethod afterEntity = selectCommand.Execute(new object[] { TEST_EMP_NO }) as EmployeeModifiedOnlyWithoutClearMethod;
-                Assert.IsNotNull(afterEntity, "XV‚µ‚½ƒGƒ“ƒeƒBƒeƒB‚ª‘¶İ‚·‚é");
+                var afterEntity = selectCommand.Execute(new object[] { TEST_EMP_NO }) as EmployeeModifiedOnlyWithoutClearMethod;
+                Assert.IsNotNull(afterEntity, "æ›´æ–°ã—ãŸã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãŒå­˜åœ¨ã™ã‚‹");
                 Console.WriteLine(afterEntity.ToString());
-                Assert.AreEqual(entity.JobName, afterEntity.JobName, "XV‚µ‚½ƒvƒƒpƒeƒB‚ÍXVŒã‚Ì’l‚É‚È‚Á‚Ä‚¢‚é");
-                Assert.IsFalse(string.IsNullOrEmpty(afterEntity.Ename), "XV‚µ‚Ä‚¢‚È‚¢ƒvƒƒpƒeƒB‚ÍXVÀs‘O‚Ì’l‚Ì‚Ü‚Ü1");
-                Assert.IsTrue(afterEntity.Hiredate.HasValue, "XV‚µ‚Ä‚¢‚È‚¢ƒvƒƒpƒeƒB‚ÍXVÀs‘O‚Ì’l‚Ì‚Ü‚Ü2");
-                Assert.IsTrue(afterEntity.Mgr.HasValue, "XV‚µ‚Ä‚¢‚È‚¢ƒvƒƒpƒeƒB‚ÍXVÀs‘O‚Ì’l‚Ì‚Ü‚Ü3");
-                Assert.IsTrue(afterEntity.Sal.HasValue, "XV‚µ‚Ä‚¢‚È‚¢ƒvƒƒpƒeƒB‚ÍXVÀs‘O‚Ì’l‚Ì‚Ü‚Ü4");
+                Assert.AreEqual(entity.JobName, afterEntity.JobName, "æ›´æ–°ã—ãŸãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã¯æ›´æ–°å¾Œã®å€¤ã«ãªã£ã¦ã„ã‚‹");
+                Assert.IsFalse(string.IsNullOrEmpty(afterEntity.Ename), "æ›´æ–°ã—ã¦ã„ãªã„ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã¯æ›´æ–°å®Ÿè¡Œå‰ã®å€¤ã®ã¾ã¾1");
+                Assert.IsTrue(afterEntity.Hiredate.HasValue, "æ›´æ–°ã—ã¦ã„ãªã„ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã¯æ›´æ–°å®Ÿè¡Œå‰ã®å€¤ã®ã¾ã¾2");
+                Assert.IsTrue(afterEntity.Mgr.HasValue, "æ›´æ–°ã—ã¦ã„ãªã„ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã¯æ›´æ–°å®Ÿè¡Œå‰ã®å€¤ã®ã¾ã¾3");
+                Assert.IsTrue(afterEntity.Sal.HasValue, "æ›´æ–°ã—ã¦ã„ãªã„ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã¯æ›´æ–°å®Ÿè¡Œå‰ã®å€¤ã®ã¾ã¾4");
             }
             {
-                EmployeeModifiedOnlyWithoutClearMethod entity = selectCommand.Execute(new object[] { TEST_EMP_NO }) as EmployeeModifiedOnlyWithoutClearMethod;
+                var entity = selectCommand.Execute(new object[] { TEST_EMP_NO }) as EmployeeModifiedOnlyWithoutClearMethod;
                 Assert.IsNotNull(entity);
-                Assert.AreEqual(0, entity.ModifiedPropertyNames.Count, "select’¼Œã‚ÍXVƒvƒƒpƒeƒB‚Í–³‚µ‚Ìó‘Ô");
+                Assert.AreEqual(0, entity.ModifiedPropertyNames.Count, "selectç›´å¾Œã¯æ›´æ–°ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã¯ç„¡ã—ã®çŠ¶æ…‹");
                 entity.Empno = TEST_EMP_NO;
 
-                int modifiedCount = (int)updateCommand.Execute(new object[] { entity });
+                var modifiedCount = (int)updateCommand.Execute(new object[] { entity });
 
-                Assert.AreEqual(0, modifiedCount, "XVƒvƒƒpƒeƒB‚ª‚È‚¢‚Æ‚«‚ÍXV‚ªÀs‚³‚ê‚È‚¢");
+                Assert.AreEqual(0, modifiedCount, "æ›´æ–°ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãŒãªã„ã¨ãã¯æ›´æ–°ãŒå®Ÿè¡Œã•ã‚Œãªã„");
             }
         }
 
         [Test, S2(Tx.Rollback)]
         public void TestExecuteClearModifiedMethodOnlyTx()
         {
-            IDaoMetaData dmd = CreateDaoMetaData(typeof(IEmployeeClearModifiedMethodOnlyDao));
-            ISqlCommand updateCommand1 = dmd.GetSqlCommand("UpdateModifiedOnly");
-            ISqlCommand selectCommand = dmd.GetSqlCommand("GetEmployee");
+            var dmd = CreateDaoMetaData(typeof(IEmployeeClearModifiedMethodOnlyDao));
+            var updateCommand1 = dmd.GetSqlCommand("UpdateModifiedOnly");
+            var selectCommand = dmd.GetSqlCommand("GetEmployee");
             const int TEST_EMP_NO = 7369;
             {
-                EmployeeClearModifiedMethodOnly entity = selectCommand.Execute(new object[] { TEST_EMP_NO }) as EmployeeClearModifiedMethodOnly;
-                Assert.IsTrue(entity.IsClearMethodCalled, "ClearModifiedOnlyPropertyNamesƒƒ\ƒbƒh‚ª‚ ‚ê‚Î‚»‚ê‚ÍŒÄ‚Î‚ê‚Ä‚¢‚é");
+                var entity = selectCommand.Execute(new object[] { TEST_EMP_NO }) as EmployeeClearModifiedMethodOnly;
+                Assert.IsTrue(entity.IsClearMethodCalled, "ClearModifiedOnlyPropertyNamesãƒ¡ã‚½ãƒƒãƒ‰ãŒã‚ã‚Œã°ãã‚Œã¯å‘¼ã°ã‚Œã¦ã„ã‚‹");
                 entity.Empno = TEST_EMP_NO;
                 entity.JobName = "Hoge";
 
                 try
                 {
                     updateCommand1.Execute(new object[] { entity });
-                    Assert.Fail("ModifiedOnlyPropertyNames‚ª‚È‚¢ê‡‚Í—áŠO‚ª”­¶‚·‚éB");
+                    Assert.Fail("ModifiedOnlyPropertyNamesãŒãªã„å ´åˆã¯ä¾‹å¤–ãŒç™ºç”Ÿã™ã‚‹ã€‚");
                 }
                 catch ( NotFoundModifiedPropertiesRuntimeException ex )
                 {
                     Console.WriteLine(ex.Message);
                 }
             }
-            ISqlCommand updateCommand2 = dmd.GetSqlCommand("Update");
+            var updateCommand2 = dmd.GetSqlCommand("Update");
             {
-                EmployeeClearModifiedMethodOnly entity = new EmployeeClearModifiedMethodOnly();
+                var entity = new EmployeeClearModifiedMethodOnly();
                 entity.Empno = TEST_EMP_NO;
                 entity.JobName = "Hoge";
 
-                int modifiedCount = (int)updateCommand2.Execute(new object[] { entity });
+                var modifiedCount = (int)updateCommand2.Execute(new object[] { entity });
 
-                Assert.IsTrue(modifiedCount > 0, "’Êí‚Ìupdate‚Í—áŠO‚Æ‚È‚ç‚¸‚ÉÀs‚³‚ê‚é");
-                EmployeeClearModifiedMethodOnly afterEntity = selectCommand.Execute(new object[] { TEST_EMP_NO }) as EmployeeClearModifiedMethodOnly;
-                Assert.IsNotNull(afterEntity, "XV‚µ‚½ƒGƒ“ƒeƒBƒeƒB‚ª‘¶İ‚·‚é");
+                Assert.IsTrue(modifiedCount > 0, "é€šå¸¸ã®updateã¯ä¾‹å¤–ã¨ãªã‚‰ãšã«å®Ÿè¡Œã•ã‚Œã‚‹");
+                var afterEntity = selectCommand.Execute(new object[] { TEST_EMP_NO }) as EmployeeClearModifiedMethodOnly;
+                Assert.IsNotNull(afterEntity, "æ›´æ–°ã—ãŸã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãŒå­˜åœ¨ã™ã‚‹");
                 Assert.AreEqual(entity.JobName, afterEntity.JobName);
-                Assert.IsNull(afterEntity.Ename, "XV‚µ‚Ä‚¢‚È‚¢ƒvƒƒpƒeƒB‚ÍnullXV1");
-                Assert.IsFalse(afterEntity.Hiredate.HasValue, "XV‚µ‚Ä‚¢‚È‚¢ƒvƒƒpƒeƒB‚ÍnullXV2");
-                Assert.IsFalse(afterEntity.Mgr.HasValue, "XV‚µ‚Ä‚¢‚È‚¢ƒvƒƒpƒeƒB‚ÍnullXV3");
-                Assert.IsFalse(afterEntity.Sal.HasValue, "XV‚µ‚Ä‚¢‚È‚¢ƒvƒƒpƒeƒB‚ÍnullXV4");
+                Assert.IsNull(afterEntity.Ename, "æ›´æ–°ã—ã¦ã„ãªã„ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã¯nullæ›´æ–°1");
+                Assert.IsFalse(afterEntity.Hiredate.HasValue, "æ›´æ–°ã—ã¦ã„ãªã„ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã¯nullæ›´æ–°2");
+                Assert.IsFalse(afterEntity.Mgr.HasValue, "æ›´æ–°ã—ã¦ã„ãªã„ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã¯nullæ›´æ–°3");
+                Assert.IsFalse(afterEntity.Sal.HasValue, "æ›´æ–°ã—ã¦ã„ãªã„ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã¯nullæ›´æ–°4");
             }
         }
 
         [Test, S2(Tx.Rollback)]
         public void TestExecuteNoModifiedPropertyNamesAndMethodTx()
         {
-            IDaoMetaData dmd = CreateDaoMetaData(typeof(IEmployeeNoModifiedPropertyNamesAndMethodDao));
-            ISqlCommand updateCommand1 = dmd.GetSqlCommand("UpdateModifiedOnly");
-            ISqlCommand selectCommand = dmd.GetSqlCommand("GetEmployee");
+            var dmd = CreateDaoMetaData(typeof(IEmployeeNoModifiedPropertyNamesAndMethodDao));
+            var updateCommand1 = dmd.GetSqlCommand("UpdateModifiedOnly");
+            var selectCommand = dmd.GetSqlCommand("GetEmployee");
             const int TEST_EMP_NO = 7369;
             {
-                EmployeeNoModifiedPropertyNamesAndMethod entity = selectCommand.Execute(new object[] { TEST_EMP_NO }) as EmployeeNoModifiedPropertyNamesAndMethod;
+                var entity = selectCommand.Execute(new object[] { TEST_EMP_NO }) as EmployeeNoModifiedPropertyNamesAndMethod;
                 entity.Empno = TEST_EMP_NO;
                 entity.JobName = "Hoge";
 
                 try
                 {
                     updateCommand1.Execute(new object[] { entity });
-                    Assert.Fail("ModifiedOnlyPropertyNames‚ª‚È‚¢ê‡‚Í—áŠO‚ª”­¶‚·‚éB");
+                    Assert.Fail("ModifiedOnlyPropertyNamesãŒãªã„å ´åˆã¯ä¾‹å¤–ãŒç™ºç”Ÿã™ã‚‹ã€‚");
                 }
                 catch ( NotFoundModifiedPropertiesRuntimeException ex )
                 {
                     Console.WriteLine(ex.Message);
                 }
             }
-            ISqlCommand updateCommand2 = dmd.GetSqlCommand("Update");
+            var updateCommand2 = dmd.GetSqlCommand("Update");
             {
-                EmployeeNoModifiedPropertyNamesAndMethod entity = new EmployeeNoModifiedPropertyNamesAndMethod();
+                var entity = new EmployeeNoModifiedPropertyNamesAndMethod();
                 entity.Empno = TEST_EMP_NO;
                 entity.JobName = "Hoge";
 
-                int modifiedCount = (int)updateCommand2.Execute(new object[] { entity });
+                var modifiedCount = (int)updateCommand2.Execute(new object[] { entity });
 
-                Assert.IsTrue(modifiedCount > 0, "’Êí‚Ìupdate‚Í—áŠO‚Æ‚È‚ç‚¸‚ÉÀs‚³‚ê‚é");
-                EmployeeNoModifiedPropertyNamesAndMethod afterEntity = selectCommand.Execute(new object[] { TEST_EMP_NO }) as EmployeeNoModifiedPropertyNamesAndMethod;
-                Assert.IsNotNull(afterEntity, "XV‚µ‚½ƒGƒ“ƒeƒBƒeƒB‚ª‘¶İ‚·‚é");
+                Assert.IsTrue(modifiedCount > 0, "é€šå¸¸ã®updateã¯ä¾‹å¤–ã¨ãªã‚‰ãšã«å®Ÿè¡Œã•ã‚Œã‚‹");
+                var afterEntity = selectCommand.Execute(new object[] { TEST_EMP_NO }) as EmployeeNoModifiedPropertyNamesAndMethod;
+                Assert.IsNotNull(afterEntity, "æ›´æ–°ã—ãŸã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ãŒå­˜åœ¨ã™ã‚‹");
                 Assert.AreEqual(entity.JobName, afterEntity.JobName);
-                Assert.IsNull(afterEntity.Ename, "XV‚µ‚Ä‚¢‚È‚¢ƒvƒƒpƒeƒB‚ÍnullXV1");
-                Assert.IsFalse(afterEntity.Hiredate.HasValue, "XV‚µ‚Ä‚¢‚È‚¢ƒvƒƒpƒeƒB‚ÍnullXV2");
-                Assert.IsFalse(afterEntity.Mgr.HasValue, "XV‚µ‚Ä‚¢‚È‚¢ƒvƒƒpƒeƒB‚ÍnullXV3");
-                Assert.IsFalse(afterEntity.Sal.HasValue, "XV‚µ‚Ä‚¢‚È‚¢ƒvƒƒpƒeƒB‚ÍnullXV4");
+                Assert.IsNull(afterEntity.Ename, "æ›´æ–°ã—ã¦ã„ãªã„ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã¯nullæ›´æ–°1");
+                Assert.IsFalse(afterEntity.Hiredate.HasValue, "æ›´æ–°ã—ã¦ã„ãªã„ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã¯nullæ›´æ–°2");
+                Assert.IsFalse(afterEntity.Mgr.HasValue, "æ›´æ–°ã—ã¦ã„ãªã„ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã¯nullæ›´æ–°3");
+                Assert.IsFalse(afterEntity.Sal.HasValue, "æ›´æ–°ã—ã¦ã„ãªã„ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã¯nullæ›´æ–°4");
             }
         }
     }

@@ -17,8 +17,8 @@
 #endregion
 
 using Seasar.Framework.Aop;
-using Seasar.Framework.Container.Impl;
 using Seasar.Framework.Aop.Impl;
+using Seasar.Framework.Container.Impl;
 
 namespace Seasar.Framework.Container.AutoRegister
 {
@@ -27,15 +27,15 @@ namespace Seasar.Framework.Container.AutoRegister
     /// </summary>
     public class AspectAutoRegister : AbstractComponentTargetAutoRegister
     {
-        private IMethodInterceptor interceptor;
-        private string pointcut;
+        private IMethodInterceptor _interceptor;
+        private string _pointcut;
 
         /// <summary>
         /// インターセプタを設定します。
         /// </summary>
         public IMethodInterceptor Interceptor
         {
-            set { interceptor = value; }
+            set { _interceptor = value; }
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Seasar.Framework.Container.AutoRegister
         /// </summary>
         public string Pointcut
         {
-            set { pointcut = value; }
+            set { _pointcut = value; }
         }
 
         /// <summary>
@@ -54,15 +54,15 @@ namespace Seasar.Framework.Container.AutoRegister
         {
             IAspectDef aspectDef;
 
-            if (pointcut != null)
+            if (_pointcut != null)
             {
-                string[] methodNames = pointcut.Split(new char[] { ',' });
-                aspectDef = new AspectDefImpl(interceptor,
+                var methodNames = _pointcut.Split(',');
+                aspectDef = new AspectDefImpl(_interceptor,
                     new PointcutImpl(methodNames));
             }
             else
             {
-                aspectDef = new AspectDefImpl(interceptor);
+                aspectDef = new AspectDefImpl(_interceptor);
             }
 
             componentDef.AddAspeceDef(aspectDef);

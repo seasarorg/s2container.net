@@ -26,12 +26,12 @@ namespace Seasar.Tests.Framework.Container.Factory
     public class ComponentsTagHandlerTest
     {
         private const string PATH
-            = "Seasar/Tests/Framework/Container/Factory/ComponentsTagHandlerTest.dicon";
+            = "Seasar/Tests/Framework/container/Factory/ComponentsTagHandlerTest.dicon";
 
         [Test]
         public void TestComponent()
         {
-            IS2Container container = S2ContainerFactory.Create(PATH);
+            var container = S2ContainerFactory.Create(PATH);
             Assert.AreEqual("aaa", container.Namespace);
             Assert.AreEqual(0, ((A) container.GetComponent("aaa.bbb")).Time);
             Assert.AreEqual(0, ((A) container.GetComponent("bbb")).Time);
@@ -40,22 +40,16 @@ namespace Seasar.Tests.Framework.Container.Factory
 
         public class A
         {
-            private long _time;
-
             public A()
             {
             }
 
             public A(long time)
             {
-                _time = time;
+                Time = time;
             }
 
-            public long Time
-            {
-                get { return _time; }
-                set { _time = value; }
-            }
+            public long Time { get; set; }
         }
     }
 }

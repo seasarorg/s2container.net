@@ -23,37 +23,31 @@ using System.IO;
 using System.Text;
 using Seasar.Extension.ADO.Types;
 using Seasar.Extension.DataSets.Types;
+using Seasar.Framework.Util;
 
 namespace Seasar.Extension.DataSets.Impl
 {
     public class XlsWriter : IDataWriter
     {
-        private readonly string _fullPath;
-
         public XlsWriter(string fullPath)
         {
-            _fullPath = Path.GetFullPath(fullPath);
+            FullPath = Path.GetFullPath(fullPath);
         }
 
-        public string FullPath
-        {
-            get { return _fullPath; }
-        }
+        public string FullPath { get; }
 
         #region IDataWriter ÉÅÉìÉo
 
         public virtual void Write(DataSet dataSet)
         {
-            string connectonString = string.Format(
-                "Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Extended Properties=\"Excel 8.0;HDR=Yes\"",
-                _fullPath
-                );
-            CreateDir();
-            if (File.Exists(_fullPath))
+            string connectonString =
+                $"Provider=Microsoft.Jet.OLEDB.4.0;Data Source={FullPath};Extended Properties=\"Excel 8.0;HDR=Yes\"";
+            _CreateDir();
+            if (File.Exists(FullPath))
             {
-                File.Delete(_fullPath);
+                File.Delete(FullPath);
             }
-            using (OleDbConnection con = new OleDbConnection(connectonString))
+            using (var con = new OleDbConnection(connectonString))
             {
                 if (con.State != ConnectionState.Open)
                 {
@@ -62,28 +56,28 @@ namespace Seasar.Extension.DataSets.Impl
 
                 foreach (DataTable table in dataSet.Tables)
                 {
-                    string createTableSql = CreateTableSql(table);
-                    using (OleDbCommand cmd = new OleDbCommand(createTableSql, con))
+                    var createTableSql = _CreateTableSql(table);
+                    using (var cmd = new OleDbCommand(createTableSql, con))
                     {
                         cmd.ExecuteNonQuery();
                     }
 
                     foreach (DataRow row in table.Rows)
                     {
-                        string insertSql = CreateInsertSql(table, row);
-                        using (OleDbCommand cmd = new OleDbCommand(insertSql, con))
+                        var insertSql = CreateInsertSql(table, row);
+                        using (var cmd = new OleDbCommand(insertSql, con))
                         {
                             foreach (DataColumn column in row.Table.Columns)
                             {
-                                IColumnType columnType = ColumnTypes.GetColumnType(column.DataType);
-                                object value = columnType.Convert(row[column.ColumnName], null);
+                                var columnType = ColumnTypes.GetColumnType(column.DataType);
+                                var value = columnType.Convert(row[column.ColumnName], null);
                                 if (value != DBNull.Value)
                                 {
                                     IDbDataParameter param = cmd.CreateParameter();
                                     param.ParameterName = "@" + column.ColumnName;
-                                    DbType dbType = columnType.GetDbType();
+                                    var dbType = columnType.GetDbType();
                                     param.DbType = (dbType == DbType.Binary) ? DbType.String : dbType;
-                                    param.Value = ConvertValue(value);
+                                    param.Value = _ConvertValue(value);
                                     cmd.Parameters.Add(param);
                                 }
                             }
@@ -96,9 +90,9 @@ namespace Seasar.Extension.DataSets.Impl
 
         #endregion
 
-        private string CreateTableSql(DataTable targetTable)
+        private string _CreateTableSql(DataTable targetTable)
         {
-            StringBuilder sql = new StringBuilder();
+            var sql = new StringBuilder();
             sql.AppendFormat("create table [{0}] (", targetTable.TableName);
             foreach (DataColumn column in targetTable.Columns)
             {
@@ -119,8 +113,8 @@ namespace Seasar.Extension.DataSets.Impl
 
         private string CreateInsertSql(DataTable targetTable, DataRow row)
         {
-            StringBuilder sql = new StringBuilder();
-            StringBuilder sqlParam = new StringBuilder();
+            var sql = new StringBuilder();
+            var sqlParam = new StringBuilder();
             sql.AppendFormat("insert into [{0}$] (", targetTable.TableName);
             foreach (DataColumn column in targetTable.Columns)
             {
@@ -148,12 +142,12 @@ namespace Seasar.Extension.DataSets.Impl
             return sql.ToString();
         }
 
-        private object ConvertValue(object value)
+        private object _ConvertValue(object value)
         {
-            object ret;
-            if (value.GetType() == ValueTypes.BYTE_ARRAY_TYPE)
+            object ret = null;
+            if (value.GetExType() == ValueTypes.BYTE_ARRAY_TYPE)
             {
-                ret = DataSetConstants.BASE64_FORMAT + Convert.ToBase64String(value as byte[]);
+                if (value != null) ret = DataSetConstants.BASE64_FORMAT + Convert.ToBase64String(value as byte[]);
             }
             else
             {
@@ -162,10 +156,10 @@ namespace Seasar.Extension.DataSets.Impl
             return ret;
         }
 
-        private void CreateDir()
+        private void _CreateDir()
         {
-            string dir = Path.GetDirectoryName(_fullPath);
-            if (!Directory.Exists(dir))
+            var dir = Path.GetDirectoryName(FullPath);
+            if (dir != null && !Directory.Exists(dir))
             {
                 Directory.CreateDirectory(dir);
             }

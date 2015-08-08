@@ -22,32 +22,21 @@ namespace Seasar.Dao.Node
 {
     public class IfNode : ContainerNode
     {
-        private readonly string _expression;
-        private ElseNode _elseNode;
-        private readonly ExpressionUtil _expressionUtil;
-
         public IfNode(string expression)
         {
-            _expressionUtil = new ExpressionUtil();
-            _expression = _expressionUtil.parseExpression(expression);
-            if (_expression == null)
-                throw new ApplicationException("IllegalBoolExpression=[" + _expression + "]");
+            var expressionUtil = new ExpressionUtil();
+            Expression = expressionUtil.ParseExpression(expression);
+            if (Expression == null)
+                throw new ApplicationException("IllegalBoolExpression=[" + Expression + "]");
         }
 
-        public string Expression
-        {
-            get { return _expression; }
-        }
+        public string Expression { get; }
 
-        public ElseNode ElseNode
-        {
-            get { return _elseNode; }
-            set { _elseNode = value; }
-        }
+        public ElseNode ElseNode { get; set; }
 
         public override void Accept(ICommandContext ctx)
         {
-            object result = InvokeExpression(_expression, ctx);
+            var result = InvokeExpression(Expression, ctx);
             if (result != null)
             {
                 if (Convert.ToBoolean(result))
@@ -55,15 +44,15 @@ namespace Seasar.Dao.Node
                     base.Accept(ctx);
                     ctx.IsEnabled = true;
                 }
-                else if (_elseNode != null)
+                else if (ElseNode != null)
                 {
-                    _elseNode.Accept(ctx);
+                    ElseNode.Accept(ctx);
                     ctx.IsEnabled = true;
                 }
             }
             else
             {
-                throw new ApplicationException("IllegalBoolExpression=[" + _expression + "]");
+                throw new ApplicationException("IllegalBoolExpression=[" + Expression + "]");
             }
         }
     }

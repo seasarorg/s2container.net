@@ -50,7 +50,7 @@ namespace Seasar.Tests.Dao.Interceptors
 
         public override string ToString()
         {
-            StringBuilder buf = new StringBuilder(50);
+            var buf = new StringBuilder(50);
             buf.Append("Empno=");
             buf.Append(Empno);
             buf.Append(", Ename=");
@@ -66,7 +66,7 @@ namespace Seasar.Tests.Dao.Interceptors
             {
                 return false;
             }
-            Employee castOther = (Employee) other;
+            var castOther = (Employee) other;
             return Empno == castOther.Empno;
         }
 

@@ -26,34 +26,21 @@ namespace Seasar.Dao.Pager
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Interface)]
     public class PagerAttribute : Attribute
     {
-        private readonly string _limitParameter = "limit";
-        private readonly string _offsetParameter = "offset";
-        private readonly string _countParameter = "count";
-
         public PagerAttribute()
         {
         }
 
         public PagerAttribute(string limitParameter, string offsetParameter, string countParameter)
         {
-            _limitParameter = limitParameter;
-            _offsetParameter = offsetParameter;
-            _countParameter = countParameter;
+            LimitParameter = limitParameter;
+            OffsetParameter = offsetParameter;
+            CountParameter = countParameter;
         }
 
-        public string LimitParameter
-        {
-            get { return _limitParameter; }
-        }
+        public string LimitParameter { get; } = "limit";
 
-        public string OffsetParameter
-        {
-            get { return _offsetParameter; }
-        }
+        public string OffsetParameter { get; } = "offset";
 
-        public string CountParameter
-        {
-            get { return _countParameter; }
-        }
+        public string CountParameter { get; } = "count";
     }
 }

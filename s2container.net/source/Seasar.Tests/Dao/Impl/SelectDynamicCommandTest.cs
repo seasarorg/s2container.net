@@ -1,4 +1,4 @@
-#region Copyright
+Ôªø#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -38,14 +38,14 @@ namespace Seasar.Tests.Dao.Impl
         [Test, S2]
         public void TestExecuteTx()
         {
-            SelectDynamicCommand cmd = new SelectDynamicCommand(DataSource,
+            var cmd = new SelectDynamicCommand(DataSource,
                 BasicCommandFactory.INSTANCE,
                 new BeanMetaDataDataReaderHandler(CreateBeanMetaData(typeof(Employee)), new RowCreatorImpl(), new RelationRowCreatorImpl()),
                 BasicDataReaderFactory.INSTANCE);
             cmd.Sql = "SELECT * FROM emp WHERE empno = /*empno*/1234";
             cmd.ArgNames = new string[] { "empno" };
             cmd.ArgTypes = new Type[] { typeof(int) };
-            Employee emp = (Employee) cmd.Execute(new object[] { 7788 });
+            var emp = (Employee) cmd.Execute(new object[] { 7788 });
             Trace.WriteLine(emp);
             Assert.IsNotNull(emp, "1");
         }
@@ -56,7 +56,7 @@ namespace Seasar.Tests.Dao.Impl
         [Test, S2]
         public void TestExecute_DataTableTx()
         {
-            SelectDynamicCommand cmd = new SelectDynamicCommand(DataSource,
+            var cmd = new SelectDynamicCommand(DataSource,
                 BasicCommandFactory.INSTANCE,
                 new BeanDataTableMetaDataDataReaderHandler(typeof(DataTable)),
                 BasicDataReaderFactory.INSTANCE);
@@ -65,13 +65,13 @@ namespace Seasar.Tests.Dao.Impl
             cmd.ArgTypes = new Type[] { typeof(int) };
 
             const int EMP_NO = 7788;
-            object ret = cmd.Execute(new object[] { EMP_NO });
+            var ret = cmd.Execute(new object[] { EMP_NO });
             Assert.IsNotNull(ret, "1");
-            DataTable actual = ret as DataTable;
+            var actual = ret as DataTable;
             Assert.IsNotNull(actual);
             Assert.AreEqual(1, actual.Rows.Count);
-            DataRow actualRow = actual.Rows[0];
-            // #.NET4.0 å^ÇëµÇ¶Ç»Ç¢Ç∆ê≥èÌÇ…î‰ärÇ≈Ç´Ç»Ç¢
+            var actualRow = actual.Rows[0];
+            // #.NET4.0 Âûã„ÇíÊèÉ„Åà„Å™„ÅÑ„Å®Ê≠£Â∏∏„Å´ÊØîËºÉ„Åß„Åç„Å™„ÅÑ
             Assert.AreEqual(EMP_NO, Int32.Parse(actualRow["EMPNO"].ToString()));
             //Assert.AreEqual(EMP_NO, actualRow["EMPNO"]);
 
@@ -89,7 +89,7 @@ namespace Seasar.Tests.Dao.Impl
         [Test, S2]
         public void TestExecute_CustomDataTableTx()
         {
-            SelectDynamicCommand cmd = new SelectDynamicCommand(DataSource,
+            var cmd = new SelectDynamicCommand(DataSource,
                 BasicCommandFactory.INSTANCE,
                 new BeanDataTableMetaDataDataReaderHandler(typeof(EmployeeDataSet.EmpAndDeptDataTable)),
                 BasicDataReaderFactory.INSTANCE);
@@ -98,13 +98,13 @@ namespace Seasar.Tests.Dao.Impl
             cmd.ArgTypes = new Type[] { typeof(int) };
 
             const int EMP_NO = 7788;
-            object ret = cmd.Execute(new object[] { EMP_NO });
+            var ret = cmd.Execute(new object[] { EMP_NO });
             Assert.IsNotNull(ret, "1");
-            EmployeeDataSet.EmpAndDeptDataTable actual = ret as EmployeeDataSet.EmpAndDeptDataTable;
+            var actual = ret as EmployeeDataSet.EmpAndDeptDataTable;
             Assert.IsNotNull(actual);
             Assert.AreEqual(1, actual.Rows.Count);
-            DataRow actualRow = actual.Rows[0];
-            // #.NET4.0 å^ÇëµÇ¶Ç»Ç¢Ç∆ê≥èÌÇ…î‰ärÇ≈Ç´Ç»Ç¢
+            var actualRow = actual.Rows[0];
+            // #.NET4.0 Âûã„ÇíÊèÉ„Åà„Å™„ÅÑ„Å®Ê≠£Â∏∏„Å´ÊØîËºÉ„Åß„Åç„Å™„ÅÑ
             Assert.AreEqual(EMP_NO, Int32.Parse(actualRow["EMPNO"].ToString()));
             //Assert.AreEqual(EMP_NO, actualRow["EMPNO"]);
 
@@ -122,7 +122,7 @@ namespace Seasar.Tests.Dao.Impl
         [Test, S2]
         public void TestExecute_DataSetTx()
         {
-            SelectDynamicCommand cmd = new SelectDynamicCommand(DataSource,
+            var cmd = new SelectDynamicCommand(DataSource,
                 BasicCommandFactory.INSTANCE,
                 new BeanDataSetMetaDataDataReaderHandler(typeof(DataSet)),
                 BasicDataReaderFactory.INSTANCE);
@@ -131,15 +131,15 @@ namespace Seasar.Tests.Dao.Impl
             cmd.ArgTypes = new Type[] { typeof(int) };
 
             const int EMP_NO = 7788;
-            object ret = cmd.Execute(new object[] { EMP_NO });
+            var ret = cmd.Execute(new object[] { EMP_NO });
             Assert.IsNotNull(ret, "1");
-            DataSet actual = ret as DataSet;
+            var actual = ret as DataSet;
             Assert.IsNotNull(actual);
             Assert.AreEqual(1, actual.Tables.Count);
-            DataTable actualTable = actual.Tables[0];
+            var actualTable = actual.Tables[0];
             Assert.AreEqual(1, actualTable.Rows.Count);
-            DataRow actualRow = actualTable.Rows[0];
-            // #.NET4.0 å^ÇëµÇ¶Ç»Ç¢Ç∆ê≥èÌÇ…î‰ärÇ≈Ç´Ç»Ç¢
+            var actualRow = actualTable.Rows[0];
+            // #.NET4.0 Âûã„ÇíÊèÉ„Åà„Å™„ÅÑ„Å®Ê≠£Â∏∏„Å´ÊØîËºÉ„Åß„Åç„Å™„ÅÑ
             Assert.AreEqual(EMP_NO, Int32.Parse(actualRow["EMPNO"].ToString()));
             //Assert.AreEqual(EMP_NO, actualRow["EMPNO"]);
 
@@ -157,7 +157,7 @@ namespace Seasar.Tests.Dao.Impl
         [Test, S2]
         public void TestExecute_CustomDataSetTx()
         {
-            SelectDynamicCommand cmd = new SelectDynamicCommand(DataSource,
+            var cmd = new SelectDynamicCommand(DataSource,
                 BasicCommandFactory.INSTANCE,
                 new BeanDataSetMetaDataDataReaderHandler(typeof(EmployeeDataSet)),
                 BasicDataReaderFactory.INSTANCE);
@@ -166,15 +166,15 @@ namespace Seasar.Tests.Dao.Impl
             cmd.ArgTypes = new Type[] { typeof(int) };
 
             const int EMP_NO = 7788;
-            object ret = cmd.Execute(new object[] { EMP_NO });
+            var ret = cmd.Execute(new object[] { EMP_NO });
             Assert.IsNotNull(ret, "1");
-            EmployeeDataSet actual = ret as EmployeeDataSet;
+            var actual = ret as EmployeeDataSet;
             Assert.IsNotNull(actual);
             Assert.AreEqual(1, actual.Tables.Count);
-            DataTable actualTable = actual.Tables[0];
+            var actualTable = actual.Tables[0];
             Assert.AreEqual(1, actualTable.Rows.Count);
-            DataRow actualRow = actualTable.Rows[0];
-            // #.NET4.0 å^ÇëµÇ¶Ç»Ç¢Ç∆ê≥èÌÇ…î‰ärÇ≈Ç´Ç»Ç¢
+            var actualRow = actualTable.Rows[0];
+            // #.NET4.0 Âûã„ÇíÊèÉ„Åà„Å™„ÅÑ„Å®Ê≠£Â∏∏„Å´ÊØîËºÉ„Åß„Åç„Å™„ÅÑ
             Assert.AreEqual(EMP_NO, Int32.Parse(actualRow["EMPNO"].ToString()));
             //Assert.AreEqual(EMP_NO, actualRow["EMPNO"]);
 

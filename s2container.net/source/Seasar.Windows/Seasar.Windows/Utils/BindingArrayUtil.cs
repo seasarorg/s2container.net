@@ -21,6 +21,7 @@ using System;
 using System.Collections;
 using System.Reflection;
 using System.Windows.Forms;
+using Seasar.Framework.Util;
 using Seasar.Windows.Attr;
 
 namespace Seasar.Windows.Seasar.Windows.Utils
@@ -47,9 +48,10 @@ namespace Seasar.Windows.Seasar.Windows.Utils
             if (data == null)
                 throw new ArgumentNullException(String.Format(SWFMessages.FSWF0001, "data"));
 
-            int ret = 0;
-            object target = info.GetValue(source, null);
-            IList list = target as IList;
+            var ret = 0;
+            var target = PropertyUtil.GetValue(source, source.GetExType(), info.Name);
+//            var target = info.GetValue(source, null);
+            var list = target as IList;
             if (list != null)
             {
                 if (row > list.Count - 1)
@@ -57,14 +59,17 @@ namespace Seasar.Windows.Seasar.Windows.Utils
 
                 if (list.Count > 0)
                 {
-                    Type type = ((object)list[0]).GetType();
-                    Array obj = Array.CreateInstance(type, 1);
-                    info.SetValue(source, obj, null);
+                    var type = list[0].GetExType();
+                    var obj = ArrayUtil.NewInstance(type, 1);
+//                    var obj = Array.CreateInstance(type, 1);
+                    PropertyUtil.SetValue(source, source.GetExType(), info.Name, info.PropertyType, obj);
+//                    info.SetValue(source, obj, null);
                     control.DataBindings.Clear();
 
-                    Array obj2 = Array.CreateInstance(type, list.Count + 1);
-                    int i = 0;
-                    foreach (object o in list)
+                    var obj2 = ArrayUtil.NewInstance(type, list.Count + 1);
+//                    var obj2 = Array.CreateInstance(type, list.Count + 1);
+                    var i = 0;
+                    foreach (var o in list)
                     {
                         if (i != row)
                         {
@@ -78,7 +83,8 @@ namespace Seasar.Windows.Seasar.Windows.Utils
                         }
                         i++;
                     }
-                    info.SetValue(source, obj2, null);
+                    PropertyUtil.SetValue(source, source.GetExType(), info.Name, info.PropertyType, obj2);
+//                    info.SetValue(source, obj2, null);
                     control.DataBindings.Add(
                         attr.ControlProperty, source, info.Name, attr.FormattingEnabled, attr.UpdateMode,
                         attr.NullValue, attr.FormatString);
@@ -101,9 +107,10 @@ namespace Seasar.Windows.Seasar.Windows.Utils
         /// <returns>çÌèúåèêî</returns>
         public int DeleteData(ref object source, PropertyInfo info, ref Control control, ControlAttribute attr, int row)
         {
-            int ret = 0;
-            object target = info.GetValue(source, null);
-            IList list = target as IList;
+            var ret = 0;
+            var target = PropertyUtil.GetValue(source, source.GetExType(), info.Name);
+//            var target = info.GetValue(source, null);
+            var list = target as IList;
             if (list != null)
             {
                 if (row > list.Count - 1)
@@ -111,15 +118,18 @@ namespace Seasar.Windows.Seasar.Windows.Utils
 
                 if (list.Count > 0)
                 {
-                    Type type = ((object)list[0]).GetType();
-                    Array obj = Array.CreateInstance(type, 1);
-                    info.SetValue(source, obj, null);
+                    var type = list[0].GetExType();
+                    var obj = ArrayUtil.NewInstance(type, 1);
+//                    var obj = Array.CreateInstance(type, 1);
+                    PropertyUtil.SetValue(source, source.GetExType(), info.Name, info.PropertyType, obj);
+//                    info.SetValue(source, obj, null);
                     control.DataBindings.Clear();
 
-                    Array obj2 = Array.CreateInstance(type, list.Count - 1);
-                    int i = 0;
-                    int pos = 0;
-                    foreach (object o in list)
+                    var obj2 = ArrayUtil.NewInstance(type, list.Count - 1);
+//                    var obj2 = Array.CreateInstance(type, list.Count - 1);
+                    var i = 0;
+                    var pos = 0;
+                    foreach (var o in list)
                     {
                         if (i != row)
                         {
@@ -129,7 +139,8 @@ namespace Seasar.Windows.Seasar.Windows.Utils
 
                         i++;
                     }
-                    info.SetValue(source, obj2, null);
+                    PropertyUtil.SetValue(source, source.GetExType(), info.Name, info.PropertyType, obj2);
+//                    info.SetValue(source, obj2, null);
                     control.DataBindings.Add(
                         attr.ControlProperty, source, info.Name, attr.FormattingEnabled, attr.UpdateMode,
                         attr.NullValue, attr.FormatString);
@@ -160,8 +171,9 @@ namespace Seasar.Windows.Seasar.Windows.Utils
             else
                 targetRow = row + 1;
 
-            object target = info.GetValue(source, null);
-            IList list = target as IList;
+            var target = PropertyUtil.GetValue(source, source.GetExType(), info.Name);
+//            var target = info.GetValue(source, null);
+            var list = target as IList;
             if (list != null)
             {
                 if (targetRow >= list.Count)
@@ -169,14 +181,17 @@ namespace Seasar.Windows.Seasar.Windows.Utils
 
                 if (list.Count > 0)
                 {
-                    Type type = ((object)list[0]).GetType();
-                    Array obj = Array.CreateInstance(type, 1);
-                    info.SetValue(source, obj, null);
+                    var type = list[0].GetExType();
+                    var obj = ArrayUtil.NewInstance(type, 1);
+//                    var obj = Array.CreateInstance(type, 1);
+                    PropertyUtil.SetValue(source, source.GetExType(), info.Name, info.PropertyType, obj);
+//                    info.SetValue(source, obj, null);
                     control.DataBindings.Clear();
 
-                    Array obj2 = Array.CreateInstance(type, list.Count);
-                    int i = 0;
-                    foreach (object o in list)
+                    var obj2 = ArrayUtil.NewInstance(type, list.Count);
+//                    var obj2 = Array.CreateInstance(type, list.Count);
+                    var i = 0;
+                    foreach (var o in list)
                     {
                         if (i == targetRow)
                             obj2.SetValue(list[row], i);
@@ -189,7 +204,8 @@ namespace Seasar.Windows.Seasar.Windows.Utils
 
                         i++;
                     }
-                    info.SetValue(source, obj2, null);
+                    PropertyUtil.SetValue(source, source.GetExType(), info.Name, info.PropertyType, obj2);
+//                    info.SetValue(source, obj2, null);
                     control.DataBindings.Add(
                         attr.ControlProperty, source, info.Name, attr.FormattingEnabled, attr.UpdateMode,
                         attr.NullValue, attr.FormatString);

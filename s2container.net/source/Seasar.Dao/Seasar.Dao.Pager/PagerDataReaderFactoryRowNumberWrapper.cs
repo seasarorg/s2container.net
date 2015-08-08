@@ -30,7 +30,6 @@ namespace Seasar.Dao.Pager
     public class PagerDataReaderFactoryRowNumberWrapper : AbstractPagerDataReaderFactoryWrapper, IDataReaderFactory
     {
         private static readonly Logger _logger = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private string _rowNumberColumnName = "pagerrownumber";
 
         public PagerDataReaderFactoryRowNumberWrapper(
             IDataReaderFactory dataReaderFactory,
@@ -40,20 +39,16 @@ namespace Seasar.Dao.Pager
         {
         }
 
-        public string RowNumberColumnName
-        {
-            get { return _rowNumberColumnName; }
-            set { _rowNumberColumnName = value; }
-        }
+        public string RowNumberColumnName { get; set; } = "pagerrownumber";
 
         #region IDataReaderFactory ÉÅÉìÉo
 
         public IDataReader CreateDataReader(IDataSource dataSource, IDbCommand cmd)
         {
-            IPagerCondition condition = PagerContext.GetContext().PeekArgs();
+            var condition = PagerContext.GetContext().PeekArgs();
             if (condition != null)
             {
-                string baseSql = GetBaseSql(cmd);
+                var baseSql = GetBaseSql(cmd);
                 if (_logger.IsDebugEnabled)
                 {
                     _logger.Debug("S2Pager base SQL : " + baseSql);
@@ -79,18 +74,18 @@ namespace Seasar.Dao.Pager
 
         protected string MakeRowNumberSql(string baseSql, int limit, int offset)
         {
-            string orderBySql = GetOrderBySql(baseSql);
+            var orderBySql = GetOrderBySql(baseSql);
             if (StringUtil.IsEmpty(orderBySql))
             {
                 throw new SQLRuntimeException(new Exception("'ORDER BY' is not included."), baseSql);
             }
-            StringBuilder buf = new StringBuilder(baseSql.Length + 64);
+            var buf = new StringBuilder(baseSql.Length + 64);
             buf.Append("SELECT * FROM (SELECT ROW_NUMBER() OVER (");
             buf.Append(orderBySql);
-            buf.AppendFormat(") AS {0}, ", RowNumberColumnName);
+            buf.Append($") AS {RowNumberColumnName}, ");
             buf.Append(RemoveOrderBySql(baseSql).Substring("SELECT".Length));
             buf.Append(") AS a ");
-            buf.AppendFormat("WHERE {0} BETWEEN {1} AND {2}", RowNumberColumnName, offset + 1, offset + limit);
+            buf.Append($"WHERE {RowNumberColumnName} BETWEEN {(offset + 1)} AND {(offset + limit)}");
             return buf.ToString();
         }
     }

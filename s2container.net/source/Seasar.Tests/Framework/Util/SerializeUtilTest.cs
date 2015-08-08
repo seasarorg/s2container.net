@@ -27,8 +27,8 @@ namespace Seasar.Tests.Framework.Util
         [Test]
         public void TestSerialize()
         {
-            string[] a = new string[] { "1", "2" };
-            string[] b = (string[]) SerializeUtil.Serialize(a);
+            var a = new string[] { "1", "2" };
+            var b = (string[]) SerializeUtil.Serialize(a);
             Assert.AreEqual(a.Length, b.Length);
             Assert.AreEqual("1", b[0]);
             Assert.AreEqual("2", b[1]);

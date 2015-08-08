@@ -26,44 +26,37 @@ namespace Seasar.Extension.DataSets.Impl
 {
     public class DataRowReloadDataReaderHandler : IDataReaderHandler
     {
-        private readonly DataRow _row;
         private readonly DataRow _newRow;
 
         public DataRowReloadDataReaderHandler(DataRow row, DataRow newRow)
         {
-            _row = row;
+            Row = row;
             _newRow = newRow;
         }
 
-        public DataRow Row
-        {
-            get { return _row; }
-        }
+        public DataRow Row { get; }
 
-        public DataRow NewRow
-        {
-            get { return _newRow; }
-        }
+        public DataRow NewRow => _newRow;
 
         #region IDataReaderHandler ÉÅÉìÉo
 
         public object Handle(System.Data.IDataReader reader)
         {
-            IPropertyType[] propertyTypes = PropertyTypeUtil.CreatePropertyTypes(reader.GetSchemaTable());
+            var propertyTypes = PropertyTypeUtil.CreatePropertyTypes(reader.GetSchemaTable());
             if (reader.Read())
             {
-                Reload(reader, propertyTypes);
+                _Reload(reader, propertyTypes);
             }
             return _newRow;
         }
 
         #endregion
 
-        private void Reload(System.Data.IDataReader reader, IPropertyType[] propertyTypes)
+        private void _Reload(System.Data.IDataReader reader, IPropertyType[] propertyTypes)
         {
-            for (int i = 0; i < propertyTypes.Length; ++i)
+            for (var i = 0; i < propertyTypes.Length; ++i)
             {
-                object value = propertyTypes[i].ValueType.GetValue(reader, i);
+                var value = propertyTypes[i].ValueType.GetValue(reader, i);
                 if (value == null)
                 {
                     _newRow[i] = DBNull.Value;

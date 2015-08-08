@@ -36,7 +36,7 @@ namespace Seasar.Quill.Examples
         static void Main()
         {
             // log4netの初期化
-            FileInfo info = new FileInfo(SystemInfo.AssemblyShortName(
+            var info = new FileInfo(SystemInfo.AssemblyShortName(
                 Assembly.GetExecutingAssembly()) + ".exe.config");
             XmlConfigurator.Configure(LogManager.GetRepository(), info);
 

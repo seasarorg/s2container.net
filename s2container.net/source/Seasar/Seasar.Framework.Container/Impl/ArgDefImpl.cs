@@ -27,12 +27,10 @@ namespace Seasar.Framework.Container.Impl
     /// </summary>
     public class ArgDefImpl : IArgDef
     {
-        private object value;
-        private IS2Container container;
-        private string expression;
-        private Type argType;
-        private IComponentDef childComponentDef;
-        private readonly MetaDefSupport metaDefSupport = new MetaDefSupport();
+        private object _value;
+        private IS2Container _container;
+        private IComponentDef _childComponentDef;
+        private readonly MetaDefSupport _metaDefSupport = new MetaDefSupport();
 
         /// <summary>
         /// コンストラクタ
@@ -47,7 +45,7 @@ namespace Seasar.Framework.Container.Impl
         /// <param name="value">値</param>
         public ArgDefImpl(object value)
         {
-            this.value = value;
+            _value = value;
         }
 
         #region ArgDef メンバ
@@ -56,90 +54,82 @@ namespace Seasar.Framework.Container.Impl
         {
             get
             {
-                if (expression != null)
+                if (Expression != null)
                 {
-                    if (container.HasComponentDef(expression))
+                    if (_container.HasComponentDef(Expression))
                     {
-                        return container.GetComponent(expression);
+                        return _container.GetComponent(Expression);
                     }
-                    else if (IsCharacterString(expression))
+                    else if (_IsCharacterString(Expression))
                     {
-                        return JScriptUtil.Evaluate(expression, container);
+                        return JScriptUtil.Evaluate(Expression, _container);
                     }
-                    else if (expression.IndexOf(".") > 0)
+                    else if (Expression.IndexOf('.') > 0)
                     {
-                        int lastIndex = expression.LastIndexOf(".");
-                        string enumTypeName = expression.Substring(0, lastIndex);
-                        Type enumType = ClassUtil.ForName(enumTypeName,
+                        var lastIndex = Expression.LastIndexOf('.');
+                        var enumTypeName = Expression.Substring(0, lastIndex);
+                        var enumType = ClassUtil.ForName(enumTypeName,
                             AppDomain.CurrentDomain.GetAssemblies());
                         if (enumType != null && enumType.IsEnum)
                         {
-                            return Enum.Parse(enumType, expression.Substring(lastIndex + 1));
+                            return Enum.Parse(enumType, Expression.Substring(lastIndex + 1));
                         }
 
-                        Type classType = ClassUtil.ForName(expression,
+                        var classType = ClassUtil.ForName(Expression,
                             AppDomain.CurrentDomain.GetAssemblies());
                         if (classType != null && classType.IsClass)
                         {
                             return classType;
                         }
 
-                        return JScriptUtil.Evaluate(expression, container);
+                        return JScriptUtil.Evaluate(Expression, _container);
                     }
                     else
                     {
-                        return JScriptUtil.Evaluate(expression, container);
+                        return JScriptUtil.Evaluate(Expression, _container);
                     }
                 }
-                if (childComponentDef != null)
+                if (_childComponentDef != null)
                 {
-                    return childComponentDef.GetComponent(argType);
+                    return _childComponentDef.GetComponent(ArgType);
                 }
-                return value;
+                return _value;
             }
             set
             {
-                this.value = value;
+                _value = value;
             }
         }
 
         public IS2Container Container
         {
-            get { return container; }
+            get { return _container; }
             set
             {
-                container = value;
-                if (childComponentDef != null)
+                _container = value;
+                if (_childComponentDef != null)
                 {
-                    childComponentDef.Container = value;
+                    _childComponentDef.Container = value;
                 }
-                metaDefSupport.Container = value;
+                _metaDefSupport.Container = value;
             }
         }
 
-        public string Expression
-        {
-            get { return expression; }
-            set { expression = value; }
-        }
+        public string Expression { get; set; }
 
         public IComponentDef ChildComponentDef
         {
             set
             {
-                if (container != null)
+                if (_container != null)
                 {
-                    value.Container = container;
+                    value.Container = _container;
                 }
-                childComponentDef = value;
+                _childComponentDef = value;
             }
         }
 
-        public Type ArgType
-        {
-            get { return argType; }
-            set { argType = value; }
-        }
+        public Type ArgType { get; set; }
 
         #endregion
 
@@ -147,32 +137,20 @@ namespace Seasar.Framework.Container.Impl
 
         public void AddMetaDef(IMetaDef metaDef)
         {
-            metaDefSupport.AddMetaDef(metaDef);
+            _metaDefSupport.AddMetaDef(metaDef);
         }
 
-        public int MetaDefSize
-        {
-            get { return metaDefSupport.MetaDefSize; }
-        }
+        public int MetaDefSize => _metaDefSupport.MetaDefSize;
 
-        public IMetaDef GetMetaDef(int index)
-        {
-            return metaDefSupport.GetMetaDef(index);
-        }
+        public IMetaDef GetMetaDef(int index) => _metaDefSupport.GetMetaDef(index);
 
-        public IMetaDef GetMetaDef(string name)
-        {
-            return metaDefSupport.GetMetaDef(name);
-        }
+        public IMetaDef GetMetaDef(string name) => _metaDefSupport.GetMetaDef(name);
 
-        public IMetaDef[] GetMetaDefs(string name)
-        {
-            return metaDefSupport.GetMetaDefs(name);
-        }
+        public IMetaDef[] GetMetaDefs(string name) => _metaDefSupport.GetMetaDefs(name);
 
         #endregion
 
-        private bool IsCharacterString(string str)
+        private bool _IsCharacterString(string str)
         {
             if (str == null)
             {

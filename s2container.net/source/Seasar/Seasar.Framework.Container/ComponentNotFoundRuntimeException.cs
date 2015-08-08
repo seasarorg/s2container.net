@@ -25,29 +25,24 @@ namespace Seasar.Framework.Container
     [Serializable]
     public class ComponentNotFoundRuntimeException : SRuntimeException
     {
-        private readonly object _componentKey;
-
         public ComponentNotFoundRuntimeException(object componentKey)
-            : base("ESSR0046", new object[] { componentKey })
+            : base("ESSR0046", new[] { componentKey })
         {
-            _componentKey = componentKey;
+            ComponentKey = componentKey;
         }
 
         public ComponentNotFoundRuntimeException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            _componentKey = info.GetValue("_componentKey", typeof(object));
+            ComponentKey = info.GetValue("_componentKey", typeof(object));
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("_componentKey", _componentKey, typeof(object));
+            info.AddValue("_componentKey", ComponentKey, typeof(object));
             base.GetObjectData(info, context);
         }
 
-        public object ComponentKey
-        {
-            get { return _componentKey; }
-        }
+        public object ComponentKey { get; }
     }
 }

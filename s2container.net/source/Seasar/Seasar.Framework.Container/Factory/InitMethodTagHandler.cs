@@ -25,15 +25,15 @@ namespace Seasar.Framework.Container.Factory
     {
         public override void Start(TagHandlerContext context, IAttributes attributes)
         {
-            string name = attributes["name"];
+            var name = attributes["name"];
             context.Push(new InitMethodDefImpl(name));
         }
 
         public override void End(TagHandlerContext context, string body)
         {
-            IInitMethodDef methodDef = (IInitMethodDef) context.Pop();
+            var methodDef = (IInitMethodDef) context.Pop();
             ProcessExpression(methodDef, body, "initMethod");
-            IComponentDef componentDef = (IComponentDef) context.Peek();
+            var componentDef = (IComponentDef) context.Peek();
             componentDef.AddInitMethodDef(methodDef);
         }
     }

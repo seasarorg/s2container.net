@@ -69,10 +69,7 @@ namespace Seasar.Framework.Aop.Impl
         /// <summary>
         /// Advice(Interceptor)
         /// </summary>
-        public IMethodInterceptor MethodInterceptor
-        {
-            get { return _methodInterceptor; }
-        }
+        public IMethodInterceptor MethodInterceptor => _methodInterceptor;
 
         /// <summary>
         /// Pointcut

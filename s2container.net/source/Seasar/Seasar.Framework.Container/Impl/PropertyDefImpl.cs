@@ -20,15 +20,13 @@ namespace Seasar.Framework.Container.Impl
 {
     public class PropertyDefImpl : ArgDefImpl, IPropertyDef
     {
-        private readonly string _propertyName;
-
         /// <summary>
         /// コンストラクタ
         /// </summary>
         /// <param name="propertyName"></param>
         public PropertyDefImpl(string propertyName)
         {
-            _propertyName = propertyName;
+            PropertyName = propertyName;
         }
 
         /// <summary>
@@ -39,15 +37,12 @@ namespace Seasar.Framework.Container.Impl
         public PropertyDefImpl(string propertyName, object value)
             : base(value)
         {
-            _propertyName = propertyName;
+            PropertyName = propertyName;
         }
 
         #region PropertyDef メンバ
 
-        public string PropertyName
-        {
-            get { return _propertyName; }
-        }
+        public string PropertyName { get; }
 
         #endregion
     }

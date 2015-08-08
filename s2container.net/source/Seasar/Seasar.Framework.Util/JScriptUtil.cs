@@ -1,4 +1,4 @@
-#region Copyright
+Ôªø#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -16,19 +16,18 @@
  */
 #endregion
 
-using Microsoft.JScript;
 using System;
-using System.Collections;
-using System.Collections.Specialized;
-using System.Reflection;
 using System.CodeDom.Compiler;
-using Seasar.Framework.Exceptions;
+using System.Collections;
 using System.Configuration;
+using System.Reflection;
+using Microsoft.JScript;
+using Seasar.Framework.Exceptions;
 
 namespace Seasar.Framework.Util
 {
     /// <summary>
-    /// CodeDomÇ≈JScript.NETÇàµÇ¶ÇÈÇÊÇ§Ç…ÇµÇ‹Ç∑ÅB
+    /// CodeDomÔøΩÔøΩJScript.NETÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÊÇ§ÔøΩ…ÇÔøΩÔøΩ‹ÇÔøΩÔøΩB
     /// </summary>
     public sealed class JScriptUtil
     {
@@ -62,17 +61,16 @@ namespace Seasar.Framework.Util
 
         static JScriptUtil()
         {
-            CompilerParameters parameters = new CompilerParameters();
-            parameters.GenerateInMemory = true;
+            var parameters = new CompilerParameters {GenerateInMemory = true};
 
 #if NET_1_1
             ICodeCompiler compiler = _provider.CreateCompiler();
             CompilerResults results = compiler.CompileAssemblyFromSource(parameters,EVAL_SOURCE);
 #else
-            CompilerResults results = _provider.CompileAssemblyFromSource(parameters, EVAL_SOURCE);
+            var results = _provider.CompileAssemblyFromSource(parameters, EVAL_SOURCE);
 #endif
 
-            Assembly assembly = results.CompiledAssembly;
+            var assembly = results.CompiledAssembly;
             _evaluateType = assembly.GetType("Seasar.Framework.Util.JScript.Evaluator");
         }
 
@@ -93,8 +91,8 @@ namespace Seasar.Framework.Util
                 exp = exp.Replace("\n", "\\n");
             }
 
-            NameValueCollection appSettings = ConfigurationManager.AppSettings;
-            ConnectionStringSettingsCollection connectionStrings = 
+            var appSettings = ConfigurationManager.AppSettings;
+            var connectionStrings = 
                 ConfigurationManager.ConnectionStrings;
             
 #endif
@@ -102,7 +100,7 @@ namespace Seasar.Framework.Util
             try
             {
                 return _evaluateType.InvokeMember("Eval", BindingFlags.InvokeMethod,
-                    null, null, new object[] {exp,true, ctx["self"], ctx["out"], ctx["err"], root,
+                    null, null, new[] {exp,true, ctx["self"], ctx["out"], ctx["err"], root,
                     appSettings, connectionStrings});
             }
             catch (Exception ex)

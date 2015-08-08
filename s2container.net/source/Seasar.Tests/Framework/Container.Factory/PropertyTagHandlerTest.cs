@@ -27,20 +27,20 @@ namespace Seasar.Tests.Framework.Container.Factory
     public class PropertyTagHandlerTest
     {
         private const string PATH
-            = "Seasar/Tests/Framework/Container/Factory/PropertyTagHandlerTest.dicon";
+            = "Seasar/Tests/Framework/container/Factory/PropertyTagHandlerTest.dicon";
 
         [Test]
         public void TestProperty()
         {
-            IS2Container container = S2ContainerFactory.Create(PATH);
+            var container = S2ContainerFactory.Create(PATH);
             Assert.AreEqual(515, ((StringBuilder) container.GetComponent(typeof(StringBuilder))).Capacity);
         }
 
         [Test]
         public void TestWithArg()
         {
-            IS2Container container = S2ContainerFactory.Create(PATH);
-            StringBuilder sb = (StringBuilder) container.GetComponent(typeof(StringBuilder));
+            var container = S2ContainerFactory.Create(PATH);
+            var sb = (StringBuilder) container.GetComponent(typeof(StringBuilder));
             Assert.AreEqual(515, sb.Capacity);
             Assert.AreEqual("test", sb.ToString());
         }

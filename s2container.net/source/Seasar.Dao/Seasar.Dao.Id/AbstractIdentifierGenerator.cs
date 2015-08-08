@@ -17,7 +17,6 @@
 #endregion
 
 using System;
-using System.Reflection;
 using Seasar.Extension.ADO;
 using Seasar.Extension.ADO.Impl;
 using Seasar.Framework.Exceptions;
@@ -28,24 +27,16 @@ namespace Seasar.Dao.Id
     public abstract class AbstractIdentifierGenerator : IIdentifierGenerator
     {
         private static readonly IDataReaderHandler _dataReaderHandler = new ObjectDataReaderHandler();
-        private readonly string _propertyName;
-        private readonly IDbms _dbms;
 
-        public AbstractIdentifierGenerator(string propertyName, IDbms dbms)
+        protected AbstractIdentifierGenerator(string propertyName, IDbms dbms)
         {
-            _propertyName = propertyName;
-            _dbms = dbms;
+            PropertyName = propertyName;
+            Dbms = dbms;
         }
 
-        public string PropertyName
-        {
-            get { return _propertyName; }
-        }
+        public string PropertyName { get; }
 
-        public IDbms Dbms
-        {
-            get { return _dbms; }
-        }
+        public IDbms Dbms { get; }
 
         protected object ExecuteSql(IDataSource ds, string sql, object[] args)
         {
@@ -55,11 +46,13 @@ namespace Seasar.Dao.Id
 
         protected void SetIdentifier(object bean, object value)
         {
-            if (_propertyName == null) throw new EmptyRuntimeException("propertyName");
-            PropertyInfo propertyInfo = bean.GetType().GetProperty(_propertyName);
+            if (PropertyName == null) throw new EmptyRuntimeException("propertyName");
+            var propertyInfo = bean.GetExType().GetProperty(PropertyName);
 
-            propertyInfo.SetValue(bean,
-                ConversionUtil.ConvertTargetType(value, propertyInfo.PropertyType), null);
+//            propertyInfo.SetValue(bean,
+//                ConversionUtil.ConvertTargetType(value, propertyInfo.PropertyType), null);
+            PropertyUtil.SetValue(bean, bean.GetExType(), propertyInfo.Name, propertyInfo.PropertyType, 
+                ConversionUtil.ConvertTargetType(value, propertyInfo.PropertyType));
         }
 
         #region IIdentifierGenerator ÉÅÉìÉo

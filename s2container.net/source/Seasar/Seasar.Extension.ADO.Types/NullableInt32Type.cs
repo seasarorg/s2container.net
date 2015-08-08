@@ -40,7 +40,7 @@ namespace Seasar.Extension.ADO.Types
             }
             else if (value is int)
             {
-                return new Nullable<Int32>((int) value);
+                return new int?((int) value);
             }
             else
             {

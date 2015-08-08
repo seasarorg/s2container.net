@@ -17,8 +17,8 @@
 #endregion
 
 using System;
-using System.Text;
 using System.Collections;
+using System.Text;
 using Seasar.Extension.ADO;
 using Seasar.Extension.ADO.Impl;
 
@@ -27,82 +27,82 @@ namespace Seasar.Dao.Impl
     public class DaoMetaDataFactoryImpl : IDaoMetaDataFactory
     {
         private readonly Hashtable _daoMetaDataCache = new Hashtable();
-        protected IDataSource _dataSource;
-        protected ICommandFactory _commandFactory;
-        protected IDataReaderFactory _dataReaderFactory;
-        protected IDataReaderHandlerFactory _dataReaderHandlerFactory = Impl.DataReaderHandlerFactory.INSTANCE;
-        protected IAnnotationReaderFactory _annotationReaderFactory;
-        protected IDatabaseMetaData _dbMetaData;
-        protected string _sqlFileEncoding = Encoding.Default.WebName;
-        protected string[] _insertPrefixes;
-        protected string[] _updatePrefixes;
-        protected string[] _deletePrefixes;
+        protected IDataSource dataSource;
+        protected ICommandFactory commandFactory;
+        protected IDataReaderFactory dataReaderFactory;
+        protected IDataReaderHandlerFactory dataReaderHandlerFactory = Impl.DataReaderHandlerFactory.INSTANCE;
+        protected IAnnotationReaderFactory annotationReaderFactory;
+        protected IDatabaseMetaData dbMetaData;
+        protected string sqlFileEncoding = Encoding.Default.WebName;
+        protected string[] insertPrefixes;
+        protected string[] updatePrefixes;
+        protected string[] deletePrefixes;
 
         public DaoMetaDataFactoryImpl(IDataSource dataSource,
             ICommandFactory commandFactory, IAnnotationReaderFactory annotationReaderFactory,
             IDataReaderFactory dataReaderFactory)
         {
-            _dataSource = dataSource;
-            _commandFactory = commandFactory;
-            _annotationReaderFactory = annotationReaderFactory;
-            _dataReaderFactory = dataReaderFactory;
-            _dbMetaData = new DatabaseMetaDataImpl(_dataSource);
+            this.dataSource = dataSource;
+            this.commandFactory = commandFactory;
+            this.annotationReaderFactory = annotationReaderFactory;
+            this.dataReaderFactory = dataReaderFactory;
+            dbMetaData = new DatabaseMetaDataImpl(this.dataSource);
         }
 
         public IDataSource DataSource
         {
-            get { return _dataSource; }
-            set { _dataSource = value; }
+            get { return dataSource; }
+            set { dataSource = value; }
         }
 
         public ICommandFactory CommandFactory
         {
-            get { return _commandFactory; }
-            set { _commandFactory = value; }
+            get { return commandFactory; }
+            set { commandFactory = value; }
         }
 
         public IAnnotationReaderFactory AnnotationReaderFactory
         {
-            get { return _annotationReaderFactory; }
-            set { _annotationReaderFactory = value; }
+            get { return annotationReaderFactory; }
+            set { annotationReaderFactory = value; }
         }
 
         public IDataReaderFactory DataReaderFactory
         {
-            get { return _dataReaderFactory; }
-            set { _dataReaderFactory = value; }
+            get { return dataReaderFactory; }
+            set { dataReaderFactory = value; }
         }
 
         public IDataReaderHandlerFactory DataReaderHandlerFactory
         {
-            get { return _dataReaderHandlerFactory; }
-            set { _dataReaderHandlerFactory = value; }
+            get { return dataReaderHandlerFactory; }
+            set { dataReaderHandlerFactory = value; }
         }
 
-        public IDatabaseMetaData DBMetaData
+        public IDatabaseMetaData DbMetaData
         {
-            get { return _dbMetaData; }
-            set { _dbMetaData = value; }
+            get { return dbMetaData; }
+            set { dbMetaData = value; }
         }
 
         public string[] InsertPrefixes
         {
-            set { _insertPrefixes = value; }
+            set { insertPrefixes = value; }
         }
 
         public string[] UpdatePrefixes
         {
-            set { _updatePrefixes = value; }
+            set { updatePrefixes = value; }
         }
 
         public string[] DeletePrefixes
         {
-            set { _deletePrefixes = value; }
+            set { deletePrefixes = value; }
         }
 
         public string SqlFileEncoding
         {
-            set { _sqlFileEncoding = value; }
+            set { sqlFileEncoding = value; }
         }
 
         #region IDaoMetaDataFactory ƒƒ“ƒo
@@ -111,8 +111,8 @@ namespace Seasar.Dao.Impl
         {
             lock (this)
             {
-                string key = daoType.FullName;
-                IDaoMetaData dmd = (IDaoMetaData) _daoMetaDataCache[key];
+                var key = daoType.FullName;
+                var dmd = (IDaoMetaData) _daoMetaDataCache[key];
                 if (dmd != null)
                 {
                     return dmd;
@@ -127,45 +127,42 @@ namespace Seasar.Dao.Impl
 
         protected virtual IDaoMetaData CreateDaoMetaData(Type daoType)
         {
-            DaoMetaDataImpl dmd = CreateDaoMetaDataImpl();
+            var dmd = CreateDaoMetaDataImpl();
             dmd.DaoType = daoType;
-            dmd.DataSource = _dataSource;
-            dmd.CommandFactory = _commandFactory;
-            dmd.DataReaderFactory = _dataReaderFactory;
-            if (_dataReaderHandlerFactory == null)
+            dmd.DataSource = dataSource;
+            dmd.CommandFactory = commandFactory;
+            dmd.DataReaderFactory = dataReaderFactory;
+            if (dataReaderHandlerFactory == null)
             {
-                _dataReaderHandlerFactory = new DataReaderHandlerFactory();
+                dataReaderHandlerFactory = new DataReaderHandlerFactory();
             }
-            dmd.DataReaderHandlerFactory = _dataReaderHandlerFactory;
-            dmd.AnnotationReaderFactory = _annotationReaderFactory;
-            if (_dbMetaData == null)
+            dmd.DataReaderHandlerFactory = dataReaderHandlerFactory;
+            dmd.AnnotationReaderFactory = annotationReaderFactory;
+            if (dbMetaData == null)
             {
-                _dbMetaData = new DatabaseMetaDataImpl(_dataSource);
+                dbMetaData = new DatabaseMetaDataImpl(dataSource);
             }
-            dmd.DatabaseMetaData = _dbMetaData;
-            if (_sqlFileEncoding != null)
+            dmd.DatabaseMetaData = dbMetaData;
+            if (sqlFileEncoding != null)
             {
-                dmd.SqlFileEncoding = _sqlFileEncoding;
+                dmd.SqlFileEncoding = sqlFileEncoding;
             }
-            if (_insertPrefixes != null)
+            if (insertPrefixes != null)
             {
-                dmd.InsertPrefixes = _insertPrefixes;
+                dmd.InsertPrefixes = insertPrefixes;
             }
-            if (_updatePrefixes != null)
+            if (updatePrefixes != null)
             {
-                dmd.UpdatePrefixes = _updatePrefixes;
+                dmd.UpdatePrefixes = updatePrefixes;
             }
-            if (_deletePrefixes != null)
+            if (deletePrefixes != null)
             {
-                dmd.DeletePrefixes = _deletePrefixes;
+                dmd.DeletePrefixes = deletePrefixes;
             }
             dmd.Initialize();
             return dmd;
         }
 
-        protected virtual DaoMetaDataImpl CreateDaoMetaDataImpl()
-        {
-            return new DaoMetaDataImpl();
-        }
+        protected virtual DaoMetaDataImpl CreateDaoMetaDataImpl() => new DaoMetaDataImpl();
     }
 }

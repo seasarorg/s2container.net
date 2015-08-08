@@ -51,8 +51,8 @@ namespace Seasar.Dxo.Converter.Impl
             }
             else if (source is DateTime)
             {
-                if (!String.IsNullOrEmpty(this.Format))
-                    dest = ((DateTime) source).ToString(this.Format);
+                if (!String.IsNullOrEmpty(Format))
+                    dest = ((DateTime) source).ToString(Format);
                 else
                     dest = source.ToString();
             }
@@ -60,6 +60,7 @@ namespace Seasar.Dxo.Converter.Impl
             {
                 dest = source.ToString();
             }
+            if (dest == null) throw new ArgumentNullException(nameof(dest));
             return true;
         }
     }

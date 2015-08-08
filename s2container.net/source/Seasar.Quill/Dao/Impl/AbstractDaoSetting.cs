@@ -1,4 +1,4 @@
-#region Copyright
+﻿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -28,42 +28,30 @@ namespace Seasar.Quill.Dao.Impl
     /// </summary>
     public abstract class AbstractDaoSetting : IDaoSetting
     {
-        protected bool _isNeedSetup = true;
+        protected bool isNeedSetup = true;
 
-        protected IDaoMetaDataFactory _daoMetaDataFactory = null;
+        protected IDaoMetaDataFactory daoMetaDataFactory = null;
 
-        protected IMethodInterceptor _daoInterceptor = null;
+        protected IMethodInterceptor daoInterceptor = null;
 
-        protected string _dataSourceName = null;
+        protected string dataSourceName = null;
 
         #region IDaoSetting メンバ
 
         [Obsolete("内部で使用していないため、削除予定です。")]
-        public virtual IDaoMetaDataFactory DaoMetaDataFactory
-        {
-            get { return _daoMetaDataFactory; }
-        }
+        public virtual IDaoMetaDataFactory DaoMetaDataFactory => daoMetaDataFactory;
 
-        public virtual IMethodInterceptor DaoInterceptor
-        {
-            get { return _daoInterceptor; }
-        }
+        public virtual IMethodInterceptor DaoInterceptor => daoInterceptor;
 
-        public virtual string DataSourceName
-        {
-            get { return _dataSourceName; }
-        }
+        public virtual string DataSourceName => dataSourceName;
 
         public void Setup(IDataSource dataSource)
         {
             SetupDao(dataSource);
-            _isNeedSetup = false;
+            isNeedSetup = false;
         }
 
-        public bool IsNeedSetup()
-        {
-            return _isNeedSetup;
-        }
+        public bool IsNeedSetup() => isNeedSetup;
 
         #endregion
 

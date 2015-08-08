@@ -57,7 +57,7 @@ namespace Seasar.Tests.Dao.Interceptors
 
         public override string ToString()
         {
-            StringBuilder buf = new StringBuilder();
+            var buf = new StringBuilder();
             buf.Append(_deptno).Append(", ");
             buf.Append(_dname).Append(", ");
             buf.Append(_loc).Append(", ");
@@ -71,7 +71,7 @@ namespace Seasar.Tests.Dao.Interceptors
             {
                 return false;
             }
-            Department castOther = (Department) other;
+            var castOther = (Department) other;
             return Deptno == castOther.Deptno;
         }
 

@@ -41,12 +41,12 @@ namespace Seasar.Tests.Dao.Id
                 //Assert.Ignore("IDENTITYをサポートしていないDBMS。");
             }
 
-            BasicUpdateHandler updateHandler = new BasicUpdateHandler(
+            var updateHandler = new BasicUpdateHandler(
                 DataSource, "insert into idtable(id_name) values('hoge')");
             updateHandler.Execute(null);
 
-            IdentityIdentifierGenerator generator = new IdentityIdentifierGenerator("Id", Dbms);
-            Hoge hoge = new Hoge();
+            var generator = new IdentityIdentifierGenerator("Id", Dbms);
+            var hoge = new Hoge();
             generator.SetIdentifier(hoge, DataSource);
             Assert.IsTrue(hoge.Id > 0);
         }
@@ -113,43 +113,43 @@ namespace Seasar.Tests.Dao.Id
                 //Assert.Ignore("IDENTITYをサポートしていないDBMS。");
             }
 
-            BasicUpdateHandler updateHandler = new BasicUpdateHandler(
+            var updateHandler = new BasicUpdateHandler(
                 DataSource, "insert into idtable(id_name) values('hoge')");
             updateHandler.Execute(null);
 
-            IdentityIdentifierGenerator generator = new IdentityIdentifierGenerator("Id", Dbms);
+            var generator = new IdentityIdentifierGenerator("Id", Dbms);
             {
-                HogeSystemNullableDecimal hoge = new HogeSystemNullableDecimal();
+                var hoge = new HogeSystemNullableDecimal();
                 generator.SetIdentifier(hoge, DataSource);
                 Assert.IsTrue(hoge.Id.Value > 0);
                 Trace.WriteLine(hoge.Id);
             }
             {
-                HogeSystemNullableInt hoge = new HogeSystemNullableInt();
+                var hoge = new HogeSystemNullableInt();
                 generator.SetIdentifier(hoge, DataSource);
                 Assert.IsTrue(hoge.Id.Value > 0);
                 Trace.WriteLine(hoge.Id);
             }
             {
-                HogeSystemNullableShort hoge = new HogeSystemNullableShort();
+                var hoge = new HogeSystemNullableShort();
                 generator.SetIdentifier(hoge, DataSource);
                 Assert.IsTrue(hoge.Id.Value > 0);
                 Trace.WriteLine(hoge.Id);
             }
             {
-                HogeSystemNullableLong hoge = new HogeSystemNullableLong();
+                var hoge = new HogeSystemNullableLong();
                 generator.SetIdentifier(hoge, DataSource);
                 Assert.IsTrue(hoge.Id.Value > 0);
                 Trace.WriteLine(hoge.Id);
             }
             {
-                HogeSystemNullableFloat hoge = new HogeSystemNullableFloat();
+                var hoge = new HogeSystemNullableFloat();
                 generator.SetIdentifier(hoge, DataSource);
                 Assert.IsTrue(hoge.Id.Value > 0);
                 Trace.WriteLine(hoge.Id);
             }
             {
-                HogeSystemNullableDouble hoge = new HogeSystemNullableDouble();
+                var hoge = new HogeSystemNullableDouble();
                 generator.SetIdentifier(hoge, DataSource);
                 Assert.IsTrue(hoge.Id.Value > 0);
                 Trace.WriteLine(hoge.Id);

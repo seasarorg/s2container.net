@@ -26,33 +26,20 @@ namespace Seasar.Dao.Impl
     /// </summary>
     public class ColumnMetaDataImpl : IColumnMetaData
     {
-        private readonly string _columnName;
-        private readonly PropertyInfo _propertyInfo;
-        private readonly IValueType _valueType;
-
         public ColumnMetaDataImpl(IPropertyType propertyType, string columnName)
         {
-            _valueType = propertyType.ValueType;
-            _propertyInfo = propertyType.PropertyInfo;
-            _columnName = columnName;
+            ValueType = propertyType.ValueType;
+            PropertyInfo = propertyType.PropertyInfo;
+            ColumnName = columnName;
         }
 
         #region IColumnMetaData ÉÅÉìÉo
 
-        public string ColumnName
-        {
-            get { return _columnName; }
-        }
+        public string ColumnName { get; }
 
-        public PropertyInfo PropertyInfo
-        {
-            get { return _propertyInfo; }
-        }
+        public PropertyInfo PropertyInfo { get; }
 
-        public IValueType ValueType
-        {
-            get { return _valueType; }
-        }
+        public IValueType ValueType { get; }
 
         #endregion
     }

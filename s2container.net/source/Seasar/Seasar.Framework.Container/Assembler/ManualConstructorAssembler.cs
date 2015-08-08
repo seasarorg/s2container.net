@@ -17,7 +17,6 @@
 #endregion
 
 using System;
-using System.Reflection;
 using Seasar.Framework.Beans;
 using Seasar.Framework.Container.Util;
 
@@ -32,9 +31,9 @@ namespace Seasar.Framework.Container.Assembler
 
         public override object Assemble()
         {
-            object[] args = new object[ComponentDef.ArgDefSize];
+            var args = new object[ComponentDef.ArgDefSize];
 
-            for (int i = 0; i < args.Length; ++i)
+            for (var i = 0; i < args.Length; ++i)
             {
                 try
                 {
@@ -46,7 +45,7 @@ namespace Seasar.Framework.Container.Assembler
                 }
             }
 
-            ConstructorInfo constructor =
+            var constructor =
                 ComponentDef.ComponentType.GetConstructor(
                 Type.GetTypeArray(args));
 
@@ -56,12 +55,12 @@ namespace Seasar.Framework.Container.Assembler
                     ComponentDef.ComponentType, args);
             }
 
-            ParameterInfo[] parameters = constructor.GetParameters();
+            var parameters = constructor.GetParameters();
 
-            for (int i = 0; i < args.Length; ++i)
+            for (var i = 0; i < args.Length; ++i)
             {
-                IArgDef argDef = ComponentDef.GetArgDef(i);
-                object value = GetComponentByReceiveType(parameters[i].ParameterType, argDef.Expression);
+                var argDef = ComponentDef.GetArgDef(i);
+                var value = GetComponentByReceiveType(parameters[i].ParameterType, argDef.Expression);
                 if (value != null)
                 {
                     args[i] = value;

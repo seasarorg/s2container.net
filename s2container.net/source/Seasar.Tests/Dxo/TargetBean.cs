@@ -22,186 +22,54 @@ namespace Seasar.Tests.Dxo
 {
     public class TargetBean
     {
-        private bool _flagToBool;
-        private bool _shortToBool;
-        private bool _intToBool;
-        private bool _longToBool;
-        private bool _stringToBool;
+        public bool FlagToBool { get; set; }
 
-        private long _flagToLong;
-        private long _shortToLong;
-        private long _intToLong;
-        private long _longToLong;
-        private long  _stringToLong;
+        public bool ShortToBool { get; set; }
 
-        private System.Nullable<long> _nullBoolToNullLong;
-        private System.Nullable<long> _nullShortToNullLong;
-        private System.Nullable<long> _nullIntToNullLong;
-        private System.Nullable<long> _nullLongToNullLong;
+        public bool IntToBool { get; set; }
 
-        private double _flagToDouble;
-        private double _shortToDouble;
-        private double _intToDouble;
-        private double _longToDouble;
-        private double _stringToDouble;
+        public bool LongToBool { get; set; }
 
-        private string _charToString;
-        private string _dateToString;
+        public bool StringToBool { get; set; }
 
-        private char[] _charToChar;
-        private char[] _stringToChar;
+        public long FlagToLong { get; set; }
 
-        private DateTime _stringToDateTime;
-        private DateTime _longToDateTime;
+        public long ShortToLong { get; set; }
 
-        public bool FlagToBool
-        {
-            get { return _flagToBool; }
-            set { _flagToBool = value; }
-        }
+        public long IntToLong { get; set; }
 
-        public bool ShortToBool
-        {
-            get { return _shortToBool; }
-            set { _shortToBool = value; }
-        }
+        public long LongToLong { get; set; }
 
-        public bool IntToBool
-        {
-            get { return _intToBool; }
-            set { _intToBool = value; }
-        }
+        public long StringToLong { get; set; }
 
-        public bool LongToBool
-        {
-            get { return _longToBool; }
-            set { _longToBool = value; }
-        }
+        public long? NullBoolToNullLong { get; set; }
 
-        public bool StringToBool
-        {
-            get { return _stringToBool; }
-            set { _stringToBool = value; }
-        }
+        public long? NullShortToNullLong { get; set; }
 
-        public long FlagToLong
-        {
-            get { return _flagToLong; }
-            set { _flagToLong = value; }
-        }
+        public long? NullIntToNullLong { get; set; }
 
-        public long ShortToLong
-        {
-            get { return _shortToLong; }
-            set { _shortToLong = value; }
-        }
+        public long? NullLongToNullLong { get; set; }
 
-        public long IntToLong
-        {
-            get { return _intToLong; }
-            set { _intToLong = value; }
-        }
+        public double FlagToDouble { get; set; }
 
-        public long LongToLong
-        {
-            get { return _longToLong; }
-            set { _longToLong = value; }
-        }
+        public double ShortToDouble { get; set; }
 
-        public long StringToLong
-        {
-            get { return _stringToLong; }
-            set { _stringToLong = value; }
-        }
+        public double IntToDouble { get; set; }
 
-        public System.Nullable<long> NullBoolToNullLong
-        {
-            get { return _nullBoolToNullLong; }
-            set { _nullBoolToNullLong = value; }
-        }
+        public double LongToDouble { get; set; }
 
-        public System.Nullable<long> NullShortToNullLong
-        {
-            get { return _nullShortToNullLong; }
-            set { _nullShortToNullLong = value; }
-        }
+        public double StringToDouble { get; set; }
 
-        public System.Nullable<long> NullIntToNullLong
-        {
-            get { return _nullIntToNullLong; }
-            set { _nullIntToNullLong = value; }
-        }
+        public string CharToString { get; set; }
 
-        public System.Nullable<long> NullLongToNullLong
-        {
-            get { return _nullLongToNullLong; }
-            set { _nullLongToNullLong = value; }
-        }
+        public string DateToString { get; set; }
 
-        public double FlagToDouble
-        {
-            get { return _flagToDouble; }
-            set { _flagToDouble = value; }
-        }
+        public char[] CharToChar { get; set; }
 
-        public double ShortToDouble
-        {
-            get { return _shortToDouble; }
-            set { _shortToDouble = value; }
-        }
+        public char[] StringToChar { get; set; }
 
-        public double IntToDouble
-        {
-            get { return _intToDouble; }
-            set { _intToDouble = value; }
-        }
+        public DateTime StringToDateTime { get; set; }
 
-        public double LongToDouble
-        {
-            get { return _longToDouble; }
-            set { _longToDouble = value; }
-        }
-
-        public double StringToDouble
-        {
-            get { return _stringToDouble; }
-            set { _stringToDouble = value; }
-        }
-
-        public string CharToString
-        {
-            get { return _charToString; }
-            set { _charToString = value; }
-        }
-
-        public string DateToString
-        {
-            get { return _dateToString; }
-            set { _dateToString = value; }
-        }
-
-        public char[] CharToChar
-        {
-            get { return _charToChar; }
-            set { _charToChar = value; }
-        }
-
-        public char[] StringToChar
-        {
-            get { return _stringToChar; }
-            set { _stringToChar = value; }
-        }
-
-        public DateTime StringToDateTime
-        {
-            get { return _stringToDateTime; }
-            set { _stringToDateTime = value; }
-        }
-
-        public DateTime LongToDateTime
-        {
-            get { return _longToDateTime; }
-            set { _longToDateTime = value; }
-        }
+        public DateTime LongToDateTime { get; set; }
     }
 }

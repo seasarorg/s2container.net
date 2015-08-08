@@ -18,9 +18,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
-using Seasar.Framework.Util;
 using Seasar.Framework.Beans.Impl;
+using Seasar.Framework.Util;
 
 namespace Seasar.Framework.Beans.Factory
 {
@@ -62,10 +63,7 @@ namespace Seasar.Framework.Beans.Factory
         /// </remarks>
         /// <param name="methodName"></param>
         /// <returns></returns>
-        public virtual bool HasMethod(string methodName)
-        {
-            return HasMethod(methodName, DEFAULT_BINDING_FLAG);
-        }
+        public virtual bool HasMethod(string methodName) => HasMethod(methodName, DEFAULT_BINDING_FLAG);
 
         /// <summary>
         /// 指定した名前のメソッドが存在するか判定
@@ -80,14 +78,7 @@ namespace Seasar.Framework.Beans.Factory
         public virtual bool HasMethod(string methodName, BindingFlags bindingFlags)
         {
             CreateMethodDescsIfNeed(bindingFlags);
-            foreach (IMethodDesc desc in _methodDescCache[bindingFlags])
-            {
-                if (desc.Name.Equals(methodName))
-                {
-                    return true;
-                }
-            }
-            return false;
+            return _methodDescCache[bindingFlags].Any(desc => desc.Name.Equals(methodName));
         }
 
         /// <summary>
@@ -100,10 +91,7 @@ namespace Seasar.Framework.Beans.Factory
         /// <param name="methodName"></param>
         /// <param name="parameterTypes"></param>
         /// <returns></returns>
-        public virtual bool HasMethod(string methodName, Type[] parameterTypes)
-        {
-            return HasMethod(methodName, parameterTypes, DEFAULT_BINDING_FLAG);
-        }
+        public virtual bool HasMethod(string methodName, Type[] parameterTypes) => HasMethod(methodName, parameterTypes, DEFAULT_BINDING_FLAG);
 
         /// <summary>
         /// 指定した名前のメソッドが存在するか判定
@@ -119,7 +107,7 @@ namespace Seasar.Framework.Beans.Factory
         public virtual bool HasMethod(string methodName, Type[] parameterTypes, BindingFlags bindingFlags)
         {
             CreateMethodDescsIfNeed(bindingFlags);
-            string key = CreateKey(methodName, parameterTypes);
+            var key = CreateKey(methodName, parameterTypes);
             return _methodDescCache[bindingFlags].ContainsKey(key);
         }
 
@@ -133,10 +121,7 @@ namespace Seasar.Framework.Beans.Factory
         /// <param name="methodName"></param>
         /// <param name="parameterTypes"></param>
         /// <returns></returns>
-        public virtual IMethodDesc GetMethodDesc(string methodName, Type[] parameterTypes)
-        {
-            return GetMethodDesc(methodName, parameterTypes, DEFAULT_BINDING_FLAG);
-        }
+        public virtual IMethodDesc GetMethodDesc(string methodName, Type[] parameterTypes) => GetMethodDesc(methodName, parameterTypes, DEFAULT_BINDING_FLAG);
 
         /// <summary>
         /// メソッド情報の取得
@@ -152,7 +137,7 @@ namespace Seasar.Framework.Beans.Factory
         public virtual IMethodDesc GetMethodDesc(string methodName, Type[] parameterTypes, BindingFlags bindingFlags)
         {
             CreateMethodDescsIfNeed(bindingFlags);
-            string key = CreateKey(methodName, parameterTypes);
+            var key = CreateKey(methodName, parameterTypes);
             if (_methodDescCache[bindingFlags].ContainsKey(key) == false)
             {
                 throw new MethodNotFoundRuntimeException(_beanType, methodName, parameterTypes);
@@ -164,10 +149,7 @@ namespace Seasar.Framework.Beans.Factory
         /// メソッド情報の取得
         /// </summary>
         /// <returns></returns>
-        public virtual IMethodDesc[] GetMethodDescs()
-        {
-            return GetMethodDescs(DEFAULT_BINDING_FLAG);
-        }
+        public virtual IMethodDesc[] GetMethodDescs() => GetMethodDescs(DEFAULT_BINDING_FLAG);
 
         /// <summary>
         /// メソッド情報の取得
@@ -185,10 +167,7 @@ namespace Seasar.Framework.Beans.Factory
         /// </summary>
         /// <param name="methodName"></param>
         /// <returns></returns>
-        public virtual IMethodDesc[] GetMethodDescs(string methodName)
-        {
-            return GetMethodDescs(methodName, DEFAULT_BINDING_FLAG);
-        }
+        public virtual IMethodDesc[] GetMethodDescs(string methodName) => GetMethodDescs(methodName, DEFAULT_BINDING_FLAG);
 
         /// <summary>
         /// メソッド情報の取得
@@ -199,14 +178,8 @@ namespace Seasar.Framework.Beans.Factory
         public virtual IMethodDesc[] GetMethodDescs(string methodName, BindingFlags bindingFlags)
         {
             CreateMethodDescsIfNeed(bindingFlags);
-            List<IMethodDesc> retList = new List<IMethodDesc>(_methodDescCache.Count);
-            foreach (IMethodDesc desc in _methodDescCache[bindingFlags])
-            {
-                if (desc.Name.Equals(methodName))
-                {
-                    retList.Add(desc);
-                }
-            }
+            var retList = new List<IMethodDesc>(_methodDescCache.Count);
+            retList.AddRange(_methodDescCache[bindingFlags].Where(desc => desc.Name.Equals(methodName)));
             return retList.ToArray();
         }
 
@@ -231,12 +204,12 @@ namespace Seasar.Framework.Beans.Factory
         /// <returns></returns>
         protected virtual ArrayMap<string, IMethodDesc> CreateMethodDescs(Type beanType, BindingFlags bindingFlags)
         {
-            MethodInfo[] propertyInfos = beanType.GetMethods(bindingFlags);
-            ArrayMap<string, IMethodDesc> methodDescCache = new ArrayMap<string, IMethodDesc>(propertyInfos.Length);
-            foreach (MethodInfo info in propertyInfos)
+            var propertyInfos = beanType.GetMethods(bindingFlags);
+            var methodDescCache = new ArrayMap<string, IMethodDesc>(propertyInfos.Length);
+            foreach (var info in propertyInfos)
             {
-                IMethodDesc desc = CreateMethodDesc(info);
-                string key = CreateKey(info);
+                var desc = CreateMethodDesc(info);
+                var key = CreateKey(info);
                 methodDescCache.Add(key, desc);
             }
             return methodDescCache;
@@ -247,10 +220,7 @@ namespace Seasar.Framework.Beans.Factory
         /// </summary>
         /// <param name="methodInfo"></param>
         /// <returns></returns>
-        protected virtual IMethodDesc CreateMethodDesc(MethodInfo methodInfo)
-        {
-            return NewMethodDesc(methodInfo);
-        }
+        protected virtual IMethodDesc CreateMethodDesc(MethodInfo methodInfo) => NewMethodDesc(methodInfo);
 
         /// <summary>
         /// メソッド情報を一意に識別するためのキーを取得する
@@ -259,7 +229,7 @@ namespace Seasar.Framework.Beans.Factory
         /// <returns></returns>
         protected virtual string CreateKey(MethodInfo mi)
         {
-            Type[] parameterTypes = MethodUtil.GetParameterTypes(mi);
+            var parameterTypes = MethodUtil.GetParameterTypes(mi);
             return CreateKey(mi.Name, parameterTypes);
         }
 
@@ -280,19 +250,13 @@ namespace Seasar.Framework.Beans.Factory
         /// </summary>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        protected virtual bool HasParameter(Array parameters)
-        {
-            return (parameters != null && parameters.Length > 0);
-        }
+        protected virtual bool HasParameter(Array parameters) => (parameters != null && parameters.Length > 0);
 
         /// <summary>
         /// メソッド情報の生成
         /// </summary>
         /// <param name="methodInfo"></param>
         /// <returns></returns>
-        public static IMethodDesc NewMethodDesc(MethodInfo methodInfo)
-        {
-            return new MethodDescImpl(methodInfo);
-        }
+        public static IMethodDesc NewMethodDesc(MethodInfo methodInfo) => new MethodDescImpl(methodInfo);
     }
 }

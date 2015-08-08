@@ -34,7 +34,7 @@ namespace Seasar.Tests.Framework.Container.Assembler
         public void TestAssemble()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(Hashtable));
+            var cd = new ComponentDefImpl(typeof(Hashtable));
             IInitMethodDef md = new InitMethodDefImpl("Add");
             IArgDef argDef = new ArgDefImpl("aaa");
             md.AddArgDef(argDef);
@@ -43,7 +43,7 @@ namespace Seasar.Tests.Framework.Container.Assembler
             cd.AddInitMethodDef(md);
             container.Register(cd);
             IMethodAssembler assembler = new DefaultInitMethodAssembler(cd);
-            Hashtable table = new Hashtable();
+            var table = new Hashtable();
             assembler.Assemble(table);
             Assert.AreEqual("111", table["aaa"]);
         }
@@ -52,13 +52,13 @@ namespace Seasar.Tests.Framework.Container.Assembler
         public void TestAssembleForExpression()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(Hashtable));
+            var cd = new ComponentDefImpl(typeof(Hashtable));
             IInitMethodDef md = new InitMethodDefImpl();
             md.Expression = "self.Add('aaa','111')";
             cd.AddInitMethodDef(md);
             container.Register(cd);
             IMethodAssembler assembler = new DefaultInitMethodAssembler(cd);
-            Hashtable table = new Hashtable();
+            var table = new Hashtable();
             assembler.Assemble(table);
             Assert.AreEqual("111", table["aaa"]);
         }
@@ -67,13 +67,13 @@ namespace Seasar.Tests.Framework.Container.Assembler
         public void TestAssembleForAuto()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(B));
+            var cd = new ComponentDefImpl(typeof(B));
             IInitMethodDef md = new InitMethodDefImpl("Bbb");
             cd.AddInitMethodDef(md);
             container.Register(cd);
             container.Register(typeof(ArrayList));
             IMethodAssembler assembler = new DefaultInitMethodAssembler(cd);
-            B b = new B();
+            var b = new B();
             assembler.Assemble(b);
             Assert.AreEqual(0, b.ValueSize);
         }
@@ -82,12 +82,12 @@ namespace Seasar.Tests.Framework.Container.Assembler
         public void TestAssembleIllegalArgument()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(Hashtable));
+            var cd = new ComponentDefImpl(typeof(Hashtable));
             IInitMethodDef md = new InitMethodDefImpl("Add");
             cd.AddInitMethodDef(md);
             container.Register(cd);
             IMethodAssembler assembler = new DefaultInitMethodAssembler(cd);
-            Hashtable table = new Hashtable();
+            var table = new Hashtable();
             try
             {
                 assembler.Assemble(table);
@@ -103,7 +103,7 @@ namespace Seasar.Tests.Framework.Container.Assembler
         public void TestAssembleIllegalArgument2()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(B));
+            var cd = new ComponentDefImpl(typeof(B));
             IInitMethodDef md = new InitMethodDefImpl("SetAAA");
             IArgDef argDef = new ArgDefImpl("aaa");
             md.AddArgDef(argDef);
@@ -125,7 +125,7 @@ namespace Seasar.Tests.Framework.Container.Assembler
         public void TestAssembleField()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(Int32));
+            var cd = new ComponentDefImpl(typeof(Int32));
             IInitMethodDef md = new InitMethodDefImpl();
             md.Expression = "out.WriteLine(Int32.MinValue)";
             cd.AddInitMethodDef(md);
@@ -141,17 +141,11 @@ namespace Seasar.Tests.Framework.Container.Assembler
 
         public class A : IFoo
         {
-            private IHoge _hoge;
-
-            public IHoge Hoge
-            {
-                get { return _hoge; }
-                set { _hoge = value; }
-            }
+            public IHoge Hoge { get; set; }
 
             public string HogeName
             {
-                get { return _hoge.Name; }
+                get { return Hoge.Name; }
             }
         }
 

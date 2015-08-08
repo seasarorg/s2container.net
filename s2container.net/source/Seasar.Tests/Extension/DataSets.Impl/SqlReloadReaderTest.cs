@@ -36,16 +36,16 @@ namespace Seasar.Tests.Extension.DataSets.Impl
         [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
         public void Read()
         {
-            DataSet dataSet = new DataSet();
-            DataTable table = dataSet.Tables.Add("emp");
+            var dataSet = new DataSet();
+            var table = dataSet.Tables.Add("emp");
             table.Columns.Add("empno", typeof(int));
             table.Columns.Add("ename", typeof(string));
-            DataRow row = table.NewRow();
+            var row = table.NewRow();
             row["empno"] = 7788;
             row["ename"] = "SCOTT";
             table.Rows.Add(row);
-            SqlReloadReader reader = new SqlReloadReader(DataSource, dataSet);
-            DataSet ret = reader.Read();
+            var reader = new SqlReloadReader(DataSource, dataSet);
+            var ret = reader.Read();
             S2Assert.AreEqual(dataSet, ret, "1");
         }
     }

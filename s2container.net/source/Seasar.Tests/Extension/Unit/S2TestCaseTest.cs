@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -45,7 +45,7 @@ namespace Seasar.Tests.Extension.Unit
 
         static S2TestCaseTest()
         {
-            FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
+            var info = new FileInfo(SystemInfo.AssemblyFileName(
                 Assembly.GetExecutingAssembly()) + ".config");
             XmlConfigurator.Configure(LogManager.GetRepository(), info);
         }
@@ -98,8 +98,8 @@ namespace Seasar.Tests.Extension.Unit
         [ExpectedException(typeof(EmptyRuntimeException))]
         public void TestDataSourceNull()
         {
-            IDataSource ds = DataSource;
-            Assert.Fail("—áŠO‚ª”­¶‚·‚é‚Ì‚Å‚±‚Ìs‚É‚Í“’B‚µ‚È‚¢B");
+            var ds = DataSource;
+            Assert.Fail("ä¾‹å¤–ãŒç™ºç”Ÿã™ã‚‹ã®ã§ã“ã®è¡Œã«ã¯åˆ°é”ã—ãªã„ã€‚");
         }
 
         public void SetUpDataSource()
@@ -115,7 +115,7 @@ namespace Seasar.Tests.Extension.Unit
 
         [Test, S2(Seasar.Extension.Unit.Tx.NotSupported)]
 #if NET_4_0
-        [Ignore(".NET4‚Å‚ÌS2Container‘Î‰‚Íƒyƒ“ƒfƒBƒ“ƒO")]
+        [Ignore(".NET4ã§ã®S2Containerå¯¾å¿œã¯ãƒšãƒ³ãƒ‡ã‚£ãƒ³ã‚°")]
 #endif
         public void TestCommandFactoryNull()
         {
@@ -140,24 +140,24 @@ namespace Seasar.Tests.Extension.Unit
 
         [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
 #if NET_4_0
-        [Ignore(".NET4‚Å‚ÌExcel“Ç‘Î‰‚Íƒyƒ“ƒfƒBƒ“ƒO")]
+        [Ignore(".NET4ã§ã®Excelèª­è¾¼å¯¾å¿œã¯ãƒšãƒ³ãƒ‡ã‚£ãƒ³ã‚°")]
 #endif
         public void ReadXlsTx()
         {
-            //  ƒŠƒ\[ƒXƒtƒ@ƒCƒ‹‚ÌêŠ‚ğ–¾Šm‚Éw’è‚·‚é
-            StringBuilder builder = new StringBuilder();
+            //  ãƒªã‚½ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã®å ´æ‰€ã‚’æ˜ç¢ºã«æŒ‡å®šã™ã‚‹
+            var builder = new StringBuilder();
             builder.Append(Assembly.GetExecutingAssembly().CodeBase);
             builder.Replace("file:///", string.Empty);
             builder.Replace("Seasar.Tests.DLL", "Extension/Unit/testdata.xls");
-            DataSet dataSet = ReadXls(builder.ToString());
+            var dataSet = ReadXls(builder.ToString());
 
             Trace.WriteLine(ToStringUtil.ToString(dataSet));
             Assert.AreEqual(2, dataSet.Tables.Count, "1");
-            DataTable table = dataSet.Tables["emp"];
+            var table = dataSet.Tables["emp"];
             Assert.AreEqual(2, table.Rows.Count, "2");
             Assert.AreEqual(3, table.Columns.Count, "3");
-            DataRow row = table.Rows[0];
-            // ”’l‚¾‚ÆŠÂ‹«‚É‚æ‚Á‚ÄŒ‹‰Ê‚ª•Ï‚í‚é‚Ì‚Å•¶š—ñ‚Å”äŠr
+            var row = table.Rows[0];
+            // æ•°å€¤ã ã¨ç’°å¢ƒã«ã‚ˆã£ã¦çµæœãŒå¤‰ã‚ã‚‹ã®ã§æ–‡å­—åˆ—ã§æ¯”è¼ƒ
             Assert.AreEqual("9900", row["empno"].ToString(), "4");
             Assert.AreEqual("hoge", row["ename"], "5");
             Assert.AreEqual("aaa", row["dname"], "6");
@@ -171,7 +171,7 @@ namespace Seasar.Tests.Extension.Unit
         [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
         public void ReadDbByTableTx()
         {
-            DataTable table = ReadDbByTable("emp", "empno = 7788");
+            var table = ReadDbByTable("emp", "empno = 7788");
             Trace.WriteLine(ToStringUtil.ToString(table));
             Assert.AreEqual(1, table.Rows.Count, "1");
         }
@@ -180,7 +180,7 @@ namespace Seasar.Tests.Extension.Unit
         {
             Include(PATH);
 #if NET_4_0
-            string exportPath = Path.GetFullPath(S2TestUtils.ConvertPath(GetType(), "aaa.xls"));
+            var exportPath = Path.GetFullPath(S2TestUtils.ConvertPath(GetType(), "aaa.xls"));
 #else
 #region NET2.0
             string exportPath = Path.GetFullPath(ConvertPath("aaa.xls"));
@@ -200,20 +200,20 @@ namespace Seasar.Tests.Extension.Unit
 
         [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
 #if NET_4_0
-        [Ignore(".NET4‚Å‚ÌExcel“Ç‘Î‰‚Íƒyƒ“ƒfƒBƒ“ƒO")]
+        [Ignore(".NET4ã§ã®Excelèª­è¾¼å¯¾å¿œã¯ãƒšãƒ³ãƒ‡ã‚£ãƒ³ã‚°")]
 #endif
         public void WriteXlsTx()
         {
-            //  ƒŠƒ\[ƒXƒtƒ@ƒCƒ‹‚ÌêŠ‚ğ–¾Šm‚Éw’è‚·‚é
-            StringBuilder builder = new StringBuilder();
+            //  ãƒªã‚½ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã®å ´æ‰€ã‚’æ˜ç¢ºã«æŒ‡å®šã™ã‚‹
+            var builder = new StringBuilder();
             builder.Append(Assembly.GetExecutingAssembly().CodeBase);
             builder.Replace("file:///", string.Empty);
             builder.Replace("Seasar.Tests.DLL", "Extension/Unit/testdata.xls");
-            DataSet dataSet = ReadXls(builder.ToString());
+            var dataSet = ReadXls(builder.ToString());
 
             WriteXls("aaa.xls", dataSet);
             Trace.WriteLine(ToStringUtil.ToString(dataSet));
-            DataSet dataSet2 = ReadXls("aaa.xls");
+            var dataSet2 = ReadXls("aaa.xls");
             S2Assert.AreEqual(dataSet, dataSet2);
         }
 
@@ -224,33 +224,33 @@ namespace Seasar.Tests.Extension.Unit
 
         [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
 #if NET_4_0
-        [Ignore(".NET4‚Å‚ÌExcel“Ç‘Î‰‚Íƒyƒ“ƒfƒBƒ“ƒO")]
+        [Ignore(".NET4ã§ã®Excelèª­è¾¼å¯¾å¿œã¯ãƒšãƒ³ãƒ‡ã‚£ãƒ³ã‚°")]
 #endif
         public void ReadXlsWriteDbTx()
         {
-            //  ƒŠƒ\[ƒXƒtƒ@ƒCƒ‹‚ÌêŠ‚ğ–¾Šm‚Éw’è‚·‚é
-            StringBuilder builder = new StringBuilder();
+            //  ãƒªã‚½ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã®å ´æ‰€ã‚’æ˜ç¢ºã«æŒ‡å®šã™ã‚‹
+            var builder = new StringBuilder();
             builder.Append(Assembly.GetExecutingAssembly().CodeBase);
             builder.Replace("file:///", string.Empty);
             builder.Replace("Seasar.Tests.DLL", "Extension/Unit/S2TestCaseTest_ReadXlsWriteDbTx.xls");
             ReadXlsWriteDb(builder.ToString());
 
-            DataTable table = ReadDbByTable("idtable", "1 = 1 ORDER BY id");
+            var table = ReadDbByTable("idtable", "1 = 1 ORDER BY id");
             Trace.WriteLine(ToStringUtil.ToString(table));
             Assert.AreEqual(2, table.Rows.Count, "1");
             Assert.AreEqual(2, table.Columns.Count, "2");
-            DataRow row = table.Rows[0];
-            // ”’l‚¾‚ÆŠÂ‹«‚É‚æ‚Á‚ÄŒ‹‰Ê‚ª•Ï‚í‚é‚Ì‚Å•¶š—ñ‚Å”äŠr
+            var row = table.Rows[0];
+            // æ•°å€¤ã ã¨ç’°å¢ƒã«ã‚ˆã£ã¦çµæœãŒå¤‰ã‚ã‚‹ã®ã§æ–‡å­—åˆ—ã§æ¯”è¼ƒ
             Assert.AreEqual("831", row["id"].ToString(), "3");
             Assert.AreEqual("hoge", row["id_name"], "4");
         }
 
 #if NET_4_0
-        [Test, Description("S2Unit.NET‚ÅMbUnit‚Ì[RowTest]‚É‘Î‰‚µ‚Ä‚¢‚é‚©Šm”FB")]
+        [Test, Description("S2Unit.NETã§MbUnitã®[RowTest]ã«å¯¾å¿œã—ã¦ã„ã‚‹ã‹ç¢ºèªã€‚")]
 #else
-#region NET2.0
-        [RowTest(Description = "S2Unit.NET‚ÅMbUnit‚Ì[RowTest]‚É‘Î‰‚µ‚Ä‚¢‚é‚©Šm”FB")]
-#endregion
+        #region NET2.0
+        [RowTest(Description = "S2Unit.NETã§MbUnitã®[RowTest]ã«å¯¾å¿œã—ã¦ã„ã‚‹ã‹ç¢ºèªã€‚")]
+        #endregion
 #endif
         [Row(1, 2, 3)]
         [Row(0, 0, 0)]

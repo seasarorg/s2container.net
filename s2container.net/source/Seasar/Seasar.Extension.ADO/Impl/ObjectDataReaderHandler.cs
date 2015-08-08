@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -22,20 +22,20 @@ namespace Seasar.Extension.ADO.Impl
 {
     public class ObjectDataReaderHandler : IDataReaderHandler
     {
-        #region IDataReaderHandler ƒƒ“ƒo
+        #region IDataReaderHandler ï¿½ï¿½ï¿½ï¿½ï¿½o
 
         public object Handle(IDataReader dataReader)
         {
-            // yŒÅ’è‚Åreturn null;‚Æ‚µ‚Ä‚¢‚é——Rz
-            // BasicSelectHandler#Execute()‚É‚¨‚¢‚Ä
+            // ï¿½yï¿½Å’ï¿½ï¿½return null;ï¿½Æ‚ï¿½ï¿½Ä‚ï¿½ï¿½é—ï¿½Rï¿½z
+            // BasicSelectHandler#Execute()ï¿½É‚ï¿½ï¿½ï¿½ï¿½ï¿½
             // - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
             // if (_dataReaderHandler is ObjectDataReaderHandler) {
             //     return CommandFactory.ExecuteScalar(DataSource, cmd);
             // }
             // - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-            // ‚Æ‚¢‚¤ˆ—‚ğs‚Á‚Ä‚¢‚é‚½‚ß‚Å‚ ‚éB
-            // ObjectDataReaderHandler‚Æ‚¢‚¤ƒNƒ‰ƒX©‘Ì‚Í’P‚È‚éƒ}[ƒJ[ƒNƒ‰ƒX‚Å‚ ‚èA
-            // ‚»‚ÌÀ‘•©‘Ì‚É“Á‚ÉˆÓ–¡‚ğ‚Á‚Ä‚¢‚È‚¢B
+            // ï¿½Æ‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚½ï¿½ß‚Å‚ï¿½ï¿½ï¿½B
+            // ObjectDataReaderHandlerï¿½Æ‚ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Ì‚Í’Pï¿½È‚ï¿½}ï¿½[ï¿½Jï¿½[ï¿½Nï¿½ï¿½ï¿½Xï¿½Å‚ï¿½ï¿½ï¿½A
+            // ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚É“ï¿½ï¿½ÉˆÓ–ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½B
             // 
             return null;
         }

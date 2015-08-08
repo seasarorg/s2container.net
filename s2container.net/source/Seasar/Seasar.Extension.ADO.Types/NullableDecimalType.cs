@@ -40,7 +40,7 @@ namespace Seasar.Extension.ADO.Types
             }
             else if (value is decimal)
             {
-                return new Nullable<Decimal>((decimal) value);
+                return new decimal?((decimal) value);
             }
             else
             {

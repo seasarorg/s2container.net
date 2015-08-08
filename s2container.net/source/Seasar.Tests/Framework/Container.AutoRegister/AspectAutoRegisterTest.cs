@@ -21,6 +21,7 @@ using Seasar.Framework.Container.AutoRegister;
 using Seasar.Framework.Aop;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Impl;
+using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Framework.Container.AutoRegister
 {
@@ -33,19 +34,19 @@ namespace Seasar.Tests.Framework.Container.AutoRegister
             IS2Container container = new S2ContainerImpl();
             IComponentDef cd = new ComponentDefImpl(typeof(BarAspectAutoRegisterLogic));
             container.Register(cd);
-            AspectAutoRegister register = new AspectAutoRegister();
+            var register = new AspectAutoRegister();
             register.Container = container;
-            register.AddClassPattern("Seasar.Tests.Framework.Container.AutoRegister", 
+            register.AddClassPattern("Seasar.Tests.Framework.container.AutoRegister", 
                 ".*AspectAutoRegisterLogic");
             register.Interceptor = new GreetInterceptor();
             register.RegisterAll();
 
             Assert.AreEqual(1, cd.AspectDefSize, "1");
 
-            IAspectDef ad = cd.GetAspectDef(0);
-            Assert.AreEqual(typeof(GreetInterceptor), ad.Aspect.MethodInterceptor.GetType(), "2");
+            var ad = cd.GetAspectDef(0);
+            Assert.AreEqual(typeof(GreetInterceptor), ad.Aspect.MethodInterceptor.GetExType(), "2");
 
-            IBar bar = (IBar) container.GetComponent(typeof(IBar));
+            var bar = (IBar) container.GetComponent(typeof(IBar));
 
             Assert.AreEqual("Hello", bar.Greet(), "3");
         }

@@ -19,7 +19,6 @@
 using System;
 using System.Collections.Generic;
 using Seasar.Extension.ADO;
-using Seasar.Framework.Aop;
 using Seasar.Framework.Log;
 using Seasar.Quill.Database.DataSource.Impl;
 using Seasar.Quill.Database.Tx;
@@ -60,7 +59,7 @@ namespace Seasar.Quill
 
             //  Quill設定情報の初期化
             QuillConfig.InitializeQuillConfig(this);
-            QuillConfig config = QuillConfig.GetInstance();
+            var config = QuillConfig.GetInstance();
             LogUtil.Output(_log, "IQLL0003", config.HasQuillConfig());
             if (config.HasQuillConfig())
             {
@@ -83,11 +82,7 @@ namespace Seasar.Quill
         /// </remarks>
         /// <param name="type">インスタンスの受け側のType</param>
         /// <returns>Quillコンポーネント</returns>
-        public virtual QuillComponent GetComponent(Type type)
-        {
-            // Quillコンポーネントを取得して返す
-            return GetComponent(type, type);
-        }
+        public virtual QuillComponent GetComponent(Type type) => GetComponent(type, type);
 
         /// <summary>
         /// Quillコンポーネントを取得する
@@ -117,17 +112,16 @@ namespace Seasar.Quill
                 }
 
                 // Aspectを作成する（Aspect属性が指定されていなければサイズ0となる)
-                IAspect[] aspects = aspectBuilder.CreateAspects(implType);
+                var aspects = aspectBuilder.CreateAspects(implType);
 
                 if (implType.IsInterface && aspects.Length == 0)
                 {
                     // InterfaceでAspectが定義されていない場合は例外をスローする
-                    throw new QuillApplicationException("EQLL0008",
-                        new string[] { implType.FullName });
+                    throw new QuillApplicationException("EQLL0008", new[] { implType.FullName });
                 }
 
                 // Quillコンポーネントを作成する
-                QuillComponent component = new QuillComponent(implType, type, aspects);
+                var component = new QuillComponent(implType, type, aspects);
 
                 // 作成済みのQuillコンポーネントを保存する
                 components[type] = component;
@@ -148,7 +142,7 @@ namespace Seasar.Quill
             }
 
             // 保持しているQuillComponentを反復処理する為の列挙子を取得する
-            IEnumerator<QuillComponent> componentValues =
+            var componentValues =
                 components.Values.GetEnumerator();
 
             while (componentValues.MoveNext())
@@ -173,16 +167,16 @@ namespace Seasar.Quill
                 return;
             }
             //  Quill用データソースの生成
-            SelectableDataSourceProxyWithDictionary dataSourceProxy =
+            var dataSourceProxy =
                 (SelectableDataSourceProxyWithDictionary)ComponentUtil.GetComponent(
                 this, typeof(SelectableDataSourceProxyWithDictionary));
             //  データソースの定義があれば登録
-            foreach (KeyValuePair<string, IDataSource> dataSourcePair in dataSources)
+            foreach (var dataSourcePair in dataSources)
             {
                 dataSourceProxy.RegistDataSource(dataSourcePair.Key, dataSourcePair.Value);
             }
 
-            ITransactionSetting defaultTxSetting = (ITransactionSetting)ComponentUtil.GetComponent(
+            var defaultTxSetting = (ITransactionSetting)ComponentUtil.GetComponent(
                 this, defaultTxSettingType);
             //  トランザクションのデフォルト設定を行う
             if (defaultTxSetting != null && defaultTxSetting.IsNeedSetup())
@@ -205,7 +199,7 @@ namespace Seasar.Quill
             }
 
             // 保持しているQuillComponentを反復処理する為の列挙子を取得する
-            IEnumerator<QuillComponent> componentValues = 
+            var componentValues = 
                 components.Values.GetEnumerator();
 
             while (componentValues.MoveNext())

@@ -26,23 +26,22 @@ namespace Seasar.Framework.Container.Factory
     {
         public override void Start(TagHandlerContext context, IAttributes attributes)
         {
-            string name = attributes["name"];
+            var name = attributes["name"];
             if (name == null)
             {
-                throw new TagAttributeNotDefinedRuntimeException(
-                    "property", "name");
+                throw new TagAttributeNotDefinedRuntimeException("property", "name");
             }
             context.Push(new PropertyDefImpl(name));
         }
 
         public override void End(TagHandlerContext context, string body)
         {
-            IPropertyDef propertyDef = (IPropertyDef) context.Pop();
+            var propertyDef = (IPropertyDef) context.Pop();
             if (!StringUtil.IsEmpty(body))
             {
                 propertyDef.Expression = body;
             }
-            IComponentDef componentDef = (IComponentDef) context.Peek();
+            var componentDef = (IComponentDef) context.Peek();
             componentDef.AddPropertyDef(propertyDef);
         }
     }

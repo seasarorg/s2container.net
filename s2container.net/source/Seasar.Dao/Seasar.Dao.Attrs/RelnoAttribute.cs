@@ -23,16 +23,11 @@ namespace Seasar.Dao.Attrs
     [AttributeUsage(AttributeTargets.Property)]
     public class RelnoAttribute : Attribute
     {
-        private readonly int _relno;
-
         public RelnoAttribute(int relno)
         {
-            _relno = relno;
+            Relno = relno;
         }
 
-        public int Relno
-        {
-            get { return _relno; }
-        }
+        public int Relno { get; }
     }
 }

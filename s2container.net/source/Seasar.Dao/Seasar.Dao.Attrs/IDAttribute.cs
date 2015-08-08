@@ -23,10 +23,6 @@ namespace Seasar.Dao.Attrs
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
     public class IDAttribute : Attribute
     {
-        private readonly IDType _idType = IDType.ASSIGNED;
-        private readonly string _sequenceName;
-        private readonly KindOfDbms _dbms = KindOfDbms.None;
-
         public IDAttribute(string id)
             : this(id, null)
         {
@@ -46,22 +42,22 @@ namespace Seasar.Dao.Attrs
         {
             if ("assigned".Equals(id))
             {
-                _idType = IDType.ASSIGNED;
+                IDType = IDType.ASSIGNED;
             }
             else if ("identity".Equals(id))
             {
-                _idType = IDType.IDENTITY;
+                IDType = IDType.IDENTITY;
             }
             else if ("sequence".Equals(id))
             {
-                _idType = IDType.SEQUENCE;
+                IDType = IDType.SEQUENCE;
             }
             else
             {
                 throw new ArgumentException("id");
             }
-            _sequenceName = sequenceName;
-            _dbms = dbms;
+            SequenceName = sequenceName;
+            Dbms = dbms;
         }
 
         public IDAttribute(IDType idType)
@@ -81,24 +77,15 @@ namespace Seasar.Dao.Attrs
 
         public IDAttribute(IDType idType, string sequenceName, KindOfDbms dbms)
         {
-            _idType = idType;
-            _sequenceName = sequenceName;
-            _dbms = dbms;
+            IDType = idType;
+            SequenceName = sequenceName;
+            Dbms = dbms;
         }
 
-        public IDType IDType
-        {
-            get { return _idType; }
-        }
+        public IDType IDType { get; } = IDType.ASSIGNED;
 
-        public string SequenceName
-        {
-            get { return _sequenceName; }
-        }
+        public string SequenceName { get; }
 
-        public KindOfDbms Dbms
-        {
-            get { return _dbms; }
-        }
+        public KindOfDbms Dbms { get; } = KindOfDbms.None;
     }
 }

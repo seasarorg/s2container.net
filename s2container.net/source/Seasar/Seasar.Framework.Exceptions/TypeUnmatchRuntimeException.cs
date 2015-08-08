@@ -24,38 +24,29 @@ namespace Seasar.Framework.Exceptions
     [Serializable]
     public class TypeUnmatchRuntimeException : SRuntimeException
     {
-        private readonly Type _componentType;
-        private readonly Type _realComponentType;
-
         public TypeUnmatchRuntimeException(Type componentType, Type realComponentType)
-            : base("ESSR0069", new object[] { componentType.FullName, realComponentType.FullName != null ? realComponentType.FullName : "null" })
+            : base("ESSR0069", new object[] { componentType.FullName, realComponentType.FullName ?? "null" })
         {
-            _componentType = componentType;
-            _realComponentType = realComponentType;
+            ComponentType = componentType;
+            RealComponentType = realComponentType;
         }
 
         public TypeUnmatchRuntimeException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            _componentType = info.GetValue("_componentType", typeof(Type)) as Type;
-            _realComponentType = info.GetValue("_realComponentType", typeof(Type)) as Type;
+            ComponentType = info.GetValue("_componentType", typeof(Type)) as Type;
+            RealComponentType = info.GetValue("_realComponentType", typeof(Type)) as Type;
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("_componentType", _componentType, typeof(Type));
-            info.AddValue("_realComponentType", _realComponentType, typeof(Type));
+            info.AddValue("_componentType", ComponentType, typeof(Type));
+            info.AddValue("_realComponentType", RealComponentType, typeof(Type));
             base.GetObjectData(info, context);
         }
 
-        public Type ComponentType
-        {
-            get { return _componentType; }
-        }
+        public Type ComponentType { get; }
 
-        public Type RealComponentType
-        {
-            get { return _realComponentType; }
-        }
+        public Type RealComponentType { get; }
     }
 }

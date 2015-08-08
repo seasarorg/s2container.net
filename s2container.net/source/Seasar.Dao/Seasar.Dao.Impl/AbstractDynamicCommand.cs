@@ -20,6 +20,7 @@ using System;
 using Seasar.Dao.Context;
 using Seasar.Dao.Parser;
 using Seasar.Extension.ADO;
+using Seasar.Framework.Util;
 
 namespace Seasar.Dao.Impl
 {
@@ -29,7 +30,7 @@ namespace Seasar.Dao.Impl
         private string[] _argNames = new string[0];
         private Type[] _argTypes = new Type[0];
 
-        public AbstractDynamicCommand(IDataSource dataSource, ICommandFactory commandFactory)
+        protected AbstractDynamicCommand(IDataSource dataSource, ICommandFactory commandFactory)
             : base(dataSource, commandFactory)
         {
         }
@@ -62,17 +63,17 @@ namespace Seasar.Dao.Impl
 
         protected virtual ICommandContext Apply(object[] args)
         {
-            ICommandContext ctx = CreateCommandContext(args);
+            var ctx = CreateCommandContext(args);
             _rootNode.Accept(ctx);
             return ctx;
         }
 
         protected virtual ICommandContext CreateCommandContext(object[] args)
         {
-            ICommandContext ctx = GetCommandContext();
+            var ctx = GetCommandContext();
             if (args != null)
             {
-                for (int i = 0; i < args.Length; ++i)
+                for (var i = 0; i < args.Length; ++i)
                 {
                     Type argType = null;
                     if (args[i] != null)
@@ -80,7 +81,7 @@ namespace Seasar.Dao.Impl
                         if (i < _argTypes.Length)
                             argType = _argTypes[i];
                         else if (args[i] != null)
-                            argType = args[i].GetType();
+                            argType = args[i].GetExType();
                     }
                     if (i < _argNames.Length)
                         ctx.AddArg(_argNames[i], args[i], argType);
@@ -91,9 +92,6 @@ namespace Seasar.Dao.Impl
             return ctx;
         }
 
-        protected virtual ICommandContext GetCommandContext()
-        {
-            return new CommandContextImpl();
-        }
+        protected virtual ICommandContext GetCommandContext() => new CommandContextImpl();
     }
 }

@@ -41,12 +41,11 @@ namespace Seasar.Framework.Util
         public static void SaveStackTraceToRemoteStackTraceString(Exception ex)
         {
             // _remoteStackTraceString‚ÌFieldInfo
-            FieldInfo remoteStackTraceString =
-                typeof(Exception).GetField("_remoteStackTraceString"
-                , BindingFlags.Instance | BindingFlags.NonPublic);
+            var remoteStackTraceString =
+                typeof(Exception).GetField("_remoteStackTraceString", BindingFlags.Instance | BindingFlags.NonPublic);
 
             // _remoteStackTraceString‚ÉInnerException‚ÌStackTrace‚ðƒZƒbƒg‚·‚é
-            remoteStackTraceString.SetValue(ex, ex.StackTrace + Environment.NewLine);
+            remoteStackTraceString?.SetValue(ex, ex.StackTrace + Environment.NewLine);
         }
     }
 }

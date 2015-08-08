@@ -29,13 +29,10 @@ namespace Seasar.Dao.Id
 
         public override void SetIdentifier(object bean, IDataSource ds)
         {
-            object value = ExecuteSql(ds, Dbms.IdentitySelectString, null);
+            var value = ExecuteSql(ds, Dbms.IdentitySelectString, null);
             SetIdentifier(bean, value);
         }
 
-        public override bool IsSelfGenerate
-        {
-            get { return false; }
-        }
+        public override bool IsSelfGenerate => false;
     }
 }

@@ -34,9 +34,9 @@ namespace Seasar.Framework.Util
         /// <returns>シリアライズされたオブジェクト</returns>
         public static object Serialize(object o)
         {
-            using (MemoryStream ms = new MemoryStream())
+            using (var ms = new MemoryStream())
             {
-                BinaryFormatter bf = new BinaryFormatter();
+                var bf = new BinaryFormatter();
                 bf.Serialize(ms, o);
                 ms.Seek(0, SeekOrigin.Begin);
                 return bf.Deserialize(ms);

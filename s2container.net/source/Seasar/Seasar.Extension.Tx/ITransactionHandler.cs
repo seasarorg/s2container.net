@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -21,7 +21,7 @@ using Seasar.Framework.Aop;
 namespace Seasar.Extension.Tx
 {
     /// <summary>
-    /// ƒgƒ‰ƒ“ƒUƒNƒVƒ‡ƒ“‚ÌÀˆ—‚ğ’S‚¤ƒNƒ‰ƒX‚ªÀ‘•‚·‚é‚×‚«ˆ—‚ğ‹K’è‚µ‚Ü‚·B
+    /// ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½Uï¿½Nï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Sï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Kï¿½è‚µï¿½Ü‚ï¿½ï¿½B
     /// </summary>
     public interface ITransactionHandler
     {

@@ -26,7 +26,7 @@ namespace Seasar.Tests.Framework.Container.AutoRegister
     {
         public void TestDefineName()
         {
-            DefaultAutoNaming naming = new DefaultAutoNaming();
+            var naming = new DefaultAutoNaming();
             Assert.AreEqual("Foo", naming.DefineName(typeof(Foo)), "1");
             Assert.AreEqual("Ijk", naming.DefineName(typeof(Ijk)), "2");
             Assert.AreEqual("Foo", naming.DefineName(typeof(IFoo)), "3");

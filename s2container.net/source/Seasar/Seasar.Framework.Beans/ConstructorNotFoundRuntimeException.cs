@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -20,62 +20,54 @@ using System;
 using System.Runtime.Serialization;
 using System.Text;
 using Seasar.Framework.Exceptions;
+using Seasar.Framework.Util;
 
 namespace Seasar.Framework.Beans
 {
     /// <summary>
-    /// ‘ÎÛ‚ÌƒNƒ‰ƒX‚É“K—p‰Â”\‚ÈƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ªŒ©‚Â‚©‚ç‚È‚©‚Á‚½ê‡‚ÌÀs—áŠO‚Å‚·B
+    /// ï¿½ÎÛ‚ÌƒNï¿½ï¿½ï¿½Xï¿½É“Kï¿½pï¿½Â”\ï¿½ÈƒRï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Ìï¿½ï¿½sï¿½ï¿½ï¿½ï¿½Oï¿½Å‚ï¿½ï¿½B
     /// </summary>
     [Serializable]
     public class ConstructorNotFoundRuntimeException : SRuntimeException
     {
-        private readonly Type _componentType;
-        private readonly object[] _methodArgs;
-
         public ConstructorNotFoundRuntimeException(Type componentType,
             object[] methodArgs)
             : base("ESSR0048",
-            new object[] { componentType.FullName, GetSignature(methodArgs) })
+            new object[] { componentType.FullName, _GetSignature(methodArgs) })
         {
-            _componentType = componentType;
-            _methodArgs = methodArgs;
+            ComponentType = componentType;
+            MethodArgs = methodArgs;
         }
 
         public ConstructorNotFoundRuntimeException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            _componentType = info.GetValue("_componentType", typeof(Type)) as Type;
-            _methodArgs = info.GetValue("_methodArgs", typeof(object[])) as object[];
+            ComponentType = info.GetValue("_componentType", typeof(Type)) as Type;
+            MethodArgs = info.GetValue("_methodArgs", typeof(object[])) as object[];
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("_componentType", _componentType, typeof(Type));
-            info.AddValue("_methodArgs", _methodArgs, typeof(object[]));
+            info.AddValue("_componentType", ComponentType, typeof(Type));
+            info.AddValue("_methodArgs", MethodArgs, typeof(object[]));
             base.GetObjectData(info, context);
         }
 
-        public Type ComponentType
-        {
-            get { return _componentType; }
-        }
+        public Type ComponentType { get; }
 
-        public object[] MethodArgs
-        {
-            get { return _methodArgs; }
-        }
+        public object[] MethodArgs { get; }
 
-        private static string GetSignature(object[] methodArgs)
+        private static string _GetSignature(object[] methodArgs)
         {
-            StringBuilder buf = new StringBuilder(100);
+            var buf = new StringBuilder(100);
             if (methodArgs != null)
             {
-                for (int i = 0; i < methodArgs.Length; ++i)
+                for (var i = 0; i < methodArgs.Length; ++i)
                 {
                     if (i > 0) buf.Append(", ");
                     if (methodArgs[i] != null)
                     {
-                        buf.Append(methodArgs[i].GetType().FullName);
+                        buf.Append(methodArgs[i].GetExType().FullName);
                     }
                     else
                     {

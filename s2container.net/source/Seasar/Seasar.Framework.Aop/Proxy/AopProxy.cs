@@ -46,19 +46,11 @@ namespace Seasar.Framework.Aop.Proxy
         private readonly IAspect[] _aspects;
 
         /// <summary>
-        /// 透過的プロクシを作成する型
-        /// </summary>
-        private readonly Type _type;
-
-        /// <summary>
         /// メソッドとそのクラスのインスタンスが属するS2コンテナに関する情報
         /// </summary>
         private readonly Hashtable _parameters;
 
-        public Type TargetType
-        {
-            get { return _type; }
-        }
+        public Type TargetType { get; }
 
         /// <summary>
         /// コンストラクタ
@@ -70,7 +62,7 @@ namespace Seasar.Framework.Aop.Proxy
         public AopProxy(Type type, IAspect[] aspects, Hashtable parameters, object target)
             : base(type)
         {
-            _type = type;
+            TargetType = type;
             _target = target;
             _aspects = aspects;
             _parameters = parameters;
@@ -123,7 +115,7 @@ namespace Seasar.Framework.Aop.Proxy
         /// <returns>透過的プロクシのインスタンス</returns>
         public object Create(Type[] argTypes, object[] args)
         {
-            ConstructorInfo constructor = ClassUtil.GetConstructorInfo(_type, argTypes);
+            var constructor = ClassUtil.GetConstructorInfo(TargetType, argTypes);
             _target = ConstructorUtil.NewInstance(constructor, args);
             return GetTransparentProxy();
         }
@@ -137,7 +129,7 @@ namespace Seasar.Framework.Aop.Proxy
         /// <returns>透過的プロクシのインスタンス</returns>
         public object Create(Type[] argTypes, object[] args, Type targetType)
         {
-            ConstructorInfo constructor = ClassUtil.GetConstructorInfo(targetType, argTypes);
+            var constructor = ClassUtil.GetConstructorInfo(targetType, argTypes);
             _target = ConstructorUtil.NewInstance(constructor, args);
             return GetTransparentProxy();
         }
@@ -149,75 +141,84 @@ namespace Seasar.Framework.Aop.Proxy
         /// </summary>
         /// <param name="msg">IMessage</param>
         /// <returns>IMessage</returns>
-        /// <seealso="System.Runtime.Remoting.Proxies">System.Runtime.Remoting.Proxies</seealso>
+        /// <seealso cref="System.Runtime.Remoting.Proxies">System.Runtime.Remoting.Proxies</seealso>
         public override IMessage Invoke(IMessage msg)
         {
             if (_target == null)
             {
-                if (!_type.IsInterface) _target = Activator.CreateInstance(_type);
+//                if (!_type.IsInterface) _target = Activator.CreateInstance(_type);
+                if (!TargetType.IsInterface) _target = ClassUtil.NewInstance(TargetType);
                 if (_target == null) _target = new object();
             }
 
-            IMethodMessage methodMessage = msg as IMethodMessage;
-            MethodBase method = methodMessage.MethodBase;
-
-            ArrayList interceptorList = new ArrayList();
-
-            if (_aspects != null)
+            var methodMessage = msg as IMethodMessage;
+            if (methodMessage != null)
             {
-                // 定義されたAspectからInterceptorのリストの作成
-                foreach (IAspect aspect in _aspects)
+                var method = methodMessage.MethodBase;
+
+                var interceptorList = new ArrayList();
+
+                if (_aspects != null)
                 {
-                    IPointcut pointcut = aspect.Pointcut;
-                    // IPointcutよりAdvice(Interceptor)を挿入するか確認
-                    if (pointcut == null || pointcut.IsApplied(method))
+                    // 定義されたAspectからInterceptorのリストの作成
+                    foreach (var aspect in _aspects)
                     {
-                        // Aspectを適用する場合
-                        interceptorList.Add(aspect.MethodInterceptor);
+                        var pointcut = aspect.Pointcut;
+                        // IPointcutよりAdvice(Interceptor)を挿入するか確認
+                        if (pointcut == null || pointcut.IsApplied(method))
+                        {
+                            // Aspectを適用する場合
+                            interceptorList.Add(aspect.MethodInterceptor);
+                        }
                     }
                 }
-            }
 
-            object ret;
+                object ret;
 
-            object[] methodArgs;
+                object[] methodArgs;
 
-            if (interceptorList.Count == 0)
-            {
-                methodArgs = methodMessage.Args;
-
-                try
+                if (interceptorList.Count == 0)
                 {
-                    //Interceptorを挿入しない場合
-                    ret = method.Invoke(_target, methodArgs);
-                }
-                catch (TargetInvocationException ex)
-                {
-                    // InnerExceptionのStackTraceを保存する
-                    ExceptionUtil.SaveStackTraceToRemoteStackTraceString(ex.InnerException);
+                    methodArgs = methodMessage.Args;
 
-                    // InnerExceptionをthrowする
-                    throw ex.InnerException;
+                    try
+                    {
+                        //Interceptorを挿入しない場合
+                        ret = MethodUtil.Invoke((MethodInfo) method, _target, methodArgs);
+//                    ret = method.Invoke(_target, methodArgs);
+                    }
+                    catch (TargetInvocationException ex)
+                    {
+                        // InnerExceptionのStackTraceを保存する
+                        ExceptionUtil.SaveStackTraceToRemoteStackTraceString(ex.InnerException);
+
+                        // InnerExceptionをthrowする
+                        throw ex.InnerException;
+                    }
                 }
+                else
+                {
+                    // Interceptorを挿入する場合
+                    var interceptors = (IMethodInterceptor[])
+                        interceptorList.ToArray(typeof (IMethodInterceptor));
+
+                    IMethodInvocation invocation = new MethodInvocationImpl(_target,
+                        method, methodMessage.Args, interceptors, _parameters);
+
+                    ret = interceptors[0].Invoke(invocation);
+
+                    methodArgs = invocation.Arguments;
+                }
+
+                IMethodReturnMessage mrm = new ReturnMessage(ret, methodArgs, methodArgs.Length,
+                    methodMessage.LogicalCallContext, (IMethodCallMessage) msg);
+
+                return mrm;
             }
             else
             {
-                // Interceptorを挿入する場合
-                IMethodInterceptor[] interceptors = (IMethodInterceptor[])
-                    interceptorList.ToArray(typeof(IMethodInterceptor));
-
-                IMethodInvocation invocation = new MethodInvocationImpl(_target,
-                    method, methodMessage.Args, interceptors, _parameters);
-
-                ret = interceptors[0].Invoke(invocation);
-
-                methodArgs = invocation.Arguments;
+                return null;
             }
-
-            IMethodReturnMessage mrm = new ReturnMessage(ret, methodArgs, methodArgs.Length,
-                methodMessage.LogicalCallContext, (IMethodCallMessage) msg);
-
-            return mrm;
         }
 
         #endregion

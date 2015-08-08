@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -26,7 +26,7 @@ namespace Seasar.Framework.Container.Util
         private IS2Container _container;
 
         /// <summary>
-        /// MethodDef‚ğ’Ç‰Á‚µ‚Ü‚·B
+        /// MethodDefï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
         /// </summary>
         /// <param name="methodDef">MethodDef</param>
         public void AddInitMethodDef(IInitMethodDef methodDef)
@@ -39,22 +39,16 @@ namespace Seasar.Framework.Container.Util
         }
 
         /// <summary>
-        /// IInitMethodDef‚Ì”
+        /// IInitMethodDefï¿½Ìï¿½
         /// </summary>
-        public int InitMethodDefSize
-        {
-            get { return _methodDefs.Count; }
-        }
+        public int InitMethodDefSize => _methodDefs.Count;
 
         /// <summary>
-        /// ”Ô†‚ğw’è‚µ‚ÄIInitMethodDef‚ğæ“¾‚µ‚Ü‚·B
+        /// ï¿½Ôï¿½ï¿½ï¿½wï¿½è‚µï¿½ï¿½IInitMethodDefï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
         /// </summary>
-        /// <param name="index">IInitMethodDef‚Ì”Ô†</param>
+        /// <param name="index">IInitMethodDefï¿½Ì”Ôï¿½</param>
         /// <returns>IInitMethodDef</returns>
-        public IInitMethodDef GetInitMethodDef(int index)
-        {
-            return (IInitMethodDef) _methodDefs[index];
-        }
+        public IInitMethodDef GetInitMethodDef(int index) => (IInitMethodDef) _methodDefs[index];
 
         /// <summary>
         /// S2Container
@@ -64,10 +58,10 @@ namespace Seasar.Framework.Container.Util
             set
             {
                 _container = value;
-                IEnumerator enu = _methodDefs.GetEnumerator();
+                var enu = _methodDefs.GetEnumerator();
                 while (enu.MoveNext())
                 {
-                    IInitMethodDef methodDef = (IInitMethodDef) enu.Current;
+                    var methodDef = (IInitMethodDef) enu.Current;
                     methodDef.Container = value;
                 }
             }

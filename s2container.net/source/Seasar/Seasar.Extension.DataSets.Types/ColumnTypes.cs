@@ -21,6 +21,7 @@ using System.Collections;
 using System.Data;
 using System.Data.SqlTypes;
 using Seasar.Extension.ADO.Types;
+using Seasar.Framework.Util;
 
 #if NHIBERNATE_NULLABLES
 using Nullables;
@@ -40,18 +41,18 @@ namespace Seasar.Extension.DataSets.Types
 
         static ColumnTypes()
         {
-            RegisterColumnType(typeof(String), STRING);
-            RegisterColumnType(typeof(Byte), DECIMAL);
-            RegisterColumnType(typeof(SByte), DECIMAL);
-            RegisterColumnType(typeof(Int16), DECIMAL);
-            RegisterColumnType(typeof(Int32), DECIMAL);
-            RegisterColumnType(typeof(Int64), DECIMAL);
-            RegisterColumnType(typeof(Single), DECIMAL);
-            RegisterColumnType(typeof(Double), DECIMAL);
-            RegisterColumnType(typeof(Decimal), DECIMAL);
+            RegisterColumnType(typeof(string), STRING);
+            RegisterColumnType(typeof(byte), DECIMAL);
+            RegisterColumnType(typeof(sbyte), DECIMAL);
+            RegisterColumnType(typeof(short), DECIMAL);
+            RegisterColumnType(typeof(int), DECIMAL);
+            RegisterColumnType(typeof(long), DECIMAL);
+            RegisterColumnType(typeof(float), DECIMAL);
+            RegisterColumnType(typeof(double), DECIMAL);
+            RegisterColumnType(typeof(decimal), DECIMAL);
             RegisterColumnType(typeof(DateTime), DATETIME);
             RegisterColumnType(ValueTypes.BYTE_ARRAY_TYPE, BINARY);
-            RegisterColumnType(typeof(Boolean), BOOLEAN);
+            RegisterColumnType(typeof(bool), BOOLEAN);
             RegisterColumnType(typeof(Guid), OBJECT);
 
             RegisterColumnType(typeof(SqlString), STRING);
@@ -85,17 +86,17 @@ namespace Seasar.Extension.DataSets.Types
 #endif
 
 #if !NET_1_1
-            RegisterColumnType(typeof(Nullable<Byte>), DECIMAL);
-            RegisterColumnType(typeof(Nullable<SByte>), DECIMAL);
-            RegisterColumnType(typeof(Nullable<Int16>), DECIMAL);
-            RegisterColumnType(typeof(Nullable<Int32>), DECIMAL);
-            RegisterColumnType(typeof(Nullable<Int64>), DECIMAL);
-            RegisterColumnType(typeof(Nullable<Single>), DECIMAL);
-            RegisterColumnType(typeof(Nullable<Double>), DECIMAL);
-            RegisterColumnType(typeof(Nullable<Decimal>), DECIMAL);
-            RegisterColumnType(typeof(Nullable<DateTime>), DATETIME);
+            RegisterColumnType(typeof(byte?), DECIMAL);
+            RegisterColumnType(typeof(sbyte?), DECIMAL);
+            RegisterColumnType(typeof(short?), DECIMAL);
+            RegisterColumnType(typeof(int?), DECIMAL);
+            RegisterColumnType(typeof(long?), DECIMAL);
+            RegisterColumnType(typeof(float?), DECIMAL);
+            RegisterColumnType(typeof(double?), DECIMAL);
+            RegisterColumnType(typeof(decimal?), DECIMAL);
+            RegisterColumnType(typeof(DateTime?), DATETIME);
             RegisterColumnType(ValueTypes.NULLABLE_BYTE_ARRAY_TYPE, BINARY);
-            RegisterColumnType(typeof(Nullable<Boolean>), BOOLEAN);
+            RegisterColumnType(typeof(bool?), BOOLEAN);
 #endif
         }
 
@@ -148,12 +149,12 @@ namespace Seasar.Extension.DataSets.Types
             {
                 return OBJECT;
             }
-            return GetColumnType(value.GetType());
+            return GetColumnType(value.GetExType());
         }
 
         public static IColumnType GetColumnType(Type type)
         {
-            IColumnType columnType = GetColumnType0(type);
+            var columnType = _GetColumnType0(type);
             if (columnType != null)
             {
                 return columnType;
@@ -161,7 +162,7 @@ namespace Seasar.Extension.DataSets.Types
             return OBJECT;
         }
 
-        private static IColumnType GetColumnType0(Type type)
+        private static IColumnType _GetColumnType0(Type type)
         {
             lock (_types)
             {

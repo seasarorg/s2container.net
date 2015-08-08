@@ -32,21 +32,15 @@ namespace Seasar.Extension.DataSets.Impl
             _dataSet = dataSet;
         }
 
-        public IDataSource DataSource
-        {
-            get { return _dataSource; }
-        }
+        public IDataSource DataSource => _dataSource;
 
-        public DataSet DataSet
-        {
-            get { return _dataSet; }
-        }
+        public DataSet DataSet => _dataSet;
 
         #region IDataReader ƒƒ“ƒo
 
         public virtual DataSet Read()
         {
-            DataSet newDataSet = new DataSet();
+            var newDataSet = new DataSet();
             foreach (DataTable table in _dataSet.Tables)
             {
                 ITableReader reader = new SqlReloadTableReader(_dataSource, table);

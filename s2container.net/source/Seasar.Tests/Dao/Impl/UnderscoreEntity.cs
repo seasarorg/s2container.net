@@ -23,40 +23,14 @@ namespace Seasar.Tests.Dao.Impl
     [Table("UNDER_SCORE")]
     public class UnderscoreEntity
     {
-        private long _underScoreNo;
-        private string tableName_;
-        private string _tableName;
-        private string _tableName_;
-        private string tableName;
+        public long UnderScoreNo { get; set; }
 
-        public long UnderScoreNo
-        {
-            get { return _underScoreNo; }
-            set { _underScoreNo = value; }
-        }
+        public string Table_Name_ { get; set; }
 
-        public string Table_Name_
-        {
-            get { return tableName_; }
-            set { tableName_ = value; }
-        }
+        public string _Table_Name { get; set; }
 
-        public string _Table_Name
-        {
-            get { return _tableName; }
-            set { _tableName = value; }
-        }
+        public string _Table_Name_ { get; set; }
 
-        public string _Table_Name_
-        {
-            get { return _tableName_; }
-            set { _tableName_ = value; }
-        }
-
-        public string TableName
-        {
-            get { return tableName; }
-            set { tableName = value; }
-        }
+        public string TableName { get; set; }
     }
 }

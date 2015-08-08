@@ -33,7 +33,7 @@ namespace Seasar.Tests.Framework.Util
         [Test]
         public void TestConvertSqlTypesNullable_SqlBinary()
         {
-            SqlBinary ret = (SqlBinary) ConversionUtil.ConvertSqlTypesNullable(DBNull.Value, typeof(SqlBinary));
+            var ret = (SqlBinary) ConversionUtil.ConvertSqlTypesNullable(DBNull.Value, typeof(SqlBinary));
             Assert.IsTrue(ret.IsNull, "1");
             ret = (SqlBinary) ConversionUtil.ConvertSqlTypesNullable(null, typeof(SqlBinary));
             Assert.IsTrue(ret.IsNull, "2");
@@ -44,7 +44,7 @@ namespace Seasar.Tests.Framework.Util
         [Test]
         public void TestConvertSqlTypesNullable_SqlInt64()
         {
-            SqlInt64 ret = (SqlInt64) ConversionUtil.ConvertSqlTypesNullable(DBNull.Value, typeof(SqlInt64));
+            var ret = (SqlInt64) ConversionUtil.ConvertSqlTypesNullable(DBNull.Value, typeof(SqlInt64));
             Assert.IsTrue(ret.IsNull, "1");
             ret = (SqlInt64) ConversionUtil.ConvertSqlTypesNullable(null, typeof(SqlInt64));
             Assert.IsTrue(ret.IsNull, "2");
@@ -55,7 +55,7 @@ namespace Seasar.Tests.Framework.Util
         [Test]
         public void TestConvertSqlTypesNullable_SqlString()
         {
-            SqlString ret = (SqlString) ConversionUtil.ConvertSqlTypesNullable(DBNull.Value, typeof(SqlString));
+            var ret = (SqlString) ConversionUtil.ConvertSqlTypesNullable(DBNull.Value, typeof(SqlString));
             Assert.IsTrue(ret.IsNull, "1");
             ret = (SqlString) ConversionUtil.ConvertSqlTypesNullable(null, typeof(SqlString));
             Assert.IsTrue(ret.IsNull, "2");
@@ -66,7 +66,7 @@ namespace Seasar.Tests.Framework.Util
         [Test]
         public void TestConvertSqlTypesNullable_SqlDateTime()
         {
-            SqlDateTime ret = (SqlDateTime) ConversionUtil.ConvertSqlTypesNullable(DBNull.Value, typeof(SqlDateTime));
+            var ret = (SqlDateTime) ConversionUtil.ConvertSqlTypesNullable(DBNull.Value, typeof(SqlDateTime));
             Assert.IsTrue(ret.IsNull, "1");
             ret = (SqlDateTime) ConversionUtil.ConvertSqlTypesNullable(null, typeof(SqlDateTime));
             Assert.IsTrue(ret.IsNull, "2");
@@ -77,7 +77,7 @@ namespace Seasar.Tests.Framework.Util
         [Test]
         public void TestConvertSqlTypesNullable_SqlDecimal()
         {
-            SqlDecimal ret = (SqlDecimal) ConversionUtil.ConvertSqlTypesNullable(DBNull.Value, typeof(SqlDecimal));
+            var ret = (SqlDecimal) ConversionUtil.ConvertSqlTypesNullable(DBNull.Value, typeof(SqlDecimal));
             Assert.IsTrue(ret.IsNull, "1");
             ret = (SqlDecimal) ConversionUtil.ConvertSqlTypesNullable(null, typeof(SqlDecimal));
             Assert.IsTrue(ret.IsNull, "2");
@@ -88,7 +88,7 @@ namespace Seasar.Tests.Framework.Util
         [Test]
         public void TestConvertSqlTypesNullable_SqlDouble()
         {
-            SqlDouble ret = (SqlDouble) ConversionUtil.ConvertSqlTypesNullable(DBNull.Value, typeof(SqlDouble));
+            var ret = (SqlDouble) ConversionUtil.ConvertSqlTypesNullable(DBNull.Value, typeof(SqlDouble));
             Assert.IsTrue(ret.IsNull, "1");
             ret = (SqlDouble) ConversionUtil.ConvertSqlTypesNullable(null, typeof(SqlDouble));
             Assert.IsTrue(ret.IsNull, "2");
@@ -99,7 +99,7 @@ namespace Seasar.Tests.Framework.Util
         [Test]
         public void TestConvertSqlTypesNullable_SqlInt32()
         {
-            SqlInt32 ret = (SqlInt32) ConversionUtil.ConvertSqlTypesNullable(DBNull.Value, typeof(SqlInt32));
+            var ret = (SqlInt32) ConversionUtil.ConvertSqlTypesNullable(DBNull.Value, typeof(SqlInt32));
             Assert.IsTrue(ret.IsNull, "1");
             ret = (SqlInt32) ConversionUtil.ConvertSqlTypesNullable(null, typeof(SqlInt32));
             Assert.IsTrue(ret.IsNull, "2");
@@ -110,7 +110,7 @@ namespace Seasar.Tests.Framework.Util
         [Test]
         public void TestConvertSqlTypesNullable_SqlMoney()
         {
-            SqlMoney ret = (SqlMoney) ConversionUtil.ConvertSqlTypesNullable(DBNull.Value, typeof(SqlMoney));
+            var ret = (SqlMoney) ConversionUtil.ConvertSqlTypesNullable(DBNull.Value, typeof(SqlMoney));
             Assert.IsTrue(ret.IsNull, "1");
             ret = (SqlMoney) ConversionUtil.ConvertSqlTypesNullable(null, typeof(SqlMoney));
             Assert.IsTrue(ret.IsNull, "2");
@@ -121,7 +121,7 @@ namespace Seasar.Tests.Framework.Util
         [Test]
         public void TestConvertSqlTypesNullable_SqlSingle()
         {
-            SqlSingle ret = (SqlSingle) ConversionUtil.ConvertSqlTypesNullable(DBNull.Value, typeof(SqlSingle));
+            var ret = (SqlSingle) ConversionUtil.ConvertSqlTypesNullable(DBNull.Value, typeof(SqlSingle));
             Assert.IsTrue(ret.IsNull, "1");
             ret = (SqlSingle) ConversionUtil.ConvertSqlTypesNullable(null, typeof(SqlSingle));
             Assert.IsTrue(ret.IsNull, "2");
@@ -132,7 +132,7 @@ namespace Seasar.Tests.Framework.Util
         [Test]
         public void TestConvertSqlTypesNullable_SqlInt16()
         {
-            SqlInt16 ret = (SqlInt16) ConversionUtil.ConvertSqlTypesNullable(DBNull.Value, typeof(SqlInt16));
+            var ret = (SqlInt16) ConversionUtil.ConvertSqlTypesNullable(DBNull.Value, typeof(SqlInt16));
             Assert.IsTrue(ret.IsNull, "1");
             ret = (SqlInt16) ConversionUtil.ConvertSqlTypesNullable(null, typeof(SqlInt16));
             Assert.IsTrue(ret.IsNull, "2");
@@ -143,7 +143,7 @@ namespace Seasar.Tests.Framework.Util
         [Test]
         public void TestConvertSqlTypesNullable_SqlByte()
         {
-            SqlByte ret = (SqlByte) ConversionUtil.ConvertSqlTypesNullable(DBNull.Value, typeof(SqlByte));
+            var ret = (SqlByte) ConversionUtil.ConvertSqlTypesNullable(DBNull.Value, typeof(SqlByte));
             Assert.IsTrue(ret.IsNull, "1");
             ret = (SqlByte) ConversionUtil.ConvertSqlTypesNullable(null, typeof(SqlByte));
             Assert.IsTrue(ret.IsNull, "2");
@@ -154,7 +154,7 @@ namespace Seasar.Tests.Framework.Util
         [Test]
         public void TestConvertSqlTypesNullable_SqlGuid()
         {
-            SqlGuid ret = (SqlGuid) ConversionUtil.ConvertSqlTypesNullable(DBNull.Value, typeof(SqlGuid));
+            var ret = (SqlGuid) ConversionUtil.ConvertSqlTypesNullable(DBNull.Value, typeof(SqlGuid));
             Assert.IsTrue(ret.IsNull, "1");
             ret = (SqlGuid) ConversionUtil.ConvertSqlTypesNullable(null, typeof(SqlGuid));
             Assert.IsTrue(ret.IsNull, "2");
@@ -166,7 +166,7 @@ namespace Seasar.Tests.Framework.Util
         [Test]
         public void TestConvertSqlTypesNullable_SqlBoolean()
         {
-            SqlBoolean ret = (SqlBoolean) ConversionUtil.ConvertSqlTypesNullable(DBNull.Value, typeof(SqlBoolean));
+            var ret = (SqlBoolean) ConversionUtil.ConvertSqlTypesNullable(DBNull.Value, typeof(SqlBoolean));
             Assert.IsTrue(ret.IsNull, "1");
             ret = (SqlBoolean) ConversionUtil.ConvertSqlTypesNullable(null, typeof(SqlBoolean));
             Assert.IsTrue(ret.IsNull, "2");
@@ -327,7 +327,7 @@ namespace Seasar.Tests.Framework.Util
         [Test]
         public void TestConvertNullable_Boolean()
         {
-            bool? ret = (bool?) ConversionUtil.ConvertNullable(
+            var ret = (bool?) ConversionUtil.ConvertNullable(
                 DBNull.Value, typeof(bool?));
             Assert.IsFalse(ret.HasValue, "1");
             ret = (bool?) ConversionUtil.ConvertNullable(null, typeof(bool?));
@@ -339,7 +339,7 @@ namespace Seasar.Tests.Framework.Util
         [Test]
         public void TestConvertNullable_Int32()
         {
-            int? ret = (int?) ConversionUtil.ConvertNullable(
+            var ret = (int?) ConversionUtil.ConvertNullable(
                 DBNull.Value, typeof(int?));
             Assert.IsFalse(ret.HasValue, "1");
             ret = (int?) ConversionUtil.ConvertNullable(null, typeof(int?));

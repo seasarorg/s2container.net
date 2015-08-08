@@ -39,7 +39,7 @@ namespace Seasar.Tests.Framework.Container.Assembler
         [SetUp]
         public void SetUp()
         {
-            FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
+            var info = new FileInfo(SystemInfo.AssemblyFileName(
                 Assembly.GetExecutingAssembly()) + ".config");
             XmlConfigurator.Configure(LogManager.GetRepository(), info);
         }
@@ -48,12 +48,12 @@ namespace Seasar.Tests.Framework.Container.Assembler
         public void TestAssemble()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+            var cd = new ComponentDefImpl(typeof(A));
             IArgDef argDef = new ArgDefImpl(new B());
             cd.AddArgDef(argDef);
             container.Register(cd);
             IConstructorAssembler assembler = new ManualConstructorAssembler(cd);
-            A a = (A) assembler.Assemble();
+            var a = (A) assembler.Assemble();
             Assert.AreEqual("B", a.HogeName);
         }
 
@@ -61,13 +61,13 @@ namespace Seasar.Tests.Framework.Container.Assembler
         public void TestAssembleAspect()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+            var cd = new ComponentDefImpl(typeof(A));
             cd.AddAspeceDef(new AspectDefImpl(new TraceInterceptor()));
             IArgDef argDef = new ArgDefImpl(new B());
             cd.AddArgDef(argDef);
             container.Register(cd);
             IConstructorAssembler assembler = new ManualConstructorAssembler(cd);
-            A a = (A) assembler.Assemble();
+            var a = (A) assembler.Assemble();
             Assert.AreEqual("B", a.HogeName);
         }
 
@@ -75,7 +75,7 @@ namespace Seasar.Tests.Framework.Container.Assembler
         public void TestAssembleIllegalConstructorArgument()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+            var cd = new ComponentDefImpl(typeof(A));
             IArgDef argDef = new ArgDefImpl();
             argDef.Expression = "hoge";
             cd.AddArgDef(argDef);
@@ -96,17 +96,17 @@ namespace Seasar.Tests.Framework.Container.Assembler
         public void TestAssembleWithAspect()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
-            ComponentDefImpl cdB = new ComponentDefImpl(typeof(B), "B");
+            var cd = new ComponentDefImpl(typeof(A));
+            var cdB = new ComponentDefImpl(typeof(B), "B");
             IArgDef argDef = new ArgDefImpl();
             argDef.Expression = "B";
             cd.AddArgDef(argDef);
             container.Register(cd);
-            AspectDefImpl ad = new AspectDefImpl(new TraceInterceptor());
+            var ad = new AspectDefImpl(new TraceInterceptor());
             cdB.AddAspeceDef(ad);
             container.Register(cdB);
             IConstructorAssembler assembler = new ManualConstructorAssembler(cd);
-            A a = (A) assembler.Assemble();
+            var a = (A) assembler.Assemble();
             Assert.AreEqual("B", a.HogeName, "1");
             Assert.IsTrue(RemotingServices.IsTransparentProxy(a.Hoge), "2");
         }
@@ -118,21 +118,16 @@ namespace Seasar.Tests.Framework.Container.Assembler
 
         public class A : MarshalByRefObject, IFoo
         {
-            private readonly IHoge _hoge;
-
             public A(IHoge hoge)
             {
-                _hoge = hoge;
+                Hoge = hoge;
             }
 
-            public IHoge Hoge
-            {
-                get { return _hoge; }
-            }
+            public IHoge Hoge { get; }
 
             public string HogeName
             {
-                get { return _hoge.Name; }
+                get { return Hoge.Name; }
             }
         }
 

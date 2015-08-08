@@ -31,17 +31,11 @@ namespace Seasar.Tests.Extension.Tx.Impl
     [TestFixture]
     public class RequiredInterceptorTest : S2FrameworkTestCaseBase
     {
-        private ITxTest txTest;
-
-        public ITxTest TxTest
-        {
-            get { return txTest; }
-            set { txTest = value; }
-        }
+        public ITxTest TxTest { get; set; }
 
         public RequiredInterceptorTest()
         {
-            FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
+            var info = new FileInfo(SystemInfo.AssemblyFileName(
                 Assembly.GetExecutingAssembly()) + ".config");
             XmlConfigurator.Configure(LogManager.GetRepository(), info);
             base.Container = S2ContainerFactory.Create(base.ConvertPath("RequiredInterceptorTest.dicon"));
@@ -58,9 +52,9 @@ namespace Seasar.Tests.Extension.Tx.Impl
         [Test]
         public void StartTxInTx()
         {
-            using (TransactionScope scope = new TransactionScope())
+            using (var scope = new TransactionScope())
             {
-                Transaction tx = Transaction.Current;
+                var tx = Transaction.Current;
                 Assert.AreEqual(tx.TransactionInformation.LocalIdentifier, TxTest.TxId);
             }
         }
@@ -82,9 +76,9 @@ namespace Seasar.Tests.Extension.Tx.Impl
         [Test]
         public void ThrowExceptionInTx()
         {
-            using (TransactionScope scope = new TransactionScope())
+            using (var scope = new TransactionScope())
             {
-                Transaction tx = Transaction.Current;
+                var tx = Transaction.Current;
                 try
                 {
                     TxTest.throwException();

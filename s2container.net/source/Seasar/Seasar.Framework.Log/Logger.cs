@@ -37,7 +37,7 @@ namespace Seasar.Framework.Log
 
         public static Logger GetLogger(Type type)
         {
-            Logger logger = (Logger) _loggerTable[type];
+            var logger = (Logger) _loggerTable[type];
             if (logger == null)
             {
                 logger = new Logger(type);
@@ -46,10 +46,7 @@ namespace Seasar.Framework.Log
             return logger;
         }
 
-        public bool IsDebugEnabled
-        {
-            get { return _log.IsDebugEnabled; }
-        }
+        public bool IsDebugEnabled => _log.IsDebugEnabled;
 
         public void Debug(object message, Exception exception)
         {
@@ -67,10 +64,7 @@ namespace Seasar.Framework.Log
             }
         }
 
-        public bool IsInfoEnabled
-        {
-            get { return _log.IsInfoEnabled; }
-        }
+        public bool IsInfoEnabled => _log.IsInfoEnabled;
 
         public void Info(object message, Exception exception)
         {
@@ -135,10 +129,10 @@ namespace Seasar.Framework.Log
 
         public void Log(string messageCode, object[] args, Exception exception, string nameSpace)
         {
-            char messageType = messageCode.ToCharArray()[0];
-            if (IsEnabledFor(messageType))
+            var messageType = messageCode.ToCharArray()[0];
+            if (_IsEnabledFor(messageType))
             {
-                string message = MessageFormatter.GetSimpleMessage(messageCode, args, _type.Assembly, nameSpace);
+                var message = MessageFormatter.GetSimpleMessage(messageCode, args, _type.Assembly, nameSpace);
                 switch (messageType)
                 {
                     case 'D':
@@ -162,7 +156,7 @@ namespace Seasar.Framework.Log
             }
         }
 
-        private bool IsEnabledFor(char messageType)
+        private bool _IsEnabledFor(char messageType)
         {
             switch (messageType)
             {
@@ -171,7 +165,7 @@ namespace Seasar.Framework.Log
                 case 'W': return _log.IsWarnEnabled;
                 case 'E': return _log.IsErrorEnabled;
                 case 'F': return _log.IsFatalEnabled;
-                default: throw new ArgumentException(new String(messageType, 1));
+                default: throw new ArgumentException(new string(messageType, 1));
             }
         }
     }

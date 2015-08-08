@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -34,69 +34,69 @@ namespace Seasar.Tests.Dao.Impl
         [Test, S2(Tx.Rollback)]
         public void TestExecute_TimestampTx()
         {
-            IDaoMetaData dmd = CreateDaoMetaData(typeof(IEmployeeDefaultTimestampDao));
-            ISqlCommand cmd = dmd.GetSqlCommand("Insert");
-            EmployeeDefaultTimestamp emp = new EmployeeDefaultTimestamp();
+            var dmd = CreateDaoMetaData(typeof(IEmployeeDefaultTimestampDao));
+            var cmd = dmd.GetSqlCommand("Insert");
+            var emp = new EmployeeDefaultTimestamp();
             emp.Empno = 99;
             emp.Ename = null;
             emp.JobName = null;
             emp.Sal = 99;
-            int count = (int)cmd.Execute(new object[] { emp });
+            var count = (int)cmd.Execute(new object[] { emp });
             Assert.AreEqual(1, count, "1");
 
-            ISqlCommand afterCmd = dmd.GetSqlCommand("GetEmployee");
-            EmployeeDefaultTimestamp after = (EmployeeDefaultTimestamp)afterCmd.Execute(new object[] { emp.Empno });
+            var afterCmd = dmd.GetSqlCommand("GetEmployee");
+            var after = (EmployeeDefaultTimestamp)afterCmd.Execute(new object[] { emp.Empno });
             Assert.IsNotNull(after);
             Assert.AreEqual(emp.Empno, after.Empno);
-            Assert.AreEqual("def_name", after.Ename, "ƒfƒtƒHƒ‹ƒg’l‚ªİ’è‚³‚ê‚Ä‚¢‚éB");
-            Assert.IsNull(after.JobName, "ƒfƒtƒHƒ‹ƒg’l‚Íİ’è‚³‚ê‚Ä‚¢‚È‚¢—ñ‚É‚Ínullİ’è");
-            Assert.AreEqual(emp.Sal, after.Sal, "’Êí‚Ì’lİ’è‚às‚í‚ê‚é");
+            Assert.AreEqual("def_name", after.Ename, "ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹ã€‚");
+            Assert.IsNull(after.JobName, "ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã¯è¨­å®šã•ã‚Œã¦ã„ãªã„åˆ—ã«ã¯nullè¨­å®š");
+            Assert.AreEqual(emp.Sal, after.Sal, "é€šå¸¸ã®å€¤è¨­å®šã‚‚è¡Œã‚ã‚Œã‚‹");
             Assert.IsNotNull(emp.Timestamp);
         }
 
         [Test, S2(Tx.Rollback)]
         public void TestExecute_VersionNoTx()
         {
-            IDaoMetaData dmd = CreateDaoMetaData(typeof(IEmployeeDefaultVersionNoDao));
-            ISqlCommand cmd = dmd.GetSqlCommand("Insert");
-            EmployeeDefaultVersionNo emp = new EmployeeDefaultVersionNo();
+            var dmd = CreateDaoMetaData(typeof(IEmployeeDefaultVersionNoDao));
+            var cmd = dmd.GetSqlCommand("Insert");
+            var emp = new EmployeeDefaultVersionNo();
             emp.Empno = 99;
             emp.Ename = null;
             emp.JobName = null;
             emp.Sal = 99;
-            int count = (int)cmd.Execute(new object[] { emp });
+            var count = (int)cmd.Execute(new object[] { emp });
             Assert.AreEqual(1, count, "1");
 
-            ISqlCommand afterCmd = dmd.GetSqlCommand("GetEmployee");
-            EmployeeDefaultVersionNo after = (EmployeeDefaultVersionNo)afterCmd.Execute(new object[] { emp.Empno });
+            var afterCmd = dmd.GetSqlCommand("GetEmployee");
+            var after = (EmployeeDefaultVersionNo)afterCmd.Execute(new object[] { emp.Empno });
             Assert.IsNotNull(after);
             Assert.AreEqual(emp.Empno, after.Empno);
-            Assert.AreEqual("def_name", after.Ename, "ƒfƒtƒHƒ‹ƒg’l‚ªİ’è‚³‚ê‚Ä‚¢‚éB");
-            Assert.IsNull(after.JobName, "ƒfƒtƒHƒ‹ƒg’l‚Íİ’è‚³‚ê‚Ä‚¢‚È‚¢—ñ‚É‚Ínullİ’è");
-            Assert.AreEqual(emp.Sal, after.Sal, "’Êí‚Ì’lİ’è‚às‚í‚ê‚é");
+            Assert.AreEqual("def_name", after.Ename, "ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹ã€‚");
+            Assert.IsNull(after.JobName, "ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã¯è¨­å®šã•ã‚Œã¦ã„ãªã„åˆ—ã«ã¯nullè¨­å®š");
+            Assert.AreEqual(emp.Sal, after.Sal, "é€šå¸¸ã®å€¤è¨­å®šã‚‚è¡Œã‚ã‚Œã‚‹");
             Assert.IsNotNull(emp.Version);
         }
 
         [Test, S2(Tx.Rollback)]
         public void TestExecute_VersionNoIgnoreCaseTx()
         {
-            IDaoMetaData dmd = CreateDaoMetaData(typeof(IEmployeeDefaultVersionNoIgnoreCaseDao));
-            ISqlCommand cmd = dmd.GetSqlCommand("Insert");
-            EmployeeDefaultVersionNoIgnoreCase emp = new EmployeeDefaultVersionNoIgnoreCase();
+            var dmd = CreateDaoMetaData(typeof(IEmployeeDefaultVersionNoIgnoreCaseDao));
+            var cmd = dmd.GetSqlCommand("Insert");
+            var emp = new EmployeeDefaultVersionNoIgnoreCase();
             emp.Empno = 99;
             emp.Ename = null;
             emp.JobName = null;
             emp.Sal = 99;
-            int count = (int)cmd.Execute(new object[] { emp });
+            var count = (int)cmd.Execute(new object[] { emp });
             Assert.AreEqual(1, count, "1");
 
-            ISqlCommand afterCmd = dmd.GetSqlCommand("GetEmployee");
-            EmployeeDefaultVersionNoIgnoreCase after = (EmployeeDefaultVersionNoIgnoreCase)afterCmd.Execute(new object[] { emp.Empno });
+            var afterCmd = dmd.GetSqlCommand("GetEmployee");
+            var after = (EmployeeDefaultVersionNoIgnoreCase)afterCmd.Execute(new object[] { emp.Empno });
             Assert.IsNotNull(after);
             Assert.AreEqual(emp.Empno, after.Empno);
-            Assert.AreEqual("def_name", after.Ename, "ƒfƒtƒHƒ‹ƒg’l‚ªİ’è‚³‚ê‚Ä‚¢‚éB");
-            Assert.IsNull(after.JobName, "ƒfƒtƒHƒ‹ƒg’l‚Íİ’è‚³‚ê‚Ä‚¢‚È‚¢—ñ‚É‚Ínullİ’è");
-            Assert.AreEqual(emp.Sal, after.Sal, "’Êí‚Ì’lİ’è‚às‚í‚ê‚é");
+            Assert.AreEqual("def_name", after.Ename, "ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹ã€‚");
+            Assert.IsNull(after.JobName, "ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã¯è¨­å®šã•ã‚Œã¦ã„ãªã„åˆ—ã«ã¯nullè¨­å®š");
+            Assert.AreEqual(emp.Sal, after.Sal, "é€šå¸¸ã®å€¤è¨­å®šã‚‚è¡Œã‚ã‚Œã‚‹");
             Assert.IsNotNull(emp.vERSION);
             Assert.AreEqual(0, emp.vERSION);
         }

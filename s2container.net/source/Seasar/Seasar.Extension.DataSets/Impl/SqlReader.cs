@@ -32,10 +32,7 @@ namespace Seasar.Extension.DataSets.Impl
             _dataSource = dataSource;
         }
 
-        public IDataSource DataSource
-        {
-            get { return _dataSource; }
-        }
+        public IDataSource DataSource => _dataSource;
 
         public virtual void AddTable(string tableName)
         {
@@ -44,14 +41,14 @@ namespace Seasar.Extension.DataSets.Impl
 
         public virtual void AddTable(string tableName, string condition)
         {
-            SqlTableReader reader = new SqlTableReader(_dataSource);
+            var reader = new SqlTableReader(_dataSource);
             reader.SetTable(tableName, condition);
             _tableReaders.Add(reader);
         }
 
         public virtual void AddSql(string sql, string tableName)
         {
-            SqlTableReader reader = new SqlTableReader(_dataSource);
+            var reader = new SqlTableReader(_dataSource);
             reader.SetSql(sql, tableName);
             _tableReaders.Add(reader);
         }
@@ -60,7 +57,7 @@ namespace Seasar.Extension.DataSets.Impl
 
         public virtual DataSet Read()
         {
-            DataSet dataSet = new DataSet();
+            var dataSet = new DataSet();
             foreach (ITableReader reader in _tableReaders)
             {
                 dataSet.Tables.Add(reader.Read());

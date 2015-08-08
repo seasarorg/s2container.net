@@ -39,16 +39,16 @@ namespace Seasar.Tests.Dao.Impl
         {
             IDataReaderHandler handler = new BeanMetaDataDataReaderHandler(
                 CreateBeanMetaData(typeof(Employee)), new RowCreatorImpl(), new RelationRowCreatorImpl());
-            string sql = "select emp.*, dept.deptno as deptno_0, dept.dname as dname_0 " +
+            var sql = "select emp.*, dept.deptno as deptno_0, dept.dname as dname_0 " +
                 "from emp, dept where empno = 7788 and emp.deptno = dept.deptno";
             Employee ret;
-            using (IDbConnection con = Connection)
+            using (var con = Connection)
             {
-                using (IDbCommand cmd = con.CreateCommand())
+                using (var cmd = con.CreateCommand())
                 {
                     cmd.CommandText = sql;
 
-                    using (IDataReader reader = cmd.ExecuteReader())
+                    using (var reader = cmd.ExecuteReader())
                     {
                         ret = (Employee) handler.Handle(reader);
                     }
@@ -56,7 +56,7 @@ namespace Seasar.Tests.Dao.Impl
             }
             Assert.IsNotNull(ret, "1");
             Trace.WriteLine(ret.Empno + "," + ret.Ename);
-            Department dept = ret.Department;
+            var dept = ret.Department;
             Assert.IsNotNull(dept, "2");
             Assert.AreEqual(20, dept.Deptno, "3");
             Assert.AreEqual("RESEARCH", dept.Dname, "4");
@@ -67,15 +67,15 @@ namespace Seasar.Tests.Dao.Impl
         {
             IDataReaderHandler handler = new BeanMetaDataDataReaderHandler(
                 CreateBeanMetaData(typeof(Employee)), new RowCreatorImpl(), new RelationRowCreatorImpl());
-            string sql = "select ename, job from emp where empno = 7788";
+            var sql = "select ename, job from emp where empno = 7788";
             Employee ret;
-            using (IDbConnection con = Connection)
+            using (var con = Connection)
             {
-                using (IDbCommand cmd = con.CreateCommand())
+                using (var cmd = con.CreateCommand())
                 {
                     cmd.CommandText = sql;
 
-                    using (IDataReader reader = cmd.ExecuteReader())
+                    using (var reader = cmd.ExecuteReader())
                     {
                         ret = (Employee) handler.Handle(reader);
                     }
@@ -83,7 +83,7 @@ namespace Seasar.Tests.Dao.Impl
             }
             Assert.IsNotNull(ret, "1");
             Trace.WriteLine(ret.Empno + "," + ret.Ename);
-            Department dept = ret.Department;
+            var dept = ret.Department;
             Assert.IsNull(dept, "2");
         }
 
@@ -92,16 +92,16 @@ namespace Seasar.Tests.Dao.Impl
         {
             IDataReaderHandler handler = new BeanMetaDataDataReaderHandler(
                 CreateBeanMetaData(typeof(Employee)), new RowCreatorImpl(), new RelationRowCreatorImpl());
-            string sql = "select ename, dept.dname as dname_0 " +
+            var sql = "select ename, dept.dname as dname_0 " +
                 "from emp, dept where empno = 7788 and emp.deptno = dept.deptno";
             Employee ret;
-            using (IDbConnection con = Connection)
+            using (var con = Connection)
             {
-                using (IDbCommand cmd = con.CreateCommand())
+                using (var cmd = con.CreateCommand())
                 {
                     cmd.CommandText = sql;
 
-                    using (IDataReader reader = cmd.ExecuteReader())
+                    using (var reader = cmd.ExecuteReader())
                     {
                         ret = (Employee) handler.Handle(reader);
                     }
@@ -109,7 +109,7 @@ namespace Seasar.Tests.Dao.Impl
             }
             Assert.IsNotNull(ret, "1");
             Trace.WriteLine(ret.Empno + "," + ret.Ename);
-            Department dept = ret.Department;
+            var dept = ret.Department;
             Assert.IsNotNull(dept, "2");
             Assert.AreEqual("RESEARCH", dept.Dname, "3");
         }
@@ -122,14 +122,14 @@ namespace Seasar.Tests.Dao.Impl
         {
             IDataReaderHandler handler = new BeanMetaDataDataReaderHandler(
                 CreateBeanMetaData(typeof(Employee)), new RowCreatorImpl(), new RelationRowCreatorImpl());
-            string sql = "select job as jobname from emp where empno = 7788";
+            var sql = "select job as jobname from emp where empno = 7788";
             Employee ret;
-            using (IDbConnection con = Connection)
+            using (var con = Connection)
             {
-                using (IDbCommand cmd = con.CreateCommand())
+                using (var cmd = con.CreateCommand())
                 {
                     cmd.CommandText = sql;
-                    using (IDataReader reader = cmd.ExecuteReader())
+                    using (var reader = cmd.ExecuteReader())
                     {
                         ret = (Employee) handler.Handle(reader);
                     }

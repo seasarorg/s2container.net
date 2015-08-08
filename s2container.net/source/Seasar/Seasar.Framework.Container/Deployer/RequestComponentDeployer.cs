@@ -18,7 +18,6 @@
 
 using System;
 using System.Reflection;
-using System.Web;
 using Seasar.Framework.Exceptions;
 using Seasar.Framework.Log;
 using Seasar.Framework.Util;
@@ -36,21 +35,21 @@ namespace Seasar.Framework.Container.Deployer
 
         public override object Deploy(Type receiveType)
         {
-            IComponentDef cd = ComponentDef;
-            HttpContext context = cd.Container.Root.HttpContext;
+            var cd = ComponentDef;
+            var context = cd.Container.Root.HttpContext;
             if (context == null)
             {
                 ApplicationException ae = new EmptyRuntimeException("HttpContext");
                 _logger.Log(ae);
                 throw ae;
             }
-            string componentName = cd.ComponentName;
+            var componentName = cd.ComponentName;
             if (componentName == null)
             {
                 componentName = cd.ComponentType.Name;
                 componentName = StringUtil.Decapitalize(componentName);
             }
-            object component = context.Items[componentName];
+            var component = context.Items[componentName];
 
             if (component != null)
             {
@@ -59,7 +58,7 @@ namespace Seasar.Framework.Container.Deployer
 
             component = ConstructorAssembler.Assemble();
 
-            object proxy = GetProxy(receiveType);
+            var proxy = GetProxy(receiveType);
 
             if (proxy == null)
             {
@@ -73,14 +72,7 @@ namespace Seasar.Framework.Container.Deployer
             PropertyAssembler.Assemble(component);
             InitMethodAssembler.Assemble(component);
 
-            if (proxy == null)
-            {
-                return component;
-            }
-            else
-            {
-                return proxy;
-            }
+            return proxy ?? component;
         }
 
         public override void InjectDependency(object component)

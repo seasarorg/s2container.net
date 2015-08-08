@@ -25,39 +25,30 @@ namespace Seasar.Framework.Container
     [Serializable]
     public class IllegalMethodRuntimeException : SRuntimeException
     {
-        private readonly Type _componentType;
-        private readonly string _methodName;
-
         public IllegalMethodRuntimeException(
             Type componentType, string methodName, Exception cause)
             : base("ESSR0060", new object[] { componentType.FullName, methodName, cause }, cause)
         {
-            _componentType = componentType;
-            _methodName = methodName;
+            ComponentType = componentType;
+            MethodName = methodName;
         }
 
         public IllegalMethodRuntimeException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            _componentType = info.GetValue("_componentType", typeof(Type)) as Type;
-            _methodName = info.GetString("_methodName");
+            ComponentType = info.GetValue("_componentType", typeof(Type)) as Type;
+            MethodName = info.GetString("_methodName");
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("_componentType", _componentType, typeof(Type));
-            info.AddValue("_methodName", _methodName, typeof(string));
+            info.AddValue("_componentType", ComponentType, typeof(Type));
+            info.AddValue("_methodName", MethodName, typeof(string));
             base.GetObjectData(info, context);
         }
 
-        public Type ComponentType
-        {
-            get { return _componentType; }
-        }
+        public Type ComponentType { get; }
 
-        public string MethodName
-        {
-            get { return _methodName; }
-        }
+        public string MethodName { get; }
     }
 }

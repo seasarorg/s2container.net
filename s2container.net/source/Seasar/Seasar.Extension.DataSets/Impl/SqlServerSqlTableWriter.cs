@@ -16,7 +16,6 @@
  */
 #endregion
 
-using System.Collections;
 using System.Data;
 using Seasar.Extension.ADO;
 using Seasar.Extension.ADO.Impl;
@@ -37,24 +36,24 @@ namespace Seasar.Extension.DataSets.Impl
 
         protected override void BeginDoWrite(DataTable table)
         {
-            if (HasIdentityColumn(table))
+            if (_HasIdentityColumn(table))
             {
-                ExecuteSql(string.Format("SET IDENTITY_INSERT {0} ON", table.TableName));
+                _ExecuteSql($"SET IDENTITY_INSERT {table.TableName} ON");
             }
         }
 
         protected override void EndDoWrite(DataTable table)
         {
-            if (HasIdentityColumn(table))
+            if (_HasIdentityColumn(table))
             {
-                ExecuteSql(string.Format("SET IDENTITY_INSERT {0} OFF", table.TableName));
+                _ExecuteSql($"SET IDENTITY_INSERT {table.TableName} OFF");
             }
         }
 
-        private bool HasIdentityColumn(DataTable table)
+        private bool _HasIdentityColumn(DataTable table)
         {
             IDatabaseMetaData dbMetaData = new DatabaseMetaDataImpl(DataSource);
-            IList autoIncrementColumns = dbMetaData.GetAutoIncrementColumnSet(table.TableName);
+            var autoIncrementColumns = dbMetaData.GetAutoIncrementColumnSet(table.TableName);
             if (autoIncrementColumns.Count == 0)
             {
                 return false;
@@ -69,7 +68,7 @@ namespace Seasar.Extension.DataSets.Impl
             return false;
         }
 
-        private void ExecuteSql(string sql)
+        private void _ExecuteSql(string sql)
         {
             IUpdateHandler handler = new BasicUpdateHandler(DataSource, sql, CommandFactory);
             handler.Execute(null);

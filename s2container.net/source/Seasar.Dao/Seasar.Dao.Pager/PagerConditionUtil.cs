@@ -36,7 +36,7 @@ namespace Seasar.Dao.Pager
         /// <returns>true/false</returns>
         public static bool IsPagerDto(object[] args)
         {
-            IPagerCondition condition = GetPagerDto(args);
+            var condition = GetPagerDto(args);
             if (condition == null)
             {
                 return false;
@@ -55,7 +55,7 @@ namespace Seasar.Dao.Pager
         /// <returns>IPagerCondition</returns>
         public static IPagerCondition GetPagerDto(object[] args)
         {
-            foreach (object arg in args)
+            foreach (var arg in args)
             {
                 if (arg is IPagerCondition)
                 {
@@ -74,16 +74,17 @@ namespace Seasar.Dao.Pager
         /// <returns>PagerAttribute</returns>
         public static PagerAttribute GetPagerAttribute(MethodInfo mi)
         {
-            Attribute nonPager = Attribute.GetCustomAttribute(mi, typeof(NonPagerAttribute));
+            var nonPager = Attribute.GetCustomAttribute(mi, typeof(NonPagerAttribute));
             if (nonPager != null)
              {
                 return null;
             }
 
-            PagerAttribute pager = Attribute.GetCustomAttribute(mi, typeof(PagerAttribute)) as PagerAttribute;
+            var pager = Attribute.GetCustomAttribute(mi, typeof(PagerAttribute)) as PagerAttribute;
             if (pager == null)
             {
-                pager = Attribute.GetCustomAttribute(mi.DeclaringType, typeof(PagerAttribute)) as PagerAttribute;
+                if (mi.DeclaringType != null)
+                    pager = Attribute.GetCustomAttribute(mi.DeclaringType, typeof(PagerAttribute)) as PagerAttribute;
             }
 
             return pager;
@@ -91,15 +92,15 @@ namespace Seasar.Dao.Pager
 
         internal static void SetCount(MethodInfo mi, object[] args, int count)
         {
-            PagerAttribute pager = GetPagerAttribute(mi);
+            var pager = GetPagerAttribute(mi);
             if (pager == null)
             {
                 return;
             }
 
             // Pager属性値よりページング用引数のインデックスを取得
-            ParameterInfo[] parameters = mi.GetParameters();
-            int ci = FindParameterIndex(pager.CountParameter, parameters);
+            var parameters = mi.GetParameters();
+            var ci = _FindParameterIndex(pager.CountParameter, parameters);
 
             if (ci == -1)
             {
@@ -118,17 +119,17 @@ namespace Seasar.Dao.Pager
         public static IPagerCondition CreatePagerDefinition(MethodInfo mi, object[] args)
         {
             // Pager属性が取得できなければnullを返却
-            PagerAttribute pager = GetPagerAttribute(mi);
+            var pager = GetPagerAttribute(mi);
             if (pager == null)
             {
                 return null;
             }
 
             // Pager属性値よりページング用引数のインデックスを取得
-            ParameterInfo[] parameters = mi.GetParameters();
-            int li = FindParameterIndex(pager.LimitParameter, parameters);
-            int oi = FindParameterIndex(pager.OffsetParameter, parameters);
-            int ci = FindParameterIndex(pager.CountParameter, parameters);
+            var parameters = mi.GetParameters();
+            var li = _FindParameterIndex(pager.LimitParameter, parameters);
+            var oi = _FindParameterIndex(pager.OffsetParameter, parameters);
+            var ci = _FindParameterIndex(pager.CountParameter, parameters);
 
             // ページング用引数が取得できなかった場合、例外を発生
             if (li == -1)
@@ -160,9 +161,9 @@ namespace Seasar.Dao.Pager
                 );
         }
 
-        private static int FindParameterIndex(string parameterName, ParameterInfo[] parameters)
+        private static int _FindParameterIndex(string parameterName, ParameterInfo[] parameters)
         {
-            for (int i = 0; i < parameters.Length; i++)
+            for (var i = 0; i < parameters.Length; i++)
             {
                 if (parameterName == parameters[i].Name)
                 {

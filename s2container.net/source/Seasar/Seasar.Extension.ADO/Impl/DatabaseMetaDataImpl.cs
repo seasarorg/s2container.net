@@ -20,7 +20,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
-using System.Reflection;
 using Seasar.Framework.Util;
 
 namespace Seasar.Extension.ADO.Impl
@@ -86,11 +85,11 @@ namespace Seasar.Extension.ADO.Impl
                 DataTable metaDataTable;
                 if (_metaDataSetClassName == null)
                 {
-                    metaDataTable = GetMetaDataForDatabase(tableName);
+                    metaDataTable = _GetMetaDataForDatabase(tableName);
                 }
                 else
                 {
-                    metaDataTable = GetMetaDataForDataSet(tableName);
+                    metaDataTable = _GetMetaDataForDataSet(tableName);
                 }
 
                 if (metaDataTable != null)
@@ -112,26 +111,26 @@ namespace Seasar.Extension.ADO.Impl
         /// </summary>
         /// <param name="tableName">テーブル名</param>
         /// <returns>テーブル定義情報。取得できなかった場合、nullを返す</returns>
-        private DataTable GetMetaDataForDatabase(string tableName)
+        private DataTable _GetMetaDataForDatabase(string tableName)
         {
             // テーブル定義
             DataTable[] metaDataTables;
 
             // IDbConnectionを取得する
-            IDbConnection cn = DataSourceUtil.GetConnection(_dataSource);
+            var cn = DataSourceUtil.GetConnection(_dataSource);
             try
             {
                 // テーブル定義情報を取得するためのSQLを作成する
-                string sql = string.Format("SELECT * FROM {0} WHERE 1 = 0", tableName);
+                var sql = $"SELECT * FROM {tableName} WHERE 1 = 0";
 
                 // IDbCommandを取得する
-                IDbCommand cmd = _dataSource.GetCommand(sql, cn);
+                var cmd = _dataSource.GetCommand(sql, cn);
 
                 // Transactionの処理を行う
                 _dataSource.SetTransaction(cmd);
 
                 // IDataAdapterを取得する
-                IDataAdapter adapter = _dataSource.GetDataAdapter(cmd);
+                var adapter = _dataSource.GetDataAdapter(cmd);
 
                 // テーブル定義情報を取得する
                 try
@@ -157,12 +156,12 @@ namespace Seasar.Extension.ADO.Impl
         /// </summary>
         /// <param name="tableName">テーブル名</param>
         /// <returns>テーブル定義情報。取得できなかった場合、nullを返す</returns>
-        private DataTable GetMetaDataForDataSet(string tableName)
+        private DataTable _GetMetaDataForDataSet(string tableName)
         {
             if (_metaDataSet == null)
             {
-                Assembly[] loadedAssembly = AppDomain.CurrentDomain.GetAssemblies();
-                Type dataSetType = ClassUtil.ForName(_metaDataSetClassName, loadedAssembly);
+                var loadedAssembly = AppDomain.CurrentDomain.GetAssemblies();
+                var dataSetType = ClassUtil.ForName(_metaDataSetClassName, loadedAssembly);
                 _metaDataSet = (DataSet) ClassUtil.NewInstance(dataSetType);
             }
 
@@ -179,7 +178,7 @@ namespace Seasar.Extension.ADO.Impl
         private IList GetPrimaryKeySet(IEnumerable<DataColumn> primarykeys)
         {
             IList list = new CaseInsentiveSet();
-            foreach (DataColumn pkey in primarykeys)
+            foreach (var pkey in primarykeys)
             {
                 list.Add(pkey.ColumnName);
             }

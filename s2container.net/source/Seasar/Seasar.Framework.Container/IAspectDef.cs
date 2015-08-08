@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -21,7 +21,7 @@ using Seasar.Framework.Aop;
 namespace Seasar.Framework.Container
 {
     /// <summary>
-    /// Aspect‚ğ’è‹`‚µ‚Ü‚·B
+    /// Aspectï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
     /// </summary>
     public interface IAspectDef : IArgDef
     {

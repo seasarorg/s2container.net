@@ -36,34 +36,28 @@ namespace Seasar.Extension.DataSets.Types
             return BinaryConversionUtil.ToBinary(value);
         }
 
-        public override DbType GetDbType()
-        {
-            return DbType.Binary;
-        }
+        public override DbType GetDbType() => DbType.Binary;
 
-        public override Type GetColumnType()
-        {
-            return ValueTypes.BYTE_ARRAY_TYPE;
-        }
+        public override Type GetColumnType() => ValueTypes.BYTE_ARRAY_TYPE;
 
         #endregion
 
         protected override bool DoEquals(object arg1, object arg2)
         {
-            if (arg1.GetType() == GetColumnType() && arg1.GetType() == GetColumnType())
+            if (arg1.GetExType() == GetColumnType() && arg1.GetExType() == GetColumnType())
             {
-                return ArrayEquals((Array) arg1, (Array) arg2);
+                return _ArrayEquals((Array) arg1, (Array) arg2);
             }
             return false;
         }
 
-        bool ArrayEquals(Array arg1, Array arg2)
+        private bool _ArrayEquals(Array arg1, Array arg2)
         {
             if (arg1.Length != arg2.Length)
             {
                 return false;
             }
-            for (int i = 0; i < arg1.Length; i++)
+            for (var i = 0; i < arg1.Length; i++)
             {
                 if (!arg1.GetValue(i).Equals(arg2.GetValue(i)))
                 {

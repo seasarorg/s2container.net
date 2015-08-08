@@ -30,8 +30,8 @@ namespace Seasar.Tests.Dao.Impl
         [Test, S2]
         public void TestEquals()
         {
-            object[] values = new object[] { "1", "2" };
-            RelationKey pk = new RelationKey(values);
+            var values = new object[] { "1", "2" };
+            var pk = new RelationKey(values);
             Assert.AreEqual(pk, pk, "1");
             Assert.AreEqual(pk, new RelationKey(values), "2");
             Assert.AreEqual(false, new RelationKey(new object[] { "1" }).Equals(pk), "3");
@@ -40,58 +40,28 @@ namespace Seasar.Tests.Dao.Impl
         [Test, S2]
         public void TestHashCode()
         {
-            object[] values = new object[] { "1", "2" };
-            RelationKey pk = new RelationKey(values);
+            var values = new object[] { "1", "2" };
+            var pk = new RelationKey(values);
             Assert.AreEqual("1".GetHashCode() + "2".GetHashCode(), pk.GetHashCode(), "1");
         }
 
         [Table("MyBean")]
         public class MyBean
         {
-            private int _aaa;
-
-            private string _bbb;
-
-            private Ccc _ccc;
-
-            private int _ddd;
-
-            public int Aaa
-            {
-                get { return _aaa; }
-                set { _aaa = value; }
-            }
+            public int Aaa { get; set; }
 
             [Seasar.Dao.Attrs.Column("myBbb")]
-            public string Bbb
-            {
-                get { return _bbb; }
-                set { _bbb = value; }
-            }
+            public string Bbb { get; set; }
 
             [Relno(0), Relkeys("ddd:id")]
-            public Ccc Cccc
-            {
-                get { return _ccc; }
-                set { _ccc = value; }
-            }
+            public Ccc Cccc { get; set; }
 
-            public int Ddd
-            {
-                get { return _ddd; }
-                set { _ddd = value; }
-            }
+            public int Ddd { get; set; }
         }
 
         public class Ccc
         {
-            private int _id;
-
-            public int Id
-            {
-                get { return _id; }
-                set { _id = value; }
-            }
+            public int Id { get; set; }
         }
     }
 }

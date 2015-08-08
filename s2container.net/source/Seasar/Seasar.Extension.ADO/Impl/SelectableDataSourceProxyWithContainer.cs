@@ -34,19 +34,7 @@ namespace Seasar.Extension.ADO.Impl
         /// </remarks>
         private string _dataSourceName;
 
-        private IS2Container _container = null;
-
-        public IS2Container Container
-        {
-            set
-            {
-                _container = value;
-            }
-            get
-            {
-                return _container;
-            }
-        }
+        public IS2Container Container { set; get; } = null;
 
         public override IDataSource GetDataSource(string dataSourceName)
         {
@@ -60,10 +48,7 @@ namespace Seasar.Extension.ADO.Impl
             }
         }
 
-        public override string GetDataSourceName()
-        {
-            return _dataSourceName;
-        }
+        public override string GetDataSourceName() => _dataSourceName;
 
         public override void SetDataSourceName(string dataSourceName)
         {

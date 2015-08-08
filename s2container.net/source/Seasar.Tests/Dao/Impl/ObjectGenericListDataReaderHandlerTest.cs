@@ -18,12 +18,12 @@
 
 using System;
 using System.Collections.Generic;
-using System.Data;
 using MbUnit.Framework;
 using Seasar.Dao.Impl;
 using Seasar.Dao.Unit;
 using Seasar.Extension.ADO;
 using Seasar.Extension.Unit;
+using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Dao.Impl
 {
@@ -43,28 +43,28 @@ namespace Seasar.Tests.Dao.Impl
         {
             IDataReaderHandler handler = new ObjectGenericListDataReaderHandler(typeof(string));
 
-            string sql = "select emp.ename from emp";
-            object ret = null;
-            using (IDbConnection con = Connection)
+            var sql = "select emp.ename from emp";
+            object ret;
+            using (var con = Connection)
             {
-                using (IDbCommand cmd = con.CreateCommand())
+                using (var cmd = con.CreateCommand())
                 {
                     cmd.CommandText = sql;
 
-                    using (IDataReader reader = cmd.ExecuteReader())
+                    using (var reader = cmd.ExecuteReader())
                     {
                         ret = handler.Handle(reader);
                     }
                 }
             }
             Assert.IsNotNull(ret, "1");
-            Assert.IsTrue(ret.GetType().IsGenericType, "2");
-            IList<string> resultList = (IList<string>)ret;
+            Assert.IsTrue(ret.GetExType().IsGenericType, "2");
+            var resultList = (IList<string>)ret;
             Assert.IsTrue(resultList.Count > 0, "3");
             foreach (object val in resultList)
             {
                 Assert.IsTrue(val is string, "4");
-                Console.WriteLine("ename = {0}", val);
+                Console.WriteLine($"ename = {val}");
             }
         }
 
@@ -73,28 +73,28 @@ namespace Seasar.Tests.Dao.Impl
         {
             IDataReaderHandler handler = new ObjectGenericListDataReaderHandler(typeof(DateTime));
 
-            string sql = "select emp.tstamp from emp";
-            object ret = null;
-            using (IDbConnection con = Connection)
+            var sql = "select emp.tstamp from emp";
+            object ret;
+            using (var con = Connection)
             {
-                using (IDbCommand cmd = con.CreateCommand())
+                using (var cmd = con.CreateCommand())
                 {
                     cmd.CommandText = sql;
 
-                    using (IDataReader reader = cmd.ExecuteReader())
+                    using (var reader = cmd.ExecuteReader())
                     {
                         ret = handler.Handle(reader);
                     }
                 }
             }
             Assert.IsNotNull(ret, "1");
-            Assert.IsTrue(ret.GetType().IsGenericType, "2");
-            IList<DateTime> resultList = (IList<DateTime>)ret;
+            Assert.IsTrue(ret.GetExType().IsGenericType, "2");
+            var resultList = (IList<DateTime>)ret;
             Assert.IsTrue(resultList.Count > 0, "3");
             foreach (object val in resultList)
             {
                 Assert.IsTrue(val is DateTime, "4");
-                Console.WriteLine("ename = {0}", val);
+                Console.WriteLine($"ename = {val}");
             }
         }
 
@@ -103,28 +103,28 @@ namespace Seasar.Tests.Dao.Impl
         {
             IDataReaderHandler handler = new ObjectGenericListDataReaderHandler(typeof(decimal));
 
-            string sql = "select emp.empno from emp";
-            object ret = null;
-            using (IDbConnection con = Connection)
+            var sql = "select emp.empno from emp";
+            object ret;
+            using (var con = Connection)
             {
-                using (IDbCommand cmd = con.CreateCommand())
+                using (var cmd = con.CreateCommand())
                 {
                     cmd.CommandText = sql;
 
-                    using (IDataReader reader = cmd.ExecuteReader())
+                    using (var reader = cmd.ExecuteReader())
                     {
                         ret = handler.Handle(reader);
                     }
                 }
             }
             Assert.IsNotNull(ret, "1");
-            Assert.IsTrue(ret.GetType().IsGenericType, "2");
-            IList<decimal> resultList = (IList<decimal>)ret;
+            Assert.IsTrue(ret.GetExType().IsGenericType, "2");
+            var resultList = (IList<decimal>)ret;
             Assert.IsTrue(resultList.Count > 0, "3");
             foreach (object val in resultList)
             {
                 Assert.IsTrue(val is decimal, "4");
-                Console.WriteLine("empno = {0}", val);
+                Console.WriteLine($"empno = {val}");
             }
         }
 
@@ -133,28 +133,28 @@ namespace Seasar.Tests.Dao.Impl
         {
             IDataReaderHandler handler = new ObjectGenericListDataReaderHandler(typeof(int));
 
-            string sql = "select emp.empno from emp";
-            object ret = null;
-            using (IDbConnection con = Connection)
+            var sql = "select emp.empno from emp";
+            object ret;
+            using (var con = Connection)
             {
-                using (IDbCommand cmd = con.CreateCommand())
+                using (var cmd = con.CreateCommand())
                 {
                     cmd.CommandText = sql;
 
-                    using (IDataReader reader = cmd.ExecuteReader())
+                    using (var reader = cmd.ExecuteReader())
                     {
                         ret = handler.Handle(reader);
                     }
                 }
             }
             Assert.IsNotNull(ret, "1");
-            Assert.IsTrue(ret.GetType().IsGenericType, "2");
-            IList<int> resultList = (IList<int>)ret;
+            Assert.IsTrue(ret.GetExType().IsGenericType, "2");
+            var resultList = (IList<int>)ret;
             Assert.IsTrue(resultList.Count > 0, "3");
             foreach (object val in resultList)
             {
                 Assert.IsTrue(val is int, "4");
-                Console.WriteLine("empno = {0}", val);
+                Console.WriteLine($"empno = {val}");
             }
         }
     }

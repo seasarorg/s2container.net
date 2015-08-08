@@ -24,9 +24,7 @@ namespace Seasar.Dao.Impl
 {
     public abstract class AbstractAutoStaticCommand : AbstractStaticCommand
     {
-        private IPropertyType[] propertyTypes;
-
-        public AbstractAutoStaticCommand(IDataSource dataSource,
+        protected AbstractAutoStaticCommand(IDataSource dataSource,
             ICommandFactory commandFactory, IBeanMetaData beanMetaData, string[] propertyNames)
             : base(dataSource, commandFactory, beanMetaData)
         {
@@ -36,18 +34,14 @@ namespace Seasar.Dao.Impl
 
         public override object Execute(object[] args)
         {
-            AbstractAutoHandler handler = CreateAutoHandler();
+            var handler = CreateAutoHandler();
             handler.Sql = Sql;
-            int rows = handler.Execute(args);
+            var rows = handler.Execute(args);
             if (rows != 1) throw new NotSingleRowUpdatedRuntimeException(args[0], rows);
             return rows;
         }
 
-        protected IPropertyType[] PropertyTypes
-        {
-            get { return propertyTypes; }
-            set { propertyTypes = value; }
-        }
+        protected IPropertyType[] PropertyTypes { get; set; }
 
         protected abstract AbstractAutoHandler CreateAutoHandler();
 
@@ -55,27 +49,27 @@ namespace Seasar.Dao.Impl
 
         protected void SetupInsertPropertyTypes(string[] propertyNames)
         {
-            ArrayList types = new ArrayList();
-            for (int i = 0; i < propertyNames.Length; ++i)
+            var types = new ArrayList();
+            for (var i = 0; i < propertyNames.Length; ++i)
             {
-                IPropertyType pt = BeanMetaData.GetPropertyType(propertyNames[i]);
+                var pt = BeanMetaData.GetPropertyType(propertyNames[i]);
                 if (pt.IsPrimaryKey && !BeanMetaData.IdentifierGenerator.IsSelfGenerate)
                     continue;
                 types.Add(pt);
             }
-            propertyTypes = (IPropertyType[]) types.ToArray(typeof(IPropertyType));
+            PropertyTypes = (IPropertyType[]) types.ToArray(typeof(IPropertyType));
         }
 
         protected void SetupUpdatePropertyTypes(string[] propertyNames)
         {
-            ArrayList types = new ArrayList();
-            for (int i = 0; i < propertyNames.Length; ++i)
+            var types = new ArrayList();
+            for (var i = 0; i < propertyNames.Length; ++i)
             {
-                IPropertyType pt = BeanMetaData.GetPropertyType(propertyNames[i]);
+                var pt = BeanMetaData.GetPropertyType(propertyNames[i]);
                 if (pt.IsPrimaryKey) continue;
                 types.Add(pt);
             }
-            propertyTypes = (IPropertyType[]) types.ToArray(typeof(IPropertyType));
+            PropertyTypes = (IPropertyType[]) types.ToArray(typeof(IPropertyType));
         }
 
         protected virtual void SetupDeletePropertyTypes(string[] propertyNames)
@@ -86,20 +80,20 @@ namespace Seasar.Dao.Impl
 
         protected void SetupInsertSql()
         {
-            IBeanMetaData bmd = BeanMetaData;
-            StringBuilder buf = new StringBuilder(100);
+            var bmd = BeanMetaData;
+            var buf = new StringBuilder(100);
             buf.Append("INSERT INTO ");
             buf.Append(bmd.TableName);
             buf.Append(" (");
-            for (int i = 0; i < propertyTypes.Length; ++i)
+            for (var i = 0; i < PropertyTypes.Length; ++i)
             {
-                IPropertyType pt = propertyTypes[i];
+                var pt = PropertyTypes[i];
                 buf.Append(pt.ColumnName);
                 buf.Append(", ");
             }
             buf.Length = buf.Length - 2;
             buf.Append(") VALUES (");
-            for (int i = 0; i < propertyTypes.Length; ++i)
+            for (var i = 0; i < PropertyTypes.Length; ++i)
             {
                 buf.Append("?, ");
             }
@@ -111,13 +105,13 @@ namespace Seasar.Dao.Impl
         protected void SetupUpdateSql()
         {
             CheckPrimaryKey();
-            StringBuilder buf = new StringBuilder(100);
+            var buf = new StringBuilder(100);
             buf.Append("UPDATE ");
             buf.Append(BeanMetaData.TableName);
             buf.Append(" SET ");
-            for (int i = 0; i < propertyTypes.Length; ++i)
+            for (var i = 0; i < PropertyTypes.Length; ++i)
             {
-                IPropertyType pt = propertyTypes[i];
+                var pt = PropertyTypes[i];
                 buf.Append(pt.ColumnName);
                 buf.Append(" = ?, ");
             }
@@ -129,7 +123,7 @@ namespace Seasar.Dao.Impl
         protected void SetupDeleteSql()
         {
             CheckPrimaryKey();
-            StringBuilder buf = new StringBuilder(100);
+            var buf = new StringBuilder(100);
             buf.Append("DELETE FROM ");
             buf.Append(BeanMetaData.TableName);
             SetupUpdateWhere(buf);
@@ -138,16 +132,16 @@ namespace Seasar.Dao.Impl
 
         protected void CheckPrimaryKey()
         {
-            IBeanMetaData bmd = BeanMetaData;
+            var bmd = BeanMetaData;
             if (bmd.PrimaryKeySize == 0)
                 throw new PrimaryKeyNotFoundRuntimeException(bmd.BeanType);
         }
 
         protected void SetupUpdateWhere(StringBuilder buf)
         {
-            IBeanMetaData bmd = BeanMetaData;
+            var bmd = BeanMetaData;
             buf.Append(" WHERE ");
-            for (int i = 0; i < bmd.PrimaryKeySize; ++i)
+            for (var i = 0; i < bmd.PrimaryKeySize; ++i)
             {
                 buf.Append(bmd.GetPrimaryKey(i));
                 buf.Append(" = ? AND ");
@@ -155,14 +149,14 @@ namespace Seasar.Dao.Impl
             buf.Length = buf.Length - 5;
             if (bmd.HasVersionNoPropertyType)
             {
-                IPropertyType pt = bmd.VersionNoPropertyType;
+                var pt = bmd.VersionNoPropertyType;
                 buf.Append(" AND ");
                 buf.Append(pt.ColumnName);
                 buf.Append(" = ?");
             }
             if (bmd.HasTimestampPropertyType)
             {
-                IPropertyType pt = bmd.TimestampPropertyType;
+                var pt = bmd.TimestampPropertyType;
                 buf.Append(" AND ");
                 buf.Append(pt.ColumnName);
                 buf.Append(" = ?");

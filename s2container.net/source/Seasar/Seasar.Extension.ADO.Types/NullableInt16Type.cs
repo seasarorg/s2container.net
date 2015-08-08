@@ -40,7 +40,7 @@ namespace Seasar.Extension.ADO.Types
             }
             else if (value is short)
             {
-                return new Nullable<Int16>((short) value);
+                return new short?((short) value);
             }
             else
             {

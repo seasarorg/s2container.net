@@ -32,9 +32,9 @@ namespace Seasar.Extension.DataSets.States
 
         public void Update(IDataSource dataSource, DataRow row, ICommandFactory commandFactory)
         {
-            DataTable table = row.Table;
-            string sql = GetSql(table);
-            object[] args = GetArgs(row);
+            var table = row.Table;
+            var sql = GetSql(table);
+            var args = GetArgs(row);
             IUpdateHandler handler = new BasicUpdateHandler(dataSource, sql, commandFactory);
             Execute(handler, args);
         }

@@ -38,15 +38,15 @@ namespace Seasar.Tests.Extension.DataSets.Impl
         [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
         public void Read()
         {
-            DataTable table = new DataTable("emp");
+            var table = new DataTable("emp");
             table.Columns.Add("empno", typeof(int));
             table.Columns.Add("ename", typeof(string));
-            DataRow row = table.NewRow();
+            var row = table.NewRow();
             row["empno"] = 7788;
             row["ename"] = "SCOTT";
             table.Rows.Add(row);
-            SqlReloadTableReader reader = new SqlReloadTableReader(DataSource, table);
-            DataTable ret = reader.Read();
+            var reader = new SqlReloadTableReader(DataSource, table);
+            var ret = reader.Read();
             Trace.WriteLine(ToStringUtil.ToString(ret));
             S2Assert.AreEqual(table, ret, "1");
             Assert.AreEqual(DataRowState.Unchanged, ret.Rows[0].RowState, "2");

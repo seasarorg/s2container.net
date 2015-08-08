@@ -18,6 +18,7 @@
 
 using System;
 using System.Data;
+using System.Reflection;
 using Seasar.Extension.ADO;
 using Seasar.Framework.Exceptions;
 using Seasar.Framework.Log;
@@ -27,7 +28,7 @@ namespace Seasar.Framework.Util
 {
     public sealed class DataSourceUtil
     {
-        private static readonly Logger _logger = Logger.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly Logger _logger = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         private DataSourceUtil()
         {
@@ -37,7 +38,7 @@ namespace Seasar.Framework.Util
         {
             try
             {
-                IDbConnection cn = dataSource.GetConnection();
+                var cn = dataSource.GetConnection();
                 if (cn.State != ConnectionState.Open)
                 {
                     try

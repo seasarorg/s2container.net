@@ -19,7 +19,6 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using Seasar.Extension.ADO;
@@ -31,6 +30,7 @@ using Seasar.Quill.Database.DataSource.Connection;
 using Seasar.Quill.Exception;
 using Seasar.Quill.Util;
 using Seasar.Quill.Xml;
+using TypeUtil = Seasar.Quill.Util.TypeUtil;
 
 namespace Seasar.Quill
 {
@@ -45,23 +45,15 @@ namespace Seasar.Quill
 
         /// <summary>
         /// Quill設定ファイルパス
-        /// </summary>
-        private static string _configPath = null;
-        /// <summary>
-        /// Quill設定ファイルパス
         /// （QuillContainerインスタンス生成、
         /// QuillConfig.InitializeQuillConfig呼び出し前に設定して下さい）
         /// </summary>
-        public static string ConfigPath
-        {
-            set { _configPath = value; }
-            get { return _configPath; }
-        }
+        public static string ConfigPath { set; get; }
 
         /// <summary>
         /// Quill設定インスタンス
         /// </summary>
-        private static QuillConfig _instance = null;
+        private static QuillConfig _instance;
 
         /// <summary>
         /// Quill設定情報の生成（呼ばれる度にインスタンスを作り直します）
@@ -92,17 +84,17 @@ namespace Seasar.Quill
         /// <summary>
         /// 文字列("で囲まれているか)判定するための正規表現
         /// </summary>
-        protected readonly Regex _regexIsString = new Regex("^\".*\"$");
+        protected readonly Regex regexIsString = new Regex("^\".*\"$");
 
         /// <summary>
         /// Quill設定情報
         /// </summary>
-        protected QuillSection _section = null;
+        protected QuillSection section;
 
         /// <summary>
         /// DIコンテナ
         /// </summary>
-        protected readonly QuillContainer _container;
+        protected readonly QuillContainer container;
 
         /// <summary>
         /// コンストラクタ
@@ -112,8 +104,8 @@ namespace Seasar.Quill
         /// <param name="configPath"></param>
         protected QuillConfig(QuillContainer container, string configPath)
         {
-            _container = container;
-            _section = LoadQuillSection(configPath);
+            this.container = container;
+            section = LoadQuillSection(configPath);
         }
 
         #region 設定情報の有無判定
@@ -121,46 +113,33 @@ namespace Seasar.Quill
         /// Quill設定情報の有無
         /// </summary>
         /// <returns>存在する場合はtrue,存在しない場合はfalse</returns>
-        public virtual bool HasQuillConfig()
-        {
-            return (_section != null);
-        }
+        public virtual bool HasQuillConfig() => (section != null);
 
         /// <summary>
         /// Quill設定ファイル内のアセンブリ設定の有無
         /// </summary>
         /// <returns>存在する場合はtrue,存在しない場合はfalse</returns>
-        public virtual bool HasAssemblyConfig()
-        {
-            return (HasQuillConfig() && _section.Assemblys != null && _section.Assemblys.Count > 0);
-        }
+        public virtual bool HasAssemblyConfig() 
+            => (HasQuillConfig() && section.Assemblys != null && section.Assemblys.Count > 0);
 
         /// <summary>
         /// Quill設定ファイル内のDao設定の有無
         /// </summary>
         /// <returns>存在する場合はtrue,存在しない場合はfalse</returns>
-        public virtual bool HasDaoSetting()
-        {
-            return (HasQuillConfig() && !string.IsNullOrEmpty(_section.DaoSetting));
-        }
+        public virtual bool HasDaoSetting() => (HasQuillConfig() && !string.IsNullOrEmpty(section.DaoSetting));
 
         /// <summary>
         /// Quill設定ファイル内のトランザクション設定の有無
         /// </summary>
         /// <returns>存在する場合はtrue,存在しない場合はfalse</returns>
-        public virtual bool HasTransactionSetting()
-        {
-            return (HasQuillConfig() && !string.IsNullOrEmpty(_section.TransactionSetting));
-        }
+        public virtual bool HasTransactionSetting() => (HasQuillConfig() && !string.IsNullOrEmpty(section.TransactionSetting));
 
         /// <summary>
         /// Quill設定ファイル内のデータソース設定の有無
         /// </summary>
         /// <returns>存在する場合はtrue,存在しない場合はfalse</returns>
-        public virtual bool HasDataSourceConfig()
-        {
-            return (HasQuillConfig() && _section.DataSources != null && _section.DataSources.Count > 0);
-        }
+        public virtual bool HasDataSourceConfig() => (HasQuillConfig() && section.DataSources != null && section.DataSources.Count > 0);
+
         #endregion
 
         /// <summary>
@@ -172,18 +151,17 @@ namespace Seasar.Quill
             Type retType;
             if (HasDaoSetting())
             {
-                string typeName = _section.DaoSetting;
+                var typeName = section.DaoSetting;
                 if (TypeUtil.HasNamespace(typeName) == false)
                 {
                     //  名前空間の指定がなければ既定の名前空間を使う
-                    typeName = string.Format("{0}.{1}",
-                        QuillConstants.NAMESPACE_DAOSETTING, typeName);
+                    typeName = $"{QuillConstants.NAMESPACE_DAOSETTING}.{typeName}";
                 }
                 retType = ClassUtil.ForName(typeName);
 
                 if (retType == null)
                 {
-                    throw new QuillApplicationException("EQLL0034", new object[] { typeName });
+                    throw new QuillApplicationException("EQLL0034", new [] { typeName });
                 }
 
                 SettingUtil.ValidateDaoSettingType(retType);
@@ -207,17 +185,16 @@ namespace Seasar.Quill
             if (HasTransactionSetting())
             {
                 //  トランザクション設定クラスが設定ファイルで指定されていればそちらを使う
-                string typeName = _section.TransactionSetting;
+                var typeName = section.TransactionSetting;
                 if (TypeUtil.HasNamespace(typeName) == false)
                 {
                     //  名前空間なしの場合は既定の名前空間から
-                    typeName = string.Format("{0}.{1}",
-                        QuillConstants.NAMESPACE_TXSETTING, typeName);
+                    typeName = $"{QuillConstants.NAMESPACE_TXSETTING}.{typeName}";
                 }
                 retType = ClassUtil.ForName(typeName);
                 if (retType == null)
                 {
-                    throw new QuillApplicationException("EQLL0035", new object[] { typeName });
+                    throw new QuillApplicationException("EQLL0035", new [] { typeName });
                 }
 
                 SettingUtil.ValidateTransactionSettingType(retType);
@@ -244,9 +221,9 @@ namespace Seasar.Quill
             }
 
             //  設定ファイルに書かれたアセンブリ名を取得する
-            foreach (object item in _section.Assemblys)
+            foreach (var item in section.Assemblys)
             {
-                string assemblyName = item as string;
+                var assemblyName = item as string;
                 if (!string.IsNullOrEmpty(assemblyName))
                 {
                     //  指定されたアセンブリをロードする
@@ -334,7 +311,7 @@ namespace Seasar.Quill
                 return;
             }
             
-            foreach (object item in _section.DataSources)
+            foreach (var item in section.DataSources)
             {
                 SetupDataSourceByQuillSection(dataSources, item);
             }
@@ -350,33 +327,33 @@ namespace Seasar.Quill
         {
             if (dataSourceItem is DataSourceSection)
             {
-                DataSourceSection dsSection = (DataSourceSection)dataSourceItem;
+                var dsSection = (DataSourceSection)dataSourceItem;
 
                 //  データソース
-                string dataSourceClassName = GetDataSourceClassName(dsSection);
-                Type dataSourceClass = ClassUtil.ForName(dataSourceClassName);
+                var dataSourceClassName = GetDataSourceClassName(dsSection);
+                var dataSourceClass = ClassUtil.ForName(dataSourceClassName);
                 if (dataSourceClass == null)
                 {
                     throw new ClassNotFoundRuntimeException(dataSourceClassName);
                 }
 
                 //  プロバイダ
-                string providerName = GetProviderName(dsSection);
-                Type providerClass = ClassUtil.ForName(providerName);
+                var providerName = GetProviderName(dsSection);
+                var providerClass = ClassUtil.ForName(providerName);
                 if (providerClass == null)
                 {
-                    throw new QuillInvalidClassException("EQLL0032", new object[] { providerName });
+                    throw new QuillInvalidClassException("EQLL0032", new [] { providerName });
                 }
 
                 //  接続文字列
-                string connectionString = GetConnectionString(dsSection);
+                var connectionString = GetConnectionString(dsSection);
 
                 //  クラス組み立て
-                DataProvider provider = (DataProvider)ClassUtil.NewInstance(providerClass);
-                ConstructorInfo constructorInfo = ClassUtil.GetConstructorInfo(
-                    dataSourceClass, new Type[] { typeof(DataProvider), typeof(string) });
-                IDataSource dataSource = (IDataSource)constructorInfo.Invoke(
-                     new object[] { provider, connectionString });
+                var provider = (DataProvider)ClassUtil.NewInstance(providerClass);
+                var constructorInfo = ClassUtil.GetConstructorInfo(dataSourceClass, new[] { typeof(DataProvider), typeof(string) });
+                var dataSource =
+                    (IDataSource) ConstructorUtil.NewInstance<DataProvider, string>(constructorInfo, new object[] {provider, connectionString});
+//                var dataSource = (IDataSource)constructorInfo.Invoke( new object[] { provider, connectionString });
                 dataSources[dsSection.DataSourceName] = dataSource;
             }
         }
@@ -388,19 +365,18 @@ namespace Seasar.Quill
         /// <returns></returns>
         protected virtual string GetProviderName(DataSourceSection dataSourceSection)
         {
-            string providerName = dataSourceSection.ProviderName;
+            var providerName = dataSourceSection.ProviderName;
             if (string.IsNullOrEmpty(providerName))
             {
                 //  空配列はわざと
-                throw new QuillConfigNotFoundException("EQLL0031", new object[] { });
+                throw new QuillConfigNotFoundException("EQLL0031", new [] { "" });
             }
 
             if (TypeUtil.HasNamespace(providerName) == false)
             {
                 //  名前空間が指定されていない場合は既定の
                 //  名前空間を使用する
-                providerName = string.Format("{0}.{1}",
-                    QuillConstants.NAMESPACE_PROVIDER, providerName);
+                providerName = $"{QuillConstants.NAMESPACE_PROVIDER}.{providerName}";
             }
             return providerName;
         }
@@ -412,19 +388,18 @@ namespace Seasar.Quill
         /// <returns></returns>
         protected virtual string GetDataSourceClassName(DataSourceSection dataSourceSection)
         {
-            string dataSourceClassName = dataSourceSection.DataSourceClassName;
+            var dataSourceClassName = dataSourceSection.DataSourceClassName;
             if (string.IsNullOrEmpty(dataSourceClassName))
             {
                 //  空配列はわざと
-                throw new QuillConfigNotFoundException("EQLL0030", new object[] { });
+                throw new QuillConfigNotFoundException("EQLL0030", new [] {""});
             }
 
             if (TypeUtil.HasNamespace(dataSourceClassName) == false)
             {
                 //  名前空間が指定されていない場合は既定の
                 //  名前空間を使用する
-                dataSourceClassName = string.Format("{0}.{1}",
-                    QuillConstants.NAMESPACE_DATASOURCE, dataSourceClassName);
+                dataSourceClassName = $"{QuillConstants.NAMESPACE_DATASOURCE}.{dataSourceClassName}";
             }
             return dataSourceClassName;
         }
@@ -437,16 +412,16 @@ namespace Seasar.Quill
         protected virtual string GetConnectionString(DataSourceSection dataSourceSection)
         {
             //  接続文字列
-            string configString = dataSourceSection.ConnectionString;
+            var configString = dataSourceSection.ConnectionString;
             if (string.IsNullOrEmpty(configString))
             {
                 //  空配列はわざと
-                throw new QuillConfigNotFoundException("EQLL0033", new object[] { });
+                throw new QuillConfigNotFoundException("EQLL0033", new [] {""});
             }
 
-            string connectionString = null;
+            string connectionString;
 
-            if (_regexIsString.IsMatch(configString))
+            if (regexIsString.IsMatch(configString))
             {
                 //  最初と最後の「"」を取り除く
                 connectionString = configString.Substring(1, configString.Length - 2);
@@ -454,11 +429,11 @@ namespace Seasar.Quill
             else
             {
                 //  「"」で囲まれていない場合はクラスが指定されていると見なす
-                Type connectionStringType = ClassUtil.ForName(configString);
+                var connectionStringType = ClassUtil.ForName(configString);
                 if (typeof(IConnectionString).IsAssignableFrom(connectionStringType))
                 {
-                    IConnectionString cs = (IConnectionString)ComponentUtil.GetComponent(
-                        _container, connectionStringType);
+                    var cs = (IConnectionString)ComponentUtil.GetComponent(
+                        container, connectionStringType);
                     connectionString = cs.GetConnectionString();
                 }
                 else
@@ -493,18 +468,18 @@ namespace Seasar.Quill
             }
 
             //  アプリケーション構成ファイルからQuill設定読み込み
-            QuillSection section = QuillSectionHandler.GetQuillSection();
+            var config = QuillSectionHandler.GetQuillSection();
             //  アプリケーション構成ファイルになければ外部ファイルがないか確認
-            if (section == null)
+            if (config == null)
             {
                 //  外部ファイルのパスを設定
-                string outerConfigPath = SettingUtil.GetDefaultQuillConfigPath();
+                var outerConfigPath = SettingUtil.GetDefaultQuillConfigPath();
 
                 LogUtil.Output(_log, "IQLL0004", outerConfigPath);
-                section = QuillSectionLoader.LoadFromOuterConfig(outerConfigPath);
+                config = QuillSectionLoader.LoadFromOuterConfig(outerConfigPath);
             }
 
-            return section;
+            return config;
         }
 
         /// <summary>
@@ -513,11 +488,11 @@ namespace Seasar.Quill
         /// <returns></returns>
         public override string ToString()
         {
-            StringBuilder builder = new StringBuilder();
-            builder.AppendFormat("HasQuillConfig=[{0}]", HasQuillConfig());
+            var builder = new StringBuilder();
+            builder.Append($"HasQuillConfig=[{HasQuillConfig()}]");
             if (HasQuillConfig())
             {
-                builder.AppendFormat(", QuillSection=[{0}]", _section.ToString());
+                builder.Append($", QuillSection=[{section}]");
             }
             return builder.ToString();
         }

@@ -25,38 +25,29 @@ namespace Seasar.Extension.ADO
     [Serializable]
     public class ColumnNotFoundRuntimeException : SRuntimeException
     {
-        private readonly string _tableName;
-        private readonly string _columnName;
-
         public ColumnNotFoundRuntimeException(string tableName, string columnName)
             : base("ESSR0068", new object[] { tableName, columnName })
         {
-            _tableName = tableName;
-            _columnName = columnName;
+            TableName = tableName;
+            ColumnName = columnName;
         }
 
         public ColumnNotFoundRuntimeException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            _tableName = info.GetString("_tableName");
-            _columnName = info.GetString("_columnName");
+            TableName = info.GetString("_tableName");
+            ColumnName = info.GetString("_columnName");
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("_tableName", _tableName, typeof(string));
-            info.AddValue("_columnName", _columnName, typeof(string));
+            info.AddValue("_tableName", TableName, typeof(string));
+            info.AddValue("_columnName", ColumnName, typeof(string));
             base.GetObjectData(info, context);
         }
 
-        public string TableName
-        {
-            get { return _tableName; }
-        }
+        public string TableName { get; }
 
-        public string ColumnName
-        {
-            get { return _columnName; }
-        }
+        public string ColumnName { get; }
     }
 }

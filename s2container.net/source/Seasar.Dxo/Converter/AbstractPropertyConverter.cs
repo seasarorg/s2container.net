@@ -18,6 +18,7 @@
 
 using System;
 using System.Diagnostics;
+using Seasar.Framework.Util;
 
 namespace Seasar.Dxo.Converter
 {
@@ -26,13 +27,7 @@ namespace Seasar.Dxo.Converter
     /// </summary>
     public abstract class AbstractPropertyConverter : IPropertyConverter
     {
-        private string _formatString;
-
-        public string Format
-        {
-            get { return _formatString; }
-            set { _formatString = value; }
-        }
+        public string Format { get; set; }
 
         /// <summary>
         /// プロパティのコンバート直前に発生するイベント
@@ -58,36 +53,23 @@ namespace Seasar.Dxo.Converter
         /// <param name="expectType">変換先のオブジェクトに期待されている型</param>
         public void Convert(string propertyName, object source, ref object dest, Type expectType)
         {
-            if (PrepareConvert != null)
-            {
-                PrepareConvert(this, new ConvertEventArgs(propertyName, source, ref dest, expectType));
-            }
+            PrepareConvert?.Invoke(this, new ConvertEventArgs(propertyName, source, ref dest, expectType));
 
-            if (this.DoConvert(source, ref dest, expectType))
+            if (DoConvert(source, ref dest, expectType))
             {
                 //コンバート成功
-                if (ConvertCompleted != null)
-                {
-                    ConvertCompleted(this, new ConvertEventArgs(propertyName, source, ref dest, expectType));
-                }
+                ConvertCompleted?.Invoke(this, new ConvertEventArgs(propertyName, source, ref dest, expectType));
             }
             else
             {
                 Debug.WriteLine("### Property Conversion fail!");
-                Debug.WriteLine("         property PropertyConverter:" + this.GetType().Name);
+                Debug.WriteLine("         property PropertyConverter:" + this.GetExType().Name);
                 Debug.WriteLine("         property Name     :" + propertyName);
-                Debug.WriteLine("             source Type   :" + ((source != null)
-                                                                      ? source.GetType().Name
-                                                                      : "null"));
-                Debug.WriteLine("             source Value  :" + ((source != null)
-                                                                      ? source.ToString()
-                                                                      : "null"));
+                Debug.WriteLine("             source Type   :" + (source?.GetExType().Name ?? "null"));
+                Debug.WriteLine("             source Value  :" + (source?.ToString() ?? "null"));
                 Debug.WriteLine("            expected Type  :" + expectType.Name);
                 //コンバート失敗
-                if (ConvertFail != null)
-                {
-                    ConvertFail(this, new ConvertEventArgs(propertyName, source, ref dest, expectType));
-                }
+                ConvertFail?.Invoke(this, new ConvertEventArgs(propertyName, source, ref dest, expectType));
             }
         }
 

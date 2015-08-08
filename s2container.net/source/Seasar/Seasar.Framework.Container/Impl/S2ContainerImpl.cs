@@ -23,6 +23,7 @@ using System.Runtime.Remoting.Messaging;
 using System.Web;
 using System.Web.SessionState;
 using Seasar.Framework.Container.Util;
+using Seasar.Framework.Util;
 
 namespace Seasar.Framework.Container.Impl
 {
@@ -31,16 +32,14 @@ namespace Seasar.Framework.Container.Impl
         private readonly Hashtable _componentDefTable = new Hashtable();
         private readonly IList _componentDefList = new ArrayList();
         private string _namespace;
-        private string _path;
         private readonly IList _children = new ArrayList();
         private readonly Hashtable _descendants = CollectionsUtil.CreateCaseInsensitiveHashtable();
-        private IS2Container _root;
         private readonly MetaDefSupport _metaDefSupport;
         private bool _inited = false;
 
         public S2ContainerImpl()
         {
-            _root = this;
+            Root = this;
             IComponentDef componentDef = new SimpleComponentDef(this, ContainerConstants.INSTANCE_PROTOTYPE);
             _componentDefTable.Add(ContainerConstants.CONTAINER_NAME, componentDef);
             _componentDefTable.Add(typeof(IS2Container), componentDef);
@@ -68,7 +67,7 @@ namespace Seasar.Framework.Container.Impl
 
         public object GetComponent(object componentKey)
         {
-            IComponentDef cd = GetComponentDef(componentKey);
+            var cd = GetComponentDef(componentKey);
             if (componentKey is Type)
             {
                 return cd.GetComponent((Type) componentKey);
@@ -81,13 +80,13 @@ namespace Seasar.Framework.Container.Impl
 
         public object GetComponent(Type componentType, string componentName)
         {
-            IComponentDef cd = GetComponentDef(componentName);
+            var cd = GetComponentDef(componentName);
             return cd.GetComponent(componentType);
         }
 
         public void InjectDependency(object outerComponent)
         {
-            InjectDependency(outerComponent, outerComponent.GetType());
+            InjectDependency(outerComponent, outerComponent.GetExType());
         }
 
         public void InjectDependency(object outerComponent, Type componentType)
@@ -124,44 +123,44 @@ namespace Seasar.Framework.Container.Impl
         {
             lock (this)
             {
-                Register0(componentDef);
+                _Register0(componentDef);
                 _componentDefList.Add(componentDef);
             }
         }
 
-        private void Register0(IComponentDef componentDef)
+        private void _Register0(IComponentDef componentDef)
         {
             if (componentDef.Container == null)
             {
                 componentDef.Container = this;
             }
-            RegisterByType(componentDef);
-            RegisterByName(componentDef);
+            _RegisterByType(componentDef);
+            _RegisterByName(componentDef);
         }
 
-        private void RegisterByType(IComponentDef componentDef)
+        private void _RegisterByType(IComponentDef componentDef)
         {
-            Type[] types = GetAssignableTypes(componentDef.ComponentType);
-            foreach (Type type in types)
+            var types = _GetAssignableTypes(componentDef.ComponentType);
+            foreach (var type in types)
             {
-                RegisterTable(type, componentDef);
+                _RegisterTable(type, componentDef);
             }
         }
 
-        private void RegisterByName(IComponentDef componentDef)
+        private void _RegisterByName(IComponentDef componentDef)
         {
-            string componentName = componentDef.ComponentName;
+            var componentName = componentDef.ComponentName;
             if (componentName != null)
             {
-                RegisterTable(componentName, componentDef);
+                _RegisterTable(componentName, componentDef);
             }
         }
 
-        private void RegisterTable(object key, IComponentDef componentDef)
+        private void _RegisterTable(object key, IComponentDef componentDef)
         {
             if (_componentDefTable.ContainsKey(key))
             {
-                ProcessTooManyRegistration(key, componentDef);
+                _ProcessTooManyRegistration(key, componentDef);
             }
             else
             {
@@ -169,10 +168,7 @@ namespace Seasar.Framework.Container.Impl
             }
         }
 
-        public int ComponentDefSize
-        {
-            get { return _componentDefList.Count; }
-        }
+        public int ComponentDefSize => _componentDefList.Count;
 
         public IComponentDef GetComponentDef(int index)
         {
@@ -184,7 +180,7 @@ namespace Seasar.Framework.Container.Impl
 
         public IComponentDef GetComponentDef(object key)
         {
-            IComponentDef cd = GetComponentDef0(key);
+            var cd = _GetComponentDef0(key);
             if (cd == null)
             {
                 throw new ComponentNotFoundRuntimeException(key);
@@ -192,25 +188,25 @@ namespace Seasar.Framework.Container.Impl
             return cd;
         }
 
-        private IComponentDef GetComponentDef0(object key)
+        private IComponentDef _GetComponentDef0(object key)
         {
             lock (this)
             {
-                IComponentDef cd = (IComponentDef) _componentDefTable[key];
+                var cd = (IComponentDef) _componentDefTable[key];
                 if (cd != null)
                 {
                     return cd;
                 }
                 if (key is string)
                 {
-                    string name = (string) key;
-                    int index = name.IndexOf(ContainerConstants.NS_SEP);
+                    var name = (string) key;
+                    var index = name.IndexOf(ContainerConstants.NS_SEP);
                     if (index > 0)
                     {
-                        string ns = name.Substring(0, index);
+                        var ns = name.Substring(0, index);
                         if (HasComponentDef(ns))
                         {
-                            IS2Container child = (IS2Container) GetComponent(ns);
+                            var child = (IS2Container) GetComponent(ns);
                             name = name.Substring(index + 1);
                             if (child.HasComponentDef(name))
                             {
@@ -219,19 +215,16 @@ namespace Seasar.Framework.Container.Impl
                         }
                     }
                 }
-                for (int i = 0; i < ChildSize; ++i)
+                for (var i = 0; i < ChildSize; ++i)
                 {
-                    IS2Container child = GetChild(i);
+                    var child = GetChild(i);
                     if (child.HasComponentDef(key)) return child.GetComponentDef(key);
                 }
                 return null;
             }
         }
 
-        public bool HasComponentDef(object componentKey)
-        {
-            return GetComponentDef0(componentKey) != null;
-        }
+        public bool HasComponentDef(object componentKey) => _GetComponentDef0(componentKey) != null;
 
         public bool HasDescendant(string path)
         {
@@ -245,7 +238,7 @@ namespace Seasar.Framework.Container.Impl
         {
             lock (this)
             {
-                IS2Container descendant = (IS2Container) _descendants[path];
+                var descendant = (IS2Container) _descendants[path];
                 if (descendant != null)
                 {
                     return descendant;
@@ -271,10 +264,10 @@ namespace Seasar.Framework.Container.Impl
             {
                 child.Root = Root;
                 _children.Add(child);
-                string ns = child.Namespace;
+                var ns = child.Namespace;
                 if (ns != null)
                 {
-                    RegisterTable(ns, new S2ContainerComponentDef(child, ns));
+                    _RegisterTable(ns, new S2ContainerComponentDef(child, ns));
                 }
             }
         }
@@ -304,11 +297,11 @@ namespace Seasar.Framework.Container.Impl
             {
                 return;
             }
-            for (int i = 0; i < ChildSize; ++i)
+            for (var i = 0; i < ChildSize; ++i)
             {
                 GetChild(i).Init();
             }
-            for (int i = 0; i < ComponentDefSize; ++i)
+            for (var i = 0; i < ComponentDefSize; ++i)
             {
                 GetComponentDef(i).Init();
             }
@@ -333,17 +326,9 @@ namespace Seasar.Framework.Container.Impl
             }
         }
 
-        public string Path
-        {
-            get { return _path; }
-            set { _path = value; }
-        }
+        public string Path { get; set; }
 
-        public IS2Container Root
-        {
-            get { return _root; }
-            set { _root = value; }
-        }
+        public IS2Container Root { get; set; }
 
         public void Destroy()
         {
@@ -351,7 +336,7 @@ namespace Seasar.Framework.Container.Impl
             {
                 return;
             }
-            for (int i = ComponentDefSize - 1; 0 <= i; --i)
+            for (var i = ComponentDefSize - 1; 0 <= i; --i)
             {
                 try
                 {
@@ -363,72 +348,20 @@ namespace Seasar.Framework.Container.Impl
                     Console.WriteLine(ex.StackTrace);
                 }
             }
-            for (int i = ChildSize - 1; 0 <= i; --i)
+            for (var i = ChildSize - 1; 0 <= i; --i)
             {
                 GetChild(i).Destroy();
             }
             _inited = false;
         }
 
-        public HttpApplication HttpApplication
-        {
-            get
-            {
-                if (HttpContext == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    return HttpContext.ApplicationInstance;
-                }
-            }
-        }
+        public HttpApplication HttpApplication => HttpContext?.ApplicationInstance;
 
-        public HttpResponse Response
-        {
-            get
-            {
-                if (HttpContext == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    return HttpContext.Response;
-                }
-            }
-        }
+        public HttpResponse Response => HttpContext?.Response;
 
-        public HttpRequest Request
-        {
-            get
-            {
-                if (HttpContext == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    return HttpContext.Request;
-                }
-            }
-        }
+        public HttpRequest Request => HttpContext?.Request;
 
-        public HttpSessionState Session
-        {
-            get
-            {
-                if (HttpContext == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    return HttpContext.Session;
-                }
-            }
-        }
+        public HttpSessionState Session => HttpContext?.Session;
 
         public HttpContext HttpContext
         {
@@ -451,65 +384,51 @@ namespace Seasar.Framework.Container.Impl
             _metaDefSupport.AddMetaDef(metaDef);
         }
 
-        public int MetaDefSize
-        {
-            get { return _metaDefSupport.MetaDefSize; }
-        }
+        public int MetaDefSize => _metaDefSupport.MetaDefSize;
 
-        public IMetaDef GetMetaDef(int index)
-        {
-            return _metaDefSupport.GetMetaDef(index);
-        }
+        public IMetaDef GetMetaDef(int index) => _metaDefSupport.GetMetaDef(index);
 
-        public IMetaDef GetMetaDef(string name)
-        {
-            return _metaDefSupport.GetMetaDef(name);
-        }
+        public IMetaDef GetMetaDef(string name) => _metaDefSupport.GetMetaDef(name);
 
-        public IMetaDef[] GetMetaDefs(string name)
-        {
-            return _metaDefSupport.GetMetaDefs(name);
-        }
+        public IMetaDef[] GetMetaDefs(string name) => _metaDefSupport.GetMetaDefs(name);
 
         #endregion
 
-        private static Type[] GetAssignableTypes(Type componentType)
+        private static Type[] _GetAssignableTypes(Type componentType)
         {
-            ArrayList types = new ArrayList();
-            for (Type type = componentType; type != typeof(object)
+            var types = new ArrayList();
+            for (var type = componentType; type != typeof(object)
                 && type != null; type = type.BaseType)
             {
-                AddAssignableTypes(types, type);
+                _AddAssignableTypes(types, type);
             }
             return (Type[]) types.ToArray(typeof(Type));
         }
 
-        private static void AddAssignableTypes(IList types, Type type)
+        private static void _AddAssignableTypes(IList types, Type type)
         {
             if (types.Contains(type))
             {
                 return;
             }
             types.Add(type);
-            Type[] interfaces = type.GetInterfaces();
-            foreach (Type interfaceTemp in interfaces)
+            var interfaces = type.GetInterfaces();
+            foreach (var interfaceTemp in interfaces)
             {
-                AddAssignableTypes(types, interfaceTemp);
+                _AddAssignableTypes(types, interfaceTemp);
             }
         }
 
-        private void ProcessTooManyRegistration(object key, IComponentDef componentDef)
+        private void _ProcessTooManyRegistration(object key, IComponentDef componentDef)
         {
-            IComponentDef cd = (IComponentDef) _componentDefTable[key];
+            var cd = (IComponentDef) _componentDefTable[key];
             if (cd is TooManyRegistrationComponentDef)
             {
-                ((TooManyRegistrationComponentDef) cd)
-                    .AddComponentType(componentDef.ComponentType);
+                ((TooManyRegistrationComponentDef) cd).AddComponentType(componentDef.ComponentType);
             }
             else
             {
-                TooManyRegistrationComponentDef tmrcf =
-                    new TooManyRegistrationComponentDef(key);
+                var tmrcf = new TooManyRegistrationComponentDef(key);
                 tmrcf.AddComponentType(cd.ComponentType);
                 tmrcf.AddComponentType(componentDef.ComponentType);
                 _componentDefTable[key] = tmrcf;

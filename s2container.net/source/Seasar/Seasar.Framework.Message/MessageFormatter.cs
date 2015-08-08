@@ -44,20 +44,12 @@ namespace Seasar.Framework.Message
         {
         }
 
-        public static string GetMessage(string messageCode, object[] args)
-        {
-            return GetMessage(messageCode, args, (string) null);
-        }
+        public static string GetMessage(string messageCode, object[] args) => GetMessage(messageCode, args, (string) null);
 
-        public static string GetMessage(string messageCode, object[] args, string nameSpace)
-        {
-            return GetMessage(messageCode, args, Assembly.GetExecutingAssembly(), nameSpace);
-        }
+        public static string GetMessage(string messageCode, object[] args, string nameSpace) 
+            => GetMessage(messageCode, args, Assembly.GetExecutingAssembly(), nameSpace);
 
-        public static string GetMessage(string messageCode, object[] args, Assembly assembly)
-        {
-            return GetMessage(messageCode, args, assembly, null);
-        }
+        public static string GetMessage(string messageCode, object[] args, Assembly assembly) => GetMessage(messageCode, args, assembly, null);
 
         public static string GetMessage(string messageCode, object[] args, Assembly assembly, string nameSpace)
         {
@@ -87,7 +79,7 @@ namespace Seasar.Framework.Message
         {
             try
             {
-                string pattern = GetPattern(nameSpace, messageCode, assembly);
+                var pattern = _GetPattern(nameSpace, messageCode, assembly);
                 if (pattern != null)
                 {
                     if (arguments == null)
@@ -99,35 +91,32 @@ namespace Seasar.Framework.Message
             }
             catch
             {
+                // ignored
             }
-            return GetNoPatternMessage(arguments);
+            return _GetNoPatternMessage(arguments);
         }
 
-        private static string GetPattern(string nameSpace, string messageCode, Assembly assembly)
+        private static string _GetPattern(string nameSpace, string messageCode, Assembly assembly)
         {
-            ResourceManager resourceManager = GetMessages(nameSpace, GetSystemName(messageCode), assembly);
-            if (resourceManager != null)
-            {
-                return resourceManager.GetString(messageCode);
-            }
-            return null;
+            var resourceManager = _GetMessages(nameSpace, _GetSystemName(messageCode), assembly);
+            return resourceManager?.GetString(messageCode);
         }
 
-        private static string GetSystemName(string messageCode)
+        private static string _GetSystemName(string messageCode)
         {
             return messageCode.Substring(1, Math.Min(3, messageCode.Length));
         }
 
-        private static ResourceManager GetMessages(string nameSpace, string systemName, Assembly assembly)
+        private static ResourceManager _GetMessages(string nameSpace, string systemName, Assembly assembly)
         {
-            string key = systemName + assembly.FullName;
+            var key = systemName + assembly.FullName;
             if (_resourceManagers.ContainsKey(key))
             {
                 return (ResourceManager) _resourceManagers[key];
             }
             else
             {
-                StringBuilder buf = new StringBuilder();
+                var buf = new StringBuilder();
                 if (nameSpace != null)
                 {
                     buf.Append(nameSpace);
@@ -135,17 +124,17 @@ namespace Seasar.Framework.Message
                 }
                 buf.Append(systemName);
                 buf.Append(MESSAGES);
-                ResourceManager rm = new ResourceManager(buf.ToString(), assembly);
+                var rm = new ResourceManager(buf.ToString(), assembly);
                 _resourceManagers[key] = rm;
                 return rm;
             }
         }
 
-        private static string GetNoPatternMessage(object[] args)
+        private static string _GetNoPatternMessage(object[] args)
         {
             if (args == null || args.Length == 0) return string.Empty;
-            StringBuilder buffer = new StringBuilder();
-            foreach (object arg in args)
+            var buffer = new StringBuilder();
+            foreach (var arg in args)
             {
                 buffer.Append(arg + ", ");
             }

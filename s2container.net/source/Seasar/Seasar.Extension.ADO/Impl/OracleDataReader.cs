@@ -41,7 +41,7 @@ namespace Seasar.Extension.ADO.Impl
         {
             get
             {
-                object ret = base[i];
+                var ret = base[i];
                 if (ret is string)
                 {
                     return Convert(ret as string);
@@ -54,7 +54,7 @@ namespace Seasar.Extension.ADO.Impl
         {
             get
             {
-                object ret = base[name];
+                var ret = base[name];
                 if (ret is string)
                 {
                     return Convert(ret as string);
@@ -69,10 +69,10 @@ namespace Seasar.Extension.ADO.Impl
             {
                 return null;
             }
-            StringBuilder result = new StringBuilder(source.Length);
-            for (int i = 0; i < source.Length; i++)
+            var result = new StringBuilder(source.Length);
+            for (var i = 0; i < source.Length; i++)
             {
-                char ch = source[i];
+                var ch = source[i];
                 switch (ch)
                 {
                     case WAVE_DASH: // WAVE DASH(U+301C) -> FULLWIDTH TILDE(U+FF5E)

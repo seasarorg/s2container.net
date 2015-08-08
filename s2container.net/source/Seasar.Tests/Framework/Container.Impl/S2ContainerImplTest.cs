@@ -38,7 +38,7 @@ namespace Seasar.Tests.Framework.Container.Impl
             container.Register(typeof(B2));
             try
             {
-                A a = (A) container.GetComponent(typeof(A));
+                var a = (A) container.GetComponent(typeof(A));
                 Assert.Fail();
             }
             catch (TooManyRegistrationRuntimeException ex)
@@ -82,7 +82,7 @@ namespace Seasar.Tests.Framework.Container.Impl
             IS2Container container2 = new S2ContainerImpl();
             container2.Register(typeof(B));
             container.Include(container2);
-            A a = (A) container.GetComponent(typeof(A));
+            var a = (A) container.GetComponent(typeof(A));
             Assert.AreEqual("B", a.HogeName);
         }
 
@@ -225,15 +225,15 @@ namespace Seasar.Tests.Framework.Container.Impl
             cd.AddInitMethodDef(md);
             container.Register(cd);
 
-            Hashtable table = new Hashtable();
+            var table = new Hashtable();
             container.InjectDependency(table);
             Assert.AreEqual("111", table["aaa"]);
 
-            Hashtable table2 = new Hashtable();
+            var table2 = new Hashtable();
             container.InjectDependency(table2, typeof(Hashtable));
             Assert.AreEqual("111", table2["aaa"]);
 
-            Hashtable table3 = new Hashtable();
+            var table3 = new Hashtable();
             container.InjectDependency(table3, "hoge");
             Assert.AreEqual("111", table3["aaa"]);
         }
@@ -243,7 +243,7 @@ namespace Seasar.Tests.Framework.Container.Impl
         {
             IS2Container container = new S2ContainerImpl();
             container.Register(typeof(D));
-            D d = (D) container.GetComponent(typeof(D));
+            var d = (D) container.GetComponent(typeof(D));
             Assert.AreSame(container, d.Container);
         }
 
@@ -256,7 +256,7 @@ namespace Seasar.Tests.Framework.Container.Impl
             pd.Expression = ContainerConstants.CONTAINER_NAME;
             cd.AddPropertyDef(pd);
             container.Register(cd);
-            D d = (D) container.GetComponent(typeof(D));
+            var d = (D) container.GetComponent(typeof(D));
             Assert.AreSame(container, d.Container);
         }
 
@@ -295,7 +295,7 @@ namespace Seasar.Tests.Framework.Container.Impl
         {
             IS2Container container = new S2ContainerImpl();
             container.Register(typeof(FooImpl));
-            IHoge hoge = (IHoge) container.GetComponent(typeof(IHoge));
+            var hoge = (IHoge) container.GetComponent(typeof(IHoge));
             Assert.AreEqual("Foo", hoge.Name);
         }
 
@@ -306,13 +306,13 @@ namespace Seasar.Tests.Framework.Container.Impl
             IAspectDef ad = new AspectDefImpl();
             ad.Expression = "testInterceptor";
             ad.Container = container;
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(FooImpl), "foo");
+            var cd = new ComponentDefImpl(typeof(FooImpl), "foo");
             cd.AddAspeceDef(ad);
-            ComponentDefImpl aspectCd = new ComponentDefImpl(typeof(TestInterceptor), "testInterceptor");
+            var aspectCd = new ComponentDefImpl(typeof(TestInterceptor), "testInterceptor");
             container.Register(aspectCd);
             container.Register(cd);
 
-            IFoo foo = (IFoo) container.GetComponent(typeof(IFoo), "foo");
+            var foo = (IFoo) container.GetComponent(typeof(IFoo), "foo");
             Assert.AreEqual("interceptor", foo.Name);
         }
 
@@ -382,13 +382,7 @@ namespace Seasar.Tests.Framework.Container.Impl
 
         public class D
         {
-            private IS2Container _container;
-
-            public IS2Container Container
-            {
-                get { return _container; }
-                set { _container = value; }
-            }
+            public IS2Container Container { get; set; }
         }
 
         public class FooImpl : IFoo

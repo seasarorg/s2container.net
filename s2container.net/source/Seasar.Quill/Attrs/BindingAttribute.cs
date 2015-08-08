@@ -1,4 +1,4 @@
-#region Copyright
+﻿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -46,9 +46,6 @@ namespace Seasar.Quill.Attrs
         /// S2Containerにおけるコンポーネント名を取得する
         /// </summary>
         /// <value>S2Containerにおけるコンポーネント名</value>
-        public string ComponentName
-        {
-            get { return componentName; }
-        }
+        public string ComponentName => componentName;
     }
 }

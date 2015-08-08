@@ -51,16 +51,11 @@ namespace Seasar.Extension.Unit
         private static readonly string DATASOURCE_NAME = string.Format("Ado{0}DataSource", ContainerConstants.NS_SEP);
 
 #if NET_4_0
-        private IS2Container _container;
         private IList _bindedFields;
 
-        protected IS2Container Container
-        {
-            get { return _container; }
-            set { _container = value; }
-        }
+        protected IS2Container Container { get; set; }
 
-        public S2TestCaseRunner(Seasar.Extension.Unit.Tx txTreatment)
+        public S2TestCaseRunner(Tx txTreatment)
             : base(txTreatment)
         {
         }
@@ -68,11 +63,11 @@ namespace Seasar.Extension.Unit
         protected override void SetUpContainer(object fixtureInstance)
         {
             SingletonS2ContainerFactory.Init();
-            _container = SingletonS2ContainerFactory.Container;
+            Container = SingletonS2ContainerFactory.Container;
 
-            if (typeof(S2TestCase).IsAssignableFrom(fixtureInstance.GetType()))
+            if (typeof(S2TestCase).IsAssignableFrom(fixtureInstance.GetExType()))
             {
-                ((S2TestCase)fixtureInstance).Container = _container;
+                ((S2TestCase)fixtureInstance).Container = Container;
             }
         }
 
@@ -84,7 +79,7 @@ namespace Seasar.Extension.Unit
             }
             finally
             {
-                _container = null;
+                Container = null;
             }
         }
 
@@ -95,7 +90,7 @@ namespace Seasar.Extension.Unit
 
         protected override void SetUpAfterContainerInit(object fixtureInstance)
         {
-            _container.Init();
+            Container.Init();
             BindFields(fixtureInstance);
             SetUpAfterBindFields();
             SetUpDataSource(fixtureInstance);
@@ -146,7 +141,7 @@ namespace Seasar.Extension.Unit
         protected void BindFields(object fixtureInstance)
         {
             _bindedFields = new ArrayList();
-            for (var type = fixtureInstance.GetType();
+            for (var type = fixtureInstance.GetExType();
                 (type != typeof(S2TestCase) && type != null);
                 type = type.BaseType)
             {
@@ -157,7 +152,7 @@ namespace Seasar.Extension.Unit
                             BindingFlags.Instance |
                             BindingFlags.Static);
 
-                for (int i = 0; i < fields.Length; ++i)
+                for (var i = 0; i < fields.Length; ++i)
                 {
                     BindField(fixtureInstance, fields[i]);
                 }
@@ -182,15 +177,15 @@ namespace Seasar.Extension.Unit
                 }
                 var name = S2TestUtils.NormalizeName(fieldInfo.Name);
                 object component = null;
-                if (_container.HasComponentDef(name))
+                if (Container.HasComponentDef(name))
                 {
-                    var componentType = _container.GetComponentDef(name).ComponentType;
+                    var componentType = Container.GetComponentDef(name).ComponentType;
                     if (componentType == null)
                     {
-                        component = _container.GetComponent(name);
+                        component = Container.GetComponent(name);
                         if (component != null)
                         {
-                            componentType = component.GetType();
+                            componentType = component.GetExType();
                         }
                     }
 
@@ -199,7 +194,7 @@ namespace Seasar.Extension.Unit
                     {
                         if (component == null)
                         {
-                            component = _container.GetComponent(name);
+                            component = Container.GetComponent(name);
                         }
                     }
                     else
@@ -209,9 +204,9 @@ namespace Seasar.Extension.Unit
                 }
 
                 if (component == null
-                    && _container.HasComponentDef(fieldInfo.FieldType))
+                    && Container.HasComponentDef(fieldInfo.FieldType))
                 {
-                    component = _container.GetComponent(fieldInfo.FieldType);
+                    component = Container.GetComponent(fieldInfo.FieldType);
                 }
 
                 if (component != null)
@@ -232,7 +227,7 @@ namespace Seasar.Extension.Unit
 
         protected void UnbindFields(object fixtureInstance)
         {
-            for (int i = 0; i < _bindedFields.Count; ++i)
+            for (var i = 0; i < _bindedFields.Count; ++i)
             {
                 var fieldInfo = (FieldInfo)_bindedFields[i];
                 try
@@ -269,7 +264,7 @@ namespace Seasar.Extension.Unit
         {
             if (Tx.NotSupported != _tx)
             {
-                _tc = (ITransactionContext)Container.GetComponent(typeof(ITransactionContext));
+                _tc = (ITransactionContext)container.GetComponent(typeof(ITransactionContext));
                 _tc.Begin();
             }
         }
@@ -303,13 +298,13 @@ namespace Seasar.Extension.Unit
 
         protected virtual void SetupDataSource()
         {
-            if (Container.HasComponentDef(DATASOURCE_NAME))
+            if (container.HasComponentDef(DATASOURCE_NAME))
             {
-                _dataSource = Container.GetComponent(DATASOURCE_NAME) as IDataSource;
+                _dataSource = container.GetComponent(DATASOURCE_NAME) as IDataSource;
             }
-            else if (Container.HasComponentDef(typeof(IDataSource)))
+            else if (container.HasComponentDef(typeof(IDataSource)))
             {
-                _dataSource = Container.GetComponent(typeof(IDataSource)) as IDataSource;
+                _dataSource = container.GetComponent(typeof(IDataSource)) as IDataSource;
             }
             if (_fixture != null && _dataSource != null)
             {

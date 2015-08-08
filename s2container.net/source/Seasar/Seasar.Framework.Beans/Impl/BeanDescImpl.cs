@@ -29,11 +29,6 @@ namespace Seasar.Framework.Beans.Impl
     public class BeanDescImpl : IBeanDesc
     {
         /// <summary>
-        /// 元となる型
-        /// </summary>
-        private readonly Type _beanType;
-
-        /// <summary>
         /// Nullable型判定結果キャッシュ
         /// </summary>
         private bool? _isNullable;
@@ -56,10 +51,7 @@ namespace Seasar.Framework.Beans.Impl
         /// <summary>
         /// 保持しているリフレクション情報の対象型
         /// </summary>
-        public Type BeanType
-        {
-            get { return _beanType; }
-        }
+        public Type BeanType { get; }
 
         /// <summary>
         /// コンストラクタ
@@ -67,7 +59,7 @@ namespace Seasar.Framework.Beans.Impl
         /// <param name="beanType">元となる型</param>
         public BeanDescImpl(Type beanType)
         {
-            _beanType = beanType;
+            BeanType = beanType;
         }
 
         /// <summary>
@@ -255,10 +247,10 @@ namespace Seasar.Framework.Beans.Impl
         /// <exception cref="ConstructorNotFoundRuntimeException"></exception>
         public virtual ConstructorInfo GetConstructor(Type[] paramTypes)
         {
-            ConstructorInfo ci = _beanType.GetConstructor(paramTypes);
+            var ci = BeanType.GetConstructor(paramTypes);
             if (ci == null)
             {
-                throw new ConstructorNotFoundRuntimeException(_beanType, paramTypes);
+                throw new ConstructorNotFoundRuntimeException(BeanType, paramTypes);
             }
             return ci;
         }
@@ -426,7 +418,7 @@ namespace Seasar.Framework.Beans.Impl
         public virtual bool IsNullable()
         {
             if (_isNullable.HasValue) { return _isNullable.Value; }
-            _isNullable = AssignTypeUtil.IsNullable(_beanType);
+            _isNullable = AssignTypeUtil.IsNullable(BeanType);
             return _isNullable.Value;
         }
 
@@ -437,7 +429,7 @@ namespace Seasar.Framework.Beans.Impl
         /// <returns></returns>
         public virtual bool IsAssignableFrom(Type type)
         {
-            return _beanType.IsAssignableFrom(type);
+            return BeanType.IsAssignableFrom(type);
         }
 
         /// <summary>
@@ -456,11 +448,7 @@ namespace Seasar.Framework.Beans.Impl
         /// <returns></returns>
         protected virtual PropertyDescFactory GetOrCreatePropertyDescCache()
         {
-            if (_propertyCache == null)
-            {
-                _propertyCache = new PropertyDescFactory(_beanType);
-            }
-            return _propertyCache;
+            return _propertyCache ?? (_propertyCache = new PropertyDescFactory(BeanType));
         }
 
         /// <summary>
@@ -469,11 +457,7 @@ namespace Seasar.Framework.Beans.Impl
         /// <returns></returns>
         protected virtual MethodDescFactory GetOrCreateMethodDescCache()
         {
-            if (_methodCache == null)
-            {
-                _methodCache = new MethodDescFactory(_beanType);
-            }
-            return _methodCache;
+            return _methodCache ?? (_methodCache = new MethodDescFactory(BeanType));
         }
 
         /// <summary>
@@ -482,11 +466,7 @@ namespace Seasar.Framework.Beans.Impl
         /// <returns></returns>
         protected virtual FieldDescFactory GetOrCreateFieldDescCache()
         {
-            if (_fieldCache == null)
-            {
-                _fieldCache = new FieldDescFactory(_beanType);
-            }
-            return _fieldCache;
+            return _fieldCache ?? (_fieldCache = new FieldDescFactory(BeanType));
         }
     }
 }

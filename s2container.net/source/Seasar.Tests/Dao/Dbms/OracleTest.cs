@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -37,8 +37,8 @@ namespace Seasar.Tests.Dao.Dbms
         {
             IDbms dbms = new Seasar.Dao.Dbms.Oracle();
             IBeanMetaData bmd = CreateBeanMetaData(typeof(Employee), dbms);
-            string sql = dbms.GetAutoSelectSql(bmd);
-            // #.NET4.0 æ“¾‚³‚ê‚éƒvƒƒpƒeƒB‚Ì‡”Ô‚ª‹t‚É‚È‚Á‚Ä‚¢‚é‚½‚ßC³
+            var sql = dbms.GetAutoSelectSql(bmd);
+            // #.NET4.0 å–å¾—ã•ã‚Œã‚‹ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã®é †ç•ªãŒé€†ã«ãªã£ã¦ã„ã‚‹ãŸã‚ä¿®æ­£
 #if NET_4_0
             Assert.AreEqual("SELECT EMP2.EMPNO, EMP2.ENAME, EMP2.DEPTNUM FROM EMP2", sql);
             
@@ -54,7 +54,7 @@ namespace Seasar.Tests.Dao.Dbms
         {
             IDbms dbms = new Seasar.Dao.Dbms.Oracle();
             IBeanMetaData bmd = CreateBeanMetaData(typeof(Department), dbms);
-            string sql = dbms.GetAutoSelectSql(bmd);
+            var sql = dbms.GetAutoSelectSql(bmd);
 #if NET_4_0
             Assert.AreEqual("SELECT DEPT.LOC, DEPT.DNAME, DEPT.VERSIONNO, DEPT.DEPTNO FROM DEPT", sql);
 #else

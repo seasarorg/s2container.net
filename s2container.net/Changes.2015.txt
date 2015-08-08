@@ -1,0 +1,9 @@
+﻿S2Container.NET 1.4.1-RC1
+2015/08/??
+** Improvement
+	* #2 ソースファイルとhtmlファイルのCopyright の"2005-2009"の文字列を"2005-2015"の文字列に更新する。
+        * #3 【Quill】       ODP.NET管理対象ドライバへの対応
+        *    【DynamicProxy】ソースコードの改善
+
+** Bug
+	* 

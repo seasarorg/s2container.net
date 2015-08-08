@@ -33,25 +33,13 @@ namespace Seasar.Framework.Xml.Impl
 
         #region IAttributes ƒƒ“ƒo
 
-        public string this[string qName]
-        {
-            get { return (string) _values[qName]; }
-        }
+        public string this[string qName] => (string) _values[qName];
 
-        string IAttributes.this[int index]
-        {
-            get { return (string) _values[_qNames[index]]; }
-        }
+        string IAttributes.this[int index] => (string) _values[_qNames[index]];
 
-        public int Count
-        {
-            get { return _qNames.Count; }
-        }
+        public int Count => _qNames.Count;
 
-        public string GetQName(int index)
-        {
-            return (string) _qNames[index];
-        }
+        public string GetQName(int index) => (string) _qNames[index];
 
         #endregion
     }

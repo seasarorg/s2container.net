@@ -17,9 +17,9 @@
 #endregion
 
 using System.Reflection;
+using Seasar.Dao.Interceptors;
 using Seasar.Framework.Aop;
 using Seasar.Framework.Aop.Interceptors;
-using Seasar.Dao.Interceptors;
 
 namespace Seasar.Dao.Pager
 {
@@ -34,9 +34,9 @@ namespace Seasar.Dao.Pager
 
         public override object Invoke(IMethodInvocation invocation)
         {
-            PagerContext pagerContext = PagerContext.GetContext();
+            var pagerContext = PagerContext.GetContext();
 
-            IPagerCondition condition = PagerConditionUtil.CreatePagerDefinition(
+            var condition = PagerConditionUtil.CreatePagerDefinition(
                 (MethodInfo) invocation.Method, invocation.Arguments);
             if (condition == null)
             {

@@ -42,10 +42,10 @@ namespace Seasar.Dao.Pager
 
         public IDataReader CreateDataReader(IDataSource dataSource, IDbCommand cmd)
         {
-            IPagerCondition condition = PagerContext.GetContext().PeekArgs();
+            var condition = PagerContext.GetContext().PeekArgs();
             if (condition != null)
             {
-                string baseSql = GetBaseSql(cmd);
+                var baseSql = GetBaseSql(cmd);
                 if (_logger.IsDebugEnabled)
                 {
                     _logger.Debug("S2Pager base SQL : " + baseSql);
@@ -71,8 +71,8 @@ namespace Seasar.Dao.Pager
 
         protected string MakeTopSql(string baseSql, int limit, int offset)
         {
-            StringBuilder buf = new StringBuilder(baseSql.Length + 64);
-            buf.AppendFormat("SELECT TOP {0} ", limit + offset);
+            var buf = new StringBuilder(baseSql.Length + 64);
+            buf.Append($"SELECT TOP {(limit + offset)} ");
             buf.Append(baseSql.Substring("SELECT ".Length));
             return buf.ToString();
         }

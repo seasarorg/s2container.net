@@ -1,4 +1,4 @@
-#region Copyright
+﻿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -43,7 +43,7 @@ namespace Seasar.Tests.Quill
         [Test]
         public void TestGetComponent_インターフェースにAspectが適用されていない場合()
         {
-            QuillContainer container = new QuillContainer();
+            var container = new QuillContainer();
 
             try
             {
@@ -59,9 +59,9 @@ namespace Seasar.Tests.Quill
         [Test]
         public void TestGetComponent_正常な場合()
         {
-            QuillContainer container = new QuillContainer();
-            QuillComponent component = container.GetComponent(typeof(IHoge2));
-            QuillComponent component2 = container.GetComponent(typeof(IHoge2));
+            var container = new QuillContainer();
+            var component = container.GetComponent(typeof(IHoge2));
+            var component2 = container.GetComponent(typeof(IHoge2));
             Assert.AreEqual(typeof(IHoge2), component.ReceiptType);
             Assert.AreEqual(component.GetComponentObject(typeof(IHoge2)),
                 component2.GetComponentObject(typeof(IHoge2)));
@@ -70,7 +70,7 @@ namespace Seasar.Tests.Quill
         [Test]
         public void TestGetComponent_Destroy済みの場合()
         {
-            QuillContainer container = new QuillContainer();
+            var container = new QuillContainer();
             container.GetComponent(typeof(IHoge2));
 
             container.Destroy();
@@ -89,9 +89,9 @@ namespace Seasar.Tests.Quill
         [Test]
         public void TestGetComponent_Interfaceで受け取る場合()
         {
-            QuillContainer container = new QuillContainer();
-            QuillComponent component1 = container.GetComponent(typeof(IHoge3), typeof(Hoge3));
-            QuillComponent component2 = container.GetComponent(typeof(IHoge3), typeof(Hoge3));
+            var container = new QuillContainer();
+            var component1 = container.GetComponent(typeof(IHoge3), typeof(Hoge3));
+            var component2 = container.GetComponent(typeof(IHoge3), typeof(Hoge3));
             Assert.AreEqual(component1.GetComponentObject(typeof(IHoge3)),
                 component2.GetComponentObject(typeof(IHoge3)));
         }
@@ -137,14 +137,14 @@ namespace Seasar.Tests.Quill
         [Test]
         public void TestDispose()
         {
-            QuillContainer container = new QuillContainer();
-            QuillComponent component = 
+            var container = new QuillContainer();
+            var component = 
                 container.GetComponent(typeof(NotDisposableClass));
-            QuillComponent component2 = container.GetComponent(typeof(DisposableClass));
+            var component2 = container.GetComponent(typeof(DisposableClass));
 
             container.Dispose();
 
-            DisposableClass disposable = 
+            var disposable = 
                 (DisposableClass) component2.GetComponentObject(typeof(DisposableClass));
 
             Assert.IsTrue(disposable.Disposed);
@@ -153,7 +153,7 @@ namespace Seasar.Tests.Quill
         [Test]
         public void TestDispose_Destroy済みの場合()
         {
-            QuillContainer container = new QuillContainer();
+            var container = new QuillContainer();
             container.GetComponent(typeof(DisposableClass));
 
             container.Destroy();
@@ -199,7 +199,7 @@ namespace Seasar.Tests.Quill
         public void TestDestroy()
         {
 
-            QuillContainer container = new QuillContainer();
+            var container = new QuillContainer();
             container.GetComponent(typeof(HogeDestroy));
 
             container.Destroy();
@@ -258,11 +258,11 @@ namespace Seasar.Tests.Quill
         [Test, Quill]
         public void TestRegistDataSource()
         {
-            QuillContainer container = new QuillContainer();
+            var container = new QuillContainer();
 
-            QuillComponent qc = container.GetComponent(typeof(SelectableDataSourceProxyWithDictionary));
+            var qc = container.GetComponent(typeof(SelectableDataSourceProxyWithDictionary));
             Assert.AreEqual(typeof(SelectableDataSourceProxyWithDictionary), qc.ComponentType, "1");
-            SelectableDataSourceProxyWithDictionary ds = (SelectableDataSourceProxyWithDictionary)qc.GetComponentObject(
+            var ds = (SelectableDataSourceProxyWithDictionary)qc.GetComponentObject(
                 typeof(SelectableDataSourceProxyWithDictionary));
             Assert.IsNotNull(ds, "2");
 #if NET_4_0
@@ -273,9 +273,9 @@ namespace Seasar.Tests.Quill
 #endregion
 #endif
 
-            foreach (string key in ds.DataSourceCollection.Keys)
+            foreach (var key in ds.DataSourceCollection.Keys)
             {
-                IDataSource part = ds.DataSourceCollection[key];
+                var part = ds.DataSourceCollection[key];
                 if (part is TxDataSource)
                 {
                     //  全てのTxDataSource系のデータソースに

@@ -1,4 +1,4 @@
-#region Copyright
+﻿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -30,10 +30,7 @@ namespace Seasar.Quill.Attrs
     {
         private readonly Type _transactionSettingType;
 
-        public virtual Type TransactionSettingType
-        {
-            get { return _transactionSettingType; }
-        }
+        public virtual Type TransactionSettingType => _transactionSettingType;
 
         /// <summary>
         /// デフォルトコンストラクタ
@@ -41,7 +38,7 @@ namespace Seasar.Quill.Attrs
         /// </summary>
         public TransactionAttribute()
         {
-            QuillConfig config = QuillConfig.GetInstance();
+            var config = QuillConfig.GetInstance();
             _transactionSettingType = config.GetTransationSettingType();
             SettingUtil.ValidateTransactionSettingType(_transactionSettingType);
         }

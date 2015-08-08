@@ -18,7 +18,6 @@
 
 using System;
 using Seasar.Extension.Tx;
-using Seasar.Extension.Tx.Impl;
 using Seasar.Extension.Unit;
 using Seasar.Quill.Dao;
 using Seasar.Quill.Database.DataSource.Impl;
@@ -32,7 +31,7 @@ using System.Collections;
 using System.IO;
 using MbUnit.Core.Invokers;
 using Seasar.Extension.ADO;
-using Seasar.Framework.Container.Factory;
+using Seasar.Framework.container.Factory;
 using Seasar.Framework.Util;
 using Seasar.Quill.Exception;
 #endregion
@@ -121,7 +120,7 @@ namespace Seasar.Quill.Unit
                 daoSetting.Setup(dataSource);
             }
 
-            if (_txTreatment != Tx.NotSupported)
+            if (txTreatment != Tx.NotSupported)
             {
                 var txSetting = (ITransactionSetting)ComponentUtil.GetComponent(
                     container, _transactionSettingType);
@@ -135,11 +134,8 @@ namespace Seasar.Quill.Unit
 
         protected override void TearDownDataSource(object fixtureInstance)
         {
-            var ds = (SelectableDataSourceProxyWithDictionary)_dataSource;
-            if (ds != null)
-            {
-                ds.SetDataSourceName(null);
-            }
+            var ds = (SelectableDataSourceProxyWithDictionary)dataSource;
+            ds?.SetDataSourceName(null);
             base.TearDownDataSource(fixtureInstance);
         }
 
@@ -158,7 +154,7 @@ namespace Seasar.Quill.Unit
 
         public override object Run(IRunInvoker invoker, object o, IList args)
         {
-            _method = _fixture.GetType().GetMethod(invoker.Name);
+            _method = _fixture.GetExType().GetMethod(invoker.Name);
             SetUpQuillContainer(o);
             SetUpContainer();
             try
@@ -338,7 +334,7 @@ namespace Seasar.Quill.Unit
             if (fixture != null)
             {
                 fixture.Injector = QuillInjector.GetInstance();
-                fixture.QContainer = fixture.Injector.Container;
+                fixture.QContainer = fixture.Injector.container;
                 //  MbUnitはstaticな変数が保持されてしまうのでここでリセット
                 QuillConfig.ConfigPath = null;
                 QuillConfig config = QuillConfig.GetInstance();

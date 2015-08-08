@@ -16,8 +16,6 @@
  */
 #endregion
 
-using System;
-
 namespace Seasar.Framework.Container.AutoRegister
 {
     /// <summary>
@@ -30,11 +28,11 @@ namespace Seasar.Framework.Container.AutoRegister
         /// </summary>
         public override void RegisterAll()
         {
-            IS2Container container = Container;
+            var container = Container;
 
-            for (int i = 0; i < container.ComponentDefSize; ++i)
+            for (var i = 0; i < container.ComponentDefSize; ++i)
             {
-                IComponentDef cd = container.GetComponentDef(i);
+                var cd = container.GetComponentDef(i);
 
                 if (IsAppliedComponent(cd))
                 {
@@ -56,19 +54,19 @@ namespace Seasar.Framework.Container.AutoRegister
         /// <returns>処理対象のコンポーネントかどうか</returns>
         protected bool IsAppliedComponent(IComponentDef cd)
         {
-            Type componentType = cd.ComponentType;
+            var componentType = cd.ComponentType;
 
             if (componentType == null)
             {
                 return false;
             }
 
-            string namespaceName = componentType.Namespace;
-            string shortClassName = componentType.Name;
+            var namespaceName = componentType.Namespace;
+            var shortClassName = componentType.Name;
 
-            for (int i = 0; i < ClassPatternSize; ++i)
+            for (var i = 0; i < ClassPatternSize; ++i)
             {
-                ClassPattern cp = GetClassPattern(i);
+                var cp = GetClassPattern(i);
 
                 if (IsIgnore(componentType))
                 {

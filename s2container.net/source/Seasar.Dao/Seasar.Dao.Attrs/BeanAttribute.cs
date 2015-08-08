@@ -23,16 +23,11 @@ namespace Seasar.Dao.Attrs
     [AttributeUsage(AttributeTargets.Interface)]
     public class BeanAttribute : Attribute
     {
-        private readonly Type _beanType;
-
         public BeanAttribute(Type beanType)
         {
-            _beanType = beanType;
+            BeanType = beanType;
         }
 
-        public Type BeanType
-        {
-            get { return _beanType; }
-        }
+        public Type BeanType { get; }
     }
 }

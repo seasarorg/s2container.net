@@ -26,26 +26,15 @@ namespace Seasar.Windows
     /// </summary>
     public class DefaultFormNaming : IAutoNaming
     {
-        private string _mainFormName;
-        private string _label = "MainForm";
-
         /// <summary>
         /// 起動WindowsForm
         /// </summary>
-        public string MainFormName
-        {
-            get { return _mainFormName; }
-            set { _mainFormName = value; }
-        }
+        public string MainFormName { get; set; }
 
         /// <summary>
         /// WindowsForm指定ラベル
         /// </summary>
-        public string Label
-        {
-            get { return _label; }
-            set { _label = value; }
-        }
+        public string Label { get; set; } = "MainForm";
 
         #region IAutoNaming Members
 
@@ -56,13 +45,10 @@ namespace Seasar.Windows
         /// <returns>コンポーネント名</returns>
         public string DefineName(Type type)
         {
-            string name = type.Name;
-            if (name == _mainFormName)
+            var name = type.Name;
+            if (name == MainFormName)
             {
-                if (!String.IsNullOrEmpty(_label))
-                    return _label;
-                else
-                    return name;
+                return !String.IsNullOrEmpty(Label) ? Label : name;
             }
             else
             {

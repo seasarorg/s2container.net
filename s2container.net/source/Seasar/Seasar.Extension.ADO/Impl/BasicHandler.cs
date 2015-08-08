@@ -26,9 +26,6 @@ namespace Seasar.Extension.ADO.Impl
 {
     public class BasicHandler
     {
-        private IDataSource _dataSource;
-        private string _sql;
-        private ICommandFactory _commandFactory = BasicCommandFactory.INSTANCE;
         private int _commandTimeout = -1;
 
         public BasicHandler()
@@ -47,43 +44,31 @@ namespace Seasar.Extension.ADO.Impl
             CommandFactory = commandFactory;
         }
 
-        public IDataSource DataSource
-        {
-            get { return _dataSource; }
-            set { _dataSource = value; }
-        }
+        public IDataSource DataSource { get; set; }
 
-        public string Sql
-        {
-            get { return _sql; }
-            set { _sql = value; }
-        }
+        public string Sql { get; set; }
 
-        public ICommandFactory CommandFactory
-        {
-            get { return _commandFactory; }
-            set { _commandFactory = value; }
-        }
+        public ICommandFactory CommandFactory { get; set; } = BasicCommandFactory.INSTANCE;
 
         protected IDbConnection Connection
         {
             get
             {
-                if (_dataSource == null)
+                if (DataSource == null)
                 {
                     throw new EmptyRuntimeException("_dataSource");
                 }
-                return DataSourceUtil.GetConnection(_dataSource);
+                return DataSourceUtil.GetConnection(DataSource);
             }
         }
 
         protected virtual IDbCommand Command(IDbConnection connection)
         {
-            if (_sql == null)
+            if (Sql == null)
             {
                 throw new EmptyRuntimeException("_sql");
             }
-            IDbCommand cmd = _commandFactory.CreateCommand(connection, _sql);
+            var cmd = CommandFactory.CreateCommand(connection, Sql);
             if (_commandTimeout > -1)
             {
                 cmd.CommandTimeout = _commandTimeout;
@@ -94,10 +79,10 @@ namespace Seasar.Extension.ADO.Impl
         protected virtual void BindArgs(IDbCommand command, object[] args, Type[] argTypes)
         {
             if (args == null) return;
-            string[] argNames = _commandFactory.GetArgNames(command, args);
-            for (int i = 0; i < args.Length; ++i)
+            var argNames = CommandFactory.GetArgNames(command, args);
+            for (var i = 0; i < args.Length; ++i)
             {
-                IValueType valueType = ValueTypes.GetValueType(argTypes[i]);
+                var valueType = ValueTypes.GetValueType(argTypes[i]);
                 try
                 {
                     valueType.BindValue(command, argNames[i], args[i]);
@@ -115,13 +100,13 @@ namespace Seasar.Extension.ADO.Impl
             {
                 return null;
             }
-            Type[] argTypes = new Type[args.Length];
-            for (int i = 0; i < args.Length; ++i)
+            var argTypes = new Type[args.Length];
+            for (var i = 0; i < args.Length; ++i)
             {
-                object arg = args[i];
+                var arg = args[i];
                 if (arg != null)
                 {
-                    argTypes[i] = arg.GetType();
+                    argTypes[i] = arg.GetExType();
                 }
             }
             return argTypes;
@@ -129,7 +114,7 @@ namespace Seasar.Extension.ADO.Impl
 
         protected virtual string GetCompleteSql(object[] args)
         {
-            return _commandFactory.GetCompleteSql(_sql, args);
+            return CommandFactory.GetCompleteSql(Sql, args);
         }
     }
 }

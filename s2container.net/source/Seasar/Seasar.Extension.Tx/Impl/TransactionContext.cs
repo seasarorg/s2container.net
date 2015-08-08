@@ -18,6 +18,7 @@
 
 using System;
 using System.Data;
+using System.Reflection;
 using System.Threading;
 using Seasar.Extension.ADO;
 using Seasar.Framework.Log;
@@ -27,11 +28,10 @@ namespace Seasar.Extension.Tx.Impl
 {
     public class TransactionContext : ITransactionContext, ITransactionStateHandler
     {
-        private static readonly Logger _logger = Logger.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly Logger _logger = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private readonly LocalDataStoreSlot _slot;
         private IDataSource _dataSource;
         private IsolationLevel _isolationLevel = IsolationLevel.ReadCommitted;
-        private ITransactionContext _parent;
         private IDbConnection _connection;
         private IDbTransaction _transaction;
 
@@ -75,9 +75,11 @@ namespace Seasar.Extension.Tx.Impl
 
         public ITransactionContext Create()
         {
-            TransactionContext ctx = new TransactionContext(_slot);
-            ctx._dataSource = _dataSource;
-            ctx._isolationLevel = _isolationLevel;
+            var ctx = new TransactionContext(_slot)
+            {
+                _dataSource = _dataSource,
+                _isolationLevel = _isolationLevel
+            };
             return ctx;
         }
 
@@ -87,23 +89,16 @@ namespace Seasar.Extension.Tx.Impl
             set { Thread.SetData(_slot, value); }
         }
 
-        public ITransactionContext Parent
-        {
-            get { return _parent; }
-            set { _parent = value; }
-        }
+        public ITransactionContext Parent { get; set; }
 
-        public IDbConnection Connection
-        {
-            get { return _connection; }
-        }
+        public IDbConnection Connection => _connection;
 
         public bool IsInTransaction
         {
             get
             {
-                TransactionContext cur = Current as TransactionContext;
-                return cur == null ? false : cur._transaction != null;
+                var cur = Current as TransactionContext;
+                return cur?._transaction != null;
             }
         }
         public IDataSource DataSouce
@@ -118,10 +113,7 @@ namespace Seasar.Extension.Tx.Impl
             set { _isolationLevel = value; }
         }
 
-        public IDbTransaction Transaction
-        {
-            get { return _transaction; }
-        }
+        public IDbTransaction Transaction => _transaction;
 
         #region IDisposable ƒƒ“ƒo
 

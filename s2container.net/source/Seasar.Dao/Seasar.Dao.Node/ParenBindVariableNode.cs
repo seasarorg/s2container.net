@@ -18,65 +18,68 @@
 
 using System;
 using System.Collections;
+using Seasar.Framework.Util;
 
 namespace Seasar.Dao.Node
 {
     public class ParenBindVariableNode : AbstractNode
     {
         private readonly string _bindName;
-        private readonly string _expression;
 
         public ParenBindVariableNode(string expression)
         {
             _bindName = expression;
-            _expression = "self.GetArg('" + expression + "')";
+            Expression = "self.GetArg('" + expression + "')";
         }
 
-        public string Expression
-        {
-            get { return _expression; }
-        }
+        public string Expression { get; }
 
         public override void Accept(ICommandContext ctx)
         {
-            object var = InvokeExpression(_expression, ctx);
+            var var = InvokeExpression(Expression, ctx);
             if (var != null)
             {
-                IList list = var as IList;
-                Array array = new object[list.Count];
-                list.CopyTo(array, 0);
-                BindArray(ctx, array);
+                var list = var as IList;
+                if (list != null)
+                {
+                    Array array = new object[list.Count];
+                    list.CopyTo(array, 0);
+                    _BindArray(ctx, array);
+                }
             }
             else if (var == null)
             {
                 return;
             }
-            else if (var.GetType().IsArray)
+            else if (var.GetExType().IsArray)
             {
-                BindArray(ctx, var);
+                _BindArray(ctx, var);
             }
             else
             {
-                ctx.AddSql(var, var.GetType(), _bindName);
+                ctx.AddSql(var, var.GetExType(), _bindName);
             }
         }
 
-        private void BindArray(ICommandContext ctx, object arrayArg)
+        private void _BindArray(ICommandContext ctx, object arrayArg)
         {
-            object[] array = arrayArg as object[];
-            int length = array.Length;
-            if (length == 0) return;
-            Type type = null;
-            for (int i = 0; i < length; ++i)
+            var array = arrayArg as object[];
+            if (array != null)
             {
-                object o = array[i];
-                if (o != null) type = o.GetType();
-            }
-            ctx.AddSql("(");
-            ctx.AddSql(array[0], type, _bindName + 1);
-            for (int i = 1; i < length; ++i)
-            {
-                ctx.AppendSql(array[i], type, _bindName + (i + 1));
+                var length = array.Length;
+                if (length == 0) return;
+                Type type = null;
+                for (var i = 0; i < length; ++i)
+                {
+                    var o = array[i];
+                    if (o != null) type = o.GetExType();
+                }
+                ctx.AddSql("(");
+                ctx.AddSql(array[0], type, _bindName + 1);
+                for (var i = 1; i < length; ++i)
+                {
+                    ctx.AppendSql(array[i], type, _bindName + (i + 1));
+                }
             }
             ctx.AddSql(")");
         }

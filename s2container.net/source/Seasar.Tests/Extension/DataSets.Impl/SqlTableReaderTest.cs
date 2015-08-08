@@ -38,9 +38,9 @@ namespace Seasar.Tests.Extension.DataSets.Impl
         [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
         public void Read()
         {
-            SqlTableReader reader = new SqlTableReader(DataSource);
+            var reader = new SqlTableReader(DataSource);
             reader.SetTable("emp");
-            DataTable ret = reader.Read();
+            var ret = reader.Read();
             Trace.WriteLine(ToStringUtil.ToString(ret));
             Assert.AreEqual(14, ret.Rows.Count, "1");
             Assert.AreEqual(DataRowState.Unchanged, ret.Rows[0].RowState, "2");
@@ -54,9 +54,9 @@ namespace Seasar.Tests.Extension.DataSets.Impl
         [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
         public void Read2()
         {
-            SqlTableReader reader = new SqlTableReader(DataSource);
+            var reader = new SqlTableReader(DataSource);
             reader.SetTable("emp", "empno = 7788");
-            DataTable ret = reader.Read();
+            var ret = reader.Read();
             Trace.WriteLine(ToStringUtil.ToString(ret));
             Assert.AreEqual(1, ret.Rows.Count, "1");
         }
@@ -69,9 +69,9 @@ namespace Seasar.Tests.Extension.DataSets.Impl
         [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
         public void Read3()
         {
-            SqlTableReader reader = new SqlTableReader(DataSource);
+            var reader = new SqlTableReader(DataSource);
             reader.SetSql("select * from emp", "emp");
-            DataTable ret = reader.Read();
+            var ret = reader.Read();
             Trace.WriteLine(ToStringUtil.ToString(ret));
             Assert.AreEqual(14, ret.Rows.Count, "1");
         }

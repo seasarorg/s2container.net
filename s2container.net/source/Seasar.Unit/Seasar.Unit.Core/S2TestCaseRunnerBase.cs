@@ -30,20 +30,20 @@ namespace Seasar.Unit.Core
     /// </summary>
     /// <typeparam name="T">テストフレームワーク依存情報</typeparam>
     /// <param name="argument"></param>
-    public delegate void DelegateS2TestMethod<T>(T argument);
+    public delegate void DelegateS2TestMethod<in T>(T argument);
 
     /// <summary>
     /// テスト実行基底クラス
     /// </summary>
     public class S2TestCaseRunnerBase
     {
-        protected readonly Seasar.Extension.Unit.Tx _txTreatment;
-        protected ITransactionContext _transactionContext;
-        protected IDataSource _dataSource;
+        protected Extension.Unit.Tx txTreatment;
+        protected ITransactionContext transactionContext;
+        protected IDataSource dataSource;
 
-        public S2TestCaseRunnerBase(Seasar.Extension.Unit.Tx txTreatment)
+        public S2TestCaseRunnerBase(Extension.Unit.Tx txTreatment)
         {
-            _txTreatment = txTreatment;
+            this.txTreatment = txTreatment;
         }
 
         public void SetUp<T>(object fixtureInstance, DelegateS2TestMethod<T> invoker, T argument)
@@ -61,7 +61,7 @@ namespace Seasar.Unit.Core
                 invoker(argument);
                 EndTransaction();
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 RollbackTransaction();
                 throw;
@@ -90,7 +90,7 @@ namespace Seasar.Unit.Core
             }
             finally
             {
-                for (int i = 0; i < 3; ++i)
+                for (var i = 0; i < 3; ++i)
                 {
                     GC.WaitForPendingFinalizers();
                     GC.Collect();
@@ -132,31 +132,28 @@ namespace Seasar.Unit.Core
 
         protected virtual void SetUpDataSource(object fixtureInstance)
         {
-            _dataSource = GetDataSource(fixtureInstance);
-            if (_dataSource != null &&
-                typeof(S2TestCaseBase).IsAssignableFrom(fixtureInstance.GetType()))
+            dataSource = GetDataSource(fixtureInstance);
+            if (dataSource != null &&
+                typeof(S2TestCaseBase).IsAssignableFrom(fixtureInstance.GetExType()))
             {
-                ((S2TestCaseBase)fixtureInstance).DataSource = _dataSource;
+                ((S2TestCaseBase)fixtureInstance).DataSource = dataSource;
             }
         }
 
         protected virtual void TearDownDataSource(object fixtureInstance)
         {
-            if (_dataSource == null)
+            if (dataSource == null)
             {
                 return;
             }
 
-            var txDataSource = _dataSource as TxDataSource;
-            if (txDataSource != null)
+            var txDataSource = dataSource as TxDataSource;
+            if (txDataSource?.Context.Connection != null)
             {
-                if (txDataSource.Context.Connection != null)
-                {
-                    txDataSource.CloseConnection(txDataSource.Context.Connection);
-                }
+                txDataSource.CloseConnection(txDataSource.Context.Connection);
             }
 
-            if (typeof(S2TestCaseBase).IsAssignableFrom(fixtureInstance.GetType()))
+            if (typeof(S2TestCaseBase).IsAssignableFrom(fixtureInstance.GetExType()))
             {
                 var fixture = (S2TestCaseBase)fixtureInstance;
                 if (fixture.HasConnection)
@@ -167,48 +164,45 @@ namespace Seasar.Unit.Core
                 fixture.DataSource = null;
             }
 
-            if (_dataSource != null && _transactionContext != null)
+            if (dataSource != null && transactionContext != null)
             {
-                _dataSource.CloseConnection(_transactionContext.Connection);
+                dataSource.CloseConnection(transactionContext.Connection);
             }
-            _transactionContext = null;
-            _dataSource = null;
+            transactionContext = null;
+            dataSource = null;
         }
 
         protected virtual void BeginTransaction()
         {
-            if (_txTreatment != Seasar.Extension.Unit.Tx.NotSupported)
+            if (txTreatment != Extension.Unit.Tx.NotSupported)
             {
-                _transactionContext = GetTransactionContext();
-                if (_transactionContext == null)
+                transactionContext = GetTransactionContext();
+                if (transactionContext == null)
                 {
                     throw new ArgumentException();
                 }
-                _transactionContext = _transactionContext.Create();
-                _transactionContext.Current = _transactionContext;
-                _transactionContext.Begin();
+                transactionContext = transactionContext.Create();
+                transactionContext.Current = transactionContext;
+                transactionContext.Begin();
             }
         }
 
         protected virtual void EndTransaction()
         {
-            if (_txTreatment == Seasar.Extension.Unit.Tx.Commit)
+            if (txTreatment == Extension.Unit.Tx.Commit)
             {
-                _transactionContext.Commit();
+                transactionContext.Commit();
             }
 
-            if (_txTreatment == Seasar.Extension.Unit.Tx.Rollback)
+            if (txTreatment == Extension.Unit.Tx.Rollback)
             {
-                _transactionContext.Rollback();
+                transactionContext.Rollback();
             }
         }
 
         protected virtual void RollbackTransaction()
         {
-            if (_transactionContext != null)
-            {
-                _transactionContext.Rollback();
-            }
+            transactionContext?.Rollback();
         }
     }
 }

@@ -30,7 +30,7 @@ namespace Seasar.Framework.Util
         {
             if (o == null || o == DBNull.Value)
             {
-                throw new ArgumentNullException("o");
+                throw new ArgumentNullException(nameof(o));
             }
             else if (o is bool)
             {
@@ -42,16 +42,16 @@ namespace Seasar.Framework.Util
             }
             else if (o is string)
             {
-                string s = (string) o;
-                if (string.Compare(bool.TrueString, s, true) == 0)
+                var s = (string) o;
+                if (string.Compare(bool.TrueString, s, StringComparison.OrdinalIgnoreCase) == 0)
                 {
                     return true;
                 }
-                else if (string.Compare(bool.FalseString, s, true) == 0)
+                else if (string.Compare(bool.FalseString, s, StringComparison.OrdinalIgnoreCase) == 0)
                 {
                     return false;
                 }
-                else if (s.Equals("0"))
+                else if ("0".Equals(s))
                 {
                     return false;
                 }

@@ -26,23 +26,18 @@ namespace Seasar.Extension.Tx
     /// </summary>
     public class TransactionInterceptor : AbstractInterceptor
     {
-        private readonly ITransactionHandler transactionhandler;
-        private ITransactionStateHandler tansactionstatehandler;
+        private readonly ITransactionHandler _transactionhandler;
 
         public TransactionInterceptor(ITransactionHandler transactionhandler)
         {
-            this.transactionhandler = transactionhandler;
+            _transactionhandler = transactionhandler;
         }
 
         public override object Invoke(IMethodInvocation invocation)
         {
-            return transactionhandler.Handle(invocation, TransactionStateHandler.IsInTransaction);
+            return _transactionhandler.Handle(invocation, TransactionStateHandler.IsInTransaction);
         }
 
-        public ITransactionStateHandler TransactionStateHandler
-        {
-            get { return tansactionstatehandler; }
-            set { tansactionstatehandler = value; }
-        }
+        public ITransactionStateHandler TransactionStateHandler { get; set; }
     }
 }

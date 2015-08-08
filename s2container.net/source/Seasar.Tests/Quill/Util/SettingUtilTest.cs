@@ -36,7 +36,7 @@ namespace Seasar.Tests.Quill.Util
         public void TestGetAssemblyDirectoryPath()
         {
             //  QuillConfigTestで使っているファイルパスの取得
-            string path = SettingUtil.GetAssemblyDirectoryPath() + 
+            var path = SettingUtil.GetAssemblyDirectoryPath() + 
                 "Quill\\ResourcesForQuillConfig\\QuillConfigTest_Empty.config";
             Trace.WriteLine(path);
             Assert.IsTrue(File.Exists(path), "正しくパスが取得できていればtrueが返ってくるはず");
@@ -48,7 +48,7 @@ namespace Seasar.Tests.Quill.Util
         [Test]
         public void TestGetDefaultQuillConfigPath()
         {
-            string path = SettingUtil.GetDefaultQuillConfigPath();
+            var path = SettingUtil.GetDefaultQuillConfigPath();
             Trace.WriteLine(path);
             Assert.IsTrue(File.Exists(path), "テスト用のQuill設定ファイルを見つけられるか:" + path);
         }

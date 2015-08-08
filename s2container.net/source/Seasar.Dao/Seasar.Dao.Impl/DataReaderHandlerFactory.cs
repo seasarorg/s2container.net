@@ -137,25 +137,13 @@ namespace Seasar.Dao.Impl
             return new BeanGenericListMetaDataDataReaderHandler(bmd, CreateRowCreator(), CreateRelationRowCreator());
         }
 
-        protected virtual ObjectDataReaderHandler CreateObjectDataReaderHandler()
-        {
-            return new ObjectDataReaderHandler();
-        }
+        protected virtual ObjectDataReaderHandler CreateObjectDataReaderHandler() => new ObjectDataReaderHandler();
 
-        protected virtual IRowCreator CreateRowCreator()
-        {// [DAONET-56] (2007/08/29)
-            return new RowCreatorImpl();
-        }
+        protected virtual IRowCreator CreateRowCreator() => new RowCreatorImpl();
 
-        protected virtual IRelationRowCreator CreateRelationRowCreator()
-        {// [DAONET-56] (2007/08/29)
-            return new RelationRowCreatorImpl();
-        }
+        protected virtual IRelationRowCreator CreateRelationRowCreator() => new RelationRowCreatorImpl();
 
-        protected virtual bool IsBeanTypeAssignable(Type beanType, Type type)
-        {
-            return beanType.IsAssignableFrom(type) ||
-                type.IsAssignableFrom(beanType);
-        }
+        protected virtual bool IsBeanTypeAssignable(Type beanType, Type type) => beanType.IsAssignableFrom(type) ||
+                                                                                 type.IsAssignableFrom(beanType);
     }
 }

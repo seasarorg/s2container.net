@@ -16,7 +16,6 @@
  */
 #endregion
 
-using System;
 using System.Reflection;
 using Seasar.Framework.Aop;
 using Seasar.Framework.Aop.Interceptors;
@@ -35,14 +34,14 @@ namespace Seasar.Dao.Interceptors
 
         public override object Invoke(IMethodInvocation invocation)
         {
-            MethodBase method = invocation.Method;
+            var method = invocation.Method;
             if (!method.IsAbstract) return invocation.Proceed();
-            Type targetType = GetComponentDef(invocation).ComponentType;
-            IDaoMetaData dmd = _daoMetaDataFactory.GetDaoMetaData(targetType);
-            ISqlCommand cmd = dmd.GetSqlCommand(method.Name);
-            object ret = cmd.Execute(invocation.Arguments);
+            var targetType = GetComponentDef(invocation).ComponentType;
+            var dmd = _daoMetaDataFactory.GetDaoMetaData(targetType);
+            var cmd = dmd.GetSqlCommand(method.Name);
+            var ret = cmd.Execute(invocation.Arguments);
 
-            Type retType = ((MethodInfo) method).ReturnType;
+            var retType = ((MethodInfo) method).ReturnType;
             ret = ConversionUtil.ConvertTargetType(ret, retType);
             return ret;
         }

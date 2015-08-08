@@ -34,7 +34,7 @@ namespace Seasar.Tests.Dao.Dbms
         [Test, S2]
         public void TestCreateAutoSelectList()
         {
-            IDataSource dataSource = (IDataSource) GetComponent(typeof(IDataSource));
+            var dataSource = (IDataSource) GetComponent(typeof(IDataSource));
             Assert.IsNotNull(DbmsManager.GetDbms(dataSource), "1");
         }
 

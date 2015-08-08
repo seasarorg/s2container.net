@@ -39,11 +39,11 @@ namespace Seasar.Tests.Dao.Impl
         public void TestExecuteTx()
         {
             const int TEST_EMP_NO = 7369;
-            IDaoMetaData dmd = CreateDaoMetaData(typeof(IEmployeeAutoDynamicTimestampDao));
-            ISqlCommand select = dmd.GetSqlCommand("GetEmployee");
-            EmployeeAutoDynamicTimestamp before = (EmployeeAutoDynamicTimestamp)select.Execute(new object[] { TEST_EMP_NO });
+            var dmd = CreateDaoMetaData(typeof(IEmployeeAutoDynamicTimestampDao));
+            var select = dmd.GetSqlCommand("GetEmployee");
+            var before = (EmployeeAutoDynamicTimestamp)select.Execute(new object[] { TEST_EMP_NO });
 
-            EmployeeAutoDynamicTimestamp e = new EmployeeAutoDynamicTimestamp();
+            var e = new EmployeeAutoDynamicTimestamp();
             e.Empno = before.Empno;
             e.Ename = "HOGE";
             e.Hiredate = null;
@@ -51,11 +51,11 @@ namespace Seasar.Tests.Dao.Impl
             e.Sal = null;
             e.Timestamp = before.Timestamp;
             
-            ISqlCommand unlessNull = dmd.GetSqlCommand("UpdateUnlessNull");
+            var unlessNull = dmd.GetSqlCommand("UpdateUnlessNull");
             Assert.IsTrue(unlessNull is UpdateAutoDynamicCommand);
             unlessNull.Execute(new object[] { e });
 
-            EmployeeAutoDynamicTimestamp after = (EmployeeAutoDynamicTimestamp)select.Execute(new object[] { TEST_EMP_NO });
+            var after = (EmployeeAutoDynamicTimestamp)select.Execute(new object[] { TEST_EMP_NO });
             Console.WriteLine(after.ToString());
             Assert.AreEqual(e.Ename, after.Ename);
             Assert.AreEqual(before.Hiredate, after.Hiredate);
@@ -68,19 +68,19 @@ namespace Seasar.Tests.Dao.Impl
         public void TestExecuteOnePropertyTx()
         {
             const int TEST_EMP_NO = 7369;
-            IDaoMetaData dmd = CreateDaoMetaData(typeof(IEmployeeAutoDynamicTimestampDao));
-            ISqlCommand select = dmd.GetSqlCommand("GetEmployee");
-            EmployeeAutoDynamicTimestamp before = (EmployeeAutoDynamicTimestamp)select.Execute(new object[] { TEST_EMP_NO });
+            var dmd = CreateDaoMetaData(typeof(IEmployeeAutoDynamicTimestampDao));
+            var select = dmd.GetSqlCommand("GetEmployee");
+            var before = (EmployeeAutoDynamicTimestamp)select.Execute(new object[] { TEST_EMP_NO });
 
-            EmployeeAutoDynamicTimestamp e = new EmployeeAutoDynamicTimestamp();
+            var e = new EmployeeAutoDynamicTimestamp();
             e.Empno = before.Empno;
             e.Timestamp = before.Timestamp;
 
-            ISqlCommand unlessNull = dmd.GetSqlCommand("UpdateUnlessNull");
+            var unlessNull = dmd.GetSqlCommand("UpdateUnlessNull");
             Assert.IsTrue(unlessNull is UpdateAutoDynamicCommand);
             unlessNull.Execute(new object[] { e });
 
-            EmployeeAutoDynamicTimestamp after = (EmployeeAutoDynamicTimestamp)select.Execute(new object[] { TEST_EMP_NO });
+            var after = (EmployeeAutoDynamicTimestamp)select.Execute(new object[] { TEST_EMP_NO });
             Console.WriteLine(after.ToString());
             Assert.AreEqual(before.Hiredate, after.Hiredate);
             Assert.AreEqual(before.Mgr, after.Mgr);
@@ -91,21 +91,21 @@ namespace Seasar.Tests.Dao.Impl
         public void TestExecuteNullVersionNoTx()
         {
             const int TEST_DEPT_NO = 10;
-            IDaoMetaData dmd = CreateDaoMetaData(typeof(IDepartmentAutoDynamicDao));
-            ISqlCommand select = dmd.GetSqlCommand("GetDepartment");
-            Department before = (Department)select.Execute(new object[] { TEST_DEPT_NO });
+            var dmd = CreateDaoMetaData(typeof(IDepartmentAutoDynamicDao));
+            var select = dmd.GetSqlCommand("GetDepartment");
+            var before = (Department)select.Execute(new object[] { TEST_DEPT_NO });
 
-            Department e = new Department();
+            var e = new Department();
             e.Deptno = before.Deptno;
             e.Dname = "HOGE";
             e.Dummy = null;
             e.VersionNo = before.VersionNo;
 
-            ISqlCommand unlessNull = dmd.GetSqlCommand("UpdateUnlessNull");
+            var unlessNull = dmd.GetSqlCommand("UpdateUnlessNull");
             Assert.IsTrue(unlessNull is UpdateAutoDynamicCommand);
             unlessNull.Execute(new object[] { e });
 
-            Department after = (Department)select.Execute(new object[] { TEST_DEPT_NO });
+            var after = (Department)select.Execute(new object[] { TEST_DEPT_NO });
             Console.WriteLine(after.ToString());
             Assert.AreEqual(e.Dname, after.Dname);
             Assert.AreEqual(before.Dummy, after.Dummy);
@@ -116,14 +116,14 @@ namespace Seasar.Tests.Dao.Impl
         public void TestExecuteAllNulTx()
         {
             const int TEST_EMP_NO = 7369;
-            IDaoMetaData dmd = CreateDaoMetaData(typeof(IEmployeeAutoDynamicDao));
-            ISqlCommand select = dmd.GetSqlCommand("GetEmployee");
-            EmployeeAutoDynamic before = (EmployeeAutoDynamic)select.Execute(new object[] { TEST_EMP_NO });
+            var dmd = CreateDaoMetaData(typeof(IEmployeeAutoDynamicDao));
+            var select = dmd.GetSqlCommand("GetEmployee");
+            var before = (EmployeeAutoDynamic)select.Execute(new object[] { TEST_EMP_NO });
 
-            EmployeeAutoDynamic e = new EmployeeAutoDynamic();
+            var e = new EmployeeAutoDynamic();
             e.Empno = before.Empno;
 
-            ISqlCommand unlessNull = dmd.GetSqlCommand("UpdateUnlessNull");
+            var unlessNull = dmd.GetSqlCommand("UpdateUnlessNull");
             Assert.IsTrue(unlessNull is UpdateAutoDynamicCommand);
 
             try

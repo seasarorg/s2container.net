@@ -34,21 +34,13 @@ namespace Seasar.Dao.Impl
 {
     public abstract class AbstractAutoHandler : BasicHandler, IUpdateHandler
     {
-        private static readonly Logger _logger = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private readonly IBeanMetaData _beanMetaData;
-        private object[] _bindVariables;
-        private Type[] _bindVariableTypes;
-        private DateTime _timestamp = DateTime.MinValue;
-        private Int32 _versionNo = Int32.MinValue;
-        private IPropertyType[] _propertyTypes;
-
-        public AbstractAutoHandler(IDataSource dataSource, ICommandFactory commandFactory,
+        protected AbstractAutoHandler(IDataSource dataSource, ICommandFactory commandFactory,
             IBeanMetaData beanMetaData, IPropertyType[] propertyTypes)
         {
             DataSource = dataSource;
             CommandFactory = commandFactory;
-            _beanMetaData = beanMetaData;
-            _propertyTypes = propertyTypes;
+            BeanMetaData = beanMetaData;
+            PropertyTypes = propertyTypes;
         }
 
         public new IDataSource DataSource
@@ -67,60 +59,41 @@ namespace Seasar.Dao.Impl
             }
         }
 
-        public IBeanMetaData BeanMetaData
-        {
-            get { return _beanMetaData; }
-        }
+        public IBeanMetaData BeanMetaData { get; }
 
-        protected static Logger Logger
-        {
-            get { return _logger; }
-        }
+        protected static Logger Logger { get; } = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        protected object[] BindVariables
-        {
-            get { return _bindVariables; }
-            set { _bindVariables = value; }
-        }
+        protected object[] BindVariables { get; set; }
 
-        protected Type[] BindVariableTypes
-        {
-            get { return _bindVariableTypes; }
-            set { _bindVariableTypes = value; }
-        }
+        protected Type[] BindVariableTypes { get; set; }
 
-        protected DateTime Timestamp
-        {
-            get { return _timestamp; }
-            set { _timestamp = value; }
-        }
+        protected DateTime Timestamp { get; set; } = DateTime.MinValue;
 
-        protected int VersionNo
-        {
-            get { return _versionNo; }
-            set { _versionNo = value; }
-        }
+        protected int VersionNo { get; set; } = Int32.MinValue;
 
-        protected IPropertyType[] PropertyTypes
-        {
-            get { return _propertyTypes; }
-            set { _propertyTypes = value; }
-        }
+        protected IPropertyType[] PropertyTypes { get; set; }
 
         #region IUpdateHandler ÉÅÉìÉo
 
         public int Execute(object[] args)
         {
-            IDbConnection connection = Connection;
+            var connection = Connection;
             try
             {
                 return Execute(connection, args[0]);
             }
             finally
             {
-                ConnectionHolderDataSource holderDataSoure = DataSource as ConnectionHolderDataSource;
-                holderDataSoure.ReleaseConnection();
-                holderDataSoure.CloseConnection(connection);
+                var holderDataSoure = DataSource as ConnectionHolderDataSource;
+                if (holderDataSoure != null)
+                {
+                    holderDataSoure.ReleaseConnection();
+                    holderDataSoure.CloseConnection(connection);
+                }
+                else
+                {
+                    throw new NullReferenceException("datasouce is null");
+                }
             }
         }
 
@@ -140,12 +113,12 @@ namespace Seasar.Dao.Impl
         {
             PreUpdateBean(bean);
             SetupBindVariables(bean);
-            if (_logger.IsDebugEnabled) _logger.Debug(GetCompleteSql(_bindVariables));
-            IDbCommand cmd = Command(connection);
-            int ret = -1;
+            if (Logger.IsDebugEnabled) Logger.Debug(GetCompleteSql(BindVariables));
+            var cmd = Command(connection);
+            var ret = -1;
             try
             {
-                BindArgs(cmd, _bindVariables, _bindVariableTypes);
+                BindArgs(cmd, BindVariables, BindVariableTypes);
                 ret = CommandFactory.ExecuteNonQuery(DataSource, cmd);
             }
             finally
@@ -168,24 +141,25 @@ namespace Seasar.Dao.Impl
 
         protected void SetupInsertBindVariables(object bean)
         {
-            ArrayList varList = new ArrayList();
-            ArrayList varTypeList = new ArrayList();
-            for (int i = 0; i < _propertyTypes.Length; ++i)
+            var varList = new ArrayList();
+            var varTypeList = new ArrayList();
+            for (var i = 0; i < PropertyTypes.Length; ++i)
             {
-                IPropertyType pt = _propertyTypes[i];
-                if (string.Compare(pt.PropertyName, BeanMetaData.TimestampPropertyName, true) == 0)
+                var pt = PropertyTypes[i];
+                if (String.Compare(pt.PropertyName, BeanMetaData.TimestampPropertyName, StringComparison.OrdinalIgnoreCase) == 0)
                 {
                     Timestamp = DateTime.Now;
                     SetupTimestampVariableList(varList, pt);
                 }
-                else if (string.Compare(pt.PropertyName, BeanMetaData.VersionNoPropertyName, true) == 0)
+                else if (String.Compare(pt.PropertyName, BeanMetaData.VersionNoPropertyName, StringComparison.OrdinalIgnoreCase) == 0)
                 {
                     VersionNo = 0;
                     varList.Add(ConversionUtil.ConvertTargetType(VersionNo, pt.PropertyInfo.PropertyType));
                 }
                 else
                 {
-                    varList.Add(pt.PropertyInfo.GetValue(bean, null));
+//                    varList.Add(pt.PropertyInfo.GetValue(bean, null));
+                    varList.Add(PropertyUtil.GetValue(bean, bean.GetExType(), pt.PropertyInfo.Name));
                 }
                 varTypeList.Add(pt.PropertyInfo.PropertyType);
             }
@@ -195,23 +169,24 @@ namespace Seasar.Dao.Impl
 
         protected void SetupUpdateBindVariables(object bean)
         {
-            ArrayList varList = new ArrayList();
-            ArrayList varTypeList = new ArrayList();
-            for (int i = 0; i < _propertyTypes.Length; ++i)
+            var varList = new ArrayList();
+            var varTypeList = new ArrayList();
+            for (var i = 0; i < PropertyTypes.Length; ++i)
             {
-                IPropertyType pt = _propertyTypes[i];
-                if (string.Compare(pt.PropertyName, BeanMetaData.TimestampPropertyName, true) == 0)
+                var pt = PropertyTypes[i];
+                if (String.Compare(pt.PropertyName, BeanMetaData.TimestampPropertyName, StringComparison.OrdinalIgnoreCase) == 0)
                 {
                     Timestamp = DateTime.Now;
                     SetupTimestampVariableList(varList, pt);
                 }
-                else if (string.Compare(pt.PropertyName, BeanMetaData.VersionNoPropertyName, true) == 0)
+                else if (String.Compare(pt.PropertyName, BeanMetaData.VersionNoPropertyName, StringComparison.OrdinalIgnoreCase) == 0)
                 {
                     SetupVersionNoValiableList(varList, pt, bean);
                 }
                 else
                 {
-                    varList.Add(pt.PropertyInfo.GetValue(bean, null));
+//                    varList.Add(pt.PropertyInfo.GetValue(bean, null));
+                    varList.Add(PropertyUtil.GetValue(bean, bean.GetExType(), pt.PropertyInfo.Name));
                 }
                 varTypeList.Add(pt.PropertyInfo.PropertyType);
             }
@@ -222,8 +197,8 @@ namespace Seasar.Dao.Impl
 
         protected void SetupDeleteBindVariables(object bean)
         {
-            ArrayList varList = new ArrayList();
-            ArrayList varTypeList = new ArrayList();
+            var varList = new ArrayList();
+            var varTypeList = new ArrayList();
             AddAutoUpdateWhereBindVariables(varList, varTypeList, bean);
             BindVariables = varList.ToArray();
             BindVariableTypes = (Type[]) varTypeList.ToArray(typeof(Type));
@@ -232,27 +207,30 @@ namespace Seasar.Dao.Impl
         protected void AddAutoUpdateWhereBindVariables(ArrayList varList, ArrayList varTypeList,
             object bean)
         {
-            IBeanMetaData bmd = BeanMetaData;
-            for (int i = 0; i < bmd.PrimaryKeySize; ++i)
+            var bmd = BeanMetaData;
+            for (var i = 0; i < bmd.PrimaryKeySize; ++i)
             {
-                IPropertyType pt = bmd.GetPropertyTypeByColumnName(bmd.GetPrimaryKey(i));
-                PropertyInfo pi = pt.PropertyInfo;
-                varList.Add(pi.GetValue(bean, null));
+                var pt = bmd.GetPropertyTypeByColumnName(bmd.GetPrimaryKey(i));
+                var pi = pt.PropertyInfo;
+//                varList.Add(pi.GetValue(bean, null));
+                varList.Add(PropertyUtil.GetValue(bean, bean.GetExType(), pi.Name));
                 varTypeList.Add(pi.PropertyType);
             }
             if (bmd.HasVersionNoPropertyType)
             {
-                IPropertyType pt = bmd.VersionNoPropertyType;
-                PropertyInfo pi = pt.PropertyInfo;
+                var pt = bmd.VersionNoPropertyType;
+                var pi = pt.PropertyInfo;
                 Logger.Debug(pi.Name);
-                varList.Add(pi.GetValue(bean, null));
+//                varList.Add(pi.GetValue(bean, null));
+                varList.Add(PropertyUtil.GetValue(bean, bean.GetExType(), pi.Name));
                 varTypeList.Add(pi.PropertyType);
             }
             if (bmd.HasTimestampPropertyType)
             {
-                IPropertyType pt = bmd.TimestampPropertyType;
-                PropertyInfo pi = pt.PropertyInfo;
-                varList.Add(pi.GetValue(bean, null));
+                var pt = bmd.TimestampPropertyType;
+                var pi = pt.PropertyInfo;
+//                varList.Add(pi.GetValue(bean, null));
+                varList.Add(PropertyUtil.GetValue(bean, bean.GetExType(), pi.Name));
                 varTypeList.Add(pi.PropertyType);
             }
         }
@@ -261,7 +239,7 @@ namespace Seasar.Dao.Impl
         {
             if (Timestamp != DateTime.MinValue)
             {
-                PropertyInfo pi = BeanMetaData.TimestampPropertyType.PropertyInfo;
+                var pi = BeanMetaData.TimestampPropertyType.PropertyInfo;
                 SetupTimestampPropertyInfo(pi, bean);
             }
         }
@@ -270,7 +248,7 @@ namespace Seasar.Dao.Impl
         {
             if (VersionNo != Int32.MinValue)
             {
-                PropertyInfo pi = BeanMetaData.VersionNoPropertyType.PropertyInfo;
+                var pi = BeanMetaData.VersionNoPropertyType.PropertyInfo;
                 SetupVersionNoPropertyInfo(pi, bean);
             }
         }
@@ -307,7 +285,8 @@ namespace Seasar.Dao.Impl
         {
             if (pi.PropertyType == typeof(DateTime))
             {
-                pi.SetValue(bean, Timestamp, null);
+//                pi.SetValue(bean, Timestamp, null);
+                PropertyUtil.SetValue(bean, bean.GetExType(), pi.Name, pi.PropertyType, Timestamp);
             }
 #if NHIBERNATE_NULLABLES
             else if (pi.PropertyType == typeof(Nullables.NullableDateTime))
@@ -318,12 +297,14 @@ namespace Seasar.Dao.Impl
 #if !NET_1_1
             else if (pi.PropertyType == typeof(DateTime?))
             {
-                pi.SetValue(bean, new DateTime?(Timestamp), null);
+//                pi.SetValue(bean, Timestamp, null);
+                PropertyUtil.SetValue(bean, bean.GetExType(), pi.Name, pi.PropertyType,Timestamp);
             }
 #endif
             else if (pi.PropertyType == typeof(SqlDateTime))
             {
-                pi.SetValue(bean, new SqlDateTime(Timestamp), null);
+//              pi.SetValue(bean, new SqlDateTime(Timestamp), null);
+                PropertyUtil.SetValue(bean, bean.GetExType(), pi.Name, pi.PropertyType, new SqlDateTime(Timestamp));
             }
             else
             {
@@ -333,7 +314,8 @@ namespace Seasar.Dao.Impl
 
         protected void SetupVersionNoValiableList(IList varList, IPropertyType pt, object bean)
         {
-            object value = pt.PropertyInfo.GetValue(bean, null);
+//            object value = pt.PropertyInfo.GetValue(bean, null);
+            var value = PropertyUtil.GetValue(bean, bean.GetExType(), pt.PropertyInfo.Name);
 #if NHIBERNATE_NULLABLES
             if (value is INullableType)
             {
@@ -348,14 +330,15 @@ namespace Seasar.Dao.Impl
                 }
             }
 #endif
-            int intValue = Convert.ToInt32(value) + 1;
+            var intValue = Convert.ToInt32(value) + 1;
             VersionNo = intValue;
             varList.Add(ConversionUtil.ConvertTargetType(VersionNo, pt.PropertyInfo.PropertyType));
         }
 
         protected void SetupVersionNoPropertyInfo(PropertyInfo pi, object bean)
         {
-            pi.SetValue(bean, ConversionUtil.ConvertTargetType(VersionNo, pi.PropertyType), null);
+//            pi.SetValue(bean, ConversionUtil.ConvertTargetType(VersionNo, pi.PropertyType), null);
+            PropertyUtil.SetValue(bean, bean.GetExType(), pi.Name, pi.PropertyType, ConversionUtil.ConvertTargetType(VersionNo, pi.PropertyType));
         }
     }
 }

@@ -22,7 +22,7 @@ namespace Seasar.Dao.Node
     {
         public override void Accept(ICommandContext ctx)
         {
-            for (int i = 0; i < ChildSize; ++i)
+            for (var i = 0; i < ChildSize; ++i)
             {
                 GetChild(i).Accept(ctx);
             }

@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -23,43 +23,34 @@ using Seasar.Framework.Util;
 namespace Seasar.Framework.Exceptions
 {
     /// <summary>
-    /// ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡‚ÌÀs—áŠO‚Å‚·B
+    /// ï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½Ìï¿½ï¿½sï¿½ï¿½ï¿½ï¿½Oï¿½Å‚ï¿½ï¿½B
     /// </summary>
     [Serializable]
     public class NoSuchConstructorRuntimeException : SRuntimeException
     {
-        private readonly Type _targetType;
-        private readonly Type[] _argTypes;
-
         public NoSuchConstructorRuntimeException(Type targetType, Type[] argTypes)
             : base("ESSR0064", new object[] { targetType.FullName, MethodUtil.GetSignature(targetType.Name, argTypes) })
         {
-            _targetType = targetType;
-            _argTypes = argTypes;
+            TargetType = targetType;
+            ArgTypes = argTypes;
         }
 
         public NoSuchConstructorRuntimeException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            _targetType = info.GetValue("_targetType", typeof(Type)) as Type;
-            _argTypes = info.GetValue("_argTypes", typeof(Type[])) as Type[];
+            TargetType = info.GetValue("_targetType", typeof(Type)) as Type;
+            ArgTypes = info.GetValue("_argTypes", typeof(Type[])) as Type[];
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("_targetType", _targetType, typeof(Type));
-            info.AddValue("_argTypes", _argTypes, typeof(Type[]));
+            info.AddValue("_targetType", TargetType, typeof(Type));
+            info.AddValue("_argTypes", ArgTypes, typeof(Type[]));
             base.GetObjectData(info, context);
         }
 
-        public Type TargetType
-        {
-            get { return _targetType; }
-        }
+        public Type TargetType { get; }
 
-        public Type[] ArgTypes
-        {
-            get { return _argTypes; }
-        }
+        public Type[] ArgTypes { get; }
     }
 }

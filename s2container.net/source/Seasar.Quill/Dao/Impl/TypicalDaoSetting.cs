@@ -1,4 +1,4 @@
-#region Copyright
+﻿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -16,11 +16,11 @@
  */
 #endregion
 
+using Seasar.Dao;
 using Seasar.Dao.Impl;
 using Seasar.Dao.Interceptors;
 using Seasar.Extension.ADO;
 using Seasar.Extension.ADO.Impl;
-using Seasar.Dao;
 using Seasar.Framework.Aop;
 
 namespace Seasar.Quill.Dao.Impl
@@ -32,28 +32,20 @@ namespace Seasar.Quill.Dao.Impl
     {
         protected override void SetupDao(IDataSource dataSource)
         {
-            ICommandFactory commandFacoty = CreateCommandFactory();
-            IDataReaderFactory dataReaderFactory = CreateDataReaderFactory(commandFacoty);
-            IAnnotationReaderFactory annotationReaderFactory = CreateAnnotationReaderFactory();
-            IDaoMetaDataFactory daoMetaDataFactory = CreateDaoMetaDataFactory(
+            var commandFacoty = CreateCommandFactory();
+            var dataReaderFactory = CreateDataReaderFactory(commandFacoty);
+            var annotationReaderFactory = CreateAnnotationReaderFactory();
+            var factory = CreateDaoMetaDataFactory(
                 dataSource, commandFacoty, annotationReaderFactory, dataReaderFactory);
-            _daoInterceptor = CreateS2DaoInterceptor(daoMetaDataFactory);
+            daoInterceptor = CreateS2DaoInterceptor(factory);
         }
 
-        protected virtual ICommandFactory CreateCommandFactory()
-        {
-            return new BasicCommandFactory();
-        }
+        protected virtual ICommandFactory CreateCommandFactory() => new BasicCommandFactory();
 
-        protected virtual IDataReaderFactory CreateDataReaderFactory(ICommandFactory commandFactory)
-        {
-            return new BasicDataReaderFactory(commandFactory);
-        }
+        protected virtual IDataReaderFactory CreateDataReaderFactory(ICommandFactory commandFactory) 
+            => new BasicDataReaderFactory(commandFactory);
 
-        protected virtual IAnnotationReaderFactory CreateAnnotationReaderFactory()
-        {
-            return new FieldAnnotationReaderFactory();
-        }
+        protected virtual IAnnotationReaderFactory CreateAnnotationReaderFactory() => new FieldAnnotationReaderFactory();
 
         protected virtual IDaoMetaDataFactory CreateDaoMetaDataFactory(
             IDataSource dataSource, ICommandFactory commandFactory,
@@ -63,9 +55,6 @@ namespace Seasar.Quill.Dao.Impl
                 dataSource, commandFactory, annotationReaderFactory, dataReaderFactory);
         }
 
-        protected virtual IMethodInterceptor CreateS2DaoInterceptor(IDaoMetaDataFactory daoMetaDataFactory)
-        {
-            return new S2DaoInterceptor(daoMetaDataFactory);
-        }
+        protected virtual IMethodInterceptor CreateS2DaoInterceptor(IDaoMetaDataFactory factory) => new S2DaoInterceptor(factory);
     }
 }

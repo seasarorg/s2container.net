@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -30,7 +30,7 @@ namespace Seasar.Tests.Extension.Unit
         [Test]
         public void TestReadPrimitiveType()
         {
-            BasicTypeBean bean = new BasicTypeBean();
+            var bean = new BasicTypeBean();
             bean.Id = 1;
             bean.BoolType = true;
             bean.SbyteType = SByte.MaxValue;
@@ -44,16 +44,16 @@ namespace Seasar.Tests.Extension.Unit
             bean.StringType = "abcde";
             bean.DateTimeType = new DateTime(1999, 12, 31);
 
-            BeanReader reader = new BeanReader(bean);
-            DataSet ds = reader.Read();
-            DataTable table = ds.Tables[0];
-            DataRow row = table.Rows[0];
-            DataColumnCollection columns = table.Columns;
+            var reader = new BeanReader(bean);
+            var ds = reader.Read();
+            var table = ds.Tables[0];
+            var row = table.Rows[0];
+            var columns = table.Columns;
 
             Assert.AreEqual(DataRowState.Unchanged, row.RowState);
             Assert.AreEqual(12, columns.Count);
 
-            // ”’l‚Å”äŠr‚·‚é‚Æ32bit/64bitŠÂ‹«‚ÅÀsŒ‹‰Ê‚ª•Ï‚í‚é‚Ì‚Å•¶š—ñ‚Å”äŠr
+            // æ•°å€¤ã§æ¯”è¼ƒã™ã‚‹ã¨32bit/64bitç’°å¢ƒã§å®Ÿè¡ŒçµæœãŒå¤‰ã‚ã‚‹ã®ã§æ–‡å­—åˆ—ã§æ¯”è¼ƒ
             Assert.AreEqual("1", row["id"].ToString());
             Assert.AreEqual(true, row["booltype"]);
             Assert.AreEqual(SByte.MaxValue, row["sbytetype"]);
@@ -193,7 +193,7 @@ namespace Seasar.Tests.Extension.Unit
         [Test]
         public void TestReadNullableType()
         {
-            NullableBasicTypeBean bean = new NullableBasicTypeBean();
+            var bean = new NullableBasicTypeBean();
             bean.Id = 1;
             bean.BoolType = true;
             bean.SbyteType = SByte.MaxValue;
@@ -207,16 +207,16 @@ namespace Seasar.Tests.Extension.Unit
             bean.StringType = "abcde";
             bean.DateTimeType = new DateTime(1999, 12, 31);
 
-            BeanReader reader = new BeanReader(bean);
-            DataSet ds = reader.Read();
-            DataTable table = ds.Tables[0];
-            DataRow row = table.Rows[0];
-            DataColumnCollection columns = table.Columns;
+            var reader = new BeanReader(bean);
+            var ds = reader.Read();
+            var table = ds.Tables[0];
+            var row = table.Rows[0];
+            var columns = table.Columns;
 
             Assert.AreEqual(DataRowState.Unchanged, row.RowState);
             Assert.AreEqual(12, columns.Count);
 
-            // ”’l‚Å”äŠr‚·‚é‚Æ32bit/64bitŠÂ‹«‚ÅÀsŒ‹‰Ê‚ª•Ï‚í‚é‚Ì‚Å•¶š—ñ‚Å”äŠr
+            // æ•°å€¤ã§æ¯”è¼ƒã™ã‚‹ã¨32bit/64bitç’°å¢ƒã§å®Ÿè¡ŒçµæœãŒå¤‰ã‚ã‚‹ã®ã§æ–‡å­—åˆ—ã§æ¯”è¼ƒ
             Assert.AreEqual("1", row["id"].ToString());
             Assert.AreEqual(true, row["booltype"]);
             Assert.AreEqual(SByte.MaxValue, row["sbytetype"]);
@@ -247,7 +247,7 @@ namespace Seasar.Tests.Extension.Unit
         [Test]
         public void TestReadNullableTypeNullValue()
         {
-            NullableBasicTypeBean bean = new NullableBasicTypeBean();
+            var bean = new NullableBasicTypeBean();
             bean.Id = null;
             bean.BoolType = null;
             bean.SbyteType = null;
@@ -261,11 +261,11 @@ namespace Seasar.Tests.Extension.Unit
             bean.StringType = null;
             bean.DateTimeType = null;
 
-            BeanReader reader = new BeanReader(bean);
-            DataSet ds = reader.Read();
-            DataTable table = ds.Tables[0];
-            DataRow row = table.Rows[0];
-            DataColumnCollection columns = table.Columns;
+            var reader = new BeanReader(bean);
+            var ds = reader.Read();
+            var table = ds.Tables[0];
+            var row = table.Rows[0];
+            var columns = table.Columns;
 
             Assert.AreEqual(DataRowState.Unchanged, row.RowState);
             Assert.AreEqual(12, columns.Count);
@@ -302,7 +302,7 @@ namespace Seasar.Tests.Extension.Unit
         [Test]
         public void TestReadSqlType()
         {
-            SqlTypeBasicTypeBean bean = new SqlTypeBasicTypeBean();
+            var bean = new SqlTypeBasicTypeBean();
             bean.Id = 1;
             bean.BoolType = true;
             bean.ByteType = Byte.MaxValue;
@@ -315,11 +315,11 @@ namespace Seasar.Tests.Extension.Unit
             bean.StringType = "abcde";
             bean.DateTimeType = new DateTime(1999, 12, 31);
 
-            BeanReader reader = new BeanReader(bean);
-            DataSet ds = reader.Read();
-            DataTable table = ds.Tables[0];
-            DataRow row = table.Rows[0];
-            DataColumnCollection columns = table.Columns;
+            var reader = new BeanReader(bean);
+            var ds = reader.Read();
+            var table = ds.Tables[0];
+            var row = table.Rows[0];
+            var columns = table.Columns;
 
             Assert.AreEqual(DataRowState.Unchanged, row.RowState);
             Assert.AreEqual(12, columns.Count);
@@ -352,7 +352,7 @@ namespace Seasar.Tests.Extension.Unit
         [Test]
         public void TestReadSqlTypeNullValue()
         {
-            SqlTypeBasicTypeBean bean = new SqlTypeBasicTypeBean();
+            var bean = new SqlTypeBasicTypeBean();
             bean.Id = SqlInt64.Null;
             bean.BoolType = SqlBoolean.Null;
             bean.ByteType = SqlByte.Null;
@@ -365,11 +365,11 @@ namespace Seasar.Tests.Extension.Unit
             bean.StringType = SqlString.Null;
             bean.DateTimeType = SqlDateTime.Null;
 
-            BeanReader reader = new BeanReader(bean);
-            DataSet ds = reader.Read();
-            DataTable table = ds.Tables[0];
-            DataRow row = table.Rows[0];
-            DataColumnCollection columns = table.Columns;
+            var reader = new BeanReader(bean);
+            var ds = reader.Read();
+            var table = ds.Tables[0];
+            var row = table.Rows[0];
+            var columns = table.Columns;
 
             Assert.AreEqual(DataRowState.Unchanged, row.RowState);
             Assert.AreEqual(12, columns.Count);

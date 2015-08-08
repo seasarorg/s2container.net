@@ -17,141 +17,133 @@
 #endregion
 
 using System;
-using Seasar.Framework.Xml;
 
 namespace Seasar.Framework.Xml
 {
     public sealed class XmlHandler
     {
         private readonly TagHandlerRule _tagHandlerRule;
-        private readonly TagHandlerContext _context = new TagHandlerContext();
 
         public XmlHandler(TagHandlerRule tagHandlerRule)
         {
             _tagHandlerRule = tagHandlerRule;
         }
 
-        public TagHandlerContext TagHandlerContext
-        {
-            get { return _context; }
-        }
+        public TagHandlerContext TagHandlerContext { get; } = new TagHandlerContext();
 
         public void StartElement(string qName, IAttributes attributes)
         {
-            AppendBody();
-            _context.StartElement(qName);
-            Start(attributes);
+            _AppendBody();
+            TagHandlerContext.StartElement(qName);
+            _Start(attributes);
         }
 
         public void Characters(string text)
         {
-            _context.Characters = text;
-            AppendBody();
+            TagHandlerContext.Characters = text;
+            _AppendBody();
         }
 
         public void EndElement(string qName)
         {
-            AppendBody();
-            End();
-            _context.EndElement();
+            _AppendBody();
+            _End();
+            TagHandlerContext.EndElement();
         }
 
-        public object Result
-        {
-            get { return _context.Result; }
-        }
+        public object Result => TagHandlerContext.Result;
 
         private TagHandler GetTagHandlerByPath()
         {
-            return _tagHandlerRule[_context.Path];
+            return _tagHandlerRule[TagHandlerContext.Path];
         }
 
         private TagHandler GetTagHandlerByQName()
         {
-            return _tagHandlerRule[_context.QName];
+            return _tagHandlerRule[TagHandlerContext.QName];
         }
 
-        private void Start(IAttributes attributes)
+        private void _Start(IAttributes attributes)
         {
-            TagHandler th = GetTagHandlerByPath();
-            Start(th, attributes);
+            var th = GetTagHandlerByPath();
+            _Start(th, attributes);
             th = GetTagHandlerByQName();
-            Start(th, attributes);
+            _Start(th, attributes);
         }
 
-        private void Start(TagHandler handler, IAttributes attributes)
+        private void _Start(TagHandler handler, IAttributes attributes)
         {
             if (handler != null)
             {
                 try
                 {
-                    handler.Start(_context, attributes);
+                    handler.Start(TagHandlerContext, attributes);
                 }
                 catch (Exception ex)
                 {
-                    ReportDetailPath(ex);
+                    _ReportDetailPath(ex);
                     throw;
                 }
             }
         }
 
-        private void AppendBody()
+        private void _AppendBody()
         {
-            string characters = _context.Characters;
+            var characters = TagHandlerContext.Characters;
             if (characters.Length > 0)
             {
-                TagHandler th = GetTagHandlerByPath();
-                AppendBody(th, characters);
+                var th = GetTagHandlerByPath();
+                _AppendBody(th, characters);
                 th = GetTagHandlerByQName();
-                AppendBody(th, characters);
-                _context.ClearCharacters();
+                _AppendBody(th, characters);
+                TagHandlerContext.ClearCharacters();
             }
         }
 
-        private void AppendBody(TagHandler handler, string characters)
+        private void _AppendBody(TagHandler handler, string characters)
         {
             if (handler != null)
             {
                 try
                 {
-                    handler.AppendBody(_context, characters);
+                    handler.AppendBody(TagHandlerContext, characters);
                 }
                 catch (Exception ex)
                 {
-                    ReportDetailPath(ex);
+                    _ReportDetailPath(ex);
                     throw;
                 }
             }
         }
 
-        private void End()
+        private void _End()
         {
-            string body = _context.Body;
-            TagHandler th = GetTagHandlerByPath();
-            End(th, body);
+            var body = TagHandlerContext.Body;
+            var th = GetTagHandlerByPath();
+            _End(th, body);
             th = GetTagHandlerByQName();
-            End(th, body);
+            _End(th, body);
         }
 
-        private void End(TagHandler handler, string body)
+        private void _End(TagHandler handler, string body)
         {
             if (handler != null)
             {
                 try
                 {
-                    handler.End(_context, body);
+                    handler.End(TagHandlerContext, body);
                 }
                 catch (Exception ex)
                 {
-                    ReportDetailPath(ex);
+                    _ReportDetailPath(ex);
                     throw;
                 }
             }
         }
 
-        private void ReportDetailPath(Exception cause)
+        private void _ReportDetailPath(Exception cause)
         {
-            Console.WriteLine("Exception occured at " + _context.DetailPath);
+            Console.WriteLine(@"Exception occured at " + TagHandlerContext.DetailPath);
             Console.WriteLine(cause.Message);
             Console.WriteLine(cause.StackTrace);
         }

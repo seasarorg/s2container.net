@@ -18,6 +18,7 @@
 
 using System;
 using System.Text;
+using Seasar.Framework.Util;
 
 namespace Seasar.Dxo.Converter
 {
@@ -26,11 +27,6 @@ namespace Seasar.Dxo.Converter
     /// </summary>
     public class ConvertEventArgs : EventArgs
     {
-        private string propertyName;
-        private object source;
-        private object dest;
-        private Type expectedType;
-
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -40,58 +36,42 @@ namespace Seasar.Dxo.Converter
         /// <param name="expectedType">コンバート先として期待されている型</param>
         public ConvertEventArgs (string propertyName, object source, ref object dest, Type expectedType)
         {
-            this.propertyName = propertyName;
-            this.source = source;
-            this.dest = dest;
-            this.expectedType = expectedType;
+            PropertyName = propertyName;
+            Source = source;
+            Destiny = dest;
+            ExpectedType = expectedType;
         }
 
         /// <summary>
         /// 対象プロパティ名
         /// </summary>
-        public string PropertyName
-        {
-            get { return this.propertyName; }
-            set { this.propertyName = value; }
-        }
+        public string PropertyName { get; set; }
 
         /// <summary>
         /// コンバート元のオブジェクト
         /// </summary>
-        public object Source
-        {
-            get { return this.source; }
-            set { this.source = value; }
-        }
+        public object Source { get; set; }
 
         /// <summary>
         /// コンバート先、上書き用のオブジェクト
         /// </summary>
-        public object Destiny
-        {
-            get { return this.dest; }
-            set { this.dest = value; }
-        }
+        public object Destiny { get; set; }
 
 
         /// <summary>
         /// コンバート先として期待されている型
         /// </summary>
-        public Type ExpectedType
-        {
-            get { return this.expectedType; }
-            set { this.expectedType = value; }
-        }
+        public Type ExpectedType { get; set; }
 
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
 
-            sb.Append(this.GetType().Name).Append(" [");
-            sb.Append(" propertyName = ").Append(this.propertyName).Append(", ");
-            sb.Append(" source = ").Append(this.source).Append(", ");
-            sb.Append(" dest = ").Append(this.dest).Append(", ");
-            sb.Append(" expectedType = ").Append(this.expectedType);
+            sb.Append(this.GetExType().Name).Append(" [");
+            sb.Append(" propertyName = ").Append(PropertyName).Append(", ");
+            sb.Append(" source = ").Append(Source).Append(", ");
+            sb.Append(" dest = ").Append(Destiny).Append(", ");
+            sb.Append(" expectedType = ").Append(ExpectedType);
             sb.Append(" ]");
 
             return sb.ToString();

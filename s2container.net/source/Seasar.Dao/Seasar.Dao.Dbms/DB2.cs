@@ -20,24 +20,12 @@ namespace Seasar.Dao.Dbms
 {
     public class DB2 : Standard
     {
-        public override string Suffix
-        {
-            get { return "_db2"; }
-        }
+        public override string Suffix => "_db2";
 
-        public override string IdentitySelectString
-        {
-            get { return "values IDENTITY_VAL_LOCAL()"; }
-        }
+        public override string IdentitySelectString => "values IDENTITY_VAL_LOCAL()";
 
-        public override string GetSequenceNextValString(string sequenceName)
-        {
-            return "values nextval for " + sequenceName;
-        }
+        public override string GetSequenceNextValString(string sequenceName) => "values nextval for " + sequenceName;
 
-        public override KindOfDbms Dbms
-        {
-            get { return KindOfDbms.DB2; }
-        }
+        public override KindOfDbms Dbms => KindOfDbms.DB2;
     }
 }

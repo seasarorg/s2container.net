@@ -29,11 +29,8 @@ namespace Seasar.Dxo.Converter.Impl
     {
         protected override bool DoConvert(object source, ref object dest, Type expectType)
         {
-            ICloneable target = source as ICloneable;
-            if (target != null)
-                dest = target.Clone();
-            else
-                dest = source;
+            var target = source as ICloneable;
+            dest = target != null ? target.Clone() : source;
 
             return true;
         }

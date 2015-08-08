@@ -16,10 +16,10 @@
  */
 #endregion
 
+using System;
 using Seasar.Framework.Exceptions;
 using Seasar.Framework.Util;
 using Seasar.Framework.Xml;
-using System;
 
 namespace Seasar.Framework.Container.Factory
 {
@@ -29,32 +29,27 @@ namespace Seasar.Framework.Container.Factory
     public static class SingletonS2ContainerFactory
 #endif
     {
-        private static string _configPath = "app.dicon";
         private static IS2Container _container;
 
         static SingletonS2ContainerFactory()
         {
-            S2Section config = S2SectionHandler.GetS2Section();
+            var config = S2SectionHandler.GetS2Section();
             if (config != null)
             {
-                string s = config.ConfigPath;
+                var s = config.ConfigPath;
                 if (!StringUtil.IsEmpty(s))
                 {
-                    _configPath = s;
+                    ConfigPath = s;
                 }
             }
         }
 
-        public static string ConfigPath
-        {
-            set { _configPath = value; }
-            get { return _configPath; }
-        }
+        public static string ConfigPath { set; get; } = "app.dicon";
 
         [Obsolete("[S2Container] is obsolete function. Please use [QuillContainer]")]
         public static void Init()
         {
-            _container = S2ContainerFactory.Create(_configPath);
+            _container = S2ContainerFactory.Create(ConfigPath);
             _container.Init();
         }
 
@@ -83,9 +78,6 @@ namespace Seasar.Framework.Container.Factory
             }
         }
 
-        public static bool HasContainer
-        {
-            get { return _container != null; }
-        }
+        public static bool HasContainer => _container != null;
     }
 }

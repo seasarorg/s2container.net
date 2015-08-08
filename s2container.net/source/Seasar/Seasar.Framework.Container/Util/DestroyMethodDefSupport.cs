@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -26,7 +26,7 @@ namespace Seasar.Framework.Container.Util
         private IS2Container _container;
 
         /// <summary>
-        /// DestroyMethodDef‚ğ’Ç‰Á‚µ‚Ü‚·B
+        /// DestroyMethodDefï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
         /// </summary>
         /// <param name="methodDef">MethodDef</param>
         public void AddDestroyMethodDef(IDestroyMethodDef methodDef)
@@ -39,22 +39,16 @@ namespace Seasar.Framework.Container.Util
         }
 
         /// <summary>
-        /// DestroyMethodDef‚Ì”
+        /// DestroyMethodDefï¿½Ìï¿½
         /// </summary>
-        public int DestroyMethodDefSize
-        {
-            get { return _methodDefs.Count; }
-        }
+        public int DestroyMethodDefSize => _methodDefs.Count;
 
         /// <summary>
-        /// ”Ô†‚ğw’è‚µ‚ÄIDestroyMethodDef‚ğæ“¾‚µ‚Ü‚·B
+        /// ï¿½Ôï¿½ï¿½ï¿½wï¿½è‚µï¿½ï¿½IDestroyMethodDefï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
         /// </summary>
-        /// <param name="index">IDestroyMethodDef‚Ì”Ô†</param>
+        /// <param name="index">IDestroyMethodDefï¿½Ì”Ôï¿½</param>
         /// <returns>IDestroyMethodDef</returns>
-        public IDestroyMethodDef GetDestroyMethodDef(int index)
-        {
-            return (IDestroyMethodDef) _methodDefs[index];
-        }
+        public IDestroyMethodDef GetDestroyMethodDef(int index) => (IDestroyMethodDef) _methodDefs[index];
 
         /// <summary>
         /// S2Container
@@ -64,10 +58,10 @@ namespace Seasar.Framework.Container.Util
             set
             {
                 _container = value;
-                IEnumerator enu = _methodDefs.GetEnumerator();
+                var enu = _methodDefs.GetEnumerator();
                 while (enu.MoveNext())
                 {
-                    IDestroyMethodDef methodDef = (IDestroyMethodDef) enu.Current;
+                    var methodDef = (IDestroyMethodDef) enu.Current;
                     methodDef.Container = value;
                 }
             }

@@ -18,7 +18,7 @@
 
 using System;
 using System.Data.SqlTypes;
-using System.Reflection;
+using Seasar.Framework.Util;
 
 namespace Seasar.Extension.ADO.Types
 {
@@ -30,7 +30,7 @@ namespace Seasar.Extension.ADO.Types
             {
                 return DBNull.Value;
             }
-            INullable nValue = value as INullable;
+            var nValue = value as INullable;
             if (nValue == null)
             {
                 return value;
@@ -39,8 +39,9 @@ namespace Seasar.Extension.ADO.Types
             {
                 return DBNull.Value;
             }
-            PropertyInfo pi = value.GetType().GetProperty("Value");
-            return pi.GetValue(value, null);
+            var pi = value.GetExType().GetProperty("Value");
+//            return pi.GetValue(value, null);
+            return PropertyUtil.GetValue(value, value.GetExType(), pi.Name);
         }
     }
 }

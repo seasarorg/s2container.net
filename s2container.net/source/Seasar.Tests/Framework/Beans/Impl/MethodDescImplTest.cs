@@ -18,8 +18,8 @@
 
 using System;
 using MbUnit.Framework;
-using System.Reflection;
 using Seasar.Framework.Beans.Impl;
+using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Framework.Beans.Impl
 {
@@ -29,8 +29,8 @@ namespace Seasar.Tests.Framework.Beans.Impl
         [Test]
         public void TestName()
         {
-            MethodInfo methodInfo = typeof(MethodDescTest).GetMethod("Hoge");
-            MethodDescImpl methodDescImpl = new MethodDescImpl(methodInfo);
+            var methodInfo = typeof(_MethodDescTest).GetMethod("Hoge");
+            var methodDescImpl = new MethodDescImpl(methodInfo);
 
             Assert.AreEqual(methodInfo.Name, methodDescImpl.Name);
         }
@@ -38,13 +38,13 @@ namespace Seasar.Tests.Framework.Beans.Impl
         [Test]
         public void TestGetParameterInfos()
         {
-            MethodInfo methodInfo = typeof (MethodDescTest).GetMethod("Hoge");
-            MethodDescImpl methodDescImpl = new MethodDescImpl(methodInfo);
+            var methodInfo = typeof (_MethodDescTest).GetMethod("Hoge");
+            var methodDescImpl = new MethodDescImpl(methodInfo);
 
-            ParameterInfo[] expectedParamInfos = methodInfo.GetParameters();
-            ParameterInfo[] actualParamInfos = methodDescImpl.GetParameterInfos();
+            var expectedParamInfos = methodInfo.GetParameters();
+            var actualParamInfos = methodDescImpl.GetParameterInfos();
             Assert.AreEqual(expectedParamInfos.Length, actualParamInfos.Length, "パラメータの数");
-            for(int i = 0; i < expectedParamInfos.Length; i++)
+            for(var i = 0; i < expectedParamInfos.Length; i++)
             {
                 Assert.AreEqual(expectedParamInfos[i], actualParamInfos[i], string.Format("[{0}]番目の引数", i));
             }
@@ -53,77 +53,77 @@ namespace Seasar.Tests.Framework.Beans.Impl
         [Test]
         public void TestGetReturnType()
         {
-            MethodInfo methodInfo = typeof(MethodDescTest).GetMethod("Hoge");
-            MethodDescImpl methodDescImpl = new MethodDescImpl(methodInfo);
+            var methodInfo = typeof(_MethodDescTest).GetMethod("Hoge");
+            var methodDescImpl = new MethodDescImpl(methodInfo);
 
             Assert.AreEqual(methodInfo.ReturnType, methodDescImpl.GetReturnType());
         }
 
         [Test]
-        public void TestCanOverride_virtual()
+        public void TestCanOverrideVirtual()
         {
-            MethodInfo methodInfo = typeof(MethodDescTest).GetMethod("HogeOverridable");
-            MethodDescImpl methodDescImpl = new MethodDescImpl(methodInfo);
+            var methodInfo = typeof(_MethodDescTest).GetMethod("HogeOverridable");
+            var methodDescImpl = new MethodDescImpl(methodInfo);
 
             Assert.IsTrue(methodDescImpl.CanOverride());
         }
 
         [Test]
-        public void TestCanOverride_abstract()
+        public void TestCanOverrideAbstract()
         {
-            MethodInfo methodInfo = typeof(AbstractMethodDescTest).GetMethod("Hoge");
-            MethodDescImpl methodDescImpl = new MethodDescImpl(methodInfo);
+            var methodInfo = typeof(_AbstractMethodDescTest).GetMethod("Hoge");
+            var methodDescImpl = new MethodDescImpl(methodInfo);
 
             Assert.IsTrue(methodDescImpl.CanOverride());
         }
 
         [Test]
-        public void TestCanOverride_interface()
+        public void TestCanOverrideInterface()
         {
-            MethodInfo methodInfo = typeof(IMethodDescTest).GetMethod("Hoge");
-            MethodDescImpl methodDescImpl = new MethodDescImpl(methodInfo);
+            var methodInfo = typeof(IMethodDescTest).GetMethod("Hoge");
+            var methodDescImpl = new MethodDescImpl(methodInfo);
 
             Assert.IsTrue(methodDescImpl.CanOverride());
         }
 
         [Test]
-        public void TestCanOverride_UnableOverride()
+        public void TestCanOverrideUnableOverride()
         {
-            MethodInfo methodInfo = typeof(MethodDescTest).GetMethod("Hoge");
-            MethodDescImpl methodDescImpl = new MethodDescImpl(methodInfo);
+            var methodInfo = typeof(_MethodDescTest).GetMethod("Hoge");
+            var methodDescImpl = new MethodDescImpl(methodInfo);
 
             Assert.IsFalse(methodDescImpl.CanOverride());
         }
 
         [Test]
-        public void TestInvoke_HasParameter()
+        public void TestInvokeHasParameter()
         {
-            MethodInfo methodInfo = typeof(MethodDescTest).GetMethod("Hoge");
-            MethodDescImpl methodDescImpl = new MethodDescImpl(methodInfo);
-            MethodDescTest target = new MethodDescTest();
+            var methodInfo = typeof(_MethodDescTest).GetMethod("Hoge");
+            var methodDescImpl = new MethodDescImpl(methodInfo);
+            var target = new _MethodDescTest();
 
-            object ret = methodDescImpl.Invoke(target, 1, "aiueo", DateTime.Now);
+            var ret = methodDescImpl.Invoke(target, 1, "aiueo", DateTime.Now);
             Assert.IsNotNull(ret);
-            Assert.AreEqual(typeof(string), ret.GetType());
-            Assert.AreEqual(MethodDescTest.RETURN_VAL, ret);
+            Assert.AreEqual(typeof(string), ret.GetExType());
+            Assert.AreEqual(_MethodDescTest.RETURN_VAL, ret);
         }
 
         [Test]
-        public void TestInvoke_NoParameter()
+        public void TestInvokeNoParameter()
         {
-            MethodInfo methodInfo = typeof(MethodDescTest).GetMethod("HogeNoParam");
-            MethodDescImpl methodDescImpl = new MethodDescImpl(methodInfo);
-            MethodDescTest target = new MethodDescTest();
+            var methodInfo = typeof(_MethodDescTest).GetMethod("HogeNoParam");
+            var methodDescImpl = new MethodDescImpl(methodInfo);
+            var target = new _MethodDescTest();
 
-            object ret = methodDescImpl.Invoke(target);
+            var ret = methodDescImpl.Invoke(target);
             Assert.IsNotNull(ret);
-            Assert.AreEqual(typeof(int), ret.GetType());
-            Assert.AreEqual(MethodDescTest.RETURN_VAL_NOPARAM, ret);
+            Assert.AreEqual(typeof(int), ret.GetExType());
+            Assert.AreEqual(_MethodDescTest.RETURN_VAL_NOPARAM, ret);
         }
 
         #region テスト用クラス
 
-        private class MethodDescTest
+        private class _MethodDescTest
         {
             public const string RETURN_VAL = "Huga";
             public const int RETURN_VAL_NOPARAM = 39;
@@ -149,7 +149,7 @@ namespace Seasar.Tests.Framework.Beans.Impl
             string Hoge(int no, string name, DateTime? date);
         }
 
-        private abstract class AbstractMethodDescTest
+        private abstract class _AbstractMethodDescTest
         {
             public abstract string Hoge(int no, string name, DateTime? date);
         }

@@ -19,13 +19,14 @@
 using System;
 using System.Reflection;
 using Seasar.Framework.Beans;
+using Seasar.Framework.Util;
 
 namespace Seasar.Framework.Container.Assembler
 {
     public abstract class AbstractPropertyAssembler
         : AbstractAssembler, IPropertyAssembler
     {
-        public AbstractPropertyAssembler(IComponentDef componentDef)
+        protected AbstractPropertyAssembler(IComponentDef componentDef)
             : base(componentDef)
         {
         }
@@ -51,7 +52,9 @@ namespace Seasar.Framework.Container.Assembler
             }
             try
             {
-                propertyInfo.SetValue(component, value, null);
+//                propertyInfo.SetValue(component, value, null);
+                PropertyUtil.SetValue(component, component.GetExType(), 
+                    propertyInfo.Name, propertyInfo.PropertyType,value);
             }
             catch (Exception ex)
             {

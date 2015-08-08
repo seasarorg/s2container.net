@@ -28,8 +28,6 @@ namespace Seasar.Extension.Tx.Impl
         //  Å¶í≤ç∏ópÇ…ÉçÉOí«â¡
         private readonly Logger _logger = Logger.GetLogger(typeof(TxDataSource));
 
-        private ITransactionContext _context;
-
         public TxDataSource()
         {
         }
@@ -52,7 +50,7 @@ namespace Seasar.Extension.Tx.Impl
         public override IDbConnection GetConnection()
         {
             IDbConnection con;
-            ITransactionContext tc = Context.Current;
+            var tc = Context.Current;
 
             if (tc != null && tc.Connection != null)
             {
@@ -67,22 +65,18 @@ namespace Seasar.Extension.Tx.Impl
 
         public override void CloseConnection(IDbConnection connection)
         {
-            if (_context.IsInTransaction)
+            if (Context.IsInTransaction)
             {
                 return;
             }
             base.CloseConnection(connection);
         }
 
-        public ITransactionContext Context
-        {
-            get { return _context; }
-            set { _context = value; }
-        }
+        public ITransactionContext Context { get; set; }
 
         public override IDbTransaction GetTransaction()
         {
-            return _context.Current.Transaction;
+            return Context.Current.Transaction;
         }
 
         public override void SetTransaction(IDbCommand cmd)

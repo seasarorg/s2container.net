@@ -22,30 +22,30 @@ namespace Seasar.Framework.Container.Factory
 {
     public class XmlS2ContainerBuilder : IS2ContainerBuilder
     {
-        private static readonly S2ContainerTagHandlerRule rule = new S2ContainerTagHandlerRule();
+        private static readonly S2ContainerTagHandlerRule _rule = new S2ContainerTagHandlerRule();
 
         #region IS2ContainerBuilder ƒƒ“ƒo
 
         public IS2Container Build(string path)
         {
-            XmlHandlerParser parser = CreateXmlHandlerParser(null, path);
+            var parser = _CreateXmlHandlerParser(null, path);
             return (IS2Container) parser.Parse(path);
         }
 
         public IS2Container Include(IS2Container parent, string path)
         {
-            XmlHandlerParser parser = CreateXmlHandlerParser(parent, path);
-            IS2Container child = (IS2Container) parser.Parse(path);
+            var parser = _CreateXmlHandlerParser(parent, path);
+            var child = (IS2Container) parser.Parse(path);
             parent.Include(child);
             return child;
         }
 
         #endregion
 
-        private XmlHandlerParser CreateXmlHandlerParser(IS2Container parent, string path)
+        private XmlHandlerParser _CreateXmlHandlerParser(IS2Container parent, string path)
         {
-            XmlHandler handler = new XmlHandler(rule);
-            TagHandlerContext ctx = handler.TagHandlerContext;
+            var handler = new XmlHandler(_rule);
+            var ctx = handler.TagHandlerContext;
             ctx.AddParameter("parent", parent);
             ctx.AddParameter("path", path);
             return new XmlHandlerParser(handler);

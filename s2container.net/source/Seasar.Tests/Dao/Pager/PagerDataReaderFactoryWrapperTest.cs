@@ -16,18 +16,18 @@
  */
 #endregion
 
-using System.Data;
+using MbUnit.Framework;
+using Seasar.Dao.Pager;
 using Seasar.Extension.ADO;
 using Seasar.Extension.Unit;
-using Seasar.Dao.Pager;
-using MbUnit.Framework;
+using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Dao.Pager
 {
     [TestFixture]
     public class PagerDataReaderFactoryWrapperTest : S2TestCase
     {
-        private ICommandFactory _commandFactory = null;
+        private readonly ICommandFactory _commandFactory = null;
         private MockDataReaderFactory _original;
         private PagerDataReaderFactoryWrapper _wrapper;
 
@@ -44,7 +44,7 @@ namespace Seasar.Tests.Dao.Pager
             try
             {
                 PagerContext.GetContext().PushArgs(null);
-                IDataReader reader = _wrapper.CreateDataReader(null, null);
+                var reader = _wrapper.CreateDataReader(null, null);
                 Assert.AreEqual(1, _original.CreatedDataReaderCount);
                 Assert.AreSame(_original.GetCreatedDataReader(0), reader);
             }
@@ -60,9 +60,9 @@ namespace Seasar.Tests.Dao.Pager
             try
             {
                 PagerContext.GetContext().PushArgs(CreatePagerCondition());
-                IDataReader reader = _wrapper.CreateDataReader(null, null);
+                var reader = _wrapper.CreateDataReader(null, null);
                 Assert.AreEqual(1, _original.CreatedDataReaderCount);
-                Assert.AreEqual(typeof(PagerDataReaderWrapper), reader.GetType());
+                Assert.AreEqual(typeof(PagerDataReaderWrapper), reader.GetExType());
             }
             finally
             {
@@ -77,7 +77,7 @@ namespace Seasar.Tests.Dao.Pager
             {
                 PagerContext.GetContext().PushArgs(CreatePagerCondition());
                 PagerContext.GetContext().PushArgs(null);
-                IDataReader reader = _wrapper.CreateDataReader(null, null);
+                var reader = _wrapper.CreateDataReader(null, null);
                 Assert.AreEqual(1, _original.CreatedDataReaderCount);
                 Assert.AreSame(_original.GetCreatedDataReader(0), reader);
             }
@@ -86,9 +86,9 @@ namespace Seasar.Tests.Dao.Pager
                 PagerContext.GetContext().PopArgs();
                 try
                 {
-                    IDataReader reader = _wrapper.CreateDataReader(null, null);
+                    var reader = _wrapper.CreateDataReader(null, null);
                     Assert.AreEqual(2, _original.CreatedDataReaderCount);
-                    Assert.AreEqual(typeof(PagerDataReaderWrapper), reader.GetType());
+                    Assert.AreEqual(typeof(PagerDataReaderWrapper), reader.GetExType());
                 }
                 finally
                 {

@@ -26,7 +26,7 @@ namespace Seasar.Extension.Tx.Impl
         {
             if (!alreadyInTransaction)
             {
-                return HandleTransaction(invocation);
+                return _HandleTransaction(invocation);
             }
             else
             {
@@ -34,17 +34,17 @@ namespace Seasar.Extension.Tx.Impl
             }
         }
 
-        private object HandleTransaction(IMethodInvocation invocation)
+        private object _HandleTransaction(IMethodInvocation invocation)
         {
-            using (ITransactionContext current = Context.Create())
+            using (var current = Context.Create())
             {
-                ITransactionContext parent = Context.Current;
+                var parent = Context.Current;
                 current.Parent = parent;
                 current.Begin();
                 Context.Current = current;
                 try
                 {
-                    object obj = invocation.Proceed();
+                    var obj = invocation.Proceed();
                     current.Commit();
                     return obj;
                 }

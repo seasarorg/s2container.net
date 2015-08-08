@@ -37,13 +37,13 @@ namespace Seasar.Dao.Impl
 
         protected override string SetupSql(IBeanMetaData bmd, IPropertyType[] propertyTypes)
         {
-            StringBuilder builder = new StringBuilder(100);
+            var builder = new StringBuilder(100);
             builder.Append("UPDATE ");
             builder.Append(bmd.TableName);
             builder.Append(" SET ");
-            for (int i = 0; i < propertyTypes.Length; ++i) {
-                IPropertyType pt = propertyTypes[i];
-                string columnName = pt.ColumnName;
+            for (var i = 0; i < propertyTypes.Length; ++i) {
+                var pt = propertyTypes[i];
+                var columnName = pt.ColumnName;
                 if (i > 0) {
                     builder.Append(", ");
                 }
@@ -53,20 +53,20 @@ namespace Seasar.Dao.Impl
 
             builder.Append(" WHERE ");
             const string ADD_AND = " AND ";
-            for (int i = 0; i < bmd.PrimaryKeySize; ++i) {
+            for (var i = 0; i < bmd.PrimaryKeySize; ++i) {
                 builder.Append(bmd.GetPrimaryKey(i));
                 builder.Append(" = ?");
                 builder.Append(ADD_AND);
             }
             builder.Length = builder.Length - ADD_AND.Length;
             if (bmd.HasVersionNoPropertyType) {
-                IPropertyType pt = bmd.VersionNoPropertyType;
+                var pt = bmd.VersionNoPropertyType;
                 builder.Append(ADD_AND);
                 builder.Append(pt.ColumnName);
                 builder.Append(" = ?");
             }
             if (bmd.HasTimestampPropertyType) {
-                IPropertyType pt = bmd.TimestampPropertyType;
+                var pt = bmd.TimestampPropertyType;
                 builder.Append(ADD_AND);
                 builder.Append(pt.ColumnName);
                 builder.Append(" = ?");

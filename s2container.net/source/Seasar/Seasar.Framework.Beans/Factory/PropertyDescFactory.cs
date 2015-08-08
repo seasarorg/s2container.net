@@ -18,9 +18,9 @@
 
 using System;
 using System.Collections.Generic;
-using Seasar.Framework.Util;
 using System.Reflection;
 using Seasar.Framework.Beans.Impl;
+using Seasar.Framework.Util;
 
 namespace Seasar.Framework.Beans.Factory
 {
@@ -58,10 +58,7 @@ namespace Seasar.Framework.Beans.Factory
         /// </summary>
         /// <param name="propertyName"></param>
         /// <returns></returns>
-        public virtual bool HasProperty(string propertyName)
-        {
-            return HasProperty(propertyName, DEFAULT_BINDING_FLAG);
-        }
+        public virtual bool HasProperty(string propertyName) => HasProperty(propertyName, DEFAULT_BINDING_FLAG);
 
         /// <summary>
         /// 指定した名前のプロパティが存在するか判定
@@ -73,7 +70,7 @@ namespace Seasar.Framework.Beans.Factory
         {
             CreatePropertyDescsIfNeed(bindingFlags);
 
-            ArrayMap<string, IPropertyDesc> cache = _propertyDescCache[bindingFlags];
+            var cache = _propertyDescCache[bindingFlags];
             if (cache.ContainsKey(propertyName)) { return true; }
 
             return false;
@@ -85,10 +82,7 @@ namespace Seasar.Framework.Beans.Factory
         /// <param name="propertyName"></param>
         /// <returns></returns>
         /// <exception cref="PropertyNotFoundRuntimeException"></exception>
-        public virtual IPropertyDesc GetProperty(string propertyName)
-        {
-            return GetProperty(propertyName, DEFAULT_BINDING_FLAG);
-        }
+        public virtual IPropertyDesc GetProperty(string propertyName) => GetProperty(propertyName, DEFAULT_BINDING_FLAG);
 
         /// <summary>
         /// プロパティ情報の取得(NotNull)
@@ -111,10 +105,7 @@ namespace Seasar.Framework.Beans.Factory
         /// プロパティ情報一覧の取得
         /// </summary>
         /// <returns></returns>
-        public virtual IPropertyDesc[] GetPropertyDescs()
-        {
-            return GetPropertyDescs(DEFAULT_BINDING_FLAG);
-        }
+        public virtual IPropertyDesc[] GetPropertyDescs() => GetPropertyDescs(DEFAULT_BINDING_FLAG);
 
         /// <summary>
         /// プロパティ情報一覧の取得
@@ -148,11 +139,11 @@ namespace Seasar.Framework.Beans.Factory
         /// <returns></returns>
         protected virtual ArrayMap<string, IPropertyDesc> CreatePropertyDescs(Type beanType, BindingFlags bindingFlags)
         {
-            PropertyInfo[] propertyInfos = beanType.GetProperties(bindingFlags);
-            ArrayMap<string, IPropertyDesc> propertyDescCache = new ArrayMap<string, IPropertyDesc>(propertyInfos.Length);
-            foreach (PropertyInfo info in propertyInfos)
+            var propertyInfos = beanType.GetProperties(bindingFlags);
+            var propertyDescCache = new ArrayMap<string, IPropertyDesc>(propertyInfos.Length);
+            foreach (var info in propertyInfos)
             {
-                IPropertyDesc desc = CreatePropertyDesc(info);
+                var desc = CreatePropertyDesc(info);
                 propertyDescCache.Add(info.Name, desc);
             }
             return propertyDescCache;
@@ -163,19 +154,13 @@ namespace Seasar.Framework.Beans.Factory
         /// </summary>
         /// <param name="propertyInfo"></param>
         /// <returns></returns>
-        protected virtual IPropertyDesc CreatePropertyDesc(PropertyInfo propertyInfo)
-        {
-            return NewPropertyDesc(propertyInfo);
-        }
+        protected virtual IPropertyDesc CreatePropertyDesc(PropertyInfo propertyInfo) => NewPropertyDesc(propertyInfo);
 
         /// <summary>
         /// プロパティ情報インスタンスの生成
         /// </summary>
         /// <param name="propertyInfo"></param>
         /// <returns></returns>
-        public static IPropertyDesc NewPropertyDesc(PropertyInfo propertyInfo)
-        {
-            return new PropertyDescImpl(propertyInfo);
-        }
+        public static IPropertyDesc NewPropertyDesc(PropertyInfo propertyInfo) => new PropertyDescImpl(propertyInfo);
     }
 }

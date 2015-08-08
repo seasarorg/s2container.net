@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -17,15 +17,11 @@
 #endregion
 
 using System;
-using System.Collections;
-using System.Text;
-using MbUnit.Framework;
 using System.Data;
-using Seasar.Extension.Unit;
+using MbUnit.Framework;
 using Seasar.Dao.Unit;
-using System.Diagnostics;
-using log4net;
-using Seasar.Dao;
+using Seasar.Extension.Unit;
+using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Dao.Impl
 {
@@ -38,26 +34,26 @@ namespace Seasar.Tests.Dao.Impl
         }
 
         [Test, S2]
-        public void TestExecute_QueryAnnotationAndReturnDataTable()
+        public void TestExecuteQueryAnnotationAndReturnDataTable()
         {
             const int EMP_NO = 7499;
             const int DEPT_NO = 30;
 
-            IDaoMetaData dmd = CreateDaoMetaData(typeof(IEmployeeDataSetDao));
-            ISqlCommand cmd = dmd.GetSqlCommand("SelectDataTable");
+            var dmd = CreateDaoMetaData(typeof(IEmployeeDataSetDao));
+            var cmd = dmd.GetSqlCommand("SelectDataTable");
 
-            object ret = cmd.Execute(new object[] { EMP_NO });
+            var ret = cmd.Execute(new object[] { EMP_NO });
             Assert.IsNotNull(ret, "1");
-            Assert.IsTrue(ret is EmployeeDataSet.EmpAndDeptDataTable, ret.GetType().Name);
-            DataTable actualTable = (DataTable)ret;
+            Assert.IsTrue(ret is EmployeeDataSet.EmpAndDeptDataTable, ret.GetExType().Name);
+            var actualTable = (DataTable)ret;
             Assert.AreEqual(1, actualTable.Rows.Count);
-            DataRow actualRow = actualTable.Rows[0];
-            // #.NET4.0 Œ^‚ğ‘µ‚¦‚È‚¢‚Æˆá‚¤’l‚Æ‚µ‚Äˆµ‚í‚ê‚é
+            var actualRow = actualTable.Rows[0];
+            // #.NET4.0 å‹ã‚’æƒãˆãªã„ã¨é•ã†å€¤ã¨ã—ã¦æ‰±ã‚ã‚Œã‚‹
             //Assert.AreEqual(EMP_NO, actualRow["EMPNO"]);
             Assert.AreEqual(EMP_NO, Int32.Parse(actualRow["EMPNO"].ToString()));
 
             Assert.AreEqual("ALLEN", actualRow["ENAME"]);
-            // #.NET4.0 Œ^‚ğ‘µ‚¦‚È‚¢‚Æˆá‚¤’l‚Æ‚µ‚Äˆµ‚í‚ê‚é
+            // #.NET4.0 å‹ã‚’æƒãˆãªã„ã¨é•ã†å€¤ã¨ã—ã¦æ‰±ã‚ã‚Œã‚‹
             //Assert.AreEqual(DEPT_NO, actualRow["DEPTNO"]);
             Assert.AreEqual(DEPT_NO, Int32.Parse(actualRow["DEPTNO"].ToString()));
 
@@ -65,28 +61,28 @@ namespace Seasar.Tests.Dao.Impl
         }
 
         [Test, S2]
-        public void TestExecute_QueryAnnotationAndReturnDataSet()
+        public void TestExecuteQueryAnnotationAndReturnDataSet()
         {
             const int EMP_NO = 7499;
             const int DEPT_NO = 30;
 
-            IDaoMetaData dmd = CreateDaoMetaData(typeof(IEmployeeDataSetDao));
-            ISqlCommand cmd = dmd.GetSqlCommand("SelectDataSet");
+            var dmd = CreateDaoMetaData(typeof(IEmployeeDataSetDao));
+            var cmd = dmd.GetSqlCommand("SelectDataSet");
 
-            object ret = cmd.Execute(new object[] { EMP_NO });
+            var ret = cmd.Execute(new object[] { EMP_NO });
             Assert.IsNotNull(ret, "1");
             Assert.IsTrue(ret is EmployeeDataSet);
-            DataSet actualSet = (DataSet)ret;
+            var actualSet = (DataSet)ret;
             Assert.AreEqual(1, actualSet.Tables.Count);
-            DataTable actualTable = actualSet.Tables[0];
+            var actualTable = actualSet.Tables[0];
             Assert.IsTrue(actualTable is EmployeeDataSet.EmpAndDeptDataTable);
             Assert.AreEqual(1, actualTable.Rows.Count);
-            DataRow actualRow = actualTable.Rows[0];
-            // #.NET4.0 Œ^‚ğ‘µ‚¦‚È‚¢‚Æˆá‚¤’l‚Æ‚µ‚Äˆµ‚í‚ê‚é
+            var actualRow = actualTable.Rows[0];
+            // #.NET4.0 å‹ã‚’æƒãˆãªã„ã¨é•ã†å€¤ã¨ã—ã¦æ‰±ã‚ã‚Œã‚‹
             //Assert.AreEqual(EMP_NO, actualRow["EMPNO"]);
             Assert.AreEqual(EMP_NO, Int32.Parse(actualRow["EMPNO"].ToString()));
             Assert.AreEqual("ALLEN", actualRow["ENAME"]);
-            // #.NET4.0 Œ^‚ğ‘µ‚¦‚È‚¢‚Æˆá‚¤’l‚Æ‚µ‚Äˆµ‚í‚ê‚é
+            // #.NET4.0 å‹ã‚’æƒãˆãªã„ã¨é•ã†å€¤ã¨ã—ã¦æ‰±ã‚ã‚Œã‚‹
             Assert.AreEqual(DEPT_NO, Int32.Parse(actualRow["DEPTNO"].ToString()));
             //Assert.AreEqual(DEPT_NO, actualRow["DEPTNO"]);
             Assert.AreEqual("SALES", actualRow["DNAME"]);

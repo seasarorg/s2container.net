@@ -33,7 +33,7 @@ namespace Seasar.Extension.DataSets.Types
             }
             else if (value is DateTime)
             {
-                DateTime d = (DateTime) value;
+                var d = (DateTime) value;
                 return new DateTime(d.Year, d.Month, d.Day, d.Hour, d.Minute, d.Second);
             }
             else if (value is string)
@@ -43,20 +43,11 @@ namespace Seasar.Extension.DataSets.Types
             return DBNull.Value;
         }
 
-        public override string ToDbTypeString()
-        {
-            return "DATE";
-        }
+        public override string ToDbTypeString() => "DATE";
 
-        public override DbType GetDbType()
-        {
-            return DbType.DateTime;
-        }
+        public override DbType GetDbType() => DbType.DateTime;
 
-        public override Type GetColumnType()
-        {
-            return typeof(DateTime);
-        }
+        public override Type GetColumnType() => typeof(DateTime);
 
         #endregion
     }

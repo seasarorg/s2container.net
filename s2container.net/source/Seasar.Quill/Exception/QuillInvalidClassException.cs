@@ -1,4 +1,4 @@
-#region Copyright
+﻿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -28,9 +28,9 @@ namespace Seasar.Quill.Exception
         /// <param name="componentType">指定された型(not null)</param>
         /// <param name="needType">実際に必要な型(not null)</param>
         public QuillInvalidClassException(Type componentType, Type needType) : base(
-            "EQLL0027", new object[] { 
-                componentType == null? "null" : componentType.Name,
-                needType == null? "null" : needType.Name })
+            "EQLL0027", new [] { 
+                componentType?.Name ?? "null",
+                needType?.Name ?? "null" })
         {
         }
 
@@ -39,7 +39,7 @@ namespace Seasar.Quill.Exception
         /// </summary>
         /// <param name="needType">実際に必要な型(not null)</param>
         public QuillInvalidClassException(Type needType)
-            : base("EQLL0027", new object[] { "null", needType.Name })
+            : base("EQLL0027", new [] { "null", needType.Name })
         {
         }
 
@@ -58,7 +58,7 @@ namespace Seasar.Quill.Exception
         /// </summary>
         /// <param name="messageCode">メッセージコード</param>
         /// <param name="args">メッセージ中に埋め込む文字列の配列</param>
-        public QuillInvalidClassException(string messageCode, object[] args)
+        public QuillInvalidClassException(string messageCode, string[] args)
             : this(messageCode, args, null)
         {
         }
@@ -71,7 +71,7 @@ namespace Seasar.Quill.Exception
         /// <param name="args">メッセージ中に埋め込む値の配列</param>
         /// <param name="cause">元となった例外</param>
         public QuillInvalidClassException(
-            string messageCode, object[] args, System.Exception cause)
+            string messageCode, string[] args, System.Exception cause)
             : base(messageCode, args, cause)
         {
         }

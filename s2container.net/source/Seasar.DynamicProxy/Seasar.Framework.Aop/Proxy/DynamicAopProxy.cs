@@ -21,9 +21,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Castle.DynamicProxy;
 using Seasar.Framework.Aop.Impl;
+using Seasar.Framework.Util;
 
 #endregion
 
@@ -113,8 +115,7 @@ namespace Seasar.Framework.Aop.Proxy
             _generator = new ProxyGenerator();
 
             var interceptorMap = CreateMethodInterceptors(componentType, aspects);
-            _interceptors = new IInterceptor[] { new InterceptorAdapter(
-                interceptorMap, componentType, parameters) };
+            _interceptors = new IInterceptor[] { new InterceptorAdapter( interceptorMap, componentType, parameters) };
         }
 #else
 #region NET2.0
@@ -138,7 +139,7 @@ namespace Seasar.Framework.Aop.Proxy
                 {
                     target = new object();
                 }
-                _enhancedType = _generator.ProxyBuilder.CreateInterfaceProxy(new Type[] { _type }, target.GetType());
+                _enhancedType = _generator.ProxyBuilder.CreateInterfaceProxy(new Type[] { _type }, target.GetExType());
             }
             else
             {
@@ -171,9 +172,9 @@ namespace Seasar.Framework.Aop.Proxy
 
         public object Create(Type receiptType, object target)
         {
-            if (receiptType.IsInterface && target.GetType() == typeof(object))
+            if (receiptType.IsInterface)
             {
-                if (target.GetType() == typeof(object))
+                if (target.GetExType() == typeof(object))
                 {
                     return _generator.CreateInterfaceProxyWithoutTarget(receiptType, _interceptors);
                 }
@@ -190,11 +191,7 @@ namespace Seasar.Framework.Aop.Proxy
 
         public object Create(Type[] types, object[] args)
         {            
-            var interceptorTypes = new List<Type>();
-            foreach(var interceptor in _interceptors)
-            {
-                interceptorTypes.Add(interceptor.GetType());
-            }
+            var interceptorTypes = _interceptors.Select(interceptor => interceptor.GetExType()).ToList();
 
             Type enhancedType;
             if (_componentType.IsInterface)
@@ -206,10 +203,9 @@ namespace Seasar.Framework.Aop.Proxy
                 enhancedType = _generator.ProxyBuilder.CreateClassProxyType(_componentType, interceptorTypes.ToArray(), ProxyGenerationOptions.Default);
             }
 
-            var newArgs = new ArrayList();
-            newArgs.Add(_interceptors);
+            var newArgs = new ArrayList {_interceptors};
             newArgs.AddRange(args);
-            return Activator.CreateInstance(enhancedType, newArgs.ToArray());
+            return ClassArgumentsUtil<ArrayList, object>.NewInstance(newArgs);
         }
 
         public T Create<T>(object target)
@@ -249,7 +245,7 @@ namespace Seasar.Framework.Aop.Proxy
             {
                 args.AddRange(new object[] { null });
             }
-            if (type.IsInterface && target.GetType() != typeof(object))
+            if (type.IsInterface && target.GetExType() != typeof(object))
             {
                 return _generator.CreateProxy(type, this, target);
             }

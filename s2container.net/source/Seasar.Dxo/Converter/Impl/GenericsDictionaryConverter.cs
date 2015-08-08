@@ -23,15 +23,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Seasar.Dxo.Exception;
+using Seasar.Framework.Util;
 
 namespace Seasar.Dxo.Converter.Impl
 {
     /// <summary>
-    /// オブジェクトをIDictionary<typeparam name="K"><typeparam name="V">へ変換するコンバータ実装クラス
+    /// オブジェクトをIDictionary<typeparam name="TK"/><typeparam name="TV"/>へ変換するコンバータ実装クラス
     /// </summary>
-    public class GenericsDictionaryConverter<K, V> : AbstractPropertyConverter 
-        where K: class
-        where V: class
+    public class GenericsDictionaryConverter<TK, TV> : AbstractPropertyConverter 
+        where TK: class
+        where TV: class
     {
         /// <summary>
         /// オブジェクトのプロパティを任意の型に変換します
@@ -43,8 +44,8 @@ namespace Seasar.Dxo.Converter.Impl
         /// <returns>bool 変換が成功した場合にはtrue</returns>
         protected override bool DoConvert(object source, ref object dest, Type expectType)
         {
-            Debug.Assert(typeof(IDictionary<K, V>).IsAssignableFrom(expectType)
-                         , string.Format(DxoMessages.EDXO1003, "expectType", typeof(K).Name, typeof(V).Name));
+            Debug.Assert(typeof(IDictionary<TK, TV>).IsAssignableFrom(expectType)
+                         , string.Format(DxoMessages.EDXO1003, "expectType", typeof(TK).Name, typeof(TV).Name));
 //            Debug.Assert(typeof(IDictionary<K, V>).IsAssignableFrom(expectType)
 //                         , string.Format("expectTypeはIDictionary<{0}{1}>と互換性がなくてはならない"
 //                         , typeof(K).Name, typeof(V).Name));
@@ -52,36 +53,42 @@ namespace Seasar.Dxo.Converter.Impl
             if (dest == null)
             {
                 if (expectType.IsClass && !expectType.IsAbstract)
-                    dest = Activator.CreateInstance(expectType);
+                    dest = ClassUtil.NewInstance(expectType);
+//                    dest = Activator.CreateInstance(expectType);
                 else
                     throw new DxoException(String.Format(DxoMessages.EDXO0001, "expectType"));
 //                throw new DxoException("expectTypeは具象クラスではないので実体化することができない");
             }
-            IDictionary<K, V> result = dest as IDictionary<K, V>;
+            var result = dest as IDictionary<TK, TV>;
             if (result != null)
             {
                 result.Clear();
 
-                if (source is IDictionary<K, V>)
+                var vs = source as IDictionary<TK, TV>;
+                if (vs != null)
                 {
-                    foreach (KeyValuePair<K, V> pair in (source as IDictionary<K, V>))
+                    foreach (var pair in vs)
                     {
                         result.Add(pair.Key, pair.Value);
                     }
                     return true;
                 }
-                else if (source is IDictionary)
+                else
                 {
-                    foreach ( object key in (source as IDictionary).Keys)
+                    var dictionary = source as IDictionary;
+                    if (dictionary != null)
                     {
-                        object value = (source as IDictionary)[key];
-                        if (typeof (K).IsAssignableFrom(key.GetType())
-                            && typeof (V).IsAssignableFrom(value.GetType()))
-                            result.Add((K) key, (V) value);
-                        else
-                            return false;
+                        foreach ( var key in dictionary.Keys)
+                        {
+                            var value = dictionary[key];
+                            if (typeof (TK).IsAssignableFrom(key.GetExType())
+                                && typeof (TV).IsAssignableFrom(value.GetExType()))
+                                result.Add((TK) key, (TV) value);
+                            else
+                                return false;
+                        }
+                        return true;
                     }
-                    return true;
                 }
             }
             return false;

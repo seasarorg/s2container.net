@@ -21,6 +21,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Reflection;
 using System.Windows.Forms;
+using Seasar.Framework.Util;
 using Seasar.Windows.Attr;
 
 namespace Seasar.Windows.Seasar.Windows.Utils
@@ -48,8 +49,8 @@ namespace Seasar.Windows.Seasar.Windows.Utils
             if (data == null)
                 throw new ArgumentNullException(String.Format(SWFMessages.FSWF0001, "data"));
 
-            int ret = 0;
-            object target = info.GetValue(source, null);
+            var ret = 0;
+            var target = info.GetValue(source, null);
             IList list = target as IBindingList;
             if (list != null)
             {
@@ -58,18 +59,22 @@ namespace Seasar.Windows.Seasar.Windows.Utils
 
                 list.Insert(row, data);
 
-                Type genericType = target.GetType();
-                object obj = Activator.CreateInstance(genericType);
-                object obj2 = Activator.CreateInstance(genericType);
+                var genericType = target.GetExType();
+                var obj = ClassUtil.NewInstance(genericType);
+                var obj2 = ClassUtil.NewInstance(genericType);
+//                var obj = Activator.CreateInstance(genericType);
+//                var obj2 = Activator.CreateInstance(genericType);
 
-                info.SetValue(source, obj, null);
+                PropertyUtil.SetValue(source, source.GetExType(), info.Name, info.PropertyType, obj);
+//                info.SetValue(source, obj, null);
                 control.DataBindings.Clear();
 
-                IBindingList list2 = (IBindingList) obj2;
-                foreach (object o in list)
+                var list2 = (IBindingList) obj2;
+                foreach (var o in list)
                     list2.Add(o);
 
-                info.SetValue(source, obj2, null);
+                PropertyUtil.SetValue(source, source.GetExType(), info.Name, info.PropertyType, obj2);
+//                info.SetValue(source, obj2, null);
                 control.DataBindings.Add(
                     attr.ControlProperty, source, info.Name, attr.FormattingEnabled, attr.UpdateMode, attr.NullValue,
                     attr.FormatString);
@@ -90,9 +95,9 @@ namespace Seasar.Windows.Seasar.Windows.Utils
         /// <returns>çÌèúåèêî</returns>
         public int DeleteData(ref object source, PropertyInfo info, ref Control control, ControlAttribute attr, int row)
         {
-            int ret = 0;
-            object target = info.GetValue(source, null);
-            IBindingList list = target as IBindingList;
+            var ret = 0;
+            var target = info.GetValue(source, null);
+            var list = target as IBindingList;
             if (list != null)
             {
                 if (row > list.Count - 1)
@@ -100,19 +105,23 @@ namespace Seasar.Windows.Seasar.Windows.Utils
 
                 list.RemoveAt(row);
 
-                Type genericType = target.GetType();
+                var genericType = target.GetExType();
 
-                object obj = Activator.CreateInstance(genericType);
-                object obj2 = Activator.CreateInstance(genericType);
+                var obj = ClassUtil.NewInstance(genericType);
+                var obj2 = ClassUtil.NewInstance(genericType);
+//                var obj = Activator.CreateInstance(genericType);
+//                var obj2 = Activator.CreateInstance(genericType);
 
-                IBindingList list2 = (IBindingList) obj2;
-                foreach (object o in list)
+                var list2 = (IBindingList) obj2;
+                foreach (var o in list)
                     list2.Add(o);
-                info.SetValue(source, obj, null);
+                PropertyUtil.SetValue(source, source.GetExType(), info.Name, info.PropertyType, obj);
+//                info.SetValue(source, obj, null);
                 control.DataBindings.Clear();
 
 
-                info.SetValue(source, obj2, null);
+                PropertyUtil.SetValue(source, source.GetExType(), info.Name, info.PropertyType, obj2);
+//                info.SetValue(source, obj2, null);
                 control.DataBindings.Add(
                     attr.ControlProperty, source, info.Name, attr.FormattingEnabled, attr.UpdateMode,
                     attr.NullValue, attr.FormatString);
@@ -141,24 +150,28 @@ namespace Seasar.Windows.Seasar.Windows.Utils
             else
                 targetRow = row + 1;
 
-            object target = info.GetValue(source, null);
+            var target = PropertyUtil.GetValue(source, source.GetExType(), info.Name);
+//            var target = info.GetValue(source, null);
             IList list = target as IBindingList;
             if (list != null)
             {
                 if (targetRow >= list.Count)
                     throw new ArgumentOutOfRangeException(String.Format(SWFMessages.FSWF0003, "row"));
 
-                Type bindingType = target.GetType();
-                object obj = Activator.CreateInstance(bindingType);
-                object obj2 = Activator.CreateInstance(bindingType);
+                var bindingType = target.GetExType();
+                var obj = ClassUtil.NewInstance(bindingType);
+                var obj2 = ClassUtil.NewInstance(bindingType);
+//                var obj = Activator.CreateInstance(bindingType);
+//                var obj2 = Activator.CreateInstance(bindingType);
 
-                info.SetValue(source, obj, null);
+                PropertyUtil.SetValue(source, source.GetExType(), info.Name, info.PropertyType, obj);
+//                info.SetValue(source, obj, null);
                 control.DataBindings.Clear();
 
-                object src = list[row];
-                IBindingList list2 = (IBindingList) obj2;
-                int pos = 0;
-                foreach (object o in list)
+                var src = list[row];
+                var list2 = (IBindingList) obj2;
+                var pos = 0;
+                foreach (var o in list)
                 {
                     if (pos == targetRow)
                         list2.Add(src);
@@ -172,7 +185,8 @@ namespace Seasar.Windows.Seasar.Windows.Utils
                     pos++;
                 }
 
-                info.SetValue(source, obj2, null);
+                PropertyUtil.SetValue(source, source.GetExType(), info.Name, info.PropertyType, obj2);
+//                info.SetValue(source, obj2, null);
                 control.DataBindings.Add(
                     attr.ControlProperty, source, info.Name, attr.FormattingEnabled, attr.UpdateMode, attr.NullValue,
                     attr.FormatString);

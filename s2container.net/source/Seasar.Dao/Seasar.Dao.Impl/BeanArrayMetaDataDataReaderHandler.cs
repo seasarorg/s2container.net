@@ -31,7 +31,7 @@ namespace Seasar.Dao.Impl
 
         public override object Handle(IDataReader dataReader)
         {
-            ArrayList list = (ArrayList) base.Handle(dataReader);
+            var list = (ArrayList) base.Handle(dataReader);
             return list.ToArray(BeanMetaData.BeanType);
         }
     }

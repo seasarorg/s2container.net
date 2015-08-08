@@ -16,7 +16,6 @@
  */
 #endregion
 
-using System;
 using System.IO;
 using System.Reflection;
 using log4net;
@@ -35,7 +34,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
 
         static BasicUpdateHandlerTest()
         {
-            FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
+            var info = new FileInfo(SystemInfo.AssemblyFileName(
                 Assembly.GetExecutingAssembly()) + ".config");
             XmlConfigurator.Configure(LogManager.GetRepository(), info);
         }
@@ -48,12 +47,12 @@ namespace Seasar.Tests.Extension.ADO.Impl
         [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
         public void Execute()
         {
-            string sql = "update emp set ename = @ename, comm = @comm where empno = @empno";
-            BasicUpdateHandler handler = new BasicUpdateHandler(DataSource, sql);
-            object[] args = new object[] { "SCOTT", null, 7788 };
-            Type[] argTypes = new Type[] { typeof(string), typeof(Nullable<int>), typeof(int) };
-            string[] argNames = new string[] { "ename", "comm", "empno" };
-            int ret = handler.Execute(args, argTypes, argNames);
+            var sql = "update emp set ename = @ename, comm = @comm where empno = @empno";
+            var handler = new BasicUpdateHandler(DataSource, sql);
+            var args = new object[] { "SCOTT", null, 7788 };
+            var argTypes = new[] { typeof(string), typeof(int?), typeof(int) };
+            var argNames = new[] { "ename", "comm", "empno" };
+            var ret = handler.Execute(args, argTypes, argNames);
             Assert.AreEqual(1, ret, "1");
         }
 
@@ -65,9 +64,9 @@ namespace Seasar.Tests.Extension.ADO.Impl
         [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
         public void ExecuteNullArgs()
         {
-            string sql = "delete from emp";
-            BasicUpdateHandler handler = new BasicUpdateHandler(DataSource, sql);
-            int ret = handler.Execute(null);
+            var sql = "delete from emp";
+            var handler = new BasicUpdateHandler(DataSource, sql);
+            var ret = handler.Execute(null);
             Assert.AreEqual(14, ret, "1");
         }
 
@@ -79,10 +78,10 @@ namespace Seasar.Tests.Extension.ADO.Impl
         [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
         public void ExecuteAtmarkWithParam()
         {
-            string sql = "update emp set ename = @ename, comm = @comm where empno = @empno";
-            BasicUpdateHandler handler = new BasicUpdateHandler(DataSource, sql);
-            object[] args = new object[] { "SCOTT", null, 7788 };
-            int ret = handler.Execute(args);
+            var sql = "update emp set ename = @ename, comm = @comm where empno = @empno";
+            var handler = new BasicUpdateHandler(DataSource, sql);
+            var args = new object[] { "SCOTT", null, 7788 };
+            var ret = handler.Execute(args);
             Assert.AreEqual(1, ret, "1");
         }
 
@@ -94,10 +93,10 @@ namespace Seasar.Tests.Extension.ADO.Impl
         [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
         public void ExecuteColonWithParam()
         {
-            string sql = "update emp set ename = :ename, comm = :comm where empno = :empno";
-            BasicUpdateHandler handler = new BasicUpdateHandler(DataSource, sql);
-            object[] args = new object[] { "SCOTT", null, 7788 };
-            int ret = handler.Execute(args);
+            var sql = "update emp set ename = :ename, comm = :comm where empno = :empno";
+            var handler = new BasicUpdateHandler(DataSource, sql);
+            var args = new object[] { "SCOTT", null, 7788 };
+            var ret = handler.Execute(args);
             Assert.AreEqual(1, ret, "1");
         }
 
@@ -109,10 +108,10 @@ namespace Seasar.Tests.Extension.ADO.Impl
         [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
         public void ExecuteQuestionWithParam()
         {
-            string sql = "update emp set ename = ?, comm = ? where empno = ?";
-            BasicUpdateHandler handler = new BasicUpdateHandler(DataSource, sql);
-            object[] args = new object[] { "SCOTT", null, 7788 };
-            int ret = handler.Execute(args);
+            var sql = "update emp set ename = ?, comm = ? where empno = ?";
+            var handler = new BasicUpdateHandler(DataSource, sql);
+            var args = new object[] { "SCOTT", null, 7788 };
+            var ret = handler.Execute(args);
             Assert.AreEqual(1, ret, "1");
         }
 
@@ -124,10 +123,10 @@ namespace Seasar.Tests.Extension.ADO.Impl
         [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
         public void ExecuteEnumType()
         {
-            string sql = "update basictype set bytetype = ?, sbytetype = ?, int16type = ?, int32type = ?, int64type = ?, singletype = ?, doubletype = ?, decimaltype = ?, stringtype = ? where id = ?";
-            BasicUpdateHandler handler = new BasicUpdateHandler(DataSource, sql);
-            object[] args = new object[] { Numbers.ONE, Numbers.TWO, Numbers.THREE, Numbers.FOUR, Numbers.FIVE, Numbers.SIX, Numbers.SEVEN, Numbers.EIGHT, Numbers.NINE, 1 };
-            int ret = handler.Execute(args);
+            var sql = "update basictype set bytetype = ?, sbytetype = ?, int16type = ?, int32type = ?, int64type = ?, singletype = ?, doubletype = ?, decimaltype = ?, stringtype = ? where id = ?";
+            var handler = new BasicUpdateHandler(DataSource, sql);
+            var args = new object[] { Numbers.ONE, Numbers.TWO, Numbers.THREE, Numbers.FOUR, Numbers.FIVE, Numbers.SIX, Numbers.SEVEN, Numbers.EIGHT, Numbers.NINE, 1 };
+            var ret = handler.Execute(args);
             Assert.AreEqual(1, ret, "1");
         }
     }

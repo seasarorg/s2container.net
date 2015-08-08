@@ -1,4 +1,4 @@
-#region Copyright
+﻿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -18,11 +18,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using MbUnit.Framework;
 using Seasar.Framework.Aop;
-using Seasar.Framework.Container.Factory;
-using Seasar.Framework.Container.Impl;
+using Seasar.Framework.Util;
 using Seasar.Quill;
 using Seasar.Quill.Attrs;
 using Seasar.Quill.Exception;
@@ -39,13 +37,13 @@ namespace Seasar.Tests.Quill
         #region GetMethodInterceptorのテスト
 
         [Test]
-        public void TestGetMethodInterceptor_Quill_IMethodInterceptorに代入できない場合()
+        public void TestGetMethodInterceptorQuillIMethodInterceptorに代入できない場合()
         {
-            this.container = new QuillContainer();
+            container = new QuillContainer();
 
             try
             {
-                this.GetMethodInterceptor(typeof(Hoge1));
+                GetMethodInterceptor(typeof(Hoge1));
                 Assert.Fail();
             }
             catch (QuillApplicationException ex)
@@ -55,14 +53,14 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestGetMethodInterceptor_Quill_正常な場合()
+        public void TestGetMethodInterceptorQuill正常な場合()
         {
-            this.container = new QuillContainer();
+            container = new QuillContainer();
 
-            IMethodInterceptor interceptor = 
-                this.GetMethodInterceptor(typeof(HogeInterceptor));
+            var interceptor = 
+                GetMethodInterceptor(typeof(HogeInterceptor));
 
-            Assert.AreEqual(typeof(HogeInterceptor), interceptor.GetType());
+            Assert.AreEqual(typeof(HogeInterceptor), interceptor.GetExType());
         }
 
         //[Test]
@@ -71,7 +69,7 @@ namespace Seasar.Tests.Quill
         //    S2ContainerImpl container = new S2ContainerImpl();
         //    ComponentDefImpl def = new ComponentDefImpl(typeof(Hoge1), "hoge");
         //    container.Register(def);
-        //    SingletonS2ContainerFactory.Container = container;
+        //    SingletonS2ContainerFactory.container = container;
 
         //    this.container = new QuillContainer();
 
@@ -92,26 +90,26 @@ namespace Seasar.Tests.Quill
         //    S2ContainerImpl container = new S2ContainerImpl();
         //    ComponentDefImpl def = new ComponentDefImpl(typeof(HogeInterceptor), "hoge");
         //    container.Register(def);
-        //    SingletonS2ContainerFactory.Container = container;
+        //    SingletonS2ContainerFactory.container = container;
 
         //    this.container = new QuillContainer();
 
         //    IMethodInterceptor interceptor = this.GetMethodInterceptor("hoge");
 
-        //    Assert.AreEqual(typeof(HogeInterceptor), interceptor.GetType());
+        //    Assert.AreEqual(typeof(HogeInterceptor), interceptor.GetExType());
         //}
 
         [Test]
-        public void TestGetMethodInterceptor_Aspect属性にパラメータが設定されていない場合()
+        public void TestGetMethodInterceptorAspect属性にパラメータが設定されていない場合()
         {
-            this.container = new QuillContainer();
+            container = new QuillContainer();
 
             Type type = null;
-            AspectAttribute attr = new AspectAttribute(type);
+            var attr = new AspectAttribute(type);
 
             try
             {
-                this.GetMethodInterceptor(attr);
+                GetMethodInterceptor(attr);
 
                 Assert.Fail();
             }
@@ -122,16 +120,16 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestGetMethodInterceptor_Aspect属性にInterceptorTypeが設定されている場合()
+        public void TestGetMethodInterceptorAspect属性にInterceptorTypeが設定されている場合()
         {
-            this.container = new QuillContainer();
+            container = new QuillContainer();
 
-            AspectAttribute attr = new AspectAttribute(typeof(HogeInterceptor));
+            var attr = new AspectAttribute(typeof(HogeInterceptor));
 
-            IMethodInterceptor interceptor = this.GetMethodInterceptor(attr);
+            var interceptor = GetMethodInterceptor(attr);
 
             Assert.IsTrue(
-                typeof(HogeInterceptor).IsAssignableFrom(interceptor.GetType()));
+                typeof(HogeInterceptor).IsAssignableFrom(interceptor.GetExType()));
         }
 
         //[Test]
@@ -140,7 +138,7 @@ namespace Seasar.Tests.Quill
         //    S2ContainerImpl container = new S2ContainerImpl();
         //    ComponentDefImpl def = new ComponentDefImpl(typeof(HogeInterceptor), "hoge");
         //    container.Register(def);
-        //    SingletonS2ContainerFactory.Container = container;
+        //    SingletonS2ContainerFactory.container = container;
 
         //    this.container = new QuillContainer();
 
@@ -172,40 +170,40 @@ namespace Seasar.Tests.Quill
         #region AddMethodNamesForPointcutのテスト
 
         [Test]
-        public void TestAddMethodNamesForPointcut_初めてInterceptorにpointcutが設定される場合()
+        public void TestAddMethodNamesForPointcut初めてInterceptorにpointcutが設定される場合()
         {
-            this.container = new QuillContainer();
+            container = new QuillContainer();
 
-            AspectAttribute attr = new AspectAttribute(typeof(HogeInterceptor2));
+            var attr = new AspectAttribute(typeof(HogeInterceptor2));
 
             IDictionary<IMethodInterceptor, List<string>> methodNames =
                 new Dictionary<IMethodInterceptor, List<string>>();
 
-            this.AddMethodNamesForPointcut(methodNames, "Hoge", attr);
+            AddMethodNamesForPointcut(methodNames, "Hoge", attr);
 
             Assert.AreEqual(1, methodNames.Count);
-            Assert.AreEqual(1, methodNames[this.GetMethodInterceptor(attr)].Count);
-            Assert.AreEqual("Hoge", methodNames[this.GetMethodInterceptor(attr)][0]);
+            Assert.AreEqual(1, methodNames[GetMethodInterceptor(attr)].Count);
+            Assert.AreEqual("Hoge", methodNames[GetMethodInterceptor(attr)][0]);
         }
 
         [Test]
-        public void TestAddMehtodNamesForPointcut_既にInterceptorにpointcutが設定されている場合()
+        public void TestAddMehtodNamesForPointcut既にInterceptorにpointcutが設定されている場合()
         {
-            this.container = new QuillContainer();
+            container = new QuillContainer();
 
-            AspectAttribute attr = new AspectAttribute(typeof(HogeInterceptor2));
+            var attr = new AspectAttribute(typeof(HogeInterceptor2));
 
             IDictionary<IMethodInterceptor, List<string>> methodNames =
                 new Dictionary<IMethodInterceptor, List<string>>();
 
-            IMethodInterceptor interceptor = this.GetMethodInterceptor(attr);
+            var interceptor = GetMethodInterceptor(attr);
 
-            List<string> nameList = new List<string>();
+            var nameList = new List<string>();
             nameList.Add("Hoge");
 
             methodNames[interceptor] = nameList;
 
-            this.AddMethodNamesForPointcut(methodNames, "Hoge2", attr);
+            AddMethodNamesForPointcut(methodNames, "Hoge2", attr);
 
             Assert.AreEqual(1, methodNames.Count);
             Assert.AreEqual(2, methodNames[interceptor].Count);
@@ -216,21 +214,21 @@ namespace Seasar.Tests.Quill
         [Test]
         public void TestAddMethodNamesForPointcut()
         {
-            this.container = new QuillContainer();
+            container = new QuillContainer();
 
-            MethodInfo method = typeof(Hoge2).GetMethod("HogeHoge");
+            var method = typeof(Hoge2).GetMethod("HogeHoge");
 
             IDictionary<IMethodInterceptor, List<string>> methodNames =
                 new Dictionary<IMethodInterceptor, List<string>>();
 
-            this.AddMethodNamesForPointcut(methodNames, method);
+            AddMethodNamesForPointcut(methodNames, method);
 
-            AspectAttribute attr = (AspectAttribute)
+            var attr = (AspectAttribute)
                 Attribute.GetCustomAttribute(method, typeof(AspectAttribute));
 
             Assert.AreEqual(1, methodNames.Count);
-            Assert.AreEqual(1, methodNames[this.GetMethodInterceptor(attr)].Count);
-            Assert.AreEqual("HogeHoge", methodNames[this.GetMethodInterceptor(attr)][0]);
+            Assert.AreEqual(1, methodNames[GetMethodInterceptor(attr)].Count);
+            Assert.AreEqual("HogeHoge", methodNames[GetMethodInterceptor(attr)][0]);
         }
 
         #endregion
@@ -259,14 +257,14 @@ namespace Seasar.Tests.Quill
         #region CreateAspectのテスト
 
         [Test]
-        public void TestCreateAspect_全てのメソッドで有効なAspectを作成する場合()
+        public void TestCreateAspect全てのメソッドで有効なAspectを作成する場合()
         {
-            this.container = new QuillContainer();
-            AspectAttribute attr = new AspectAttribute(typeof(HogeInterceptor3));
+            container = new QuillContainer();
+            var attr = new AspectAttribute(typeof(HogeInterceptor3));
 
-            IAspect aspect = this.CreateAspect(attr);
+            var aspect = CreateAspect(attr);
 
-            IMethodInterceptor interceptor = (IMethodInterceptor) container.GetComponent(
+            var interceptor = (IMethodInterceptor) container.GetComponent(
                 typeof(HogeInterceptor3)).GetComponentObject(typeof(HogeInterceptor3));
 
             Assert.AreEqual(interceptor, aspect.MethodInterceptor);
@@ -274,14 +272,14 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestCreateAspect_メソッド名を指定して有効なAspectを作成する場合()
+        public void TestCreateAspectメソッド名を指定して有効なAspectを作成する場合()
         {
-            this.container = new QuillContainer();
+            container = new QuillContainer();
 
             IMethodInterceptor interceptor = new HogeInterceptor3();
 
-            IAspect aspect = this.CreateAspect(
-                interceptor, new string[] { "Hoge1", "Hoge2" });
+            var aspect = CreateAspect(
+                interceptor, new[] { "Hoge1", "Hoge2" });
 
             Assert.AreEqual(interceptor, aspect.MethodInterceptor);
             Assert.IsTrue(aspect.Pointcut.IsApplied("Hoge1"));
@@ -306,33 +304,33 @@ namespace Seasar.Tests.Quill
         #region CreateAspectListのテスト
 
         [Test]
-        public void TestCreateAspectList_Aspectが適用されていない場合()
+        public void TestCreateAspectListAspectが適用されていない場合()
         {
-            this.container = new QuillContainer();
-            MethodInfo[] methods = typeof(Hoge3).GetMethods();
+            container = new QuillContainer();
+            var methods = typeof(Hoge3).GetMethods();
 
-            IList<IAspect> list = this.CreateAspectList(methods);
+            var list = CreateAspectList(methods);
 
             Assert.AreEqual(0, list.Count);
         }
 
         [Test]
-        public void TestCreateAspectList_Aspectが適用される場合()
+        public void TestCreateAspectListAspectが適用される場合()
         {
-            this.container = new QuillContainer();
-            MethodInfo[] methods = typeof(Hoge4).GetMethods();
+            container = new QuillContainer();
+            var methods = typeof(Hoge4).GetMethods();
 
-            IList<IAspect> list = this.CreateAspectList(methods);
+            var list = CreateAspectList(methods);
 
             Assert.AreEqual(1, list.Count);
 
-            IAspect aspect = list[0];
-            IMethodInterceptor interceptor = (IMethodInterceptor)container.GetComponent(
+            var aspect = list[0];
+            var interceptor = (IMethodInterceptor)container.GetComponent(
                 typeof(HogeInterceptor4)).GetComponentObject(typeof(HogeInterceptor4));
 
             Assert.AreEqual(interceptor, aspect.MethodInterceptor);
 
-            IPointcut pointcut = aspect.Pointcut;
+            var pointcut = aspect.Pointcut;
 
             Assert.IsTrue(pointcut.IsApplied("Hoge1"));
             Assert.IsTrue(pointcut.IsApplied("Hoge2"));
@@ -384,19 +382,19 @@ namespace Seasar.Tests.Quill
         #region CreateAspectsのテスト
 
         [Test]
-        public void TestCreateAspects_Aspectが適用されない場合()
+        public void TestCreateAspectsAspectが適用されない場合()
         {
-            this.container = new QuillContainer();
-            IAspect[] aspects = this.CreateAspects(typeof(Hoge5));
+            container = new QuillContainer();
+            var aspects = CreateAspects(typeof(Hoge5));
             
             Assert.AreEqual(0, aspects.Length);
         }
 
         [Test]
-        public void TestCreateAspects_Aspectが適用される場合()
+        public void TestCreateAspectsAspectが適用される場合()
         {
-            this.container = new QuillContainer();
-            IAspect[] aspects = this.CreateAspects(typeof(Hoge6));
+            container = new QuillContainer();
+            var aspects = CreateAspects(typeof(Hoge6));
 
             Assert.AreEqual(2, aspects.Length);
         }

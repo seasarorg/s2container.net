@@ -44,20 +44,14 @@ namespace Seasar.Framework.Container.Util
         /// <summary>
         /// IArgDef‚Ì”
         /// </summary>
-        public int ArgDefSize
-        {
-            get { return _argDefs.Count; }
-        }
+        public int ArgDefSize => _argDefs.Count;
 
         /// <summary>
         /// ”Ô†‚ğw’è‚µ‚ÄIArgDef‚ğæ“¾‚µ‚Ü‚·B
         /// </summary>
         /// <param name="index">”Ô†</param>
         /// <returns>IArgDef</returns>
-        public IArgDef GetArgDef(int index)
-        {
-            return (IArgDef) _argDefs[index];
-        }
+        public IArgDef GetArgDef(int index) => (IArgDef) _argDefs[index];
 
         /// <summary>
         /// S2Container
@@ -67,10 +61,10 @@ namespace Seasar.Framework.Container.Util
             set
             {
                 _container = value;
-                IEnumerator enu = _argDefs.GetEnumerator();
+                var enu = _argDefs.GetEnumerator();
                 while (enu.MoveNext())
                 {
-                    IArgDef argDef = (IArgDef) enu.Current;
+                    var argDef = (IArgDef) enu.Current;
                     argDef.Container = value;
                 }
             }

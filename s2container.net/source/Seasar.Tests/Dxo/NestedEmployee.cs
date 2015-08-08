@@ -2,21 +2,8 @@ namespace Seasar.Tests.Dxo
 {
     public class NestedEmployee
     {
-        private string _code;
+        public string Name { get; set; }
 
-        private Employee _emp;
-
-        public string Name
-        {
-            get { return _code; }
-            set { _code = value; }
-        }
-
-        public Employee Emp
-        {
-            get { return _emp; }
-            set { _emp = value; }
-        }
-
+        public Employee Emp { get; set; }
     }
 }

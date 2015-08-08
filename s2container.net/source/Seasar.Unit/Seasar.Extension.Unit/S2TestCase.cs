@@ -52,14 +52,9 @@ namespace Seasar.Extension.Unit
 #endregion
 #endif
     {
-        private ICommandFactory _commandFactory = null;
+        private ICommandFactory _commandFactory;
 #if NET_4_0
-        private IS2Container _container;
-        public IS2Container Container
-        {
-            get { return _container; }
-            set { _container = value; }
-        }
+        public IS2Container Container { get; set; }
 
         protected override ICommandFactory CommandFactory
         {
@@ -80,50 +75,23 @@ namespace Seasar.Extension.Unit
             }
         }
 
-        public object GetComponent(string componentName)
-        {
-            return _container.GetComponent(componentName);
-        }
+        public object GetComponent(string componentName) => Container.GetComponent(componentName);
 
-        public object GetComponent(Type componentClass)
-        {
-            return _container.GetComponent(componentClass);
-        }
+        public object GetComponent(Type componentClass) => Container.GetComponent(componentClass);
 
-        public IComponentDef GetComponentDef(string componentName)
-        {
-            return _container.GetComponentDef(componentName);
-        }
+        public IComponentDef GetComponentDef(string componentName) => Container.GetComponentDef(componentName);
 
-        public IComponentDef GetComponentDef(Type componentClass)
-        {
-            return _container.GetComponentDef(componentClass);
-        }
+        public IComponentDef GetComponentDef(Type componentClass) => Container.GetComponentDef(componentClass);
 
-        public void Register(Type componentClass)
-        {
-            _container.Register(componentClass);
-        }
+        public void Register(Type componentClass) => Container.Register(componentClass);
 
-        public void Register(Type componentClass, string componentName)
-        {
-            _container.Register(componentClass, componentName);
-        }
+        public void Register(Type componentClass, string componentName) => Container.Register(componentClass, componentName);
 
-        public void Register(object component)
-        {
-            _container.Register(component);
-        }
+        public void Register(object component) => Container.Register(component);
 
-        public void Register(object component, string componentName)
-        {
-            _container.Register(component, componentName);
-        }
+        public void Register(object component, string componentName) => Container.Register(component, componentName);
 
-        public void Register(IComponentDef componentDef)
-        {
-            _container.Register(componentDef);
-        }
+        public void Register(IComponentDef componentDef) => Container.Register(componentDef);
 
         public void Include(string path)
         {
@@ -168,9 +136,9 @@ namespace Seasar.Extension.Unit
         {
             get
             {
-                if (_commandFactory == null && Container.HasComponentDef(typeof(ICommandFactory)))
+                if (_commandFactory == null && container.HasComponentDef(typeof(ICommandFactory)))
                 {
-                    _commandFactory = Container.GetComponent(typeof(ICommandFactory)) as ICommandFactory;
+                    _commandFactory = container.GetComponent(typeof(ICommandFactory)) as ICommandFactory;
                 }
                 if (_commandFactory == null)
                 {

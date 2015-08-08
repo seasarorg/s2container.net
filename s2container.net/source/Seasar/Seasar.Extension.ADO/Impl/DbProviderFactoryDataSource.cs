@@ -44,18 +44,19 @@ namespace Seasar.Extension.ADO.Impl
             _dbProviderFactory = DbProviderFactories.GetFactory(_settings.ProviderName);
         }
 
-        public DbProviderFactory DbProviderFactory
-        {
-            get { return _dbProviderFactory; }
-        }
+        public DbProviderFactory DbProviderFactory => _dbProviderFactory;
 
         #region IDataSource ƒƒ“ƒo
 
         public virtual IDbConnection GetConnection()
         {
             IDbConnection cn = _dbProviderFactory.CreateConnection();
-            cn.ConnectionString = _settings.ConnectionString;
-            return cn;
+            if (cn != null)
+            {
+                cn.ConnectionString = _settings.ConnectionString;
+                return cn;
+            }
+            return null;
         }
 
         public virtual void CloseConnection(IDbConnection connection)
@@ -68,24 +69,24 @@ namespace Seasar.Extension.ADO.Impl
             return _dbProviderFactory.CreateCommand();
         }
 
-        public IDbCommand GetCommand(string cmdText)
+        public IDbCommand GetCommand(string text)
         {
-            IDbCommand cmd = GetCommand();
-            cmd.CommandText = cmdText;
+            var cmd = GetCommand();
+            cmd.CommandText = text;
             return cmd;
         }
 
-        public IDbCommand GetCommand(string cmdText, IDbConnection connection)
+        public IDbCommand GetCommand(string text, IDbConnection connection)
         {
-            IDbCommand cmd = GetCommand(cmdText);
+            var cmd = GetCommand(text);
             cmd.Connection = connection;
             return cmd;
         }
 
-        public IDbCommand GetCommand(string cmdText,
+        public IDbCommand GetCommand(string text,
             IDbConnection connection, IDbTransaction transaction)
         {
-            IDbCommand cmd = GetCommand(cmdText, connection);
+            var cmd = GetCommand(text, connection);
             cmd.Transaction = transaction;
             return cmd;
         }
@@ -97,7 +98,7 @@ namespace Seasar.Extension.ADO.Impl
 
         public IDataParameter GetParameter(string name, DbType dataType)
         {
-            IDataParameter param = GetParameter();
+            var param = GetParameter();
             param.ParameterName = name;
             param.DbType = dataType;
             return param;
@@ -105,7 +106,7 @@ namespace Seasar.Extension.ADO.Impl
 
         public IDataParameter GetParameter(string name, object value)
         {
-            IDataParameter param = GetParameter();
+            var param = GetParameter();
             param.ParameterName = name;
             if (value == null)
             {
@@ -120,30 +121,35 @@ namespace Seasar.Extension.ADO.Impl
 
         public IDataParameter GetParameter(string name, DbType dataType, int size)
         {
-            DbParameter param = _dbProviderFactory.CreateParameter();
-            param.ParameterName = name;
-            param.DbType = dataType;
-            param.Size = size;
-            return param;
+            var param = _dbProviderFactory.CreateParameter();
+            if (param != null)
+            {
+                param.ParameterName = name;
+                param.DbType = dataType;
+                param.Size = size;
+                return param;
+            }
+            return null;
         }
 
         public IDataParameter GetParameter(string name, DbType dataType, int size, string srcColumn)
         {
-            IDataParameter param = GetParameter(name, dataType, size);
+            var param = GetParameter(name, dataType, size);
             param.SourceColumn = srcColumn;
             return param;
         }
 
-        public IDataAdapter GetDataAdapter()
-        {
-            return _dbProviderFactory.CreateDataAdapter();
-        }
+        public IDataAdapter GetDataAdapter() => _dbProviderFactory.CreateDataAdapter();
 
         public IDataAdapter GetDataAdapter(IDbCommand selectCommand)
         {
-            DbDataAdapter ret = _dbProviderFactory.CreateDataAdapter();
-            ret.SelectCommand = (DbCommand)selectCommand;
-            return ret;
+            var ret = _dbProviderFactory.CreateDataAdapter();
+            if (ret != null)
+            {
+                ret.SelectCommand = (DbCommand)selectCommand;
+                return ret;
+            }
+            return null;
         }
 
         public IDataAdapter GetDataAdapter(string selectCommandText, string selectConnectionString)

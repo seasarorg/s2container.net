@@ -20,29 +20,20 @@ namespace Seasar.Dao.Node
 {
     public class PrefixSqlNode : AbstractNode
     {
-        private readonly string _prefix;
-        private readonly string _sql;
-
         public PrefixSqlNode(string prefix, string sql)
         {
-            _prefix = prefix;
-            _sql = sql;
+            Prefix = prefix;
+            Sql = sql;
         }
 
-        public string Prefix
-        {
-            get { return _prefix; }
-        }
+        public string Prefix { get; }
 
-        public string Sql
-        {
-            get { return _sql; }
-        }
+        public string Sql { get; }
 
         public override void Accept(ICommandContext ctx)
         {
-            if (ctx.IsEnabled) ctx.AddSql(_prefix);
-            ctx.AddSql(_sql);
+            if (ctx.IsEnabled) ctx.AddSql(Prefix);
+            ctx.AddSql(Sql);
         }
     }
 }

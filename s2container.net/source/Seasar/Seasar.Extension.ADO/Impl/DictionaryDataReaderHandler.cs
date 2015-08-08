@@ -28,7 +28,7 @@ namespace Seasar.Extension.ADO.Impl
         {
             if (reader.Read())
             {
-                IPropertyType[] propertyTypes = PropertyTypeUtil.CreatePropertyTypes(reader.GetSchemaTable());
+                var propertyTypes = PropertyTypeUtil.CreatePropertyTypes(reader.GetSchemaTable());
                 return CreateRow(reader, propertyTypes);
             }
             else

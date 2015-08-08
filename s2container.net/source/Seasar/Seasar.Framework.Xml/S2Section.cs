@@ -25,19 +25,8 @@ namespace Seasar.Framework.Xml
     /// </summary>
     public class S2Section
     {
-        private string _configPath = null;
-        private IList _assemblys = new ArrayList();
+        public string ConfigPath { set; get; } = null;
 
-        public string ConfigPath
-        {
-            set { _configPath = value; }
-            get { return _configPath; }
-        }
-
-        public IList Assemblys
-        {
-            set { _assemblys = value; }
-            get { return _assemblys; }
-        }
+        public IList Assemblys { set; get; } = new ArrayList();
     }
 }

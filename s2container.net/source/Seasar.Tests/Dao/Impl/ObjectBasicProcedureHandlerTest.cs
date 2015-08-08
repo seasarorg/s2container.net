@@ -24,8 +24,8 @@ namespace Seasar.Tests.Dao.Impl
         {
             // ## Arrange ##
             const int KEY = 7521;
-            ObjectBasicProcedureHandler handler = new ObjectBasicProcedureHandler(DataSource, CommandFactory, "dbo.SelectForOutputParam");
-            int outputParam = 0;
+            var handler = new ObjectBasicProcedureHandler(DataSource, CommandFactory, "dbo.SelectForOutputParam");
+            var outputParam = 0;
             Object[] arguments = { outputParam, KEY };
             handler.ArgumentTypes = new Type[] { typeof(int), typeof(int) };
             handler.ArgumentNames = new string[] { "Mgr", "Empno" };
@@ -47,8 +47,8 @@ namespace Seasar.Tests.Dao.Impl
         {
             // ## Arrange ##
             const int KEY = 7839;
-            ObjectBasicProcedureHandler handler = new ObjectBasicProcedureHandler(DataSource, CommandFactory, "dbo.SelectForOutputParam");
-            int outputParam = 0;
+            var handler = new ObjectBasicProcedureHandler(DataSource, CommandFactory, "dbo.SelectForOutputParam");
+            var outputParam = 0;
             Object[] arguments = { outputParam, KEY }; // outパラメータにnullが設定されているEMPNO
             handler.ArgumentTypes = new Type[] { typeof(int), typeof(int) };
             handler.ArgumentNames = new string[] { "Mgr", "Empno" };

@@ -43,12 +43,12 @@ namespace Seasar.Tests.Dao.Impl
             IBeanMetaData bmd = CreateBeanMetaData(typeof(MyBean));
             Assert.AreEqual("MyBean", bmd.TableName, "1");
             Assert.AreEqual(3, bmd.PropertyTypeSize, "2");
-            IPropertyType aaa = bmd.GetPropertyType("aaa");
+            var aaa = bmd.GetPropertyType("aaa");
             Assert.AreEqual("Aaa", aaa.ColumnName, "3");    // Java : aaa
-            IPropertyType bbb = bmd.GetPropertyType("bbb");
+            var bbb = bmd.GetPropertyType("bbb");
             Assert.AreEqual("myBbb", bbb.ColumnName, "4");
             Assert.AreEqual(1, bmd.RelationPropertyTypeSize, "5");
-            IRelationPropertyType rpt = bmd.GetRelationPropertyType(0);
+            var rpt = bmd.GetRelationPropertyType(0);
             Assert.AreEqual(1, rpt.KeySize, "6");
             Assert.AreEqual("ddd", rpt.GetMyKey(0), "7");
             Assert.AreEqual("id", rpt.GetYourKey(0), "8");
@@ -61,12 +61,12 @@ namespace Seasar.Tests.Dao.Impl
         public void TestSetupDatabaseMetaData()
         {
             IBeanMetaData bmd = CreateBeanMetaData(typeof(Employee));
-            IPropertyType empno = bmd.GetPropertyType("Empno");
+            var empno = bmd.GetPropertyType("Empno");
             Assert.AreEqual(true, empno.IsPrimaryKey, "1");
             Assert.AreEqual(true, empno.IsPersistent, "2");
-            IPropertyType ename = bmd.GetPropertyType("ename");
+            var ename = bmd.GetPropertyType("ename");
             Assert.AreEqual(false, ename.IsPrimaryKey, "3");
-            IPropertyType dummy = bmd.GetPropertyType("dummy");
+            var dummy = bmd.GetPropertyType("dummy");
             Assert.AreEqual(false, dummy.IsPersistent, "4");
         }
 
@@ -75,8 +75,8 @@ namespace Seasar.Tests.Dao.Impl
         {
             IBeanMetaData bmd = CreateBeanMetaData(typeof(Department));
             IBeanMetaData bmd2 = CreateBeanMetaData(typeof(Employee));
-            string sql = bmd.AutoSelectList;
-            string sql2 = bmd2.AutoSelectList;
+            var sql = bmd.AutoSelectList;
+            var sql2 = bmd2.AutoSelectList;
             Trace.WriteLine(sql);
             Trace.WriteLine(sql2);
 
@@ -116,7 +116,7 @@ namespace Seasar.Tests.Dao.Impl
         public void TestSelfReference()
         {
             IBeanMetaData bmd = CreateBeanMetaData(typeof(Employee4));
-            IRelationPropertyType rpt = bmd.GetRelationPropertyType("parent");
+            var rpt = bmd.GetRelationPropertyType("parent");
             Assert.AreEqual(typeof(Employee4), rpt.BeanMetaData.BeanType, "1");
         }
 
@@ -124,7 +124,7 @@ namespace Seasar.Tests.Dao.Impl
         public void TestNoPersistentPropsEmpty()
         {
             IBeanMetaData bmd = CreateBeanMetaData(typeof(Ddd));
-            IPropertyType pt = bmd.GetPropertyType("Name");
+            var pt = bmd.GetPropertyType("Name");
             Assert.AreEqual(false, pt.IsPersistent, "1");
         }
 
@@ -132,7 +132,7 @@ namespace Seasar.Tests.Dao.Impl
         public void TestNoPersistentPropsDefined()
         {
             IBeanMetaData bmd = CreateBeanMetaData(typeof(Eee));
-            IPropertyType pt = bmd.GetPropertyType("name");
+            var pt = bmd.GetPropertyType("name");
             Assert.AreEqual(false, pt.IsPersistent, "1");
         }
 
@@ -160,100 +160,45 @@ namespace Seasar.Tests.Dao.Impl
         [Table("MyBean")]
         public class MyBean
         {
-            private SqlInt32 _aaa;
-            private string _bbb;
-            private Ccc _ccc;
-            private SqlInt32 _ddd;
-
             [ID(IDType.ASSIGNED)]
-            public SqlInt32 Aaa
-            {
-                get { return _aaa; }
-                set { _aaa = value; }
-            }
+            public SqlInt32 Aaa { get; set; }
 
             [Seasar.Dao.Attrs.Column("myBbb")]
-            public string Bbb
-            {
-                get { return _bbb; }
-                set { _bbb = value; }
-            }
+            public string Bbb { get; set; }
 
             [Relno(0), Relkeys("ddd:id")]
-            public Ccc Cccc
-            {
-                get { return _ccc; }
-                set { _ccc = value; }
-            }
+            public Ccc Cccc { get; set; }
 
-            public SqlInt32 Ddd
-            {
-                get { return _ddd; }
-                set { _ddd = value; }
-            }
+            public SqlInt32 Ddd { get; set; }
         }
 
         public class Ccc
         {
-            private SqlInt32 _id;
-
             [ID(IDType.ASSIGNED)]
-            public SqlInt32 Id
-            {
-                get { return _id; }
-                set { _id = value; }
-            }
+            public SqlInt32 Id { get; set; }
         }
 
         [NoPersistentProps("")]
         public class Ddd : Ccc
         {
-            private string _name;
-
-            public string Name
-            {
-                get { return _name; }
-                set { _name = value; }
-            }
+            public string Name { get; set; }
         }
 
         [NoPersistentProps("name")]
         public class Eee : Ccc
         {
-            private string _name;
-
-            public string Name
-            {
-                get { return _name; }
-                set { _name = value; }
-            }
+            public string Name { get; set; }
         }
 
         [VersionNoProperty("Version")]
         [TimestampProperty("Updated")]
         public class Fff
         {
-            private int _version;
-            private SqlInt32 _id;
-            private DateTime _updated;
+            public SqlInt32 Id { get; set; }
 
-            public SqlInt32 Id
-            {
-                get { return _id; }
-                set { _id = value; }
-            }
+            public int Version { get; set; }
 
-            public int Version
-            {
-                get { return _version; }
-                set { _version = value; }
-            }
-
-            public DateTime Updated
-            {
-                get { return _updated; }
-                set { _updated = value; }
-            }
+            public DateTime Updated { get; set; }
         }
     }
 }

@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -29,7 +29,7 @@ using MbUnit.Framework;
 
 namespace Seasar.Tests.Extension.Tx.Impl
 {
-    [Ignore("DTCŒn‚Í’²¸‚ª“ï‚µ‚¢‚Æv‚í‚ê‚é‚½‚ß•Û—¯")]
+    [Ignore("DTCç³»ã¯èª¿æŸ»ãŒé›£ã—ã„ã¨æ€ã‚ã‚Œã‚‹ãŸã‚ä¿ç•™")]
     [TestFixture]
     //[Transaction(TransactionOption.RequiresNew)]
     public class DTCRequiresNewInterceptorTest : ServicedComponent
@@ -40,7 +40,7 @@ namespace Seasar.Tests.Extension.Tx.Impl
 
         static DTCRequiresNewInterceptorTest()
         {
-            FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
+            var info = new FileInfo(SystemInfo.AssemblyFileName(
                 Assembly.GetExecutingAssembly()) + ".config");
             XmlConfigurator.Configure(LogManager.GetRepository(), info);
         }
@@ -53,12 +53,12 @@ namespace Seasar.Tests.Extension.Tx.Impl
             _tester = _container.GetComponent(typeof(Tx2Test)) as Tx2Test;
         }
 
-        [Ignore("DTCŒn‚Í’²¸‚ª“ï‚µ‚¢‚Æv‚í‚ê‚é‚½‚ß•Û—¯")]
+        [Ignore("DTCç³»ã¯èª¿æŸ»ãŒé›£ã—ã„ã¨æ€ã‚ã‚Œã‚‹ãŸã‚ä¿ç•™")]
         [Test]
         [AutoComplete]
         public void TestProceed()
         {
-            Guid txid = ContextUtil.TransactionId;
+            var txid = ContextUtil.TransactionId;
             Assert.IsFalse(txid.Equals(_tester.GetTransactionId()));
             Assert.IsTrue(_tester.IsInTransaction());
         }

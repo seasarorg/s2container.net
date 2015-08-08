@@ -25,19 +25,19 @@ namespace Seasar.Dao.Pager
     {
         public static bool IsPrev(IPagerCondition condition)
         {
-            bool prev = condition.Offset > 0;
+            var prev = condition.Offset > 0;
             return prev;
         }
 
         public static bool IsNext(IPagerCondition condition)
         {
-            bool next = condition.Count > 0 && condition.Offset + condition.Limit < condition.Count;
+            var next = condition.Count > 0 && condition.Offset + condition.Limit < condition.Count;
             return next;
         }
 
         public static int GetCurrentLastOffset(IPagerCondition condition)
         {
-            int nextOffset = GetNextOffset(condition);
+            var nextOffset = GetNextOffset(condition);
             if (nextOffset <= 0 || condition.Count <= 0)
             {
                 return 0;
@@ -55,7 +55,7 @@ namespace Seasar.Dao.Pager
 
         public static int GetPrevOffset(IPagerCondition condition)
         {
-            int prevOffset = condition.Offset - condition.Limit;
+            var prevOffset = condition.Offset - condition.Limit;
             return prevOffset < 0 ? 0 : prevOffset;
         }
 
@@ -90,16 +90,15 @@ namespace Seasar.Dao.Pager
 
         public static int GetDisplayPageIndexBegin(IPagerCondition condition, int displayPageMax)
         {
-            int lastPageIndex = GetLastPageIndex(condition);
+            var lastPageIndex = GetLastPageIndex(condition);
             if (lastPageIndex < displayPageMax)
             {
                 return 0;
             }
             else
             {
-                int currentPageIndex = GetPageIndex(condition);
-                int displayPageIndexBegin = currentPageIndex
-                                            - ((int) Math.Floor((double) displayPageMax / 2));
+                var currentPageIndex = GetPageIndex(condition);
+                var displayPageIndexBegin = currentPageIndex - ((int) Math.Floor((double) displayPageMax / 2));
                 return displayPageIndexBegin < 0 ? 0 : displayPageIndexBegin;
             }
         }
@@ -107,10 +106,9 @@ namespace Seasar.Dao.Pager
         public static int GetDisplayPageIndexEnd(IPagerCondition condition,
                                                  int displayPageMax)
         {
-            int lastPageIndex = GetLastPageIndex(condition);
-            int displayPageIndexBegin = GetDisplayPageIndexBegin(condition,
-                                                                 displayPageMax);
-            int displayPageRange = lastPageIndex - displayPageIndexBegin;
+            var lastPageIndex = GetLastPageIndex(condition);
+            var displayPageIndexBegin = GetDisplayPageIndexBegin(condition, displayPageMax);
+            var displayPageRange = lastPageIndex - displayPageIndexBegin;
             if (displayPageRange < displayPageMax)
             {
                 return lastPageIndex;
@@ -137,7 +135,7 @@ namespace Seasar.Dao.Pager
             else
             {
                 IList result = new ArrayList();
-                for (int i = 0; i < list.Count; i++)
+                for (var i = 0; i < list.Count; i++)
                 {
                     if (i >= condition.Offset && i < condition.Offset + condition.Limit)
                     {

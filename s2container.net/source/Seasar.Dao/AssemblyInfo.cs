@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -19,9 +19,9 @@
 using System.Reflection;
 
 //
-// ƒAƒZƒ“ƒuƒŠ‚ÉŠÖ‚·‚éˆê”Êî•ñ‚ÍˆÈ‰º‚Ì 
-// ‘®«ƒZƒbƒg‚ð’Ê‚µ‚Ä§Œä‚³‚ê‚Ü‚·BƒAƒZƒ“ƒuƒŠ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚é 
-// î•ñ‚ð•ÏX‚·‚é‚É‚ÍA‚±‚ê‚ç‚Ì‘®«’l‚ð•ÏX‚µ‚Ä‚­‚¾‚³‚¢B
+// ï¿½Aï¿½Zï¿½ï¿½ï¿½uï¿½ï¿½ï¿½ÉŠÖ‚ï¿½ï¿½ï¿½ï¿½Êï¿½ï¿½ÍˆÈ‰ï¿½ï¿½ï¿½ 
+// ï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½ï¿½Ê‚ï¿½ï¿½Äï¿½ï¿½ä‚³ï¿½ï¿½Ü‚ï¿½ï¿½Bï¿½Aï¿½Zï¿½ï¿½ï¿½uï¿½ï¿½ï¿½ÉŠÖ˜Aï¿½tï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ 
+// ï¿½ï¿½ï¿½ï¿½ÏXï¿½ï¿½ï¿½ï¿½É‚ÍAï¿½ï¿½ï¿½ï¿½ï¿½Ì‘ï¿½ï¿½ï¿½ï¿½lï¿½ï¿½ÏXï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
 //
 [assembly: AssemblyTitle("S2Dao.NET")]
 [assembly: AssemblyDescription("S2Dao.NET")]
@@ -33,32 +33,32 @@ using System.Reflection;
 [assembly: AssemblyCulture("")]
 
 //
-// ƒAƒZƒ“ƒuƒŠ‚É–¼‚·‚é‚É‚ÍAŽg—p‚·‚éƒL[‚ðŽw’è‚µ‚È‚¯‚ê‚Î‚È‚è‚Ü‚¹‚ñB 
-// ƒAƒZƒ“ƒuƒŠ–¼‚ÉŠÖ‚·‚éÚ×‚É‚Â‚¢‚Ä‚ÍAMicrosoft .NET Framework ƒhƒLƒ…ƒƒ“ƒg‚ðŽQÆ‚µ‚Ä‚­‚¾‚³‚¢B
+// ï¿½Aï¿½Zï¿½ï¿½ï¿½uï¿½ï¿½ï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É‚ÍAï¿½gï¿½pï¿½ï¿½ï¿½ï¿½Lï¿½[ï¿½ï¿½wï¿½è‚µï¿½È‚ï¿½ï¿½ï¿½Î‚È‚ï¿½Ü‚ï¿½ï¿½ï¿½B 
+// ï¿½Aï¿½Zï¿½ï¿½ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÉŠÖ‚ï¿½ï¿½ï¿½Ú×‚É‚Â‚ï¿½ï¿½Ä‚ÍAMicrosoft .NET Framework ï¿½hï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½Qï¿½Æ‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
 //
-// ‰º‹L‚Ì‘®«‚ðŽg‚Á‚ÄA–¼‚ÉŽg‚¤ƒL[‚ð§Œä‚µ‚Ü‚·B 
+// ï¿½ï¿½ï¿½Lï¿½Ì‘ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ÄAï¿½ï¿½ï¿½ï¿½ï¿½ÉŽgï¿½ï¿½ï¿½Lï¿½[ï¿½ð§Œä‚µï¿½Ü‚ï¿½ï¿½B 
 //
-// ƒƒ‚ : 
-//   (*) ƒL[‚ªŽw’è‚³‚ê‚È‚¢‚ÆAƒAƒZƒ“ƒuƒŠ‚Í–¼‚³‚ê‚Ü‚¹‚ñB
-//   (*) KeyName ‚ÍAƒRƒ“ƒsƒ…[ƒ^‚ÉƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚Ä‚¢‚é
-//        ˆÃ†ƒT[ƒrƒX ƒvƒƒoƒCƒ_ (CSP) ‚ÌƒL[‚ð•\‚µ‚Ü‚·BKeyFile ‚ÍA
-//       ƒL[‚ðŠÜ‚Þƒtƒ@ƒCƒ‹‚Å‚·B
-//   (*) KeyFile ‚¨‚æ‚Ñ KeyName ‚Ì’l‚ª‹¤‚ÉŽw’è‚³‚ê‚Ä‚¢‚éê‡‚ÍA 
-//       ˆÈ‰º‚Ìˆ—‚ªs‚í‚ê‚Ü‚· :
-//       (1) KeyName ‚ª CSP ‚ÉŒ©‚Â‚©‚Á‚½ê‡A‚»‚ÌƒL[‚ªŽg‚í‚ê‚Ü‚·B
-//       (2) KeyName ‚ª‘¶Ý‚¹‚¸AKeyFile ‚ª‘¶Ý‚·‚éê‡A 
-//           KeyFile ‚É‚ ‚éƒL[‚ª CSP ‚ÉƒCƒ“ƒXƒg[ƒ‹‚³‚êAŽg‚í‚ê‚Ü‚·B
-//   (*) KeyFile ‚ðì¬‚·‚é‚É‚ÍAsn.exe (Œµ–§‚È–¼‘O) ƒ†[ƒeƒBƒŠƒeƒB‚ðŽg‚Á‚Ä‚­‚¾‚³‚¢B
-//       KeyFile ‚ðŽw’è‚·‚é‚Æ‚«AKeyFile ‚ÌêŠ‚ÍA
-//       ƒvƒƒWƒFƒNƒgo—Í ƒfƒBƒŒƒNƒgƒŠ‚Ö‚Ì‘Š‘ÎƒpƒX‚Å‚È‚¯‚ê‚Î‚È‚è‚Ü‚¹‚ñB
-//       ƒpƒX‚ÍA%Project Directory%\obj\<configuration> ‚Å‚·B‚½‚Æ‚¦‚ÎAKeyFile ‚ªƒvƒƒWƒFƒNƒg ƒfƒBƒŒƒNƒgƒŠ‚É‚ ‚éê‡A
-//       AssemblyKeyFile ‘®«‚ð 
-//       [assembly: AssemblyKeyFile("..\\..\\mykey.snk")] ‚Æ‚µ‚ÄŽw’è‚µ‚Ü‚·B
-//   (*) ’x‰„–¼‚Í‚“x‚ÈƒIƒvƒVƒ‡ƒ“‚Å‚·B
-//       Ú×‚É‚Â‚¢‚Ä‚Í Microsoft .NET Framework ƒhƒLƒ…ƒƒ“ƒg‚ðŽQÆ‚µ‚Ä‚­‚¾‚³‚¢B
+// ï¿½ï¿½ï¿½ï¿½ : 
+//   (*) ï¿½Lï¿½[ï¿½ï¿½ï¿½wï¿½è‚³ï¿½ï¿½È‚ï¿½ï¿½ÆAï¿½Aï¿½Zï¿½ï¿½ï¿½uï¿½ï¿½ï¿½Íï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½B
+//   (*) KeyName ï¿½ÍAï¿½Rï¿½ï¿½ï¿½sï¿½ï¿½ï¿½[ï¿½^ï¿½ÉƒCï¿½ï¿½ï¿½Xï¿½gï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½
+//        ï¿½Ãï¿½ï¿½Tï¿½[ï¿½rï¿½X ï¿½vï¿½ï¿½ï¿½oï¿½Cï¿½_ (CSP) ï¿½ÌƒLï¿½[ï¿½ï¿½\ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½BKeyFile ï¿½ÍA
+//       ï¿½Lï¿½[ï¿½ï¿½Ü‚Þƒtï¿½@ï¿½Cï¿½ï¿½ï¿½Å‚ï¿½ï¿½B
+//   (*) KeyFile ï¿½ï¿½ï¿½ï¿½ï¿½ KeyName ï¿½Ì’lï¿½ï¿½ï¿½ï¿½ï¿½ÉŽwï¿½è‚³ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ê‡ï¿½ÍA 
+//       ï¿½È‰ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Ü‚ï¿½ :
+//       (1) KeyName ï¿½ï¿½ CSP ï¿½ÉŒï¿½ï¿½Â‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Aï¿½ï¿½ï¿½ÌƒLï¿½[ï¿½ï¿½ï¿½gï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
+//       (2) KeyName ï¿½ï¿½ï¿½ï¿½ï¿½Ý‚ï¿½ï¿½ï¿½ï¿½AKeyFile ï¿½ï¿½ï¿½ï¿½ï¿½Ý‚ï¿½ï¿½ï¿½ê‡ï¿½A 
+//           KeyFile ï¿½É‚ï¿½ï¿½ï¿½Lï¿½[ï¿½ï¿½ CSP ï¿½ÉƒCï¿½ï¿½ï¿½Xï¿½gï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½gï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
+//   (*) KeyFile ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½É‚ÍAsn.exe (ï¿½ï¿½ï¿½ï¿½ï¿½È–ï¿½ï¿½O) ï¿½ï¿½ï¿½[ï¿½eï¿½Bï¿½ï¿½ï¿½eï¿½Bï¿½ï¿½gï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
+//       KeyFile ï¿½ï¿½wï¿½è‚·ï¿½ï¿½Æ‚ï¿½ï¿½AKeyFile ï¿½ÌêŠï¿½ÍA
+//       ï¿½vï¿½ï¿½ï¿½Wï¿½Fï¿½Nï¿½gï¿½oï¿½ï¿½ ï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½Ö‚Ì‘ï¿½ï¿½Îƒpï¿½Xï¿½Å‚È‚ï¿½ï¿½ï¿½Î‚È‚ï¿½Ü‚ï¿½ï¿½ï¿½B
+//       ï¿½pï¿½Xï¿½ÍA%Project Directory%\obj\<configuration> ï¿½Å‚ï¿½ï¿½Bï¿½ï¿½ï¿½Æ‚ï¿½ï¿½ÎAKeyFile ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½Wï¿½Fï¿½Nï¿½g ï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½ê‡ï¿½A
+//       AssemblyKeyFile ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+//       [assembly: AssemblyKeyFile("..\\..\\mykey.snk")] ï¿½Æ‚ï¿½ï¿½ÄŽwï¿½è‚µï¿½Ü‚ï¿½ï¿½B
+//   (*) ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íï¿½ï¿½xï¿½ÈƒIï¿½vï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½B
+//       ï¿½Ú×‚É‚Â‚ï¿½ï¿½Ä‚ï¿½ Microsoft .NET Framework ï¿½hï¿½Lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gï¿½ï¿½Qï¿½Æ‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
 //
 [assembly: AssemblyDelaySign(false)]
 [assembly: AssemblyKeyName("")]
 
-[assembly: AssemblyVersion("1.4.0.0")]
-[assembly: AssemblyFileVersionAttribute("1.4.0.0")]
+[assembly: AssemblyVersion("1.4.1.0")]
+[assembly: AssemblyFileVersion("1.4.1.0")]

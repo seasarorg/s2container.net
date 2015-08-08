@@ -1,4 +1,4 @@
-#region Copyright
+Ôªø#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -29,15 +29,15 @@ namespace Seasar.Tests.Framework.Container.Impl
         public void TestSetExpression()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+            var cd = new ComponentDefImpl(typeof(A));
             IArgDef ad = new ArgDefImpl();
             ad.Expression = "hoge";
             cd.AddArgDef(ad);
             container.Register(cd);
-            ComponentDefImpl cd2 = new ComponentDefImpl(typeof(B), "hoge");
+            var cd2 = new ComponentDefImpl(typeof(B), "hoge");
             container.Register(cd2);
             container.Register(typeof(C));
-            A a = (A) container.GetComponent(typeof(A));
+            var a = (A) container.GetComponent(typeof(A));
             Assert.AreEqual("B", a.HogeName);
         }
 
@@ -45,14 +45,14 @@ namespace Seasar.Tests.Framework.Container.Impl
         public void TestSetChildComponentDef()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+            var cd = new ComponentDefImpl(typeof(A));
             IArgDef ad = new ArgDefImpl();
-            ComponentDefImpl cd2 = new ComponentDefImpl(typeof(B));
+            var cd2 = new ComponentDefImpl(typeof(B));
             ad.ChildComponentDef = cd2;
             cd.AddArgDef(ad);
             container.Register(cd);
             container.Register(typeof(C));
-            A a = (A) container.GetComponent(typeof(A));
+            var a = (A) container.GetComponent(typeof(A));
             Assert.AreEqual("B", a.HogeName);
         }
 
@@ -60,17 +60,17 @@ namespace Seasar.Tests.Framework.Container.Impl
         public void TestPrototype()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(StrHolderImpl), "foo");
+            var cd = new ComponentDefImpl(typeof(StrHolderImpl), "foo");
             cd.InstanceMode = "prototype";
-            ComponentDefImpl cd2 = new ComponentDefImpl(typeof(StrFacadeImpl));
+            var cd2 = new ComponentDefImpl(typeof(StrFacadeImpl));
             cd2.InstanceMode = "prototype";
             IArgDef ad = new ArgDefImpl();
             ad.Expression = "foo";
             cd2.AddArgDef(ad);
             container.Register(cd);
             container.Register(cd2);
-            IStrFacade facade1 = (IStrFacade) container.GetComponent(typeof(IStrFacade));
-            IStrFacade facade2 = (IStrFacade) container.GetComponent(typeof(IStrFacade));
+            var facade1 = (IStrFacade) container.GetComponent(typeof(IStrFacade));
+            var facade2 = (IStrFacade) container.GetComponent(typeof(IStrFacade));
             facade1.Str = "aaa";
             facade2.Str = "bbb";
             Assert.AreEqual("aaa", facade1.Str);
@@ -81,7 +81,7 @@ namespace Seasar.Tests.Framework.Container.Impl
         public void TestValueEnumType()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+            var cd = new ComponentDefImpl(typeof(A));
             IArgDef ad = new ArgDefImpl();
             ad.Expression = "System.Data.DbType.String";
             cd.AddArgDef(ad);
@@ -95,23 +95,23 @@ namespace Seasar.Tests.Framework.Container.Impl
         [ExpectedException(typeof(System.ArgumentException))]
         public void TestValueEnumTypeInvalidExpression()
         {
-            // óÒãìíËêîÇÃñºëOÇÃâêÕé∏îséûÅA
+            // ÂàóÊåôÂÆöÊï∞„ÅÆÂêçÂâç„ÅÆËß£ÊûêÂ§±ÊïóÊôÇ„ÄÅ
             // Seasar.Framework.Exceptions.JScriptEvaluateRuntimeException
-            // Çï‘Ç∑ÇÊÇ§Ç…ÇµÇΩÇŸÇ§Ç™Ç¢Ç¢Ç©Ç‡
+            // „ÇíËøî„Åô„Çà„ÅÜ„Å´„Åó„Åü„Åª„ÅÜ„Åå„ÅÑ„ÅÑ„Åã„ÇÇ
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+            var cd = new ComponentDefImpl(typeof(A));
             IArgDef ad = new ArgDefImpl();
             ad.Expression = "System.Data.DbType.Zzz";
             cd.AddArgDef(ad);
             container.Register(cd);
-            object value = ad.Value;
+            var value = ad.Value;
         }
 
         [Test]
         public void TestValueType()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+            var cd = new ComponentDefImpl(typeof(A));
             IArgDef ad = new ArgDefImpl();
             ad.Expression = "System.Data.UniqueConstraint";
             cd.AddArgDef(ad);
@@ -124,12 +124,12 @@ namespace Seasar.Tests.Framework.Container.Impl
         public void TestValueTypeInvalidExpression()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+            var cd = new ComponentDefImpl(typeof(A));
             IArgDef ad = new ArgDefImpl();
             ad.Expression = "System.Data.Zzz";
             cd.AddArgDef(ad);
             container.Register(cd);
-            object value = ad.Value;
+            var value = ad.Value;
         }
 
         public class A
@@ -202,13 +202,7 @@ namespace Seasar.Tests.Framework.Container.Impl
 
         public class StrHolderImpl : IStrHolder
         {
-            private string _str;
-
-            public string Str
-            {
-                set { _str = value; }
-                get { return _str; }
-            }
+            public string Str { set; get; }
         }
 
         public interface IStrFacade

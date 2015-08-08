@@ -24,10 +24,7 @@ namespace Seasar.Extension.Tx.Impl
     {
         #region ITransactionStateHandler ƒƒ“ƒo
 
-        public bool IsInTransaction
-        {
-            get { return ContextUtil.IsInTransaction; }
-        }
+        public bool IsInTransaction => ContextUtil.IsInTransaction;
 
         #endregion
     }

@@ -39,7 +39,7 @@ namespace Seasar.Tests.Framework.Container.Deployer
         [SetUp]
         public void Setup()
         {
-            FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
+            var info = new FileInfo(SystemInfo.AssemblyFileName(
                 Assembly.GetExecutingAssembly()) + ".config");
             XmlConfigurator.Configure(LogManager.GetRepository(), info);
         }
@@ -48,11 +48,11 @@ namespace Seasar.Tests.Framework.Container.Deployer
         public void TestDeployAutoAutoConstructor()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+            var cd = new ComponentDefImpl(typeof(A));
             container.Register(cd);
             container.Register(typeof(B));
             IComponentDeployer deployer = new SingletonComponentDeployer(cd);
-            A a = (A) deployer.Deploy(typeof(A));
+            var a = (A) deployer.Deploy(typeof(A));
             Assert.AreEqual("B", a.HogeName);
             Assert.AreEqual(a, deployer.Deploy(typeof(A)));
         }
@@ -61,12 +61,12 @@ namespace Seasar.Tests.Framework.Container.Deployer
         public void TestDeployAutoAutoConstructorAndProperty()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+            var cd = new ComponentDefImpl(typeof(A));
             cd.AddPropertyDef(new PropertyDefImpl("Aaa", 1));
             container.Register(cd);
             container.Register(typeof(B));
             IComponentDeployer deployer = new SingletonComponentDeployer(cd);
-            A a = (A) deployer.Deploy(typeof(A));
+            var a = (A) deployer.Deploy(typeof(A));
             Assert.AreEqual("B", a.HogeName);
             Assert.AreEqual(1, a.Aaa);
             Assert.AreEqual(a, deployer.Deploy(typeof(A)));
@@ -76,12 +76,12 @@ namespace Seasar.Tests.Framework.Container.Deployer
         public void TestDeployAutoAutoConstructorAndProperty2()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(A2));
+            var cd = new ComponentDefImpl(typeof(A2));
             cd.AddPropertyDef(new PropertyDefImpl("Aaa", 1));
             container.Register(cd);
             container.Register(typeof(B));
             IComponentDeployer deployer = new SingletonComponentDeployer(cd);
-            A2 a2 = (A2) deployer.Deploy(typeof(A2));
+            var a2 = (A2) deployer.Deploy(typeof(A2));
             Assert.AreEqual("B", a2.HogeName);
             Assert.AreEqual(1, a2.Aaa);
         }
@@ -90,11 +90,11 @@ namespace Seasar.Tests.Framework.Container.Deployer
         public void TestDeployAutoAutoProperty()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(A2));
+            var cd = new ComponentDefImpl(typeof(A2));
             container.Register(cd);
             container.Register(typeof(B));
             IComponentDeployer deployer = new SingletonComponentDeployer(cd);
-            A2 a2 = (A2) deployer.Deploy(typeof(A2));
+            var a2 = (A2) deployer.Deploy(typeof(A2));
             Assert.AreEqual("B", a2.HogeName);
         }
 
@@ -102,18 +102,18 @@ namespace Seasar.Tests.Framework.Container.Deployer
         public void TestDeployAspect1()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(CulcImpl1));
+            var cd = new ComponentDefImpl(typeof(CulcImpl1));
 
             IAspectDef ad = new AspectDefImpl();
             ad.Expression = "plusOne";
             ad.Container = container;
             cd.AddAspeceDef(ad);
-            ComponentDefImpl plusOneCd = new ComponentDefImpl(typeof(PlusOneInterceptor), "plusOne");
+            var plusOneCd = new ComponentDefImpl(typeof(PlusOneInterceptor), "plusOne");
             container.Register(plusOneCd);
             container.Register(cd);
 
             IComponentDeployer deployer = new SingletonComponentDeployer(cd);
-            ICulc culc = (ICulc) deployer.Deploy(typeof(ICulc));
+            var culc = (ICulc) deployer.Deploy(typeof(ICulc));
             PlusOneInterceptor.Count = 0;
             Assert.AreEqual(1, culc.Count());
         }
@@ -122,18 +122,18 @@ namespace Seasar.Tests.Framework.Container.Deployer
         public void TestDeployAspect2()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(CulcImpl2));
+            var cd = new ComponentDefImpl(typeof(CulcImpl2));
 
             IAspectDef ad = new AspectDefImpl();
             ad.Expression = "plusOne";
             ad.Container = container;
             cd.AddAspeceDef(ad);
-            ComponentDefImpl plusOneCd = new ComponentDefImpl(typeof(PlusOneInterceptor), "plusOne");
+            var plusOneCd = new ComponentDefImpl(typeof(PlusOneInterceptor), "plusOne");
             container.Register(plusOneCd);
             container.Register(cd);
 
             IComponentDeployer deployer = new SingletonComponentDeployer(cd);
-            CulcImpl2 culc = (CulcImpl2) deployer.Deploy(typeof(CulcImpl2));
+            var culc = (CulcImpl2) deployer.Deploy(typeof(CulcImpl2));
             PlusOneInterceptor.Count = 0;
             Assert.AreEqual(1, culc.Count());
         }
@@ -142,7 +142,7 @@ namespace Seasar.Tests.Framework.Container.Deployer
         public void TestDeployAspect3()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(CulcImpl2));
+            var cd = new ComponentDefImpl(typeof(CulcImpl2));
 
             IAspectDef ad = new AspectDefImpl();
             ad.Expression = "plusOne";
@@ -154,12 +154,12 @@ namespace Seasar.Tests.Framework.Container.Deployer
 
             cd.AddAspeceDef(ad);
             cd.AddAspeceDef(ad2);
-            ComponentDefImpl plusOneCd = new ComponentDefImpl(typeof(PlusOneInterceptor), "plusOne");
+            var plusOneCd = new ComponentDefImpl(typeof(PlusOneInterceptor), "plusOne");
             container.Register(plusOneCd);
             container.Register(cd);
 
             IComponentDeployer deployer = new SingletonComponentDeployer(cd);
-            CulcImpl2 culc = (CulcImpl2) deployer.Deploy(typeof(CulcImpl2));
+            var culc = (CulcImpl2) deployer.Deploy(typeof(CulcImpl2));
             PlusOneInterceptor.Count = 0;
             Assert.AreEqual(2, culc.Count());
         }
@@ -168,7 +168,7 @@ namespace Seasar.Tests.Framework.Container.Deployer
         public void TestDeployAutoManualConstructor()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(Decimal));
+            var cd = new ComponentDefImpl(typeof(Decimal));
             cd.AddArgDef(new ArgDefImpl(123));
             container.Register(cd);
             IComponentDeployer deployer = new SingletonComponentDeployer(cd);
@@ -179,11 +179,11 @@ namespace Seasar.Tests.Framework.Container.Deployer
         public void TestDeployAutoManualProperty()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(A2));
+            var cd = new ComponentDefImpl(typeof(A2));
             cd.AddPropertyDef(new PropertyDefImpl("Hoge", new B()));
             container.Register(cd);
             IComponentDeployer deployer = new SingletonComponentDeployer(cd);
-            A2 a2 = (A2) deployer.Deploy(typeof(A2));
+            var a2 = (A2) deployer.Deploy(typeof(A2));
             Assert.AreEqual("B", a2.HogeName);
         }
 
@@ -191,12 +191,12 @@ namespace Seasar.Tests.Framework.Container.Deployer
         public void TestDeployAutoManual()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(D));
+            var cd = new ComponentDefImpl(typeof(D));
             cd.AddArgDef(new ArgDefImpl("abc"));
             cd.AddPropertyDef(new PropertyDefImpl("Aaa", 1));
             container.Register(cd);
             IComponentDeployer deployer = new SingletonComponentDeployer(cd);
-            D d = (D) deployer.Deploy(typeof(D));
+            var d = (D) deployer.Deploy(typeof(D));
             Assert.AreEqual("abc", d.Name);
             Assert.AreEqual(1, d.Aaa);
         }
@@ -205,14 +205,14 @@ namespace Seasar.Tests.Framework.Container.Deployer
         public void TestGetComponentForInitMethodDef()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(Hashtable));
+            var cd = new ComponentDefImpl(typeof(Hashtable));
             IInitMethodDef md = new InitMethodDefImpl("Add");
             md.AddArgDef(new ArgDefImpl("aaa"));
             md.AddArgDef(new ArgDefImpl("hoge"));
             cd.AddInitMethodDef(md);
             container.Register(cd);
             IComponentDeployer deployer = new SingletonComponentDeployer(cd);
-            Hashtable table = (Hashtable) deployer.Deploy(typeof(Hashtable));
+            var table = (Hashtable) deployer.Deploy(typeof(Hashtable));
             Assert.AreEqual("hoge", table["aaa"]);
         }
 
@@ -220,14 +220,14 @@ namespace Seasar.Tests.Framework.Container.Deployer
         public void TestCyclicReference()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(A2));
-            ComponentDefImpl cd2 = new ComponentDefImpl(typeof(C));
+            var cd = new ComponentDefImpl(typeof(A2));
+            var cd2 = new ComponentDefImpl(typeof(C));
             container.Register(cd);
             container.Register(cd2);
             IComponentDeployer deployer = new SingletonComponentDeployer(cd);
             IComponentDeployer deployer2 = new SingletonComponentDeployer(cd2);
-            A2 a2 = (A2) deployer.Deploy(typeof(A2));
-            C c = (C) deployer2.Deploy(typeof(C));
+            var a2 = (A2) deployer.Deploy(typeof(A2));
+            var c = (C) deployer2.Deploy(typeof(C));
             Assert.AreEqual("C", a2.HogeName);
             Assert.AreEqual("C", c.HogeName);
         }
@@ -236,12 +236,12 @@ namespace Seasar.Tests.Framework.Container.Deployer
         public void TestDeployConstructor()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+            var cd = new ComponentDefImpl(typeof(A));
             container.Register(cd);
             container.Register(typeof(B));
             cd.AutoBindingMode = "constructor";
             IComponentDeployer deployer = new SingletonComponentDeployer(cd);
-            A a = (A) deployer.Deploy(typeof(A));
+            var a = (A) deployer.Deploy(typeof(A));
             Assert.AreEqual("B", a.HogeName);
         }
 
@@ -249,12 +249,12 @@ namespace Seasar.Tests.Framework.Container.Deployer
         public void TestDeployProperty()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(A2));
+            var cd = new ComponentDefImpl(typeof(A2));
             container.Register(cd);
             container.Register(typeof(B));
             cd.AutoBindingMode = "property";
             IComponentDeployer deployer = new SingletonComponentDeployer(cd);
-            A2 a2 = (A2) deployer.Deploy(typeof(A2));
+            var a2 = (A2) deployer.Deploy(typeof(A2));
             Assert.AreEqual("B", a2.HogeName);
         }
 
@@ -262,7 +262,7 @@ namespace Seasar.Tests.Framework.Container.Deployer
         public void TestDeployNoneManualConstructor()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(Decimal));
+            var cd = new ComponentDefImpl(typeof(Decimal));
             cd.AddArgDef(new ArgDefImpl(123));
             container.Register(cd);
             cd.AutoBindingMode = "none";
@@ -274,12 +274,12 @@ namespace Seasar.Tests.Framework.Container.Deployer
         public void TestDeployNoneManualProperty()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(A2));
+            var cd = new ComponentDefImpl(typeof(A2));
             cd.AddPropertyDef(new PropertyDefImpl("Hoge", new B()));
             container.Register(cd);
             cd.AutoBindingMode = "none";
             IComponentDeployer deployer = new SingletonComponentDeployer(cd);
-            A2 a2 = (A2) deployer.Deploy(typeof(A2));
+            var a2 = (A2) deployer.Deploy(typeof(A2));
             Assert.AreEqual("B", a2.HogeName);
         }
 
@@ -287,7 +287,7 @@ namespace Seasar.Tests.Framework.Container.Deployer
         public void TestDeployNoneDefault()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(StringBuilder));
+            var cd = new ComponentDefImpl(typeof(StringBuilder));
             container.Register(cd);
             cd.AutoBindingMode = "none";
             IComponentDeployer deployer = new SingletonComponentDeployer(cd);
@@ -298,14 +298,14 @@ namespace Seasar.Tests.Framework.Container.Deployer
         public void TestDeploy()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(Hashtable));
+            var cd = new ComponentDefImpl(typeof(Hashtable));
             IDestroyMethodDef md = new DestroyMethodDefImpl("Add");
             md.AddArgDef(new ArgDefImpl("aaa"));
             md.AddArgDef(new ArgDefImpl("hoge"));
             cd.AddDestroyMethodDef(md);
             container.Register(cd);
             IComponentDeployer deployer = new SingletonComponentDeployer(cd);
-            Hashtable table = (Hashtable) deployer.Deploy(typeof(Hashtable));
+            var table = (Hashtable) deployer.Deploy(typeof(Hashtable));
             deployer.Destroy();
             Assert.AreEqual("hoge", table["aaa"]);
         }
@@ -314,7 +314,7 @@ namespace Seasar.Tests.Framework.Container.Deployer
         public void TestDestroy()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(D));
+            var cd = new ComponentDefImpl(typeof(D));
             cd.AddArgDef(new ArgDefImpl("name"));
             container.Register(cd);
             container.Init();
@@ -325,7 +325,7 @@ namespace Seasar.Tests.Framework.Container.Deployer
         public void TestInjectDependency()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(Hashtable));
+            var cd = new ComponentDefImpl(typeof(Hashtable));
             container.Register(cd);
             IComponentDeployer deployer = new SingletonComponentDeployer(cd);
             try
@@ -379,7 +379,6 @@ namespace Seasar.Tests.Framework.Container.Deployer
         public class A
         {
             private readonly IHoge _hoge;
-            private int _aaa;
 
             public A(IHoge hoge)
             {
@@ -391,17 +390,12 @@ namespace Seasar.Tests.Framework.Container.Deployer
                 get { return _hoge.Name; }
             }
 
-            public int Aaa
-            {
-                get { return _aaa; }
-                set { _aaa = value; }
-            }
+            public int Aaa { get; set; }
         }
 
         public class A2 : IFoo
         {
             private IHoge _hoge;
-            private int _aaa;
 
             public IHoge Hoge
             {
@@ -413,11 +407,7 @@ namespace Seasar.Tests.Framework.Container.Deployer
                 get { return _hoge.Name; }
             }
 
-            public int Aaa
-            {
-                get { return _aaa; }
-                set { _aaa = value; }
-            }
+            public int Aaa { get; set; }
         }
 
         public interface IHoge
@@ -455,24 +445,14 @@ namespace Seasar.Tests.Framework.Container.Deployer
 
         public class D : IHoge, IDisposable
         {
-            private readonly string _name;
-            private int _aaa;
-
             public D(string name)
             {
-                _name = name;
+                Name = name;
             }
 
-            public string Name
-            {
-                get { return _name; }
-            }
+            public string Name { get; }
 
-            public int Aaa
-            {
-                get { return _aaa; }
-                set { _aaa = value; }
-            }
+            public int Aaa { get; set; }
 
             #region IDisposable ÉÅÉìÉo
 

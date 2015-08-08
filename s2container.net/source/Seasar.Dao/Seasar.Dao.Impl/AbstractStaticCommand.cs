@@ -22,18 +22,13 @@ namespace Seasar.Dao.Impl
 {
     public abstract class AbstractStaticCommand : AbstractSqlCommand
     {
-        private readonly IBeanMetaData _beanMetaData;
-
-        public AbstractStaticCommand(IDataSource dataSource,
+        protected AbstractStaticCommand(IDataSource dataSource,
             ICommandFactory commandFactory, IBeanMetaData beanMetaData)
             : base(dataSource, commandFactory)
         {
-            _beanMetaData = beanMetaData;
+            BeanMetaData = beanMetaData;
         }
 
-        public IBeanMetaData BeanMetaData
-        {
-            get { return _beanMetaData; }
-        }
+        public IBeanMetaData BeanMetaData { get; }
     }
 }

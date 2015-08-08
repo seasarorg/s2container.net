@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -23,35 +23,30 @@ using System.Runtime.Serialization;
 namespace Seasar.Framework.Exceptions
 {
     /// <summary>
-    /// TargetInvocationException‚ğƒ‰ƒbƒv‚·‚éÀs—áŠO‚Å‚·B
+    /// TargetInvocationExceptionï¿½ï¿½ï¿½ï¿½bï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½Oï¿½Å‚ï¿½ï¿½B
     /// </summary>
     [Serializable]
     public class InvocationTargetRuntimeException : SRuntimeException
     {
-        private readonly Type _targetType;
-
         public InvocationTargetRuntimeException(
             Type targetType, TargetInvocationException cause)
             : base("ESSR0043", new object[] { targetType.FullName, cause.GetBaseException() })
         {
-            _targetType = targetType;
+            TargetType = targetType;
         }
 
         public InvocationTargetRuntimeException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            _targetType = info.GetValue("_targetType", typeof(Type)) as Type;
+            TargetType = info.GetValue("_targetType", typeof(Type)) as Type;
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("_targetType", _targetType, typeof(Type));
+            info.AddValue("_targetType", TargetType, typeof(Type));
             base.GetObjectData(info, context);
         }
 
-        public Type TargetType
-        {
-            get { return _targetType; }
-        }
+        public Type TargetType { get; }
     }
 }

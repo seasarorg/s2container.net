@@ -17,8 +17,9 @@
 #endregion
 
 using System;
-using System.Data.OleDb;
 using System.Data;
+using System.Data.OleDb;
+using Seasar.Framework.Util;
 
 namespace Seasar.Extension.ADO.Types
 {
@@ -66,10 +67,10 @@ namespace Seasar.Extension.ADO.Types
             IDbDataParameter parameter = cmd.CreateParameter();
             parameter.ParameterName = columnName;
             parameter.DbType = dbType;
-            if ("OleDbCommand".Equals(cmd.GetType().Name) && dbType == DbType.String)
+            if ("OleIDbCommand".Equals(cmd.GetExType().Name) && dbType == DbType.String)
             {
                 OleDbParameter oleDbParam = parameter as OleDbParameter;
-                oleDbParam.OleDbType = OleDbType.VarChar;
+                if (oleDbParam != null) oleDbParam.OleDbType = OleDbType.VarChar;
             }
             parameter.Value = GetBindValue(value);
             parameter.Direction = direction;

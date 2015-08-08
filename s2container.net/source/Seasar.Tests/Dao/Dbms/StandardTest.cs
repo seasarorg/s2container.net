@@ -37,7 +37,7 @@ namespace Seasar.Tests.Dao.Dbms
         {
             IDbms dbms = new Standard();
             IBeanMetaData bmd = CreateBeanMetaData(typeof(Employee), dbms);
-            string sql = dbms.GetAutoSelectSql(bmd);
+            var sql = dbms.GetAutoSelectSql(bmd);
 #if NET_4_0
             Assert.AreEqual("SELECT EMP2.EMPNO, EMP2.ENAME, EMP2.DEPTNUM FROM EMP2", sql);
 #else

@@ -29,26 +29,21 @@ namespace Seasar.Tests.Framework.Util
         [Test]
         public void TestNewInstance()
         {
-            ConstructorInfo constructor = ClassUtil.GetConstructorInfo(
+            var constructor = ClassUtil.GetConstructorInfo(
                 typeof(A), new Type[] { typeof(string) });
-            A a = (A) ConstructorUtil.NewInstance(constructor,
+            var a = (A) ConstructorUtil.NewInstance(constructor,
                 new object[] { "aaa" });
             Assert.AreEqual("aaa", a.Hoge);
         }
 
         public class A
         {
-            private readonly string _hoge;
-
             public A(string hoge)
             {
-                _hoge = hoge;
+                Hoge = hoge;
             }
 
-            public string Hoge
-            {
-                get { return _hoge; }
-            }
+            public string Hoge { get; }
         }
     }
 }

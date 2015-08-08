@@ -17,6 +17,8 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using Seasar.Framework.Exceptions;
 
 namespace Seasar.Framework.Util
@@ -24,11 +26,10 @@ namespace Seasar.Framework.Util
     /// <summary>
     /// Utility of array
     /// </summary>
-    public sealed class ArrayUtil
+    public static class ArrayUtil
     {
-        private ArrayUtil()
-        {
-        }
+        // 式木のキャッシュ
+        private static readonly Dictionary<Type, Func<Array>> _arrayCache = new Dictionary<Type, Func<Array>>();
 
         /// <summary>
         /// Add an item to array
@@ -42,8 +43,8 @@ namespace Seasar.Framework.Util
             {
                 throw new EmptyRuntimeException("array");
             }
-            object[] newArray = (object[]) Array.CreateInstance(
-                array.GetType().GetElementType(), array.Length + 1);
+//            var newArray = (object[]) Array.CreateInstance(array.GetExType().GetElementType(), array.Length + 1);
+            var newArray = (object[]) NewInstance(array.GetExType().GetElementType(), array.Length + 1);
             Array.Copy(array, 0, newArray, 0, array.Length);
             newArray[array.Length] = obj;
             return newArray;
@@ -61,29 +62,15 @@ namespace Seasar.Framework.Util
             {
                 if (a.Length != 0 && b.Length != 0)
                 {
-                    object[] array = (object[]) Array.CreateInstance(
-                        a.GetType().GetElementType(), a.Length + b.Length);
+//                    var array = (object[]) Array.CreateInstance(a.GetExType().GetElementType(), a.Length + b.Length);
+                    var array = (object[])NewInstance(a.GetExType().GetElementType(), a.Length + b.Length);
                     Array.Copy(a, 0, array, 0, a.Length);
                     Array.Copy(b, 0, array, a.Length, b.Length);
                     return array;
                 }
-                else if (b.Length == 0)
-                {
-                    return a;
-                }
-                else
-                {
-                    return b;
-                }
+                return b.Length == 0 ? a : b;
             }
-            else if (b == null)
-            {
-                return a;
-            }
-            else
-            {
-                return b;
-            }
+            return b ?? a;
         }
 
         /// <summary>
@@ -111,9 +98,9 @@ namespace Seasar.Framework.Util
         {
             if (array != null)
             {
-                for (int i = 0; i < array.Length; ++i)
+                for (var i = 0; i < array.Length; ++i)
                 {
-                    char c = array[i];
+                    var c = array[i];
                     if (ch == c)
                     {
                         return i;
@@ -131,13 +118,13 @@ namespace Seasar.Framework.Util
         /// <returns></returns>
         public static object[] Remove(object[] array, object obj)
         {
-            int index = IndexOf(array, obj);
+            var index = IndexOf(array, obj);
             if (index < 0)
             {
                 return array;
             }
-            object[] newArray = (object[]) Array.CreateInstance(
-                array.GetType(), array.Length - 1);
+            var newArray = (object[])NewInstance(array.GetExType().GetElementType(), array.Length - 1);
+//            var newArray = (object[]) Array.CreateInstance(array.GetExType(), array.Length - 1);
             if (index > 0)
             {
                 Array.Copy(array, 0, newArray, 0, index);
@@ -150,19 +137,50 @@ namespace Seasar.Framework.Util
             return newArray;
         }
 
-        public static bool IsEmpty(object[] arrays)
+        public static bool IsEmpty(object[] arrays) => (arrays == null || arrays.Length == 0);
+
+        public static bool Contains(object[] array, object obj) => (-1 < IndexOf(array, obj));
+
+        public static bool Contains(char[] array, char ch) => (-1 < IndexOf(array, ch));
+
+        /// <summary>
+        /// 配列インスタンスを生成する
+        /// </summary>
+        /// <param name="type">生成する型</param>
+        /// <param name="length">配列の長さ</param>
+        /// <returns>配列インスタンス</returns>
+        public static Array NewInstance(Type type, params long[] length)
         {
-            return (arrays == null || arrays.Length == 0);
+            Func<Array> lambda;
+            if (!_arrayCache.ContainsKey(type))
+            {
+                lambda = _CreateExpression(type);
+                // 生成した式木はキャッシュに保存
+                _arrayCache.Add(type, lambda);
+            }
+            else
+            {
+                lambda = _arrayCache[type];
+            }
+            return (Array)lambda.DynamicInvoke(null);
+//            return Array.CreateInstance(type, length);
         }
 
-        public static bool Contains(object[] array, object obj)
+        /// <summary>
+        /// インスタンス化する式木(Expression)を作成する
+        /// </summary>
+        /// <param name="type">インスタンス化する型</param>
+        /// <param name="length">配列の長さ</param>
+        /// <returns>コンパイルした式木</returns>
+        private static Func<Array> _CreateExpression(Type type, params long[] length)
         {
-            return (-1 < IndexOf(array, obj));
-        }
+            var expressions = new Expression[length.Length];
+            for (var i = 0; i < length.Length; i++)
+            {
+                expressions[i] = Expression.Constant(length[i]);
+            }
 
-        public static bool Contains(char[] array, char ch)
-        {
-            return (-1 < IndexOf(array, ch));
+            return Expression.Lambda<Func<Array>>(Expression.NewArrayBounds(type, expressions)).Compile();
         }
     }
 }

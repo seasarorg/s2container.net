@@ -16,11 +16,11 @@
  */
 #endregion
 
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
-using System.Reflection;
 using Seasar.Extension.ADO;
-using System;
+using Seasar.Framework.Util;
 
 namespace Seasar.Dao.Impl
 {
@@ -34,22 +34,22 @@ namespace Seasar.Dao.Impl
 
         public override object Handle(IDataReader dataReader)
         {
-            System.Collections.ArrayList list = new System.Collections.ArrayList();
+            var list = new ArrayList();
 
             Handle(dataReader, list);
 
             return list;
         }
 
-        protected void Handle(IDataReader dataReader, System.Collections.IList list)
+        protected void Handle(IDataReader dataReader, IList list)
         {
-            System.Collections.IList columnNames = CreateColumnNames(dataReader.GetSchemaTable());
+            var columnNames = CreateColumnNames(dataReader.GetSchemaTable());
 
             IColumnMetaData[] columns = null;// [DAONET-56] (2007/08/29)
-            IDictionary<String, IDictionary<String, IPropertyType>> relationPropertyCache = null;
+            IDictionary<string, IDictionary<string, IPropertyType>> relationPropertyCache = null;
 
-            int relSize = BeanMetaData.RelationPropertyTypeSize;
-            RelationRowCache relRowCache = new RelationRowCache(relSize);
+            var relSize = BeanMetaData.RelationPropertyTypeSize;
+            var relRowCache = new RelationRowCache(relSize);
             while (dataReader.Read())
             {
                 // Lazy initialization because if the result is zero, the cache is unused.
@@ -60,15 +60,15 @@ namespace Seasar.Dao.Impl
                     relationPropertyCache = CreateRelationPropertyCache(columnNames);
                 }
 
-                object row = CreateRow(dataReader, columns);
-                for (int i = 0; i < relSize; ++i)
+                var row = CreateRow(dataReader, columns);
+                for (var i = 0; i < relSize; ++i)
                 {
-                    IRelationPropertyType rpt = BeanMetaData.GetRelationPropertyType(i);
+                    var rpt = BeanMetaData.GetRelationPropertyType(i);
                     if (rpt == null) continue;
 
                     object relRow = null;
-                    System.Collections.Hashtable relKeyValues = new System.Collections.Hashtable();
-                    RelationKey relKey = CreateRelationKey(dataReader, rpt, columnNames,
+                    var relKeyValues = new Hashtable();
+                    var relKey = CreateRelationKey(dataReader, rpt, columnNames,
                         relKeyValues);
                     if (relKey != null)
                     {
@@ -82,8 +82,9 @@ namespace Seasar.Dao.Impl
                     }
                     if (relRow != null)
                     {
-                        PropertyInfo pi = rpt.PropertyInfo;
-                        pi.SetValue(row, relRow, null);
+                        var pi = rpt.PropertyInfo;
+//                        pi.SetValue(row, relRow, null);
+                        PropertyUtil.SetValue(row, row.GetExType(), pi.Name, pi.PropertyType, relRow);
                     }
                 }
                 list.Add(row);
@@ -91,14 +92,14 @@ namespace Seasar.Dao.Impl
         }
 
         protected RelationKey CreateRelationKey(IDataReader reader,
-            IRelationPropertyType rpt, System.Collections.IList columnNames, System.Collections.Hashtable relKeyValues)
+            IRelationPropertyType rpt, IList columnNames, Hashtable relKeyValues)
         {
-            System.Collections.ArrayList keyList = new System.Collections.ArrayList();
-            IBeanMetaData bmd = rpt.BeanMetaData;
-            for (int i = 0; i < rpt.KeySize; ++i)
+            var keyList = new ArrayList();
+            var bmd = rpt.BeanMetaData;
+            for (var i = 0; i < rpt.KeySize; ++i)
             {
-                IValueType valueType = null;
-                string columnName = rpt.GetMyKey(i);
+                IValueType valueType;
+                var columnName = rpt.GetMyKey(i);
                 IPropertyType pt;
                 if (columnNames.Contains(columnName))
                 {
@@ -114,7 +115,7 @@ namespace Seasar.Dao.Impl
                     else
                         return null;
                 }
-                object value = valueType.GetValue(reader, columnName);
+                var value = valueType.GetValue(reader, columnName);
                 if (value == null) return null;
 
                 relKeyValues[columnName] = value;
@@ -122,10 +123,13 @@ namespace Seasar.Dao.Impl
             }
             if (keyList.Count > 0)
             {
-                object[] keys = keyList.ToArray();
+                var keys = keyList.ToArray();
                 return new RelationKey(keys);
             }
-            else return null;
+            else
+            {
+                return null;
+            }
         }
     }
 }

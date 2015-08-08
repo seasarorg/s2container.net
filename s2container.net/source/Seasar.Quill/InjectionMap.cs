@@ -27,7 +27,7 @@ namespace Seasar.Quill
     /// </summary>
     public class InjectionMap
     {
-        protected static readonly InjectionMap _instance = new InjectionMap();
+        protected static readonly InjectionMap instance = new InjectionMap();
 
         /// <summary>
         /// Singletonなインスタンスを取得
@@ -37,17 +37,17 @@ namespace Seasar.Quill
         /// <returns></returns>
         public static InjectionMap GetInstance()
         {
-            return _instance;
+            return instance;
         }
 
-        protected readonly IDictionary<Type, Type> _injectionMap;
+        protected readonly IDictionary<Type, Type> injectionMap;
 
         /// <summary>
         /// Singletonとするためのコンストラクタ
         /// </summary>
         protected InjectionMap()
         {
-            _injectionMap = new Dictionary<Type, Type>();
+            injectionMap = new Dictionary<Type, Type>();
         }
 
         /// <summary>
@@ -58,13 +58,13 @@ namespace Seasar.Quill
         /// <param name="implType"></param>
         public virtual void Add(Type interfaceType, Type implType)
         {
-            if(_injectionMap.ContainsKey(interfaceType))
+            if(injectionMap.ContainsKey(interfaceType))
             {
                 throw new TooManyRegistrationRuntimeException(
                     interfaceType,
-                    new Type[] { interfaceType, _injectionMap[interfaceType] });
+                    new[] { interfaceType, injectionMap[interfaceType] });
             }
-            _injectionMap.Add(interfaceType, implType);
+            injectionMap.Add(interfaceType, implType);
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Seasar.Quill
         /// <param name="map"></param>
         public virtual void Add(IDictionary<Type, Type> map)
         {
-            foreach (KeyValuePair<Type, Type> pair in map)
+            foreach (var pair in map)
             {
                 Add(pair.Key, pair.Value);
             }
@@ -87,13 +87,13 @@ namespace Seasar.Quill
         /// <param name="componentType"></param>
         public virtual void Add(Type componentType)
         {
-            if(_injectionMap.ContainsKey(componentType))
+            if(injectionMap.ContainsKey(componentType))
             {
                 throw new TooManyRegistrationRuntimeException(
                     componentType, 
-                    new Type[] {componentType, _injectionMap[componentType]});
+                    new[] {componentType, injectionMap[componentType]});
             }
-            _injectionMap.Add(componentType, componentType);
+            injectionMap.Add(componentType, componentType);
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace Seasar.Quill
         /// <param name="componentTypeList"></param>
         public virtual void Add(IList<Type> componentTypeList)
         {
-            foreach (Type type in componentTypeList)
+            foreach (var type in componentTypeList)
             {
                 Add(type);
             }
@@ -116,9 +116,9 @@ namespace Seasar.Quill
         /// <returns></returns>
         public virtual Type GetComponentType(Type registedType)
         {
-            if(_injectionMap.ContainsKey(registedType))
+            if(injectionMap.ContainsKey(registedType))
             {
-                return _injectionMap[registedType];
+                return injectionMap[registedType];
             }
             throw new ComponentNotFoundRuntimeException(registedType);
         }
@@ -128,17 +128,14 @@ namespace Seasar.Quill
         /// </summary>
         /// <param name="type"></param>
         /// <returns>true=登録されている、false=登録されていない</returns>
-        public virtual bool HasComponentType(Type type)
-        {
-            return _injectionMap.ContainsKey(type);
-        }
+        public virtual bool HasComponentType(Type type) => injectionMap.ContainsKey(type);
 
         /// <summary>
         /// インターフェースとその実装型の対応情報をクリア
         /// </summary>
         public virtual void Clear()
         {
-            _injectionMap.Clear();
+            injectionMap.Clear();
         }
     }
 }

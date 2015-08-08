@@ -25,100 +25,39 @@ namespace Seasar.Tests.Dao.Impl
     [Table("EMP")]
     public class Employee5
     {
-        private long _empno;
-        private string _ename;
-        private string _job;
-        private SqlInt16 _mgr;
-        private DateTime _hiredate;
-        private SqlSingle _sal;
-        private SqlSingle _comm;
-        private int _deptno;
-        private byte[] _password;
-        private string _dummy;
-        private Department _department;
-        private DateTime _timestamp;
-
         public Employee5()
         {
         }
 
         public Employee5(long empno)
         {
-            _empno = empno;
+            Empno = empno;
         }
 
-        public long Empno
-        {
-            set { _empno = value; }
-            get { return _empno; }
-        }
+        public long Empno { set; get; }
 
-        public string Ename
-        {
-            set { _ename = value; }
-            get { return _ename; }
-        }
+        public string Ename { set; get; }
 
-        public string Job
-        {
-            set { _job = value; }
-            get { return _job; }
-        }
+        public string Job { set; get; }
 
-        public SqlInt16 Mgr
-        {
-            set { _mgr = value; }
-            get { return _mgr; }
-        }
+        public SqlInt16 Mgr { set; get; }
 
-        public DateTime Hiredate
-        {
-            set { _hiredate = value; }
-            get { return _hiredate; }
-        }
+        public DateTime Hiredate { set; get; }
 
-        public SqlSingle Sal
-        {
-            set { _sal = value; }
-            get { return _sal; }
-        }
+        public SqlSingle Sal { set; get; }
 
-        public SqlSingle Comm
-        {
-            set { _comm = value; }
-            get { return _comm; }
-        }
+        public SqlSingle Comm { set; get; }
 
-        public int Deptno
-        {
-            set { _deptno = value; }
-            get { return _deptno; }
-        }
+        public int Deptno { set; get; }
 
-        public byte[] Password
-        {
-            set { _password = value; }
-            get { return _password; }
-        }
+        public byte[] Password { set; get; }
 
-        public string Dummy
-        {
-            set { _dummy = value; }
-            get { return _dummy; }
-        }
+        public string Dummy { set; get; }
 
         [Column("tstamp")]
-        public DateTime Timestamp
-        {
-            set { _timestamp = value; }
-            get { return _timestamp; }
-        }
+        public DateTime Timestamp { set; get; }
 
         [Relno(0), Relkeys("deptno:deptno, ename:dname")]
-        public Department Department
-        {
-            set { _department = value; }
-            get { return _department; }
-        }
+        public Department Department { set; get; }
     }
 }

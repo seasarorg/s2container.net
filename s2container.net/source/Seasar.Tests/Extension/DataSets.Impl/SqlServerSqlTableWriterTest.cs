@@ -38,23 +38,23 @@ namespace Seasar.Tests.Extension.DataSets.Impl
         [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
         public void WriteIdentityTable()
         {
-            if (DataSource.GetCommand().GetType().Name.Equals("SqlCommand"))
+            if (DataSource.GetCommand().GetExType().Name.Equals("SqlCommand"))
             {
-                DataTable table = new DataTable("idtable");
+                var table = new DataTable("idtable");
                 table.Columns.Add("id", typeof(int));
                 table.Columns.Add("id_name", typeof(string));
-                DataRow row = table.NewRow();
+                var row = table.NewRow();
                 row["id"] = 9900;
                 row["id_name"] = "hoge";
                 table.Rows.Add(row);
 
-                SqlServerSqlTableWriter writer = new SqlServerSqlTableWriter(DataSource);
+                var writer = new SqlServerSqlTableWriter(DataSource);
 
                 writer.Write(table);
 
-                SqlTableReader reader = new SqlTableReader(DataSource);
+                var reader = new SqlTableReader(DataSource);
                 reader.SetTable("idtable", "id = 9900");
-                DataTable ret = reader.Read();
+                var ret = reader.Read();
                 Trace.WriteLine(ToStringUtil.ToString(ret));
                 Assert.IsNotNull(ret, "1");
             }
@@ -68,23 +68,23 @@ namespace Seasar.Tests.Extension.DataSets.Impl
         [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
         public void WriteNotIdentityTable()
         {
-            DataTable table = new DataTable("emp");
+            var table = new DataTable("emp");
             table.Columns.Add("empno", typeof(int));
             table.Columns.Add("ename", typeof(string));
             table.Columns.Add("dname", typeof(string));
-            DataRow row = table.NewRow();
+            var row = table.NewRow();
             row["empno"] = 9900;
             row["ename"] = "hoge";
             row["dname"] = "aaa";
             table.Rows.Add(row);
 
-            SqlServerSqlTableWriter writer = new SqlServerSqlTableWriter(DataSource);
+            var writer = new SqlServerSqlTableWriter(DataSource);
 
             writer.Write(table);
 
-            SqlTableReader reader = new SqlTableReader(DataSource);
+            var reader = new SqlTableReader(DataSource);
             reader.SetTable("emp", "empno = 9900");
-            DataTable ret = reader.Read();
+            var ret = reader.Read();
             Trace.WriteLine(ToStringUtil.ToString(ret));
             Assert.IsNotNull(ret, "1");
         }

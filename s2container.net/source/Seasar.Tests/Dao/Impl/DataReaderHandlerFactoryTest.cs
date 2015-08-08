@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -45,10 +45,10 @@ namespace Seasar.Tests.Dao.Impl
         public void TestDataReaderGenericCollection()
         {
             DataReaderHandlerFactory = new GenericCollectionDataReaderHandlerFactory();
-            DaoMetaDataImpl dmd = (DaoMetaDataImpl) CreateDaoMetaData(typeof(IEmployeeDao));
-            SelectDynamicCommand cmd = (SelectDynamicCommand) dmd.GetSqlCommand("GetBySalReturnCollectionGeneric");
-            Collection<Employee> ret = cmd.Execute(new object[] { 100.0f }) as Collection<Employee>;
-            Assert.IsNotNull(ret, "Collection<T>Œ^‚É‘Î‰‚µ‚½IDataReaderHandlerFactory‚Åæ“¾B");
+            var dmd = (DaoMetaDataImpl) CreateDaoMetaData(typeof(IEmployeeDao));
+            var cmd = (SelectDynamicCommand) dmd.GetSqlCommand("GetBySalReturnCollectionGeneric");
+            var ret = cmd.Execute(new object[] { 100.0f }) as Collection<Employee>;
+            Assert.IsNotNull(ret, "Collection<T>å‹ã«å¯¾å¿œã—ãŸIDataReaderHandlerFactoryã§å–å¾—ã€‚");
             Assert.AreEqual(14, ret.Count);
         }
 
@@ -56,10 +56,10 @@ namespace Seasar.Tests.Dao.Impl
         public void TestDataReaderList()
         {
             DataReaderHandlerFactory = new GenericCollectionDataReaderHandlerFactory();
-            DaoMetaDataImpl dmd = (DaoMetaDataImpl) CreateDaoMetaData(typeof(IEmployeeDao));
-            SelectDynamicCommand cmd = (SelectDynamicCommand) dmd.GetSqlCommand("GetBySalReturnIListGeneric");
-            IList<Employee> ret = cmd.Execute(new object[] { 100.0f }) as IList<Employee>;
-            Assert.IsNotNull(ret, "S2Dao.NET•W€‘Î‰‚Ìƒf[ƒ^Œ^‚Å‚àæ“¾B");
+            var dmd = (DaoMetaDataImpl) CreateDaoMetaData(typeof(IEmployeeDao));
+            var cmd = (SelectDynamicCommand) dmd.GetSqlCommand("GetBySalReturnIListGeneric");
+            var ret = cmd.Execute(new object[] { 100.0f }) as IList<Employee>;
+            Assert.IsNotNull(ret, "S2Dao.NETS2Dao.NETæ¨™æº–å¯¾å¿œã®ãƒ‡ãƒ¼ã‚¿å‹ã§ã‚‚å–å¾—ã€‚");
             Assert.AreEqual(14, ret.Count);
         }
 
@@ -84,10 +84,11 @@ namespace Seasar.Tests.Dao.Impl
 
             public override object Handle(IDataReader dataReader)
             {
-                Type generic = typeof(Collection<>);
-                Type constructed = generic.MakeGenericType(BeanMetaData.BeanType);
+                var generic = typeof(Collection<>);
+                var constructed = generic.MakeGenericType(BeanMetaData.BeanType);
 
-                object list = Activator.CreateInstance(constructed);
+                var list = ClassUtil.NewInstance(constructed);
+//                var list = Activator.CreateInstance(constructed);
 
                 Handle(dataReader, (IList) list);
 
@@ -106,9 +107,10 @@ namespace Seasar.Tests.Dao.Impl
 
             public override object Handle(IDataReader dataReader)
             {
-                Type listType = typeof(List<>);
-                Type genericType = listType.MakeGenericType(_elementType);
-                object resultList = Activator.CreateInstance(genericType);
+                var listType = typeof(List<>);
+                var genericType = listType.MakeGenericType(_elementType);
+                var resultList = ClassUtil.NewInstance(genericType);
+//                var resultList = Activator.CreateInstance(genericType);
                 Handle(dataReader, (IList) resultList);
                 return resultList;
             }
@@ -123,10 +125,10 @@ namespace Seasar.Tests.Dao.Impl
         {
             public override IDataReaderHandler GetResultSetHandler(Type beanType, IBeanMetaData bmd, MethodInfo mi)
             {
-                Type retType = mi.ReturnType;
+                var retType = mi.ReturnType;
                 if (retType.IsGenericType && retType.GetGenericTypeDefinition().Equals(typeof(Collection<>)))
                 {
-                    Type elementType = retType.GetGenericArguments()[0];
+                    var elementType = retType.GetGenericArguments()[0];
                     if (AssignTypeUtil.IsSimpleType(elementType))
                     {
                         return new ObjectGenericCollectionDataReaderHandler(retType);

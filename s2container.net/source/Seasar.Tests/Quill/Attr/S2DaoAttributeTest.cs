@@ -45,9 +45,9 @@ namespace Seasar.Tests.Quill.Attr
         [Test]
         public void TestSetTypicalDaoSetting()
         {
-            using (QuillContainer container = new QuillContainer())
+            using (var container = new QuillContainer())
             {
-                object[] attrs = typeof(IWithS2DaoAttr0).GetCustomAttributes(false);
+                var attrs = typeof(IWithS2DaoAttr0).GetCustomAttributes(false);
                 Assert.AreEqual(1, attrs.Length);
                 Assert.IsTrue(attrs[0] is S2DaoAttribute);
             }
@@ -57,38 +57,38 @@ namespace Seasar.Tests.Quill.Attr
         public void TestS2DaoAttribute_正常()
         {
             //  ## Arrange ##
-            QuillContainer container = new QuillContainer();
+            var container = new QuillContainer();
             {
                 //  ## Act ##
-                QuillComponent component = container.GetComponent(typeof(IWithS2DaoAttr1));
+                var component = container.GetComponent(typeof(IWithS2DaoAttr1));
                 //  ## Assert ##
-                IWithS2DaoAttr1 actual = (IWithS2DaoAttr1)component.GetComponentObject(
+                var actual = (IWithS2DaoAttr1)component.GetComponentObject(
                     typeof(IWithS2DaoAttr1));
                 Assert.IsNotNull(actual, "01");
-                Employee emp = actual.GetEmployee();
+                var emp = actual.GetEmployee();
                 Assert.IsNotNull(emp, "02");
                 Console.WriteLine(emp.Ename);
             }
             {
                 //  ## Act ##
-                QuillComponent component = container.GetComponent(typeof(IWithS2DaoAttr2));
+                var component = container.GetComponent(typeof(IWithS2DaoAttr2));
                 //  ## Assert ##
-                IWithS2DaoAttr2 actual = (IWithS2DaoAttr2)component.GetComponentObject(
+                var actual = (IWithS2DaoAttr2)component.GetComponentObject(
                     typeof(IWithS2DaoAttr2));
                 Assert.IsNotNull(actual, "11");
-                string ret = actual.Hoge();
+                var ret = actual.Hoge();
                 Assert.AreEqual("InterceptorCalled", ret, "12");
             }
             {
                 //  ## Act ##
-                QuillComponent component = container.GetComponent(typeof(IWithS2DaoMethod));
+                var component = container.GetComponent(typeof(IWithS2DaoMethod));
                 //  ## Assert ##
-                IWithS2DaoMethod actual = (IWithS2DaoMethod)component.GetComponentObject(
+                var actual = (IWithS2DaoMethod)component.GetComponentObject(
                     typeof(IWithS2DaoMethod));
                 Assert.IsNotNull(actual, "21");
-                Employee emp = actual.GetEmployee();
+                var emp = actual.GetEmployee();
                 Assert.IsNotNull(emp, "22");
-                string ret = actual.Hoge2();
+                var ret = actual.Hoge2();
                 Assert.AreEqual("InterceptorCalled", ret, "23");
             }
         }
@@ -97,7 +97,7 @@ namespace Seasar.Tests.Quill.Attr
         public void TestS2DaoAttribute_使用不可な型を指定()
         {
             //  ## Arrange ##
-            QuillContainer container = new QuillContainer();
+            var container = new QuillContainer();
             try
             {
                 container.GetComponent(typeof(IIllegalStrring));
@@ -111,11 +111,11 @@ namespace Seasar.Tests.Quill.Attr
         [Test, Quill]
         public void TestDataSourceNameChange_Class()
         {
-            QuillContainer container = new QuillContainer();
-            IWithS2DaoDataSourceNameChange_Class actual =
+            var container = new QuillContainer();
+            var actual =
                 (IWithS2DaoDataSourceNameChange_Class)ComponentUtil.GetComponent(
                 container, typeof(IWithS2DaoDataSourceNameChange_Class));
-            SelectableDataSourceProxyWithDictionary proxy =
+            var proxy =
                 (SelectableDataSourceProxyWithDictionary)ComponentUtil.GetComponent(
                 container, typeof(SelectableDataSourceProxyWithDictionary));
             const string START_NAME = "Start";
@@ -131,11 +131,11 @@ namespace Seasar.Tests.Quill.Attr
         [Test, Quill]
         public void TestDataSourceNameChange_Method()
         {
-            QuillContainer container = new QuillContainer();
-            IWithS2DaoDataSourceNameChange_Method actual =
+            var container = new QuillContainer();
+            var actual =
                 (IWithS2DaoDataSourceNameChange_Method)ComponentUtil.GetComponent(
                 container, typeof(IWithS2DaoDataSourceNameChange_Method));
-            SelectableDataSourceProxyWithDictionary proxy =
+            var proxy =
                 (SelectableDataSourceProxyWithDictionary)ComponentUtil.GetComponent(
                 container, typeof(SelectableDataSourceProxyWithDictionary));
             const string START_NAME = "Start";
@@ -232,7 +232,7 @@ namespace Seasar.Tests.Quill.Attr
         protected override void SetupDao(IDataSource dataSource)
         {
             Console.WriteLine("Setup is called.");
-            _daoInterceptor = new TestInterceptor();
+            daoInterceptor = new TestInterceptor();
         }
     }
 

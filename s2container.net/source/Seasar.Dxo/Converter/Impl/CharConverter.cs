@@ -37,10 +37,7 @@ namespace Seasar.Dxo.Converter.Impl
         /// <returns>bool •ÏŠ·‚ª¬Œ÷‚µ‚½ê‡‚É‚Ítrue</returns>
         protected override bool DoConvert(object source, ref object dest, Type expectType)
         {
-            if (source == null)
-                dest = null;
-            else
-                dest = source.ToString().ToCharArray();
+            dest = source?.ToString().ToCharArray();
 
             return true;
         }

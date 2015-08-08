@@ -45,8 +45,8 @@ namespace Seasar.Tests.Framework.Xml
         public void TestStart()
         {
             _rule["/tag1"] = new TagHandler1();
-            XmlHandler handler = new XmlHandler(_rule);
-            XmlHandlerParser parser = new XmlHandlerParser(handler);
+            var handler = new XmlHandler(_rule);
+            var parser = new XmlHandlerParser(handler);
             StreamReader stream = null;
             try
             {
@@ -71,12 +71,12 @@ namespace Seasar.Tests.Framework.Xml
         [Test]
         public void TestAppendBody()
         {
-            StringBuilder buf = new StringBuilder();
-            TagHandler2 th2 = new TagHandler2();
+            var buf = new StringBuilder();
+            var th2 = new TagHandler2();
             th2.Buf = buf;
             _rule["/tag1"] = th2;
-            XmlHandler handler = new XmlHandler(_rule);
-            XmlHandlerParser parser = new XmlHandlerParser(handler);
+            var handler = new XmlHandler(_rule);
+            var parser = new XmlHandlerParser(handler);
             StreamReader stream = null;
             try
             {
@@ -109,12 +109,12 @@ namespace Seasar.Tests.Framework.Xml
         [Test]
         public void TestAppendBody2()
         {
-            StringBuilder buf = new StringBuilder();
-            TagHandler2 th2 = new TagHandler2();
+            var buf = new StringBuilder();
+            var th2 = new TagHandler2();
             th2.Buf = buf;
             _rule["tag1"] = th2;
-            XmlHandler handler = new XmlHandler(_rule);
-            XmlHandlerParser parser = new XmlHandlerParser(handler);
+            var handler = new XmlHandler(_rule);
+            var parser = new XmlHandlerParser(handler);
             StreamReader stream = null;
             try
             {
@@ -132,12 +132,12 @@ namespace Seasar.Tests.Framework.Xml
         [Test]
         public void TestAppendBody3()
         {
-            StringBuilder buf = new StringBuilder();
-            TagHandler2 th2 = new TagHandler2();
+            var buf = new StringBuilder();
+            var th2 = new TagHandler2();
             th2.Buf = buf;
             _rule["/tag1/tag3/tag4"] = th2;
-            XmlHandler handler = new XmlHandler(_rule);
-            XmlHandlerParser parser = new XmlHandlerParser(handler);
+            var handler = new XmlHandler(_rule);
+            var parser = new XmlHandlerParser(handler);
             StreamReader stream = null;
             try
             {
@@ -156,9 +156,9 @@ namespace Seasar.Tests.Framework.Xml
         public void TestEnd()
         {
             _rule["/tag1/tag2"] = new TagHandler3();
-            XmlHandler handler = new XmlHandler(_rule);
-            XmlHandlerParser parser = new XmlHandlerParser(handler);
-            object result = parser.Parse(XML_FILE_NAME);
+            var handler = new XmlHandler(_rule);
+            var parser = new XmlHandlerParser(handler);
+            var result = parser.Parse(XML_FILE_NAME);
             Assert.AreEqual("c c", result);
         }
 
@@ -174,9 +174,9 @@ namespace Seasar.Tests.Framework.Xml
         public void TestException()
         {
             _rule["/tag1/tag3"] = new TagHandler4();
-            XmlHandler handler = new XmlHandler(_rule);
-            XmlHandlerParser parser = new XmlHandlerParser(handler);
-            StreamReader stream = ResourceUtil.GetResourceAsStreamReader(XML_FILE_NAME, _asm);
+            var handler = new XmlHandler(_rule);
+            var parser = new XmlHandlerParser(handler);
+            var stream = ResourceUtil.GetResourceAsStreamReader(XML_FILE_NAME, _asm);
             try
             {
                 parser.Parse(stream);
@@ -210,9 +210,9 @@ namespace Seasar.Tests.Framework.Xml
             _rule["tag4"] = th;
             _rule["tag5"] = th;
             Trace.WriteLine("tagMatching");
-            XmlHandler handler = new XmlHandler(_rule);
-            XmlHandlerParser parser = new XmlHandlerParser(handler);
-            StreamReader stream = ResourceUtil.GetResourceAsStreamReader(XML_FILE_NAME, _asm);
+            var handler = new XmlHandler(_rule);
+            var parser = new XmlHandlerParser(handler);
+            var stream = ResourceUtil.GetResourceAsStreamReader(XML_FILE_NAME, _asm);
             try
             {
                 parser.Parse(stream);

@@ -16,6 +16,7 @@
  */
 #endregion
 
+using System;
 using System.Data;
 using System.Data.Common;
 using System.Data.OleDb;
@@ -33,27 +34,27 @@ namespace Seasar.Extension.DataSets.Impl
 
         public XlsReader(string path)
         {
-            string fullPath = Path.GetFullPath(path);
+            var fullPath = Path.GetFullPath(path);
             if (!File.Exists(fullPath))
             {
                 throw new FileNotFoundException("xls file not found.", fullPath);
             }
-            _dataSet = CreateDataSet(fullPath);
+            _dataSet = _CreateDataSet(fullPath);
         }
 
         public XlsReader(Stream stream)
         {
-            string tempPath = Path.GetTempFileName();
+            var tempPath = Path.GetTempFileName();
             using (Stream fs = new FileStream(tempPath, FileMode.Create, FileAccess.Write))
             {
-                byte[] b = new byte[DEFAULT_BUFFER_SIZE];
+                var b = new byte[DEFAULT_BUFFER_SIZE];
                 int n;
                 while (0 < (n = stream.Read(b, 0, b.Length)))
                 {
                     fs.Write(b, 0, n);
                 }
             }
-            _dataSet = CreateDataSet(tempPath);
+            _dataSet = _CreateDataSet(tempPath);
             if (File.Exists(tempPath))
             {
                 File.Delete(tempPath);
@@ -69,42 +70,40 @@ namespace Seasar.Extension.DataSets.Impl
 
         #endregion
 
-        private DataSet CreateDataSet(string path)
+        private DataSet _CreateDataSet(string path)
         {
-            string connectonString = string.Format(
-                "Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Extended Properties=\"Excel 8.0;HDR=Yes;IMEX=1\"",
-                path
-                );
+            var connectonString =
+                $"Provider=Microsoft.Jet.OLEDB.4.0;Data Source={path};Extended Properties=\"Excel 8.0;HDR=Yes;IMEX=1\"";
 
-            DataSet ds = new DataSet();
-            using (OleDbConnection con = new OleDbConnection(connectonString))
+            var ds = new DataSet();
+            using (var con = new OleDbConnection(connectonString))
             {
                 if (con.State != ConnectionState.Open)
                 {
                     con.Open();
                 }
 
-                DataTable tableList = con.GetOleDbSchemaTable(
+                var tableList = con.GetOleDbSchemaTable(
                     OleDbSchemaGuid.Tables_Info,
                     new object[] { null, null, null, "TABLE" }
                     );
 
                 foreach (DataRow row in tableList.Rows)
                 {
-                    string tableName = (string)row["TABLE_NAME"];
+                    var tableName = (string)row["TABLE_NAME"];
                     if (!tableName.EndsWith("$") && !tableName.EndsWith("$'"))
                     {
                         continue;
                     }
 
-                    string sql = string.Format("select * from [{0}]", tableName);
-                    using (OleDbCommand cmd = new OleDbCommand(sql, con))
+                    var sql = $"select * from [{tableName}]";
+                    using (var cmd = new OleDbCommand(sql, con))
                     {
                         DbDataAdapter adapter = new OleDbDataAdapter(cmd);
                         adapter.AcceptChangesDuringFill = false;
-                        DataTable table = new DataTable(tableName);
+                        var table = new DataTable(tableName);
                         adapter.Fill(table);
-                        SetupTable(table);
+                        _SetupTable(table);
                         ds.Tables.Add(table);
                         //adapter.Fill(ds, _tableName.Replace("$", string.Empty));
                     }
@@ -114,9 +113,9 @@ namespace Seasar.Extension.DataSets.Impl
             return ds;
         }
 
-        private void SetupTable(DataTable table)
+        private void _SetupTable(DataTable table)
         {
-            string tableName = table.TableName.Trim();
+            var tableName = table.TableName.Trim();
             if (tableName.EndsWith("$"))
             {
                 tableName = tableName.Remove(tableName.Length - 1, 1);
@@ -127,30 +126,25 @@ namespace Seasar.Extension.DataSets.Impl
             }
             if (WORK_SHEET_PREFIX_PATTERN.IsMatch(tableName))
             {
-                tableName = tableName.Split(new char[] { ' ', '　' })[1];
+                tableName = tableName.Split(new [] {" ","　"}, StringSplitOptions.None)[1];
             }
             table.TableName = tableName;
 
-            int rowCount = table.Rows.Count;
+            var rowCount = table.Rows.Count;
             if (rowCount > 0)
             {
-                SetupColumns(table.Columns);
+                _SetupColumns(table.Columns);
             }
         }
 
-        private void SetupColumns(DataColumnCollection columns)
+        private void _SetupColumns(DataColumnCollection columns)
         {
-            for (int i = 0; i < columns.Count; i++)
+            for (var i = 0; i < columns.Count; i++)
             {
-                DataColumn column = columns[i];
-                string columnName = column.ColumnName.Trim();
+                var column = columns[i];
+                var columnName = column.ColumnName.Trim();
 
-                bool isRemove = false;
-
-                if (string.Empty == columnName)
-                {
-                    isRemove = true;
-                }
+                bool isRemove = string.Empty == columnName;
 
                 // カラム名未入力時、F01, F02 ... のカラムを取得する場合があるので無視する。
                 if (ILLIGAL_COLUMN_NAME_PATTERN.IsMatch(columnName))

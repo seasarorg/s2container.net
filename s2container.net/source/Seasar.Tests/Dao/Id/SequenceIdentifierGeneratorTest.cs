@@ -42,9 +42,9 @@ namespace Seasar.Tests.Dao.Id
                 return;
             }
 
-            SequenceIdentifierGenerator generator = new SequenceIdentifierGenerator("Id", Dbms);
+            var generator = new SequenceIdentifierGenerator("Id", Dbms);
             generator.SequenceName = "\"SEQ_IDTABLE\"";
-            Hoge hoge = new Hoge();
+            var hoge = new Hoge();
             generator.SetIdentifier(hoge, DataSource);
             Assert.IsTrue(hoge.Id > 0);
         }

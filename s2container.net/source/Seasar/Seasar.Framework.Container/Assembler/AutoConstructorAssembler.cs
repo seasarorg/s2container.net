@@ -17,8 +17,8 @@
 #endregion
 
 using System.Reflection;
-using Seasar.Framework.Util;
 using Seasar.Framework.Container.Util;
+using Seasar.Framework.Util;
 
 namespace Seasar.Framework.Container.Assembler
 {
@@ -31,8 +31,8 @@ namespace Seasar.Framework.Container.Assembler
 
         public override object Assemble()
         {
-            ConstructorInfo constructor = GetSuitableConstructor();
-            object[] args = new object[0];
+            var constructor = _GetSuitableConstructor();
+            var args = new object[0];
 
             if (constructor == null)
             {
@@ -48,14 +48,14 @@ namespace Seasar.Framework.Container.Assembler
             return AopProxyUtil.WeaveAspect(ComponentDef, constructor, args);
         }
 
-        private ConstructorInfo GetSuitableConstructor()
+        private ConstructorInfo _GetSuitableConstructor()
         {
-            int argSize = -1;
+            var argSize = -1;
             ConstructorInfo constructor = null;
-            ConstructorInfo[] constructors = ComponentDef.ComponentType.GetConstructors();
-            for (int i = 0; i < constructors.Length; ++i)
+            var constructors = ComponentDef.ComponentType.GetConstructors();
+            for (var i = 0; i < constructors.Length; ++i)
             {
-                int tempArgSize = constructors[i].GetParameters().Length;
+                var tempArgSize = constructors[i].GetParameters().Length;
                 if (tempArgSize == 0) return null;
                 if (tempArgSize > argSize
                     && AutoBindingUtil.IsSuitable(constructors[i].GetParameters()))

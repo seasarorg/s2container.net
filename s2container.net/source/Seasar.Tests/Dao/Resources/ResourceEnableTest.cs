@@ -37,7 +37,7 @@ namespace Seasar.Tests.Dao.Resources
             const string EXPECTED_MESSAGE = "Query(test)が見つかりません。";
 
             //  ここでは「既定の名前空間」が設定されている場合のテストのみ行います。
-            string message = MessageFormatter.GetSimpleMessage(
+            var message = MessageFormatter.GetSimpleMessage(
                 "EDAO0001", new object[] { "test" }, typeof(S2DaoInterceptor).Assembly, null);
             Assert.AreEqual(EXPECTED_MESSAGE, message, "メッセージリソースを取得出来る事");
             message = MessageFormatter.GetSimpleMessage(

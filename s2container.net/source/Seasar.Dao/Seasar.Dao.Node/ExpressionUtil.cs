@@ -17,6 +17,8 @@
 #endregion
 
 using System;
+using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -38,20 +40,20 @@ namespace Seasar.Dao.Node
             _reLit = new Regex(@"^\s*([-+]?[0-9]+(\.[0-9]+)?)", RegexOptions.Compiled);
         }
 
-        public string parseExpression(string expression)
+        public string ParseExpression(string expression)
         {
             _current = null;
             _text = expression;
-            StringBuilder sb = new StringBuilder(255);
-            while (!EOF())
+            var sb = new StringBuilder(255);
+            while (!Eof())
             {
-                IToken token = NextToken();
+                var token = NextToken();
                 sb.Append(token.Value + " ");
             }
             return sb.ToString().TrimEnd(' ');
         }
 
-        protected bool EOF()
+        protected bool Eof()
         {
             if (_current is Eof)
             {
@@ -62,25 +64,24 @@ namespace Seasar.Dao.Node
 
         protected IToken NextToken()
         {
-            Match match;
-            match = _reLit.Match(_text);
+            var match = _reLit.Match(_text);
             if (match.Length != 0)
             {
-                SetNumberLiteralToken(match);
+                _SetNumberLiteralToken(match);
             }
             else
             {
                 match = _reOps.Match(_text);
                 if (match.Length != 0)
                 {
-                    SetOperatorToken(match);
+                    _SetOperatorToken(match);
                 }
                 else
                 {
                     match = _reSym.Match(_text);
                     if (match.Length != 0)
                     {
-                        SetSymbolToken(match);
+                        _SetSymbolToken(match);
                     }
                     else
                     {
@@ -91,32 +92,29 @@ namespace Seasar.Dao.Node
             return _current;
         }
 
-        private void SetNumberLiteralToken(Match match)
+        private void _SetNumberLiteralToken(Match match)
         {
-            IToken token;
             _start += match.Length;
             _text = _text.Substring(match.Length);
-            token = new NumberLiteral();
+            IToken token = new NumberLiteral();
             token.Value = match.Groups[1].Value;
             _current = token;
         }
 
-        private void SetSymbolToken(Match match)
+        private void _SetSymbolToken(Match match)
         {
-            IToken token;
             _start += match.Length;
             _text = _text.Substring(match.Length);
-            token = new Symbol();
+            IToken token = new Symbol();
             token.Value = match.Groups[1].Value;
             _current = token;
         }
 
-        private void SetOperatorToken(Match match)
+        private void _SetOperatorToken(Match match)
         {
-            IToken token;
             _start += match.Length;
             _text = _text.Substring(match.Length);
-            token = new Operator();
+            IToken token = new Operator();
             token.Value = match.Groups[1].Value;
             _current = token;
         }
@@ -145,28 +143,24 @@ namespace Seasar.Dao.Node
 
         public object Value
         {
-            get { return GetArgValue(); }
+            get { return _GetArgValue(); }
             set { _value = (string) value; }
         }
 
-        private string GetArgValue()
+        private string _GetArgValue()
         {
             if (_value.StartsWith("'") && _value.EndsWith("'"))
                 return _value;
 
-            foreach (string escape in _escapes)
+            if (_escapes.Any(escape => _value.ToLower() == escape))
             {
-                if (_value.ToLower() == escape)
-                    return _value.ToLower();
+                return _value.ToLower();
             }
 
             return "self.GetArg('" + _value + "')";
         }
 
-        public override string ToString()
-        {
-            return _value.ToString();
-        }
+        public override string ToString() => _value;
     }
 
     public class NumberLiteral : IToken
@@ -178,10 +172,7 @@ namespace Seasar.Dao.Node
             get { return _value; }
             set { _value = (float) Double.Parse(value.ToString()); }
         }
-        public override string ToString()
-        {
-            return _value.ToString();
-        }
+        public override string ToString() => _value.ToString(CultureInfo.InvariantCulture);
     }
 
     public class Operator : IToken
@@ -193,10 +184,7 @@ namespace Seasar.Dao.Node
             get { return _value; }
             set { _value = (string) value; }
         }
-        public override string ToString()
-        {
-            return _value.ToString();
-        }
+        public override string ToString() => _value;
     }
 
     #endregion

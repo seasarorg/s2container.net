@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -22,34 +22,29 @@ using System.Runtime.Serialization;
 namespace Seasar.Framework.Exceptions
 {
     /// <summary>
-    /// ‘ÎÛ‚ªİ’è‚³‚ê‚Ä‚¢‚È‚¢ê‡‚ÌÀs—áŠO‚Å‚·B
+    /// ï¿½ÎÛ‚ï¿½ï¿½İ’è‚³ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½Ìï¿½ï¿½sï¿½ï¿½ï¿½ï¿½Oï¿½Å‚ï¿½ï¿½B
     /// </summary>
     [Serializable]
     public sealed class EmptyRuntimeException : SRuntimeException
     {
-        private readonly string _targetName;
-
         public EmptyRuntimeException(string targetName)
             : base("ESSR0007", new object[] { targetName })
         {
-            _targetName = targetName;
+            TargetName = targetName;
         }
 
         public EmptyRuntimeException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            _targetName = info.GetString("_targetName");
+            TargetName = info.GetString("_targetName");
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("_targetName", _targetName, typeof(string));
+            info.AddValue("_targetName", TargetName, typeof(string));
             base.GetObjectData(info, context);
         }
 
-        public string TargetName
-        {
-            get { return _targetName; }
-        }
+        public string TargetName { get; }
     }
 }

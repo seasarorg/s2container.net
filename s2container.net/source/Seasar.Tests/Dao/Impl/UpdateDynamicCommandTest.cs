@@ -35,15 +35,15 @@ namespace Seasar.Tests.Dao.Impl
         [Test, S2(Tx.Rollback)]
         public void TestExecuteTx()
         {
-            UpdateDynamicCommand cmd = new UpdateDynamicCommand(DataSource,
+            var cmd = new UpdateDynamicCommand(DataSource,
                 BasicCommandFactory.INSTANCE);
             cmd.Sql = "UPDATE emp SET ename = /*employee.Ename*/'HOGE' WHERE empno = /*employee.Empno*/1234";
             cmd.ArgNames = new string[] { "employee" };
 
-            Employee emp = new Employee();
+            var emp = new Employee();
             emp.Empno = 7788;
             emp.Ename = "SCOTT";
-            int count = (int) cmd.Execute(new object[] { emp });
+            var count = (int) cmd.Execute(new object[] { emp });
             Assert.AreEqual(1, count, "1");
         }
     }

@@ -32,16 +32,16 @@ namespace Seasar.Framework.Aop.Interceptors
         public object CreateProxy(Type proxyType)
         {
             IAspect aspect = new AspectImpl(this, new PointcutImpl(
-                new string[] { ".*" }));
+                new[] { ".*" }));
             return new AopProxy(proxyType,
-                new IAspect[] { aspect }).GetTransparentProxy();
+                new[] { aspect }).GetTransparentProxy();
         }
 
         protected IComponentDef GetComponentDef(IMethodInvocation invocation)
         {
             if (invocation is IS2MethodInvocation)
             {
-                IS2MethodInvocation impl = (IS2MethodInvocation) invocation;
+                var impl = (IS2MethodInvocation) invocation;
                 return (IComponentDef) impl.GetParameter(ContainerConstants.COMPONENT_DEF_NAME);
             }
             return null;
@@ -49,10 +49,7 @@ namespace Seasar.Framework.Aop.Interceptors
 
         #region IMethodInterceptor インターフェイス
 
-        public virtual object Invoke(IMethodInvocation invocation)
-        {
-            return invocation.Proceed();
-        }
+        public virtual object Invoke(IMethodInvocation invocation) => invocation.Proceed();
 
         #endregion
     }

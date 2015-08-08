@@ -57,7 +57,7 @@ namespace Seasar.Framework.Aop.Impl
         {
             if (interceptors == null)
             {
-                throw new ArgumentNullException("interceptors");
+                throw new ArgumentNullException(nameof(interceptors));
             }
             _interceptors = interceptors;
              _type = type;
@@ -76,9 +76,9 @@ namespace Seasar.Framework.Aop.Impl
         /// <param name="invocation"></param>
         public void Intercept(IInvocation invocation)
         {
-            if (IsInterceptTarget(invocation))
+            if (_IsInterceptTarget(invocation))
             {
-                var interceptors = _interceptors[invocation.Method] as IMethodInterceptor[];
+                var interceptors = _interceptors[invocation.Method];
                 var mehotdInvocation = new DynamicProxyMethodInvocation(invocation.Proxy, _type, 
                        invocation, invocation.Arguments, interceptors, _parameters);
                 invocation.ReturnValue = interceptors[0].Invoke(mehotdInvocation);
@@ -97,11 +97,11 @@ namespace Seasar.Framework.Aop.Impl
         /// </summary>
         /// <param name="invocation"></param>
         /// <returns>true:Intercept対象、false:Intercept対象外</returns>
-        private bool IsInterceptTarget(IInvocation invocation)
+        private bool _IsInterceptTarget(IInvocation invocation)
         {
-            if ((invocation.Proxy == invocation.Proxy ||
-                !(invocation.Method.IsVirtual && !invocation.Method.IsFinal)) &&
-                _interceptors.ContainsKey(invocation.Method))
+            if (invocation != null && ((invocation.Proxy == invocation.Proxy ||
+                                        !(invocation.Method.IsVirtual && !invocation.Method.IsFinal)) &&
+                                       _interceptors.ContainsKey(invocation.Method)))
             {
                 return true;
             }

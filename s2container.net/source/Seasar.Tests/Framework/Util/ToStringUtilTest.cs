@@ -28,11 +28,11 @@ namespace Seasar.Tests.Framework.Util
         [Test]
         public void ToStringIList()
         {
-            ArrayList arrayChild = new ArrayList();
+            var arrayChild = new ArrayList();
             arrayChild.Add("valueChild1");
             arrayChild.Add("valueChild2");
 
-            ArrayList array = new ArrayList();
+            var array = new ArrayList();
             array.Add("value1");
             array.Add("value2");
 

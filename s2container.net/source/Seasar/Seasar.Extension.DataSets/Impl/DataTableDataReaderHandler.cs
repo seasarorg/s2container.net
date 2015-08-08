@@ -37,50 +37,47 @@ namespace Seasar.Extension.DataSets.Impl
 
         public object Handle(System.Data.IDataReader reader)
         {
-            IPropertyType[] propertyTypes = PropertyTypeUtil.CreatePropertyTypes(reader.GetSchemaTable());
-            DataTable table = new DataTable(_tableName);
-            for (int i = 0; i < propertyTypes.Length; ++i)
+            var propertyTypes = PropertyTypeUtil.CreatePropertyTypes(reader.GetSchemaTable());
+            var table = new DataTable(_tableName);
+            for (var i = 0; i < propertyTypes.Length; ++i)
             {
-                string propertyName = propertyTypes[i].PropertyName;
-                Type type = ColumnTypes.GetColumnType(propertyTypes[i].PropertyType).GetColumnType();
+                var propertyName = propertyTypes[i].PropertyName;
+                var type = ColumnTypes.GetColumnType(propertyTypes[i].PropertyType).GetColumnType();
                 table.Columns.Add(propertyName, type);
             }
             while (reader.Read())
             {
-                AddRow(reader, propertyTypes, table);
+                _AddRow(reader, propertyTypes, table);
             }
             return table;
         }
 
         #endregion
 
-        private void AddRow(System.Data.IDataReader reader, IPropertyType[] propertyTypes, DataTable table)
+        private void _AddRow(System.Data.IDataReader reader, IPropertyType[] propertyTypes, DataTable table)
         {
-            DataRow row = table.NewRow();
-            for (int i = 0; i < table.Columns.Count; ++i)
+            var row = table.NewRow();
+            for (var i = 0; i < table.Columns.Count; ++i)
             {
-                row[i] = GetValue(reader, i, propertyTypes);
+                row[i] = _GetValue(reader, i, propertyTypes);
             }
             table.Rows.Add(row);
         }
 
-        private object GetValue(System.Data.IDataReader reader, int index, IPropertyType[] propertyTypes)
+        private object _GetValue(System.Data.IDataReader reader, int index, IPropertyType[] propertyTypes)
         {
-            Type type = propertyTypes[index].PropertyType;
-            object value = propertyTypes[index].ValueType.GetValue(reader, index);
+            var type = propertyTypes[index].PropertyType;
+            var value = propertyTypes[index].ValueType.GetValue(reader, index);
             if (value == null)
             {
                 return DBNull.Value;
             }
-            object ret = ColumnTypes.GetColumnType(type).Convert(value, null);
+            var ret = ColumnTypes.GetColumnType(type).Convert(value, null);
             if (ret is string)
             {
-                string s = ret as string;
-                if (s != null)
-                {
-                    s = s.TrimEnd(null);
-                }
-                if (IsCellBase64Formatted(s))
+                var s = ret as string;
+                s = s.TrimEnd(null);
+                if (_IsCellBase64Formatted(s))
                 {
                     return Convert.FromBase64String(s);
                 }
@@ -89,7 +86,7 @@ namespace Seasar.Extension.DataSets.Impl
             return ret;
         }
 
-        private bool IsCellBase64Formatted(string s)
+        private bool _IsCellBase64Formatted(string s)
         {
             return DataSetConstants.BASE64_FORMAT.StartsWith(s);
         }

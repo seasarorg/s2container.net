@@ -21,6 +21,7 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using Seasar.Framework.Util;
 
 namespace Seasar.Dxo.Converter.Impl
 {
@@ -49,9 +50,9 @@ namespace Seasar.Dxo.Converter.Impl
                 dest = System.Convert.ChangeType(source, expectType);
                 return true;
             }
-            else if (source.GetType().IsEnum)
+            else if (source.GetExType().IsEnum)
             {
-                if (Enum.IsDefined(source.GetType(), source))
+                if (Enum.IsDefined(source.GetExType(), source))
                 {
                     dest = source;
                     return true;
@@ -60,15 +61,12 @@ namespace Seasar.Dxo.Converter.Impl
             else
             {
                 //型コンバータを取得
-                TypeConverter converter = TypeDescriptor.GetConverter(expectType);
+                var converter = TypeDescriptor.GetConverter(expectType);
 
-                if (converter != null)
+                if (converter.CanConvertFrom(source.GetExType()))
                 {
-                    if (converter.CanConvertFrom(source.GetType()))
-                    {
-                        dest = converter.ConvertFrom(source);
-                        return true;
-                    }
+                    dest = converter.ConvertFrom(source);
+                    return true;
                 }
             }
             return false;

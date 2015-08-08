@@ -28,25 +28,15 @@ namespace Seasar.Framework.Beans
     [Serializable]
     public class FieldNotFoundRuntimeException : SRuntimeException
     {
-        private readonly Type _componentType;
-
-        private readonly string _fieldName;
-
         /// <summary>
         /// ターゲットの型
         /// </summary>
-        public Type ComponentType
-        {
-            get { return _componentType; }
-        }
+        public Type ComponentType { get; }
 
         /// <summary>
         /// フィールド名
         /// </summary>
-        public string FieldName
-        {
-            get { return _fieldName; }
-        }
+        public string FieldName { get; }
 
         /// <summary>
         /// FieldNotFoundRuntimeExceptionを作成します。
@@ -54,23 +44,23 @@ namespace Seasar.Framework.Beans
         /// <param name="componentType"></param>
         /// <param name="fieldName"></param>
         public FieldNotFoundRuntimeException(Type componentType, string fieldName)
-            : base("ESSR0070", new Object[] { componentType.Name, fieldName })
+            : base("ESSR0070", new object[] { componentType.Name, fieldName })
         {
-            _componentType = componentType;
-            _fieldName = fieldName;
+            ComponentType = componentType;
+            FieldName = fieldName;
         }
 
         public FieldNotFoundRuntimeException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            _componentType = info.GetValue("_componentType", typeof(Type)) as Type;
-            _fieldName = info.GetString("_fieldName");
+            ComponentType = info.GetValue("_componentType", typeof(Type)) as Type;
+            FieldName = info.GetString("_fieldName");
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("_componentType", _componentType, typeof(Type));
-            info.AddValue("_fieldName", _fieldName, typeof(string));
+            info.AddValue("_componentType", ComponentType, typeof(Type));
+            info.AddValue("_fieldName", FieldName, typeof(string));
             base.GetObjectData(info, context);
         }
     }

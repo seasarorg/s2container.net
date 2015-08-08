@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -49,16 +49,16 @@ namespace Seasar.Tests.Extension.Unit
             dictionary.Add("StringType", "abcde");
             dictionary.Add("DateTimeType", new DateTime(1999, 12, 31));
 
-            DictionaryReader reader = new DictionaryReader(dictionary);
-            DataSet ds = reader.Read();
-            DataTable table = ds.Tables[0];
-            DataRow row = table.Rows[0];
-            DataColumnCollection columns = table.Columns;
+            var reader = new DictionaryReader(dictionary);
+            var ds = reader.Read();
+            var table = ds.Tables[0];
+            var row = table.Rows[0];
+            var columns = table.Columns;
 
             Assert.AreEqual(DataRowState.Unchanged, row.RowState);
             Assert.AreEqual(12, columns.Count);
 
-            // ”’l‚Å”äŠr‚·‚é‚Æ32bit/64bitŠÂ‹«‚ÅÀsŒ‹‰Ê‚ª•Ï‚í‚é‚Ì‚Å•¶š—ñ‚Å”äŠr
+            // æ•°å€¤ã§æ¯”è¼ƒã™ã‚‹ã¨32bit/64bitç’°å¢ƒã§å®Ÿè¡ŒçµæœãŒå¤‰ã‚ã‚‹ã®ã§æ–‡å­—åˆ—ã§æ¯”è¼ƒ
             Assert.AreEqual("1", row["id"].ToString());
             Assert.AreEqual(true, row["booltype"]);
             Assert.AreEqual(SByte.MaxValue, row["sbytetype"]);
@@ -200,29 +200,29 @@ namespace Seasar.Tests.Extension.Unit
         public void TestReadNullableType()
         {
             IDictionary dictionary = new Hashtable();
-            dictionary.Add("Id", new Nullable<long>(1L));
-            dictionary.Add("BoolType", new Nullable<bool>(true));
-            dictionary.Add("SbyteType", new Nullable<sbyte>(SByte.MaxValue));
-            dictionary.Add("ByteType", new Nullable<byte>(Byte.MaxValue));
-            dictionary.Add("Int16Type", new Nullable<short>(Int16.MaxValue));
-            dictionary.Add("Int32Type", new Nullable<int>(Int32.MaxValue));
-            dictionary.Add("Int64Type", new Nullable<long>(Int64.MaxValue));
-            dictionary.Add("DecimalType", new Nullable<decimal>(Decimal.MaxValue));
-            dictionary.Add("SingleType", new Nullable<float>(Single.MaxValue));
-            dictionary.Add("DoubleType", new Nullable<double>(Double.MaxValue));
+            dictionary.Add("Id", new long?(1L));
+            dictionary.Add("BoolType", new bool?(true));
+            dictionary.Add("SbyteType", new sbyte?(SByte.MaxValue));
+            dictionary.Add("ByteType", new byte?(Byte.MaxValue));
+            dictionary.Add("Int16Type", new short?(Int16.MaxValue));
+            dictionary.Add("Int32Type", new int?(Int32.MaxValue));
+            dictionary.Add("Int64Type", new long?(Int64.MaxValue));
+            dictionary.Add("DecimalType", new decimal?(Decimal.MaxValue));
+            dictionary.Add("SingleType", new float?(Single.MaxValue));
+            dictionary.Add("DoubleType", new double?(Double.MaxValue));
             dictionary.Add("StringType", "abcde");
-            dictionary.Add("DateTimeType", new Nullable<DateTime>(new DateTime(1999, 12, 31)));
+            dictionary.Add("DateTimeType", new DateTime?(new DateTime(1999, 12, 31)));
 
-            DictionaryReader reader = new DictionaryReader(dictionary);
-            DataSet ds = reader.Read();
-            DataTable table = ds.Tables[0];
-            DataRow row = table.Rows[0];
-            DataColumnCollection columns = table.Columns;
+            var reader = new DictionaryReader(dictionary);
+            var ds = reader.Read();
+            var table = ds.Tables[0];
+            var row = table.Rows[0];
+            var columns = table.Columns;
 
             Assert.AreEqual(DataRowState.Unchanged, row.RowState);
             Assert.AreEqual(12, columns.Count);
 
-            // ”’l‚Å”äŠr‚·‚é‚Æ32bit/64bitŠÂ‹«‚ÅÀsŒ‹‰Ê‚ª•Ï‚í‚é‚Ì‚Å•¶š—ñ‚Å”äŠr
+            // æ•°å€¤ã§æ¯”è¼ƒã™ã‚‹ã¨32bit/64bitç’°å¢ƒã§å®Ÿè¡ŒçµæœãŒå¤‰ã‚ã‚‹ã®ã§æ–‡å­—åˆ—ã§æ¯”è¼ƒ
             Assert.AreEqual("1", row["id"].ToString());
             Assert.AreEqual(true, row["booltype"]);
             Assert.AreEqual(SByte.MaxValue, row["sbytetype"]);
@@ -251,28 +251,28 @@ namespace Seasar.Tests.Extension.Unit
         }
 
         [Test]
-        [Ignore("Nullable<T>.Value‚ªnull‚¾‚ÆŒ^î•ñ‚ğæ“¾‚Å‚«‚È‚¢‚Ì‚ÅADataTypeİ’è•s‰ÂB")]
+        [Ignore("Nullable<T>.Value")]
         public void TestReadNullableTypeNullValue()
         {
             IDictionary dictionary = new Hashtable();
-            dictionary.Add("Id", new Nullable<long>());
-            dictionary.Add("BoolType", new Nullable<bool>());
-            dictionary.Add("SbyteType", new Nullable<sbyte>());
-            dictionary.Add("ByteType", new Nullable<byte>());
-            dictionary.Add("Int16Type", new Nullable<short>());
-            dictionary.Add("Int32Type", new Nullable<int>());
-            dictionary.Add("Int64Type", new Nullable<long>());
-            dictionary.Add("DecimalType", new Nullable<decimal>());
-            dictionary.Add("SingleType", new Nullable<float>());
-            dictionary.Add("DoubleType", new Nullable<double>());
+            dictionary.Add("Id", new long?());
+            dictionary.Add("BoolType", new bool?());
+            dictionary.Add("SbyteType", new sbyte?());
+            dictionary.Add("ByteType", new byte?());
+            dictionary.Add("Int16Type", new short?());
+            dictionary.Add("Int32Type", new int?());
+            dictionary.Add("Int64Type", new long?());
+            dictionary.Add("DecimalType", new decimal?());
+            dictionary.Add("SingleType", new float?());
+            dictionary.Add("DoubleType", new double?());
             dictionary.Add("StringType", null);
-            dictionary.Add("DateTimeType", new Nullable<DateTime>());
+            dictionary.Add("DateTimeType", new DateTime?());
 
-            DictionaryReader reader = new DictionaryReader(dictionary);
-            DataSet ds = reader.Read();
-            DataTable table = ds.Tables[0];
-            DataRow row = table.Rows[0];
-            DataColumnCollection columns = table.Columns;
+            var reader = new DictionaryReader(dictionary);
+            var ds = reader.Read();
+            var table = ds.Tables[0];
+            var row = table.Rows[0];
+            var columns = table.Columns;
 
             Assert.AreEqual(DataRowState.Unchanged, row.RowState);
             Assert.AreEqual(12, columns.Count);
@@ -322,16 +322,16 @@ namespace Seasar.Tests.Extension.Unit
             dictionary.Add("StringType", new SqlString("abcde"));
             dictionary.Add("DateTimeType", new SqlDateTime(new DateTime(1999, 12, 31)));
 
-            DictionaryReader reader = new DictionaryReader(dictionary);
-            DataSet ds = reader.Read();
-            DataTable table = ds.Tables[0];
-            DataRow row = table.Rows[0];
-            DataColumnCollection columns = table.Columns;
+            var reader = new DictionaryReader(dictionary);
+            var ds = reader.Read();
+            var table = ds.Tables[0];
+            var row = table.Rows[0];
+            var columns = table.Columns;
 
             Assert.AreEqual(DataRowState.Unchanged, row.RowState);
             Assert.AreEqual(11, columns.Count);
 
-            // ”’l‚Å”äŠr‚·‚é‚Æ32bit/64bitŠÂ‹«‚ÅÀsŒ‹‰Ê‚ª•Ï‚í‚é‚Ì‚Å•¶š—ñ‚Å”äŠr
+            // æ•°å€¤ã§æ¯”è¼ƒã™ã‚‹ã¨32bit/64bitç’°å¢ƒã§å®Ÿè¡ŒçµæœãŒå¤‰ã‚ã‚‹ã®ã§æ–‡å­—åˆ—ã§æ¯”è¼ƒ
             Assert.AreEqual("1", row["id"].ToString());
             Assert.AreEqual(true, row["booltype"]);
             Assert.AreEqual(Byte.MaxValue, row["bytetype"]);
@@ -373,11 +373,11 @@ namespace Seasar.Tests.Extension.Unit
             dictionary.Add("StringType", SqlString.Null);
             dictionary.Add("DateTimeType", SqlDateTime.Null);
 
-            DictionaryReader reader = new DictionaryReader(dictionary);
-            DataSet ds = reader.Read();
-            DataTable table = ds.Tables[0];
-            DataRow row = table.Rows[0];
-            DataColumnCollection columns = table.Columns;
+            var reader = new DictionaryReader(dictionary);
+            var ds = reader.Read();
+            var table = ds.Tables[0];
+            var row = table.Rows[0];
+            var columns = table.Columns;
 
             Assert.AreEqual(DataRowState.Unchanged, row.RowState);
             Assert.AreEqual(11, columns.Count);

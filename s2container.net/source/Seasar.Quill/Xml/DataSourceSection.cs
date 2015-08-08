@@ -1,4 +1,4 @@
-#region Copyright
+﻿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -75,8 +75,7 @@ namespace Seasar.Quill.Xml
         /// <returns></returns>
         public override string ToString()
         {
-            return string.Format("DataSourceName={0},ConnectionString={1},Provider={2},DataSoruceClassName={3}",
-                                 DataSourceName, ConnectionString, ProviderName, DataSourceClassName);
+            return $"DataSourceName={DataSourceName},ConnectionString={ConnectionString},Provider={ProviderName},DataSoruceClassName={DataSourceClassName}";
         }
     }
 }

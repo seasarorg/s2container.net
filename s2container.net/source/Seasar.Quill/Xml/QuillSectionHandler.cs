@@ -1,4 +1,4 @@
-#region Copyright
+﻿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -33,17 +33,14 @@ namespace Seasar.Quill.Xml
         public static QuillSection GetQuillSection()
         {
             //  App.config上の設定を取得
-             QuillSection quillSection = (QuillSection)ConfigurationManager.GetSection(
-                                      QuillConstants.QUILL_CONFIG);
+            var quillSection = (QuillSection)ConfigurationManager.GetSection(QuillConstants.QUILL_CONFIG);
             return quillSection;
         }
 
         #region IConfigurationSectionHandler メンバ
 
-        public object Create(object parent, object configContext, XmlNode section)
-        {
-            return QuillSectionLoader.CreateQuillSection(section);
-        }
+        public object Create(object parent, object configContext, XmlNode section) 
+            => QuillSectionLoader.CreateQuillSection(section);
 
         #endregion
     }

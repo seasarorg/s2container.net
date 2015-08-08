@@ -20,19 +20,10 @@ namespace Seasar.Dao.Dbms
 {
     public class MDB : Standard
     {
-        public override string Suffix
-        {
-            get { return "_mdb"; }
-        }
+        public override string Suffix => "_mdb";
 
-        public override string IdentitySelectString
-        {
-            get { return "select @@identity"; }
-        }
+        public override string IdentitySelectString => "select @@identity";
 
-        public override KindOfDbms Dbms
-        {
-            get { return KindOfDbms.MDB; }
-        }
+        public override KindOfDbms Dbms => KindOfDbms.MDB;
     }
 }

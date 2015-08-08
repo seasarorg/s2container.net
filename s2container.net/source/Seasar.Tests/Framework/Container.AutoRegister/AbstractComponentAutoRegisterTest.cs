@@ -34,7 +34,7 @@ namespace Seasar.Tests.Framework.Container.AutoRegister
             register.Container = new S2ContainerImpl();
             register.Register(typeof(Hoge));
 
-            IComponentDef cd = register.Container.GetComponentDef(typeof(Hoge));
+            var cd = register.Container.GetComponentDef(typeof(Hoge));
 
             Assert.AreEqual("Hoge", cd.ComponentName, "1");
             Assert.AreEqual(ContainerConstants.INSTANCE_SINGLETON, cd.InstanceMode, "2");
@@ -51,14 +51,14 @@ namespace Seasar.Tests.Framework.Container.AutoRegister
             register.ProcessType(typeof(Hoge));
             Assert.AreEqual(0, register.Container.ComponentDefSize, "1");
 
-            register.AddClassPattern("Seasar.Tests.Framework.Container.AutoRegister", "Hog.*");
+            register.AddClassPattern("Seasar.Tests.Framework.container.AutoRegister", "Hog.*");
             register.ProcessType(typeof(Hoge));
             register.ProcessType(typeof(Hoge2));
             Assert.AreEqual(2, register.Container.ComponentDefSize, "2");
 
             register.Container = new S2ContainerImpl();
-            register.AddClassPattern("Seasar.Tests.Framework.Container.AutoRegister", "Hog.*");
-            register.AddIgnoreClassPattern("Seasar.Tests.Framework.Container.AutoRegister", "Hoge2");
+            register.AddClassPattern("Seasar.Tests.Framework.container.AutoRegister", "Hog.*");
+            register.AddIgnoreClassPattern("Seasar.Tests.Framework.container.AutoRegister", "Hoge2");
             register.ProcessType(typeof(Hoge));
             register.ProcessType(typeof(Hoge2));
             Assert.AreEqual(1, register.Container.ComponentDefSize, "2");

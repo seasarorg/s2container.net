@@ -25,6 +25,7 @@ using Seasar.Dxo.Converter;
 using Seasar.Dxo.Exception;
 using Seasar.Framework.Aop;
 using Seasar.Framework.Aop.Interceptors;
+using Seasar.Framework.Util;
 
 namespace Seasar.Dxo.Interceptor
 {
@@ -45,27 +46,27 @@ namespace Seasar.Dxo.Interceptor
         public override object Invoke(IMethodInvocation invocation)
         {
             if (invocation == null)
-            {
-                throw new ArgumentNullException("invocation");
-            }
+                throw new ArgumentNullException(nameof(invocation));
 
-            MethodBase methodBase = invocation.Method;
+            var methodBase = invocation.Method;
             if (methodBase.IsAbstract)
             {
-                IDictionary<string, ConversionRuleAttribute> dxoMapping = CreateDxoMapping();
+                var dxoMapping = CreateDxoMapping();
                 
-                MethodInfo methodInfo = GetComponentDef(invocation).ComponentType.GetMethod(methodBase.Name);
-                Type returnType = methodInfo.ReturnType;
+                var methodInfo = GetComponentDef(invocation).ComponentType.GetMethod(methodBase.Name);
+                var returnType = methodInfo.ReturnType;
                 if (!returnType.IsInterface && !returnType.IsAbstract)
                 {
-                    object[] args = invocation.Arguments;
+                    var args = invocation.Arguments;
                     object dest;
                     if (returnType != typeof (void))
                     {
                         if (returnType.IsArray)
-                            dest = Array.CreateInstance(returnType.GetElementType(), 0);
+                            dest = ArrayUtil.NewInstance(returnType.GetElementType(), 0);
+//                            dest = Array.CreateInstance(returnType.GetElementType(), 0);
                         else
-                            dest = Activator.CreateInstance(returnType);
+                            dest = ClassUtil.NewInstance(returnType);
+//                            dest = Activator.CreateInstance(returnType);
                     }
                     else
                     {
@@ -76,42 +77,42 @@ namespace Seasar.Dxo.Interceptor
                     }
                     if (args.Length == 0)
                         throw new DxoException();
-                    object source = args[0];
+                    var source = args[0];
 
-                    _CollectConversionRuleAttribute(dxoMapping, methodInfo);
-                    string dateFormat = GetDatePatternFormat(methodInfo);
+                    CollectConversionRuleAttribute(dxoMapping, methodInfo);
+                    var dateFormat = GetDatePatternFormat(methodInfo);
                     // sourceが配列の場合
-                    if (source.GetType().IsArray)
+                    if (source.GetExType().IsArray)
                     {
                         return AssignFromArrayToArray(dxoMapping, source, dest, dateFormat);
                     }
-                    else if (source.GetType().IsGenericType)
+                    else if (source.GetExType().IsGenericType)
                     {
-                        if (source.GetType().IsInterface && dest.GetType().IsInterface)
+                        if (source.GetExType().IsInterface && dest.GetExType().IsInterface)
                         {
-                            if (source.GetType().Name == "IList" && dest.GetType().Name == "IList")
+                            if (source.GetExType().Name == "IList" && dest.GetExType().Name == "IList")
                                 return AssignFromListToList(dxoMapping, source, dest, dateFormat);
                             else
                                 return AssignTo(dxoMapping, source, dest, 0, dateFormat);
                         }
                         else
                         {
-                            Type srcType = source.GetType().GetInterface("IList");
-                            Type destType = dest.GetType().GetInterface("IList");
+                            var srcType = source.GetExType().GetInterface("IList");
+                            var destType = dest.GetExType().GetInterface("IList");
                             if (srcType != null && destType != null && srcType == destType)
                                 return AssignFromListToList(dxoMapping, source, dest, dateFormat);
                             else
                                 return AssignTo(dxoMapping, source, dest, 0, dateFormat);
                         }
                     }
-                    else if(dest.GetType().GetInterface("IDictionary") == typeof(IDictionary))
+                    else if(dest.GetExType().GetInterface("IDictionary") == typeof(IDictionary))
                    {
-                        IPropertyConverter converter = ConverterFactory.GetConverter(source, dest.GetType());
-                        converter.Convert(String.Empty, source, ref dest, dest.GetType());
+                        var converter = ConverterFactory.GetConverter(source, dest.GetExType());
+                        converter.Convert(String.Empty, source, ref dest, dest.GetExType());
 
                         return dest;
                     }
-                    else if(!source.GetType().IsGenericType && dest.GetType().GetInterface("IList") == typeof(IList))
+                    else if(!source.GetExType().IsGenericType && dest.GetExType().GetInterface("IList") == typeof(IList))
                     {
                         return AssignFromObjectToList(dxoMapping, source, dest, dateFormat);
                     }
@@ -150,24 +151,26 @@ namespace Seasar.Dxo.Interceptor
         protected virtual object AssignFromArrayToArray(IDictionary<string, ConversionRuleAttribute> dxoMapping, 
             object source, object dest, string dateFormat)
         {
-            object[] sourceObjs = source as object[];
+            var sourceObjs = source as object[];
 
-            object[] destObjs = dest as object[];
+            var destObjs = dest as object[];
             if (sourceObjs == null)
                 throw new DxoException();
             if (destObjs == null || destObjs.Length == 0)
             {
-                Array array = Array.CreateInstance(dest.GetType().GetElementType(), sourceObjs.Length);
+                var array = ArrayUtil.NewInstance(dest.GetExType().GetElementType(), sourceObjs.Length);
+//                var array = Array.CreateInstance(dest.GetExType().GetElementType(), sourceObjs.Length);
                 dest = array.Clone();
                 destObjs = dest as object[];
             }
             if (destObjs == null || sourceObjs.Length != destObjs.Length)
                 throw new DxoException();
 
-            for (int i = 0; i < sourceObjs.Length; i++)
+            for (var i = 0; i < sourceObjs.Length; i++)
             {
                 if (destObjs[i] == null)
-                    destObjs[i] = Activator.CreateInstance(dest.GetType().GetElementType(), false);
+                    destObjs[i] = ClassUtil.NewInstance(dest.GetExType().GetElementType());
+//                    destObjs[i] = Activator.CreateInstance(dest.GetExType().GetElementType(), false);
 
                 AssignTo(dxoMapping, sourceObjs[i], destObjs[i], 0, dateFormat);
             }
@@ -184,14 +187,15 @@ namespace Seasar.Dxo.Interceptor
         protected virtual object AssignFromListToList(IDictionary<string, ConversionRuleAttribute> dxoMapping, 
             object source, object dest, string dateFormat)
         {
-            IList srcList = source as IList;
-            IList destList = dest as IList;
+            var srcList = source as IList;
+            var destList = dest as IList;
             if (srcList != null && destList != null)
             {
-                foreach (object srcObj in srcList)
+                foreach (var srcObj in srcList)
                 {
-                    Type[] types = dest.GetType().GetGenericArguments();
-                    object destObj = Activator.CreateInstance(types[0], false);
+                    var types = dest.GetExType().GetGenericArguments();
+                    var destObj = ClassUtil.NewInstance(types[0]);
+//                    var destObj = Activator.CreateInstance(types[0], false);
                     AssignTo(dxoMapping, srcObj, destObj, 0, dateFormat);
                     destList.Add(destObj);
                 }
@@ -209,11 +213,12 @@ namespace Seasar.Dxo.Interceptor
         protected virtual object AssignFromObjectToList(IDictionary<string, ConversionRuleAttribute> dxoMapping, 
             object source, object dest, string dateFormat)
         {
-            IList destList = dest as IList;
+            var destList = dest as IList;
             if (destList != null)
             {
-                Type[] types = dest.GetType().GetGenericArguments();
-                object destObj = Activator.CreateInstance(types[0], false);
+                var types = dest.GetExType().GetGenericArguments();
+                var destObj = ClassUtil.NewInstance(types[0]);
+//                var destObj = Activator.CreateInstance(types[0], false);
                 AssignTo(dxoMapping, source, destObj, 0, dateFormat);
                 destList.Add(destObj);
             }
@@ -233,10 +238,10 @@ namespace Seasar.Dxo.Interceptor
         {
             if (cnt < 2)
             {
-                PropertyInfo[] properties = source.GetType().GetProperties();
-                foreach (PropertyInfo property in properties)
+                var properties = source.GetExType().GetProperties();
+                foreach (var property in properties)
                 {
-                    _TryExchangeSameNameProperty(dxoMapping, property, source, dest, dest.GetType(), cnt, dateFormat);
+                    _TryExchangeSameNameProperty(dxoMapping, property, source, dest, dest.GetExType(), cnt, dateFormat);
                 }
             }
             return dest;
@@ -247,12 +252,12 @@ namespace Seasar.Dxo.Interceptor
         /// </summary>
         /// <param name="dxoMapping">Dxo変換情報</param>
         /// <param name="method">実行メソッド情報</param>
-        protected virtual void _CollectConversionRuleAttribute(IDictionary<string, ConversionRuleAttribute> dxoMapping, MethodInfo method)
+        protected virtual void CollectConversionRuleAttribute(IDictionary<string, ConversionRuleAttribute> dxoMapping, MethodInfo method)
         {
-            object[] attrs = method.GetCustomAttributes(typeof(ConversionRuleAttribute), false);
+            var attrs = method.GetCustomAttributes(typeof(ConversionRuleAttribute), false);
             foreach (ConversionRuleAttribute attr in attrs)
             {
-                if (attr != null && !String.IsNullOrEmpty(attr.PropertyName))
+                if (!String.IsNullOrEmpty(attr?.PropertyName))
                 {
                     dxoMapping.Add(attr.PropertyName, attr);
                 }
@@ -265,11 +270,11 @@ namespace Seasar.Dxo.Interceptor
         /// <param name="method">実行メソッド情報</param>
         protected virtual string GetDatePatternFormat(MemberInfo method)
         {
-            string dateFormat = String.Empty;
-            object[] attrs = method.GetCustomAttributes(typeof (DatePatternAttribute), false);
+            var dateFormat = String.Empty;
+            var attrs = method.GetCustomAttributes(typeof (DatePatternAttribute), false);
             foreach (DatePatternAttribute attr in attrs)
             {
-                if (attr != null && !String.IsNullOrEmpty(attr.Format))
+                if (!String.IsNullOrEmpty(attr?.Format))
                     dateFormat = attr.Format;
             }
             return dateFormat;
@@ -291,12 +296,11 @@ namespace Seasar.Dxo.Interceptor
             try
             {
                 cnt++;
-                PropertyInfo destInfo;
-                string targetPropertyName = sourceInfo.Name;
-                bool existProperty = dxoMapping.ContainsKey(sourceInfo.Name);
+                var targetPropertyName = sourceInfo.Name;
+                var existProperty = dxoMapping.ContainsKey(sourceInfo.Name);
                 if (existProperty)
                 {
-                    string targetName = dxoMapping[sourceInfo.Name].TargetPropertyName;
+                    var targetName = dxoMapping[sourceInfo.Name].TargetPropertyName;
                     if (String.IsNullOrEmpty(targetPropertyName))
                     {
                         targetPropertyName = sourceInfo.Name;
@@ -308,7 +312,7 @@ namespace Seasar.Dxo.Interceptor
                 }
 
                 //同じ名前のプロパティが変換先同一プロパティにあるか?
-                destInfo = destType.GetProperty(targetPropertyName);
+                var destInfo = destType.GetProperty(targetPropertyName);
                 if (destInfo != null && destInfo.CanRead && destInfo.CanWrite)
                 {
                     _ConvertProperty(dxoMapping, sourceInfo, source, dest, destInfo, existProperty, dateFormat);
@@ -316,23 +320,26 @@ namespace Seasar.Dxo.Interceptor
                     // 異なる場合、再帰で調査する
                 else
                 {
-                    object srcValue = sourceInfo.GetValue(source, null);
+                    var srcValue = PropertyUtil.GetValue(source, source.GetExType(), sourceInfo.Name);
+//                    var srcValue = sourceInfo.GetValue(source, null);
                     if (srcValue != null)
                     {
                         // 変換元を調査する
-                        if (srcValue.GetType().Namespace != "System")
+                        if (srcValue.GetExType().Namespace != "System")
                         {
                             AssignTo(dxoMapping, srcValue, dest, cnt, dateFormat);
                         }
                             // 変換先を調査する
                         else
                         {
-                            PropertyInfo[] properties = destType.GetProperties();
-                            foreach (PropertyInfo property in properties)
+                            var properties = destType.GetProperties();
+                            foreach (var property in properties)
                             {
-                                object destValue = property.GetValue(dest, null);
-                                if (destValue != null && destValue.GetType().BaseType != typeof(ValueType) &&
-                                    destValue.GetType().Namespace != "System")
+
+                                var destValue = PropertyUtil.GetValue(dest, dest.GetExType(), property.Name);
+//                                var destValue = property.GetValue(dest, null);
+                                if (destValue != null && destValue.GetExType().BaseType != typeof(ValueType) &&
+                                    destValue.GetExType().Namespace != "System")
                                 {
                                     AssignTo(dxoMapping, source, destValue, cnt, dateFormat);
                                 }
@@ -360,15 +367,17 @@ namespace Seasar.Dxo.Interceptor
         private void _ConvertProperty(IDictionary<string, ConversionRuleAttribute> dxoMapping, PropertyInfo sourceInfo, 
             object source, object dest, PropertyInfo destInfo, bool existProperty, string dateFormat)
         {
-            object sourceValue = sourceInfo.GetValue(source, null);
-            object destValue = destInfo.GetValue(dest, null);
+//            var sourceValue = sourceInfo.GetValue(source, null);
+//            var destValue = destInfo.GetValue(dest, null);
+            var sourceValue = PropertyUtil.GetValue(source, source.GetExType(), sourceInfo.Name);
+            var destValue = PropertyUtil.GetValue(dest, dest.GetExType(), destInfo.Name);
 
             if (sourceValue != null)
             {
                 IPropertyConverter converter;
                 if (existProperty)
                 {
-                    ConversionRuleAttribute attr = dxoMapping[sourceInfo.Name];
+                    var attr = dxoMapping[sourceInfo.Name];
                     if (attr.Ignore)
                     {
                         converter = null;
@@ -376,7 +385,8 @@ namespace Seasar.Dxo.Interceptor
                     else
                     {
                         if (attr.PropertyConverter != null)
-                            converter = Activator.CreateInstance(attr.PropertyConverter) as IPropertyConverter;
+                            converter = ClassUtil.NewInstance(attr.PropertyConverter) as IPropertyConverter;
+//                            converter = Activator.CreateInstance(attr.PropertyConverter) as IPropertyConverter;
                         else
                             converter = ConverterFactory.GetConverter(sourceValue, destInfo.PropertyType);
                     }
@@ -388,13 +398,14 @@ namespace Seasar.Dxo.Interceptor
                 }
                 if (converter != null)
                 {
-                    converter.Format = (dateFormat == null ? String.Empty : dateFormat);
+                    converter.Format = (dateFormat ?? String.Empty);
                     _AttachConverterEvent(converter);
                     try
                     {
                         //コンバータによる変換
                         converter.Convert(sourceInfo.Name, sourceValue, ref destValue, destInfo.PropertyType);
-                        destInfo.SetValue(dest, destValue, null);
+                        PropertyUtil.SetValue(dest, dest.GetExType(), destInfo.Name, destInfo.PropertyType, destValue);
+//                        destInfo.SetValue(dest, destValue, null);
                     }
                     finally
                     {
@@ -410,9 +421,9 @@ namespace Seasar.Dxo.Interceptor
         /// <param name="converter">現在のコンバータ</param>
         private void _AttachConverterEvent(IPropertyConverter converter)
         {
-            converter.PrepareConvert += this.PrepareConvert;
-            converter.ConvertCompleted += this.ConvertCompleted;
-            converter.ConvertFail += this.ConvertFail;
+            converter.PrepareConvert += PrepareConvert;
+            converter.ConvertCompleted += ConvertCompleted;
+            converter.ConvertFail += ConvertFail;
         }
 
         /// <summary>
@@ -421,9 +432,9 @@ namespace Seasar.Dxo.Interceptor
         /// <param name="converter">現在のコンバータをセット</param>
         private void _DetachConverterEvent(IPropertyConverter converter)
         {
-            converter.PrepareConvert -= this.PrepareConvert;
-            converter.ConvertCompleted -= this.ConvertCompleted;
-            converter.ConvertFail -= this.ConvertFail;
+            converter.PrepareConvert -= PrepareConvert;
+            converter.ConvertCompleted -= ConvertCompleted;
+            converter.ConvertFail -= ConvertFail;
         }
     }
 }

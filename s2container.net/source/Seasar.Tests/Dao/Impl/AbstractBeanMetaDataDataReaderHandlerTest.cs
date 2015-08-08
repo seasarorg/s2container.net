@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -42,19 +42,19 @@ namespace Seasar.Tests.Dao.Impl
         [Test, S2]
         public void TestCreateColumnMetaData()
         {
-            TestBeanMetaData beanMetaData = new TestBeanMetaData(typeof(TestBean));
+            var beanMetaData = new TestBeanMetaData(typeof(TestBean));
 
-            TestDataReaderHandler handler = new TestDataReaderHandler(beanMetaData, new RowCreatorImpl(), new RelationRowCreatorImpl());
+            var handler = new TestDataReaderHandler(beanMetaData, new RowCreatorImpl(), new RelationRowCreatorImpl());
 
             IList columnNames = new CaseInsentiveSet();
             columnNames.Add("emp_no");
             columnNames.Add("empname");
 
-            IColumnMetaData[] columnMetaDatas = handler.TestCreateColumnMetaData(columnNames);
+            var columnMetaDatas = handler.TestCreateColumnMetaData(columnNames);
 
             Assert.AreEqual(2, columnMetaDatas.Length);
 
-            // #.NET4.0 —ñî•ñ‚Ì‡”Ô‚ª•Ï‚í‚Á‚Ä‚¢‚é
+            // #.NET4.0 åˆ—æƒ…å ±ã®é †ç•ªãŒå¤‰ã‚ã£ã¦ã„ã‚‹
             //Assert.AreEqual("empname", columnMetaDatas[0].ColumnName);
             //Assert.AreEqual("emp_no", columnMetaDatas[1].ColumnName);
             foreach (var columnMetaData in columnMetaDatas)
@@ -69,21 +69,21 @@ namespace Seasar.Tests.Dao.Impl
         public void TestCreateRelationRow()
         {
             //  ## Arrange ##
-            IDaoMetaData daoMetaData = CreateDaoMetaData(typeof(IEmployeeModifiedOnlyDao));
-            IBeanMetaData beanMetaData = daoMetaData.BeanMetaData;
+            var daoMetaData = CreateDaoMetaData(typeof(IEmployeeModifiedOnlyDao));
+            var beanMetaData = daoMetaData.BeanMetaData;
 
-            TestDataReaderHandler handler = new TestDataReaderHandler(beanMetaData, new RowCreatorImpl(), new RelationRowCreatorImpl());
+            var handler = new TestDataReaderHandler(beanMetaData, new RowCreatorImpl(), new RelationRowCreatorImpl());
             const string TEST_SQL = "SELECT EMP.EMPNO, EMP.ENAME, EMP.JOB, EMP.DEPTNO, DEPT.DEPTNO AS DEPTNO_0, DEPT.DNAME AS DNAME_0 FROM EMP LEFT OUTER JOIN DEPT ON EMP.DEPTNO = DEPT.DEPTNO";
-            IDbCommand command = CommandFactory.CreateCommand(Connection, TEST_SQL);
-            IDataReader reader = command.ExecuteReader();
+            var command = CommandFactory.CreateCommand(Connection, TEST_SQL);
+            var reader = command.ExecuteReader();
             Assert.IsTrue(reader.Read());
 
             //  ## Act ##
-            object result = handler.CallCreateRelationRow(reader, beanMetaData.GetRelationPropertyType(0), null);
+            var result = handler.CallCreateRelationRow(reader, beanMetaData.GetRelationPropertyType(0), null);
 
             //  ## Assert ##
             Assert.IsNotNull(result);
-            DepartmentModifiedOnly relEntity = result as DepartmentModifiedOnly;
+            var relEntity = result as DepartmentModifiedOnly;
             Assert.IsNotNull(relEntity);
             Assert.IsTrue(relEntity.Deptno > 0);
             Assert.IsFalse(string.IsNullOrEmpty(relEntity.Dname));
@@ -104,8 +104,8 @@ namespace Seasar.Tests.Dao.Impl
 
             public object CallCreateRelationRow(IDataReader reader, IRelationPropertyType rpt, Hashtable relKeyValues)
             {
-                IList columnNames = CreateColumnNames(reader.GetSchemaTable());
-                IDictionary<String, IDictionary<String, IPropertyType>> relationColumnMetaDataCache = CreateRelationPropertyCache(columnNames);
+                var columnNames = CreateColumnNames(reader.GetSchemaTable());
+                var relationColumnMetaDataCache = CreateRelationPropertyCache(columnNames);
                 return CreateRelationRow(reader, rpt, columnNames, relKeyValues, relationColumnMetaDataCache);
             }
         }
@@ -118,27 +118,16 @@ namespace Seasar.Tests.Dao.Impl
                 BeanAnnotationReader = new FieldBeanAnnotationReader(type);
                 Initialize();
 
-                IPropertyType pt = GetPropertyType("Empno");
+                var pt = GetPropertyType("Empno");
                 pt.IsPersistent = false;
             }
         }
 
         private class TestBean
         {
-            private int _empno;
-            private string _empname;
+            public int Empno { set; get; }
 
-            public int Empno
-            {
-                set { _empno = value; }
-                get { return _empno; }
-            }
-
-            public string Empname
-            {
-                set { _empname = value; }
-                get { return _empname; }
-            }
+            public string Empname { set; get; }
         }
     }
 }

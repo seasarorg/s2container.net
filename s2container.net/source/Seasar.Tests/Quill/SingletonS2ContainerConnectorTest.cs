@@ -1,4 +1,4 @@
-#region Copyright
+﻿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -48,7 +48,7 @@ namespace Seasar.Tests.Quill
         [Test]
         public void TestGetComponent_コンポーネントが登録されていない場合()
         {
-            S2ContainerImpl container = new S2ContainerImpl();
+            var container = new S2ContainerImpl();
             SingletonS2ContainerFactory.Container = container;
 
             try
@@ -69,10 +69,10 @@ namespace Seasar.Tests.Quill
         [Test]
         public void TestGetComponent_コンポーネントの取得でS2Containerから例外がスローされた場合()
         {
-            S2ContainerImpl container = new S2ContainerImpl();
+            var container = new S2ContainerImpl();
             SingletonS2ContainerFactory.Container = container;
-            ComponentDefImpl def = new ComponentDefImpl(typeof(Hoge), "hoge");
-            PropertyDefImpl propertyDef = new PropertyDefImpl("HogeHoge", "test");
+            var def = new ComponentDefImpl(typeof(Hoge), "hoge");
+            var propertyDef = new PropertyDefImpl("HogeHoge", "test");
             def.AddPropertyDef(propertyDef);
             container.Register(def);
 
@@ -94,12 +94,12 @@ namespace Seasar.Tests.Quill
         [Test]
         public void TestGetComponent_受け側の型を指定しないでコンポーネントを受け取る場合1()
         {
-            S2ContainerImpl container = new S2ContainerImpl();
+            var container = new S2ContainerImpl();
             SingletonS2ContainerFactory.Container = container;
-            ComponentDefImpl def = new ComponentDefImpl(typeof(Hoge), "hoge");
+            var def = new ComponentDefImpl(typeof(Hoge), "hoge");
             container.Register(def);
 
-            Hoge hoge = (Hoge) SingletonS2ContainerConnector.GetComponent("hoge", null);
+            var hoge = (Hoge) SingletonS2ContainerConnector.GetComponent("hoge", null);
             Assert.IsNotNull(hoge);
             SingletonS2ContainerFactory.Container = null;
         }
@@ -107,12 +107,12 @@ namespace Seasar.Tests.Quill
         [Test]
         public void TestGetComponent_受け側の型を指定しないでコンポーネントを受け取る場合2()
         {
-            S2ContainerImpl container = new S2ContainerImpl();
+            var container = new S2ContainerImpl();
             SingletonS2ContainerFactory.Container = container;
-            ComponentDefImpl def = new ComponentDefImpl(typeof(Hoge), "hoge");
+            var def = new ComponentDefImpl(typeof(Hoge), "hoge");
             container.Register(def);
 
-            Hoge hoge = (Hoge)SingletonS2ContainerConnector.GetComponent("hoge");
+            var hoge = (Hoge)SingletonS2ContainerConnector.GetComponent("hoge");
             Assert.IsNotNull(hoge);
             SingletonS2ContainerFactory.Container = null;
         }
@@ -120,12 +120,12 @@ namespace Seasar.Tests.Quill
         [Test]
         public void TestGetComponent_受け側の型を指定してコンポーネントを受け取る場合()
         {
-            S2ContainerImpl container = new S2ContainerImpl();
+            var container = new S2ContainerImpl();
             SingletonS2ContainerFactory.Container = container;
-            ComponentDefImpl def = new ComponentDefImpl(typeof(Hoge), "hoge");
+            var def = new ComponentDefImpl(typeof(Hoge), "hoge");
             container.Register(def);
 
-            IHoge hoge = (IHoge)SingletonS2ContainerConnector.GetComponent(
+            var hoge = (IHoge)SingletonS2ContainerConnector.GetComponent(
                 "hoge", typeof(IHoge));
             Assert.IsNotNull(hoge);
             SingletonS2ContainerFactory.Container = null;

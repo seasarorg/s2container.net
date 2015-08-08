@@ -43,8 +43,8 @@ namespace Seasar.Tests.Quill
         public void TestAdd_InterfaceAndImpl()
         {
             //  ## Arrange ##
-            InjectionMap map = InjectionMap.GetInstance();
-            IDictionary<Type, Type> beforeInnerMap = GetInnerInjectionMap(map);
+            var map = InjectionMap.GetInstance();
+            var beforeInnerMap = GetInnerInjectionMap(map);
             Assert.AreEqual(0, beforeInnerMap.Count, "テスト開始時点は要素をもっていない");
             
             //  ## Act ##
@@ -52,7 +52,7 @@ namespace Seasar.Tests.Quill
             map.Add(typeof(IInjectionMapTarget2), typeof(InjectionMapTargetImpl2));
 
             //  ## Assert ##
-            IDictionary<Type, Type> actual = GetInnerInjectionMap(map);
+            var actual = GetInnerInjectionMap(map);
             Assert.IsTrue(actual.ContainsKey(typeof(IInjectionMapTarget1)));
             Assert.AreEqual(typeof(InjectionMapTargetImpl1), actual[typeof(IInjectionMapTarget1)]);
 
@@ -67,8 +67,8 @@ namespace Seasar.Tests.Quill
         public void TestAdd_InterfaceAndImpl_TooMany()
         {
             //  ## Arrange ##
-            InjectionMap map = InjectionMap.GetInstance();
-            IDictionary<Type, Type> beforeInnerMap = GetInnerInjectionMap(map);
+            var map = InjectionMap.GetInstance();
+            var beforeInnerMap = GetInnerInjectionMap(map);
             Assert.AreEqual(0, beforeInnerMap.Count, "テスト開始時点は要素をもっていない");
 
             //  ## Act ##
@@ -80,8 +80,8 @@ namespace Seasar.Tests.Quill
         public void TestAdd_Component()
         {
             //  ## Arrange ##
-            InjectionMap map = InjectionMap.GetInstance();
-            IDictionary<Type, Type> beforeInnerMap = GetInnerInjectionMap(map);
+            var map = InjectionMap.GetInstance();
+            var beforeInnerMap = GetInnerInjectionMap(map);
             Assert.AreEqual(0, beforeInnerMap.Count, "テスト開始時点は要素をもっていない");
 
             //  ## Act ##
@@ -89,7 +89,7 @@ namespace Seasar.Tests.Quill
             map.Add(typeof(InjectionMapTargetImpl2));
 
             //  ## Assert ##
-            IDictionary<Type, Type> actual = GetInnerInjectionMap(map);
+            var actual = GetInnerInjectionMap(map);
             Assert.IsTrue(actual.ContainsKey(typeof(InjectionMapTargetImpl1)));
             Assert.AreEqual(typeof(InjectionMapTargetImpl1), actual[typeof(InjectionMapTargetImpl1)]);
 
@@ -104,8 +104,8 @@ namespace Seasar.Tests.Quill
         public void TestAdd_Component_TooMany()
         {
             //  ## Arrange ##
-            InjectionMap map = InjectionMap.GetInstance();
-            IDictionary<Type, Type> beforeInnerMap = GetInnerInjectionMap(map);
+            var map = InjectionMap.GetInstance();
+            var beforeInnerMap = GetInnerInjectionMap(map);
             Assert.AreEqual(0, beforeInnerMap.Count, "テスト開始時点は要素をもっていない");
 
             //  ## Act ##
@@ -117,8 +117,8 @@ namespace Seasar.Tests.Quill
         public void TestAdd_IDictionary()
         {
             //  ## Arrange ##
-            InjectionMap map = InjectionMap.GetInstance();
-            IDictionary<Type, Type> beforeInnerMap = GetInnerInjectionMap(map);
+            var map = InjectionMap.GetInstance();
+            var beforeInnerMap = GetInnerInjectionMap(map);
             Assert.AreEqual(0, beforeInnerMap.Count, "テスト開始時点は要素をもっていない");
 
             IDictionary<Type, Type> newMap = new Dictionary<Type, Type>();
@@ -129,7 +129,7 @@ namespace Seasar.Tests.Quill
             map.Add(newMap);
 
             //  ## Assert ##
-            IDictionary<Type, Type> actual = GetInnerInjectionMap(map);
+            var actual = GetInnerInjectionMap(map);
             Assert.IsTrue(actual.ContainsKey(typeof(IInjectionMapTarget1)));
             Assert.AreEqual(typeof(InjectionMapTargetImpl1), actual[typeof(IInjectionMapTarget1)]);
 
@@ -144,8 +144,8 @@ namespace Seasar.Tests.Quill
         public void TestAdd_IDictionary_TooMany()
         {
             //  ## Arrange ##
-            InjectionMap map = InjectionMap.GetInstance();
-            IDictionary<Type, Type> beforeInnerMap = GetInnerInjectionMap(map);
+            var map = InjectionMap.GetInstance();
+            var beforeInnerMap = GetInnerInjectionMap(map);
             Assert.AreEqual(0, beforeInnerMap.Count, "テスト開始時点は要素をもっていない");
 
             IDictionary<Type, Type> newMap = new Dictionary<Type, Type>();
@@ -161,8 +161,8 @@ namespace Seasar.Tests.Quill
         public void TestAdd_List()
         {
             //  ## Arrange ##
-            InjectionMap map = InjectionMap.GetInstance();
-            IDictionary<Type, Type> beforeInnerMap = GetInnerInjectionMap(map);
+            var map = InjectionMap.GetInstance();
+            var beforeInnerMap = GetInnerInjectionMap(map);
             Assert.AreEqual(0, beforeInnerMap.Count, "テスト開始時点は要素をもっていない");
 
             IList<Type> newList = new List<Type>();
@@ -173,7 +173,7 @@ namespace Seasar.Tests.Quill
             map.Add(newList);
 
             //  ## Assert ##
-            IDictionary<Type, Type> actual = GetInnerInjectionMap(map);
+            var actual = GetInnerInjectionMap(map);
             Assert.IsTrue(actual.ContainsKey(typeof(InjectionMapTargetImpl1)));
             Assert.AreEqual(typeof(InjectionMapTargetImpl1), actual[typeof(InjectionMapTargetImpl1)]);
 
@@ -188,8 +188,8 @@ namespace Seasar.Tests.Quill
         public void TestAdd_List_TooMany()
         {
             //  ## Arrange ##
-            InjectionMap map = InjectionMap.GetInstance();
-            IDictionary<Type, Type> beforeInnerMap = GetInnerInjectionMap(map);
+            var map = InjectionMap.GetInstance();
+            var beforeInnerMap = GetInnerInjectionMap(map);
             Assert.AreEqual(0, beforeInnerMap.Count, "テスト開始時点は要素をもっていない");
 
             IList<Type> newList = new List<Type>();
@@ -205,8 +205,8 @@ namespace Seasar.Tests.Quill
         public void TestGetComponentType_InterfaceAndImpl()
         {
             //  ## Arrange ##
-            InjectionMap map = InjectionMap.GetInstance();
-            IDictionary<Type, Type> beforeInnerMap = GetInnerInjectionMap(map);
+            var map = InjectionMap.GetInstance();
+            var beforeInnerMap = GetInnerInjectionMap(map);
             Assert.AreEqual(0, beforeInnerMap.Count, "テスト開始時点は要素をもっていない");
 
             //  ## Act + Assert ##
@@ -219,8 +219,8 @@ namespace Seasar.Tests.Quill
         public void TestGetComponentType_Component()
         {
             //  ## Arrange ##
-            InjectionMap map = InjectionMap.GetInstance();
-            IDictionary<Type, Type> beforeInnerMap = GetInnerInjectionMap(map);
+            var map = InjectionMap.GetInstance();
+            var beforeInnerMap = GetInnerInjectionMap(map);
             Assert.AreEqual(0, beforeInnerMap.Count, "テスト開始時点は要素をもっていない");
 
             //  ## Act + Assert ##
@@ -233,8 +233,8 @@ namespace Seasar.Tests.Quill
         public void TestGetComponentType_Dictionary()
         {
             //  ## Arrange ##
-            InjectionMap map = InjectionMap.GetInstance();
-            IDictionary<Type, Type> beforeInnerMap = GetInnerInjectionMap(map);
+            var map = InjectionMap.GetInstance();
+            var beforeInnerMap = GetInnerInjectionMap(map);
             Assert.AreEqual(0, beforeInnerMap.Count, "テスト開始時点は要素をもっていない");
 
             //  ## Act + Assert ##
@@ -249,8 +249,8 @@ namespace Seasar.Tests.Quill
         public void TestGetComponentType_List()
         {
             //  ## Arrange ##
-            InjectionMap map = InjectionMap.GetInstance();
-            IDictionary<Type, Type> beforeInnerMap = GetInnerInjectionMap(map);
+            var map = InjectionMap.GetInstance();
+            var beforeInnerMap = GetInnerInjectionMap(map);
             Assert.AreEqual(0, beforeInnerMap.Count, "テスト開始時点は要素をもっていない");
 
             //  ## Act + Assert ##
@@ -266,8 +266,8 @@ namespace Seasar.Tests.Quill
         public void TestGetComponent_NotFound()
         {
             //  ## Arrange ##
-            InjectionMap map = InjectionMap.GetInstance();
-            IDictionary<Type, Type> beforeInnerMap = GetInnerInjectionMap(map);
+            var map = InjectionMap.GetInstance();
+            var beforeInnerMap = GetInnerInjectionMap(map);
             Assert.AreEqual(0, beforeInnerMap.Count, "テスト開始時点は要素をもっていない");
 
             //  ## Act + Assert ##
@@ -278,8 +278,8 @@ namespace Seasar.Tests.Quill
         public void TestHasComponentType_InterfaceAndImpl()
         {
             //  ## Arrange ##
-            InjectionMap map = InjectionMap.GetInstance();
-            IDictionary<Type, Type> beforeInnerMap = GetInnerInjectionMap(map);
+            var map = InjectionMap.GetInstance();
+            var beforeInnerMap = GetInnerInjectionMap(map);
             Assert.AreEqual(0, beforeInnerMap.Count, "テスト開始時点は要素をもっていない");
 
             //  ## Act + Assert ##
@@ -291,8 +291,8 @@ namespace Seasar.Tests.Quill
         public void TestHasComponentType_Component()
         {
             //  ## Arrange ##
-            InjectionMap map = InjectionMap.GetInstance();
-            IDictionary<Type, Type> beforeInnerMap = GetInnerInjectionMap(map);
+            var map = InjectionMap.GetInstance();
+            var beforeInnerMap = GetInnerInjectionMap(map);
             Assert.AreEqual(0, beforeInnerMap.Count, "テスト開始時点は要素をもっていない");
 
             //  ## Act + Assert ##
@@ -304,8 +304,8 @@ namespace Seasar.Tests.Quill
         public void TestHasComponentType_Dictionary()
         {
             //  ## Arrange ##
-            InjectionMap map = InjectionMap.GetInstance();
-            IDictionary<Type, Type> beforeInnerMap = GetInnerInjectionMap(map);
+            var map = InjectionMap.GetInstance();
+            var beforeInnerMap = GetInnerInjectionMap(map);
             Assert.AreEqual(0, beforeInnerMap.Count, "テスト開始時点は要素をもっていない");
 
             //  ## Act + Assert ##
@@ -319,8 +319,8 @@ namespace Seasar.Tests.Quill
         public void TestHasComponentType_List()
         {
             //  ## Arrange ##
-            InjectionMap map = InjectionMap.GetInstance();
-            IDictionary<Type, Type> beforeInnerMap = GetInnerInjectionMap(map);
+            var map = InjectionMap.GetInstance();
+            var beforeInnerMap = GetInnerInjectionMap(map);
             Assert.AreEqual(0, beforeInnerMap.Count, "テスト開始時点は要素をもっていない");
 
             //  ## Act + Assert ##
@@ -334,8 +334,8 @@ namespace Seasar.Tests.Quill
         public void TestHasComponentType_NotFound()
         {
             //  ## Arrange ##
-            InjectionMap map = InjectionMap.GetInstance();
-            IDictionary<Type, Type> beforeInnerMap = GetInnerInjectionMap(map);
+            var map = InjectionMap.GetInstance();
+            var beforeInnerMap = GetInnerInjectionMap(map);
             Assert.AreEqual(0, beforeInnerMap.Count, "テスト開始時点は要素をもっていない");
 
             //  ## Act + Assert ##
@@ -352,10 +352,10 @@ namespace Seasar.Tests.Quill
         /// <returns></returns>
         private static IDictionary<Type, Type> GetInnerInjectionMap(InjectionMap map)
         {
-            FieldInfo field = typeof(InjectionMap).GetField(
-                "_injectionMap", BindingFlags.NonPublic | BindingFlags.Instance);
+            var field = typeof(InjectionMap).GetField(
+                "injectionMap", BindingFlags.NonPublic | BindingFlags.Instance);
             Assert.IsNotNull(field);
-            object fieldValue = field.GetValue(map);
+            var fieldValue = field.GetValue(map);
             Assert.IsTrue(fieldValue is IDictionary<Type, Type>);
             return (IDictionary<Type, Type>) fieldValue;
         }

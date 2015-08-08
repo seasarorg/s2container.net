@@ -18,8 +18,8 @@
 
 using System;
 using System.Collections;
-using System.Globalization;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace Seasar.Framework.Util
 {
@@ -69,8 +69,8 @@ namespace Seasar.Framework.Util
         public static bool IsGenericList(Type type)
         {
             if (type.IsGenericType &&
-                (type.GetGenericTypeDefinition().Equals(typeof(IList<>))
-                || type.GetGenericTypeDefinition().Equals(typeof(List<>))))
+                (type.GetGenericTypeDefinition() == typeof(IList<>)
+                || type.GetGenericTypeDefinition() == typeof(List<>)))
             {
                 return true;
             }
@@ -85,7 +85,7 @@ namespace Seasar.Framework.Util
         public static bool IsNullable(Type type)
         {
             return (type.IsGenericType &&
-                    type.GetGenericTypeDefinition().Equals(typeof(Nullable<>)));
+                    type.GetGenericTypeDefinition() == typeof(Nullable<>));
         }
 
     }

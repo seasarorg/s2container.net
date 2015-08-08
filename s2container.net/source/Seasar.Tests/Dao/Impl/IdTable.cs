@@ -22,22 +22,11 @@ namespace Seasar.Tests.Dao.Impl
 {
     public class IdTable
     {
-        private int _myId;
-        private string _idName;
-
         [ID(IDType.IDENTITY)]
         [ID(IDType.SEQUENCE, "SEQ_IDTABLE")]
         [Column("ID")]
-        public int MyId
-        {
-            set { _myId = value; }
-            get { return _myId; }
-        }
+        public int MyId { set; get; }
 
-        public string IdName
-        {
-            set { _idName = value; }
-            get { return _idName; }
-        }
+        public string IdName { set; get; }
     }
 }

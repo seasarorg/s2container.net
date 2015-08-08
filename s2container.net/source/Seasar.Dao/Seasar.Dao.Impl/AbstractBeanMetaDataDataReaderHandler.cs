@@ -17,8 +17,10 @@
 #endregion
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using Seasar.Extension.ADO;
 using Seasar.Framework.Util;
 
@@ -27,13 +29,9 @@ namespace Seasar.Dao.Impl
     public abstract class AbstractBeanMetaDataDataReaderHandler
         : IDataReaderHandler
     {
-        private readonly IBeanMetaData _beanMetaData;
+        protected IRowCreator rowCreator;// [DAONET-56] (2007/08/29)
 
-        private string[] _clearModifiedOnlyPropertyNamePrefixes = new string[] { "Clear" }; // [DAONET-57] 2007/10/02
-
-        protected IRowCreator _rowCreator;// [DAONET-56] (2007/08/29)
-
-        protected IRelationRowCreator _relationRowCreator;// [DAONET-56] (2007/08/29)
+        protected IRelationRowCreator relationRowCreator;// [DAONET-56] (2007/08/29)
 
         /// <summary>
         /// コンストラクタ。
@@ -41,27 +39,21 @@ namespace Seasar.Dao.Impl
         /// <param name="beanMetaData">Bean meta data. (NotNull)</param>
         /// <param name="rowCreator">Row creator. (NotNull)</param>
         /// <param name="relationRowCreator">Relation row creator. (NotNull)</param>
-        public AbstractBeanMetaDataDataReaderHandler(IBeanMetaData beanMetaData, IRowCreator rowCreator, IRelationRowCreator relationRowCreator)
+        protected AbstractBeanMetaDataDataReaderHandler(IBeanMetaData beanMetaData, IRowCreator rowCreator, IRelationRowCreator relationRowCreator)
         {
-            _beanMetaData = beanMetaData;
-            _rowCreator = rowCreator;
-            _relationRowCreator = relationRowCreator;
+            BeanMetaData = beanMetaData;
+            this.rowCreator = rowCreator;
+            this.relationRowCreator = relationRowCreator;
         }
 
-        public IBeanMetaData BeanMetaData
-        {
-            get { return _beanMetaData; }
-        }
+        public IBeanMetaData BeanMetaData { get; }
 
         /// <summary>
         /// Columnのメタデータを作成する
         /// </summary>
         /// <param name="columnNames">カラム名のリスト (NotNull)</param>
         /// <returns>Columnのメタデータの配列 (NotNull)</returns>
-        protected virtual IColumnMetaData[] CreateColumnMetaData(System.Collections.IList columnNames)
-        {
-            return _rowCreator.CreateColumnMetaData(columnNames, _beanMetaData);
-        }
+        protected virtual IColumnMetaData[] CreateColumnMetaData(IList columnNames) => rowCreator.CreateColumnMetaData(columnNames, BeanMetaData);
 
         /// <summary>
         /// 1行分のオブジェクトを作成する
@@ -71,7 +63,7 @@ namespace Seasar.Dao.Impl
         /// <returns>1行分のEntity型のオブジェクト (NotNull)</returns>
         protected virtual object CreateRow(IDataReader reader, IColumnMetaData[] columns)
         {
-            object row = _rowCreator.CreateRow(reader, columns, _beanMetaData.BeanType);
+            var row = rowCreator.CreateRow(reader, columns, BeanMetaData.BeanType);
             if ( row != null )
             {
                 BeanMetaData.ClearModifiedPropertyNames(row);
@@ -84,9 +76,9 @@ namespace Seasar.Dao.Impl
         /// </summary>
         /// <param name="columnNames">カラム名のリスト (NotNull)</param>
         /// <returns>関連オブジェクトのプロパティキャッシュ (NotNull)</returns>
-        protected virtual IDictionary<string, IDictionary<string, IPropertyType>> CreateRelationPropertyCache(System.Collections.IList columnNames)
+        protected virtual IDictionary<string, IDictionary<string, IPropertyType>> CreateRelationPropertyCache(IList columnNames)
         {
-            return _relationRowCreator.CreateRelationPropertyCache(columnNames, _beanMetaData);
+            return relationRowCreator.CreateRelationPropertyCache(columnNames, BeanMetaData);
         }
 
         /// <summary>
@@ -99,10 +91,10 @@ namespace Seasar.Dao.Impl
         /// <param name="relationColumnMetaDataCache">The dictionary of relation property cache. (NotNull)</param>
         /// <returns>1行分のEntity型のオブジェクト (Nullable)</returns>
         protected virtual object CreateRelationRow(IDataReader reader, IRelationPropertyType rpt,
-            System.Collections.IList columnNames, System.Collections.Hashtable relKeyValues,
+            IList columnNames, Hashtable relKeyValues,
             IDictionary<String, IDictionary<String, IPropertyType>> relationColumnMetaDataCache)
         {
-            object relationRow = _relationRowCreator.CreateRelationRow(reader, rpt, columnNames, relKeyValues, relationColumnMetaDataCache);
+            var relationRow = relationRowCreator.CreateRelationRow(reader, rpt, columnNames, relKeyValues, relationColumnMetaDataCache);
             if ( relationRow != null )
             {
                 rpt.BeanMetaData.ClearModifiedPropertyNames(relationRow);
@@ -115,17 +107,13 @@ namespace Seasar.Dao.Impl
             return pt.PropertyInfo.CanWrite;
         }
 
-        protected virtual object CreateRelationRow(IRelationPropertyType rpt)
-        {
-            return ClassUtil.NewInstance(rpt.PropertyInfo.PropertyType);
-        }
+        protected virtual object CreateRelationRow(IRelationPropertyType rpt) => ClassUtil.NewInstance(rpt.PropertyInfo.PropertyType);
 
-        protected virtual System.Collections.IList CreateColumnNames(DataTable dt)
+        protected virtual IList CreateColumnNames(DataTable dt)
         {
-            System.Collections.IList columnNames = new CaseInsentiveSet();
-            foreach (DataRow row in dt.Rows)
+            IList columnNames = new CaseInsentiveSet();
+            foreach (var columnName in from DataRow row in dt.Rows select (string) row["ColumnName"])
             {
-                string columnName = (string) row["ColumnName"];
                 columnNames.Add(columnName);
             }
             return columnNames;
@@ -133,10 +121,7 @@ namespace Seasar.Dao.Impl
 
         #region IDataReaderHandler メンバ
 
-        public virtual object Handle(IDataReader dataReader)
-        {
-            return null;
-        }
+        public virtual object Handle(IDataReader dataReader) => null;
 
         #endregion
     }

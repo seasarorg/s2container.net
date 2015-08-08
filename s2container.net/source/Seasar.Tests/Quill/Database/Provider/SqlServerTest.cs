@@ -29,8 +29,8 @@ namespace Seasar.Tests.Quill.Database.Provider
         [Test]
         public void TestCommandType()
         {
-            SqlServer provider = new SqlServer();
-            object instance = ClassUtil.NewInstance(ClassUtil.ForName(provider.CommandType));
+            var provider = new SqlServer();
+            var instance = ClassUtil.NewInstance(ClassUtil.ForName(provider.CommandType));
             Assert.IsNotNull(instance);
             Assert.IsTrue(instance is SqlCommand);
         }
@@ -38,8 +38,8 @@ namespace Seasar.Tests.Quill.Database.Provider
         [Test]
         public void TestConnectionType()
         {
-            SqlServer provider = new SqlServer();
-            object instance = ClassUtil.NewInstance(ClassUtil.ForName(provider.ConnectionType));
+            var provider = new SqlServer();
+            var instance = ClassUtil.NewInstance(ClassUtil.ForName(provider.ConnectionType));
             Assert.IsNotNull(instance);
             Assert.IsTrue(instance is SqlConnection);
         }
@@ -47,8 +47,8 @@ namespace Seasar.Tests.Quill.Database.Provider
         [Test]
         public void TestDataAdapterType()
         {
-            SqlServer provider = new SqlServer();
-            object instance = ClassUtil.NewInstance(ClassUtil.ForName(provider.DataAdapterType));
+            var provider = new SqlServer();
+            var instance = ClassUtil.NewInstance(ClassUtil.ForName(provider.DataAdapterType));
             Assert.IsNotNull(instance);
             Assert.IsTrue(instance is SqlDataAdapter);
         }
@@ -56,8 +56,8 @@ namespace Seasar.Tests.Quill.Database.Provider
         [Test]
         public void TestParameterType()
         {
-            SqlServer provider = new SqlServer();
-            object instance = ClassUtil.NewInstance(ClassUtil.ForName(provider.ParameterType));
+            var provider = new SqlServer();
+            var instance = ClassUtil.NewInstance(ClassUtil.ForName(provider.ParameterType));
             Assert.IsNotNull(instance);
             Assert.IsTrue(instance is SqlParameter);
         }

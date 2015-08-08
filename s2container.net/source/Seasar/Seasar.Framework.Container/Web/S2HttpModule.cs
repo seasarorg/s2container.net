@@ -28,8 +28,8 @@ namespace Seasar.Framework.Container.Web
 
         public void Init(HttpApplication context)
         {
-            context.AcquireRequestState += new EventHandler(context_AcquireRequestState);
-            context.ReleaseRequestState += new EventHandler(context_ReleaseRequestState);
+            context.AcquireRequestState += context_AcquireRequestState;
+            context.ReleaseRequestState += context_ReleaseRequestState;
         }
 
         public void Dispose()
@@ -40,12 +40,12 @@ namespace Seasar.Framework.Container.Web
 
         private void context_AcquireRequestState(object sender, EventArgs e)
         {
-            HttpApplication ha = (HttpApplication) sender;
-            IHttpHandler handler = ha.Context.Handler;
+            var ha = (HttpApplication) sender;
+            var handler = ha.Context.Handler;
 
-            IS2Container container = SingletonS2ContainerFactory.Container;
+            var container = SingletonS2ContainerFactory.Container;
             container.HttpContext = HttpContext.Current;
-            string componentName = ha.Request.Path;
+            var componentName = ha.Request.Path;
             if (container.HasComponentDef(componentName))
             {
                 container.InjectDependency(handler, componentName);
@@ -54,7 +54,7 @@ namespace Seasar.Framework.Container.Web
 
         private void context_ReleaseRequestState(object sender, EventArgs e)
         {
-            IS2Container container = SingletonS2ContainerFactory.Container;
+            var container = SingletonS2ContainerFactory.Container;
             container.HttpContext = null;
         }
     }

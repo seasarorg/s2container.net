@@ -36,18 +36,12 @@ namespace Seasar.Framework.Beans.Impl
         /// <summary>
         /// 元となるメソッド情報
         /// </summary>
-        public virtual MethodInfo Method
-        {
-            get { return _methodInfo; }
-        }
+        public virtual MethodInfo Method => _methodInfo;
 
         /// <summary>
         /// メソッド名
         /// </summary>
-        public virtual string Name
-        {
-            get { return _methodInfo.Name; }
-        }
+        public virtual string Name => _methodInfo.Name;
 
         /// <summary>
         /// コンストラクタ
@@ -64,11 +58,7 @@ namespace Seasar.Framework.Beans.Impl
         /// <returns></returns>
         public virtual ParameterInfo[] GetParameterInfos()
         {
-            if (_cachedParameterInfo == null)
-            {
-                _cachedParameterInfo = _methodInfo.GetParameters();
-            }
-            return _cachedParameterInfo;
+            return _cachedParameterInfo ?? (_cachedParameterInfo = _methodInfo.GetParameters());
         }
 
         /// <summary>
@@ -81,7 +71,7 @@ namespace Seasar.Framework.Beans.Impl
             {
                 _cachedReturnType = _methodInfo.ReturnType;
             }
-            if (_cachedReturnType.Equals(typeof(void))) { return null; }
+            if (_cachedReturnType == typeof(void)) { return null; }
             return _cachedReturnType;
         }
 
@@ -105,7 +95,7 @@ namespace Seasar.Framework.Beans.Impl
         /// <returns>メソッドの戻り値</returns>
         public virtual object Invoke(object obj, params object[] parameters)
         {
-            object[] p = parameters;
+            var p = parameters;
             if (p != null)
             {
             }

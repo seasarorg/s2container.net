@@ -40,7 +40,7 @@ namespace Seasar.Extension.ADO.Types
             }
             else if (value is bool)
             {
-                return new Nullable<Boolean>((bool) value);
+                return new bool?((bool) value);
             }
             else
             {

@@ -17,7 +17,6 @@
 #endregion
 
 using System;
-using System.Web.SessionState;
 using Seasar.Framework.Exceptions;
 
 namespace Seasar.Framework.Container.Deployer
@@ -31,19 +30,19 @@ namespace Seasar.Framework.Container.Deployer
 
         public override object Deploy(Type receiveType)
         {
-            IComponentDef cd = ComponentDef;
-            HttpSessionState session = cd.Container.Root.Session;
+            var cd = ComponentDef;
+            var session = cd.Container.Root.Session;
             if (session == null)
             {
                 throw new EmptyRuntimeException("session");
             }
-            string componentName = cd.ComponentName;
+            var componentName = cd.ComponentName;
             if (componentName == null)
             {
                 throw new EmptyRuntimeException("componentName");
             }
 
-            object component = session[componentName];
+            var component = session[componentName];
 
             if (component != null)
             {
@@ -52,7 +51,7 @@ namespace Seasar.Framework.Container.Deployer
 
             component = ConstructorAssembler.Assemble();
 
-            object proxy = GetProxy(receiveType);
+            var proxy = GetProxy(receiveType);
 
             if (proxy == null)
             {
@@ -66,14 +65,7 @@ namespace Seasar.Framework.Container.Deployer
             PropertyAssembler.Assemble(component);
             InitMethodAssembler.Assemble(component);
 
-            if (proxy == null)
-            {
-                return component;
-            }
-            else
-            {
-                return proxy;
-            }
+            return proxy ?? component;
         }
 
         public override void InjectDependency(object outerComponent)

@@ -21,6 +21,7 @@
 using System;
 using System.Collections;
 using System.Data;
+using System.Reflection;
 using Seasar.Extension.ADO;
 using Seasar.Framework.Exceptions;
 using Seasar.Framework.Log;
@@ -33,7 +34,7 @@ namespace Seasar.Dao.Impl
     /// </summary>
     public class HashtableBasicProcedureHandler : AbstractProcedureHandler
     {
-        private static readonly Logger _logger = Logger.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly Logger _logger = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         /// <summary>
         /// コンストラクタ
@@ -55,9 +56,9 @@ namespace Seasar.Dao.Impl
         public Hashtable Execute(object[] args)
         {
             if (DataSource == null) throw new EmptyRuntimeException("dataSource");
-            IDbConnection conn = DataSourceUtil.GetConnection(DataSource);
+            var conn = DataSourceUtil.GetConnection(DataSource);
 
-            Hashtable ret = new Hashtable();
+            var ret = new Hashtable();
             try
             {
                 if (_logger.IsDebugEnabled)
@@ -69,12 +70,12 @@ namespace Seasar.Dao.Impl
                 try
                 {
                     Type[] outParamTypes;
-                    string[] outParamNames = _GetOutParamNames(conn, args, out outParamTypes);
+                    var outParamNames = _GetOutParamNames(conn, args, out outParamTypes);
 
                     cmd = GetCommand(conn, ProcedureName);
 
                     // パラメータをセットする
-                    for (int j = 0; j < outParamNames.Length; j++)
+                    for (var j = 0; j < outParamNames.Length; j++)
                     {
                         BindReturnValues(cmd, _AddParameterName(outParamNames[j], cmd), GetDbValueType(outParamTypes[j]));
                     }
@@ -83,20 +84,20 @@ namespace Seasar.Dao.Impl
                     CommandFactory.ExecuteNonQuery(DataSource, cmd);
 
                     // 返り値を取得する
-                    for (int j = 0; j < outParamNames.Length; j++)
+                    for (var j = 0; j < outParamNames.Length; j++)
                     {
-                        string paramName = _AddParameterName(outParamNames[j], cmd);
-                        IDbDataParameter param = (IDbDataParameter) cmd.Parameters[paramName];
+                        var paramName = _AddParameterName(outParamNames[j], cmd);
+                        var param = (IDbDataParameter) cmd.Parameters[paramName];
                         ret.Add(outParamNames[j], param.Value);
                     }
 
                     // OutまたはInOutパラメータ値を取得する
-                    for (int i = 0; i < args.Length; i++)
+                    for (var i = 0; i < args.Length; i++)
                     {
                         if (ArgumentDirection[i] == ParameterDirection.InputOutput ||
                              ArgumentDirection[i] == ParameterDirection.Output)
                         {
-                            IDbDataParameter param = (IDbDataParameter)cmd.Parameters[i + outParamNames.Length];
+                            var param = (IDbDataParameter)cmd.Parameters[i + outParamNames.Length];
                             args[i] = ConversionUtil.ConvertTargetType(param.Value, ArgumentTypes[i]);
                         }
                     }
@@ -120,40 +121,45 @@ namespace Seasar.Dao.Impl
 
         private string[] _GetOutParamNames(IDbConnection conn, object[] args, out Type[] outParamTypes)
         {
-            IDbCommand cmd = GetCommand(conn, ProcedureName);
+            var cmd = GetCommand(conn, ProcedureName);
             BindParamters(cmd, args, ArgumentTypes, ArgumentNames, ArgumentDirection);
 
-            IDataReader reader = CommandFactory.ExecuteReader(DataSource, cmd);
-            DataTable dt = reader.GetSchemaTable();
-            int i = 0;
-            string[] outParamNames = new string[dt.Rows.Count];
-            outParamTypes = new Type[dt.Rows.Count];
-            foreach (DataRow row in dt.Rows)
+            var reader = CommandFactory.ExecuteReader(DataSource, cmd);
+            var dt = reader.GetSchemaTable();
+            var i = 0;
+            if (dt != null)
             {
+                var outParamNames = new string[dt.Rows.Count];
+                outParamTypes = new Type[dt.Rows.Count];
+                foreach (DataRow row in dt.Rows)
+                {
 #if DEBUG
-                Console.Out.WriteLine("Out Param:" + row["ColumnName"]);
-                Console.Out.WriteLine("Out Type:" + row["DataType"]);
-                Console.Out.WriteLine("Out Direction:");
+                    Console.Out.WriteLine("Out Param:" + row["ColumnName"]);
+                    Console.Out.WriteLine("Out Type:" + row["DataType"]);
+                    Console.Out.WriteLine("Out Direction:");
 #endif
-                outParamNames[i] = (string) row["ColumnName"];
-                outParamTypes[i] = (Type) row["DataType"];
-                i++;
-            }
-            reader.Close();
+                    outParamNames[i] = (string) row["ColumnName"];
+                    outParamTypes[i] = (Type) row["DataType"];
+                    i++;
+                }
+                reader.Close();
 
-            return outParamNames;
+                return outParamNames;
+            }
+            outParamTypes = null;
+            return null;
         }
 
-        private string _AddParameterName(string paramName, IDbCommand command)
+        private static string _AddParameterName(string paramName, IDbCommand command)
         {
-            BindVariableType vt = DataProviderUtil.GetBindVariableType(command);
+            var vt = DataProviderUtil.GetBindVariableType(command);
             switch (vt)
             {
                 case BindVariableType.QuestionWithParam:
                     paramName = "?" + paramName;
                     break;
                 case BindVariableType.ColonWithParam:
-                    if ("OracleCommand".Equals(command.GetType().Name))
+                    if ("OracleCommand".Equals(command.GetExType().Name))
                     {
                         paramName = string.Empty + paramName;
                     }

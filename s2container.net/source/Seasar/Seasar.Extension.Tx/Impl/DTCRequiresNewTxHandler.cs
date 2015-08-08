@@ -17,6 +17,7 @@
 #endregion
 
 using System.EnterpriseServices;
+using System.Reflection;
 using Seasar.Framework.Aop;
 using Seasar.Framework.Log;
 
@@ -25,7 +26,7 @@ namespace Seasar.Extension.Tx.Impl
     [Transaction(TransactionOption.RequiresNew)]
     public class DTCRequiresNewTxHandler : AbstractDTCTransactionHandler
     {
-        private static readonly Logger _logger = Logger.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly Logger _logger = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         #region ITransactionHandler ÉÅÉìÉo
 
@@ -35,7 +36,7 @@ namespace Seasar.Extension.Tx.Impl
             _logger.Log("DSSR0003", null);
             try
             {
-                object obj = invocation.Proceed();
+                var obj = invocation.Proceed();
                 _logger.Log("DSSR0004", null);
                 return obj;
             }

@@ -27,16 +27,16 @@ namespace Seasar.Tests.Framework.Container.Factory
     public class InitMethodTagHandlerTest
     {
         private const string PATH
-            = "Seasar/Tests/Framework/Container/Factory/InitMethodTagHandlerTest.dicon";
+            = "Seasar/Tests/Framework/container/Factory/InitMethodTagHandlerTest.dicon";
 
         [Test]
         public void TestArg()
         {
-            IS2Container container = S2ContainerFactory.Create(PATH);
-            Hashtable aaa = (Hashtable) container.GetComponent("aaa");
+            var container = S2ContainerFactory.Create(PATH);
+            var aaa = (Hashtable) container.GetComponent("aaa");
             Assert.AreEqual(111, aaa["aaa"]);
             Assert.AreEqual(222, aaa["bbb"]);
-            Bbb bbb = (Bbb) container.GetComponent("bbb");
+            var bbb = (Bbb) container.GetComponent("bbb");
             Assert.AreEqual(false, bbb.IsEmpty);
         }
 

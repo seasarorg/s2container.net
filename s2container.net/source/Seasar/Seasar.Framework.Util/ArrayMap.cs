@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Seasar.Framework.Util
@@ -55,10 +56,7 @@ namespace Seasar.Framework.Util
         /// <summary>
         /// キー一覧
         /// </summary>
-        public ICollection<TKey> Keys
-        {
-            get { return _map.Keys; }
-        }
+        public ICollection<TKey> Keys => _map.Keys;
 
         /// <summary>
         /// キーを使って値を取得
@@ -67,10 +65,7 @@ namespace Seasar.Framework.Util
         /// <returns></returns>
         /// <exception cref="KeyNotFoundException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        public TValue this[TKey key]
-        {
-            get { return _list[_map[key]]; }
-        }
+        public TValue this[TKey key] => _list[_map[key]];
 
         /// <summary>
         /// 要素番号を使ってキーを取得
@@ -78,19 +73,13 @@ namespace Seasar.Framework.Util
         /// <param name="index">要素番号</param>
         /// <returns></returns>
         /// <exception cref="IndexOutOfRangeException"></exception>
-        public TValue this[int index]
-        {
-            get { return _list[index]; }
-        }
+        public TValue this[int index] => _list[index];
 
         /// <summary>
         /// 値の配列を返す
         /// </summary>
         /// <returns></returns>
-        public TValue[] Items
-        {
-            get { return _list.ToArray(); }
-        }
+        public TValue[] Items => _list.ToArray();
 
         /// <summary>
         /// 要素の追加
@@ -111,10 +100,7 @@ namespace Seasar.Framework.Util
         /// <param name="key">要素を一意に特定するキー</param>
         /// <returns>true=キーが含まれている、false=キーは含まれていない</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public bool ContainsKey(TKey key)
-        {
-            return _map.ContainsKey(key);
-        }
+        public bool ContainsKey(TKey key) => _map.ContainsKey(key);
 
         /// <summary>
         /// 指定したキーに該当する要素をコレクションから削除する
@@ -125,26 +111,20 @@ namespace Seasar.Framework.Util
         /// <exception cref="ArgumentNullException"></exception>
         public void Remove(TKey key)
         {
-            int index = _map[key];
+            var index = _map[key];
             _list.RemoveAt(index);
             _map.Remove(key);
         }
 
         #region IEnumerable<TValue> メンバ
 
-        public IEnumerator<TValue> GetEnumerator()
-        {
-            return _list.GetEnumerator();
-        }
+        public IEnumerator<TValue> GetEnumerator() => _list.GetEnumerator();
 
         #endregion
 
         #region IEnumerable メンバ
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return _list.GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => _list.GetEnumerator();
 
         #endregion
     }

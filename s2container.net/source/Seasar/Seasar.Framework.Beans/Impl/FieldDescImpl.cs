@@ -33,26 +33,17 @@ namespace Seasar.Framework.Beans.Impl
         /// <summary>
         /// 元となるプロパティ
         /// </summary>
-        public virtual FieldInfo Field
-        {
-            get { return _fieldInfo; }
-        }
+        public virtual FieldInfo Field => _fieldInfo;
 
         /// <summary>
         /// プロパティ名
         /// </summary>
-        public virtual string Name
-        {
-            get { return _fieldInfo.Name; }
-        }
+        public virtual string Name => _fieldInfo.Name;
 
         /// <summary>
         /// プロパティの型
         /// </summary>
-        public virtual Type FieldType
-        {
-            get { return _fieldInfo.FieldType; }
-        }
+        public virtual Type FieldType => _fieldInfo.FieldType;
 
         /// <summary>
         /// コンストラクタ
@@ -62,7 +53,7 @@ namespace Seasar.Framework.Beans.Impl
         {
             if (fieldInfo == null)
             {
-                throw new ArgumentNullException("fieldInfo");
+                throw new ArgumentNullException(nameof(fieldInfo));
             }
             _fieldInfo = fieldInfo;
         }
@@ -105,7 +96,8 @@ namespace Seasar.Framework.Beans.Impl
         {
             try
             {
-                _fieldInfo.SetValue(target, value);
+                FieldUtil.SetValue(target, target.GetExType(), _fieldInfo.Name, _fieldInfo.FieldType, value);
+//                _fieldInfo.SetValue(target, value);
             }
             catch (Exception ex)
             {

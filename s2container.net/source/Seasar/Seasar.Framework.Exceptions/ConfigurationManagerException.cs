@@ -27,38 +27,29 @@ namespace Seasar.Framework.Exceptions
     [Serializable]
     public class ConfigurationManagerException : SRuntimeException
     {
-        private readonly string _section;
-        private readonly string _key;
-
         public ConfigurationManagerException(string section, string key)
             : base("ESSR0005", new object[] { section, key })
         {
-            _section = section;
-            _key = key;
+            Section = section;
+            Key = key;
         }
 
         public ConfigurationManagerException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            _section = info.GetString("_section");
-            _key = info.GetString("_key");
+            Section = info.GetString("_section");
+            Key = info.GetString("_key");
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("_section", _section, typeof(string));
-            info.AddValue("_key", _key, typeof(string));
+            info.AddValue("_section", Section, typeof(string));
+            info.AddValue("_key", Key, typeof(string));
             base.GetObjectData(info, context);
         }
 
-        public string Section
-        {
-            get { return _section; }
-        }
+        public string Section { get; }
 
-        public string Key
-        {
-            get { return _key; }
-        }
+        public string Key { get; }
     }
 }

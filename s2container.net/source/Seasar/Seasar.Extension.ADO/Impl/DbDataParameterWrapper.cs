@@ -48,10 +48,7 @@ namespace Seasar.Extension.ADO.Impl
             set { _original.Value = value; }
         }
 
-        public virtual bool IsNullable
-        {
-            get { return _original.IsNullable; }
-        }
+        public virtual bool IsNullable => _original.IsNullable;
 
         public virtual DataRowVersion SourceVersion
         {
@@ -89,9 +86,6 @@ namespace Seasar.Extension.ADO.Impl
             set { _original.Size = value; }
         }
 
-        public virtual IDbDataParameter Original
-        {
-            get { return _original; }
-        }
+        public virtual IDbDataParameter Original => _original;
     }
 }

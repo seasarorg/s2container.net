@@ -40,7 +40,7 @@ namespace Seasar.Extension.ADO.Types
             }
             else if (value is DateTime)
             {
-                return new Nullable<DateTime>((DateTime) value);
+                return new DateTime?((DateTime) value);
             }
             else
             {

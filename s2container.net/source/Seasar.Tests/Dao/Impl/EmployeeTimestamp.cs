@@ -26,65 +26,29 @@ namespace Seasar.Tests.Dao.Impl
     [Table("EMP")]
     public class EmployeeGenericNullableTimestamp
     {
-        private int _empNo;
-
-        public int EmpNo
-        {
-            get { return _empNo; }
-            set { _empNo = value; }
-        }
-
-        private DateTime? _timestamp;
+        public int EmpNo { get; set; }
 
         [Column("TSTAMP")]
-        public DateTime? Timestamp
-        {
-            get { return _timestamp; }
-            set { _timestamp = value; }
-        }
+        public DateTime? Timestamp { get; set; }
     }
 
     [TimestampProperty("Timestamp")]
     [Table("EMP")]
     public class EmployeeTimestamp
     {
-        private int _empNo;
-
-        public int EmpNo
-        {
-            get { return _empNo; }
-            set { _empNo = value; }
-        }
-
-        private DateTime _timestamp;
+        public int EmpNo { get; set; }
 
         [Column("TSTAMP")]
-        public DateTime Timestamp
-        {
-            get { return _timestamp; }
-            set { _timestamp = value; }
-        }
+        public DateTime Timestamp { get; set; }
     }
 
     [TimestampProperty("Timestamp")]
     [Table("EMP")]
     public class EmployeeSqlTimestamp
     {
-        private int _empNo;
-
-        public int EmpNo
-        {
-            get { return _empNo; }
-            set { _empNo = value; }
-        }
-
-        private SqlDateTime _timestamp;
+        public int EmpNo { get; set; }
 
         [Column("TSTAMP")]
-        public SqlDateTime Timestamp
-        {
-            get { return _timestamp; }
-            set { _timestamp = value; }
-        }
+        public SqlDateTime Timestamp { get; set; }
     }
 }

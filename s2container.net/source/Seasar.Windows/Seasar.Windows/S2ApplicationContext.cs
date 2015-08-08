@@ -29,16 +29,7 @@ namespace Seasar.Windows
         /// <summary>
         /// DIコンテナ
         /// </summary>
-        private IS2Container _container;
-
-        /// <summary>
-        /// DIコンテナ
-        /// </summary>
-        public IS2Container DIContainer
-        {
-            get { return _container; }
-            set { _container = value; }
-        }
+        public IS2Container DIContainer { get; set; }
 
         /// <summary>
         /// コンストラクタ
@@ -46,7 +37,7 @@ namespace Seasar.Windows
         /// <param name="container">DIコンテナ</param>
         public S2ApplicationContext(IS2Container container)
         {
-            _container = container;
+            DIContainer = container;
         }
 
         /// <summary>
@@ -55,7 +46,7 @@ namespace Seasar.Windows
         protected override void ExitThreadCore()
         {
             // クリーンアップ処理
-            _container.Destroy();
+            DIContainer.Destroy();
 
             // メインスレッドの終了処理
             base.ExitThreadCore();

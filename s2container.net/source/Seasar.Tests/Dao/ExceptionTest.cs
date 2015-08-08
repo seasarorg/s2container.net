@@ -20,6 +20,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using MbUnit.Framework;
 using Seasar.Dao;
+using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Dao
 {
@@ -39,12 +40,12 @@ namespace Seasar.Tests.Dao
             const int TEST_ROW = 99;
             var target = new NotSingleRowUpdatedRuntimeException(TEST_BEAN, TEST_ROW);
 
-            string path = GetFileName(target);
+            var path = GetFileName(target);
             // シリアル化
             Serialize(path, target);
 
             // 逆シリアル化
-            object result = Desirialize(path);
+            var result = Desirialize(path);
 
             // ============================================================================
             //                                                                      Assert
@@ -66,12 +67,12 @@ namespace Seasar.Tests.Dao
             const int TEST_ROW = 99;
             var target = new UpdateFailureRuntimeException(TEST_BEAN, TEST_ROW);
 
-            string path = GetFileName(target);
+            var path = GetFileName(target);
             // シリアル化
             Serialize(path, target);
 
             // 逆シリアル化
-            object result = Desirialize(path);
+            var result = Desirialize(path);
 
             // ============================================================================
             //                                                                      Assert
@@ -85,12 +86,12 @@ namespace Seasar.Tests.Dao
 
         private string GetFileName(object data)
         {
-            return string.Format("{0}_serizlizeTest.data", data.GetType().Name);
+            return string.Format("{0}_serizlizeTest.data", data.GetExType().Name);
         }
 
         private void Serialize(string path, object data)
         {
-            string TEST_FILE = data.GetType().Name + "_serializeTest.dat";
+            var TEST_FILE = data.GetExType().Name + "_serializeTest.dat";
             // シリアル化
             using (var fs = new FileStream(path, FileMode.Create))
             {

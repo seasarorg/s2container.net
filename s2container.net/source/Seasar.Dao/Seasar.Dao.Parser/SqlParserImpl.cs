@@ -69,18 +69,18 @@ namespace Seasar.Dao.Parser
 
         protected void ParseSql()
         {
-            string sql = _tokenizer.Token;
+            var sql = _tokenizer.Token;
             if (IsElseMode())
             {
                 sql = sql.Replace("--", string.Empty);
             }
-            INode node = Peek();
+            var node = Peek();
 
             if ((node is IfNode || node is ElseNode) && node.ChildSize == 0)
             {
                 ISqlTokenizer st = new SqlTokenizerImpl(sql);
                 st.SkipWhitespace();
-                string token = st.SkipToken();
+                var token = st.SkipToken();
                 st.SkipWhitespace();
                 if ("AND".Equals(token.ToUpper()) || "OR".Equals(token.ToUpper()))
                 {
@@ -99,20 +99,19 @@ namespace Seasar.Dao.Parser
 
         protected void ParseComment()
         {
-            string comment = _tokenizer.Token;
-            if (IsTargetComment(comment))
+            var comment = _tokenizer.Token;
+            if (_IsTargetComment(comment))
             {
-                if (IsIfComment(comment))
+                if (_IsIfComment(comment))
                 {
                     ParseIf();
                 }
-                else if (IsBeginComment(comment))
+                else if (_IsBeginComment(comment))
                 {
                     ParseBegin();
                 }
-                else if (IsEndComment(comment))
+                else if (_IsEndComment(comment))
                 {
-                    return;
                 }
                 else
                 {
@@ -123,12 +122,12 @@ namespace Seasar.Dao.Parser
 
         protected void ParseIf()
         {
-            string condition = _tokenizer.Token.Substring(2).Trim();
+            var condition = _tokenizer.Token.Substring(2).Trim();
             if (StringUtil.IsEmpty(condition))
             {
                 throw new IfConditionNotFoundRuntimeException();
             }
-            IfNode ifNode = new IfNode(condition);
+            var ifNode = new IfNode(condition);
             Peek().AddChild(ifNode);
             Push(ifNode);
             ParseEnd();
@@ -136,7 +135,7 @@ namespace Seasar.Dao.Parser
 
         protected void ParseBegin()
         {
-            BeginNode beginNode = new BeginNode();
+            var beginNode = new BeginNode();
             Peek().AddChild(beginNode);
             Push(beginNode);
             ParseEnd();
@@ -147,7 +146,7 @@ namespace Seasar.Dao.Parser
             while (TokenType.EOF != _tokenizer.Next())
             {
                 if (_tokenizer.TokenType == TokenType.COMMENT
-                    && IsEndComment(_tokenizer.Token))
+                    && _IsEndComment(_tokenizer.Token))
                 {
                     Pop();
                     return;
@@ -159,13 +158,13 @@ namespace Seasar.Dao.Parser
 
         protected void ParseElse()
         {
-            INode parent = Peek();
+            var parent = Peek();
             if (!(parent is IfNode))
             {
                 return;
             }
-            IfNode ifNode = (IfNode) Pop();
-            ElseNode elseNode = new ElseNode();
+            var ifNode = (IfNode) Pop();
+            var elseNode = new ElseNode();
             ifNode.ElseNode = elseNode;
             Push(elseNode);
             _tokenizer.SkipWhitespace();
@@ -173,8 +172,8 @@ namespace Seasar.Dao.Parser
 
         protected void ParseCommentBindVariable()
         {
-            string expr = _tokenizer.Token;
-            string s = _tokenizer.SkipToken();
+            var expr = _tokenizer.Token;
+            var s = _tokenizer.SkipToken();
             if (s.StartsWith("(") && s.EndsWith(")"))
             {
                 Peek().AddChild(CreateParenBindVariableNode(expr));
@@ -191,7 +190,7 @@ namespace Seasar.Dao.Parser
 
         protected void ParseBindVariable()
         {
-            string expr = _tokenizer.Token;
+            var expr = _tokenizer.Token;
             Peek().AddChild(CreateBindVariableNode(expr));
         }
 
@@ -224,7 +223,7 @@ namespace Seasar.Dao.Parser
 
         protected bool IsElseMode()
         {
-            for (int i = 0; i < _nodeStack.Count; ++i)
+            for (var i = 0; i < _nodeStack.Count; ++i)
             {
                 if (_nodeStack.ToArray()[i] is ElseNode)
                 {
@@ -234,28 +233,28 @@ namespace Seasar.Dao.Parser
             return false;
         }
 
-        private static bool IsTargetComment(string comment)
+        private static bool _IsTargetComment(string comment)
         {
-            return comment != null && comment.Length > 0
-                && IsCSharpIdentifierStart(comment.ToCharArray()[0]);
+            return !string.IsNullOrEmpty(comment)
+                && _IsCSharpIdentifierStart(comment.ToCharArray()[0]);
         }
 
-        private static bool IsCSharpIdentifierStart(Char c)
+        private static bool _IsCSharpIdentifierStart(Char c)
         {
             return Char.IsLetterOrDigit(c) || c == '_' || c == '\\' || c == '$' || c == '@';
         }
 
-        private static bool IsIfComment(string comment)
+        private static bool _IsIfComment(string comment)
         {
             return comment.StartsWith("IF");
         }
 
-        private static bool IsBeginComment(string content)
+        private static bool _IsBeginComment(string content)
         {
             return content != null && "BEGIN".Equals(content);
         }
 
-        private static bool IsEndComment(string content)
+        private static bool _IsEndComment(string content)
         {
             return content != null && "END".Equals(content);
         }

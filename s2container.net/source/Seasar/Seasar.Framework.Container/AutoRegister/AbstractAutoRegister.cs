@@ -16,8 +16,8 @@
  */
 #endregion
 
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 
 namespace Seasar.Framework.Container.AutoRegister
 {
@@ -26,36 +26,25 @@ namespace Seasar.Framework.Container.AutoRegister
     /// </summary>
     public abstract class AbstractAutoRegister
     {
-        private IS2Container container;
-        private readonly IList<ClassPattern> classPatterns = new List<ClassPattern>();
-        private readonly IList<ClassPattern> ignoreClassPatterns = new List<ClassPattern>();
+        private readonly IList<ClassPattern> _classPatterns = new List<ClassPattern>();
+        private readonly IList<ClassPattern> _ignoreClassPatterns = new List<ClassPattern>();
 
         /// <summary>
         /// コンテナを取得・設定します。
         /// </summary>
-        public IS2Container Container
-        {
-            set { container = value; }
-            get { return container; }
-        }
+        public IS2Container Container { set; get; }
 
         /// <summary>
         /// 追加されている ClassPattern の数を取得します。
         /// </summary>
-        public int ClassPatternSize
-        {
-            get { return classPatterns.Count; }
-        }
+        public int ClassPatternSize => _classPatterns.Count;
 
         /// <summary>
         /// ClassPatternを取得します。
         /// </summary>
         /// <param name="index">取得するClassPatternのインデックス</param>
         /// <returns>ClassPattern</returns>
-        public ClassPattern GetClassPattern(int index)
-        {
-            return classPatterns[index];
-        }
+        public ClassPattern GetClassPattern(int index) => _classPatterns[index];
 
         /// <summary>
         /// 自動登録で適用される ClassPattern を追加します。
@@ -73,7 +62,7 @@ namespace Seasar.Framework.Container.AutoRegister
         /// <param name="classPattern">ClassPattern</param>
         public void AddClassPattern(ClassPattern classPattern)
         {
-            classPatterns.Add(classPattern);
+            _classPatterns.Add(classPattern);
         }
 
         /// <summary>
@@ -92,7 +81,7 @@ namespace Seasar.Framework.Container.AutoRegister
         /// <param name="classPattern">ClassPattern</param>
         public void AddIgnoreClassPattern(ClassPattern classPattern)
         {
-            ignoreClassPatterns.Add(classPattern);
+            _ignoreClassPatterns.Add(classPattern);
         }
 
         /// <summary>
@@ -111,14 +100,14 @@ namespace Seasar.Framework.Container.AutoRegister
         /// <returns>無視するかどうか</returns>
         protected bool IsIgnore(Type type)
         {
-            if (ignoreClassPatterns.Count == 0)
+            if (_ignoreClassPatterns.Count == 0)
             {
                 return false;
             }
 
-            for (int i = 0; i < ignoreClassPatterns.Count; ++i)
+            for (var i = 0; i < _ignoreClassPatterns.Count; ++i)
             {
-                ClassPattern cp = ignoreClassPatterns[i];
+                var cp = _ignoreClassPatterns[i];
 
                 if (!cp.IsAppliedNamespaceName(type.Namespace))
                 {

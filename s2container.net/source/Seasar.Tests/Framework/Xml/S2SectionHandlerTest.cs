@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -27,15 +27,15 @@ namespace Seasar.Tests.Framework.Xml
         [Test]
         public void Test()
         {
-            S2Section section = S2SectionHandler.GetS2Section();
+            var section = S2SectionHandler.GetS2Section();
 
             Assert.AreEqual("Seasar.Tests.test.dicon", section.ConfigPath);
-            
-            //  SQLServerˆÈŠO‚ğg‚¤ê‡‚Íİ’èã‚UˆÈã‚É‚È‚é‚½‚ßƒRƒƒ“ƒgƒAƒEƒg
+
+            //  SQLServerä»¥å¤–ã‚’ä½¿ã†å ´åˆã¯è¨­å®šä¸Šï¼–ä»¥ä¸Šã«ãªã‚‹ãŸã‚ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆ
             //Assert.AreEqual(5, section.Assemblys.Count);
 
-            string[] expects = new string[] { "Seasar.Tests", "Seasar", "Seasar.DynamicProxy", "Seasar.Dao", "Seasar.Dxo" };
-            for(int i = 0; i < expects.Length; i++ ){
+            var expects = new string[] { "Seasar.Tests", "Seasar", "Seasar.DynamicProxy", "Seasar.Dao", "Seasar.Dxo" };
+            for(var i = 0; i < expects.Length; i++ ){
                 Assert.AreEqual(expects[i], section.Assemblys[i].ToString());
             }
         }

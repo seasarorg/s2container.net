@@ -61,7 +61,7 @@ namespace Seasar.Tests.Extension.Tx.Impl
 
         public bool IsInTransaction()
         {
-            Transaction tx = Transaction.Current;
+            var tx = Transaction.Current;
             if (tx != null)
             {
                 return tx.TransactionInformation.Status == TransactionStatus.Active;
@@ -73,7 +73,7 @@ namespace Seasar.Tests.Extension.Tx.Impl
         {
             get
             {
-                Transaction tx = Transaction.Current;
+                var tx = Transaction.Current;
                 if (tx != null)
                 {
                     return tx.TransactionInformation.LocalIdentifier;
@@ -84,7 +84,7 @@ namespace Seasar.Tests.Extension.Tx.Impl
 
         public void throwException()
         {
-            TxException ex = new TxException();
+            var ex = new TxException();
             ex.WasInTx = IsInTransaction();
             ex.TxId = TxId;
             throw ex;

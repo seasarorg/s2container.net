@@ -46,7 +46,7 @@ namespace Seasar.Tests.Quill.Resouces
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormForQuillControlTest));
+            var resources = new System.ComponentModel.ComponentResourceManager(typeof(FormForQuillControlTest));
             this.testQuillControl = new Seasar.Quill.QuillControl();
             ((System.ComponentModel.ISupportInitialize)(this.testQuillControl)).BeginInit();
             this.SuspendLayout();

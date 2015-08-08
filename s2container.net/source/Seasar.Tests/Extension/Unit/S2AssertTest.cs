@@ -1,4 +1,4 @@
-#region Copyright
+Ôªø#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -30,10 +30,10 @@ namespace Seasar.Tests.Extension.Unit
         [Test]
         public void TestAreDictionaryEqual()
         {
-            DataSet expected = new DataSet();
-            DataTable table = expected.Tables.Add("emp");
+            var expected = new DataSet();
+            var table = expected.Tables.Add("emp");
             table.Columns.Add("empno", typeof(long));
-            DataRow row = table.NewRow();
+            var row = table.NewRow();
             row["empno"] = 7788;
             table.Rows.Add(row);
             IDictionary dictionary = new Hashtable();
@@ -44,10 +44,10 @@ namespace Seasar.Tests.Extension.Unit
         [Test]
         public void TestAreDictionaryListEqual()
         {
-            DataSet expected = new DataSet();
-            DataTable table = expected.Tables.Add("emp");
+            var expected = new DataSet();
+            var table = expected.Tables.Add("emp");
             table.Columns.Add("empno", typeof(long));
-            DataRow row = table.NewRow();
+            var row = table.NewRow();
             row["empno"] = 7788;
             table.Rows.Add(row);
             IDictionary dictionary = new Hashtable();
@@ -60,15 +60,15 @@ namespace Seasar.Tests.Extension.Unit
         [Test]
         public void TestAreBeanEqual()
         {
-            DataSet expected = new DataSet();
-            DataTable table = expected.Tables.Add("emp");
+            var expected = new DataSet();
+            var table = expected.Tables.Add("emp");
             table.Columns.Add("aaa", typeof(string));
             table.Columns.Add("bbb", typeof(decimal));
-            DataRow row = table.NewRow();
+            var row = table.NewRow();
             row["aaa"] = "111";
             row["bbb"] = decimal.MaxValue;
             table.Rows.Add(row);
-            Hoge bean = new Hoge();
+            var bean = new Hoge();
             bean.Aaa = "111";
             bean.Bbb = decimal.MaxValue;
             S2Assert.AreEqual(expected, bean, "1");
@@ -77,15 +77,15 @@ namespace Seasar.Tests.Extension.Unit
         [Test]
         public void TestAreBeanEqual3()
         {
-            DataSet expected = new DataSet();
-            DataTable table = expected.Tables.Add("emp");
+            var expected = new DataSet();
+            var table = expected.Tables.Add("emp");
             table.Columns.Add("aaa", typeof(string));
             table.Columns.Add("bbb", typeof(int));
-            DataRow row = table.NewRow();
+            var row = table.NewRow();
             row["aaa"] = "111";
             row["bbb"] = int.MaxValue;
             table.Rows.Add(row);
-            Hoge bean = new Hoge();
+            var bean = new Hoge();
             bean.Aaa = "111";
             bean.Bbb = int.MaxValue;
             S2Assert.AreEqual(expected, bean, "1");
@@ -94,15 +94,15 @@ namespace Seasar.Tests.Extension.Unit
         [Test]
         public void TestAreBeanListEqual()
         {
-            DataSet expected = new DataSet();
-            DataTable table = expected.Tables.Add("emp");
+            var expected = new DataSet();
+            var table = expected.Tables.Add("emp");
             table.Columns.Add("aaa", typeof(string));
             table.Columns.Add("bbb", typeof(decimal));
-            DataRow row = table.NewRow();
+            var row = table.NewRow();
             row["aaa"] = "111";
             row["bbb"] = decimal.MaxValue;
             table.Rows.Add(row);
-            Hoge bean = new Hoge();
+            var bean = new Hoge();
             bean.Aaa = "111";
             bean.Bbb = decimal.MaxValue;
             IList list = new ArrayList();
@@ -113,15 +113,15 @@ namespace Seasar.Tests.Extension.Unit
         [Test]
         public void TestAreBeanEqual2()
         {
-            DataSet expected = new DataSet();
-            DataTable table = expected.Tables.Add("emp");
+            var expected = new DataSet();
+            var table = expected.Tables.Add("emp");
             table.Columns.Add("a_aa", typeof(string));
             table.Columns.Add("b_bb", typeof(decimal));
-            DataRow row = table.NewRow();
+            var row = table.NewRow();
             row["a_aa"] = "111";
             row["b_bb"] = decimal.MaxValue;
             table.Rows.Add(row);
-            Hoge bean = new Hoge();
+            var bean = new Hoge();
             bean.Aaa = "111";
             bean.Bbb = decimal.MaxValue;
             S2Assert.AreEqual(expected, bean, "1");
@@ -137,16 +137,16 @@ namespace Seasar.Tests.Extension.Unit
         [Test]
         public void TestAreBeanEqualSqlType()
         {
-            // TODO decimal.MaxValueÇí¥Ç¶ÇÈílÇéwíËÇ∑ÇÈÇ∆OverflowException
-            DataSet expected = new DataSet();
-            DataTable table = expected.Tables.Add("emp");
+            // TODO decimal.MaxValue„ÇíË∂Ö„Åà„ÇãÂÄ§„ÇíÊåáÂÆö„Åô„Çã„Å®OverflowException
+            var expected = new DataSet();
+            var table = expected.Tables.Add("emp");
             table.Columns.Add("aaa", typeof(SqlString));
             table.Columns.Add("bbb", typeof(SqlDecimal));
-            DataRow row = table.NewRow();
+            var row = table.NewRow();
             row["aaa"] = "111";
             row["bbb"] = decimal.MaxValue;
             table.Rows.Add(row);
-            HogeSqlType bean = new HogeSqlType();
+            var bean = new HogeSqlType();
             bean.Aaa = "111";
             bean.Bbb = decimal.MaxValue;
             S2Assert.AreEqual(expected, bean, "1");
@@ -155,15 +155,15 @@ namespace Seasar.Tests.Extension.Unit
         [Test]
         public void TestAreBeanEqualSqlType2()
         {
-            DataSet expected = new DataSet();
-            DataTable table = expected.Tables.Add("emp");
+            var expected = new DataSet();
+            var table = expected.Tables.Add("emp");
             table.Columns.Add("aaa", typeof(string));
             table.Columns.Add("bbb", typeof(decimal));
-            DataRow row = table.NewRow();
+            var row = table.NewRow();
             row["aaa"] = "111";
             row["bbb"] = decimal.MaxValue;
             table.Rows.Add(row);
-            HogeSqlType bean = new HogeSqlType();
+            var bean = new HogeSqlType();
             bean.Aaa = "111";
             bean.Bbb = decimal.MaxValue;
             S2Assert.AreEqual(expected, bean, "1");
@@ -171,40 +171,16 @@ namespace Seasar.Tests.Extension.Unit
 
         internal class Hoge
         {
-            private string aaa;
+            public string Aaa { get; set; }
 
-            public string Aaa
-            {
-                get { return aaa; }
-                set { aaa = value; }
-            }
-
-            private decimal bbb;
-
-            public decimal Bbb
-            {
-                get { return bbb; }
-                set { bbb = value; }
-            }
+            public decimal Bbb { get; set; }
         }
 
         internal class HogeSqlType
         {
-            private SqlString aaa;
+            public SqlString Aaa { get; set; }
 
-            public SqlString Aaa
-            {
-                get { return aaa; }
-                set { aaa = value; }
-            }
-
-            private SqlDecimal bbb;
-
-            public SqlDecimal Bbb
-            {
-                get { return bbb; }
-                set { bbb = value; }
-            }
+            public SqlDecimal Bbb { get; set; }
         }
     }
 }

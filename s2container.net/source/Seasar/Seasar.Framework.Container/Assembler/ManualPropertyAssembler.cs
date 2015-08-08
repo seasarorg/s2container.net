@@ -16,9 +16,8 @@
  */
 #endregion
 
-using System;
-using System.Reflection;
 using Seasar.Framework.Beans;
+using Seasar.Framework.Util;
 
 namespace Seasar.Framework.Container.Assembler
 {
@@ -31,20 +30,20 @@ namespace Seasar.Framework.Container.Assembler
 
         public override void Assemble(object component)
         {
-            Type type = component.GetType();
-            int size = ComponentDef.PropertyDefSize;
-            for (int i = 0; i < size; ++i)
+            var type = component.GetExType();
+            var size = ComponentDef.PropertyDefSize;
+            for (var i = 0; i < size; ++i)
             {
-                IPropertyDef propDef = ComponentDef.GetPropertyDef(i);
-                PropertyInfo propInfo = type.GetProperty(propDef.PropertyName);
+                var propDef = ComponentDef.GetPropertyDef(i);
+                var propInfo = type.GetProperty(propDef.PropertyName);
                 if (propInfo == null)
                 {
-                    throw new PropertyNotFoundRuntimeException(component.GetType(),
+                    throw new PropertyNotFoundRuntimeException(component.GetExType(),
                         propDef.PropertyName);
                 }
                 propDef.ArgType = propInfo.PropertyType;
 
-                object value = GetComponentByReceiveType(propInfo.PropertyType, propDef.Expression);
+                var value = GetComponentByReceiveType(propInfo.PropertyType, propDef.Expression);
 
                 if (value == null)
                 {

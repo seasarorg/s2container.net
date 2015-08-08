@@ -35,7 +35,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
         [Test, S2]
         public void GetCommand()
         {
-            using (IDbCommand cmd = DataSource.GetCommand())
+            using (var cmd = DataSource.GetCommand())
             {
                 Assert.IsNotNull(cmd);
             }
@@ -49,7 +49,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
         [Test, S2]
         public void GetParameter()
         {
-            IDataParameter param = DataSource.GetParameter();
+            var param = DataSource.GetParameter();
             Assert.IsNotNull(param);
         }
 
@@ -61,7 +61,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
         [Test, S2]
         public void GetDataAdapter()
         {
-            IDataAdapter da = DataSource.GetDataAdapter();
+            var da = DataSource.GetDataAdapter();
             Assert.IsNotNull(da);
         }
     }

@@ -36,7 +36,7 @@ namespace Seasar.Tests.Framework.Container.Impl
         [SetUp]
         public void SetUp()
         {
-            FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
+            var info = new FileInfo(SystemInfo.AssemblyFileName(
                 Assembly.GetExecutingAssembly()) + ".config");
             XmlConfigurator.Configure(LogManager.GetRepository(), info);
         }
@@ -45,10 +45,10 @@ namespace Seasar.Tests.Framework.Container.Impl
         public void TestGetComponentForType3()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+            var cd = new ComponentDefImpl(typeof(A));
             container.Register(cd);
             container.Register(typeof(B));
-            A a = (A) container.GetComponent(typeof(A));
+            var a = (A) container.GetComponent(typeof(A));
             Assert.AreEqual("B", a.HogeName);
             Assert.AreSame(a, container.GetComponent(typeof(A)));
         }
@@ -57,10 +57,10 @@ namespace Seasar.Tests.Framework.Container.Impl
         public void TestGetComponentForType2()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(A2));
+            var cd = new ComponentDefImpl(typeof(A2));
             container.Register(cd);
             container.Register(typeof(B));
-            A2 a2 = (A2) container.GetComponent(typeof(A2));
+            var a2 = (A2) container.GetComponent(typeof(A2));
             Assert.AreEqual("B", a2.HogeName);
         }
 
@@ -68,7 +68,7 @@ namespace Seasar.Tests.Framework.Container.Impl
         public void TestGetComponentForArgDef()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(Decimal), "num");
+            var cd = new ComponentDefImpl(typeof(Decimal), "num");
             cd.AddArgDef(new ArgDefImpl(123));
             container.Register(cd);
             Assert.AreEqual(new Decimal(123), container.GetComponent("num"));
@@ -78,10 +78,10 @@ namespace Seasar.Tests.Framework.Container.Impl
         public void TestGetComponentForPropertyDef()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(A2));
+            var cd = new ComponentDefImpl(typeof(A2));
             cd.AddPropertyDef(new PropertyDefImpl("hoge", new B()));
             container.Register(cd);
-            A2 a2 = (A2) container.GetComponent(typeof(A2));
+            var a2 = (A2) container.GetComponent(typeof(A2));
             Assert.AreEqual("B", a2.HogeName);
         }
 
@@ -89,13 +89,13 @@ namespace Seasar.Tests.Framework.Container.Impl
         public void TestGetComponentForMethodDef()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(Hashtable), "myTable");
+            var cd = new ComponentDefImpl(typeof(Hashtable), "myTable");
             IInitMethodDef md = new InitMethodDefImpl("Add");
             md.AddArgDef(new ArgDefImpl("aaa"));
             md.AddArgDef(new ArgDefImpl("hoge"));
             cd.AddInitMethodDef(md);
             container.Register(cd);
-            Hashtable table = (Hashtable) container.GetComponent("myTable");
+            var table = (Hashtable) container.GetComponent("myTable");
             Assert.AreEqual("hoge", table["aaa"]);
         }
 
@@ -103,11 +103,11 @@ namespace Seasar.Tests.Framework.Container.Impl
         public void TestGetComponentForAspectDef()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+            var cd = new ComponentDefImpl(typeof(A));
             cd.AddAspeceDef(new AspectDefImpl(new TraceInterceptor()));
             container.Register(cd);
             container.Register(typeof(B));
-            A a = (A) container.GetComponent(typeof(A));
+            var a = (A) container.GetComponent(typeof(A));
             Assert.AreEqual("B", a.HogeName);
         }
 
@@ -116,7 +116,7 @@ namespace Seasar.Tests.Framework.Container.Impl
         {
             IS2Container container = new S2ContainerImpl();
             container.Register(typeof(object), "obj");
-            ComponentDefImpl cd = new ComponentDefImpl(null, "hash");
+            var cd = new ComponentDefImpl(null, "hash");
             cd.Expression = "container.GetComponent('obj').GetHashCode()";
             container.Register(cd);
             Assert.IsNotNull(container.GetComponent("hash"));
@@ -128,8 +128,8 @@ namespace Seasar.Tests.Framework.Container.Impl
             IS2Container container = new S2ContainerImpl();
             container.Register(typeof(A2));
             container.Register(typeof(C));
-            A2 a2 = (A2) container.GetComponent(typeof(A2));
-            C c = (C) container.GetComponent(typeof(C));
+            var a2 = (A2) container.GetComponent(typeof(A2));
+            var c = (C) container.GetComponent(typeof(C));
             Assert.AreEqual("C", a2.HogeName);
             Assert.AreEqual("C", c.HogeName);
         }
@@ -140,7 +140,7 @@ namespace Seasar.Tests.Framework.Container.Impl
             IComponentDef cd = new ComponentDefImpl(typeof(D));
             cd.AddInitMethodDef(new InitMethodDefImpl("Init"));
             cd.Init();
-            D d = (D) cd.GetComponent();
+            var d = (D) cd.GetComponent();
             Assert.AreEqual(true, d.IsInited);
         }
 
@@ -149,7 +149,7 @@ namespace Seasar.Tests.Framework.Container.Impl
         {
             IComponentDef cd = new ComponentDefImpl(typeof(D));
             cd.AddDestroyMethodDef(new DestroyMethodDefImpl("Destroy"));
-            D d = (D) cd.GetComponent();
+            var d = (D) cd.GetComponent();
             cd.Destroy();
             Assert.AreEqual(true, d.IsDestroyed);
         }
@@ -224,27 +224,18 @@ namespace Seasar.Tests.Framework.Container.Impl
 
         public class D
         {
-            private bool _inited = false;
-            private bool _destroyed = false;
+            public bool IsInited { get; private set; } = false;
 
-            public bool IsInited
-            {
-                get { return _inited; }
-            }
-
-            public bool IsDestroyed
-            {
-                get { return _destroyed; }
-            }
+            public bool IsDestroyed { get; private set; } = false;
 
             public void Init()
             {
-                _inited = true;
+                IsInited = true;
             }
 
             public void Destroy()
             {
-                _destroyed = true;
+                IsDestroyed = true;
             }
         }
     }

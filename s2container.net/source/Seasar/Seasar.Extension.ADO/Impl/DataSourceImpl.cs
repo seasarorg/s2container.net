@@ -47,7 +47,7 @@ namespace Seasar.Extension.ADO.Impl
         {
             set
             {
-                DataProviderDataSource ds = _instance as DataProviderDataSource;
+                var ds = _instance as DataProviderDataSource;
                 if (ds == null)
                 {
                     ds = new DataProviderDataSource();
@@ -57,15 +57,8 @@ namespace Seasar.Extension.ADO.Impl
             }
             get
             {
-                DataProviderDataSource ds = _instance as DataProviderDataSource;
-                if (ds == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    return ds.DataProvider;
-                }
+                var ds = _instance as DataProviderDataSource;
+                return ds?.DataProvider;
             }
         }
 
@@ -73,7 +66,7 @@ namespace Seasar.Extension.ADO.Impl
         {
             set
             {
-                DataProviderDataSource ds = _instance as DataProviderDataSource;
+                var ds = _instance as DataProviderDataSource;
                 if (ds == null)
                 {
                     ds = new DataProviderDataSource();
@@ -83,15 +76,8 @@ namespace Seasar.Extension.ADO.Impl
             }
             get
             {
-                DataProviderDataSource ds = _instance as DataProviderDataSource;
-                if (ds == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    return ds.ConnectionString;
-                }
+                var ds = _instance as DataProviderDataSource;
+                return ds?.ConnectionString;
             }
         }
 
@@ -99,7 +85,7 @@ namespace Seasar.Extension.ADO.Impl
         {
             set
             {
-                DbProviderFactoryDataSource ds = _instance as DbProviderFactoryDataSource;
+                var ds = _instance as DbProviderFactoryDataSource;
                 if (ds == null)
                 {
                     ds = new DbProviderFactoryDataSource(value);
@@ -108,93 +94,45 @@ namespace Seasar.Extension.ADO.Impl
             }
         }
 
-        public IDataSource Instance
-        {
-            get { return _instance; }
-        }
+        public IDataSource Instance => _instance;
 
         #region IDataSource ƒƒ“ƒo
 
-        public virtual IDbConnection GetConnection()
-        {
-            return _instance.GetConnection();
-        }
+        public virtual IDbConnection GetConnection() => _instance.GetConnection();
 
         public virtual void CloseConnection(IDbConnection connection)
         {
             _instance.CloseConnection(connection);
         }
 
-        public IDbCommand GetCommand()
-        {
-            return _instance.GetCommand();
-        }
+        public IDbCommand GetCommand() => _instance.GetCommand();
 
-        public IDbCommand GetCommand(string cmdText)
-        {
-            return _instance.GetCommand(cmdText);
-        }
+        public IDbCommand GetCommand(string text) => _instance.GetCommand(text);
 
-        public IDbCommand GetCommand(string cmdText, IDbConnection connection)
-        {
-            return _instance.GetCommand(cmdText, connection);
-        }
+        public IDbCommand GetCommand(string text, IDbConnection connection) => _instance.GetCommand(text, connection);
 
-        public IDbCommand GetCommand(string cmdText,
-            IDbConnection connection, IDbTransaction transaction)
-        {
-            return _instance.GetCommand(cmdText, connection, transaction);
-        }
+        public IDbCommand GetCommand(string text,
+            IDbConnection connection, IDbTransaction transaction) => _instance.GetCommand(text, connection, transaction);
 
-        public IDataParameter GetParameter()
-        {
-            return _instance.GetParameter();
-        }
+        public IDataParameter GetParameter() => _instance.GetParameter();
 
-        public IDataParameter GetParameter(string name, DbType dataType)
-        {
-            return _instance.GetParameter(name, dataType);
-        }
+        public IDataParameter GetParameter(string name, DbType dataType) => _instance.GetParameter(name, dataType);
 
-        public IDataParameter GetParameter(string name, object value)
-        {
-            return _instance.GetParameter(name, value);
-        }
+        public IDataParameter GetParameter(string name, object value) => _instance.GetParameter(name, value);
 
-        public IDataParameter GetParameter(string name, DbType dataType, int size)
-        {
-            return _instance.GetParameter(name, dataType, size);
-        }
+        public IDataParameter GetParameter(string name, DbType dataType, int size) => _instance.GetParameter(name, dataType, size);
 
-        public IDataParameter GetParameter(string name, DbType dataType, int size, string srcColumn)
-        {
-            return _instance.GetParameter(name, dataType, size, srcColumn);
-        }
+        public IDataParameter GetParameter(string name, DbType dataType, int size, string srcColumn) => _instance.GetParameter(name, dataType, size, srcColumn);
 
-        public IDataAdapter GetDataAdapter()
-        {
-            return _instance.GetDataAdapter();
-        }
+        public IDataAdapter GetDataAdapter() => _instance.GetDataAdapter();
 
-        public IDataAdapter GetDataAdapter(IDbCommand selectCommand)
-        {
-            return _instance.GetDataAdapter(selectCommand);
-        }
+        public IDataAdapter GetDataAdapter(IDbCommand selectCommand) => _instance.GetDataAdapter(selectCommand);
 
-        public IDataAdapter GetDataAdapter(string selectCommandText, string selectConnectionString)
-        {
-            return _instance.GetDataAdapter(selectCommandText, selectConnectionString);
-        }
+        public IDataAdapter GetDataAdapter(string selectCommandText, string selectConnectionString) => _instance.GetDataAdapter(selectCommandText, selectConnectionString);
 
-        public IDataAdapter GetDataAdapter(string selectCommandText, IDbConnection selectConnection)
-        {
-            return _instance.GetDataAdapter(selectCommandText, selectConnection);
-        }
+        public IDataAdapter GetDataAdapter(string selectCommandText, IDbConnection selectConnection) => _instance.GetDataAdapter(selectCommandText, selectConnection);
 
-        public virtual IDbTransaction GetTransaction()
-        {
-            return _instance.GetTransaction();
-        }
+        public virtual IDbTransaction GetTransaction() => _instance.GetTransaction();
 
         public virtual void SetTransaction(IDbCommand cmd)
         {

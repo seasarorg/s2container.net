@@ -39,12 +39,12 @@ namespace Seasar.Extension.Unit
         {
         }
 
-        public S2Attribute(Seasar.Extension.Unit.Tx txTreatment)
+        public S2Attribute(Tx txTreatment)
             : base(txTreatment)
         {
         }
 
-        protected override S2TestCaseRunnerBase CreateRunner(Seasar.Extension.Unit.Tx txTreatment)
+        protected override S2TestCaseRunnerBase CreateRunner(Tx txTreatment)
         {
             return new S2TestCaseRunner(txTreatment);
         }

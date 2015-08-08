@@ -26,31 +26,25 @@ namespace Seasar.Framework.Container.AutoRegister
     /// </summary>
     public class AssemblyComponentAutoRegister : AbstractComponentAutoRegister
     {
-        private string assemblyName = null;
-
         /// <summary>
         /// コンポーネント検索対象のアセンブリ簡易名を取得・設定します。
         /// </summary>
-        public string AssemblyName
-        {
-            set { assemblyName = value; }
-            get { return assemblyName; }
-        }
+        public string AssemblyName { set; get; } = null;
 
         /// <summary>
         /// コンポーネントを自動登録します。
         /// </summary>
         public override void RegisterAll()
         {
-            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
-            foreach (Assembly assembly in assemblies)
+            foreach (var assembly in assemblies)
             {
-                if (assemblyName == null || assembly.GetName().Name.Equals(assemblyName))
+                if (AssemblyName == null || assembly.GetName().Name.Equals(AssemblyName))
                 {
                     ProcessAssembly(assembly);
 
-                    if (assemblyName != null)
+                    if (AssemblyName != null)
                     {
                         break;
                     }
@@ -64,9 +58,9 @@ namespace Seasar.Framework.Container.AutoRegister
         /// <param name="assembly"></param>
         public void ProcessAssembly(Assembly assembly)
         {
-            Type[] types = assembly.GetTypes();
+            var types = assembly.GetTypes();
 
-            foreach (Type type in types)
+            foreach (var type in types)
             {
                 ProcessType(type);
             }

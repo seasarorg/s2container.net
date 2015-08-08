@@ -48,7 +48,7 @@ namespace Seasar.Tests.Framework.Aop.Interceptors
         [Test]
         public void TestInvoke()
         {
-            Hello hello = CreateProxy(_target, typeof(Hello)) as Hello;
+            var hello = CreateProxy(_target, typeof(Hello)) as Hello;
             Assert.AreEqual(MSG, hello.Greeting());
         }
 
@@ -57,9 +57,9 @@ namespace Seasar.Tests.Framework.Aop.Interceptors
         {
             _target.SetReturnValue("Greeting", MSG);
             _target.SetReturnValue("Echo", ECHO);
-            SayHello hello = CreateProxy(_target, typeof(SayHello)) as SayHello;
+            var hello = CreateProxy(_target, typeof(SayHello)) as SayHello;
 
-            string message = "hoge";
+            var message = "hoge";
 
             Assert.AreEqual(ECHO, hello.Echo(message));
             Assert.IsTrue(_target.IsInvoked("Echo"));
@@ -72,9 +72,9 @@ namespace Seasar.Tests.Framework.Aop.Interceptors
         {
             _target.SetReturnValue("Greeting", MSG);
             _target.SetReturnValue("Echo", ECHO);
-            SayHello hello = CreateProxy(_target, typeof(SayHello)) as SayHello;
+            var hello = CreateProxy(_target, typeof(SayHello)) as SayHello;
 
-            string message = "hoge";
+            var message = "hoge";
             Assert.AreEqual(MSG, hello.Greeting());
             Assert.AreEqual(ECHO, hello.Echo(message));
             Assert.IsTrue(_target.IsInvoked("Greeting"));
@@ -86,7 +86,7 @@ namespace Seasar.Tests.Framework.Aop.Interceptors
         {
             Exception ex = new ApplicationException();
             _target.SetThrowable("Greeting", ex);
-            Hello hello = CreateProxy(_target, typeof(Hello)) as Hello;
+            var hello = CreateProxy(_target, typeof(Hello)) as Hello;
             try
             {
                 hello.Greeting();

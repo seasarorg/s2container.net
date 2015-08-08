@@ -17,14 +17,14 @@
 #endregion
 
 using System;
-using System.Text;
 using System.Collections;
+using System.Text;
 
 namespace Seasar.Framework.Xml
 {
     public sealed class TagHandlerContext
     {
-        private StringBuilder _body = null;
+        private StringBuilder _body;
         private StringBuilder _characters = new StringBuilder();
         private readonly Stack _bodyStack = new Stack();
         private readonly StringBuilder _path = new StringBuilder();
@@ -45,26 +45,17 @@ namespace Seasar.Framework.Xml
             _stack.Push(obj);
         }
 
-        public object Result
-        {
-            get { return _result; }
-        }
+        public object Result => _result;
 
-        public object Pop()
-        {
-            return _stack.Pop();
-        }
+        public object Pop() => _stack.Pop();
 
-        public object Peek()
-        {
-            return _stack.Peek();
-        }
+        public object Peek() => _stack.Peek();
 
         public object Peek(int n)
         {
-            IEnumerator enu = _stack.GetEnumerator();
-            int index = _stack.Count - n - 1;
-            int i = 0;
+            var enu = _stack.GetEnumerator();
+            var index = _stack.Count - n - 1;
+            var i = 0;
             while (enu.MoveNext())
             {
                 if (index == i++)
@@ -77,10 +68,10 @@ namespace Seasar.Framework.Xml
 
         public object Peek(Type type)
         {
-            IEnumerator enu = _stack.GetEnumerator();
+            var enu = _stack.GetEnumerator();
             while (enu.MoveNext())
             {
-                object o = enu.Current;
+                var o = enu.Current;
                 if (type.IsInstanceOfType(o))
                 {
                     return o;
@@ -89,10 +80,7 @@ namespace Seasar.Framework.Xml
             return null;
         }
 
-        public object GetParameter(string name)
-        {
-            return _parameters[name];
-        }
+        public object GetParameter(string name) => _parameters[name];
 
         public void AddParameter(string name, object parameter)
         {
@@ -108,7 +96,7 @@ namespace Seasar.Framework.Xml
             _qName = value;
             _path.Append("/");
             _path.Append(value);
-            int pathCount = IncrementPathCount();
+            var pathCount = _IncrementPathCount();
             _detailPath.Append("/");
             _detailPath.Append(value);
             _detailPath.Append("[");
@@ -126,10 +114,7 @@ namespace Seasar.Framework.Xml
             }
         }
 
-        public string Body
-        {
-            get { return _body.ToString().Trim(); }
-        }
+        public string Body => _body.ToString().Trim();
 
         public bool IsCharactersEol
         {
@@ -151,36 +136,27 @@ namespace Seasar.Framework.Xml
         public void EndElement()
         {
             _body = (StringBuilder) _bodyStack.Pop();
-            RemoveLastPath(_path);
-            RemoveLastPath(_detailPath);
+            _RemoveLastPath(_path);
+            _RemoveLastPath(_detailPath);
             _qName = (string) _qNameStack.Pop();
         }
 
-        private static void RemoveLastPath(StringBuilder path)
+        private static void _RemoveLastPath(StringBuilder path)
         {
-            int last = path.ToString().LastIndexOf("/");
+            var last = path.ToString().LastIndexOf('/');
             path.Remove(last, path.Length - last);
         }
 
-        public string Path
-        {
-            get { return _path.ToString(); }
-        }
+        public string Path => _path.ToString();
 
-        public string DetailPath
-        {
-            get { return _detailPath.ToString(); }
-        }
+        public string DetailPath => _detailPath.ToString();
 
-        public string QName
-        {
-            get { return _qName; }
-        }
+        public string QName => _qName;
 
-        private int IncrementPathCount()
+        private int _IncrementPathCount()
         {
-            string path = Path;
-            int pathCount = 0;
+            var path = Path;
+            var pathCount = 0;
 
             if (_pathCounts[path] != null)
             {

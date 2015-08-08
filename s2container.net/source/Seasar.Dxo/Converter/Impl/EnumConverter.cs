@@ -20,6 +20,7 @@
 
 using System;
 using System.Diagnostics;
+using Seasar.Framework.Util;
 
 namespace Seasar.Dxo.Converter.Impl
 {
@@ -41,7 +42,7 @@ namespace Seasar.Dxo.Converter.Impl
             Debug.Assert(expectType.IsEnum, String.Format(DxoMessages.EDXO1004, "expectType", "Enum"));
 //            Debug.Assert(expectType.IsEnum, "expectType‚ÍEnum‚Å‚ ‚é‚Í‚¸");
 
-            if (source.GetType().IsEnum)
+            if (source.GetExType().IsEnum)
             {
                 if (Enum.IsDefined(expectType, source))
                 {
@@ -49,18 +50,22 @@ namespace Seasar.Dxo.Converter.Impl
                     return true;
                 }
             }
-            else if (source is string)
+            else
             {
-                //Enum‚Ì—Ş„‚ğs‚¤   
-                dest = _GetEnumValue(source as string, expectType);
-                return true;
-            }
-            else if (source is IConvertible)
-            {
-                if (Enum.IsDefined(expectType, source))
+                var s = source as string;
+                if (s != null)
                 {
-                    dest = Enum.ToObject(expectType, source);
+                    //Enum‚Ì—Ş„‚ğs‚¤   
+                    dest = _GetEnumValue(s, expectType);
                     return true;
+                }
+                else if (source is IConvertible)
+                {
+                    if (Enum.IsDefined(expectType, source))
+                    {
+                        dest = Enum.ToObject(expectType, source);
+                        return true;
+                    }
                 }
             }
             return false;
@@ -68,8 +73,8 @@ namespace Seasar.Dxo.Converter.Impl
 
         private static object _GetEnumValue(string strvalue, Type enumType)
         {
-            string[] enumElements =
-                strvalue.Split(new char[] {'.'}, StringSplitOptions.RemoveEmptyEntries);
+            var enumElements =
+                strvalue.Split(new[] {'.'}, StringSplitOptions.RemoveEmptyEntries);
             if (enumElements.Length > 1)
             {
                 return Enum.Parse(enumType, enumElements[1], true);

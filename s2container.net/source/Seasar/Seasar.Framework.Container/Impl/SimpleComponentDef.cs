@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections;
+using Seasar.Framework.Util;
 
 namespace Seasar.Framework.Container.Impl
 {
@@ -27,9 +28,6 @@ namespace Seasar.Framework.Container.Impl
     public class SimpleComponentDef : IComponentDef
     {
         private readonly object _component;
-        private readonly Type _componentType;
-        private readonly string _componentName;
-        private IS2Container _container;
         private readonly IDictionary _proxies = new Hashtable();
 
         /// <summary>
@@ -53,7 +51,7 @@ namespace Seasar.Framework.Container.Impl
         /// </summary>
         /// <param name="component">コンポーネント</param>
         public SimpleComponentDef(object component)
-            : this(component, component.GetType())
+            : this(component, component.GetExType())
         {
         }
 
@@ -73,7 +71,7 @@ namespace Seasar.Framework.Container.Impl
         /// <param name="component">コンポーネント</param>
         /// <param name="componentName">コンポーネントの名前</param>
         public SimpleComponentDef(object component, string componentName)
-            : this(component, component.GetType(), componentName)
+            : this(component, component.GetExType(), componentName)
         {
         }
 
@@ -86,54 +84,26 @@ namespace Seasar.Framework.Container.Impl
         public SimpleComponentDef(object component, Type componentType, string componentName)
         {
             _component = component;
-            _componentType = componentType;
-            _componentName = componentName;
+            ComponentType = componentType;
+            ComponentName = componentName;
         }
 
         #region ComponentDef メンバ
 
-        public virtual object GetComponent()
-        {
-            return _component;
-        }
+        public virtual object GetComponent() => _component;
 
-        public virtual object GetComponent(Type receiveType)
-        {
-            return _component;
-        }
+        public virtual object GetComponent(Type receiveType) => _component;
 
         public void InjectDependency(object outerComponent)
         {
             throw new NotSupportedException("InjectDependency");
         }
 
-        public IS2Container Container
-        {
-            get
-            {
-                return _container;
-            }
-            set
-            {
-                _container = value;
-            }
-        }
+        public IS2Container Container { get; set; }
 
-        public Type ComponentType
-        {
-            get
-            {
-                return _componentType;
-            }
-        }
+        public Type ComponentType { get; }
 
-        public string ComponentName
-        {
-            get
-            {
-                return _componentName;
-            }
-        }
+        public string ComponentName { get; }
 
         public string AutoBindingMode
         {

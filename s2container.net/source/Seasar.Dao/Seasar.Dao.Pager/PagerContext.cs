@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -37,15 +37,15 @@ namespace Seasar.Dao.Pager
         }
 
         /// <summary>
-        /// Œ»İ‚ÌƒXƒŒƒbƒh‚ÉŒ‹‚Ñ‚Â‚¢‚½PagerContext‚ğæ“¾‚µ‚Ü‚·B
+        /// ï¿½ï¿½ï¿½İ‚ÌƒXï¿½ï¿½ï¿½bï¿½hï¿½ÉŒï¿½ï¿½Ñ‚Â‚ï¿½ï¿½ï¿½PagerContextï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
         /// </summary>
         /// <returns></returns>
         public static PagerContext GetContext()
         {
-            object o = Thread.GetData(_slot);
+            var o = Thread.GetData(_slot);
             if (o == null)
             {
-                PagerContext context = new PagerContext();
+                var context = new PagerContext();
                 Thread.SetData(_slot, context);
                 o = context;
             }

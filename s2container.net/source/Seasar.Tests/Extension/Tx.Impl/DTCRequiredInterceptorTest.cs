@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -29,7 +29,7 @@ using MbUnit.Framework;
 
 namespace Seasar.Tests.Extension.Tx.Impl
 {
-    [Ignore("DTCŒn‚Í’²¸‚ª“ï‚µ‚¢‚Æv‚í‚ê‚é‚½‚ß•Û—¯")]
+    [Ignore("DTCç³»ã¯èª¿æŸ»ãŒé›£ã—ã„ã¨æ€ã‚ã‚Œã‚‹ãŸã‚ä¿ç•™")]
     [TestFixture]
     public class DTCRequiredInterceptorTest
     {
@@ -39,7 +39,7 @@ namespace Seasar.Tests.Extension.Tx.Impl
 
         static DTCRequiredInterceptorTest()
         {
-            FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
+            var info = new FileInfo(SystemInfo.AssemblyFileName(
                 Assembly.GetExecutingAssembly()) + ".config");
             XmlConfigurator.Configure(LogManager.GetRepository(), info);
         }
@@ -52,7 +52,7 @@ namespace Seasar.Tests.Extension.Tx.Impl
             _tester = _container.GetComponent(typeof(Tx2Test)) as Tx2Test;
         }
 
-        [Ignore("DTCŒn‚Í’²¸‚ª“ï‚µ‚¢‚Æv‚í‚ê‚é‚½‚ß•Û—¯")]
+        [Ignore("DTCç³»ã¯èª¿æŸ»ãŒé›£ã—ã„ã¨æ€ã‚ã‚Œã‚‹ãŸã‚ä¿ç•™")]
         [Test]
         public void TestProceed()
         {
@@ -60,7 +60,7 @@ namespace Seasar.Tests.Extension.Tx.Impl
             Assert.IsFalse(ContextUtil.IsInTransaction);
         }
 
-        [Ignore("DTCŒn‚Í’²¸‚ª“ï‚µ‚¢‚Æv‚í‚ê‚é‚½‚ß•Û—¯")]
+        [Ignore("DTCç³»ã¯èª¿æŸ»ãŒé›£ã—ã„ã¨æ€ã‚ã‚Œã‚‹ãŸã‚ä¿ç•™")]
         [Test]
         public void TestProceedException()
         {
@@ -78,7 +78,7 @@ namespace Seasar.Tests.Extension.Tx.Impl
         }
     }
 
-    [Ignore("DTCŒn‚Í’²¸‚ª“ï‚µ‚¢‚Æv‚í‚ê‚é‚½‚ß•Û—¯")]
+    [Ignore("DTCç³»ã¯èª¿æŸ»ãŒé›£ã—ã„ã¨æ€ã‚ã‚Œã‚‹ãŸã‚ä¿ç•™")]
     [TestFixture]
     //[Transaction(TransactionOption.RequiresNew)]
     public class DTCRequiredInterceptorTestES : ServicedComponent
@@ -86,7 +86,7 @@ namespace Seasar.Tests.Extension.Tx.Impl
         private const string path = "Seasar/Tests/Extension/Tx/Impl/DTCRequiredInterceptorTest.dicon";
         static DTCRequiredInterceptorTestES()
         {
-            FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
+            var info = new FileInfo(SystemInfo.AssemblyFileName(
                 Assembly.GetExecutingAssembly()) + ".config");
             XmlConfigurator.Configure(LogManager.GetRepository(), info);
         }
@@ -101,12 +101,12 @@ namespace Seasar.Tests.Extension.Tx.Impl
             tester = container.GetComponent(typeof(Tx2Test)) as Tx2Test;
         }
 
-        [Ignore("DTCŒn‚Í’²¸‚ª“ï‚µ‚¢‚Æv‚í‚ê‚é‚½‚ß•Û—¯")]
+        [Ignore("DTCç³»ã¯èª¿æŸ»ãŒé›£ã—ã„ã¨æ€ã‚ã‚Œã‚‹ãŸã‚ä¿ç•™")]
         [Test]
         [AutoComplete]
         public void TestProceed()
         {
-            Guid guid = ContextUtil.TransactionId;
+            var guid = ContextUtil.TransactionId;
             Assert.IsTrue(tester.IsInTransaction());
             Assert.AreEqual(guid, tester.GetTransactionId());
         }

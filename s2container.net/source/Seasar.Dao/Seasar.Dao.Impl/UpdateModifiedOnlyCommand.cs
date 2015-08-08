@@ -21,6 +21,7 @@ using System.Collections;
 using System.Text;
 using Seasar.Extension.ADO;
 using Seasar.Framework.Log;
+using Seasar.Framework.Util;
 
 namespace Seasar.Dao.Impl
 {
@@ -37,16 +38,16 @@ namespace Seasar.Dao.Impl
         protected override IPropertyType[] CreateTargetPropertyTypes(IBeanMetaData bmd, object bean,
             string[] propertyNames)
         {
-            IDictionary modifiedPropertyNames = bmd.GetModifiedPropertyNames(bean);
+            var modifiedPropertyNames = bmd.GetModifiedPropertyNames(bean);
             IList types = new ArrayList();
-            string timestampPropertyName = bmd.TimestampPropertyName;
-            string versionNoPropertyName = bmd.VersionNoPropertyName;
-            for (int i = 0; i < propertyNames.Length; ++i)
+            var timestampPropertyName = bmd.TimestampPropertyName;
+            var versionNoPropertyName = bmd.VersionNoPropertyName;
+            for (var i = 0; i < propertyNames.Length; ++i)
             {
-                IPropertyType pt = bmd.GetPropertyType(propertyNames[i]);
+                var pt = bmd.GetPropertyType(propertyNames[i]);
                 if (pt.IsPrimaryKey == false)
                 {
-                    string propertyName = pt.PropertyName;
+                    var propertyName = pt.PropertyName;
                     if (propertyName.Equals(timestampPropertyName, StringComparison.CurrentCultureIgnoreCase)
                             || propertyName.Equals(versionNoPropertyName, StringComparison.CurrentCultureIgnoreCase)
                             || modifiedPropertyNames.Contains(propertyName))
@@ -55,7 +56,7 @@ namespace Seasar.Dao.Impl
                     }
                 }
             }
-            IPropertyType[] propertyTypes = new IPropertyType[types.Count];
+            var propertyTypes = new IPropertyType[types.Count];
             types.CopyTo(propertyTypes, 0);
             return propertyTypes;
         }
@@ -70,7 +71,7 @@ namespace Seasar.Dao.Impl
 
             if (_logger.IsDebugEnabled)
             {
-                string s = CreateNoUpdateLogMessage(bean, bmd);
+                var s = CreateNoUpdateLogMessage(bean, bmd);
                 _logger.Debug(s);
             }
             return false;
@@ -78,25 +79,20 @@ namespace Seasar.Dao.Impl
 
         protected virtual string CreateNoUpdateLogMessage(object bean, IBeanMetaData bmd)
         {
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
             builder.Append("skip UPDATE: table=");
             builder.Append(bmd.TableName);
-            int size = bmd.PrimaryKeySize;
-            for (int i = 0; i < size; i++)
+            var size = bmd.PrimaryKeySize;
+            for (var i = 0; i < size; i++)
             {
-                if (i == 0)
-                {
-                    builder.Append(", key{");
-                }
-                else
-                {
-                    builder.Append(", ");
-                }
-                string keyName = bmd.GetPrimaryKey(i);
+                builder.Append(i == 0 ? ", key{" : ", ");
+                var keyName = bmd.GetPrimaryKey(i);
                 builder.Append(keyName);
                 builder.Append("=");
-                builder.Append(bmd.GetPropertyTypeByColumnName(keyName)
-                        .PropertyInfo.GetValue(bean, null));
+//                builder.Append(bmd.GetPropertyTypeByColumnName(keyName)
+//                        .PropertyInfo.GetValue(bean, null));
+                builder.Append(PropertyUtil.GetValue(bean, bean.GetExType(),
+                    bmd.GetPropertyTypeByColumnName(keyName).PropertyInfo.Name));
                 if (i == size - 1)
                 {
                     builder.Append("}");

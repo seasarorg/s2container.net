@@ -38,9 +38,9 @@ namespace Seasar.Tests.Quill.Attr
         [Test]
         public void TestSetTypicalTxSetting()
         {
-            using (QuillContainer container = new QuillContainer())
+            using (var container = new QuillContainer())
             {
-                object[] attrs = typeof(IWithTxAttr0).GetCustomAttributes(false);
+                var attrs = typeof(IWithTxAttr0).GetCustomAttributes(false);
                 Assert.AreEqual(1, attrs.Length);
                 Assert.IsTrue(attrs[0] is TransactionAttribute);
                 Assert.AreEqual(typeof(TypicalTransactionSetting).Name,
@@ -51,14 +51,14 @@ namespace Seasar.Tests.Quill.Attr
         [Test]
         public void TestIntercept()
         {
-            using (QuillContainer container = new QuillContainer())
+            using (var container = new QuillContainer())
             {
-                QuillComponent qc = container.GetComponent(typeof(IWithTxAttr1));
-                IWithTxAttr1 actual = (IWithTxAttr1)qc.GetComponentObject(
+                var qc = container.GetComponent(typeof(IWithTxAttr1));
+                var actual = (IWithTxAttr1)qc.GetComponentObject(
                     typeof(IWithTxAttr1));
                 Assert.IsNotNull(actual);
 
-                Employee emp = actual.GetEmployee();
+                var emp = actual.GetEmployee();
                 Assert.IsNotNull(emp);
                 Assert.AreEqual(9999, emp.Empno);
             }
@@ -68,16 +68,16 @@ namespace Seasar.Tests.Quill.Attr
         public void TestCommit()
         {
 
-            using (QuillContainer container = new QuillContainer())
+            using (var container = new QuillContainer())
             {
-                QuillComponent qc = container.GetComponent(typeof(IWithTxAttr2));
-                IWithTxAttr2 actual = (IWithTxAttr2)qc.GetComponentObject(
+                var qc = container.GetComponent(typeof(IWithTxAttr2));
+                var actual = (IWithTxAttr2)qc.GetComponentObject(
                     typeof(IWithTxAttr2));
                
-                Employee emp0 = actual.GetEmployee(9999);
+                var emp0 = actual.GetEmployee(9999);
                 Assert.IsNull(emp0);
 
-                Employee emp = new Employee();
+                var emp = new Employee();
                 emp.Empno = 9999;
                 emp.Ename = "TestCommit";
                 //  トランザクション境界がInsert,Deleteといったメソッドに
@@ -90,7 +90,7 @@ namespace Seasar.Tests.Quill.Attr
 #endregion
 #endif
 
-                Employee emp1 = actual.GetEmployee((int)emp.Empno);
+                var emp1 = actual.GetEmployee((int)emp.Empno);
                 Assert.IsNotNull(emp1);
                 Assert.AreEqual(emp.Ename, emp1.Ename);
 
@@ -102,7 +102,7 @@ namespace Seasar.Tests.Quill.Attr
 #endregion
 #endif
 
-                Employee emp2 = actual.GetEmployee((int)emp.Empno);
+                var emp2 = actual.GetEmployee((int)emp.Empno);
                 Assert.IsNull(emp2);
             }
         }
@@ -112,12 +112,12 @@ namespace Seasar.Tests.Quill.Attr
         {
             const int TEST_ID = 7369;
             const string UPD_NAME = "Updated";
-            TxLogicTestParent actual = new TxLogicTestParent();
-            QuillInjector injector = QuillInjector.GetInstance();
+            var actual = new TxLogicTestParent();
+            var injector = QuillInjector.GetInstance();
             injector.Inject(actual);
 
             // テスト前の情報を保持
-            Employee originalEmp = actual.GetEmp(TEST_ID);
+            var originalEmp = actual.GetEmp(TEST_ID);
             try
             {
                 actual.ExecuteUpdate(TEST_ID, UPD_NAME);
@@ -134,7 +134,7 @@ namespace Seasar.Tests.Quill.Attr
                 Assert.AreEqual(UPD_NAME, actual.Logic.TempEmployee.Ename, "3");
                 Assert.AreNotEqual(originalEmp.Ename, actual.Logic.TempEmployee.Ename, "3_5");
 
-                Employee rollbackedEmp = actual.GetEmp(TEST_ID);
+                var rollbackedEmp = actual.GetEmp(TEST_ID);
                 //  ロールバックされているはずなので
                 //  雇用者名が元に戻っているはず
                 Assert.AreEqual(TEST_ID, rollbackedEmp.Empno, "4");
@@ -152,12 +152,12 @@ namespace Seasar.Tests.Quill.Attr
             const int TEST_ID = 7369;
             const string UPD_NAME = "Updated";
             
-            TxLogicTestParent actual = new TxLogicTestParent();
-            QuillInjector injector = QuillInjector.GetInstance();
+            var actual = new TxLogicTestParent();
+            var injector = QuillInjector.GetInstance();
             injector.Inject(actual);
 
             // テスト前の情報を保持
-            Employee originalEmp = actual.GetEmp(TEST_ID);
+            var originalEmp = actual.GetEmp(TEST_ID);
             try
             {
                 actual.ExecuteUpdateNoTransaction(TEST_ID, UPD_NAME);
@@ -174,7 +174,7 @@ namespace Seasar.Tests.Quill.Attr
                 Assert.AreEqual(UPD_NAME, actual.Logic.TempEmployee.Ename, "3");
                 Assert.AreNotEqual(originalEmp.Ename, actual.Logic.TempEmployee.Ename, "3_5");
 
-                Employee rollbackedEmp = actual.GetEmp(TEST_ID);
+                var rollbackedEmp = actual.GetEmp(TEST_ID);
                 //  ロールバックされていないため
                 //  雇用者名は変更されたまま
                 Assert.AreEqual(TEST_ID, rollbackedEmp.Empno, "4");
@@ -182,7 +182,7 @@ namespace Seasar.Tests.Quill.Attr
 
                 //  変更した名前をテスト前の状態に戻す
                 actual.Logic.Revert(TEST_ID, originalEmp.Ename);
-                Employee revertedEmp = actual.GetEmp(TEST_ID);
+                var revertedEmp = actual.GetEmp(TEST_ID);
                 Assert.AreEqual(originalEmp.Ename, revertedEmp.Ename, "6");
             }
             finally
@@ -194,7 +194,7 @@ namespace Seasar.Tests.Quill.Attr
         [Test]
         public void TestIllegalArgument()
         {
-            using (QuillContainer container = new QuillContainer())
+            using (var container = new QuillContainer())
             {
                 try
                 {
@@ -211,11 +211,11 @@ namespace Seasar.Tests.Quill.Attr
         [Test]
         public void TestDataSourceNameChange_Class()
         {
-            QuillContainer container = new QuillContainer();
-            IWithTxAttrDataSourceNameChange_Class actual =
+            var container = new QuillContainer();
+            var actual =
                 (IWithTxAttrDataSourceNameChange_Class) ComponentUtil.GetComponent(
                 container, typeof (IWithTxAttrDataSourceNameChange_Class));
-            SelectableDataSourceProxyWithDictionary proxy =
+            var proxy =
                 (SelectableDataSourceProxyWithDictionary) ComponentUtil.GetComponent(
                 container,typeof (SelectableDataSourceProxyWithDictionary));
             const string START_NAME = "Start";
@@ -231,11 +231,11 @@ namespace Seasar.Tests.Quill.Attr
         [Test]
         public void TestDataSourceNameChange_Method()
         {
-            QuillContainer container = new QuillContainer();
-            IWithTxAttrDataSourceNameChange_Method actual =
+            var container = new QuillContainer();
+            var actual =
                 (IWithTxAttrDataSourceNameChange_Method)ComponentUtil.GetComponent(
                 container, typeof(IWithTxAttrDataSourceNameChange_Method));
-            SelectableDataSourceProxyWithDictionary proxy =
+            var proxy =
                 (SelectableDataSourceProxyWithDictionary)ComponentUtil.GetComponent(
                 container, typeof(SelectableDataSourceProxyWithDictionary));
             const string START_NAME = "Start";
@@ -340,12 +340,12 @@ namespace Seasar.Tests.Quill.Attr
         [Transaction]
         public virtual void UpdateAndError(int empno, string name)
         {
-            Employee emp = Dao.GetEmployee(empno);
+            var emp = Dao.GetEmployee(empno);
             emp.Ename = name;
 
             Dao.Update(emp);
 
-            Employee empX = Dao.GetEmployee(empno);
+            var empX = Dao.GetEmployee(empno);
             TempEmployee = empX;
 
             throw new QuillApplicationException("Error");
@@ -358,12 +358,12 @@ namespace Seasar.Tests.Quill.Attr
         /// <param name="name"></param>
         public virtual void UpdateAndError_NoTransaction(int empno, string name)
         {
-            Employee emp = Dao.GetEmployee(empno);
+            var emp = Dao.GetEmployee(empno);
             emp.Ename = name;
 
             Dao.Update(emp);
 
-            Employee empX = Dao.GetEmployee(empno);
+            var empX = Dao.GetEmployee(empno);
             // 例外を発生させるため結果は戻り値として返すのではなく
             // プロパティとして設定しておく
             TempEmployee = empX;
@@ -378,12 +378,12 @@ namespace Seasar.Tests.Quill.Attr
         /// <param name="name"></param>
         public virtual void Revert(int empno, string name)
         {
-            Employee emp = Dao.GetEmployee(empno);
+            var emp = Dao.GetEmployee(empno);
             emp.Ename = name;
 
             Dao.Update(emp);
 
-            Employee empX = Dao.GetEmployee(empno);
+            var empX = Dao.GetEmployee(empno);
             TempEmployee = empX;
         }
 
@@ -407,8 +407,8 @@ namespace Seasar.Tests.Quill.Attr
     {
         protected override void SetupTransaction(Seasar.Extension.ADO.IDataSource dataSource)
         {
-            _transactionContext = new TransactionContext();
-            _transactionInterceptor = new DummyInterceptor();
+            transactionContext = new TransactionContext();
+            transactionInterceptor = new DummyInterceptor();
         }
     }
 
@@ -429,8 +429,8 @@ namespace Seasar.Tests.Quill.Attr
 
         protected override void SetupTransaction(Seasar.Extension.ADO.IDataSource dataSource)
         {
-            _transactionContext = new TransactionContext();
-            _transactionInterceptor = new DummyInterceptor();
+            transactionContext = new TransactionContext();
+            transactionInterceptor = new DummyInterceptor();
         }
     }
 
@@ -438,7 +438,7 @@ namespace Seasar.Tests.Quill.Attr
     {
         public override object Invoke(Seasar.Framework.Aop.IMethodInvocation invocation)
         {
-            Employee dummy = new Employee();
+            var dummy = new Employee();
             dummy.Empno = 9999;
             dummy.Ename = "Dummy";
             return dummy;

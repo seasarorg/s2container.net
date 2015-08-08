@@ -40,15 +40,9 @@ namespace Seasar.Quill.Unit
     /// </remarks>
     public class QuillTestCase : S2TestCaseBase
     {
-        public QuillContainer QContainer
-        {
-            get { return QuillInjector.GetInstance().Container; }
-        }
+        public QuillContainer QContainer => QuillInjector.GetInstance().Container;
 
-        public QuillInjector Injector
-        {
-            get { return QuillInjector.GetInstance(); }
-        }
+        public QuillInjector Injector => QuillInjector.GetInstance();
 
         public object GetQuillComponent(Type componentClass)
         {
@@ -62,10 +56,7 @@ namespace Seasar.Quill.Unit
             return component.GetComponentObject(component.ReceiptType);
         }
 
-        public virtual void Inject(object target)
-        {
-            Injector.Inject(target);
-        }
+        public virtual void Inject(object target) => Injector.Inject(target);
 #else
 #region NET2.0
     public class QuillTestCase : S2TestCase

@@ -17,76 +17,54 @@
 #endregion
 
 using System;
-using System.Reflection;
 using Seasar.Dao.Attrs;
 
 namespace Seasar.Dao.Impl
 {
     public class FieldAnnotationReader : IDaoAnnotationReader
     {
-        protected Type _daoBeanType;
+        protected Type daoBeanType;
 
         public FieldAnnotationReader(Type daoBeanType)
         {
-            _daoBeanType = daoBeanType;
+            this.daoBeanType = daoBeanType;
         }
 
         #region IDaoAnnotationReader メンバ
 
         public string GetQuery(string name)
         {
-            MethodInfo mi = _daoBeanType.GetMethod(name);
-            QueryAttribute queryAttr = AttributeUtil.GetQueryAttribute(mi);
-            if (queryAttr != null)
-            {
-                return queryAttr.Query;
-            }
-            else
-            {
-                return null;
-            }
+            var mi = daoBeanType.GetMethod(name);
+            var queryAttr = AttributeUtil.GetQueryAttribute(mi);
+            return queryAttr?.Query;
         }
 
         public Type GetBeanType()
         {
-            BeanAttribute beanAttr = AttributeUtil.GetBeanAttribute(_daoBeanType);
+            var beanAttr = AttributeUtil.GetBeanAttribute(daoBeanType);
             return beanAttr.BeanType;
         }
 
         public string[] GetNoPersistentProps(string methodName)
         {
-            MethodInfo mi = _daoBeanType.GetMethod(methodName);
-            NoPersistentPropsAttribute nppAttr = AttributeUtil.GetNoPersistentPropsAttribute(mi);
-            if (nppAttr != null)
-            {
-                return nppAttr.Props;
-            }
-            else
-            {
-                return null;
-            }
+            var mi = daoBeanType.GetMethod(methodName);
+            var nppAttr = AttributeUtil.GetNoPersistentPropsAttribute(mi);
+            return nppAttr?.Props;
         }
 
         public string[] GetPersistentProps(string methodName)
         {
-            MethodInfo mi = _daoBeanType.GetMethod(methodName);
-            PersistentPropsAttribute ppAttr = AttributeUtil.GetPersistentPropsAttribute(mi);
-            if (ppAttr != null)
-            {
-                return ppAttr.Props;
-            }
-            else
-            {
-                return null;
-            }
+            var mi = daoBeanType.GetMethod(methodName);
+            var ppAttr = AttributeUtil.GetPersistentPropsAttribute(mi);
+            return ppAttr?.Props;
         }
 
         public string GetSql(string name, IDbms dbms)
         {
-            MethodInfo mi = _daoBeanType.GetMethod(name);
-            SqlAttribute[] sqlAttrs = AttributeUtil.GetSqlAttributes(mi);
+            var mi = daoBeanType.GetMethod(name);
+            var sqlAttrs = AttributeUtil.GetSqlAttributes(mi);
             SqlAttribute defaultSqlAttr = null;
-            foreach (SqlAttribute sqlAttr in sqlAttrs)
+            foreach (var sqlAttr in sqlAttrs)
             {
                 if (sqlAttr.Dbms == dbms.Dbms)
                     return sqlAttr.Sql;
@@ -94,7 +72,7 @@ namespace Seasar.Dao.Impl
                     defaultSqlAttr = sqlAttr;
             }
 
-            return defaultSqlAttr == null ? null : defaultSqlAttr.Sql;
+            return defaultSqlAttr?.Sql;
         }
 
         /// <summary>
@@ -104,30 +82,23 @@ namespace Seasar.Dao.Impl
         /// <returns>プロシージャ名</returns>
         public string GetProcedure(string methodName)
         {
-            MethodInfo mi = _daoBeanType.GetMethod(methodName);
-            ProcedureAttribute procedureAttribute = AttributeUtil.GetProcedureAttribute(mi);
-            if (procedureAttribute != null)
-            {
-                return procedureAttribute.ProcedureName;
-            }
-            else
-            {
-                return null;
-            }
+            var mi = daoBeanType.GetMethod(methodName);
+            var procedureAttribute = AttributeUtil.GetProcedureAttribute(mi);
+            return procedureAttribute?.ProcedureName;
         }
 
         public bool IsSqlFile(string methodName)
         {
-            MethodInfo mi = _daoBeanType.GetMethod(methodName);
-            SqlFileAttribute sqlFileAttrs = AttributeUtil.GetSqlFileAttribute(mi);
-            return sqlFileAttrs == null ? false : true;
+            var mi = daoBeanType.GetMethod(methodName);
+            var sqlFileAttrs = AttributeUtil.GetSqlFileAttribute(mi);
+            return sqlFileAttrs != null;
         }
 
         public string GetSqlFilePath(string methodName)
         {
-            MethodInfo mi = _daoBeanType.GetMethod(methodName);
-            SqlFileAttribute sqlFileAttrs = AttributeUtil.GetSqlFileAttribute(mi);
-            return sqlFileAttrs == null ? null : sqlFileAttrs.FileName;
+            var mi = daoBeanType.GetMethod(methodName);
+            var sqlFileAttrs = AttributeUtil.GetSqlFileAttribute(mi);
+            return sqlFileAttrs?.FileName;
         }
 
         #endregion

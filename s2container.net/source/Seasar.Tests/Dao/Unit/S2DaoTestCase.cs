@@ -32,13 +32,7 @@ namespace Seasar.Dao.Unit
             get { return DbmsManager.GetDbms(DataSource); }
         }
 
-        private IAnnotationReaderFactory _annotationReaderFactory = new FieldAnnotationReaderFactory();
-
-        public IAnnotationReaderFactory AnnotationReaderFactory
-        {
-            get { return _annotationReaderFactory; }
-            set { _annotationReaderFactory = value; }
-        }
+        public IAnnotationReaderFactory AnnotationReaderFactory { get; set; } = new FieldAnnotationReaderFactory();
 
         private IDataReaderFactory _dataReaderFactory;
 
@@ -77,7 +71,7 @@ namespace Seasar.Dao.Unit
 
         protected virtual BeanMetaDataImpl CreateBeanMetaData(Type beanType, IDbms dbms)
         {
-            BeanMetaDataImpl beanMetaData = new BeanMetaDataImpl(
+            var beanMetaData = new BeanMetaDataImpl(
                 beanType,
                 new DatabaseMetaDataImpl(DataSource),
                 dbms,
@@ -89,7 +83,7 @@ namespace Seasar.Dao.Unit
 
         protected virtual IDaoMetaData CreateDaoMetaData(Type daoType)
         {
-            DaoMetaDataFactoryImpl dmdf = new DaoMetaDataFactoryImpl(DataSource, CommandFactory, AnnotationReaderFactory, DataReaderFactory);
+            var dmdf = new DaoMetaDataFactoryImpl(DataSource, CommandFactory, AnnotationReaderFactory, DataReaderFactory);
             dmdf.DataReaderHandlerFactory = DataReaderHandlerFactory;
             return dmdf.GetDaoMetaData(daoType);
         }

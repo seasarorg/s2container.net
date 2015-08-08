@@ -56,8 +56,8 @@ namespace Seasar.Tests.Framework.Beans.Factory
         /// </summary>
         private static void ExecuteAndAssertGetBeanDesc()
         {
-            Type testType = typeof(BeanDescFactory);
-            IBeanDesc actual = BeanDescFactory.GetBeanDesc(testType);
+            var testType = typeof(BeanDescFactory);
+            var actual = BeanDescFactory.GetBeanDesc(testType);
 
             Assert.IsNotNull(actual);
             Assert.AreEqual(testType, actual.BeanType);

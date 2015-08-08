@@ -17,6 +17,7 @@
 #endregion
 
 using Seasar.Extension.ADO;
+using Seasar.Framework.Util;
 
 namespace Seasar.Extension.DataSets.Impl
 {
@@ -29,7 +30,7 @@ namespace Seasar.Extension.DataSets.Impl
         public static IDataWriter GetSqlWriter(IDataSource dataSource, ICommandFactory commandFactory)
         {
             IDataWriter result;
-            if (dataSource.GetCommand().GetType().Name.Equals("SqlCommand"))
+            if (dataSource.GetCommand().GetExType().Name.Equals("SqlCommand"))
             {
                 result = new SqlServerSqlWriter(dataSource, commandFactory);
             }

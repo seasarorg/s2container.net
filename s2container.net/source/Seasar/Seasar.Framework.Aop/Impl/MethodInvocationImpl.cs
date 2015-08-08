@@ -29,16 +29,6 @@ namespace Seasar.Framework.Aop.Impl
     public class MethodInvocationImpl : IS2MethodInvocation
     {
         /// <summary>
-        /// 呼び出されるメソッドが属するインスタンス
-        /// </summary>
-        private readonly object _target;
-
-        /// <summary>
-        /// 呼び出されるメソッド
-        /// </summary>
-        private readonly MethodBase _method;
-
-        /// <summary>
         /// メソッドをInterceptするInterceptorの配列
         /// </summary>
         private readonly IMethodInterceptor[] _interceptors;
@@ -47,11 +37,6 @@ namespace Seasar.Framework.Aop.Impl
         /// 処理されているInterceptorの再帰レベル
         /// </summary>
         private int _interceptorsIndex = 1;
-
-        /// <summary>
-        /// メソッドの引数
-        /// </summary>
-        private readonly object[] _arguments;
 
         /// <summary>
         /// メソッドとそのクラスのインスタンスが属するS2コンテナに関する情報
@@ -81,9 +66,9 @@ namespace Seasar.Framework.Aop.Impl
             {
                 throw new NullReferenceException("interceptors");
             }
-            _target = target;
-            _method = method;
-            _arguments = arguments;
+            Target = target;
+            Method = method;
+            Arguments = arguments;
             _interceptors = interceptors;
             _parameters = parameters;
         }
@@ -93,26 +78,17 @@ namespace Seasar.Framework.Aop.Impl
         /// <summary>
         /// InterceptされるメソッドのMethod
         /// </summary>
-        public MethodBase Method
-        {
-            get { return _method; }
-        }
+        public MethodBase Method { get; }
 
         /// <summary>
         /// Interceptされるオブジェクト
         /// </summary>
-        public object Target
-        {
-            get { return _target; }
-        }
+        public object Target { get; }
 
         /// <summary>
         /// Interceptされるメソッドの引数
         /// </summary>
-        public object[] Arguments
-        {
-            get { return _arguments; }
-        }
+        public object[] Arguments { get; }
 
         /// <summary>
         /// メソッドの呼び出し
@@ -120,7 +96,7 @@ namespace Seasar.Framework.Aop.Impl
         /// <remarks>
         /// 他にチェーンされているInterceptorがあれば、Interceptorを呼び出します（再帰的に呼び出される）。
         /// 他にチェーンされているInterceptorが無ければ、Interceptされているメソッドを実行します。
-        /// <remarks>
+        /// </remarks>
         /// <returns>Interceptされたメソッドの戻り値</returns>
         public object Proceed()
         {
@@ -133,7 +109,8 @@ namespace Seasar.Framework.Aop.Impl
             try
             {
                 // Interceptされたメソッドを実行する
-                return _method.Invoke(_target, _arguments);
+                return MethodUtil.Invoke((MethodInfo)Method, Target, Arguments);
+//                return _method.Invoke(_target, _arguments);
             }
             catch (TargetInvocationException ex)
             {
@@ -152,18 +129,12 @@ namespace Seasar.Framework.Aop.Impl
         /// <summary>
         /// メソッドが属するクラスの型情報
         /// </summary>
-        public Type TargetType
-        {
-            get { return _target.GetType(); }
-        }
+        public Type TargetType => Target.GetExType();
 
         /// <summary>
         /// メソッドとそのクラスのインスタンスが属するS2コンテナに関する情報
         /// </summary>
-        public object GetParameter(string name)
-        {
-            return _parameters[name];
-        }
+        public object GetParameter(string name) => _parameters[name];
 
         #endregion
     }

@@ -17,29 +17,22 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Reflection;
 using Seasar.Framework.Exceptions;
 
 namespace Seasar.Framework.Util
 {
-    public sealed class ClassUtil
+    public static class ClassUtil
     {
-        private ClassUtil()
-        {
-        }
+        // 式木のキャッシュ
+        private static readonly Dictionary<Type, Func<object>> _classCache = new Dictionary<Type, Func<object>>();
 
         public static ConstructorInfo GetConstructorInfo(Type type, Type[] argTypes)
         {
-            Type[] types;
-            if (argTypes == null)
-            {
-                types = Type.EmptyTypes;
-            }
-            else
-            {
-                types = argTypes;
-            }
-            ConstructorInfo constructor = type.GetConstructor(types);
+            var types = argTypes ?? Type.EmptyTypes;
+            var constructor = type.GetConstructor(types);
             if (constructor == null)
             {
                 throw new NoSuchConstructorRuntimeException(type, argTypes);
@@ -49,12 +42,12 @@ namespace Seasar.Framework.Util
 
         public static Type ForName(string className, Assembly[] assemblys)
         {
-            Type type = Type.GetType(className);
+            var type = Type.GetType(className);
             if (type != null)
             {
                 return type;
             }
-            foreach (Assembly assembly in assemblys)
+            foreach (var assembly in assemblys)
             {
                 type = assembly.GetType(className);
                 if (type != null)
@@ -71,20 +64,84 @@ namespace Seasar.Framework.Util
         /// </summary>
         /// <param name="className">名前空間を含むクラス名</param>
         /// <returns>該当する型</returns>
-        public static Type ForName(string className)
+        public static Type ForName(string className) => ForName(className, AppDomain.CurrentDomain.GetAssemblies());
+
+        /// <summary>
+        /// インスタンスを生成する
+        /// </summary>
+        /// <param name="type">生成する型</param>
+        /// <param name="nonPublic">パブリックの既定コンストラクター。パブリックでない既定コンストラクターを一致させる場合は、true。</param>
+        /// <returns>インスタンス</returns>
+        public static object NewInstance(Type type, bool nonPublic = false)
         {
-            return ForName(className, AppDomain.CurrentDomain.GetAssemblies());
+            Func<object> lambda;
+            if (!_classCache.ContainsKey(type))
+            {
+                lambda = _CreateExpression(type, nonPublic);
+                // 生成した式木はキャッシュに保存
+                _classCache.Add(type, lambda);
+            }
+            else
+            {
+                lambda = _classCache[type];
+            }
+            return lambda.DynamicInvoke(null);
+//            return Activator.CreateInstance(type);
         }
 
-        public static object NewInstance(Type type)
+        /// <summary>
+        /// インスタンスを生成する
+        /// </summary>
+        /// <param name="info">コンストラクタ情報</param>
+        /// <param name="type">生成する型</param>
+        /// <returns>インスタンス</returns>
+        public static object NewInstance(ConstructorInfo info, Type type)
         {
-            return Activator.CreateInstance(type);
+            Func<object> lambda;
+            if (!_classCache.ContainsKey(type))
+            {
+                lambda = Expression.Lambda<Func<object>>(Expression.New(info)).Compile();
+                // 生成した式木はキャッシュに保存
+                _classCache.Add(type, lambda);
+            }
+            else
+            {
+                lambda = _classCache[type];
+            }
+            return lambda.DynamicInvoke(null);
         }
 
+        /// <summary>
+        /// インスタンスを生成する
+        /// </summary>
+        /// <param name="className">名前空間を含むクラス名</param>
+        /// <param name="assemblyName">アセンブリ名</param>
+        /// <returns>インスタンス</returns>
         public static object NewInstance(string className, string assemblyName)
         {
-            Assembly[] asms = new Assembly[1] { Assembly.LoadFrom(assemblyName) };
+            Assembly[] asms = {Assembly.LoadFrom(assemblyName)};
             return NewInstance(ForName(className, asms));
+        }
+
+        /// <summary>
+        /// インスタンス化する式木(Expression)を作成する
+        /// </summary>
+        /// <param name="type">インスタンス化する型</param>
+        /// <param name="nonPublic">パブリックの既定コンストラクター。パブリックでない既定コンストラクターを一致させる場合は、true。</param>
+        /// <returns>コンパイルした式木</returns>
+        private static Func<object> _CreateExpression(Type type, bool nonPublic)
+        {
+            ConstructorInfo info;
+            if (nonPublic)
+            {
+                info = type.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[0], null);
+            }
+            else
+            {
+                info = type.GetConstructor(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
+                    null, new Type[0], null);
+            }
+            return Expression.Lambda<Func<object>>(Expression.New(info)).Compile();
         }
     }
 }

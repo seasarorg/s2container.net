@@ -1,4 +1,4 @@
-#region Copyright
+﻿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -30,10 +30,7 @@ namespace Seasar.Quill.Attrs
     {
         private readonly Type _daoSettingType;
 
-        public virtual Type DaoSettingType
-        {
-            get { return _daoSettingType; }
-        }
+        public virtual Type DaoSettingType => _daoSettingType;
 
         /// <summary>
         /// デフォルトコンストラクタ
@@ -41,7 +38,7 @@ namespace Seasar.Quill.Attrs
         /// </summary>
         public S2DaoAttribute()
         {
-            QuillConfig config = QuillConfig.GetInstance();
+            var config = QuillConfig.GetInstance();
             _daoSettingType = config.GetDaoSettingType();
             SettingUtil.ValidateDaoSettingType(_daoSettingType);
         }

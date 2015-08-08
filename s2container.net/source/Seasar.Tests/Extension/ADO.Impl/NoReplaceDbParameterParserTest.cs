@@ -34,7 +34,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
         [Test]
         public void ParseAtMark()
         {
-            string sql = "INSERT INTO emp ( empno , ename , job ) VALUES ( @empno , 'M@NAGER' , @job )";
+            var sql = "INSERT INTO emp ( empno , ename , job ) VALUES ( @empno , 'M@NAGER' , @job )";
             Assert.AreEqual(
                 "INSERT INTO emp ( empno , ename , job ) VALUES ( @empno , 'M@NAGER' , @job )",
                 _parser.ChangeSignSql(new SqlCommand(), sql)
@@ -43,14 +43,14 @@ namespace Seasar.Tests.Extension.ADO.Impl
                 "INSERT INTO emp ( empno , ename , job ) VALUES ( @empno , 'M@NAGER' , @job )",
                 _parser.ChangeSignSql(new OracleCommand(), sql)
                 );
-            MatchCollection ret = _parser.Parse(sql);
+            var ret = _parser.Parse(sql);
             Assert.AreEqual(0, ret.Count);
         }
 
         [Test]
         public void ParseAtMark2()
         {
-            string sql = "INSERT INTO emp(empno,ename,job)VALUES(@empno,'m@nager',@job)";
+            var sql = "INSERT INTO emp(empno,ename,job)VALUES(@empno,'m@nager',@job)";
             Assert.AreEqual(
                 "INSERT INTO emp(empno,ename,job)VALUES(@empno,'m@nager',@job)",
                 _parser.ChangeSignSql(new SqlCommand(), sql)
@@ -59,14 +59,14 @@ namespace Seasar.Tests.Extension.ADO.Impl
                 "INSERT INTO emp(empno,ename,job)VALUES(@empno,'m@nager',@job)",
                 _parser.ChangeSignSql(new OracleCommand(), sql)
                 );
-            MatchCollection ret = _parser.Parse(sql);
+            var ret = _parser.Parse(sql);
             Assert.AreEqual(0, ret.Count);
         }
 
         [Test]
         public void ParseAtMark3()
         {
-            string sql = "INSERT INTO emp (empno, ename, job) VALUES (@$empno, @#manager, @dto.job)";
+            var sql = "INSERT INTO emp (empno, ename, job) VALUES (@$empno, @#manager, @dto.job)";
             Assert.AreEqual(
                 "INSERT INTO emp (empno, ename, job) VALUES (@$empno, @#manager, @dto.job)",
                 _parser.ChangeSignSql(new SqlCommand(), sql)
@@ -75,14 +75,14 @@ namespace Seasar.Tests.Extension.ADO.Impl
                 "INSERT INTO emp (empno, ename, job) VALUES (@$empno, @#manager, @dto.job)",
                 _parser.ChangeSignSql(new OracleCommand(), sql)
                 );
-            MatchCollection ret = _parser.Parse(sql);
+            var ret = _parser.Parse(sql);
             Assert.AreEqual(0, ret.Count);
         }
 
         [Test]
         public void ParseAtMark4()
         {
-            string sql = "INSERT INTO emp (empno, ename, job) VALUES (@$è]ã∆àıî‘çÜ, @Ç©ÇÒÇËÇµÇ·, @ÉVÉáÉNÉMÉáÉE)";
+            var sql = "INSERT INTO emp (empno, ename, job) VALUES (@$è]ã∆àıî‘çÜ, @Ç©ÇÒÇËÇµÇ·, @ÉVÉáÉNÉMÉáÉE)";
             Assert.AreEqual(
                 "INSERT INTO emp (empno, ename, job) VALUES (@$è]ã∆àıî‘çÜ, @Ç©ÇÒÇËÇµÇ·, @ÉVÉáÉNÉMÉáÉE)",
                 _parser.ChangeSignSql(new SqlCommand(), sql)
@@ -91,14 +91,14 @@ namespace Seasar.Tests.Extension.ADO.Impl
                 "INSERT INTO emp (empno, ename, job) VALUES (@$è]ã∆àıî‘çÜ, @Ç©ÇÒÇËÇµÇ·, @ÉVÉáÉNÉMÉáÉE)",
                 _parser.ChangeSignSql(new OracleCommand(), sql)
                 );
-            MatchCollection ret = _parser.Parse(sql);
+            var ret = _parser.Parse(sql);
             Assert.AreEqual(0, ret.Count);
         }
 
         [Test]
         public void ParseAtMark5()
         {
-            string sql = "INSERT INTO emp (empno, ename, job) VALUES (@1empno, @m2anager, @job3)";
+            var sql = "INSERT INTO emp (empno, ename, job) VALUES (@1empno, @m2anager, @job3)";
             Assert.AreEqual(
                 "INSERT INTO emp (empno, ename, job) VALUES (@1empno, @m2anager, @job3)",
                 _parser.ChangeSignSql(new SqlCommand(), sql)
@@ -107,14 +107,14 @@ namespace Seasar.Tests.Extension.ADO.Impl
                 "INSERT INTO emp (empno, ename, job) VALUES (@1empno, @m2anager, @job3)",
                 _parser.ChangeSignSql(new OracleCommand(), sql)
                 );
-            MatchCollection ret = _parser.Parse(sql);
+            var ret = _parser.Parse(sql);
             Assert.AreEqual(0, ret.Count);
         }
 
         [Test]
         public void ParseAtMark6()
         {
-            string sql = "INSERT INTO EMP (EMPNO, ENAME, JOB) VALUES (@EMP_NO, @MANAGER, @_JOB)";
+            var sql = "INSERT INTO EMP (EMPNO, ENAME, JOB) VALUES (@EMP_NO, @MANAGER, @_JOB)";
             Assert.AreEqual(
                 "INSERT INTO EMP (EMPNO, ENAME, JOB) VALUES (@EMP_NO, @MANAGER, @_JOB)",
                 _parser.ChangeSignSql(new SqlCommand(), sql)
@@ -123,14 +123,14 @@ namespace Seasar.Tests.Extension.ADO.Impl
                 "INSERT INTO EMP (EMPNO, ENAME, JOB) VALUES (@EMP_NO, @MANAGER, @_JOB)",
                 _parser.ChangeSignSql(new OracleCommand(), sql)
                 );
-            MatchCollection ret = _parser.Parse(sql);
+            var ret = _parser.Parse(sql);
             Assert.AreEqual(0, ret.Count);
         }
 
         [Test]
         public void ParseAtMark7()
         {
-            string sql = "INSERT INTO EMP (EMPNO, ENAME, JOB) VALUES (@$#, @@USERID, @A.B)";
+            var sql = "INSERT INTO EMP (EMPNO, ENAME, JOB) VALUES (@$#, @@USERID, @A.B)";
             Assert.AreEqual(
                 "INSERT INTO EMP (EMPNO, ENAME, JOB) VALUES (@$#, @@USERID, @A.B)",
                 _parser.ChangeSignSql(new SqlCommand(), sql)
@@ -139,14 +139,14 @@ namespace Seasar.Tests.Extension.ADO.Impl
                 "INSERT INTO EMP (EMPNO, ENAME, JOB) VALUES (@$#, @@USERID, @A.B)",
                 _parser.ChangeSignSql(new OracleCommand(), sql)
                 );
-            MatchCollection ret = _parser.Parse(sql);
+            var ret = _parser.Parse(sql);
             Assert.AreEqual(0, ret.Count);
         }
 
         [Test]
         public void ParseColon()
         {
-            string sql = "INSERT INTO emp ( empno , ename , job ) VALUES ( :empno , 'M:NAGER' , :job )";
+            var sql = "INSERT INTO emp ( empno , ename , job ) VALUES ( :empno , 'M:NAGER' , :job )";
             Assert.AreEqual(
                 "INSERT INTO emp ( empno , ename , job ) VALUES ( :empno , 'M:NAGER' , :job )",
                 _parser.ChangeSignSql(new SqlCommand(), sql)
@@ -155,14 +155,14 @@ namespace Seasar.Tests.Extension.ADO.Impl
                 "INSERT INTO emp ( empno , ename , job ) VALUES ( :empno , 'M:NAGER' , :job )",
                 _parser.ChangeSignSql(new OracleCommand(), sql)
                 );
-            MatchCollection ret = _parser.Parse(sql);
+            var ret = _parser.Parse(sql);
             Assert.AreEqual(0, ret.Count);
         }
 
         [Test]
         public void ParseColon2()
         {
-            string sql = "INSERT INTO emp(empno,ename,job)VALUES(:empno,'m:nager',:job)";
+            var sql = "INSERT INTO emp(empno,ename,job)VALUES(:empno,'m:nager',:job)";
             Assert.AreEqual(
                 "INSERT INTO emp(empno,ename,job)VALUES(:empno,'m:nager',:job)",
                 _parser.ChangeSignSql(new SqlCommand(), sql)
@@ -171,14 +171,14 @@ namespace Seasar.Tests.Extension.ADO.Impl
                 "INSERT INTO emp(empno,ename,job)VALUES(:empno,'m:nager',:job)",
                 _parser.ChangeSignSql(new OracleCommand(), sql)
                 );
-            MatchCollection ret = _parser.Parse(sql);
+            var ret = _parser.Parse(sql);
             Assert.AreEqual(0, ret.Count);
         }
 
         [Test]
         public void ParseColon3()
         {
-            string sql = "INSERT INTO emp (empno, ename, job) VALUES (:$empno, :#manager, :dto.job)";
+            var sql = "INSERT INTO emp (empno, ename, job) VALUES (:$empno, :#manager, :dto.job)";
             Assert.AreEqual(
                 "INSERT INTO emp (empno, ename, job) VALUES (:$empno, :#manager, :dto.job)",
                 _parser.ChangeSignSql(new SqlCommand(), sql)
@@ -187,14 +187,14 @@ namespace Seasar.Tests.Extension.ADO.Impl
                 "INSERT INTO emp (empno, ename, job) VALUES (:$empno, :#manager, :dto.job)",
                 _parser.ChangeSignSql(new OracleCommand(), sql)
                 );
-            MatchCollection ret = _parser.Parse(sql);
+            var ret = _parser.Parse(sql);
             Assert.AreEqual(0, ret.Count);
         }
 
         [Test]
         public void ParseColon4()
         {
-            string sql = "INSERT INTO emp (empno, ename, job) VALUES (:$è]ã∆àıî‘çÜ, :Ç©ÇÒÇËÇµÇ·, :ÉVÉáÉNÉMÉáÉE)";
+            var sql = "INSERT INTO emp (empno, ename, job) VALUES (:$è]ã∆àıî‘çÜ, :Ç©ÇÒÇËÇµÇ·, :ÉVÉáÉNÉMÉáÉE)";
             Assert.AreEqual(
                 "INSERT INTO emp (empno, ename, job) VALUES (:$è]ã∆àıî‘çÜ, :Ç©ÇÒÇËÇµÇ·, :ÉVÉáÉNÉMÉáÉE)",
                 _parser.ChangeSignSql(new SqlCommand(), sql)
@@ -203,14 +203,14 @@ namespace Seasar.Tests.Extension.ADO.Impl
                 "INSERT INTO emp (empno, ename, job) VALUES (:$è]ã∆àıî‘çÜ, :Ç©ÇÒÇËÇµÇ·, :ÉVÉáÉNÉMÉáÉE)",
                 _parser.ChangeSignSql(new OracleCommand(), sql)
                 );
-            MatchCollection ret = _parser.Parse(sql);
+            var ret = _parser.Parse(sql);
             Assert.AreEqual(0, ret.Count);
         }
 
         [Test]
         public void ParseColon5()
         {
-            string sql = "INSERT INTO emp (empno, ename, job) VALUES (:1empno, :m2anager, :job3)";
+            var sql = "INSERT INTO emp (empno, ename, job) VALUES (:1empno, :m2anager, :job3)";
             Assert.AreEqual(
                 "INSERT INTO emp (empno, ename, job) VALUES (:1empno, :m2anager, :job3)",
                 _parser.ChangeSignSql(new SqlCommand(), sql)
@@ -219,14 +219,14 @@ namespace Seasar.Tests.Extension.ADO.Impl
                 "INSERT INTO emp (empno, ename, job) VALUES (:1empno, :m2anager, :job3)",
                 _parser.ChangeSignSql(new OracleCommand(), sql)
                 );
-            MatchCollection ret = _parser.Parse(sql);
+            var ret = _parser.Parse(sql);
             Assert.AreEqual(0, ret.Count);
         }
 
         [Test]
         public void ParseColon6()
         {
-            string sql = "INSERT INTO EMP (EMPNO, ENAME, JOB) VALUES (:EMP_NO, :MANAGER, :_JOB)";
+            var sql = "INSERT INTO EMP (EMPNO, ENAME, JOB) VALUES (:EMP_NO, :MANAGER, :_JOB)";
             Assert.AreEqual(
                 "INSERT INTO EMP (EMPNO, ENAME, JOB) VALUES (:EMP_NO, :MANAGER, :_JOB)",
                 _parser.ChangeSignSql(new SqlCommand(), sql)
@@ -235,14 +235,14 @@ namespace Seasar.Tests.Extension.ADO.Impl
                 "INSERT INTO EMP (EMPNO, ENAME, JOB) VALUES (:EMP_NO, :MANAGER, :_JOB)",
                 _parser.ChangeSignSql(new OracleCommand(), sql)
                 );
-            MatchCollection ret = _parser.Parse(sql);
+            var ret = _parser.Parse(sql);
             Assert.AreEqual(0, ret.Count);
         }
 
         [Test]
         public void ParseColon7()
         {
-            string sql = "INSERT INTO EMP (EMPNO, ENAME, JOB) VALUES (:$#, ::USERID, :A.B)";
+            var sql = "INSERT INTO EMP (EMPNO, ENAME, JOB) VALUES (:$#, ::USERID, :A.B)";
             Assert.AreEqual(
                 "INSERT INTO EMP (EMPNO, ENAME, JOB) VALUES (:$#, ::USERID, :A.B)",
                 _parser.ChangeSignSql(new SqlCommand(), sql)
@@ -251,14 +251,14 @@ namespace Seasar.Tests.Extension.ADO.Impl
                 "INSERT INTO EMP (EMPNO, ENAME, JOB) VALUES (:$#, ::USERID, :A.B)",
                 _parser.ChangeSignSql(new OracleCommand(), sql)
                 );
-            MatchCollection ret = _parser.Parse(sql);
+            var ret = _parser.Parse(sql);
             Assert.AreEqual(0, ret.Count);
         }
 
         [Test]
         public void ParseQuestion()
         {
-            string sql = "INSERT INTO emp ( empno , ename , job ) VALUES ( :empno , 'M:NAGER' , :job )";
+            var sql = "INSERT INTO emp ( empno , ename , job ) VALUES ( :empno , 'M:NAGER' , :job )";
             Assert.AreEqual(
                 "INSERT INTO emp ( empno , ename , job ) VALUES ( :empno , 'M:NAGER' , :job )",
                 _parser.ChangeSignSql(new SqlCommand(), sql)
@@ -267,14 +267,14 @@ namespace Seasar.Tests.Extension.ADO.Impl
                 "INSERT INTO emp ( empno , ename , job ) VALUES ( :empno , 'M:NAGER' , :job )",
                 _parser.ChangeSignSql(new OracleCommand(), sql)
                 );
-            MatchCollection ret = _parser.Parse(sql);
+            var ret = _parser.Parse(sql);
             Assert.AreEqual(0, ret.Count);
         }
 
         [Test]
         public void ParseQuestion2()
         {
-            string sql = "INSERT INTO emp(empno,ename,job)VALUES(?,'m?nager',?)";
+            var sql = "INSERT INTO emp(empno,ename,job)VALUES(?,'m?nager',?)";
             Assert.AreEqual(
                 "INSERT INTO emp(empno,ename,job)VALUES(?,'m?nager',?)",
                 _parser.ChangeSignSql(new SqlCommand(), sql)
@@ -283,7 +283,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
                 "INSERT INTO emp(empno,ename,job)VALUES(?,'m?nager',?)",
                 _parser.ChangeSignSql(new OracleCommand(), sql)
                 );
-            MatchCollection ret = _parser.Parse(sql);
+            var ret = _parser.Parse(sql);
             Assert.AreEqual(2, ret.Count);
             Assert.AreEqual("?", ret[0].Value);
             Assert.AreEqual("?", ret[1].Value);
@@ -292,7 +292,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
         [Test]
         public void ParseQuestion3()
         {
-            string sql = "INSERT INTO emp (empno, ename, job) VALUES (?, ?, ?)";
+            var sql = "INSERT INTO emp (empno, ename, job) VALUES (?, ?, ?)";
             Assert.AreEqual(
                 "INSERT INTO emp (empno, ename, job) VALUES (?, ?, ?)",
                 _parser.ChangeSignSql(new SqlCommand(), sql)
@@ -301,7 +301,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
                 "INSERT INTO emp (empno, ename, job) VALUES (?, ?, ?)",
                 _parser.ChangeSignSql(new OracleCommand(), sql)
                 );
-            MatchCollection ret = _parser.Parse(sql);
+            var ret = _parser.Parse(sql);
             Assert.AreEqual(3, ret.Count);
         }
     }

@@ -21,6 +21,7 @@ using System.Collections;
 using System.Reflection;
 using System.Text;
 using Seasar.Framework.Log;
+using Seasar.Framework.Util;
 
 namespace Seasar.Dao.Context
 {
@@ -45,7 +46,6 @@ namespace Seasar.Dao.Context
         private readonly IList _bindVariables = new ArrayList();
         private readonly IList _bindVariableTypes = new ArrayList();
         private readonly IList _bindVariableNames = new ArrayList();
-        private bool _enabled = true;
         private readonly ICommandContext _parent;
 
         public CommandContextImpl()
@@ -55,7 +55,7 @@ namespace Seasar.Dao.Context
         public CommandContextImpl(ICommandContext parent)
         {
             _parent = parent;
-            _enabled = false;
+            IsEnabled = false;
         }
 
         public object GetArg(string name)
@@ -70,24 +70,23 @@ namespace Seasar.Dao.Context
             }
             else
             {
-                string[] names = name.Split('.');
-                object value = _args[names[0]]; ;
-                Type type = GetArgType(names[0]);
+                var names = name.Split('.');
+                var value = _args[names[0]];
+                var type = GetArgType(names[0]);
 
-                for (int pos = 1; pos < names.Length; pos++)
+                for (var pos = 1; pos < names.Length; pos++)
                 {
                     if (value == null || type == null) break;
-                    PropertyInfo pi = type.GetProperty(names[pos]);
+                    var pi = type.GetProperty(names[pos]);
                     if (pi == null)
                     {
                         return null;
                     }
-                    value = pi.GetValue(value, null);
+//                    value = pi.GetValue(value, null);
+                    value = PropertyUtil.GetValue(value, value.GetExType(), pi.Name);
                     type = pi.PropertyType;
                 }
-                if (value != null) return value;
-
-                return null;
+                return value;
             }
         }
 
@@ -129,16 +128,13 @@ namespace Seasar.Dao.Context
             _argNames.Add(name, name);
         }
 
-        public string Sql
-        {
-            get { return _sqlBuf.ToString(); }
-        }
+        public string Sql => _sqlBuf.ToString();
 
         public object[] BindVariables
         {
             get
             {
-                object[] variables = new object[_bindVariables.Count];
+                var variables = new object[_bindVariables.Count];
                 _bindVariables.CopyTo(variables, 0);
                 return variables;
             }
@@ -148,7 +144,7 @@ namespace Seasar.Dao.Context
         {
             get
             {
-                Type[] variables = new Type[_bindVariableTypes.Count];
+                var variables = new Type[_bindVariableTypes.Count];
                 _bindVariableTypes.CopyTo(variables, 0);
                 return variables;
             }
@@ -158,7 +154,7 @@ namespace Seasar.Dao.Context
         {
             get
             {
-                string[] variableNames = new string[_bindVariableNames.Count];
+                var variableNames = new string[_bindVariableNames.Count];
                 _bindVariableNames.CopyTo(variableNames, 0);
                 return variableNames;
             }
@@ -192,7 +188,7 @@ namespace Seasar.Dao.Context
         {
 
             _sqlBuf.Append(sql);
-            for (int i = 0; i < bindVariables.Length; ++i)
+            for (var i = 0; i < bindVariables.Length; ++i)
             {
                 _bindVariables.Add(bindVariables[i]);
                 _bindVariableTypes.Add(bindVariableTypes[i]);
@@ -207,10 +203,6 @@ namespace Seasar.Dao.Context
             return this;
         }
 
-        public bool IsEnabled
-        {
-            get { return _enabled; }
-            set { _enabled = value; }
-        }
+        public bool IsEnabled { get; set; } = true;
     }
 }

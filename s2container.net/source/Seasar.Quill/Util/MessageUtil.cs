@@ -1,4 +1,4 @@
-#region Copyright
+﻿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -30,11 +30,11 @@ namespace Seasar.Quill.Util
         /// <summary>
         /// Quillで使用するメッセージを格納しているResourceManager
         /// </summary>
-        private static readonly ResourceManager MESSAGES_RESOURCE_MANAGER = 
+        private static readonly ResourceManager _messagesResourceManager = 
             new ResourceManager("Seasar.Quill.QLLMessages", Assembly.GetExecutingAssembly());
 
         // objectの空の配列
-        private static readonly object[] EMPTY_ARRAY = new object[0];
+        private static readonly object[] _emptyArray = new object[0];
 
         /// <summary>
         /// メッセージコードを含まないメッセージを取得する
@@ -45,23 +45,22 @@ namespace Seasar.Quill.Util
         public static string GetSimpleMessage(string messageCode, object[] arguments)
         {
             // メッセージのフォーマットをResourceManagerから取得する
-            string format = MESSAGES_RESOURCE_MANAGER.GetString(messageCode);
+            var format = _messagesResourceManager.GetString(messageCode);
 
             if (format == null)
             {
                 // メッセージが見つからない場合は例外をスローする
-                throw new QuillApplicationException(
-                    "EQLL0000", "message not found.");
+                throw new QuillApplicationException("EQLL0000", "message not found.");
             }
 
             if (arguments == null)
             {
                 // メッセージ中に埋め込む値がnullの場合は空の配列に変換する
-                arguments = EMPTY_ARRAY;
+                arguments = _emptyArray;
             }
             
             // フォーマットに値を埋め込みメッセージを作成する
-            string message = string.Format(format, arguments);
+            var message = string.Format(format, arguments);
 
             // メッセージを返す
             return message;

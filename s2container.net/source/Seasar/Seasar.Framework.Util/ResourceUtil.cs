@@ -19,6 +19,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using System.Reflection.Emit;
 
 namespace Seasar.Framework.Util
 {
@@ -30,7 +31,7 @@ namespace Seasar.Framework.Util
 
         public static string GetExtension(string path)
         {
-            int extPos = path.LastIndexOf(".");
+            var extPos = path.LastIndexOf('.');
             if (extPos >= 0)
             {
                 return path.Substring(extPos + 1);
@@ -87,7 +88,7 @@ namespace Seasar.Framework.Util
 
         public static StreamReader GetResourceAsStreamReaderNoException(string path, Assembly assembly)
         {
-            Stream stream = GetResourceNoException(path, assembly);
+            var stream = GetResourceNoException(path, assembly);
             return stream == null ? null : new StreamReader(stream);
         }
 
@@ -95,9 +96,9 @@ namespace Seasar.Framework.Util
         {
             if (assembly == null)
             {
-                throw new ArgumentNullException("assembly");
+                throw new ArgumentNullException(nameof(assembly));
             }
-            Stream stream = GetResourceNoException(path, assembly);
+            var stream = GetResourceNoException(path, assembly);
             if (stream != null)
             {
                 return stream;
@@ -124,19 +125,16 @@ namespace Seasar.Framework.Util
             }
 
             // asmが動的アセンブリの場合はnullを返す
-            if (asm is System.Reflection.Emit.AssemblyBuilder)
+            if (asm is AssemblyBuilder)
             {
                 return null;
             }
 
-            Stream stream = asm.GetManifestResourceStream(path);
+            var stream = asm.GetManifestResourceStream(path);
 
             return stream;
         }
 
-        public static bool IsExist(string path, Assembly asm)
-        {
-            return GetResourceNoException(path, asm) != null;
-        }
+        public static bool IsExist(string path, Assembly asm) => GetResourceNoException(path, asm) != null;
     }
 }

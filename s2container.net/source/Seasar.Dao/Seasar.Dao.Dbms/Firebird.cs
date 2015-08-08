@@ -20,19 +20,10 @@ namespace Seasar.Dao.Dbms
 {
     public class Firebird : Standard
     {
-        public override string Suffix
-        {
-            get { return "_firebird"; }
-        }
+        public override string Suffix => "_firebird";
 
-        public override string GetSequenceNextValString(string sequenceName)
-        {
-            return "select gen_id( " + sequenceName + ", 1 ) from RDB$DATABASE";
-        }
+        public override string GetSequenceNextValString(string sequenceName) => "select gen_id( " + sequenceName + ", 1 ) from RDB$DATABASE";
 
-        public override KindOfDbms Dbms
-        {
-            get { return KindOfDbms.Firebird; }
-        }
+        public override KindOfDbms Dbms => KindOfDbms.Firebird;
     }
 }

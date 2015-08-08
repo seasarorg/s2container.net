@@ -1,4 +1,4 @@
-#region Copyright
+﻿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -17,6 +17,7 @@
 #endregion
 
 using System;
+using Seasar.Framework.Util;
 using Seasar.Quill.Exception;
 
 namespace Seasar.Quill.Util
@@ -32,21 +33,22 @@ namespace Seasar.Quill.Util
         /// <param name="container"></param>
         /// <param name="componentType"></param>
         /// <returns></returns>
-        /// <exception cref="Seasar.Quill.Exception.QuillComponentInvalidCastException">
+        /// <exception>
         /// コンポーネントが取得できなかった場合
+        ///     <cref>Seasar.Quill.Exception.QuillComponentInvalidCastException</cref>
         /// </exception>
         public static object GetComponent(QuillContainer container, Type componentType)
         {
-            QuillComponent qc = container.GetComponent(componentType);
-            object retComponent = qc.GetComponentObject(componentType);
+            var qc = container.GetComponent(componentType);
+            var retComponent = qc.GetComponentObject(componentType);
             //  実質的にありえないが念のためチェック
             if (retComponent == null)
             {
                 throw new QuillInvalidClassException(componentType);
             }
-            else if(componentType.IsAssignableFrom(retComponent.GetType()) == false)
+            else if(componentType.IsAssignableFrom(retComponent.GetExType()) == false)
             {
-                throw new QuillInvalidClassException(retComponent.GetType(), componentType);
+                throw new QuillInvalidClassException(retComponent.GetExType(), componentType);
             }
             return retComponent;
         }
@@ -63,16 +65,16 @@ namespace Seasar.Quill.Util
         /// </exception>
         public static object GetComponent(QuillContainer container, Type interfaceType, Type implType)
         {
-            QuillComponent qc = container.GetComponent(interfaceType, implType);
-            object retComponent = qc.GetComponentObject(interfaceType);
+            var qc = container.GetComponent(interfaceType, implType);
+            var retComponent = qc.GetComponentObject(interfaceType);
             //  実質的にありえないが念のためチェック
             if (retComponent == null)
             {
                 throw new QuillInvalidClassException(interfaceType);
             }
-            else if (interfaceType.IsAssignableFrom(retComponent.GetType()) == false)
+            else if (interfaceType.IsAssignableFrom(retComponent.GetExType()) == false)
             {
-                throw new QuillInvalidClassException(retComponent.GetType(), interfaceType);
+                throw new QuillInvalidClassException(retComponent.GetExType(), interfaceType);
             }
             return retComponent;
         }

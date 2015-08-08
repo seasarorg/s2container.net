@@ -37,7 +37,7 @@ namespace Seasar.Tests.Dxo.Resources
             const string EXPECTED_MESSAGE = "testは非nullのはず。";
 
             //  ここでは「既定の名前空間」が設定されている場合のテストのみ行います。
-            string message = MessageFormatter.GetSimpleMessage(
+            var message = MessageFormatter.GetSimpleMessage(
                 "EDXO1001", new object[] { "test" }, typeof(DxoInterceptor).Assembly, "Seasar.Dxo");
             Assert.AreEqual(EXPECTED_MESSAGE, message, "メッセージリソースを取得出来る事");
             message = MessageFormatter.GetSimpleMessage(

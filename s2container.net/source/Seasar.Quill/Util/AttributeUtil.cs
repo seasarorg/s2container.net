@@ -1,4 +1,4 @@
-#region Copyright
+﻿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -40,7 +40,7 @@ namespace Seasar.Quill.Util
         public static ImplementationAttribute GetImplementationAttr(Type type)
         {
             // 実装クラスを指定する属性を取得する
-            ImplementationAttribute implAttr =
+            var implAttr =
                 (ImplementationAttribute)Attribute.GetCustomAttribute(
                 type, typeof(ImplementationAttribute));
 
@@ -51,37 +51,33 @@ namespace Seasar.Quill.Util
             }
 
             // Implementation属性に指定された実装クラスのType
-            Type implType = implAttr.ImplementationType;
+            var implType = implAttr.ImplementationType;
 
             if (!type.IsInterface && implType != null)
             {
                 // クラスのImplementation属性に実装クラスが指定されている場合は
                 // 例外をスローする
-                throw new QuillApplicationException("EQLL0001",
-                    new object[] { type.FullName });
+                throw new QuillApplicationException("EQLL0001", new [] { type.FullName });
             }
 
             if (implType != null && implType.IsInterface)
             {
                 // Implementation属性の実装クラスにインターフェースが
                 // 指定されている場合は例外をスローする
-                throw new QuillApplicationException("EQLL0002", new object[] {
-                    type.FullName, implType.FullName });
+                throw new QuillApplicationException("EQLL0002", new [] { type.FullName, implType.FullName });
             }
 
             if (implType != null && implType.IsAbstract)
             {
                 // Implementation属性の実装クラスに抽象クラスが
                 // 指定されている場合は例外をスローする
-                throw new QuillApplicationException("EQLL0003", new object[] {
-                    type.FullName, implType.FullName });
+                throw new QuillApplicationException("EQLL0003", new [] { type.FullName, implType.FullName });
             }
 
             if (implType != null && !type.IsAssignableFrom(implType))
             {
                 // 代入不可能な実装クラスが指定されている場合は例外をスローする
-                throw new QuillApplicationException("EQLL0004", new object[] {
-                    type.FullName, implType.FullName });
+                throw new QuillApplicationException("EQLL0004", new [] { type.FullName, implType.FullName });
             }
 
             // 実装クラスを指定する属性を返す
@@ -103,8 +99,7 @@ namespace Seasar.Quill.Util
             if (!type.IsPublic && !type.IsNestedPublic)
             {
                 // メソッドを宣言するクラスがpublicではない場合は例外をスローする
-                throw new QuillApplicationException("EQLL0016", new object[] {
-                    type.FullName });
+                throw new QuillApplicationException("EQLL0016", new [] { type.FullName });
             }
 
             // Aspectを指定する属性を取得して返す
@@ -120,7 +115,7 @@ namespace Seasar.Quill.Util
         public static AspectAttribute[] GetAspectAttrsByMethod(MethodInfo method)
         {
             // Aspectを指定する属性を取得する
-            AspectAttribute[] attrs = GetAspectAttrsByMember(method);
+            var attrs = GetAspectAttrsByMember(method);
 
             if (attrs.Length == 0)
             {
@@ -128,33 +123,42 @@ namespace Seasar.Quill.Util
                 return attrs;
             }
 
-            if (!method.DeclaringType.IsPublic && !method.DeclaringType.IsNestedPublic)
+            if (method.DeclaringType != null && (!method.DeclaringType.IsPublic && !method.DeclaringType.IsNestedPublic))
             {
                 // メソッドを宣言するクラスがpublicではない場合は例外をスローする
-                throw new QuillApplicationException("EQLL0016", new object[] {
-                    method.DeclaringType.FullName });
+                throw new QuillApplicationException("EQLL0016", new [] { method.DeclaringType.FullName });
             }
 
             if (method.IsStatic)
             {
                 // メソッドがstaticの場合は例外をスローする
-                throw new QuillApplicationException("EQLL0005", new object[] {
-                    method.DeclaringType.FullName, method.Name });
+                if (method.DeclaringType != null)
+                    throw new QuillApplicationException("EQLL0005", new [] {
+                        method.DeclaringType.FullName, method.Name });
+                else
+                    throw new QuillApplicationException("EQLL0005", new[] { "", method.Name });
             }
 
             if (!method.IsPublic)
             {
                 // メソッドがpublicではない場合は例外をスローする
-                throw new QuillApplicationException("EQLL0006", new object[] {
-                    method.DeclaringType.FullName, method.Name });
+                if (method.DeclaringType != null)
+                    throw new QuillApplicationException("EQLL0006", new [] {
+                        method.DeclaringType.FullName, method.Name });
+                else
+                    throw new QuillApplicationException("EQLL0006", new[] { "", method.Name });
             }
 
             if (!method.IsVirtual)
             {
                 // メソッドがvirtualかインターフェースのメソッド
                 // ではない場合は例外をスローする
-                throw new QuillApplicationException("EQLL0007", new object[] {
-                    method.DeclaringType.FullName, method.Name });
+                if (method.DeclaringType != null)
+                    throw new QuillApplicationException("EQLL0007", new [] {
+                        method.DeclaringType.FullName, method.Name });
+                else
+                    throw new QuillApplicationException("EQLL0007", new[] { "", method.Name });
+
             }
 
             // Aspectを指定する属性を返す
@@ -170,12 +174,12 @@ namespace Seasar.Quill.Util
         public static AspectAttribute[] GetAspectAttrsByMember(MemberInfo member)
         {
             // Aspectを指定する属性を取得する
-            AspectAttribute[] attrs =
+            var attrs =
                 (AspectAttribute[])Attribute.GetCustomAttributes(
                 member, typeof(AspectAttribute));
 
             // Aspectを格納するリスト
-            List<AspectAttribute> attrList = 
+            var attrList = 
                 new List<AspectAttribute>(attrs);
 
             // Aspectのリストを並び替える
@@ -200,8 +204,7 @@ namespace Seasar.Quill.Util
             if ( !type.IsPublic && !type.IsNestedPublic )
             {
                 // メソッドを宣言するクラスがpublicではない場合は例外をスローする
-                throw new QuillApplicationException("EQLL0016", new object[] {
-                    type.FullName });
+                throw new QuillApplicationException("EQLL0016", new [] {type.FullName });
             }
             
             // Aspectを指定する属性を取得して返す
@@ -219,8 +222,7 @@ namespace Seasar.Quill.Util
             if (!type.IsPublic && !type.IsNestedPublic)
             {
                 // メソッドを宣言するクラスがpublicではない場合は例外をスローする
-                throw new QuillApplicationException("EQLL0016", new object[] {
-                    type.FullName });
+                throw new QuillApplicationException("EQLL0016", new [] {type.FullName });
             }
 
             // Aspectを指定する属性を取得して返す
@@ -236,14 +238,14 @@ namespace Seasar.Quill.Util
         public static TransactionAttribute GetTransactionAttrByMethod(MethodInfo method)
         {
             // Aspectを指定する属性を取得する
-            TransactionAttribute attr = GetTransactionAttrByMember(method);
+            var attr = GetTransactionAttrByMember(method);
             if ( attr == null )
             {
                 // Aspect属性が指定されていない場合はnullを返す
                 return null;
             }
 
-            ValidateMethodInfo(method);
+            _ValidateMethodInfo(method);
 
             // Aspectを指定する属性を返す
             return attr;
@@ -258,14 +260,14 @@ namespace Seasar.Quill.Util
         public static TransactionAttribute[] GetTransactionAttrsByMethod(MethodInfo method)
         {
             // Aspectを指定する属性を取得する
-            TransactionAttribute[] attrs = GetTransactionAttrsByMember(method);
+            var attrs = GetTransactionAttrsByMember(method);
             if (attrs == null || attrs.Length == 0)
             {
                 // Aspect属性が指定されていない場合はnullを返す
                 return null;
             }
 
-            ValidateMethodInfo(method);
+            _ValidateMethodInfo(method);
 
             // Aspectを指定する属性を返す
             return attrs;
@@ -280,7 +282,7 @@ namespace Seasar.Quill.Util
         public static TransactionAttribute GetTransactionAttrByMember(MemberInfo member)
         {
             // Aspectを指定する属性を取得する
-            TransactionAttribute attr =
+            var attr =
                 (TransactionAttribute)Attribute.GetCustomAttribute(
                 member, typeof(TransactionAttribute));
 
@@ -296,7 +298,7 @@ namespace Seasar.Quill.Util
         public static TransactionAttribute[] GetTransactionAttrsByMember(MemberInfo member)
         {
             // Aspectを指定する属性を取得する
-            TransactionAttribute[] attrs =
+            var attrs =
                 (TransactionAttribute[])Attribute.GetCustomAttributes(
                 member, typeof(TransactionAttribute));
 
@@ -318,8 +320,7 @@ namespace Seasar.Quill.Util
             if (!type.IsPublic && !type.IsNestedPublic)
             {
                 // メソッドを宣言するクラスがpublicではない場合は例外をスローする
-                throw new QuillApplicationException("EQLL0016", new object[] {
-                    type.FullName });
+                throw new QuillApplicationException("EQLL0016", new [] {type.FullName });
             }
 
             // Aspectを指定する属性を取得して返す
@@ -335,14 +336,14 @@ namespace Seasar.Quill.Util
         public static S2DaoAttribute GetS2DaoAttrByMethod(MethodInfo method)
         {
             // Aspectを指定する属性を取得する
-            S2DaoAttribute attr = GetS2DaoAttrByMember(method);
+            var attr = GetS2DaoAttrByMember(method);
             if (attr == null)
             {
                 // Aspect属性が指定されていない場合はnullを返す
                 return null;
             }
 
-            ValidateMethodInfo(method);
+            _ValidateMethodInfo(method);
 
             // Aspectを指定する属性を返す
             return attr;
@@ -357,9 +358,7 @@ namespace Seasar.Quill.Util
         public static S2DaoAttribute GetS2DaoAttrByMember(MemberInfo member)
         {
             // Aspectを指定する属性を取得する
-            S2DaoAttribute attr =
-                (S2DaoAttribute)Attribute.GetCustomAttribute(
-                member, typeof(S2DaoAttribute));
+            var attr = (S2DaoAttribute)Attribute.GetCustomAttribute( member, typeof(S2DaoAttribute));
 
             return attr;
         }
@@ -379,14 +378,13 @@ namespace Seasar.Quill.Util
             if (field.IsStatic)
             {
                 // staticフィールドの場合は例外をスローする
-                throw new QuillApplicationException("EQLL0015", new string[] {
-                    field.DeclaringType.FullName, field.Name});
+                if (field.DeclaringType != null)
+                    throw new QuillApplicationException("EQLL0015", new[] { field.DeclaringType.FullName, field.Name});
             }
 
             // バインディングコンポーネントを指定する属性を取得する
-            BindingAttribute bindingAttr =
-                (BindingAttribute)Attribute.GetCustomAttribute(
-                field, typeof(BindingAttribute));
+            var bindingAttr =
+                (BindingAttribute)Attribute.GetCustomAttribute(field, typeof(BindingAttribute));
 
             // バインディング属性が指定されていない場合はnullを返す
             if (bindingAttr == null || bindingAttr.ComponentName == null)
@@ -411,7 +409,7 @@ namespace Seasar.Quill.Util
         public static MockAttribute GetMockAttr(Type type)
         {
             // 実装クラスを指定する属性を取得する
-            MockAttribute mockAttr = (MockAttribute)Attribute.GetCustomAttribute(
+            var mockAttr = (MockAttribute)Attribute.GetCustomAttribute(
                 type, typeof(MockAttribute));
 
             if (mockAttr == null)
@@ -421,34 +419,30 @@ namespace Seasar.Quill.Util
             }
 
             // Mock属性に指定されたMockクラスのType
-            Type mockType = mockAttr.MockType;
+            var mockType = mockAttr.MockType;
 
             if (mockType == null)
             {
                 // クラスのMock属性にクラスが指定されていない場合は例外をスローする
-                throw new QuillApplicationException("EQLL0019",
-                    new object[] {  });
+                throw new QuillApplicationException("EQLL0019", new [] { "" });
             }
 
             if (mockType.IsInterface)
             {
                 // Mock属性にインターフェースが指定されている場合は例外をスローする
-                throw new QuillApplicationException("EQLL0020", 
-                    new object[] { mockType.FullName });
+                throw new QuillApplicationException("EQLL0020",  new [] { mockType.FullName });
             }
 
             if (mockType.IsAbstract)
             {
                 // Mock属性に抽象クラスが指定されている場合は例外をスローする
-                throw new QuillApplicationException("EQLL0021",
-                    new object[] { mockType.FullName });
+                throw new QuillApplicationException("EQLL0021", new [] { mockType.FullName });
             }
 
             if (!type.IsAssignableFrom(mockType))
             {
                 // 代入不可能なクラスが指定されている場合は例外をスローする
-                throw new QuillApplicationException("EQLL0022",
-                    new object[] { type.FullName, mockType.FullName });
+                throw new QuillApplicationException("EQLL0022", new [] { type.FullName, mockType.FullName });
             }
 
             // Mockクラスを指定する属性を返す
@@ -493,35 +487,34 @@ namespace Seasar.Quill.Util
         /// メソッドにAspectを適用できるか検証
         /// </summary>
         /// <param name="method">検証対象のメソッド情報</param>
-        private static void ValidateMethodInfo(MethodInfo method)
+        private static void _ValidateMethodInfo(MethodInfo method)
         {
-            if ( !method.DeclaringType.IsPublic && !method.DeclaringType.IsNestedPublic )
+            if ( method.DeclaringType != null && (!method.DeclaringType.IsPublic && !method.DeclaringType.IsNestedPublic) )
             {
                 // メソッドを宣言するクラスがpublicではない場合は例外をスローする
-                throw new QuillApplicationException("EQLL0016", new object[] {
-                    method.DeclaringType.FullName });
+                throw new QuillApplicationException("EQLL0016", new [] { method.DeclaringType.FullName });
             }
 
             if ( method.IsStatic )
             {
                 // メソッドがstaticの場合は例外をスローする
-                throw new QuillApplicationException("EQLL0005", new object[] {
-                    method.DeclaringType.FullName, method.Name });
+                if (method.DeclaringType != null)
+                    throw new QuillApplicationException("EQLL0005", new [] { method.DeclaringType.FullName, method.Name });
             }
 
             if ( !method.IsPublic )
             {
                 // メソッドがpublicではない場合は例外をスローする
-                throw new QuillApplicationException("EQLL0006", new object[] {
-                    method.DeclaringType.FullName, method.Name });
+                if (method.DeclaringType != null)
+                    throw new QuillApplicationException("EQLL0006", new [] { method.DeclaringType.FullName, method.Name });
             }
 
             if ( !method.IsVirtual )
             {
                 // メソッドがvirtualかインターフェースのメソッド
                 // ではない場合は例外をスローする
-                throw new QuillApplicationException("EQLL0007", new object[] {
-                    method.DeclaringType.FullName, method.Name });
+                if (method.DeclaringType != null)
+                    throw new QuillApplicationException("EQLL0007", new [] { method.DeclaringType.FullName, method.Name });
             }
         }
 

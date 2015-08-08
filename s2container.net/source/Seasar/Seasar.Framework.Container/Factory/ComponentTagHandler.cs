@@ -17,11 +17,10 @@
 #endregion
 
 using System;
-using System.Reflection;
-using Seasar.Framework.Xml;
-using Seasar.Framework.Util;
 using Seasar.Framework.Container.Impl;
 using Seasar.Framework.Container.Util;
+using Seasar.Framework.Util;
+using Seasar.Framework.Xml;
 
 namespace Seasar.Framework.Container.Factory
 {
@@ -29,24 +28,23 @@ namespace Seasar.Framework.Container.Factory
     {
         public override void Start(TagHandlerContext context, IAttributes attributes)
         {
-            IComponentDef componentDef;
-            string className = attributes["class"];
+            var className = attributes["class"];
             Type componentType = null;
             if (className != null)
             {
-                Assembly[] asms = AppDomain.CurrentDomain.GetAssemblies();
+                var asms = AppDomain.CurrentDomain.GetAssemblies();
                 componentType = ClassUtil.ForName(className, asms);
                 if (componentType == null)
                     throw new ClassNotFoundRuntimeException(className);
             }
-            string name = attributes["name"];
-            componentDef = new ComponentDefImpl(componentType, name);
-            string instanceMode = attributes["instance"];
+            var name = attributes["name"];
+            IComponentDef componentDef = new ComponentDefImpl(componentType, name);
+            var instanceMode = attributes["instance"];
             if (instanceMode != null)
             {
                 componentDef.InstanceMode = instanceMode;
             }
-            string autoBindingMode = attributes["autoBinding"];
+            var autoBindingMode = attributes["autoBinding"];
             if (autoBindingMode != null)
             {
                 componentDef.AutoBindingMode = autoBindingMode;
@@ -56,7 +54,7 @@ namespace Seasar.Framework.Container.Factory
 
         public override void End(TagHandlerContext context, string body)
         {
-            IComponentDef componentDef = (IComponentDef) context.Pop();
+            var componentDef = (IComponentDef) context.Pop();
             string expression = null;
             if (body != null)
             {
@@ -78,12 +76,12 @@ namespace Seasar.Framework.Container.Factory
             }
             if (context.Peek() is IS2Container)
             {
-                IS2Container container = (IS2Container) context.Peek();
+                var container = (IS2Container) context.Peek();
                 container.Register(componentDef);
             }
             else
             {
-                IArgDef argDef = (IArgDef) context.Peek();
+                var argDef = (IArgDef) context.Peek();
                 argDef.ChildComponentDef = componentDef;
             }
         }

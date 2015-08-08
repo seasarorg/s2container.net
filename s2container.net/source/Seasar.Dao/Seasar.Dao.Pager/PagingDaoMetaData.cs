@@ -27,16 +27,16 @@ namespace Seasar.Dao.Pager
     {
         protected override string[] GetArgNames(MethodInfo mi)
         {
-            PagerAttribute pageable = PagerConditionUtil.GetPagerAttribute(mi);
+            var pageable = PagerConditionUtil.GetPagerAttribute(mi);
             if (pageable == null)
             {
                 return base.GetArgNames(mi);
             }
             else
             {
-                ArrayList list = new ArrayList();
-                ParameterInfo[] parameters = mi.GetParameters();
-                for (int i = 0; i < parameters.Length; ++i)
+                var list = new ArrayList();
+                var parameters = mi.GetParameters();
+                for (var i = 0; i < parameters.Length; ++i)
                 {
                     if (parameters[i].Name != pageable.LimitParameter && parameters[i].Name != pageable.OffsetParameter)
                     {
@@ -49,16 +49,16 @@ namespace Seasar.Dao.Pager
 
         protected override Type[] GetArgTypes(MethodInfo mi)
         {
-            PagerAttribute pageable = PagerConditionUtil.GetPagerAttribute(mi);
+            var pageable = PagerConditionUtil.GetPagerAttribute(mi);
             if (pageable == null)
             {
                 return base.GetArgTypes(mi);
             }
             else
             {
-                ArrayList list = new ArrayList();
-                ParameterInfo[] parameters = mi.GetParameters();
-                for (int i = 0; i < parameters.Length; ++i)
+                var list = new ArrayList();
+                var parameters = mi.GetParameters();
+                for (var i = 0; i < parameters.Length; ++i)
                 {
                     if (parameters[i].Name != pageable.LimitParameter && parameters[i].Name != pageable.OffsetParameter)
                     {

@@ -38,24 +38,24 @@ namespace Seasar.Tests.Extension.DataSets.Impl
         [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
         public void Created()
         {
-            DataTable table = new DataTable("emp");
+            var table = new DataTable("emp");
             table.Columns.Add("empno", typeof(int));
             table.Columns.Add("ename", typeof(string));
             table.Columns.Add("dname", typeof(string));
-            DataRow row = table.NewRow();
+            var row = table.NewRow();
             row["empno"] = 9900;
             row["ename"] = "hoge";
             row["dname"] = "aaa";
             table.Rows.Add(row);
 
-            SqlTableWriter writer = new SqlTableWriter(DataSource);
+            var writer = new SqlTableWriter(DataSource);
 
 
             writer.Write(table);
 
-            SqlTableReader reader = new SqlTableReader(DataSource);
+            var reader = new SqlTableReader(DataSource);
             reader.SetTable("emp", "empno = 9900");
-            DataTable ret = reader.Read();
+            var ret = reader.Read();
             Trace.WriteLine(ToStringUtil.ToString(ret));
             Assert.IsNotNull(ret, "1");
         }
@@ -68,20 +68,20 @@ namespace Seasar.Tests.Extension.DataSets.Impl
         [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
         public void Modified()
         {
-            SqlTableReader reader = new SqlTableReader(DataSource);
-            string sql = "SELECT empno, ename, dname FROM emp, dept WHERE empno = 7788 AND emp.deptno = dept.deptno";
+            var reader = new SqlTableReader(DataSource);
+            var sql = "SELECT empno, ename, dname FROM emp, dept WHERE empno = 7788 AND emp.deptno = dept.deptno";
             reader.SetSql(sql, "emp");
-            DataTable table = reader.Read();
-            DataRow row = table.Rows[0];
+            var table = reader.Read();
+            var row = table.Rows[0];
             row["ename"] = "hoge";
             row["dname"] = "aaa";
 
-            SqlTableWriter writer = new SqlTableWriter(DataSource);
+            var writer = new SqlTableWriter(DataSource);
             writer.Write(table);
 
-            SqlTableReader reader2 = new SqlTableReader(DataSource);
+            var reader2 = new SqlTableReader(DataSource);
             reader2.SetTable("emp", "empno = 7788");
-            DataTable table2 = reader2.Read();
+            var table2 = reader2.Read();
             Trace.WriteLine(ToStringUtil.ToString(table2));
             Assert.AreEqual("hoge", table2.Rows[0]["ename"], "1");
         }
@@ -94,19 +94,19 @@ namespace Seasar.Tests.Extension.DataSets.Impl
         [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
         public void Removed()
         {
-            SqlTableReader reader = new SqlTableReader(DataSource);
-            string sql = "SELECT empno, ename, dname FROM emp, dept WHERE empno = 7788 AND emp.deptno = dept.deptno";
+            var reader = new SqlTableReader(DataSource);
+            var sql = "SELECT empno, ename, dname FROM emp, dept WHERE empno = 7788 AND emp.deptno = dept.deptno";
             reader.SetSql(sql, "emp");
-            DataTable table = reader.Read();
-            DataRow row = table.Rows[0];
+            var table = reader.Read();
+            var row = table.Rows[0];
             row.Delete();
 
-            SqlTableWriter writer = new SqlTableWriter(DataSource);
+            var writer = new SqlTableWriter(DataSource);
             writer.Write(table);
 
-            SqlTableReader reader2 = new SqlTableReader(DataSource);
+            var reader2 = new SqlTableReader(DataSource);
             reader2.SetTable("emp", "empno = 7788");
-            DataTable table2 = reader2.Read();
+            var table2 = reader2.Read();
             Trace.WriteLine(ToStringUtil.ToString(table2));
             Assert.AreEqual(0, table2.Rows.Count, "1");
         }

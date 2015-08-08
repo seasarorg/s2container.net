@@ -23,16 +23,11 @@ namespace Seasar.Dao.Attrs
     [AttributeUsage(AttributeTargets.Class)]
     public class TableAttribute : Attribute
     {
-        private readonly string _tableName;
-
         public TableAttribute(string tableName)
         {
-            _tableName = tableName;
+            TableName = tableName;
         }
 
-        public string TableName
-        {
-            get { return _tableName; }
-        }
+        public string TableName { get; }
     }
 }

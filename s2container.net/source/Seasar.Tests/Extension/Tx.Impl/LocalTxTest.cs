@@ -31,16 +31,14 @@ namespace Seasar.Tests.Extension.Tx.Impl
 
     public class LocalTxTest : ILocalTxTest
     {
-        private ITransactionContext _context;
-
         public bool IsInTransaction()
         {
-            return _context.Current.IsInTransaction;
+            return TC.Current.IsInTransaction;
         }
 
         public IDbConnection GetConnection()
         {
-            return _context.Current.Connection;
+            return TC.Current.Connection;
         }
 
         public void throwException()
@@ -48,10 +46,6 @@ namespace Seasar.Tests.Extension.Tx.Impl
             throw new NotSupportedException();
         }
 
-        public ITransactionContext TC
-        {
-            get { return _context; }
-            set { _context = value; }
-        }
+        public ITransactionContext TC { get; set; }
     }
 }

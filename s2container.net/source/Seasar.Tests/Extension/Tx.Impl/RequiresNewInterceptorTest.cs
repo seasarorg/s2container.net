@@ -31,17 +31,11 @@ namespace Seasar.Tests.Extension.Tx.Impl
     [TestFixture]
     public class RequiresNewInterceptorTest : S2FrameworkTestCaseBase
     {
-        private ITxTest _txTest;
-
-        public ITxTest TxTest
-        {
-            get { return _txTest; }
-            set { _txTest = value; }
-        }
+        public ITxTest TxTest { get; set; }
 
         public RequiresNewInterceptorTest()
         {
-            FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
+            var info = new FileInfo(SystemInfo.AssemblyFileName(
                 Assembly.GetExecutingAssembly()) + ".config");
             XmlConfigurator.Configure(LogManager.GetRepository(), info);
             base.Container = S2ContainerFactory.Create(base.ConvertPath("RequiresNewInterceptorTest.dicon"));
@@ -58,9 +52,9 @@ namespace Seasar.Tests.Extension.Tx.Impl
         [Test]
         public void StartTxInTx()
         {
-            using (TransactionScope scope = new TransactionScope())
+            using (var scope = new TransactionScope())
             {
-                Transaction tx = Transaction.Current;
+                var tx = Transaction.Current;
                 Assert.AreEqual(false, tx.TransactionInformation.LocalIdentifier.Equals(TxTest.TxId));
             }
         }
@@ -81,9 +75,9 @@ namespace Seasar.Tests.Extension.Tx.Impl
         [Test]
         public void ThrowExceptionInTx()
         {
-            using (TransactionScope scope = new TransactionScope())
+            using (var scope = new TransactionScope())
             {
-                Transaction tx = Transaction.Current;
+                var tx = Transaction.Current;
                 try
                 {
                     TxTest.throwException();
@@ -101,12 +95,12 @@ namespace Seasar.Tests.Extension.Tx.Impl
         [Test]
         public void ScopeTest()
         {
-            using (TransactionScope scope = new TransactionScope())
+            using (var scope = new TransactionScope())
             {
-                Transaction tx = Transaction.Current;
-                using (TransactionScope scope2 = new TransactionScope(TransactionScopeOption.Required))
+                var tx = Transaction.Current;
+                using (var scope2 = new TransactionScope(TransactionScopeOption.Required))
                 {
-                    Transaction tx2 = Transaction.Current;
+                    var tx2 = Transaction.Current;
                     Assert.IsTrue(tx.TransactionInformation.Status == TransactionStatus.Active, "0");
                     Assert.IsTrue(tx2.TransactionInformation.Status == TransactionStatus.Active, "1");
                     scope2.Complete();

@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -40,13 +40,13 @@ namespace Seasar.Tests.Extension.ADO.Impl
         public void Handle()
         {
             IDataReaderHandler handler = new DictionaryDataReaderHandler();
-            string sql = "select * from emp where empno = 7788";
-            IDbConnection con = Connection;
-            IDbCommand cmd = con.CreateCommand();
+            var sql = "select * from emp where empno = 7788";
+            var con = Connection;
+            var cmd = con.CreateCommand();
             cmd.CommandText = sql;
             Hashtable ret = null;
-            DataSource.SetTransaction(cmd);	// Tx.Rollback‚ğw’è‚µ‚È‚¢‚ÆADataSource‚ªƒZƒbƒg‚³‚ê‚È‚¢
-            IDataReader reader = cmd.ExecuteReader();
+            DataSource.SetTransaction(cmd);	// Tx.Rollbacã‚’æŒ‡å®šã—ãªã„ã¨ã€DataSourceãŒã‚»ãƒƒãƒˆã•ã‚Œãªã„
+            var reader = cmd.ExecuteReader();
             try
             {
                 ret = (Hashtable) handler.Handle(reader);

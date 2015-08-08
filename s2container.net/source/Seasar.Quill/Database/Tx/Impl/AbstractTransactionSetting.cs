@@ -1,4 +1,4 @@
-#region Copyright
+﻿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -19,6 +19,7 @@
 using Seasar.Extension.ADO;
 using Seasar.Extension.Tx;
 using Seasar.Framework.Aop;
+using Seasar.Framework.Util;
 using Seasar.Quill.Exception;
 
 namespace Seasar.Quill.Database.Tx.Impl
@@ -28,44 +29,32 @@ namespace Seasar.Quill.Database.Tx.Impl
     /// </summary>
     public abstract class AbstractTransactionSetting : ITransactionSetting
     {
-        protected bool _isNeedSetup = true;
+        protected bool isNeedSetup = true;
 
-        protected ITransactionContext _transactionContext = null;
+        protected ITransactionContext transactionContext = null;
 
-        protected IMethodInterceptor _transactionInterceptor = null;
+        protected IMethodInterceptor transactionInterceptor = null;
 
         #region ITransactionSetting メンバ
 
-        public virtual string DataSourceName
-        {
-            get { return null; }
-        }
+        public virtual string DataSourceName => null;
 
-        public ITransactionContext TransactionContext
-        {
-            get { return _transactionContext; }
-        }
+        public ITransactionContext TransactionContext => transactionContext;
 
-        public IMethodInterceptor TransactionInterceptor
-        {
-            get { return _transactionInterceptor; }
-        }
+        public IMethodInterceptor TransactionInterceptor => transactionInterceptor;
 
         public void Setup(IDataSource dataSource)
         {
             SetupTransaction(dataSource);
-            if (_transactionContext == null)
+            if (transactionContext == null)
             {
-                throw new QuillApplicationException("EQLL0028", new object[] { this.GetType().Name });
+                throw new QuillApplicationException("EQLL0028", new [] { this.GetExType().Name });
             }
 
-            _isNeedSetup = false;
+            isNeedSetup = false;
         }
 
-        public virtual bool IsNeedSetup()
-        {
-            return _isNeedSetup;
-        }
+        public virtual bool IsNeedSetup() => isNeedSetup;
 
         #endregion
 

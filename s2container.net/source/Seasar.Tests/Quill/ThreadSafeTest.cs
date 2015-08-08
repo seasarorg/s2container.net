@@ -40,9 +40,9 @@ namespace Seasar.Tests.Quill
         [Test]
         public void TestThreadSafe()
         {
-            Thread t1 = new Thread(MyGetComponent);
-            Thread t2 = new Thread(MyGetComponent);
-            Thread t3 = new Thread(MyGetComponent);
+            var t1 = new Thread(MyGetComponent);
+            var t2 = new Thread(MyGetComponent);
+            var t3 = new Thread(MyGetComponent);
 
             t1.Start();
             t2.Start();

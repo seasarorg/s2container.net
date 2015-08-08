@@ -16,16 +16,15 @@
  */
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Seasar.Extension.ADO.Impl;
-using Seasar.Framework.Container;
-using Seasar.Framework.Log;
-using Seasar.Framework.Aop.Interceptors;
 using Seasar.Framework.Aop;
+using Seasar.Framework.Aop.Interceptors;
+using Seasar.Framework.Log;
 using Seasar.Quill.Exception;
 using Seasar.Quill.Util;
-using System;
 
 namespace Seasar.Quill.Dao.Interceptor
 {
@@ -60,26 +59,18 @@ namespace Seasar.Quill.Dao.Interceptor
             get { return _daoDataSourceMap; }
         }
 
-        protected readonly string _dataSourceName;
+        protected readonly string dataSourceName;
         /// <summary>
         /// 切り替え後のデータソース名
         /// </summary>
-        public virtual string DataSourceName
-        {
-            get { return _dataSourceName; }
-        }
+        public virtual string DataSourceName => dataSourceName;
 
-
-        private AbstractSelectableDataSourceProxy _dataSourceProxy;
 
         /// <summary>
         /// データソース
         /// </summary>
-        public AbstractSelectableDataSourceProxy DataSourceProxy
-        {
-            set { _dataSourceProxy = value; }
-            get { return _dataSourceProxy; }
-        }
+        public AbstractSelectableDataSourceProxy DataSourceProxy { set; get; }
+
         #endregion
 
         /// <summary>
@@ -88,7 +79,7 @@ namespace Seasar.Quill.Dao.Interceptor
         /// <param name="dataSourceName">(Not Null or Empty</param>
         protected DataSourceSelectInterceptor(string dataSourceName)
         {
-            _dataSourceName = dataSourceName;
+            this.dataSourceName = dataSourceName;
         }
 
         #region static
@@ -101,7 +92,7 @@ namespace Seasar.Quill.Dao.Interceptor
         {
             if (string.IsNullOrEmpty(dataSourceName))
             {
-                throw new ArgumentNullException("dataSourceName");
+                throw new ArgumentNullException(nameof(dataSourceName));
             }
    
             if(_interceptorMap.ContainsKey(dataSourceName))
@@ -130,14 +121,14 @@ namespace Seasar.Quill.Dao.Interceptor
                 throw new QuillApplicationException("EQLL0038"); 
             }
 
-            IComponentDef def = GetComponentDef(invocation);
+            var def = GetComponentDef(invocation);
             if (def != null)
             {
-                string dataSourceName = DataSourceName;
+                var dsName = DataSourceName;
 
-                if (DataSourceProxy != null && string.IsNullOrEmpty(dataSourceName) == false)
+                if (DataSourceProxy != null && string.IsNullOrEmpty(dsName) == false)
                 {
-                    DataSourceProxy.SetDataSourceName(dataSourceName);
+                    DataSourceProxy.SetDataSourceName(dsName);
                 }
             }
 

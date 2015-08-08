@@ -21,6 +21,7 @@ using MbUnit.Framework;
 using System.Reflection;
 using Seasar.Framework.Beans.Impl;
 using Seasar.Framework.Beans;
+using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Framework.Beans.Impl
 {
@@ -33,10 +34,10 @@ namespace Seasar.Tests.Framework.Beans.Impl
         [Test]
         public void TestIsReadOnly()
         {
-            FieldInfo readonlyField = typeof (ReadableTest).GetField("ReadOnlyField");
-            FieldDescImpl readonlyFieldDesc = new FieldDescImpl(readonlyField);
-            FieldInfo reaableField = typeof (ReadableTest).GetField("ReadableField");
-            FieldDescImpl readableFieldDesc = new FieldDescImpl(reaableField);
+            var readonlyField = typeof (_ReadableTest).GetField("ReadOnlyField");
+            var readonlyFieldDesc = new FieldDescImpl(readonlyField);
+            var reaableField = typeof (_ReadableTest).GetField("ReadableField");
+            var readableFieldDesc = new FieldDescImpl(reaableField);
 
             Assert.IsTrue(readonlyFieldDesc.IsReadOnly(), "読み取り専用のはず");
             Assert.IsFalse(readableFieldDesc.IsReadOnly(), "読み書きOKのはず");
@@ -48,11 +49,11 @@ namespace Seasar.Tests.Framework.Beans.Impl
         [Test]
         public void TestGetValue()
         {
-            FieldInfo fieldInfo = typeof (GetValueTest).GetField("TestField");
-            FieldDescImpl fieldDescImpl = new FieldDescImpl(fieldInfo);
-            GetValueTest target = new GetValueTest();
+            var fieldInfo = typeof (_GetValueTest).GetField("TestField");
+            var fieldDescImpl = new FieldDescImpl(fieldInfo);
+            var target = new _GetValueTest();
 
-            object result = fieldDescImpl.GetValue(target);
+            var result = fieldDescImpl.GetValue(target);
             Assert.IsTrue(result is string, "文字列のはず");
             Assert.AreEqual(target.TestField, result, "targetから直接取得した場合と同じ値のはず");
         }
@@ -61,11 +62,11 @@ namespace Seasar.Tests.Framework.Beans.Impl
         /// 値を取得できなかったときの例外が想定通りか（targetの型が違う場合）
         /// </summary>
         [Test]
-        public void TestGetValue_Exception_NotSameClass()
+        public void TestGetValueExceptionNotSameClass()
         {
-            FieldInfo fieldInfo = typeof(GetValueTest).GetField("TestField");
-            FieldDescImpl fieldDescImpl = new FieldDescImpl(fieldInfo);
-            ReadableTest target = new ReadableTest();
+            var fieldInfo = typeof(_GetValueTest).GetField("TestField");
+            var fieldDescImpl = new FieldDescImpl(fieldInfo);
+            var target = new _ReadableTest();
 
             try
             {
@@ -75,10 +76,10 @@ namespace Seasar.Tests.Framework.Beans.Impl
             catch (Exception ex)
             {
                 Assert.IsTrue(ex is IllegalFieldRuntimeException);
-                IllegalFieldRuntimeException targetException = (IllegalFieldRuntimeException)ex;
-                Assert.AreEqual(typeof(GetValueTest), targetException.ComponentType);
+                var targetException = (IllegalFieldRuntimeException)ex;
+                Assert.AreEqual(typeof(_GetValueTest), targetException.ComponentType);
                 Assert.AreEqual("TestField", targetException.FieldName);
-                Assert.AreEqual(typeof(ArgumentException), targetException.InnerException.GetType());
+                Assert.AreEqual(typeof(ArgumentException), targetException.InnerException.GetExType());
             } 
         }
 
@@ -86,10 +87,10 @@ namespace Seasar.Tests.Framework.Beans.Impl
         /// 値を取得できなかったときの例外が想定通りか(targetがnullだった場合）
         /// </summary>
         [Test]
-        public void TestGetValue_Exception_TargetNull()
+        public void TestGetValueExceptionTargetNull()
         {
-            FieldInfo fieldInfo = typeof(GetValueTest).GetField("TestField");
-            FieldDescImpl fieldDescImpl = new FieldDescImpl(fieldInfo);
+            var fieldInfo = typeof(_GetValueTest).GetField("TestField");
+            var fieldDescImpl = new FieldDescImpl(fieldInfo);
 
             try
             {
@@ -99,10 +100,10 @@ namespace Seasar.Tests.Framework.Beans.Impl
             catch (Exception ex)
             {
                 Assert.IsTrue(ex is IllegalFieldRuntimeException);
-                IllegalFieldRuntimeException targetException = (IllegalFieldRuntimeException)ex;
-                Assert.AreEqual(typeof(GetValueTest), targetException.ComponentType);
+                var targetException = (IllegalFieldRuntimeException)ex;
+                Assert.AreEqual(typeof(_GetValueTest), targetException.ComponentType);
                 Assert.AreEqual("TestField", targetException.FieldName);
-                Assert.AreEqual(typeof(TargetException), targetException.InnerException.GetType());
+                Assert.AreEqual(typeof(TargetException), targetException.InnerException.GetExType());
             }
         }
 
@@ -112,9 +113,9 @@ namespace Seasar.Tests.Framework.Beans.Impl
         [Test]
         public void TestSetValue()
         {
-            FieldInfo fieldInfo = typeof(GetValueTest).GetField("TestField");
-            FieldDescImpl fieldDescImpl = new FieldDescImpl(fieldInfo);
-            GetValueTest target = new GetValueTest();
+            var fieldInfo = typeof(_GetValueTest).GetField("TestField");
+            var fieldDescImpl = new FieldDescImpl(fieldInfo);
+            var target = new _GetValueTest();
 
             fieldDescImpl.SetValue(target, "Huga");
             Assert.AreEqual("Huga", target.TestField, "値が設定されているはず");
@@ -124,11 +125,11 @@ namespace Seasar.Tests.Framework.Beans.Impl
         /// 値設定：例外パターン（読み取り専用だった場合）
         /// </summary>
         [Test]
-        public void TestSetValue_Exception_ReadOnly()
+        public void TestSetValueExceptionReadOnly()
         {
-            FieldInfo fieldInfo = typeof(ReadableTest).GetField("ReadOnlyField");
-            FieldDescImpl fieldDescImpl = new FieldDescImpl(fieldInfo);
-            ReadableTest target = new ReadableTest();
+            var fieldInfo = typeof(_ReadableTest).GetField("ReadOnlyField");
+            var fieldDescImpl = new FieldDescImpl(fieldInfo);
+            var target = new _ReadableTest();
 
             try
             {
@@ -138,10 +139,10 @@ namespace Seasar.Tests.Framework.Beans.Impl
             catch (Exception ex)
             {
                 Assert.IsTrue(ex is IllegalFieldRuntimeException);
-                IllegalFieldRuntimeException targetException = (IllegalFieldRuntimeException)ex;
-                Assert.AreEqual(typeof(ReadableTest), targetException.ComponentType);
+                var targetException = (IllegalFieldRuntimeException)ex;
+                Assert.AreEqual(typeof(_ReadableTest), targetException.ComponentType);
                 Assert.AreEqual("ReadOnlyField", targetException.FieldName);
-                Assert.AreEqual(typeof(FieldAccessException), targetException.InnerException.GetType());
+                Assert.AreEqual(typeof(FieldAccessException), targetException.InnerException.GetExType());
             }
         }
 
@@ -149,11 +150,11 @@ namespace Seasar.Tests.Framework.Beans.Impl
         /// 値設定：例外パターン（設定できない型だった場合）
         /// </summary>
         [Test]
-        public void TestSetValue_Exception_NotAssignable()
+        public void TestSetValueExceptionNotAssignable()
         {
-            FieldInfo fieldInfo = typeof(GetValueTest).GetField("TestField");
-            FieldDescImpl fieldDescImpl = new FieldDescImpl(fieldInfo);
-            GetValueTest target = new GetValueTest();
+            var fieldInfo = typeof(_GetValueTest).GetField("TestField");
+            var fieldDescImpl = new FieldDescImpl(fieldInfo);
+            var target = new _GetValueTest();
 
             try
             {
@@ -163,10 +164,10 @@ namespace Seasar.Tests.Framework.Beans.Impl
             catch (Exception ex)
             {
                 Assert.IsTrue(ex is IllegalFieldRuntimeException);
-                IllegalFieldRuntimeException targetException = (IllegalFieldRuntimeException)ex;
-                Assert.AreEqual(typeof(GetValueTest), targetException.ComponentType);
+                var targetException = (IllegalFieldRuntimeException)ex;
+                Assert.AreEqual(typeof(_GetValueTest), targetException.ComponentType);
                 Assert.AreEqual("TestField", targetException.FieldName);
-                Assert.AreEqual(typeof(ArgumentException), targetException.InnerException.GetType());
+                Assert.AreEqual(typeof(ArgumentException), targetException.InnerException.GetExType());
             }
         }
 
@@ -174,11 +175,11 @@ namespace Seasar.Tests.Framework.Beans.Impl
         /// 値設定：例外パターン（targetの型が違った場合）
         /// </summary>
         [Test]
-        public void TestSetValue_Exception_NotSameClass()
+        public void TestSetValueExceptionNotSameClass()
         {
-            FieldInfo fieldInfo = typeof(GetValueTest).GetField("TestField");
-            FieldDescImpl fieldDescImpl = new FieldDescImpl(fieldInfo);
-            ReadableTest target = new ReadableTest();
+            var fieldInfo = typeof(_GetValueTest).GetField("TestField");
+            var fieldDescImpl = new FieldDescImpl(fieldInfo);
+            var target = new _ReadableTest();
 
             try
             {
@@ -188,10 +189,10 @@ namespace Seasar.Tests.Framework.Beans.Impl
             catch (Exception ex)
             {
                 Assert.IsTrue(ex is IllegalFieldRuntimeException);
-                IllegalFieldRuntimeException targetException = (IllegalFieldRuntimeException)ex;
-                Assert.AreEqual(typeof(GetValueTest), targetException.ComponentType);
+                var targetException = (IllegalFieldRuntimeException)ex;
+                Assert.AreEqual(typeof(_GetValueTest), targetException.ComponentType);
                 Assert.AreEqual("TestField", targetException.FieldName);
-                Assert.AreEqual(typeof(ArgumentException), targetException.InnerException.GetType());
+                Assert.AreEqual(typeof(ArgumentException), targetException.InnerException.GetExType());
             }
         }
 
@@ -199,10 +200,10 @@ namespace Seasar.Tests.Framework.Beans.Impl
         /// 値設定：例外パターン（targetがnullだった場合）
         /// </summary>
         [Test]
-        public void TestSetValue_Exception_TargetNull()
+        public void TestSetValueExceptionTargetNull()
         {
-            FieldInfo fieldInfo = typeof(GetValueTest).GetField("TestField");
-            FieldDescImpl fieldDescImpl = new FieldDescImpl(fieldInfo);
+            var fieldInfo = typeof(_GetValueTest).GetField("TestField");
+            var fieldDescImpl = new FieldDescImpl(fieldInfo);
 
             try
             {
@@ -212,10 +213,10 @@ namespace Seasar.Tests.Framework.Beans.Impl
             catch (Exception ex)
             {
                 Assert.IsTrue(ex is IllegalFieldRuntimeException);
-                IllegalFieldRuntimeException targetException = (IllegalFieldRuntimeException)ex;
-                Assert.AreEqual(typeof(GetValueTest), targetException.ComponentType);
+                var targetException = (IllegalFieldRuntimeException)ex;
+                Assert.AreEqual(typeof(_GetValueTest), targetException.ComponentType);
                 Assert.AreEqual("TestField", targetException.FieldName);
-                Assert.AreEqual(typeof(TargetException), targetException.InnerException.GetType());
+                Assert.AreEqual(typeof(TargetException), targetException.InnerException.GetExType());
             }
         }
 
@@ -224,16 +225,16 @@ namespace Seasar.Tests.Framework.Beans.Impl
         /// <summary>
         /// 読み取り専用判定テストクラス
         /// </summary>
-        private class ReadableTest
+        private class _ReadableTest
         {
-            public const string ReadOnlyField = "Test";
+            public const string READ_ONLY_FIELD = "Test";
             public string ReadableField = "Test";
         }
 
         /// <summary>
         /// 値取得テスト用クラス
         /// </summary>
-        private class GetValueTest
+        private class _GetValueTest
         {
             public string TestField = "Hoge";
         }

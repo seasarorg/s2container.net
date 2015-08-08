@@ -26,9 +26,9 @@ namespace Seasar.Extension.ADO
         void CloseConnection(IDbConnection connection);
 
         IDbCommand GetCommand();
-        IDbCommand GetCommand(string cmdText);
-        IDbCommand GetCommand(string cmdText, IDbConnection connection);
-        IDbCommand GetCommand(string cmdText, IDbConnection connection, IDbTransaction transaction);
+        IDbCommand GetCommand(string text);
+        IDbCommand GetCommand(string text, IDbConnection connection);
+        IDbCommand GetCommand(string text, IDbConnection connection, IDbTransaction transaction);
 
         IDataParameter GetParameter();
         IDataParameter GetParameter(string name, DbType dataType);

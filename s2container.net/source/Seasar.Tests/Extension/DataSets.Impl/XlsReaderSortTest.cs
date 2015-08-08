@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -27,7 +27,7 @@ using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Extension.DataSets.Impl
 {
-    [Ignore("Microsoft.Jet.OLEDB4.0‚Í32bitOS‚Å‚µ‚©“®ì‚µ‚È‚¢‚½‚ß“®‚©‚¹‚¸B•Û—¯B")]
+    [Ignore("Microsoft.Jet.OLEDB4.0ã¯32bitOSã§ã—ã‹å‹•ä½œã—ãªã„ãŸã‚å‹•ã‹ã›ãšã€‚ä¿ç•™ã€‚")]
     [TestFixture]
     public class XlsReaderSortTest : S2TestCase
     {
@@ -38,13 +38,13 @@ namespace Seasar.Tests.Extension.DataSets.Impl
         [SetUp]
         public void SetUp()
         {
-            using (Stream stream = ResourceUtil.GetResourceAsStream(PATH, Assembly.GetExecutingAssembly()))
+            using (var stream = ResourceUtil.GetResourceAsStream(PATH, Assembly.GetExecutingAssembly()))
             {
                 dataSet = new XlsReader(stream).Read();
             }
         }
 
-        [Ignore("Microsoft.Jet.OLEDB4.0‚Í32bitOS‚Å‚µ‚©“®ì‚µ‚È‚¢‚½‚ß“®‚©‚¹‚¸B•Û—¯B")]
+        [Ignore("Microsoft.Jet.OLEDB4.0ã¯32bitOSã§ã—ã‹å‹•ä½œã—ãªã„ãŸã‚å‹•ã‹ã›ãšã€‚ä¿ç•™ã€‚")]
         [Test]
         public void TestCreateTable()
         {
@@ -52,13 +52,13 @@ namespace Seasar.Tests.Extension.DataSets.Impl
             Trace.WriteLine(ToStringUtil.ToString(dataSet));
         }
 
-        [Ignore("Microsoft.Jet.OLEDB4.0‚Í32bitOS‚Å‚µ‚©“®ì‚µ‚È‚¢‚½‚ß“®‚©‚¹‚¸B•Û—¯B")]
+        [Ignore("Microsoft.Jet.OLEDB4.0ã¯32bitOSã§ã—ã‹å‹•ä½œã—ãªã„ãŸã‚å‹•ã‹ã›ãšã€‚ä¿ç•™ã€‚")]
         [Test]
         public void TestSort()
         {
             Assert.AreEqual(dataSet.Tables[0].TableName, "TEST_TABLE", "1");
             Assert.AreEqual(dataSet.Tables[1].TableName, "SECOND_TABLE", "2");
-            Assert.AreEqual(dataSet.Tables[2].TableName, "‚ ", "3");
+            Assert.AreEqual(dataSet.Tables[2].TableName, "ã‚", "3");
             Assert.AreEqual(dataSet.Tables[3].TableName, "EMPTY_TABLE", "4");
         }
     }

@@ -28,10 +28,7 @@ namespace Seasar.Dao.Node
 
         #region INode ƒƒ“ƒo
 
-        public int ChildSize
-        {
-            get { return _children.Count; }
-        }
+        public int ChildSize => _children.Count;
 
         public INode GetChild(int index)
         {
@@ -47,7 +44,7 @@ namespace Seasar.Dao.Node
         {
             foreach (INode child in _children)
             {
-                if (child.GetType().Equals(childType)) return true;
+                if (child.GetExType() == childType) return true;
             }
             return false;
         }
@@ -58,10 +55,12 @@ namespace Seasar.Dao.Node
 
         protected object InvokeExpression(string expression, ICommandContext ctx)
         {
-            Hashtable ht = new Hashtable();
-            ht["self"] = ctx;
-            ht["out"] = Console.Out;
-            ht["err"] = Console.Error;
+            var ht = new Hashtable
+            {
+                ["self"] = ctx,
+                ["out"] = Console.Out,
+                ["err"] = Console.Error
+            };
             return JScriptUtil.Evaluate(expression, ht, null);
         }
     }

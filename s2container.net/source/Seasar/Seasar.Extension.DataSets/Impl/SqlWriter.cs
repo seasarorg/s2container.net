@@ -24,9 +24,6 @@ namespace Seasar.Extension.DataSets.Impl
 {
     public class SqlWriter : IDataWriter
     {
-        private readonly IDataSource _dataSource;
-        private ICommandFactory _commandFactory;
-
         public SqlWriter(IDataSource dataSource)
             : this(dataSource, BasicCommandFactory.INSTANCE)
         {
@@ -34,20 +31,13 @@ namespace Seasar.Extension.DataSets.Impl
 
         public SqlWriter(IDataSource dataSource, ICommandFactory commandFactory)
         {
-            _dataSource = dataSource;
-            _commandFactory = commandFactory;
+            DataSource = dataSource;
+            CommandFactory = commandFactory;
         }
 
-        public IDataSource DataSource
-        {
-            get { return _dataSource; }
-        }
+        public IDataSource DataSource { get; }
 
-        public ICommandFactory CommandFactory
-        {
-            get { return _commandFactory; }
-            set { _commandFactory = value; }
-        }
+        public ICommandFactory CommandFactory { get; set; }
 
         #region IDataWriter ÉÅÉìÉo
 

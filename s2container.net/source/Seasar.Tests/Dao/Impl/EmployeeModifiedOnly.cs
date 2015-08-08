@@ -20,41 +20,31 @@ using System;
 using System.Collections;
 using System.Text;
 using Seasar.Dao.Attrs;
+using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Dao.Impl
 {
     [Table("EMP")]
     public class EmployeeModifiedOnly
     {
-        private long _empno;
         private string _ename;
         private string _job;
         private int? _mgr;
         private DateTime? _hiredate;
-        private Nullable<int> _sal;
+        private int? _sal;
         private string _dummy;
-        private DepartmentModifiedOnly _department;
-        private IDictionary _modifiedPropertyNames = new Hashtable();
 
         [Relno(0)]
-        public DepartmentModifiedOnly Department
-        {
-            set { _department = value; }
-            get { return _department; }
-        }
+        public DepartmentModifiedOnly Department { set; get; }
 
-        public long Empno
-        {
-            set { _empno = value; }
-            get { return _empno; }
-        }
+        public long Empno { set; get; }
 
         public string Ename
         {
             set 
             {
                 _ename = value;
-                _modifiedPropertyNames["EName"] = _ename;
+                ModifiedPropertyNames["EName"] = _ename;
             }
             get { return _ename; }
         }
@@ -65,7 +55,7 @@ namespace Seasar.Tests.Dao.Impl
             set
             {
                 _job = value;
-                _modifiedPropertyNames["JobName"] = _job;
+                ModifiedPropertyNames["JobName"] = _job;
             }
             get { return _job; }
         }
@@ -75,7 +65,7 @@ namespace Seasar.Tests.Dao.Impl
             set 
             {
                 _mgr = value;
-                _modifiedPropertyNames["Mgr"] = _mgr;
+                ModifiedPropertyNames["Mgr"] = _mgr;
             }
             get { return _mgr; }
         }
@@ -85,17 +75,17 @@ namespace Seasar.Tests.Dao.Impl
             set 
             {
                 _hiredate = value;
-                _modifiedPropertyNames["Hiredate"] = _hiredate;
+                ModifiedPropertyNames["Hiredate"] = _hiredate;
             }
             get { return _hiredate; }
         }
 
-        public Nullable<int> Sal
+        public int? Sal
         {
             set
             {
                 _sal = value;
-                _modifiedPropertyNames["Sal"] = _sal;
+                ModifiedPropertyNames["Sal"] = _sal;
             }
             get { return _sal; }
         }
@@ -105,37 +95,34 @@ namespace Seasar.Tests.Dao.Impl
             set
             {
                 _dummy = value;
-                _modifiedPropertyNames["Dummy"] = _dummy;
+                ModifiedPropertyNames["Dummy"] = _dummy;
             }
             get { return _dummy; }
         }
 
-        public IDictionary ModifiedPropertyNames
-        {
-            get { return _modifiedPropertyNames; }
-        }
+        public IDictionary ModifiedPropertyNames { get; } = new Hashtable();
 
         public void ClearModifiedPropertyNames()
         {
-            _modifiedPropertyNames.Clear();
+            ModifiedPropertyNames.Clear();
         }
 
         public bool equals(object other)
         {
-            if ( !( other.GetType() == typeof(Employee) ) ) return false;
-            Employee castOther = (Employee)other;
+            if ( !( other.GetExType() == typeof(Employee) ) ) return false;
+            var castOther = (Employee)other;
             return Empno == castOther.Empno;
         }
 
-        public int hashCode()
+        public int HashCode()
         {
             return (int)Empno;
         }
 
         public override string ToString()
         {
-            StringBuilder buf = new StringBuilder(50);
-            buf.Append(_empno).Append(", ");
+            var buf = new StringBuilder(50);
+            buf.Append(Empno).Append(", ");
             buf.Append(_ename).Append(", ");
             buf.Append(_job).Append(", ");
             buf.Append(_mgr).Append(", ");
@@ -148,27 +135,21 @@ namespace Seasar.Tests.Dao.Impl
     [Table("EMP")]
     public class EmployeeModifiedOnlyWithoutClearMethod
     {
-        private long _empno;
         private string _ename;
         private string _job;
         private int? _mgr;
         private DateTime? _hiredate;
-        private Nullable<int> _sal;
+        private int? _sal;
         private string _dummy;
-        private IDictionary _modifiedPropertyNames = new Hashtable();
 
-        public long Empno
-        {
-            set { _empno = value; }
-            get { return _empno; }
-        }
+        public long Empno { set; get; }
 
         public string Ename
         {
             set
             {
                 _ename = value;
-                _modifiedPropertyNames["EName"] = _ename;
+                ModifiedPropertyNames["EName"] = _ename;
             }
             get { return _ename; }
         }
@@ -179,7 +160,7 @@ namespace Seasar.Tests.Dao.Impl
             set
             {
                 _job = value;
-                _modifiedPropertyNames["JobName"] = _job;
+                ModifiedPropertyNames["JobName"] = _job;
             }
             get { return _job; }
         }
@@ -189,7 +170,7 @@ namespace Seasar.Tests.Dao.Impl
             set
             {
                 _mgr = value;
-                _modifiedPropertyNames["Mgr"] = _mgr;
+                ModifiedPropertyNames["Mgr"] = _mgr;
             }
             get { return _mgr; }
         }
@@ -199,17 +180,17 @@ namespace Seasar.Tests.Dao.Impl
             set
             {
                 _hiredate = value;
-                _modifiedPropertyNames["Hiredate"] = _hiredate;
+                ModifiedPropertyNames["Hiredate"] = _hiredate;
             }
             get { return _hiredate; }
         }
 
-        public Nullable<int> Sal
+        public int? Sal
         {
             set
             {
                 _sal = value;
-                _modifiedPropertyNames["Sal"] = _sal;
+                ModifiedPropertyNames["Sal"] = _sal;
             }
             get { return _sal; }
         }
@@ -219,32 +200,29 @@ namespace Seasar.Tests.Dao.Impl
             set
             {
                 _dummy = value;
-                _modifiedPropertyNames["Dummy"] = _dummy;
+                ModifiedPropertyNames["Dummy"] = _dummy;
             }
             get { return _dummy; }
         }
 
-        public IDictionary ModifiedPropertyNames
-        {
-            get { return _modifiedPropertyNames; }
-        }
+        public IDictionary ModifiedPropertyNames { get; } = new Hashtable();
 
         public bool equals(object other)
         {
-            if ( !( other.GetType() == typeof(Employee) ) ) return false;
-            Employee castOther = (Employee)other;
+            if ( !( other.GetExType() == typeof(Employee) ) ) return false;
+            var castOther = (Employee)other;
             return Empno == castOther.Empno;
         }
 
-        public int hashCode()
+        public int HashCode()
         {
             return (int)Empno;
         }
 
         public override string ToString()
         {
-            StringBuilder buf = new StringBuilder(50);
-            buf.Append(_empno).Append(", ");
+            var buf = new StringBuilder(50);
+            buf.Append(Empno).Append(", ");
             buf.Append(_ename).Append(", ");
             buf.Append(_job).Append(", ");
             buf.Append(_mgr).Append(", ");
@@ -257,97 +235,51 @@ namespace Seasar.Tests.Dao.Impl
     [Table("EMP")]
     public class EmployeeClearModifiedMethodOnly
     {
-        private long _empno;
-        private string _ename;
-        private string _job;
-        private int? _mgr;
-        private DateTime? hiredate;
-        private Nullable<int> _sal;
-        private byte[] _password;
-        private string _dummy;
-        private bool _isClearMethodCalled = false;
+        public long Empno { set; get; }
 
-        public long Empno
-        {
-            set { _empno = value; }
-            get { return _empno; }
-        }
-
-        public string Ename
-        {
-            set { _ename = value; }
-            get { return _ename; }
-        }
+        public string Ename { set; get; }
 
         [Column("Job")]
-        public string JobName
-        {
-            set { _job = value; }
-            get { return _job; }
-        }
+        public string JobName { set; get; }
 
-        public int? Mgr
-        {
-            set { _mgr = value; }
-            get { return _mgr; }
-        }
+        public int? Mgr { set; get; }
 
-        public DateTime? Hiredate
-        {
-            set { hiredate = value; }
-            get { return hiredate; }
-        }
+        public DateTime? Hiredate { set; get; }
 
-        public Nullable<int> Sal
-        {
-            set { _sal = value; }
-            get { return _sal; }
-        }
+        public int? Sal { set; get; }
 
-        public byte[] Password
-        {
-            set { _password = value; }
-            get { return _password; }
-        }
+        public byte[] Password { set; get; }
 
-        public string Dummy
-        {
-            set { _dummy = value; }
-            get { return _dummy; }
-        }
+        public string Dummy { set; get; }
 
-        public bool IsClearMethodCalled
-        {
-            get { return _isClearMethodCalled; }
-            set { _isClearMethodCalled = value; }
-        }
+        public bool IsClearMethodCalled { get; set; } = false;
 
         public void ClearModifiedPropertyNames()
         {
-            _isClearMethodCalled = true;
+            IsClearMethodCalled = true;
         }
 
         public bool equals(object other)
         {
-            if ( !( other.GetType() == typeof(Employee) ) ) return false;
-            Employee castOther = (Employee)other;
+            if ( !( other.GetExType() == typeof(Employee) ) ) return false;
+            var castOther = (Employee)other;
             return Empno == castOther.Empno;
         }
 
-        public int hashCode()
+        public int HashCode()
         {
             return (int)Empno;
         }
 
         public override string ToString()
         {
-            StringBuilder buf = new StringBuilder(50);
-            buf.Append(_empno).Append(", ");
-            buf.Append(_ename).Append(", ");
-            buf.Append(_job).Append(", ");
-            buf.Append(_mgr).Append(", ");
-            buf.Append(hiredate).Append(", ");
-            buf.Append(_sal).Append(", ");
+            var buf = new StringBuilder(50);
+            buf.Append(Empno).Append(", ");
+            buf.Append(Ename).Append(", ");
+            buf.Append(JobName).Append(", ");
+            buf.Append(Mgr).Append(", ");
+            buf.Append(Hiredate).Append(", ");
+            buf.Append(Sal).Append(", ");
             return buf.ToString();
         }
     }
@@ -355,78 +287,42 @@ namespace Seasar.Tests.Dao.Impl
     [Table("EMP")]
     public class EmployeeNoModifiedPropertyNamesAndMethod
     {
-        private long _empno;
-        private string _ename;
-        private string _job;
-        private int? _mgr;
-        private DateTime? hiredate;
-        private Nullable<int> _sal;
-        private string _dummy;
+        public long Empno { set; get; }
 
-        public long Empno
-        {
-            set { _empno = value; }
-            get { return _empno; }
-        }
-
-        public string Ename
-        {
-            set { _ename = value; }
-            get { return _ename; }
-        }
+        public string Ename { set; get; }
 
         [Column("Job")]
-        public string JobName
-        {
-            set { _job = value; }
-            get { return _job; }
-        }
+        public string JobName { set; get; }
 
-        public int? Mgr
-        {
-            set { _mgr = value; }
-            get { return _mgr; }
-        }
+        public int? Mgr { set; get; }
 
-        public DateTime? Hiredate
-        {
-            set { hiredate = value; }
-            get { return hiredate; }
-        }
+        public DateTime? Hiredate { set; get; }
 
-        public Nullable<int> Sal
-        {
-            set { _sal = value; }
-            get { return _sal; }
-        }
+        public int? Sal { set; get; }
 
-        public string Dummy
-        {
-            set { _dummy = value; }
-            get { return _dummy; }
-        }
+        public string Dummy { set; get; }
 
         public bool equals(object other)
         {
-            if ( !( other.GetType() == typeof(Employee) ) ) return false;
-            Employee castOther = (Employee)other;
+            if ( !( other.GetExType() == typeof(Employee) ) ) return false;
+            var castOther = (Employee)other;
             return Empno == castOther.Empno;
         }
 
-        public int hashCode()
+        public int HashCode()
         {
             return (int)Empno;
         }
 
         public override string ToString()
         {
-            StringBuilder buf = new StringBuilder(50);
-            buf.Append(_empno).Append(", ");
-            buf.Append(_ename).Append(", ");
-            buf.Append(_job).Append(", ");
-            buf.Append(_mgr).Append(", ");
-            buf.Append(hiredate).Append(", ");
-            buf.Append(_sal).Append(", ");
+            var buf = new StringBuilder(50);
+            buf.Append(Empno).Append(", ");
+            buf.Append(Ename).Append(", ");
+            buf.Append(JobName).Append(", ");
+            buf.Append(Mgr).Append(", ");
+            buf.Append(Hiredate).Append(", ");
+            buf.Append(Sal).Append(", ");
             return buf.ToString();
         }
     }

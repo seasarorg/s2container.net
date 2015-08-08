@@ -29,7 +29,7 @@ namespace Seasar.Tests.Framework.Xml
         [Test]
         public void TestStartElementAndEndElement()
         {
-            TagHandlerContext ctx = new TagHandlerContext();
+            var ctx = new TagHandlerContext();
             ctx.StartElement("aaa");
             Assert.AreEqual("/aaa", ctx.Path);
             Assert.AreEqual("/aaa[1]", ctx.DetailPath);
@@ -54,7 +54,7 @@ namespace Seasar.Tests.Framework.Xml
         [Test]
         public void TestPeek()
         {
-            TagHandlerContext ctx = new TagHandlerContext();
+            var ctx = new TagHandlerContext();
             ctx.Push("aaa");
             ctx.Push(new ArrayList());
             ctx.Push("bbb");

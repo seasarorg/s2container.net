@@ -20,21 +20,16 @@ namespace Seasar.Dao.Node
 {
     public class SqlNode : AbstractNode
     {
-        private readonly string _sql;
-
         public SqlNode(string sql)
         {
-            _sql = sql;
+            Sql = sql;
         }
 
-        public string Sql
-        {
-            get { return _sql; }
-        }
+        public string Sql { get; }
 
         public override void Accept(ICommandContext ctx)
         {
-            ctx.AddSql(_sql);
+            ctx.AddSql(Sql);
         }
     }
 }

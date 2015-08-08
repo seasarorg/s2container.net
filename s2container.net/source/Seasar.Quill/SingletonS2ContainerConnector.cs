@@ -1,4 +1,4 @@
-#region Copyright
+﻿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -17,7 +17,6 @@
 #endregion
 
 using System;
-using Seasar.Framework.Container;
 using Seasar.Framework.Container.Factory;
 using Seasar.Quill.Exception;
 
@@ -36,7 +35,7 @@ namespace Seasar.Quill
         /// S2Containerのコンポーネントをコンポーネント名を指定して取得します
         /// </summary>
         /// <remarks>
-        /// see cref="Seasar.Framework.Container.Factory.SingletonS2ContainerFactory"/>
+        /// see cref="Seasar.Framework.container.Factory.SingletonS2ContainerFactory"/>
         /// で作成された<see cref="Seasar.Framework.Container.IS2Container"/>
         /// からコンポーネントを取得します
         /// </remarks>
@@ -52,7 +51,7 @@ namespace Seasar.Quill
         /// S2Containerのコンポーネントをコンポーネント名を指定して取得します
         /// </summary>
         /// <remarks>
-        /// see cref="Seasar.Framework.Container.Factory.SingletonS2ContainerFactory"/>
+        /// see cref="Seasar.Framework.container.Factory.SingletonS2ContainerFactory"/>
         /// で作成された<see cref="Seasar.Framework.Container.IS2Container"/>
         /// からコンポーネントを取得します
         /// </remarks>
@@ -68,13 +67,12 @@ namespace Seasar.Quill
             }
 
             // S2Containerを取得する
-            IS2Container container = SingletonS2ContainerFactory.Container;
+            var container = SingletonS2ContainerFactory.Container;
 
             if (!container.HasComponentDef(componentName))
             {
                 // S2Containerにコンポーネントが登録されていない場合は例外をスローする
-                throw new QuillApplicationException("EQLL0010",
-                    new string[] { componentName });
+                throw new QuillApplicationException("EQLL0010", new[] { componentName });
             }
 
             try
@@ -93,7 +91,7 @@ namespace Seasar.Quill
             catch (System.Exception ex)
             {
                 // コンポーネントの取得で例外が発生した場合は例外をスローする
-                throw new QuillApplicationException("EQLL0011", new string[] { }, ex);
+                throw new QuillApplicationException("EQLL0011", new [] {""}, ex);
             }
         }
 
@@ -101,7 +99,7 @@ namespace Seasar.Quill
         /// S2Containerのコンポーネントをコンポーネント名を指定して取得します
         /// </summary>
         /// <remarks>
-        /// see cref="Seasar.Framework.Container.Factory.SingletonS2ContainerFactory"/>
+        /// see cref="Seasar.Framework.container.Factory.SingletonS2ContainerFactory"/>
         /// で作成された<see cref="Seasar.Framework.Container.IS2Container"/>
         /// からコンポーネントを取得します
         /// </remarks>
@@ -116,13 +114,13 @@ namespace Seasar.Quill
             }
 
             // S2Containerを取得する
-            IS2Container container = SingletonS2ContainerFactory.Container;
+            var container = SingletonS2ContainerFactory.Container;
 
             if ( !container.HasComponentDef(componentType) )
             {
                 // S2Containerにコンポーネントが登録されていない場合は例外をスローする
                 throw new QuillApplicationException("EQLL0010",
-                    new string[] { componentType.Name });
+                    new [] { componentType.Name });
             }
 
             try
@@ -133,7 +131,7 @@ namespace Seasar.Quill
             catch ( System.Exception ex )
             {
                 // コンポーネントの取得で例外が発生した場合は例外をスローする
-                throw new QuillApplicationException("EQLL0011", new string[] { }, ex);
+                throw new QuillApplicationException("EQLL0011", new [] { "" }, ex);
             }
         }
 
@@ -145,7 +143,7 @@ namespace Seasar.Quill
         public static bool HasComponentDef(object componentKey)
         {
             // S2Containerを取得する
-            IS2Container container = SingletonS2ContainerFactory.Container;
+            var container = SingletonS2ContainerFactory.Container;
             return container.HasComponentDef(componentKey);
         }
     }

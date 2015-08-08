@@ -17,11 +17,10 @@
 #endregion
 
 using System;
-using System.Reflection;
 using System.IO;
+using System.Web;
 using System.Xml;
 using System.Xml.Schema;
-using System.Web;
 using Seasar.Framework.Util;
 using Seasar.Framework.Xml.Impl;
 
@@ -29,24 +28,23 @@ namespace Seasar.Framework.Xml
 {
     public sealed class XmlHandlerParser
     {
-        private readonly XmlHandler _xmlHandler;
-
         public XmlHandlerParser(XmlHandler xmlHandler)
         {
-            _xmlHandler = xmlHandler;
+            XmlHandler = xmlHandler;
         }
 
-        public XmlHandler XmlHandler
-        {
-            get { return _xmlHandler; }
-        }
+        public XmlHandler XmlHandler { get; }
 
         public object Parse(string path)
         {
+            if (String.IsNullOrEmpty(path))
+                throw new ArgumentNullException(nameof(path));
+            if (!Path.IsPathRooted(path))
+                throw new DirectoryNotFoundException(nameof(path));
+
             StreamReader reader = null;
-            string pathWithoutExt = Path.Combine(
-                    Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path));
-            string extension = ResourceUtil.GetExtension(path);
+            var pathWithoutExt = Path.Combine(Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path));
+            var extension = ResourceUtil.GetExtension(path);
 
             if (File.Exists(path))
             {
@@ -54,11 +52,10 @@ namespace Seasar.Framework.Xml
             }
             else if (HttpContext.Current != null)
             {
-                string path4http = Path.Combine(
-                    AppDomain.CurrentDomain.SetupInformation.ApplicationBase, path);
-                if (File.Exists(path4http))
+                var path4Http = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, path);
+                if (File.Exists(path4Http))
                 {
-                    reader = new StreamReader(path4http);
+                    reader = new StreamReader(path4Http);
                 }
             }
 
@@ -69,11 +66,10 @@ namespace Seasar.Framework.Xml
 
             if (reader == null)
             {
-                Assembly[] assemblys = AppDomain.CurrentDomain.GetAssemblies();
-                foreach (Assembly assembly in assemblys)
+                var assemblys = AppDomain.CurrentDomain.GetAssemblies();
+                foreach (var assembly in assemblys)
                 {
-                    reader = ResourceUtil.GetResourceAsStreamReaderNoException(pathWithoutExt,
-                        extension, assembly);
+                    reader = ResourceUtil.GetResourceAsStreamReaderNoException(pathWithoutExt, extension, assembly);
                     if (reader != null)
                     {
                         break;
@@ -100,12 +96,14 @@ namespace Seasar.Framework.Xml
                 new ValidationEventHandler(ValidationHandler);
 #else
 
-            XmlReaderSettings settings = new XmlReaderSettings();
-            settings.XmlResolver = new S2XmlResolver();
-            settings.ValidationType = ValidationType.DTD;
+            var settings = new XmlReaderSettings
+            {
+                XmlResolver = new S2XmlResolver(),
+                ValidationType = ValidationType.DTD
+            };
             settings.ValidationEventHandler += ValidationHandler;
             settings.DtdProcessing = DtdProcessing.Parse;
-            XmlReader reader = XmlReader.Create(input, settings);
+            var reader = XmlReader.Create(input, settings);
 #endif
 
             try
@@ -115,9 +113,9 @@ namespace Seasar.Framework.Xml
                     switch (reader.NodeType)
                     {
                         case XmlNodeType.Element:
-                            string elementName = reader.Name;
-                            bool isEmptyElement = reader.IsEmptyElement;
-                            AttributesImpl attributes = new AttributesImpl();
+                            var elementName = reader.Name;
+                            var isEmptyElement = reader.IsEmptyElement;
+                            var attributes = new AttributesImpl();
                             if (reader.MoveToFirstAttribute())
                             {
                                 do
@@ -125,14 +123,14 @@ namespace Seasar.Framework.Xml
                                     attributes.AddAttribute(reader.Name, reader.Value);
                                 } while (reader.MoveToNextAttribute());
                             }
-                            _xmlHandler.StartElement(elementName, attributes);
-                            if (isEmptyElement) _xmlHandler.EndElement(reader.Name);
+                            XmlHandler.StartElement(elementName, attributes);
+                            if (isEmptyElement) XmlHandler.EndElement(reader.Name);
                             break;
                         case XmlNodeType.Text:
-                            _xmlHandler.Characters(reader.Value);
+                            XmlHandler.Characters(reader.Value);
                             break;
                         case XmlNodeType.EndElement:
-                            _xmlHandler.EndElement(reader.Name);
+                            XmlHandler.EndElement(reader.Name);
                             break;
                     }
                 }
@@ -143,14 +141,14 @@ namespace Seasar.Framework.Xml
                 input.Close();
             }
 
-            return _xmlHandler.Result;
+            return XmlHandler.Result;
         }
 
-        private void ValidationHandler(object sender, ValidationEventArgs args)
+        private static void ValidationHandler(object sender, ValidationEventArgs args)
         {
             Console.Error.WriteLine("***Validation error");
-            Console.Error.WriteLine("\tSeverity:{0}", args.Severity);
-            Console.Error.WriteLine("\tMessage  :{0}", args.Message);
+            Console.Error.WriteLine($"\tSeverity:{args.Severity}");
+            Console.Error.WriteLine($"\tMessage  :{args.Message}");
         }
     }
 }

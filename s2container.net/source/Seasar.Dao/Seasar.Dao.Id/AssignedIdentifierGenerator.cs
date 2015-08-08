@@ -31,9 +31,6 @@ namespace Seasar.Dao.Id
         {
         }
 
-        public override bool IsSelfGenerate
-        {
-            get { return true; }
-        }
+        public override bool IsSelfGenerate => true;
     }
 }

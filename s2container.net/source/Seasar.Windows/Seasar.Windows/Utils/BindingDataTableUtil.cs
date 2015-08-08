@@ -20,6 +20,7 @@ using System;
 using System.Data;
 using System.Reflection;
 using System.Windows.Forms;
+using Seasar.Framework.Util;
 using Seasar.Windows.Attr;
 
 namespace Seasar.Windows.Seasar.Windows.Utils
@@ -43,41 +44,41 @@ namespace Seasar.Windows.Seasar.Windows.Utils
         /// <returns>ë}ì¸åèêî</returns>
         public int AddData(ref object source, PropertyInfo info, ref Control control, ControlAttribute attr, object data, int row)
         {
-            int ret = 0;
-            object target = info.GetValue(source, null);
-            DataTable dt = target as DataTable;
+            var ret = 0;
+            var target = info.GetValue(source, null);
+            var dt = target as DataTable;
             if (dt != null)
             {
                 if (row > dt.Rows.Count - 1)
                     throw new ArgumentOutOfRangeException(String.Format(SWFMessages.FSWF0003, "row"));
 
-                DataTable newTable = new DataTable(dt.TableName);
+                var newTable = new DataTable(dt.TableName);
                 // óÒê›íË
-                DataColumnCollection columns = dt.Columns;
+                var columns = dt.Columns;
                 foreach (DataColumn column in columns)
                 {
-                    DataColumn newColumn = new DataColumn();
+                    var newColumn = new DataColumn();
 
-                    Type type = newColumn.GetType();
-                    PropertyInfo[] pis = type.GetProperties();
-                    foreach (PropertyInfo pi in pis)
+                    var type = newColumn.GetExType();
+                    var pis = type.GetProperties();
+                    foreach (var pi in pis)
                     {
-                        Type type2 = column.GetType();
-                        PropertyInfo[] pis2 = type2.GetProperties();
-                        foreach (PropertyInfo pi2 in pis2)
+                        var type2 = column.GetExType();
+                        var pis2 = type2.GetProperties();
+                        foreach (var pi2 in pis2)
                         {
                             if (pi.Name == pi2.Name)
                             {
-                                MethodInfo[] mis = pi.GetAccessors();
-                                bool isSetter = false;
-                                foreach (MethodInfo mi in mis)
+                                var mis = pi.GetAccessors();
+                                var isSetter = false;
+                                foreach (var mi in mis)
                                 {
                                     if (mi.Name.Substring(0, 3).ToLower() == "set")
                                         isSetter = true;
                                 }
                                 if (isSetter)
                                 {
-                                    object obj = pi2.GetValue(column, null);
+                                    var obj = pi2.GetValue(column, null);
                                     pi.SetValue(newColumn, obj, null);
                                 }
                             }
@@ -88,19 +89,16 @@ namespace Seasar.Windows.Seasar.Windows.Utils
                 }
 
                 // çsí«â¡
-                for (int i = 0; i < dt.Rows.Count; i++)
+                for (var i = 0; i < dt.Rows.Count; i++)
                 {
-                    DataRow addRow = newTable.NewRow();
-                    DataRow rowData = dt.Rows[i];
-                    if (data != null)
+                    var addRow = newTable.NewRow();
+                    var rowData = dt.Rows[i];
+                    var newRow = data as DataRow;
+                    if (newRow != null)
                     {
-                        DataRow newRow = data as DataRow;
-                        if (newRow != null)
+                        for (var j = 0; j < dt.Columns.Count; j++)
                         {
-                            for (int j = 0; j < dt.Columns.Count; j++)
-                            {
-                                addRow[j] = newRow[j];
-                            }
+                            addRow[j] = newRow[j];
                         }
                     }
 
@@ -108,7 +106,7 @@ namespace Seasar.Windows.Seasar.Windows.Utils
                         newTable.Rows.Add(addRow);
 
                     addRow = newTable.NewRow();
-                    for (int j = 0; j < dt.Columns.Count; j++)
+                    for (var j = 0; j < dt.Columns.Count; j++)
                     {
                         addRow[j] = rowData[j];
                     }
@@ -138,9 +136,9 @@ namespace Seasar.Windows.Seasar.Windows.Utils
         /// <returns>çÌèúåèêî</returns>
         public int DeleteData(ref object source, PropertyInfo info, ref Control control, ControlAttribute attr, int row)
         {
-            int ret = 0;
-            object target = info.GetValue(source, null);
-            DataTable dt = target as DataTable;
+            var ret = 0;
+            var target = info.GetValue(source, null);
+            var dt = target as DataTable;
             if (dt != null)
             {
                 if (row > dt.Rows.Count - 1)
@@ -171,40 +169,40 @@ namespace Seasar.Windows.Seasar.Windows.Utils
             else
                 targetRow = row + 1;
 
-            object target = info.GetValue(source, null);
-            DataTable dt = target as DataTable;
+            var target = info.GetValue(source, null);
+            var dt = target as DataTable;
             if (dt != null)
             {
                 if (targetRow >= dt.Rows.Count)
                     throw new ArgumentOutOfRangeException(String.Format(SWFMessages.FSWF0003, "row"));
 
-                DataTable newTable = new DataTable(dt.TableName);
+                var newTable = new DataTable(dt.TableName);
                 // óÒê›íË
-                DataColumnCollection columns = dt.Columns;
+                var columns = dt.Columns;
                 foreach (DataColumn column in columns)
                 {
-                    DataColumn newColumn = new DataColumn();
+                    var newColumn = new DataColumn();
 
-                    Type type = newColumn.GetType();
-                    PropertyInfo[] pis = type.GetProperties();
-                    foreach (PropertyInfo pi in pis)
+                    var type = newColumn.GetExType();
+                    var pis = type.GetProperties();
+                    foreach (var pi in pis)
                     {
-                        Type type2 = column.GetType();
-                        PropertyInfo[] pis2 = type2.GetProperties();
-                        foreach (PropertyInfo pi2 in pis2)
+                        var type2 = column.GetExType();
+                        var pis2 = type2.GetProperties();
+                        foreach (var pi2 in pis2)
                         {
                             if (pi.Name == pi2.Name)
                             {
-                                MethodInfo[] mis = pi.GetAccessors();
-                                bool isSetter = false;
-                                foreach (MethodInfo mi in mis)
+                                var mis = pi.GetAccessors();
+                                var isSetter = false;
+                                foreach (var mi in mis)
                                 {
                                     if (mi.Name.Substring(0, 3).ToLower() == "set")
                                         isSetter = true;
                                 }
                                 if (isSetter)
                                 {
-                                    object obj = pi2.GetValue(column, null);
+                                    var obj = pi2.GetValue(column, null);
                                     pi.SetValue(newColumn, obj, null);
                                 }
                             }
@@ -215,7 +213,7 @@ namespace Seasar.Windows.Seasar.Windows.Utils
                 }
 
                 // çsà⁄ìÆ
-                for (int i = 0; i < dt.Rows.Count; i++)
+                for (var i = 0; i < dt.Rows.Count; i++)
                 {
                     DataRow rowData;
                     if (i == targetRow)
@@ -227,8 +225,8 @@ namespace Seasar.Windows.Seasar.Windows.Utils
                     else
                         rowData = dt.Rows[i];
 
-                    DataRow addRow = newTable.NewRow();
-                    for (int j = 0; j < dt.Columns.Count; j++)
+                    var addRow = newTable.NewRow();
+                    for (var j = 0; j < dt.Columns.Count; j++)
                     {
                         addRow[j] = rowData[j];
                     }

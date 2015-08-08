@@ -18,9 +18,10 @@
 
 using System;
 using System.IO;
-using System.Xml;
-using System.Web;
+using System.Net;
 using System.Reflection;
+using System.Web;
+using System.Xml;
 using Seasar.Framework.Util;
 
 namespace Seasar.Framework.Xml
@@ -40,13 +41,13 @@ namespace Seasar.Framework.Xml
         {
             Stream stream = null;
 
-            string uri = HttpUtility.UrlDecode(absoluteUri.AbsoluteUri);
+            var uri = HttpUtility.UrlDecode(absoluteUri.AbsoluteUri);
 
-            if (uri.EndsWith(PUBLIC_ID) || COMPONENTS_URI.Equals(uri))
+            if (uri != null && (uri.EndsWith(PUBLIC_ID) || COMPONENTS_URI.Equals(uri)))
             {
                 stream = ResourceUtil.GetResourceAsStream(COMPONENTS_PATH, Assembly.GetExecutingAssembly());
             }
-            else if (uri.EndsWith(PUBLIC_ID21) || COMPONENTS_URI21.Equals(uri))
+            else if (uri != null && (uri.EndsWith(PUBLIC_ID21) || COMPONENTS_URI21.Equals(uri)))
             {
                 stream = ResourceUtil.GetResourceAsStream(COMPONENTS_PATH21, Assembly.GetExecutingAssembly());
             }
@@ -54,7 +55,7 @@ namespace Seasar.Framework.Xml
             return stream;
         }
 
-        public override System.Net.ICredentials Credentials
+        public override ICredentials Credentials
         {
             set
             {

@@ -37,28 +37,6 @@ namespace Seasar.Dao.Impl
     /// </summary>
     public class AbstractProcedureHandler : BasicHandler
     {
-        private static readonly Logger logger = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
-        /// <summary>
-        /// 引数タイプ
-        /// </summary>
-        private Type[] _argumentTypes;
-
-        /// <summary>
-        /// 引数名
-        /// </summary>
-        private string[] _argumentNames;
-
-        /// <summary>
-        /// 引数のの入出力種別
-        /// </summary>
-        private ParameterDirection[] _argumentDirection;
-
-        /// <summary>
-        /// ストアドプロシージャ名
-        /// </summary>
-        private string _procedureName;
-
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -69,49 +47,30 @@ namespace Seasar.Dao.Impl
         {
             DataSource = dataSource;
             CommandFactory = commandFactory;
-            _procedureName = procedureName;
+            ProcedureName = procedureName;
         }
 
-        public static Logger Logger
-        {
-            get { return logger; }
-        }
+        public static Logger Logger { get; } = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         /// <summary>
         /// 引数タイプ
         /// </summary>
-        public Type[] ArgumentTypes
-        {
-            get { return _argumentTypes; }
-            set { _argumentTypes = value; }
-        }
+        public Type[] ArgumentTypes { get; set; }
 
         /// <summary>
         /// 引数名
         /// </summary>
-        public string[] ArgumentNames
-        {
-            get { return _argumentNames; }
-            set { _argumentNames = value; }
-        }
+        public string[] ArgumentNames { get; set; }
 
         /// <summary>
         /// 引数の入出力種別
         /// </summary>
-        public ParameterDirection[] ArgumentDirection
-        {
-            get { return _argumentDirection; }
-            set { _argumentDirection = value; }
-        }
+        public ParameterDirection[] ArgumentDirection { get; set; }
 
         /// <summary>
         /// ストアドプロシージャ名
         /// </summary>
-        public string ProcedureName
-        {
-            get { return _procedureName; }
-            set { _procedureName = value; }
-        }
+        public string ProcedureName { get; set; }
 
         /// <summary>
         /// IDbCommandオブジェクトを取得する
@@ -124,7 +83,7 @@ namespace Seasar.Dao.Impl
             if (procedureName == null)
                 throw new EmptyRuntimeException("procedureName");
 
-            IDbCommand cmd = CommandFactory.CreateCommand(connection, procedureName);
+            var cmd = CommandFactory.CreateCommand(connection, procedureName);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.UpdatedRowSource = UpdateRowSource.OutputParameters;
             
@@ -145,17 +104,17 @@ namespace Seasar.Dao.Impl
                                      string[] argNames, ParameterDirection[] argDirection)
         {
             if (args == null) return;
-            for (int i = 0; i < args.Length; ++i)
+            for (var i = 0; i < args.Length; ++i)
             {
-                string columnName = argNames[i];
-                BindVariableType vt = DataProviderUtil.GetBindVariableType(command);
+                var columnName = argNames[i];
+                var vt = DataProviderUtil.GetBindVariableType(command);
                 switch (vt)
                 {
                     case BindVariableType.QuestionWithParam:
                         columnName = "?" + columnName;
                         break;
                     case BindVariableType.ColonWithParam:
-                        if ("OracleCommand".Equals(command.GetType().Name))
+                        if ("OracleCommand".Equals(command.GetExType().Name))
                         {
                             columnName = string.Empty + columnName;
                         }
@@ -169,19 +128,19 @@ namespace Seasar.Dao.Impl
                         break;
                 }
 
-                DbType dbType = GetDbValueType(argTypes[i]);
-                IDbDataParameter parameter = command.CreateParameter();
+                var dbType = GetDbValueType(argTypes[i]);
+                var parameter = command.CreateParameter();
                 parameter.ParameterName = columnName;
                 parameter.Direction = argDirection[i];
                 parameter.DbType = dbType;
-                if ("OracleCommand".Equals(command.GetType().Name) && args[i] is Array)
+                if ("OracleCommand".Equals(command.GetExType().Name) && args[i] is Array)
                 {
                     // ODP.NETのみ配列バインドに対応
-                    PropertyInfo info = parameter.GetType().GetProperty("CollectionType",
+                    var info = parameter.GetExType().GetProperty("CollectionType",
                                                                         BindingFlags.GetProperty | BindingFlags.Public | BindingFlags.Instance);
-                    Assembly[] asms = AppDomain.CurrentDomain.GetAssemblies();
+                    var asms = AppDomain.CurrentDomain.GetAssemblies();
                     Assembly asm = null;
-                    foreach (Assembly assembly in asms)
+                    foreach (var assembly in asms)
                     {
                         if (assembly.GetName().Name == "Oracle.DataAccess" || assembly.GetName().Name == "Oracle.ManagedDataAccess")
                         {
@@ -196,7 +155,7 @@ namespace Seasar.Dao.Impl
                             t = asm.GetType("Oracle.DataAccess.Client.OracleCollectionType");
                         else
                             t = asm.GetType("Oracle.ManagedDataAccess.Client.OracleCollectionType");
-                        FieldInfo f = t.GetField("PLSQLAssociativeArray");
+                        var f = t.GetField("PLSQLAssociativeArray");
                         info.SetValue(parameter, f.GetValue(null), null);
                     }
 
@@ -205,11 +164,11 @@ namespace Seasar.Dao.Impl
                     if (parameter.Direction != ParameterDirection.Input)
                     {
                         // Output, Output/Inputでは必要。
-                        info = parameter.GetType().GetProperty("ArrayBindSize",
+                        info = parameter.GetExType().GetProperty("ArrayBindSize",
                                                                BindingFlags.GetProperty | BindingFlags.Public | BindingFlags.Instance);
                         int[] sizes = {4096};
                         Array.Resize(ref sizes, ((Array)args[i]).Length);
-                        for (int j = 0; j < sizes.Length; j++)
+                        for (var j = 0; j < sizes.Length; j++)
                         {
                             sizes[j] = 4096;
                         }
@@ -222,14 +181,14 @@ namespace Seasar.Dao.Impl
                 }
                 parameter.Value = args[i];
 
-                if ("OleDbCommand".Equals(command.GetType().Name) && dbType == DbType.String)
+                if ("OleIDbCommand".Equals(command.GetExType().Name) && dbType == DbType.String)
                 {
-                    OleDbParameter oleDbParam = parameter as OleDbParameter;
+                    var oleDbParam = parameter as OleDbParameter;
                     if (oleDbParam != null) oleDbParam.OleDbType = OleDbType.VarChar;
                 }
-                else if ("SqlCommand".Equals(command.GetType().Name) && dbType == DbType.String)
+                else if ("SqlCommand".Equals(command.GetExType().Name) && dbType == DbType.String)
                 {
-                    SqlParameter sqlDbParam = parameter as SqlParameter;
+                    var sqlDbParam = parameter as SqlParameter;
                     if (sqlDbParam != null) sqlDbParam.SqlDbType = SqlDbType.VarChar;
                 }
                 command.Parameters.Add(parameter);
@@ -244,19 +203,19 @@ namespace Seasar.Dao.Impl
         /// <param name="dbType">DBタイプ</param>
         protected string BindReturnValues(IDbCommand command, string parameterName, DbType dbType)
         {
-            IDbDataParameter parameter = command.CreateParameter();
+            var parameter = command.CreateParameter();
             parameter.ParameterName = parameterName;
             parameter.Direction = ParameterDirection.ReturnValue;
             parameter.DbType = dbType;
             parameter.Size = 4096;
-            if ("OleDbCommand".Equals(command.GetType().Name) && dbType == DbType.String)
+            if ("OleIDbCommand".Equals(command.GetExType().Name) && dbType == DbType.String)
             {
-                OleDbParameter oleDbParam = parameter as OleDbParameter;
+                var oleDbParam = parameter as OleDbParameter;
                 if (oleDbParam != null) oleDbParam.OleDbType = OleDbType.VarChar;
             }
-            else if ("SqlDbCommand".Equals(command.GetType().Name) && dbType == DbType.String)
+            else if ("SqlIDbCommand".Equals(command.GetExType().Name) && dbType == DbType.String)
             {
-                SqlParameter sqlDbParam = parameter as SqlParameter;
+                var sqlDbParam = parameter as SqlParameter;
                 if (sqlDbParam != null) sqlDbParam.SqlDbType = SqlDbType.VarChar;
             }
             command.Parameters.Add(parameter);
@@ -271,37 +230,37 @@ namespace Seasar.Dao.Impl
         /// <returns></returns>
         protected static DbType GetDbValueType(Type type)
         {
-            if (type == typeof(Byte) || type.FullName == "System.Byte&" || type == typeof(Byte[]) || type.FullName == "System.Byte[]&")
+            if (type == typeof(byte) || type.FullName == "System.Byte&" || type == typeof(byte[]) || type.FullName == "System.Byte[]&")
                 return DbType.Byte;
-            if (type == typeof(Byte?) || type.FullName == "System.Nullable<Byte>&" || type == typeof(Byte?[]) || type.FullName == "System.Nullable<Byte>[]&")
+            if (type == typeof(byte?) || type.FullName == "System.Nullable<Byte>&" || type == typeof(byte?[]) || type.FullName == "System.Nullable<Byte>[]&")
                 return DbType.Byte;
-            if (type == typeof(SByte) || type.FullName == "System.SByte&" || type == typeof(SByte[]) || type.FullName == "System.SByte[]&")
+            if (type == typeof(sbyte) || type.FullName == "System.SByte&" || type == typeof(sbyte[]) || type.FullName == "System.SByte[]&")
                 return DbType.SByte;
-            if (type == typeof(SByte?) || type.FullName == "System.Nullable<SByte>&" || type == typeof(SByte?[]) || type.FullName == "System.Nullable<SByte>[]&")
+            if (type == typeof(sbyte?) || type.FullName == "System.Nullable<SByte>&" || type == typeof(sbyte?[]) || type.FullName == "System.Nullable<SByte>[]&")
                 return DbType.SByte;
-            if (type == typeof(Int16) || type.FullName == "System.Int16&" || type == typeof(Int16[]) || type.FullName == "System.Int16[]&")
+            if (type == typeof(short) || type.FullName == "System.Int16&" || type == typeof(short[]) || type.FullName == "System.Int16[]&")
                 return DbType.Int16;
-            if (type == typeof(Int16?) || type.FullName == "System.Nullable<Int16>&" || type == typeof(Int16?[]) || type.FullName == "System.Nullable<Int16>[]&")
+            if (type == typeof(short?) || type.FullName == "System.Nullable<Int16>&" || type == typeof(short?[]) || type.FullName == "System.Nullable<Int16>[]&")
                 return DbType.Int16;
-            if (type == typeof(Int32) || type.FullName == "System.Int32&" || type == typeof(Int32[]) || type.FullName == "System.Int32[]&")
+            if (type == typeof(int) || type.FullName == "System.Int32&" || type == typeof(int[]) || type.FullName == "System.Int32[]&")
                 return DbType.Int32;
-            if (type == typeof(Int32?) || type.FullName == "System.Nullable<Int32>&" || type == typeof(Int32?[]) || type.FullName == "System.Nullable<Int32>[]&")
+            if (type == typeof(int?) || type.FullName == "System.Nullable<Int32>&" || type == typeof(int?[]) || type.FullName == "System.Nullable<Int32>[]&")
                 return DbType.Int32;
-            if (type == typeof(Int64) || type.FullName == "System.Int64&" || type == typeof(Int64[]) || type.FullName == "System.Int64[]&")
+            if (type == typeof(long) || type.FullName == "System.Int64&" || type == typeof(long[]) || type.FullName == "System.Int64[]&")
                 return DbType.Int64;
-            if (type == typeof(Int64?) || type.FullName == "System.Nullable<Int64>&" || type == typeof(Int64?[]) || type.FullName == "System.Nullable<Int64>[]&")
+            if (type == typeof(long?) || type.FullName == "System.Nullable<Int64>&" || type == typeof(long?[]) || type.FullName == "System.Nullable<Int64>[]&")
                 return DbType.Int64;
-            if (type == typeof(Single) || type.FullName == "System.Single&" || type == typeof(Single[]) || type.FullName == "System.Single[]&")
+            if (type == typeof(float) || type.FullName == "System.Single&" || type == typeof(float[]) || type.FullName == "System.Single[]&")
                 return DbType.Single;
-            if (type == typeof(Single?) || type.FullName == "System.Nullable<Single>&" || type == typeof(Single?[]) || type.FullName == "System.Nullable<Single>[]&")
+            if (type == typeof(float?) || type.FullName == "System.Nullable<Single>&" || type == typeof(float?[]) || type.FullName == "System.Nullable<Single>[]&")
                 return DbType.Single;
-            if (type == typeof(Double) || type.FullName == "System.Double&" || type == typeof(Double[]) || type.FullName == "System.Double[]&")
+            if (type == typeof(double) || type.FullName == "System.Double&" || type == typeof(double[]) || type.FullName == "System.Double[]&")
                 return DbType.Double;
-            if (type == typeof(Double?) || type.FullName == "System.Nullable<Double>&" || type == typeof(Double?[]) || type.FullName == "System.Nullable<Double>[]&")
+            if (type == typeof(double?) || type.FullName == "System.Nullable<Double>&" || type == typeof(double?[]) || type.FullName == "System.Nullable<Double>[]&")
                 return DbType.Double;
-            if (type == typeof(Decimal) || type.FullName == "System.Decimal&" || type == typeof(Decimal[]) || type.FullName == "System.Decimal[]&")
+            if (type == typeof(decimal) || type.FullName == "System.Decimal&" || type == typeof(decimal[]) || type.FullName == "System.Decimal[]&")
                 return DbType.Decimal;
-            if (type == typeof(Decimal?) || type.FullName == "System.Nullable<Decimal>" || type == typeof(Decimal[]) || type.FullName == "System.Nullable<Decimal>[]&")
+            if (type == typeof(decimal?) || type.FullName == "System.Nullable<Decimal>" || type == typeof(decimal[]) || type.FullName == "System.Nullable<Decimal>[]&")
                 return DbType.Decimal;
             if (type == typeof(DateTime) || type.FullName == "System.DateTime&" || type == typeof(DateTime[]) || type.FullName == "System.DateTime[]&")
                 return DbType.DateTime;
@@ -309,11 +268,11 @@ namespace Seasar.Dao.Impl
                 return DbType.DateTime;
             if (type == ValueTypes.BYTE_ARRAY_TYPE)
                 return DbType.Binary;
-            if (type == typeof(String) || type.FullName == "System.String&" || type == typeof(String[]) || type.FullName == "System.String[]&")
+            if (type == typeof(string) || type.FullName == "System.String&" || type == typeof(string[]) || type.FullName == "System.String[]&")
                 return DbType.String;
-            if (type == typeof(Boolean) || type.FullName == "System.Boolean&" || type == typeof(Boolean[]) || type.FullName == "System.Boolean[]&")
+            if (type == typeof(bool) || type.FullName == "System.Boolean&" || type == typeof(bool[]) || type.FullName == "System.Boolean[]&")
                 return DbType.Boolean;
-            if (type == typeof(Boolean?) || type.FullName == "System.Nullable<Boolean>&" || type == typeof(Boolean?[]) || type.FullName == "System.Nullable<Boolean>[]&")
+            if (type == typeof(bool?) || type.FullName == "System.Nullable<Boolean>&" || type == typeof(bool?[]) || type.FullName == "System.Nullable<Boolean>[]&")
                 return DbType.Boolean;
             if (type == typeof(Guid) || type.FullName == "System.Guid&" || type == typeof(Guid[]) || type.FullName == "System.Guid[]&")
                 return DbType.Guid;
@@ -330,9 +289,9 @@ namespace Seasar.Dao.Impl
         /// <returns>パラメータ方向配列</returns>
         public static ParameterDirection[] GetParameterDirections(MethodInfo mi)
         {
-            ParameterInfo[] parameters = mi.GetParameters();
-            ParameterDirection[] ret = new ParameterDirection[parameters.Length];
-            for (int i = 0; i < parameters.Length; ++i)
+            var parameters = mi.GetParameters();
+            var ret = new ParameterDirection[parameters.Length];
+            for (var i = 0; i < parameters.Length; ++i)
             {
                 if (parameters[i].IsOut)
                 {

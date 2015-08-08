@@ -23,11 +23,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Seasar.Dxo.Exception;
+using Seasar.Framework.Util;
 
 namespace Seasar.Dxo.Converter.Impl
 {
     /// <summary>
-    /// オブジェクトをIList<typeparam name="T">へ変換するコンバータ実装クラス
+    /// オブジェクトをIList<typeparam name="T"/>へ変換するコンバータ実装クラス
     /// </summary>
     public class GenericsListConverter<T> : AbstractPropertyConverter 
         where T:class
@@ -42,12 +43,13 @@ namespace Seasar.Dxo.Converter.Impl
             if (dest == null)
             {
                 if (expectType.IsClass && !expectType.IsAbstract)
-                    dest = Activator.CreateInstance(expectType);
+                    dest = ClassUtil.NewInstance(expectType);
+//                    dest = Activator.CreateInstance(expectType);
                 else
                     throw new DxoException(String.Format(DxoMessages.EDXO0001, "expectType"));
 //                throw new DxoException("expectTypeは具象クラスではないので実体化することができない");
             }
-            IList<T> result = dest as IList<T>;
+            var result = dest as IList<T>;
             if (result != null)
             {
                 result.Clear();
@@ -62,10 +64,10 @@ namespace Seasar.Dxo.Converter.Impl
                         }
                         return true;
                     }
-                    else if (source.GetType().IsArray)
+                    else if (source.GetExType().IsArray)
                     {
                         //要素の型に互換性があるか
-                        Type elementType = source.GetType().GetElementType();
+                        var elementType = source.GetExType().GetElementType();
                         if (typeof(T).IsAssignableFrom(elementType))
                         {
                             foreach (T item in (T[])source)
@@ -77,9 +79,9 @@ namespace Seasar.Dxo.Converter.Impl
                     }
                     else
                     {
-                        foreach (object item in source as IEnumerable)
+                        foreach (var item in source as IEnumerable)
                         {
-                            if (typeof (T).IsAssignableFrom(item.GetType()))
+                            if (typeof (T).IsAssignableFrom(item.GetExType()))
                                 result.Add(item as T);
                             else
                                 return false;

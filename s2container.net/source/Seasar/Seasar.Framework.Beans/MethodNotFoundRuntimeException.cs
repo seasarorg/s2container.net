@@ -26,19 +26,15 @@ namespace Seasar.Framework.Beans
     [Serializable]
     public class MethodNotFoundRuntimeException : SRuntimeException
     {
-        private readonly Type _componentType;
-        private readonly string _methodName;
-        private readonly Type[] _methodArgTypes;
-
         public MethodNotFoundRuntimeException(
             Type componentType, string methodName, object[] methodArgs)
             : base("ESSR0049", new object[] { componentType.FullName, MethodUtil.GetSignature(methodName,methodArgs) })
         {
-            _componentType = componentType;
-            _methodName = methodName;
+            ComponentType = componentType;
+            MethodName = methodName;
             if (methodArgs != null)
             {
-                _methodArgTypes = Type.GetTypeArray(methodArgs);
+                MethodArgTypes = Type.GetTypeArray(methodArgs);
             }
         }
 
@@ -46,40 +42,31 @@ namespace Seasar.Framework.Beans
             Type componentType, string methodName, Type[] methodArgTypes)
             : base("ESSR0049", new object[] { componentType.FullName, MethodUtil.GetSignature(methodName,methodArgTypes)})
         {
-            _componentType = componentType;
-            _methodName = methodName;
-            _methodArgTypes = methodArgTypes;
+            ComponentType = componentType;
+            MethodName = methodName;
+            MethodArgTypes = methodArgTypes;
         }
 
         public MethodNotFoundRuntimeException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            _componentType = info.GetValue("_componentType", typeof(Type)) as Type;
-            _methodName = info.GetString("_methodName");
-            _methodArgTypes = info.GetValue("_methodArgTypes", typeof(Type[])) as Type[];
+            ComponentType = info.GetValue("_componentType", typeof(Type)) as Type;
+            MethodName = info.GetString("_methodName");
+            MethodArgTypes = info.GetValue("_methodArgTypes", typeof(Type[])) as Type[];
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("_componentType", _componentType, typeof(Type));
-            info.AddValue("_methodName", _methodName, typeof(string));
-            info.AddValue("_methodArgTypes", _methodArgTypes, typeof(Type[]));
+            info.AddValue("_componentType", ComponentType, typeof(Type));
+            info.AddValue("_methodName", MethodName, typeof(string));
+            info.AddValue("_methodArgTypes", MethodArgTypes, typeof(Type[]));
             base.GetObjectData(info, context);
         }
 
-        public Type ComponentType
-        {
-            get { return _componentType; }
-        }
+        public Type ComponentType { get; }
 
-        public string MethodName
-        {
-            get { return _methodName; }
-        }
+        public string MethodName { get; }
 
-        public Type[] MethodArgTypes
-        {
-            get { return _methodArgTypes; }
-        }
+        public Type[] MethodArgTypes { get; }
     }
 }

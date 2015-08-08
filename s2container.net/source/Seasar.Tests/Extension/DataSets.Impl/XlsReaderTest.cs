@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -30,7 +30,7 @@ using System.Configuration;
 namespace Seasar.Tests.Extension.DataSets.Impl
 {
     [TestFixture]
-    [Ignore("Microsoft.Jet.OLEDB4.0‚Í32bitOS‚Å‚µ‚©“®ì‚µ‚È‚¢‚½‚ß“®‚©‚¹‚¸B•Û—¯B")]
+    [Ignore("Microsoft.Jet.OLEDB4.0ã¯32bitOSã§ã—ã‹å‹•ä½œã—ãªã„ãŸã‚å‹•ã‹ã›ãšã€‚ä¿ç•™ã€‚")]
     public class XlsReaderTest : S2TestCase
     {
         private const string PATH = "Seasar.Tests.Extension.DataSets.Impl.XlsReaderImplTest.xls";
@@ -40,13 +40,13 @@ namespace Seasar.Tests.Extension.DataSets.Impl
         [SetUp]
         public void SetUp()
         {
-            using (Stream stream = ResourceUtil.GetResourceAsStream(PATH, Assembly.GetExecutingAssembly()))
+            using (var stream = ResourceUtil.GetResourceAsStream(PATH, Assembly.GetExecutingAssembly()))
             {
                 dataSet = new XlsReader(stream).Read();
             }
         }
 
-        [Ignore("Microsoft.Jet.OLEDB4.0‚Í32bitOS‚Å‚µ‚©“®ì‚µ‚È‚¢‚½‚ß“®‚©‚¹‚¸B•Û—¯B")]
+        [Ignore("Microsoft.Jet.OLEDB4.0ã¯32bitOSã§ã—ã‹å‹•ä½œã—ãªã„ãŸã‚å‹•ã‹ã›ãšã€‚ä¿ç•™ã€‚")]
         [Test]
         public void TestCreateTable()
         {
@@ -54,43 +54,43 @@ namespace Seasar.Tests.Extension.DataSets.Impl
             Trace.WriteLine(ToStringUtil.ToString(dataSet));
         }
 
-        [Ignore("Microsoft.Jet.OLEDB4.0‚Í32bitOS‚Å‚µ‚©“®ì‚µ‚È‚¢‚½‚ß“®‚©‚¹‚¸B•Û—¯B")]
+        [Ignore("Microsoft.Jet.OLEDB4.0ã¯32bitOSã§ã—ã‹å‹•ä½œã—ãªã„ãŸã‚å‹•ã‹ã›ãšã€‚ä¿ç•™ã€‚")]
         [Test]
         public void TestSetupColumns()
         {
-            // Java”Å‚Æˆá‚¢Aƒe[ƒuƒ‹‡‚Åƒ\[ƒg‚³‚ê‚Ä‚¢‚éH‚Ì‚ÅAindex‚Å‚Í‚È‚­Aname‚Åæ“¾B
-            DataTable table = dataSet.Tables["TEST_TABLE"];
+            // Javaç‰ˆã¨é•ã„ã€ãƒ†ãƒ¼ãƒ–ãƒ«é †ã§ã‚½ãƒ¼ãƒˆã•ã‚Œã¦ã„ã‚‹ï¼Ÿã®ã§ã€indexã§ã¯ãªãã€nameã§å–å¾—ã€‚
+            var table = dataSet.Tables["TEST_TABLE"];
             Assert.AreEqual(4, table.Columns.Count, "1");
-            for (int i = 0; i < table.Columns.Count; ++i)
+            for (var i = 0; i < table.Columns.Count; ++i)
             {
                 Assert.AreEqual("COLUMN" + i, table.Columns[i].ColumnName, "2");
             }
         }
 
-        [Ignore("Microsoft.Jet.OLEDB4.0‚Í32bitOS‚Å‚µ‚©“®ì‚µ‚È‚¢‚½‚ß“®‚©‚¹‚¸B•Û—¯B")]
+        [Ignore("Microsoft.Jet.OLEDB4.0ã¯32bitOSã§ã—ã‹å‹•ä½œã—ãªã„ãŸã‚å‹•ã‹ã›ãšã€‚ä¿ç•™ã€‚")]
         [Test]
         public void TestSetupRows()
         {
-            DataTable table = dataSet.Tables["TEST_TABLE"];
+            var table = dataSet.Tables["TEST_TABLE"];
             Assert.AreEqual(12, table.Rows.Count, "1");
-            for (int i = 0; i < table.Rows.Count; ++i)
+            for (var i = 0; i < table.Rows.Count; ++i)
             {
-                DataRow row = table.Rows[i];
-                for (int j = 0; j < table.Columns.Count; ++j)
+                var row = table.Rows[i];
+                for (var j = 0; j < table.Columns.Count; ++j)
                 {
                     Assert.AreEqual("row " + i + " col " + j, row[j], "2");
                 }
             }
-            DataTable table2 = dataSet.Tables["EMPTY_TABLE"];
+            var table2 = dataSet.Tables["EMPTY_TABLE"];
             Assert.AreEqual(0, table2.Rows.Count, "3");
         }
 
-        [Ignore("Microsoft.Jet.OLEDB4.0‚Í32bitOS‚Å‚µ‚©“®ì‚µ‚È‚¢‚½‚ß“®‚©‚¹‚¸B•Û—¯B")]
+        [Ignore("Microsoft.Jet.OLEDB4.0ã¯32bitOSã§ã—ã‹å‹•ä½œã—ãªã„ãŸã‚å‹•ã‹ã›ãšã€‚ä¿ç•™ã€‚")]
         [Test]
         public void TestGetValue()
         {
-            DataTable table = dataSet.Tables["‚ "];
-            DataRow row = table.Rows[0];
+            var table = dataSet.Tables["ã‚"];
+            var row = table.Rows[0];
             Assert.AreEqual(
                 new DateTime(2004, 3, 22),
                 row[0],
@@ -108,11 +108,11 @@ namespace Seasar.Tests.Extension.DataSets.Impl
                 );
         }
 
-        [Ignore("BASE64_FORMAT–¢‘Î‰‚Ì‚½‚ß")]
+        [Ignore("BASE64_FORMATæœªå¯¾å¿œã®ãŸã‚")]
         public void TestGetValueIgnore()
         {
-            DataTable table = dataSet.Tables["‚ "];
-            DataRow row = table.Rows[0];
+            var table = dataSet.Tables["ã‚"];
+            var row = table.Rows[0];
             Assert.AreEqual(
                 "YWJj",
                 Convert.ToBase64String((byte[]) row[3]),
@@ -120,25 +120,25 @@ namespace Seasar.Tests.Extension.DataSets.Impl
                 );
         }
 
-        [Ignore("Microsoft.Jet.OLEDB4.0‚Í32bitOS‚Å‚µ‚©“®ì‚µ‚È‚¢‚½‚ß“®‚©‚¹‚¸B•Û—¯B")]
+        [Ignore("Microsoft.Jet.OLEDB4.0ã¯32bitOSã§ã—ã‹å‹•ä½œã—ãªã„ãŸã‚å‹•ã‹ã›ãšã€‚ä¿ç•™ã€‚")]
         [Test]
         public void TestDataRowState()
         {
-            DataTable ret = dataSet.Tables["TEST_TABLE"];
+            var ret = dataSet.Tables["TEST_TABLE"];
             Assert.AreEqual(DataRowState.Added, ret.Rows[0].RowState);
         }
 
-        [Ignore("Microsoft.Jet.OLEDB4.0‚Í32bitOS‚Å‚µ‚©“®ì‚µ‚È‚¢‚½‚ß“®‚©‚¹‚¸B•Û—¯B")]
+        [Ignore("Microsoft.Jet.OLEDB4.0ã¯32bitOSã§ã—ã‹å‹•ä½œã—ãªã„ãŸã‚å‹•ã‹ã›ãšã€‚ä¿ç•™ã€‚")]
         [Test]
         public void TestInvalidColumn()
         {
-            string exeConfigPath = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None).FilePath;
-            string[] filePathParts = exeConfigPath.Split('\\');
-            string xlsFilePath = exeConfigPath.Replace(filePathParts[filePathParts.Length - 1], string.Empty) + "\\" +
+            var exeConfigPath = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None).FilePath;
+            var filePathParts = exeConfigPath.Split('\\');
+            var xlsFilePath = exeConfigPath.Replace(filePathParts[filePathParts.Length - 1], string.Empty) + "\\" +
                              "../../../Extension/DataSets.Impl/XlsReaderTest_InvalidColumn.xls";
             //XlsReader reader = new XlsReader("../Extension/DataSets.Impl/XlsReaderTest_InvalidColumn.xls");
-            XlsReader reader = new XlsReader(xlsFilePath);
-            DataTable dt = reader.Read().Tables["table"];
+            var reader = new XlsReader(xlsFilePath);
+            var dt = reader.Read().Tables["table"];
             Assert.AreEqual(1, dt.Columns.Count);
             Assert.AreEqual("INF01", dt.Columns[0].ColumnName);
         }

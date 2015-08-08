@@ -16,9 +16,9 @@
  */
 #endregion
 
-using Seasar.Framework.Xml;
-using Seasar.Framework.Util;
 using Seasar.Framework.Container.Impl;
+using Seasar.Framework.Util;
+using Seasar.Framework.Xml;
 
 namespace Seasar.Framework.Container.Factory
 {
@@ -26,16 +26,15 @@ namespace Seasar.Framework.Container.Factory
     {
         public override void Start(TagHandlerContext context, IAttributes attributes)
         {
-            IS2Container container;
-            container = new S2ContainerImpl();
-            string path = (string) context.GetParameter("path");
+            IS2Container container = new S2ContainerImpl();
+            var path = (string) context.GetParameter("path");
             container.Path = path;
-            string ns = attributes["namespace"];
+            var ns = attributes["namespace"];
             if (!StringUtil.IsEmpty(ns))
             {
                 container.Namespace = ns;
             }
-            IS2Container parent = (IS2Container) context.GetParameter("parent");
+            var parent = (IS2Container) context.GetParameter("parent");
             if (parent != null)
             {
                 container.Root = parent.Root;

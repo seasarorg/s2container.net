@@ -28,12 +28,8 @@ namespace Seasar.Extension.Tx.Impl
         {
             get
             {
-                Transaction tx = Transaction.Current;
-                if (tx != null)
-                {
-                    return tx.TransactionInformation.Status == TransactionStatus.Active;
-                }
-                return false;
+                var tx = Transaction.Current;
+                return tx?.TransactionInformation.Status == TransactionStatus.Active;
             }
         }
 

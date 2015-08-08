@@ -24,12 +24,12 @@ namespace Seasar.Framework.Container.Factory
     {
         public override void Start(TagHandlerContext context, IAttributes attributes)
         {
-            string path = attributes["path"];
+            var path = attributes["path"];
             if (path == null)
             {
                 throw new TagAttributeNotDefinedRuntimeException("include", "path");
             }
-            IS2Container container = (IS2Container) context.Peek();
+            var container = (IS2Container) context.Peek();
             S2ContainerFactory.Include(container, path);
         }
     }

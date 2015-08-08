@@ -27,7 +27,7 @@ namespace Seasar.Extension.ADO.Impl
 
         public override object Handle(IDataReader reader)
         {
-            IPropertyType[] propertyTypes = PropertyTypeUtil.CreatePropertyTypes(reader.GetSchemaTable());
+            var propertyTypes = PropertyTypeUtil.CreatePropertyTypes(reader.GetSchemaTable());
             IList list = new ArrayList();
             while (reader.Read())
             {

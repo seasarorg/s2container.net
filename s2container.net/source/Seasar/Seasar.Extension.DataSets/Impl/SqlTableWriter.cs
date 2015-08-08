@@ -26,9 +26,6 @@ namespace Seasar.Extension.DataSets.Impl
 {
     public class SqlTableWriter : ITableWriter
     {
-        private readonly IDataSource _dataSource;
-        private ICommandFactory _commandFactory;
-
         public SqlTableWriter(IDataSource dataSource)
             : this(dataSource, BasicCommandFactory.INSTANCE)
         {
@@ -36,26 +33,19 @@ namespace Seasar.Extension.DataSets.Impl
 
         public SqlTableWriter(IDataSource dataSource, ICommandFactory commandFactory)
         {
-            _dataSource = dataSource;
-            _commandFactory = commandFactory;
+            DataSource = dataSource;
+            CommandFactory = commandFactory;
         }
 
-        public IDataSource DataSource
-        {
-            get { return _dataSource; }
-        }
+        public IDataSource DataSource { get; }
 
-        public ICommandFactory CommandFactory
-        {
-            get { return _commandFactory; }
-            set { _commandFactory = value; }
-        }
+        public ICommandFactory CommandFactory { get; set; }
 
         #region ITableWriter ÉÅÉìÉo
 
         public virtual void Write(DataTable table)
         {
-            SetupMetaData(table);
+            _SetupMetaData(table);
 
             DoWrite(table);
         }
@@ -73,7 +63,7 @@ namespace Seasar.Extension.DataSets.Impl
                 BeginDoWrite(table);
                 foreach (DataRow row in table.Rows)
                 {
-                    RowState state = RowStateFactory.GetRowState(row.RowState);
+                    var state = RowStateFactory.GetRowState(row.RowState);
                     state.Update(DataSource, row, CommandFactory);
                 }
                 table.AcceptChanges();
@@ -88,7 +78,7 @@ namespace Seasar.Extension.DataSets.Impl
         {
         }
 
-        private void SetupMetaData(DataTable table)
+        private void _SetupMetaData(DataTable table)
         {
             IDatabaseMetaData dbMetaData = new DatabaseMetaDataImpl(DataSource);
             DataTableUtil.SetupMetaData(dbMetaData, table);

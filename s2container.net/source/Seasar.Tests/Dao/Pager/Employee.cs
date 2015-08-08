@@ -19,99 +19,52 @@
 using System;
 using System.Text;
 using Seasar.Dao.Attrs;
+using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Dao.Pager
 {
     [Table("EMP")]
     public class Employee
     {
-        private long _empno;
+        public long Empno { set; get; }
 
-        private string _ename;
+        public string Ename { set; get; }
 
-        private string _job;
+        public string Job { set; get; }
 
-        private short _mgr;
+        public short Mgr { set; get; }
 
-        private DateTime _hiredate;
+        public DateTime Hiredate { set; get; }
 
-        private float _sal;
+        public float Sal { set; get; }
 
-        private float _comm;
+        public float Comm { set; get; }
 
-        private short _deptno;
-
-        public long Empno
-        {
-            set { _empno = value; }
-            get { return _empno; }
-        }
-
-        public string Ename
-        {
-            set { _ename = value; }
-            get { return _ename; }
-        }
-
-        public string Job
-        {
-            set { _job = value; }
-            get { return _job; }
-        }
-
-        public short Mgr
-        {
-            set { _mgr = value; }
-            get { return _mgr; }
-        }
-
-        public DateTime Hiredate
-        {
-            set { _hiredate = value; }
-            get { return _hiredate; }
-        }
-
-        public float Sal
-        {
-            set { _sal = value; }
-            get { return _sal; }
-        }
-
-        public float Comm
-        {
-            set { _comm = value; }
-            get { return _comm; }
-        }
-
-        public short Deptno
-        {
-            set { _deptno = value; }
-            get { return _deptno; }
-        }
+        public short Deptno { set; get; }
 
         public bool equals(object other)
         {
-            if (!(other.GetType() == typeof(Employee))) return false;
-            Employee castOther = (Employee) other;
+            if (!(other.GetExType() == typeof(Employee))) return false;
+            var castOther = (Employee) other;
             return Empno == castOther.Empno;
         }
 
-        public int hashCode()
+        public int HashCode()
         {
             return (int) Empno;
         }
 
         public override string ToString()
         {
-            StringBuilder buf = new StringBuilder(50);
-            buf.Append(_empno).Append(", ");
-            buf.Append(_ename).Append(", ");
-            buf.Append(_job).Append(", ");
-            buf.Append(_mgr).Append(", ");
-            buf.Append(_hiredate).Append(", ");
-            buf.Append(_sal).Append(", ");
-            buf.Append(_comm).Append(", ");
-            buf.Append(_deptno).Append(", ");
+            var buf = new StringBuilder(50);
+            buf.Append(Empno).Append(", ");
+            buf.Append(Ename).Append(", ");
+            buf.Append(Job).Append(", ");
+            buf.Append(Mgr).Append(", ");
+            buf.Append(Hiredate).Append(", ");
+            buf.Append(Sal).Append(", ");
+            buf.Append(Comm).Append(", ");
+            buf.Append(Deptno).Append(", ");
             return buf.ToString();
         }
     }

@@ -25,29 +25,24 @@ namespace Seasar.Framework.Container
     [Serializable]
     public class ContainerNotRegisteredRuntimeException : SRuntimeException
     {
-        private readonly string path;
-
         public ContainerNotRegisteredRuntimeException(string path)
             : base("ESSR0075", new object[] { path })
         {
-            this.path = path;
+            Path = path;
         }
 
         public ContainerNotRegisteredRuntimeException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            path = info.GetString("path");
+            Path = info.GetString("path");
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("path", path, typeof(string));
+            info.AddValue("path", Path, typeof(string));
             base.GetObjectData(info, context);
         }
 
-        public string Path
-        {
-            get { return path; }
-        }
+        public string Path { get; }
     }
 }

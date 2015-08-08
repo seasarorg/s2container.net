@@ -26,7 +26,7 @@ namespace Seasar.Framework.Container.Impl
     /// </summary>
     public class AspectDefImpl : ArgDefImpl, IAspectDef
     {
-        private readonly IPointcut pointcut;
+        private readonly IPointcut _pointcut;
 
         /// <summary>
         /// コンストラクタ
@@ -37,7 +37,7 @@ namespace Seasar.Framework.Container.Impl
 
         public AspectDefImpl(IPointcut pointcut)
         {
-            this.pointcut = pointcut;
+            _pointcut = pointcut;
         }
 
         public AspectDefImpl(IMethodInterceptor interceptor)
@@ -48,7 +48,7 @@ namespace Seasar.Framework.Container.Impl
         public AspectDefImpl(IMethodInterceptor interceptor, IPointcut pointcut)
         {
             Value = interceptor;
-            this.pointcut = pointcut;
+            _pointcut = pointcut;
         }
 
         #region AspectDef メンバ
@@ -57,8 +57,8 @@ namespace Seasar.Framework.Container.Impl
         {
             get
             {
-                IMethodInterceptor interceptor = (IMethodInterceptor) Value;
-                return new AspectImpl(interceptor, pointcut);
+                var interceptor = (IMethodInterceptor) Value;
+                return new AspectImpl(interceptor, _pointcut);
             }
         }
 

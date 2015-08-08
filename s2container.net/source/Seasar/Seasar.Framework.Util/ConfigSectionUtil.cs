@@ -42,13 +42,17 @@ namespace Seasar.Framework.Util
         /// <returns></returns>
         public static string GetAttributeValue(XmlNode node, string attributeName)
         {
-            XmlAttribute attribute = node.Attributes[attributeName];
-            string attributeValue = null;
-            if (attribute != null)
+            if (node.Attributes != null)
             {
-                attributeValue = attribute.Value;
+                var attribute = node.Attributes[attributeName];
+                string attributeValue = null;
+                if (attribute != null)
+                {
+                    attributeValue = attribute.Value;
+                }
+                return attributeValue;
             }
-            return attributeValue;
+            return null;
         }
 
         /// <summary>
@@ -59,7 +63,7 @@ namespace Seasar.Framework.Util
         /// <returns></returns>
         public static string GetElementValue(XmlNode parentNode, string childName)
         {
-            XmlElement retElement = parentNode[childName];
+            var retElement = parentNode[childName];
             string retString = null;
             if (retElement != null)
             {
@@ -79,17 +83,17 @@ namespace Seasar.Framework.Util
         public static IList GetListConfig(XmlNode parentElement, string groupName,
             string childName, DelegateGetListElement invoker)
         {
-            if (parentElement == null) throw new ArgumentNullException("parentElement");
-            if (groupName == null) throw new ArgumentNullException("groupName");
-            if (childName == null) throw new ArgumentNullException("childName");
-            if (invoker == null) throw new ArgumentNullException("invoker");
+            if (parentElement == null) throw new ArgumentNullException(nameof(parentElement));
+            if (groupName == null) throw new ArgumentNullException(nameof(groupName));
+            if (childName == null) throw new ArgumentNullException(nameof(childName));
+            if (invoker == null) throw new ArgumentNullException(nameof(invoker));
 
-            XmlElement element = parentElement[groupName];
+            var element = parentElement[groupName];
             if (element == null)
             {
                 return null;
             }
-            XmlNodeList nodeList = element.GetElementsByTagName(childName);
+            var nodeList = element.GetElementsByTagName(childName);
             if (nodeList.Count == 0)
             {
                 return null;

@@ -16,8 +16,6 @@
  */
 #endregion
 
-using Seasar.Quill.Util;
-
 namespace Seasar.Quill.Exception
 {
     /// <summary>
@@ -29,7 +27,7 @@ namespace Seasar.Quill.Exception
         /// 設定ファイル参照先を指定してQuillApplicationExceptionを初期化する
         /// </summary>
         /// <param name="configPath">メッセージコード</param>
-        public QuillConfigNotFoundException(string configPath) : base("EQLL0029", new object[] { configPath })
+        public QuillConfigNotFoundException(string configPath) : base("EQLL0029", new [] { configPath })
         {
         }
 
@@ -48,7 +46,7 @@ namespace Seasar.Quill.Exception
         /// </summary>
         /// <param name="messageCode">メッセージコード</param>
         /// <param name="args">メッセージ中に埋め込む文字列の配列</param>
-        public QuillConfigNotFoundException(string messageCode, object[] args)
+        public QuillConfigNotFoundException(string messageCode, string[] args)
             : base(messageCode, args, null)
         {
         }
@@ -61,7 +59,7 @@ namespace Seasar.Quill.Exception
         /// <param name="args">メッセージ中に埋め込む値の配列</param>
         /// <param name="cause">元となった例外</param>
         public QuillConfigNotFoundException(
-            string messageCode, object[] args, System.Exception cause)
+            string messageCode, string[] args, System.Exception cause)
             : base(messageCode, args, cause)
         {
         }

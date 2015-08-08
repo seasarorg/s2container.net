@@ -16,6 +16,7 @@
  */
 #endregion
 
+using System;
 using System.Collections.Generic;
 using Seasar.Extension.ADO;
 using Seasar.Extension.ADO.Impl;
@@ -24,7 +25,6 @@ using Seasar.Extension.Tx.Impl;
 using Seasar.Framework.Container;
 using Seasar.Quill.Attrs;
 using Seasar.Quill.Database.DataSource.Selector;
-using System;
 
 namespace Seasar.Quill.Database.DataSource.Impl
 {
@@ -37,24 +37,12 @@ namespace Seasar.Quill.Database.DataSource.Impl
         [ThreadStatic]
         private static string _dataSourceName;
 
-        private IDataSourceSelector _dataSourceSelector = null;
-
         /// <summary>
         /// データソース選択ロジックインターフェース
         /// </summary>
-        public IDataSourceSelector DataSourceSelector
-        {
-            set { _dataSourceSelector = value; }
-            get { return _dataSourceSelector; }
-        }
+        public IDataSourceSelector DataSourceSelector { set; get; } = null;
 
-        private readonly IDictionary<string, IDataSource> _dataSourceCollection 
-            = new Dictionary<string, IDataSource>();
-
-        public IDictionary<string, IDataSource> DataSourceCollection
-        {
-            get { return _dataSourceCollection; }
-        }
+        public IDictionary<string, IDataSource> DataSourceCollection { get; } = new Dictionary<string, IDataSource>();
 
         #region AbstractSelectableDataSourceProxyメンバ
 
@@ -69,7 +57,7 @@ namespace Seasar.Quill.Database.DataSource.Impl
             //  データソース名が未設定の場合は一番最初のキーに対応するデータソース名を使う
             if (string.IsNullOrEmpty(_dataSourceName))
             {
-                foreach (string dsname in DataSourceCollection.Keys)
+                foreach (var dsname in DataSourceCollection.Keys)
                 {
                     return dsname;
                 }
@@ -110,7 +98,7 @@ namespace Seasar.Quill.Database.DataSource.Impl
         /// <param name="txContext"></param>
         public virtual void SetTransactionContext(ITransactionContext txContext)
         {
-            foreach (IDataSource dataSource in DataSourceCollection.Values)
+            foreach (var dataSource in DataSourceCollection.Values)
             {
                 if (dataSource is TxDataSource)
                 {

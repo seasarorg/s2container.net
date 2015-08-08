@@ -25,38 +25,29 @@ namespace Seasar.Framework.Container.Factory
     [Serializable]
     public class TagAttributeNotDefinedRuntimeException : SRuntimeException
     {
-        private readonly string _tagName;
-        private readonly string _attributeName;
-
         public TagAttributeNotDefinedRuntimeException(string tagName, string attributeName)
             : base("ESSR0056", new object[] { tagName, attributeName })
         {
-            _tagName = tagName;
-            _attributeName = attributeName;
+            TagName = tagName;
+            AttributeName = attributeName;
         }
 
         public TagAttributeNotDefinedRuntimeException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            _tagName = info.GetString("_tagName");
-            _attributeName = info.GetString("_attributeName");
+            TagName = info.GetString("_tagName");
+            AttributeName = info.GetString("_attributeName");
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("_tagName", _tagName, typeof(string));
-            info.AddValue("_attributeName", _attributeName, typeof(string));
+            info.AddValue("_tagName", TagName, typeof(string));
+            info.AddValue("_attributeName", AttributeName, typeof(string));
             base.GetObjectData(info, context);
         }
 
-        public string TagName
-        {
-            get { return _tagName; }
-        }
+        public string TagName { get; }
 
-        public string AttributeName
-        {
-            get { return _attributeName; }
-        }
+        public string AttributeName { get; }
     }
 }

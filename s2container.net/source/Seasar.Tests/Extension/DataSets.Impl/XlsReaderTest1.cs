@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -17,8 +17,6 @@
 #endregion
 
 using System;
-using System.Data;
-using System.IO;
 using System.Reflection;
 using MbUnit.Framework;
 using Seasar.Extension.DataSets.Impl;
@@ -28,20 +26,20 @@ using IDataReader = Seasar.Extension.DataSets.IDataReader;
 
 namespace Seasar.Tests.Extension.DataSets.Impl
 {
-    [Ignore("Microsoft.Jet.OLEDB4.0‚Í32bitOS‚Å‚µ‚©“®ì‚µ‚È‚¢‚½‚ß“®‚©‚¹‚¸B•Û—¯B")]
+    [Ignore("Microsoft.Jet.OLEDB4.0ã¯32bitOSã§ã—ã‹å‹•ä½œã—ãªã„ãŸã‚å‹•ã‹ã›ãšã€‚ä¿ç•™ã€‚")]
     [TestFixture]
     public class XlsReaderTest1 : S2TestCase
     {
         private const string PATH = "Seasar.Tests.Extension.DataSets.Impl.XlsReaderTest1.xls";
 
-        [Ignore("Microsoft.Jet.OLEDB4.0‚Í32bitOS‚Å‚µ‚©“®ì‚µ‚È‚¢‚½‚ß“®‚©‚¹‚¸B•Û—¯B")]
+        [Ignore("Microsoft.Jet.OLEDB4.0ã¯32bitOSã§ã—ã‹å‹•ä½œã—ãªã„ãŸã‚å‹•ã‹ã›ãšã€‚ä¿ç•™ã€‚")]
         [Test]
         public void TestRead()
         {
-            using (Stream stream = ResourceUtil.GetResourceAsStream(PATH, Assembly.GetExecutingAssembly()))
+            using (var stream = ResourceUtil.GetResourceAsStream(PATH, Assembly.GetExecutingAssembly()))
             {
                 IDataReader reader = new XlsReader(stream);
-                DataSet dataSet = reader.Read();
+                var dataSet = reader.Read();
 
                 Assert.AreEqual(1, dataSet.Tables.Count);
 
@@ -68,21 +66,21 @@ namespace Seasar.Tests.Extension.DataSets.Impl
                 Assert.AreEqual(
                     -999999999999999,
                     dataSet.Tables["Type"].Rows[0]["longValue"],
-                    "Excel‚Ì—LŒøŒ…”(15Œ…)‚Ü‚Å”F¯‚·‚ê‚ÎA‚Æ‚è‚ ‚¦‚¸OKBw”‚Ìê‡‚ÍA•Û—¯B"
+                    "Excelã®æœ‰åŠ¹æ¡æ•°(15æ¡)ã¾ã§èªè­˜ã™ã‚Œã°ã€ã¨ã‚Šã‚ãˆãšOKã€‚æŒ‡æ•°ã®å ´åˆã¯ã€ä¿ç•™ã€‚"
                     );
                 Assert.AreEqual(
                     -999999999999999m,
                     dataSet.Tables["Type"].Rows[0]["decimalValue"],
-                    "Excel‚Ì—LŒøŒ…”(15Œ…)‚Ü‚Å”F¯‚·‚ê‚ÎA‚Æ‚è‚ ‚¦‚¸OKBw”‚Ìê‡‚ÍA•Û—¯B"
+                    "Excelã®æœ‰åŠ¹æ¡æ•°(15æ¡)ã¾ã§èªè­˜ã™ã‚Œã°ã€ã¨ã‚Šã‚ãˆãšOKã€‚æŒ‡æ•°ã®å ´åˆã¯ã€ä¿ç•™ã€‚"
                     );
                 Assert.AreEqual(float.MinValue, dataSet.Tables["Type"].Rows[0]["floatValue"]);
                 Assert.AreEqual(
                     new DateTime(1900, 1, 1, 0, 0, 0),
                     dataSet.Tables["Type"].Rows[0]["dateTimeValue"],
-                    "Excel‚ÌŒvZ‚Åg—p‚Å‚«‚éÅ‚àŒÃ‚¢“ú•tB"
+                    "Excelã®è¨ˆç®—ã§ä½¿ç”¨ã§ãã‚‹æœ€ã‚‚å¤ã„æ—¥ä»˜ã€‚"
                     );
 
-                Assert.AreEqual("“ú–{Œê`", dataSet.Tables["Type"].Rows[1]["stringValue"]);
+                Assert.AreEqual("æ—¥æœ¬èªï½", dataSet.Tables["Type"].Rows[1]["stringValue"]);
                 Assert.AreEqual(0, dataSet.Tables["Type"].Rows[1]["intValue"]);
                 Assert.AreEqual(0, dataSet.Tables["Type"].Rows[1]["longValue"]);
                 Assert.AreEqual(0m, dataSet.Tables["Type"].Rows[1]["decimalValue"]);
@@ -102,7 +100,7 @@ namespace Seasar.Tests.Extension.DataSets.Impl
                 Assert.AreEqual(
                     string.Empty.PadLeft(32767, '*'),
                     dataSet.Tables["Type"].Rows[3]["stringValue"],
-                    "ƒZƒ‹‚É“ü—Í‚Å‚«‚éÅ‘å•¶š”‚ÍA32767•¶šB¦•\¦‚Å‚«‚é‚Ì‚Í1024•¶šB"
+                    "ã‚»ãƒ«ã«å…¥åŠ›ã§ãã‚‹æœ€å¤§æ–‡å­—æ•°ã¯ã€32767æ–‡å­—ã€‚â€»è¡¨ç¤ºã§ãã‚‹ã®ã¯1024æ–‡å­—ã€‚"
                     );
                 Assert.AreEqual(int.MaxValue, dataSet.Tables["Type"].Rows[3]["intValue"]);
                 Assert.AreEqual(
@@ -117,7 +115,7 @@ namespace Seasar.Tests.Extension.DataSets.Impl
                 Assert.AreEqual(
                     new DateTime(9999, 12, 31, 23, 59, 59),
                     dataSet.Tables["Type"].Rows[3]["dateTimeValue"],
-                    "Excel‚ÌŒvZ‚Åg—p‚Å‚«‚éÅ‚àV‚µ‚¢“ú•tB"
+                    "Excelã®è¨ˆç®—ã§ä½¿ç”¨ã§ãã‚‹æœ€ã‚‚æ–°ã—ã„æ—¥ä»˜ã€‚"
                     );
             }
         }

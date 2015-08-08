@@ -24,72 +24,36 @@ namespace Seasar.Tests.Dao.Id
 
     public class HogeSystemNullableDecimal
     {
-        private System.Nullable<decimal> _id;
-
         [ID(IDType.IDENTITY)]
-        public System.Nullable<decimal> Id
-        {
-            set { _id = value; }
-            get { return _id; }
-        }
+        public decimal? Id { set; get; }
     }
 
     public class HogeSystemNullableInt
     {
-        private System.Nullable<int> _id;
-
         [ID(IDType.IDENTITY)]
-        public System.Nullable<int> Id
-        {
-            set { _id = value; }
-            get { return _id; }
-        }
+        public int? Id { set; get; }
     }
 
     public class HogeSystemNullableShort
     {
-        private System.Nullable<short> _id;
-
         [ID(IDType.IDENTITY)]
-        public System.Nullable<short> Id
-        {
-            set { _id = value; }
-            get { return _id; }
-        }
+        public short? Id { set; get; }
     }
 
     public class HogeSystemNullableLong
     {
-        private System.Nullable<long> _id;
-
         [ID(IDType.IDENTITY)]
-        public System.Nullable<long> Id
-        {
-            set { _id = value; }
-            get { return _id; }
-        }
+        public long? Id { set; get; }
     }
     public class HogeSystemNullableFloat
     {
-        private System.Nullable<float> _id;
-
         [ID(IDType.IDENTITY)]
-        public System.Nullable<float> Id
-        {
-            set { _id = value; }
-            get { return _id; }
-        }
+        public float? Id { set; get; }
     }
     public class HogeSystemNullableDouble
     {
-        private System.Nullable<double> _id;
-
         [ID(IDType.IDENTITY)]
-        public System.Nullable<double> Id
-        {
-            set { _id = value; }
-            get { return _id; }
-        }
+        public double? Id { set; get; }
     }
 
 #endif

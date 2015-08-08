@@ -20,19 +20,10 @@ namespace Seasar.Dao.Dbms
 {
     public class SQLite : Standard
     {
-        public override string Suffix
-        {
-            get { return "_sqlite"; }
-        }
+        public override string Suffix => "_sqlite";
 
-        public override string IdentitySelectString
-        {
-            get { return "select last_insert_rowid()"; }
-        }
+        public override string IdentitySelectString => "select last_insert_rowid()";
 
-        public override KindOfDbms Dbms
-        {
-            get { return KindOfDbms.SQLite; }
-        }
+        public override KindOfDbms Dbms => KindOfDbms.SQLite;
     }
 }

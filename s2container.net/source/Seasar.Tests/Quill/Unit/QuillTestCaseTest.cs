@@ -43,7 +43,7 @@ namespace Seasar.Tests.Quill.Unit
         public void TestWriteAndReadDb()
         {
             //  ## Arrange ##
-            DataTable table = new DataTable("EMP");
+            var table = new DataTable("EMP");
             table.Columns.Add("EMPNO");
             table.Columns.Add("ENAME");
             table.Columns.Add("JOB");
@@ -53,7 +53,7 @@ namespace Seasar.Tests.Quill.Unit
             table.Columns.Add("COMM");
             table.Columns.Add("DEPTNO");
             table.Columns.Add("TSTAMP");
-            DataRow testRow = table.NewRow();
+            var testRow = table.NewRow();
             testRow["EMPNO"] = 5001;
             testRow["ENAME"] = "ROCK";
             testRow["JOB"] = "TH";
@@ -65,18 +65,18 @@ namespace Seasar.Tests.Quill.Unit
             testRow["TSTAMP"] = DateTime.Now;
             table.Rows.Add(testRow);
 
-            DataSet ds = new DataSet();
+            var ds = new DataSet();
             ds.Tables.Add(table);
 
             //  ## Act ##
             WriteDb(ds);
 
-            DataTable resultTable = ReadDbByTable("EMP");
+            var resultTable = ReadDbByTable("EMP");
 
             //  ## Assert ##
             Assert.IsNotNull(resultTable);
             Assert.GreaterThan(resultTable.Rows.Count, 0);
-            bool isExist = false;
+            var isExist = false;
             foreach (DataRow row in resultTable.Rows)
             {
                 if (((Decimal)row["EMPNO"]) == 5001)
@@ -111,21 +111,21 @@ namespace Seasar.Tests.Quill.Unit
             const string TEST_NAME_BEFORE = "WARD";
             const string TEST_NAME_AFTER = "Hoge";
             const int TEST_EMPNO = 7521;
-            EmpDao dao = GetQuillComponent(typeof(EmpDao)) as EmpDao;
+            var dao = GetQuillComponent(typeof(EmpDao)) as EmpDao;
             Assert.IsNotNull(dao, "dao");
 
-            Employee empBefore = dao.GetEmployee(TEST_EMPNO);
+            var empBefore = dao.GetEmployee(TEST_EMPNO);
             Assert.IsNotNull(empBefore, "employee");
             Assert.AreEqual(TEST_EMPNO, empBefore.Empno);
             Assert.AreEqual(TEST_NAME_BEFORE, empBefore.Ename);
 
             //  更新実行
             empBefore.Ename = TEST_NAME_AFTER;
-            int result = dao.Update(empBefore);
+            var result = dao.Update(empBefore);
             Assert.GreaterThan(result, 0, "update_result");
 
             //  この時点では更新されている
-            Employee empAfter = dao.GetEmployee(TEST_EMPNO);
+            var empAfter = dao.GetEmployee(TEST_EMPNO);
             Assert.AreEqual(TEST_NAME_AFTER, empAfter.Ename, "after update");
         }
 
@@ -140,21 +140,21 @@ namespace Seasar.Tests.Quill.Unit
             const string TEST_NAME_AFTER = "Hoge";
             const int TEST_EMPNO = 7521;
             //  テスト用のQuillContainerからコンポーネントを取得
-            EmpTxIFDao dao = GetQuillComponent(typeof(EmpTxIFDao)) as EmpTxIFDao;
+            var dao = GetQuillComponent(typeof(EmpTxIFDao)) as EmpTxIFDao;
             Assert.IsNotNull(dao, "dao");
 
-            Employee empBefore = dao.GetEmployee(TEST_EMPNO);
+            var empBefore = dao.GetEmployee(TEST_EMPNO);
             Assert.IsNotNull(empBefore, "employee");
             Assert.AreEqual(TEST_EMPNO, empBefore.Empno);
             Assert.AreEqual(TEST_NAME_BEFORE, empBefore.Ename);
 
             //  更新実行
             empBefore.Ename = TEST_NAME_AFTER;
-            int result = dao.Update(empBefore);
+            var result = dao.Update(empBefore);
             Assert.GreaterThan(result, 0, "update_result");
 
             //  この時点では更新されている
-            Employee empAfter = dao.GetEmployee(TEST_EMPNO);
+            var empAfter = dao.GetEmployee(TEST_EMPNO);
             Assert.AreEqual(TEST_NAME_AFTER, empAfter.Ename, "after update");
         }
 
@@ -169,21 +169,21 @@ namespace Seasar.Tests.Quill.Unit
             const string TEST_NAME_AFTER = "Hoge";
             const int TEST_EMPNO = 7521;
             //  テスト用のQuillContainerからコンポーネントを取得
-            EmpTxMethodDao dao = GetQuillComponent(typeof(EmpTxMethodDao)) as EmpTxMethodDao;
+            var dao = GetQuillComponent(typeof(EmpTxMethodDao)) as EmpTxMethodDao;
             Assert.IsNotNull(dao, "dao");
 
-            Employee empBefore = dao.GetEmployee(TEST_EMPNO);
+            var empBefore = dao.GetEmployee(TEST_EMPNO);
             Assert.IsNotNull(empBefore, "employee");
             Assert.AreEqual(TEST_EMPNO, empBefore.Empno);
             Assert.AreEqual(TEST_NAME_BEFORE, empBefore.Ename);
 
             //  更新実行
             empBefore.Ename = TEST_NAME_AFTER;
-            int result = dao.Update(empBefore);
+            var result = dao.Update(empBefore);
             Assert.GreaterThan(result, 0, "update_result");
 
             //  この時点では更新されている
-            Employee empAfter = dao.GetEmployee(TEST_EMPNO);
+            var empAfter = dao.GetEmployee(TEST_EMPNO);
             Assert.AreEqual(TEST_NAME_AFTER, empAfter.Ename, "after update");
         }
 
@@ -240,11 +240,6 @@ namespace Seasar.Tests.Quill.Unit
     {
         public EmpDao Dao = null;
 
-        private SelectableDataSourceProxyWithDictionary _dataSourceProxy = null;
-        public SelectableDataSourceProxyWithDictionary DataSourceProxy
-        {
-            set { _dataSourceProxy = value; }
-            get { return _dataSourceProxy; }
-        }
+        public SelectableDataSourceProxyWithDictionary DataSourceProxy { set; get; } = null;
     }
 }

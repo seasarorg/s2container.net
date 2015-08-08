@@ -20,6 +20,7 @@ using System;
 using System.Text;
 using System.Data.SqlTypes;
 using Seasar.Dao.Attrs;
+using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Dao.Impl
 {
@@ -27,103 +28,52 @@ namespace Seasar.Tests.Dao.Impl
     [Table("EMP_NULLABLE")]
     public class EmployeeNullable
     {
-        private long _empno;
-        private string _ename;
-        private string _job;
-        private SqlInt16 _mgr;
-        private DateTime _hiredate = DateTime.Now;
-        private SqlSingle _sal;
-        private SqlSingle _comm;
-        private int _deptno;
-        private DateTime _tstamp = DateTime.Now;
-        private DateTime? _nullableNextRestDate;
+        public long Empno { set; get; }
 
-        public long Empno
-        {
-            set { _empno = value; }
-            get { return _empno; }
-        }
-
-        public string Ename
-        {
-            set { _ename = value; }
-            get { return _ename; }
-        }
+        public string Ename { set; get; }
 
         [Column("Job")]
-        public string JobName
-        {
-            set { _job = value; }
-            get { return _job; }
-        }
+        public string JobName { set; get; }
 
-        public SqlInt16 Mgr
-        {
-            set { _mgr = value; }
-            get { return _mgr; }
-        }
+        public SqlInt16 Mgr { set; get; }
 
-        public DateTime HireDate
-        {
-            set { _hiredate = value; }
-            get { return _hiredate; }
-        }
+        public DateTime HireDate { set; get; } = DateTime.Now;
 
-        public SqlSingle Sal
-        {
-            set { _sal = value; }
-            get { return _sal; }
-        }
+        public SqlSingle Sal { set; get; }
 
-        public SqlSingle Comm
-        {
-            set { _comm = value; }
-            get { return _comm; }
-        }
+        public SqlSingle Comm { set; get; }
 
-        public int Deptno
-        {
-            set { _deptno = value; }
-            get { return _deptno; }
-        }
+        public int Deptno { set; get; }
 
-        public DateTime TStamp
-        {
-            set { _tstamp = value; }
-            get { return _tstamp; }
-        }
+        public DateTime Stamp { set; get; } = DateTime.Now;
 
-        public DateTime? NullableNextRestDate
-        {
-            set { _nullableNextRestDate = value; }
-            get { return _nullableNextRestDate; }
-        }
+        public DateTime? NullableNextRestDate { set; get; }
 
         public bool equals(object other)
         {
-            if (!(other.GetType() == typeof(EmployeeNullable))) return false;
-            EmployeeNullable castOther = (EmployeeNullable) other;
+            if (!(other.GetExType() == typeof(EmployeeNullable))) return false;
+            var castOther = (EmployeeNullable) other;
             return Empno == castOther.Empno;
         }
 
-        public int hashCode()
+        public int HashCode()
         {
             return (int) Empno;
         }
 
         public override string ToString()
         {
-            StringBuilder buf = new StringBuilder(50);
-            buf.Append(_empno).Append(", ");
-            buf.Append(_ename).Append(", ");
-            buf.Append(_job).Append(", ");
-            buf.Append(_mgr).Append(", ");
-            buf.Append(_hiredate).Append(", ");
-            buf.Append(_sal).Append(", ");
-            buf.Append(_comm).Append(", ");
-            buf.Append(_deptno).Append(", ");
-            buf.Append(_tstamp).Append(", ");
-            buf.Append(_nullableNextRestDate);
+            var buf = new StringBuilder(50);
+            buf.Append(Empno).Append(", ");
+            buf.Append(Ename).Append(", ");
+            buf.Append(JobName).Append(", ");
+            buf.Append(Mgr).Append(", ");
+            buf.Append(HireDate).Append(", ");
+            buf.Append(Sal).Append(", ");
+            buf.Append(Comm).Append(", ");
+            buf.Append(Deptno).Append(", ");
+            buf.Append(Stamp).Append(", ");
+            buf.Append(NullableNextRestDate);
             return buf.ToString();
         }
     }

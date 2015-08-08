@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -26,10 +26,10 @@ using Seasar.Extension.Unit;
 namespace Seasar.Tests.Dao.Impl
 {
     /// <summary>
-    /// “à•”“I‚É‚ÍInsertAutoStaticCommand‚Íg—p‚µ‚Ä‚¢‚Ü‚¹‚ñ‚ªA
-    /// ’Êí‚ÌInsert‚Ì‚½‚ß‚É‚àŒ“‚Ë‚Ä‚±‚ÌƒeƒXƒg‚àc‚µ‚Ä‚ ‚è‚Ü‚·B
-    /// (Insert‚ğÀs‚·‚é‚ÆInsertAutoDynamicCommand‚ª
-    /// •K‚¸g‚í‚ê‚é‚æ‚¤‚É‚È‚Á‚Ä‚¢‚é‚½‚ßj
+    /// å†…éƒ¨çš„ã«ã¯InsertAutoStaticCommandã¯ä½¿ç”¨ã—ã¦ã„ã¾ã›ã‚“ãŒ
+    /// é€šå¸¸ã®Insertã®ãŸã‚ã«ã‚‚å…¼ã­ã¦ã“ã®ãƒ†ã‚¹ãƒˆã‚‚æ®‹ã—ã¦ã‚ã‚Šã¾ã™ã€‚
+    /// (Insertã‚’å®Ÿè¡Œã™ã‚‹ã¨InsertAutoDynamicCommandãŒ
+    /// å¿…ãšä½¿ã‚ã‚Œã‚‹ã‚ˆã†ã«ãªã£ã¦ã„ã‚‹ãŸã‚
     /// [DAONET-3]
     /// </summary>
     [TestFixture]
@@ -43,36 +43,36 @@ namespace Seasar.Tests.Dao.Impl
         [Test, S2(Tx.Rollback)]
         public void TestExecuteTx()
         {
-            IDaoMetaData dmd = CreateDaoMetaData(typeof(IEmployeeAutoDao));
-            ISqlCommand cmd = dmd.GetSqlCommand("Insert");
-            Employee emp = new Employee();
+            var dmd = CreateDaoMetaData(typeof(IEmployeeAutoDao));
+            var cmd = dmd.GetSqlCommand("Insert");
+            var emp = new Employee();
             emp.Empno = 99;
             emp.Ename = "hoge";
-            int count = (int) cmd.Execute(new object[] { emp });
+            var count = (int) cmd.Execute(new object[] { emp });
             Assert.AreEqual(1, count, "1");
         }
 
         [Test, S2(Tx.Rollback)]
         public void TestExecuteNullableDateInsertTx()
         {
-            IDaoMetaData dmd = CreateDaoMetaData(typeof(IEmployeeNullableAutoDao));
-            ISqlCommand cmd = dmd.GetSqlCommand("Insert");
+            var dmd = CreateDaoMetaData(typeof(IEmployeeNullableAutoDao));
+            var cmd = dmd.GetSqlCommand("Insert");
             {
-                EmployeeNullable emp = new EmployeeNullable();
+                var emp = new EmployeeNullable();
                 emp.Empno = 99;
                 emp.Ename = "hoge";
                 emp.Deptno = 1;
                 emp.NullableNextRestDate = null;
-                int count = (int) cmd.Execute(new object[] { emp });
+                var count = (int) cmd.Execute(new object[] { emp });
                 Assert.AreEqual(1, count, "1");
             }
             {
-                EmployeeNullable emp = new EmployeeNullable();
+                var emp = new EmployeeNullable();
                 emp.Empno = 98;
                 emp.Ename = "hoge";
                 emp.Deptno = 1;
                 emp.NullableNextRestDate = DateTime.Parse("2000/01/01");
-                int count = (int) cmd.Execute(new object[] { emp });
+                var count = (int) cmd.Execute(new object[] { emp });
                 Assert.AreEqual(1, count, "2");
             }
         }
@@ -80,13 +80,13 @@ namespace Seasar.Tests.Dao.Impl
         [Test, S2(Tx.Rollback)]
         public void TestExecuteGenericNullableDateInsertTx()
         {
-            IDaoMetaData dmd = CreateDaoMetaData(typeof(IGenericNullableEntityAutoDao));
-            ISqlCommand cmd = dmd.GetSqlCommand("Insert");
+            var dmd = CreateDaoMetaData(typeof(IGenericNullableEntityAutoDao));
+            var cmd = dmd.GetSqlCommand("Insert");
             {
-                DateTime beforeTime = DateTime.Now;
-                GenericNullableEntity entity = new GenericNullableEntity();
+                var beforeTime = DateTime.Now;
+                var entity = new GenericNullableEntity();
                 entity.EntityNo = 1;
-                int count = (int) cmd.Execute(new object[] { entity });
+                var count = (int) cmd.Execute(new object[] { entity });
                 Assert.AreEqual(1, count, "Inserting");
 #if NET_4_0
                 Assert.GreaterThanOrEqualTo<DateTime>(entity.Ddate.Value, beforeTime);
@@ -100,28 +100,28 @@ namespace Seasar.Tests.Dao.Impl
 #endif
 
         [Test, S2(Tx.Rollback)]
-        [Ignore("#.NET4.0 ƒAƒ“ƒ_[ƒXƒRƒA‚ğŠÜ‚Şƒe[ƒuƒ‹–¼‚Ìˆµ‚¢‚Ìˆá‚¢‚ªŒ©‚ç‚ê‚é‚½‚ßˆê“I‚ÉIgnore")]
+        [Ignore("#.NET4.0 ã‚¢ãƒ³ãƒ€ãƒ¼ã‚¹ã‚³ã‚¢ã‚’å«ã‚€ãƒ†ãƒ¼ãƒ–ãƒ«åã®æ‰±ã„ã®é•ã„ãŒè¦‹ã‚‰ã‚Œã‚‹ãŸã‚ä¸€æ™‚çš„ã«")]
         public void TestExecuteWithUnderscoreTx()
         {
             if (Dbms.Dbms == KindOfDbms.Oracle)
             {
-                // #.NET4.0 Assert.Ignore‚ªg‚¦‚È‚¢‚Ì‚Åreturn‚Å–ß‚·
-                //Assert.Ignore("Oracle‚ÅƒJƒ‰ƒ€–¼‚Ìæ“ª‚ª_‚Ìê‡A\"(ˆø—p•„)‚ÅˆÍ‚Ş•K—v‚ª‚ ‚éB");
-                Console.WriteLine("Oracle‚ÅƒJƒ‰ƒ€–¼‚Ìæ“ª‚ª_‚Ìê‡A\"(ˆø—p•„)‚ÅˆÍ‚Ş•K—v‚ª‚ ‚éB");
+                // #.NET4.0 Assert.IgnoreãŒä½¿ãˆãªã„ã®ã§returnã§æˆ»ã™
+                //Assert.Ignore("Oracleã§ã‚«ãƒ©ãƒ åã®å…ˆé ­ãŒ_ã®å ´åˆã€\"(å¼•ç”¨ç¬¦)ã§å›²ã‚€å¿…è¦ãŒã‚ã‚‹ã€‚");
+                Console.WriteLine("Oracleã§ã‚«ãƒ©ãƒ åã®å…ˆé ­ãŒ_ã®å ´åˆã€\"(å¼•ç”¨ç¬¦)ã§å›²ã‚€å¿…è¦ãŒã‚ã‚‹ã€‚");
                 return;
             }
-            IDaoMetaData dmd = CreateDaoMetaData(typeof(IUnderscoreEntityDao));
-            ISqlCommand cmd = dmd.GetSqlCommand("Insert");
-            ISqlCommand cmd2 = dmd.GetSqlCommand("GetUnderScoreEntityByUnderScoreNo");
-            UnderscoreEntity entity = new UnderscoreEntity();
+            var dmd = CreateDaoMetaData(typeof(IUnderscoreEntityDao));
+            var cmd = dmd.GetSqlCommand("Insert");
+            var cmd2 = dmd.GetSqlCommand("GetUnderScoreEntityByUnderScoreNo");
+            var entity = new UnderscoreEntity();
             entity.UnderScoreNo = 100;
             entity._Table_Name = "1";
             entity._Table_Name_ = "2";
             entity.Table_Name_ = "3";
             entity.TableName = "4";
-            int count = (int) cmd.Execute(new object[] { entity });
+            var count = (int) cmd.Execute(new object[] { entity });
             Assert.AreEqual(1, count, "1");
-            UnderscoreEntity entityLast = (UnderscoreEntity) cmd2.Execute(new object[] { 100 });
+            var entityLast = (UnderscoreEntity) cmd2.Execute(new object[] { 100 });
             Assert.AreEqual("1", entityLast._Table_Name);
             Assert.AreEqual("2", entityLast._Table_Name_);
             Assert.AreEqual("3", entityLast.Table_Name_);
@@ -131,18 +131,18 @@ namespace Seasar.Tests.Dao.Impl
         [Test, S2(Tx.Rollback)]
         public void TestExecute2Tx()
         {
-            IDaoMetaData dmd = CreateDaoMetaData(typeof(IIdTableAutoDao));
+            var dmd = CreateDaoMetaData(typeof(IIdTableAutoDao));
 
-            ISqlCommand cmd = dmd.GetSqlCommand("Insert");
-            IdTable table = new IdTable();
+            var cmd = dmd.GetSqlCommand("Insert");
+            var table = new IdTable();
             table.IdName = "hoge";
-            int count1 = (int) cmd.Execute(new object[] { table });
+            var count1 = (int) cmd.Execute(new object[] { table });
             Assert.AreEqual(1, count1, "1");
-            int id1 = table.MyId;
+            var id1 = table.MyId;
             Trace.WriteLine(id1);
-            int count2 = (int) cmd.Execute(new object[] { table });
+            var count2 = (int) cmd.Execute(new object[] { table });
             Assert.AreEqual(1, count2, "2");
-            int id2 = table.MyId;
+            var id2 = table.MyId;
             Trace.WriteLine(id2);
             Assert.AreEqual(1, id2 - id1, "2");
         }
@@ -150,11 +150,11 @@ namespace Seasar.Tests.Dao.Impl
         [Test, S2(Tx.Rollback)]
         public void TestExecute3_1Tx()
         {
-            IDaoMetaData dmd = CreateDaoMetaData(typeof(IIdTableAutoDao));
-            ISqlCommand cmd = dmd.GetSqlCommand("Insert");
-            IdTable table = new IdTable();
+            var dmd = CreateDaoMetaData(typeof(IIdTableAutoDao));
+            var cmd = dmd.GetSqlCommand("Insert");
+            var table = new IdTable();
             table.IdName = "hoge";
-            int count = (int) cmd.Execute(new object[] { table });
+            var count = (int) cmd.Execute(new object[] { table });
             Assert.AreEqual(1, count, "1");
             Trace.WriteLine(table.MyId);
             Assert.IsTrue(table.MyId > 0, "2");
@@ -163,16 +163,16 @@ namespace Seasar.Tests.Dao.Impl
         [Test, S2(Tx.Rollback)]
         public void TestExecute3_2Tx()
         {
-            IDaoMetaData dmd = CreateDaoMetaData(typeof(IIdTableAuto2Dao));
-            ISqlCommand cmd = dmd.GetSqlCommand("Insert");
-            IdTable2 table1 = new IdTable2();
+            var dmd = CreateDaoMetaData(typeof(IIdTableAuto2Dao));
+            var cmd = dmd.GetSqlCommand("Insert");
+            var table1 = new IdTable2();
             table1.IdName = "hoge";
-            int count = (int) cmd.Execute(new object[] { table1 });
+            var count = (int) cmd.Execute(new object[] { table1 });
             Assert.AreEqual(1, count, "1");
             Trace.WriteLine(table1.MyId);
             Assert.IsTrue(table1.MyId > 0, "2");
 
-            IdTable2 table2 = new IdTable2();
+            var table2 = new IdTable2();
             table2.IdName = "foo";
             cmd.Execute(new object[] { table2 });
             Trace.WriteLine(table2.MyId);
@@ -182,25 +182,25 @@ namespace Seasar.Tests.Dao.Impl
         [Test, S2(Tx.Rollback)]
         public void TestExecute4Tx()
         {
-            IDaoMetaData dmd = CreateDaoMetaData(typeof(IEmployeeAutoDao));
-            ISqlCommand cmd = dmd.GetSqlCommand("Insert2");
-            Employee emp = new Employee();
+            var dmd = CreateDaoMetaData(typeof(IEmployeeAutoDao));
+            var cmd = dmd.GetSqlCommand("Insert2");
+            var emp = new Employee();
             emp.Empno = 99;
             emp.Ename = "hoge";
-            int count = (int) cmd.Execute(new object[] { emp });
+            var count = (int) cmd.Execute(new object[] { emp });
             Assert.AreEqual(1, count, "1");
         }
 
         [Test, S2(Tx.Rollback)]
         public void TestExecute5Tx()
         {
-            IDaoMetaData dmd = CreateDaoMetaData(typeof(IEmployeeAutoDao));
-            ISqlCommand cmd = dmd.GetSqlCommand("Insert3");
-            Employee emp = new Employee();
+            var dmd = CreateDaoMetaData(typeof(IEmployeeAutoDao));
+            var cmd = dmd.GetSqlCommand("Insert3");
+            var emp = new Employee();
             emp.Empno = 99;
             emp.Ename = "hoge";
             emp.Deptno = 10;
-            int count = (int) cmd.Execute(new object[] { emp });
+            var count = (int) cmd.Execute(new object[] { emp });
             Assert.AreEqual(1, count, "1");
         }
     }

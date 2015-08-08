@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -35,7 +35,7 @@ namespace Seasar.Tests.Framework.Log
 
         static LoggerTest()
         {
-            FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
+            var info = new FileInfo(SystemInfo.AssemblyFileName(
                 Assembly.GetExecutingAssembly()) + ".config");
             XmlConfigurator.Configure(LogManager.GetRepository(), info);
         }
@@ -90,26 +90,26 @@ namespace Seasar.Tests.Framework.Log
         [Test]
         public void TestLog_NameSpace()
         {
-            //  —áŠO‚Í”­¶‚µ‚È‚¢‚±‚Æ‚ªŠm”F‚Å‚«‚ê‚ÎOK
+            //  ä¾‹å¤–ã¯ç™ºç”Ÿã—ãªã„ã“ã¨ãŒç¢ºèªã§ãã‚Œã°OK
             _logger.Log("ESSR0001", new object[] { "test" }, null, "Hoge");
         }
 
         [Test]
         public void TestPerformance()
         {
-            int num = 100;
-            long start = DateTime.Now.Ticks;
-            for (int i = 0; i < num; ++i)
+            var num = 100;
+            var start = DateTime.Now.Ticks;
+            for (var i = 0; i < num; ++i)
             {
                 Trace.WriteLine("test" + i);
             }
-            long csout = DateTime.Now.Ticks - start;
+            var csout = DateTime.Now.Ticks - start;
             start = DateTime.Now.Ticks;
-            for (int i = 0; i < num; ++i)
+            for (var i = 0; i < num; ++i)
             {
                 _logger.Fatal("test" + i);
             }
-            long loggerTicks = DateTime.Now.Ticks - start;
+            var loggerTicks = DateTime.Now.Ticks - start;
             Trace.WriteLine("Console:" + csout);
             Trace.WriteLine("Logger:" + loggerTicks);
         }

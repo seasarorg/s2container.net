@@ -19,6 +19,7 @@
 using System;
 using System.Reflection;
 using Seasar.Framework.Log;
+using Seasar.Framework.Util;
 
 namespace Seasar.Dao.Node
 {
@@ -26,31 +27,26 @@ namespace Seasar.Dao.Node
     {
         private static readonly Logger _logger = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        private readonly string _expression;
-
         public BindVariableNode(string expression)
         {
-            _expression = expression;
+            Expression = expression;
         }
 
-        public string Expression
-        {
-            get { return _expression; }
-        }
+        public string Expression { get; }
 
         public override void Accept(ICommandContext ctx)
         {
-            object value = ctx.GetArg(_expression);
+            var value = ctx.GetArg(Expression);
             Type type = null;
             if (value != null)
             {
-                type = value.GetType();
+                type = value.GetExType();
             }
             else
             {
-                _logger.Log("WDAO0001", new object[] { _expression });
+                _logger.Log("WDAO0001", new object[] { Expression });
             }
-            ctx.AddSql(value, type, _expression.Replace('.', '_'));
+            ctx.AddSql(value, type, Expression.Replace('.', '_'));
         }
     }
 }

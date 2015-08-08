@@ -49,7 +49,7 @@ namespace Seasar.Framework.Aop.Impl
             {
                 throw new EmptyRuntimeException("targetType");
             }
-            SetMethodNames(GetMethodNames(targetType));
+            _SetMethodNames(_GetMethodNames(targetType));
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace Seasar.Framework.Aop.Impl
             {
                 throw new EmptyRuntimeException("methodNames");
             }
-            SetMethodNames(methodNames);
+            _SetMethodNames(methodNames);
         }
 
         #region IPointcut メンバ
@@ -84,7 +84,7 @@ namespace Seasar.Framework.Aop.Impl
         /// <returns>TrueならAdviceを挿入する、FalseならAdviceは挿入されない</returns>
         public bool IsApplied(string methodName)
         {
-            foreach (Regex regex in _regularExpressions)
+            foreach (var regex in _regularExpressions)
             {
                 if (regex.Match(methodName).Success)
                 {
@@ -99,40 +99,37 @@ namespace Seasar.Framework.Aop.Impl
         /// <summary>
         /// メソッド名の正規表現文字列
         /// </summary>
-        public string[] MethodNames
-        {
-            get { return _methodNames; }
-        }
+        public string[] MethodNames => _methodNames;
 
-        private void SetMethodNames(string[] methodNames)
+        private void _SetMethodNames(string[] methodNames)
         {
             _methodNames = methodNames;
             _regularExpressions = new Regex[methodNames.Length];
-            for (int i = 0; i < methodNames.Length; ++i)
+            for (var i = 0; i < methodNames.Length; ++i)
             {
-                string methodName = @"^" + methodNames[i].Trim() + "$";
+                var methodName = @"^" + methodNames[i].Trim() + "$";
                 _regularExpressions[i] = new Regex(methodName, RegexOptions.Compiled);
             }
         }
 
-        private static string[] GetMethodNames(Type targetType)
+        private static string[] _GetMethodNames(Type targetType)
         {
-            Hashtable methodNameList = new Hashtable();
+            var methodNameList = new Hashtable();
             if (targetType.IsInterface)
             {
-                AddInterfaceMethodNames(methodNameList, targetType);
+                _AddInterfaceMethodNames(methodNameList, targetType);
             }
-            for (Type type = targetType; type != typeof(object) && type != null; type = type.BaseType)
+            for (var type = targetType; type != typeof(object) && type != null; type = type.BaseType)
             {
-                Type[] interfaces = type.GetInterfaces();
-                foreach (Type interfaceTemp in interfaces)
+                var interfaces = type.GetInterfaces();
+                foreach (var interfaceTemp in interfaces)
                 {
-                    AddInterfaceMethodNames(methodNameList, interfaceTemp);
+                    _AddInterfaceMethodNames(methodNameList, interfaceTemp);
                 }
             }
-            string[] methodNames = new string[methodNameList.Count];
-            IEnumerator enu = methodNameList.Keys.GetEnumerator();
-            int i = 0;
+            var methodNames = new string[methodNameList.Count];
+            var enu = methodNameList.Keys.GetEnumerator();
+            var i = 0;
             while (enu.MoveNext())
             {
                 methodNames[i++] = (string) enu.Current;
@@ -140,20 +137,20 @@ namespace Seasar.Framework.Aop.Impl
             return methodNames;
         }
 
-        private static void AddInterfaceMethodNames(Hashtable methodNameList, Type interfaceType)
+        private static void _AddInterfaceMethodNames(Hashtable methodNameList, Type interfaceType)
         {
-            MethodInfo[] methods = interfaceType.GetMethods();
-            foreach (MethodInfo method in methods)
+            var methods = interfaceType.GetMethods();
+            foreach (var method in methods)
             {
                 if (!methodNameList.ContainsKey(method.Name))
                 {
                     methodNameList.Add(method.Name, null);
                 }
             }
-            Type[] interfaces = interfaceType.GetInterfaces();
-            foreach (Type interfaceTemp in interfaces)
+            var interfaces = interfaceType.GetInterfaces();
+            foreach (var interfaceTemp in interfaces)
             {
-                AddInterfaceMethodNames(methodNameList, interfaceTemp);
+                _AddInterfaceMethodNames(methodNameList, interfaceTemp);
             }
         }
     }

@@ -78,19 +78,19 @@ namespace Seasar.Extension.ADO.Impl
             return GetDataSource().GetCommand();
         }
 
-        public virtual IDbCommand GetCommand(string cmdText)
+        public virtual IDbCommand GetCommand(string text)
         {
-            return GetDataSource().GetCommand(cmdText);
+            return GetDataSource().GetCommand(text);
         }
 
-        public virtual IDbCommand GetCommand(string cmdText, IDbConnection connection)
+        public virtual IDbCommand GetCommand(string text, IDbConnection connection)
         {
-            return GetDataSource().GetCommand(cmdText, connection);
+            return GetDataSource().GetCommand(text, connection);
         }
 
-        public virtual IDbCommand GetCommand(string cmdText, IDbConnection connection, IDbTransaction transaction)
+        public virtual IDbCommand GetCommand(string text, IDbConnection connection, IDbTransaction transaction)
         {
-            return GetDataSource().GetCommand(cmdText, connection, transaction);
+            return GetDataSource().GetCommand(text, connection, transaction);
         }
 
         public virtual IDataParameter GetParameter()

@@ -22,15 +22,11 @@ using Seasar.Quill;
 using Seasar.Quill.Exception;
 using Seasar.Quill.Util;
 using System;
-using Seasar.Quill.Dao;
 using Seasar.Quill.Dao.Impl;
 using Seasar.Quill.Database.Tx.Impl;
-using Seasar.Extension.ADO;
-using System.Collections.Generic;
 using Seasar.Extension.Tx.Impl;
 using Seasar.Framework.Container.Factory;
-using System.Data;
-using System.Data.SqlClient;
+using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Quill
 {
@@ -50,15 +46,15 @@ namespace Seasar.Tests.Quill
         public void TestHasQuillConfig()
         {
             {
-                QuillConfig config = GetTestQuillConfig(CONFIG_NOT_EXISTS);
+                var config = GetTestQuillConfig(CONFIG_NOT_EXISTS);
                 Assert.IsFalse(config.HasQuillConfig(), "設定なし");
             }
             {
-                QuillConfig config = GetTestQuillConfig(CONFIG_EMPTY);
+                var config = GetTestQuillConfig(CONFIG_EMPTY);
                 Assert.IsFalse(config.HasQuillConfig(), "設定なし");
             }
             {
-                QuillConfig config = GetTestQuillConfig(CONFIG_FULL);
+                var config = GetTestQuillConfig(CONFIG_FULL);
                 Assert.IsTrue(config.HasQuillConfig(), "設定あり");
             }
         }
@@ -70,23 +66,23 @@ namespace Seasar.Tests.Quill
             const string ASSEMBLY_EMPTY = "HasAssemblyConfig_Empty";
 
             {
-                QuillConfig config = GetTestQuillConfig(CONFIG_NOT_EXISTS);
+                var config = GetTestQuillConfig(CONFIG_NOT_EXISTS);
                 Assert.IsFalse(config.HasAssemblyConfig(), "Quill設定なし");
             }
             {
-                QuillConfig config = GetTestQuillConfig(CONFIG_EMPTY);
+                var config = GetTestQuillConfig(CONFIG_EMPTY);
                 Assert.IsFalse(config.HasAssemblyConfig(), "Quill設定空");
             }
             {
-                QuillConfig config = GetTestQuillConfig(ASSEMBLY_NOTHING);
+                var config = GetTestQuillConfig(ASSEMBLY_NOTHING);
                 Assert.IsFalse(config.HasAssemblyConfig(), "アセンブリ設定なし");
             }
             {
-                QuillConfig config = GetTestQuillConfig(ASSEMBLY_EMPTY);
+                var config = GetTestQuillConfig(ASSEMBLY_EMPTY);
                 Assert.IsFalse(config.HasAssemblyConfig(), "アセンブリ設定空");
             }
             {
-                QuillConfig config = GetTestQuillConfig(CONFIG_FULL);
+                var config = GetTestQuillConfig(CONFIG_FULL);
                 Assert.IsTrue(config.HasAssemblyConfig(), "アセンブリ設定あり");
             }
         }
@@ -98,23 +94,23 @@ namespace Seasar.Tests.Quill
             const string DAO_SETTING_EMPTY = "HasDaoSeting_Empty";
 
             {
-                QuillConfig config = GetTestQuillConfig(CONFIG_NOT_EXISTS);
+                var config = GetTestQuillConfig(CONFIG_NOT_EXISTS);
                 Assert.IsFalse(config.HasDaoSetting(), "Quill設定なし");
             }
             {
-                QuillConfig config = GetTestQuillConfig(CONFIG_EMPTY);
+                var config = GetTestQuillConfig(CONFIG_EMPTY);
                 Assert.IsFalse(config.HasDaoSetting(), "Quill設定空");
             }
             {
-                QuillConfig config = GetTestQuillConfig(DAO_SETTING_NOTHING);
+                var config = GetTestQuillConfig(DAO_SETTING_NOTHING);
                 Assert.IsFalse(config.HasDaoSetting(), "Dao設定なし");
             }
             {
-                QuillConfig config = GetTestQuillConfig(DAO_SETTING_EMPTY);
+                var config = GetTestQuillConfig(DAO_SETTING_EMPTY);
                 Assert.IsFalse(config.HasDaoSetting(), "Dao設定空");
             }
             {
-                QuillConfig config = GetTestQuillConfig(CONFIG_FULL);
+                var config = GetTestQuillConfig(CONFIG_FULL);
                 Assert.IsTrue(config.HasDaoSetting(), "Dao設定あり");
             }
         }
@@ -126,23 +122,23 @@ namespace Seasar.Tests.Quill
             const string TX_SETTING_EMPTY = "HasTransactionSeting_Empty";
 
             {
-                QuillConfig config = GetTestQuillConfig(CONFIG_NOT_EXISTS);
+                var config = GetTestQuillConfig(CONFIG_NOT_EXISTS);
                 Assert.IsFalse(config.HasTransactionSetting(), "Quill設定なし");
             }
             {
-                QuillConfig config = GetTestQuillConfig(CONFIG_EMPTY);
+                var config = GetTestQuillConfig(CONFIG_EMPTY);
                 Assert.IsFalse(config.HasTransactionSetting(), "Quill設定空");
             }
             {
-                QuillConfig config = GetTestQuillConfig(TX_SETTING_NOTHING);
+                var config = GetTestQuillConfig(TX_SETTING_NOTHING);
                 Assert.IsFalse(config.HasTransactionSetting(), "トランザクション設定なし");
             }
             {
-                QuillConfig config = GetTestQuillConfig(TX_SETTING_EMPTY);
+                var config = GetTestQuillConfig(TX_SETTING_EMPTY);
                 Assert.IsFalse(config.HasTransactionSetting(), "トランザクション設定空");
             }
             {
-                QuillConfig config = GetTestQuillConfig(CONFIG_FULL);
+                var config = GetTestQuillConfig(CONFIG_FULL);
                 Assert.IsTrue(config.HasTransactionSetting(), "トランザクション設定あり");
             }
         }
@@ -154,23 +150,23 @@ namespace Seasar.Tests.Quill
             const string DS_CONFIG_EMPTY = "HasDataSourceConfig_Empty";
 
             {
-                QuillConfig config = GetTestQuillConfig(CONFIG_NOT_EXISTS);
+                var config = GetTestQuillConfig(CONFIG_NOT_EXISTS);
                 Assert.IsFalse(config.HasDataSourceConfig(), "Quill設定なし");
             }
             {
-                QuillConfig config = GetTestQuillConfig(CONFIG_EMPTY);
+                var config = GetTestQuillConfig(CONFIG_EMPTY);
                 Assert.IsFalse(config.HasDataSourceConfig(), "Quill設定空");
             }
             {
-                QuillConfig config = GetTestQuillConfig(DS_CONFIG_NOTHING);
+                var config = GetTestQuillConfig(DS_CONFIG_NOTHING);
                 Assert.IsFalse(config.HasDataSourceConfig(), "データソース設定なし");
             }
             {
-                QuillConfig config = GetTestQuillConfig(DS_CONFIG_EMPTY);
+                var config = GetTestQuillConfig(DS_CONFIG_EMPTY);
                 Assert.IsFalse(config.HasDataSourceConfig(), "データソース設定空");
             }
             {
-                QuillConfig config = GetTestQuillConfig(CONFIG_FULL);
+                var config = GetTestQuillConfig(CONFIG_FULL);
                 Assert.IsTrue(config.HasDataSourceConfig(), "データソース設定あり");
             }
         }
@@ -181,22 +177,22 @@ namespace Seasar.Tests.Quill
         public void TestGetDaoSettingType()
         {
             {
-                QuillConfig config = GetTestQuillConfig(CONFIG_NOT_EXISTS);
+                var config = GetTestQuillConfig(CONFIG_NOT_EXISTS);
                 Assert.AreEqual(typeof(TypicalDaoSetting), config.GetDaoSettingType(),
                     "設定ファイルの指定がない場合は既定ファイルの設定を使う");
             }
             {
-                QuillConfig config = GetTestQuillConfig(CONFIG_EMPTY);
+                var config = GetTestQuillConfig(CONFIG_EMPTY);
                 Assert.AreEqual(typeof(TypicalDaoSetting), config.GetDaoSettingType(),
                     "設定がない場合はデフォルト設定");
             }
             {
-                QuillConfig config = GetTestQuillConfig(CONFIG_FULL);
+                var config = GetTestQuillConfig(CONFIG_FULL);
                 Assert.AreEqual(typeof(DaoSetting4Test), config.GetDaoSettingType(),
                     "設定がある場合は指定された型");
             }
             {
-                QuillConfig config = GetTestQuillConfig(CONFIG_NO_EXIST_CLASS);
+                var config = GetTestQuillConfig(CONFIG_NO_EXIST_CLASS);
                 try
                 {
                     config.GetDaoSettingType();
@@ -212,22 +208,22 @@ namespace Seasar.Tests.Quill
         public void TestGetTransactionSettingType()
         {
             {
-                QuillConfig config = GetTestQuillConfig(CONFIG_NOT_EXISTS);
+                var config = GetTestQuillConfig(CONFIG_NOT_EXISTS);
                 Assert.AreEqual(typeof(TypicalTransactionSetting), config.GetTransationSettingType(),
                     "設定ファイルの指定がない場合は既定ファイルの設定を使う");
             }
             {
-                QuillConfig config = GetTestQuillConfig(CONFIG_EMPTY);
+                var config = GetTestQuillConfig(CONFIG_EMPTY);
                 Assert.AreEqual(typeof(TypicalTransactionSetting), config.GetTransationSettingType(),
                     "設定がない場合はデフォルト設定");
             }
             {
-                QuillConfig config = GetTestQuillConfig(CONFIG_FULL);
+                var config = GetTestQuillConfig(CONFIG_FULL);
                 Assert.AreEqual(typeof(TxSetting4Test), config.GetTransationSettingType(),
                     "設定がある場合は指定された型");
             }
             {
-                QuillConfig config = GetTestQuillConfig(CONFIG_NO_EXIST_CLASS);
+                var config = GetTestQuillConfig(CONFIG_NO_EXIST_CLASS);
                 try
                 {
                     config.GetTransationSettingType();
@@ -252,36 +248,36 @@ namespace Seasar.Tests.Quill
 
             {
                 //  Quill設定にデータソースがない場合
-                QuillConfig config = GetTestQuillConfig(DS_NOTHING);
-                IDictionary<string, IDataSource> dataSources = config.CreateDataSources();
+                var config = GetTestQuillConfig(DS_NOTHING);
+                var dataSources = config.CreateDataSources();
                 Assert.IsNotNull(dataSources, "インスタンスは生成されている");
                 Assert.AreEqual(2, dataSources.Count, "App.configのConnectionStringセクションに設定されている数");
                 Assert.IsTrue(dataSources.ContainsKey("providerEx"), "設定１");
                 Assert.IsTrue(dataSources.ContainsKey("provider"), "設定２");
-                IDataSource ds1 = dataSources["providerEx"];
-                Assert.IsTrue(ds1 is TxDataSource, ds1.GetType().Name);
-                IDataSource ds2 = dataSources["provider"];
-                Assert.IsTrue(ds2 is TxDataSource, ds2.GetType().Name); 
+                var ds1 = dataSources["providerEx"];
+                Assert.IsTrue(ds1 is TxDataSource, ds1.GetExType().Name);
+                var ds2 = dataSources["provider"];
+                Assert.IsTrue(ds2 is TxDataSource, ds2.GetExType().Name); 
             }
             {
                 //  Quill設定にあるデータソースが空の場合
-                QuillConfig config = GetTestQuillConfig(DS_EMPTY);
-                IDictionary<string, IDataSource> dataSources = config.CreateDataSources();
+                var config = GetTestQuillConfig(DS_EMPTY);
+                var dataSources = config.CreateDataSources();
                 Assert.IsNotNull(dataSources, "インスタンスは生成されている");
                 Assert.AreEqual(2, dataSources.Count, "App.configのConnectionStringセクションに設定されている数");
                 Assert.IsTrue(dataSources.ContainsKey("providerEx"), "設定１");
                 Assert.IsTrue(dataSources.ContainsKey("provider"), "設定２");
-                IDataSource ds1 = dataSources["providerEx"];
-                Assert.IsTrue(ds1 is TxDataSource, ds1.GetType().Name);
-                IDataSource ds2 = dataSources["provider"];
-                Assert.IsTrue(ds2 is TxDataSource, ds2.GetType().Name); 
+                var ds1 = dataSources["providerEx"];
+                Assert.IsTrue(ds1 is TxDataSource, ds1.GetExType().Name);
+                var ds2 = dataSources["provider"];
+                Assert.IsTrue(ds2 is TxDataSource, ds2.GetExType().Name); 
             }
             {
                 //  データソースクラス設定がない
-                QuillConfig config = GetTestQuillConfig(DS_NO_DATASOURCE);
+                var config = GetTestQuillConfig(DS_NO_DATASOURCE);
                 try
                 {
-                    IDictionary<string, IDataSource> dataSources = config.CreateDataSources();
+                    var dataSources = config.CreateDataSources();
                     Assert.Fail("データソース設定がないことを知らせる例外が出るはず");
                 }
                 catch (QuillConfigNotFoundException ex)
@@ -291,10 +287,10 @@ namespace Seasar.Tests.Quill
             }
             {
                 //  誤ったデータソース
-                QuillConfig config = GetTestQuillConfig(DS_ILLEGAL_DATASOURCE);
+                var config = GetTestQuillConfig(DS_ILLEGAL_DATASOURCE);
                 try
                 {
-                    IDictionary<string, IDataSource> dataSources = config.CreateDataSources();
+                    var dataSources = config.CreateDataSources();
                     Assert.Fail("データソースクラス名を間違えていることを知らせる例外が出るはず");
                 }
                 catch (ClassNotFoundRuntimeException ex)
@@ -304,10 +300,10 @@ namespace Seasar.Tests.Quill
             }
             {
                 //  プロバイダ設定がない
-                QuillConfig config = GetTestQuillConfig(DS_NO_PROVIDER);
+                var config = GetTestQuillConfig(DS_NO_PROVIDER);
                 try
                 {
-                    IDictionary<string, IDataSource> dataSources = config.CreateDataSources();
+                    var dataSources = config.CreateDataSources();
                     Assert.Fail("プロバイダ設定がないことを知らせる例外が出るはず");
                 }
                 catch (QuillConfigNotFoundException ex)
@@ -317,10 +313,10 @@ namespace Seasar.Tests.Quill
             }
             {
                 //  誤ったプロバイダ
-                QuillConfig config = GetTestQuillConfig(DS_ILLEGAL_PROVIDER);
+                var config = GetTestQuillConfig(DS_ILLEGAL_PROVIDER);
                 try
                 {
-                    IDictionary<string, IDataSource> dataSources = config.CreateDataSources();
+                    var dataSources = config.CreateDataSources();
                     Assert.Fail("プロバイダ名を間違えていることを知らせる例外が出るはず");
                 }
                 catch (QuillInvalidClassException ex)
@@ -330,10 +326,10 @@ namespace Seasar.Tests.Quill
             }
             {
                 //  接続文字列設定がない
-                QuillConfig config = GetTestQuillConfig(DS_NO_CONNECTION_STRING);
+                var config = GetTestQuillConfig(DS_NO_CONNECTION_STRING);
                 try
                 {
-                    IDictionary<string, IDataSource> dataSources = config.CreateDataSources();
+                    var dataSources = config.CreateDataSources();
                     Assert.Fail("接続文字列設定がないことを知らせる例外が出るはず");
                 }
                 catch (QuillConfigNotFoundException ex)
@@ -344,17 +340,17 @@ namespace Seasar.Tests.Quill
         }
 
         [Test]
-        public void TestLoadQuillSection_Default()
+        public void TestLoadQuillSectionDefault()
         {
             //  既定箇所にあるQuill設定ファイルを読みにいくかテスト
             //  ## Arrange / Act ##
-            QuillConfig config = GetTestQuillConfig(null);
+            var config = GetTestQuillConfig(null);
 
             //  ## Assert ##
             Assert.IsNotNull(config, "1");
             Assert.IsTrue(config.HasDataSourceConfig(), "2");
             Console.WriteLine(QuillConfig.ConfigPath);
-            IDictionary<string, IDataSource> dataSources = config.CreateDataSources();
+            var dataSources = config.CreateDataSources();
             Assert.IsNotNull(dataSources, "3");
             Assert.IsTrue(dataSources.ContainsKey("for_Quill.dll.config"), 
                 "このテストプロジェクトでは既定のQuill設定ファイルにのみ書かれている情報");
@@ -364,7 +360,7 @@ namespace Seasar.Tests.Quill
         public void Test設定ファイルなしでQuillContainerを使えるか()
         {
             QuillConfig.ConfigPath = CONFIG_NOT_EXISTS;
-            QuillContainer container = new QuillContainer();
+            var container = new QuillContainer();
             Assert.IsNotNull(container);
         }
 
@@ -377,14 +373,14 @@ namespace Seasar.Tests.Quill
         /// <returns></returns>
         private QuillConfig GetTestQuillConfig(string fileName)
         {
-            QuillContainer container = QuillInjector.GetInstance().Container;
+            var container = QuillInjector.GetInstance().Container;
             //  MbUnitの場合テストを実行するとstatic変数の値が維持されてしまうため
             //  ここで初期化
             QuillConfig.ConfigPath = null; 
             if (!string.IsNullOrEmpty(fileName))
             {
                 QuillConfig.ConfigPath = SettingUtil.GetQuillConfigPath(
-                    string.Format("Quill\\ResourcesForQuillConfig\\{0}.config", fileName));
+                    $"Quill\\ResourcesForQuillConfig\\{fileName}.config");
             }
             
             Trace.WriteLine(QuillConfig.ConfigPath);

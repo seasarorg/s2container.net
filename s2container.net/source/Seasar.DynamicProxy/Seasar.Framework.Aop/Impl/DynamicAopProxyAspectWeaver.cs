@@ -43,7 +43,7 @@ namespace Seasar.Framework.Aop.Impl
         /// <returns>Aspectを織り込んだオブジェクト</returns>
         public override object WeaveAspect(IComponentDef componentDef, ConstructorInfo constructor, object[] args)
         {
-            object target = null;
+            object target;
             if (componentDef.AspectDefSize == 0)
             {
                 target = ConstructorUtil.NewInstance(constructor, args);
@@ -52,7 +52,7 @@ namespace Seasar.Framework.Aop.Impl
 
             if (!componentDef.ComponentType.IsInterface)
             {
-                DynamicAopProxy aopProxy = GetAopProxy(target, componentDef);
+                var aopProxy = GetAopProxy(null, componentDef);
                 target = aopProxy.Create(Type.GetTypeArray(args), args);
             }
             else
@@ -61,9 +61,9 @@ namespace Seasar.Framework.Aop.Impl
                 AddProxy(target, componentDef, componentDef.ComponentType);
             }
 
-            Type[] interfaces = componentDef.ComponentType.GetInterfaces();
+            var interfaces = componentDef.ComponentType.GetInterfaces();
 
-            foreach (Type interfaceType in interfaces)
+            foreach (var interfaceType in interfaces)
             {
                 AddProxy(target, componentDef, interfaceType);
             }
@@ -79,7 +79,7 @@ namespace Seasar.Framework.Aop.Impl
         /// <param name="type">コンポーネント定義に追加するProxyのType</param>
         protected void AddProxy(object target, IComponentDef componentDef, Type type)
         {
-            DynamicAopProxy aopProxy = GetAopProxy(target, componentDef);
+            var aopProxy = GetAopProxy(target, componentDef);
 
             componentDef.AddProxy(type, aopProxy.Create(type, target));
         }
@@ -100,8 +100,7 @@ namespace Seasar.Framework.Aop.Impl
             }
             else
             {
-                Hashtable parameters = new Hashtable();
-                parameters[ContainerConstants.COMPONENT_DEF_NAME] = componentDef;
+                var parameters = new Hashtable {[ContainerConstants.COMPONENT_DEF_NAME] = componentDef};
                 aopProxy = new DynamicAopProxy(componentDef.ComponentType,
                     GetAspects(componentDef), parameters, target);
                 _aopProxies[componentDef] = aopProxy;

@@ -26,30 +26,14 @@ namespace Seasar.Tests.Dao.Impl
     [Table("GENERIC_NULLABLE")]
     public class GenericNullableEntity
     {
-        private Nullable<Decimal> _id;
-        private Nullable<DateTime> _ddate;
-        private int _entityNo;
-
         [ID(IDType.IDENTITY)]
         [ID(IDType.SEQUENCE, "SEQ_GENERIC_NULLABLE")]
         [Column("ID")]
-        public Nullable<Decimal> ID
-        {
-            get { return _id; }
-            set { _id = value; }
-        }
+        public decimal? ID { get; set; }
 
-        public Nullable<DateTime> Ddate
-        {
-            get { return _ddate; }
-            set { _ddate = value; }
-        }
+        public DateTime? Ddate { get; set; }
 
-        public int EntityNo
-        {
-            get { return _entityNo; }
-            set { _entityNo = value; }
-        }
+        public int EntityNo { get; set; }
     }
 #endif
 }

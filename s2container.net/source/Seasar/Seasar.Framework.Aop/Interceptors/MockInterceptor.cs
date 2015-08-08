@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -22,47 +22,47 @@ using System.Collections;
 namespace Seasar.Framework.Aop.Interceptors
 {
     /// <summary>
-    /// Intercept‚Ì‘ÎÛ‚Æ‚È‚éƒƒ\ƒbƒh‚ÆƒCƒ“ƒXƒ^ƒ“ƒX‚ğMock‚É‚µ‚Ü‚·
+    /// Interceptï¿½Ì‘ÎÛ‚Æ‚È‚éƒï¿½\ï¿½bï¿½hï¿½ÆƒCï¿½ï¿½ï¿½Xï¿½^ï¿½ï¿½ï¿½Xï¿½ï¿½Mockï¿½É‚ï¿½ï¿½Ü‚ï¿½
     /// </summary>
     public class MockInterceptor : AbstractInterceptor
     {
         /// <summary>
-        /// Mock‚Ì–ß‚è’l
+        /// Mockï¿½Ì–ß‚ï¿½l
         /// </summary>
         private readonly Hashtable _returnValues = new Hashtable();
 
         /// <summary>
-        /// Mock‚Ì—áŠO
+        /// Mockï¿½Ì—ï¿½O
         /// </summary>
         private readonly Hashtable _exceptions = new Hashtable();
 
         /// <summary>
-        /// ƒƒ\ƒbƒh‚ªŒÄ‚Ño‚µÏ‚İ‚©‚Ç‚¤‚©¦‚·ƒtƒ‰ƒO
+        /// ï¿½ï¿½ï¿½\ï¿½bï¿½hï¿½ï¿½ï¿½Ä‚Ñoï¿½ï¿½ï¿½Ï‚İ‚ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½O
         /// </summary>
         private readonly Hashtable _invokedMethods = new Hashtable();
 
         /// <summary>
-        /// ƒƒ\ƒbƒh‚ğŒÄ‚Ño‚µ‚½‚Æ‚«‚Ìˆø”
+        /// ï¿½ï¿½ï¿½\ï¿½bï¿½hï¿½ï¿½Ä‚Ñoï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Ìˆï¿½ï¿½ï¿½
         /// </summary>
         private readonly Hashtable _invokedMethodArgs = new Hashtable();
 
         /// <summary>
-        /// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+        /// ï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^
         /// </summary>
         public MockInterceptor()
         {
         }
 
-        #region IMethodInterceptor ƒNƒ‰ƒX
+        #region IMethodInterceptor ï¿½Nï¿½ï¿½ï¿½X
 
         /// <summary>
-        /// ƒƒ\ƒbƒh‚ªIntercept‚³‚ê‚éê‡A‚±‚Ìƒƒ\ƒbƒh‚ªŒÄ‚Ño‚³‚ê‚Ü‚·
+        /// ï¿½ï¿½ï¿½\ï¿½bï¿½hï¿½ï¿½Interceptï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½Aï¿½ï¿½ï¿½Ìƒï¿½ï¿½\ï¿½bï¿½hï¿½ï¿½ï¿½Ä‚Ñoï¿½ï¿½ï¿½ï¿½Ü‚ï¿½
         /// </summary>
         /// <param name="invocation">IMethodInvocation</param>
-        /// <returns>Intercept‚³‚ê‚éƒƒ\ƒbƒh‚Ì–ß‚è’l</returns>
+        /// <returns>Interceptï¿½ï¿½ï¿½ï¿½éƒï¿½\ï¿½bï¿½hï¿½Ì–ß‚ï¿½l</returns>
         public override object Invoke(IMethodInvocation invocation)
         {
-            string methodName = invocation.Method.Name;
+            var methodName = invocation.Method.Name;
             _invokedMethods[methodName] = true;
             _invokedMethodArgs[methodName] = invocation.Arguments;
 
@@ -87,82 +87,76 @@ namespace Seasar.Framework.Aop.Interceptors
         #endregion
 
         /// <summary>
-        /// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+        /// ï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^
         /// </summary>
-        /// <param name="value">Mock‚Ì–ß‚è’l</param>
+        /// <param name="value">Mockï¿½Ì–ß‚ï¿½l</param>
         public MockInterceptor(object value)
         {
             SetReturnValue(value);
         }
 
         /// <summary>
-        /// –ß‚è’l‚Ìİ’è
+        /// ï¿½ß‚ï¿½lï¿½Ìİ’ï¿½
         /// </summary>
         /// <remarks>
-        /// Mock‚Ì‚·‚×‚Ä‚Ìƒƒ\ƒbƒh‚Ì–ß‚è’l‚ğİ’è‚µ‚Ü‚·B
+        /// Mockï¿½Ì‚ï¿½ï¿½×‚Ä‚Ìƒï¿½ï¿½\ï¿½bï¿½hï¿½Ì–ß‚ï¿½lï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½ï¿½B
         /// </remarks>
-        /// <param name="returnValue">–ß‚è’l</param>
+        /// <param name="returnValue">ï¿½ß‚ï¿½l</param>
         public void SetReturnValue(object returnValue)
         {
             SetReturnValue(string.Empty, returnValue);
         }
 
         /// <summary>
-        /// –ß‚è’l‚Ìİ’è
+        /// ï¿½ß‚ï¿½lï¿½Ìİ’ï¿½
         /// </summary>
         /// <remarks>
-        /// Mock‚Ìw’è‚³‚ê‚½–¼‘O‚Ìƒƒ\ƒbƒh‚Ì–ß‚è’l‚ğİ’è‚µ‚Ü‚·B
+        /// Mockï¿½Ìwï¿½è‚³ï¿½ê‚½ï¿½ï¿½ï¿½Oï¿½Ìƒï¿½ï¿½\ï¿½bï¿½hï¿½Ì–ß‚ï¿½lï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½ï¿½B
         /// </remarks>
-        /// <param name="methodName">–ß‚è’l‚ğİ’è‚·‚éƒƒ\ƒbƒh–¼</param>
-        /// <param name="returnValue">–ß‚è’l</param>
+        /// <param name="methodName">ï¿½ß‚ï¿½lï¿½ï¿½İ’è‚·ï¿½éƒï¿½\ï¿½bï¿½hï¿½ï¿½</param>
+        /// <param name="returnValue">ï¿½ß‚ï¿½l</param>
         public void SetReturnValue(string methodName, object returnValue)
         {
             _returnValues[methodName] = returnValue;
         }
 
         /// <summary>
-        /// —áŠO‚Ìİ’è
+        /// ï¿½ï¿½Oï¿½Ìİ’ï¿½
         /// </summary>
         /// <remarks>
-        /// Mock‚Ì‚·‚×‚Ä‚Ìƒƒ\ƒbƒh‚É—áŠO‚ğİ’è‚µ‚Ü‚·B
+        /// Mockï¿½Ì‚ï¿½ï¿½×‚Ä‚Ìƒï¿½ï¿½\ï¿½bï¿½hï¿½É—ï¿½Oï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½ï¿½B
         /// </remarks>
-        /// <param name="exception">—áŠO</param>
+        /// <param name="exception">ï¿½ï¿½O</param>
         public void SetThrowable(Exception exception)
         {
             SetThrowable(string.Empty, exception);
         }
 
         /// <summary>
-        /// —áŠO‚Ìİ’è
+        /// ï¿½ï¿½Oï¿½Ìİ’ï¿½
         /// </summary>
         /// <remarks>
-        /// Mock‚Ì‚·‚×‚Ä‚Ìƒƒ\ƒbƒh‚É—áŠO‚ğİ’è‚µ‚Ü‚·B
+        /// Mockï¿½Ì‚ï¿½ï¿½×‚Ä‚Ìƒï¿½ï¿½\ï¿½bï¿½hï¿½É—ï¿½Oï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½ï¿½B
         /// </remarks>
-        /// <param name="methodName">—áŠO‚ğİ’è‚·‚éƒƒ\ƒbƒh–¼</param>
-        /// <param name="exception">—áŠO</param>
+        /// <param name="methodName">ï¿½ï¿½Oï¿½ï¿½İ’è‚·ï¿½éƒï¿½\ï¿½bï¿½hï¿½ï¿½</param>
+        /// <param name="exception">ï¿½ï¿½O</param>
         public void SetThrowable(string methodName, Exception exception)
         {
             _exceptions[methodName] = exception;
         }
 
         /// <summary>
-        /// Mock‚Ìƒƒ\ƒbƒh‚ªŠù‚ÉŒÄ‚Ño‚³‚ê‚Ä‚¢‚é‚©”»’è‚µ‚Ü‚·
+        /// Mockï¿½Ìƒï¿½ï¿½\ï¿½bï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ÉŒÄ‚Ñoï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½ï¿½ï¿½è‚µï¿½Ü‚ï¿½
         /// </summary>
-        /// <param name="methodName">ŒÄ‚Ño‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©”»’è‚·‚éƒƒ\ƒbƒh–½</param>
-        /// <returns>Mock‚Ìƒƒ\ƒbƒh‚ªŠù‚ÉŒÄ‚Ño‚³‚ê‚Ä‚¢‚é‚©</returns>
-        public bool IsInvoked(string methodName)
-        {
-            return _invokedMethods.ContainsKey(methodName);
-        }
+        /// <param name="methodName">ï¿½Ä‚Ñoï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½è‚·ï¿½éƒï¿½\ï¿½bï¿½hï¿½ï¿½</param>
+        /// <returns>Mockï¿½Ìƒï¿½ï¿½\ï¿½bï¿½hï¿½ï¿½ï¿½ï¿½ï¿½ÉŒÄ‚Ñoï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©</returns>
+        public bool IsInvoked(string methodName) => _invokedMethods.ContainsKey(methodName);
 
         /// <summary>
-        /// Mock‚Ìƒƒ\ƒbƒh‚ªŒÄ‚Î‚ê‚½‚Æ‚«‚Ìˆø”‚ğæ“¾‚µ‚Ü‚·
+        /// Mockï¿½Ìƒï¿½ï¿½\ï¿½bï¿½hï¿½ï¿½ï¿½Ä‚Î‚ê‚½ï¿½Æ‚ï¿½ï¿½Ìˆï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½Ü‚ï¿½
         /// </summary>
-        /// <param name="methodName">ˆø”‚ğæ“¾‚·‚éƒƒ\ƒbƒh–¼</param>
-        /// <returns>ˆø”‚ÌƒŠƒXƒg</returns>
-        public object[] GetArgs(string methodName)
-        {
-            return (object[]) _invokedMethodArgs[methodName];
-        }
+        /// <param name="methodName">ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½éƒï¿½\ï¿½bï¿½hï¿½ï¿½</param>
+        /// <returns>ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒï¿½ï¿½Xï¿½g</returns>
+        public object[] GetArgs(string methodName) => (object[]) _invokedMethodArgs[methodName];
     }
 }

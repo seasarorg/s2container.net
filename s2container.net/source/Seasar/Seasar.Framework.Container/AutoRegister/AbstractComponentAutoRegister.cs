@@ -26,36 +26,20 @@ namespace Seasar.Framework.Container.AutoRegister
     /// </summary>
     public abstract class AbstractComponentAutoRegister : AbstractAutoRegister
     {
-        private IAutoNaming autoNaming = new DefaultAutoNaming();
-        private string instanceMode = ContainerConstants.INSTANCE_SINGLETON;
-        private string autoBindingMode = ContainerConstants.AUTO_BINDING_AUTO;
-
         /// <summary>
         /// コンポーネントに自動的に名前を付ける為の AutoNaming を設定・取得します。
         /// </summary>
-        public IAutoNaming AutoNaming
-        {
-            set { autoNaming = value; }
-            get { return autoNaming; }
-        }
+        public IAutoNaming AutoNaming { set; get; } = new DefaultAutoNaming();
 
         /// <summary>
         /// インスタンスのモードを設定・取得します。
         /// </summary>
-        public string InstanceMode
-        {
-            set { instanceMode = value; }
-            get { return instanceMode; }
-        }
+        public string InstanceMode { set; get; } = ContainerConstants.INSTANCE_SINGLETON;
 
         /// <summary>
         /// 自動バインディングのモードを設定・取得します。
         /// </summary>
-        public string AutoBindingMode
-        {
-            set { autoBindingMode = value; }
-            get { return autoBindingMode; }
-        }
+        public string AutoBindingMode { set; get; } = ContainerConstants.AUTO_BINDING_AUTO;
 
         /// <summary>
         /// Type に対して自動登録するかどうかの処理を行います。
@@ -68,9 +52,9 @@ namespace Seasar.Framework.Container.AutoRegister
                 return;
             }
 
-            for (int i = 0; i < ClassPatternSize; ++i)
+            for (var i = 0; i < ClassPatternSize; ++i)
             {
-                ClassPattern cp = GetClassPattern(i);
+                var cp = GetClassPattern(i);
 
                 if (cp.IsAppliedNamespaceName(type.Namespace)
                     && cp.IsAppliedShortClassName(type.Name))
@@ -87,10 +71,10 @@ namespace Seasar.Framework.Container.AutoRegister
         /// <param name="type">登録する Type</param>
         public void Register(Type type)
         {
-            string componentName = autoNaming.DefineName(type);
+            var componentName = AutoNaming.DefineName(type);
             IComponentDef cd = new ComponentDefImpl(type, componentName);
-            cd.InstanceMode = instanceMode;
-            cd.AutoBindingMode = autoBindingMode;
+            cd.InstanceMode = InstanceMode;
+            cd.AutoBindingMode = AutoBindingMode;
 
             Container.Register(cd);
         }

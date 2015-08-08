@@ -33,14 +33,14 @@ namespace Seasar.Tests.Framework.Container.Assembler
         public void TestAssemble()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(object), "obj");
+            var cd = new ComponentDefImpl(typeof(object), "obj");
             container.Register(cd);
-            ComponentDefImpl cd2 = new ComponentDefImpl();
+            var cd2 = new ComponentDefImpl();
             cd2.Expression = "container.GetHashCode()";
             container.Register(cd2);
-            ExpressionConstructorAssembler assembler =
+            var assembler =
                 new ExpressionConstructorAssembler(cd2);
-            Int32 myInt = (Int32) assembler.Assemble();
+            var myInt = (Int32) assembler.Assemble();
             Trace.WriteLine(myInt);
             Assert.IsNotNull(myInt);
         }
@@ -49,10 +49,10 @@ namespace Seasar.Tests.Framework.Container.Assembler
         public void TestAssemblerForNull()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(object), "obj");
+            var cd = new ComponentDefImpl(typeof(object), "obj");
             cd.Expression = "null";
             container.Register(cd);
-            ExpressionConstructorAssembler assembler = new ExpressionConstructorAssembler(cd);
+            var assembler = new ExpressionConstructorAssembler(cd);
             try
             {
                 assembler.Assemble();

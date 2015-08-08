@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -31,16 +31,16 @@ namespace Seasar.Tests.Framework.Message
         [Test]
         public void TestGetMessage()
         {
-            string message = MessageFormatter.GetMessage("ESSR0001", new object[] { "test" });
-            Assert.AreEqual("[ESSR0001] test‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ", message, "ƒƒbƒZ[ƒWƒŠƒ\[ƒX‚ğæ“¾o—ˆ‚é–");
+            var message = MessageFormatter.GetMessage("ESSR0001", new object[] { "test" });
+            Assert.AreEqual("[ESSR0001] testãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“", message, "ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒªã‚½ãƒ¼ã‚¹ã‚’å–å¾—å‡ºæ¥ã‚‹äº‹");
         }
 
         [Test]
         public void TestGetMessage2()
         {
-            Assembly asm = Assembly.GetExecutingAssembly();
-            string message = MessageFormatter.GetMessage("ETST0001", new object[] { "test" }, asm, "Seasar.Tests");
-            ResourceManager rm = new ResourceManager("TSTMessages", asm);
+            var asm = Assembly.GetExecutingAssembly();
+            var message = MessageFormatter.GetMessage("ETST0001", new object[] { "test" }, asm, "Seasar.Tests");
+            var rm = new ResourceManager("TSTMessages", asm);
             try
             {
                 Trace.WriteLine(rm.GetString("ETST0001"));
@@ -49,17 +49,17 @@ namespace Seasar.Tests.Framework.Message
             {
                 Trace.WriteLine(e.StackTrace);
             }
-            Assert.AreEqual("[ETST0001] test message", message, "ƒƒbƒZ[ƒWƒŠƒ\[ƒX‚ğæ“¾o—ˆ‚é–");
+            Assert.AreEqual("[ETST0001] test message", message, "ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒªã‚½ãƒ¼ã‚¹ã‚’å–å¾—å‡ºæ¥ã‚‹äº‹");
         }
 
         [Test]
         public void TestGetMessage3()
         {
-            //  ‚±‚±‚Å‚ÍuŠù’è‚Ì–¼‘O‹óŠÔv‚ªİ’è‚³‚ê‚Ä‚¢‚éê‡‚ÌƒeƒXƒg‚Ì‚İs‚¢‚Ü‚·B
-            string message = MessageFormatter.GetMessage("ESSR0001", new object[] { "test" }, "Seasar.Tests");
-            Assert.AreEqual("[ESSR0001] test‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ", message, "ƒƒbƒZ[ƒWƒŠƒ\[ƒX‚ğæ“¾o—ˆ‚é–");
+            //  ã“ã“ã§ã¯ã€Œæ—¢å®šã®åå‰ç©ºé–“ã€ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹å ´åˆã®ãƒ†ã‚¹ãƒˆã®ã¿è¡Œã„ã¾ã™ã€‚
+            var message = MessageFormatter.GetMessage("ESSR0001", new object[] { "test" }, "Seasar.Tests");
+            Assert.AreEqual("[ESSR0001] testãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“", message, "ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒªã‚½ãƒ¼ã‚¹ã‚’å–å¾—å‡ºæ¥ã‚‹äº‹");
             message = MessageFormatter.GetMessage("ESSR0001", new object[] { "test" });
-            Assert.AreEqual("[ESSR0001] test‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ", message, "ƒƒbƒZ[ƒWƒŠƒ\[ƒX‚ğæ“¾o—ˆ‚é–");
+            Assert.AreEqual("[ESSR0001] testãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“", message, "ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒªã‚½ãƒ¼ã‚¹ã‚’å–å¾—å‡ºæ¥ã‚‹äº‹");
         }
     }
 }

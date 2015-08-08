@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -23,17 +23,12 @@ using Seasar.Framework.Message;
 namespace Seasar.Framework.Exceptions
 {
     /// <summary>
-    /// Seasar‚ÌÀs—áŠO‚Ìƒx[ƒX‚Æ‚È‚éƒNƒ‰ƒX‚Å‚·B
-    /// ƒƒbƒZ[ƒWƒR[ƒh‚É‚æ‚Á‚Ä—áŠO‚ğÚ×‚É“Á’è‚Å‚«‚Ü‚·B
+    /// Seasarï¿½Ìï¿½ï¿½sï¿½ï¿½ï¿½ï¿½Oï¿½Ìƒxï¿½[ï¿½Xï¿½Æ‚È‚ï¿½Nï¿½ï¿½ï¿½Xï¿½Å‚ï¿½ï¿½B
+    /// ï¿½ï¿½ï¿½bï¿½Zï¿½[ï¿½Wï¿½Rï¿½[ï¿½hï¿½É‚ï¿½ï¿½ï¿½Ä—ï¿½Oï¿½ï¿½Ú×‚É“ï¿½ï¿½ï¿½Å‚ï¿½ï¿½Ü‚ï¿½ï¿½B
     /// </summary>
     [Serializable]
     public class SRuntimeException : ApplicationException
     {
-        private readonly string _messageCode;
-        private readonly object[] _args;
-        private readonly string _message;
-        private readonly string _simpleMessage;
-
         public SRuntimeException(string messageCode)
             : this(messageCode, null, null)
         {
@@ -47,48 +42,36 @@ namespace Seasar.Framework.Exceptions
         public SRuntimeException(string messageCode, object[] args, Exception cause)
             : base(messageCode, cause)
         {
-            _messageCode = messageCode;
-            _args = args;
-            _simpleMessage = MessageFormatter.GetSimpleMessage(_messageCode, _args);
-            _message = "[" + messageCode + "]" + _simpleMessage;
+            MessageCode = messageCode;
+            Args = args;
+            SimpleMessage = MessageFormatter.GetSimpleMessage(MessageCode, Args);
+            Message = "[" + messageCode + "]" + SimpleMessage;
         }
 
         public SRuntimeException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            _messageCode = info.GetString("_messageCode");
-            _args = info.GetValue("_args", typeof(object[])) as object[];
-            _message = info.GetString("_message");
-            _simpleMessage = info.GetString("_simpleMessage");
+            MessageCode = info.GetString("_messageCode");
+            Args = info.GetValue("_args", typeof(object[])) as object[];
+            Message = info.GetString("_message");
+            SimpleMessage = info.GetString("_simpleMessage");
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("_messageCode", _messageCode, typeof(string));
-            info.AddValue("_args", _args, typeof(object[]));
-            info.AddValue("_message", _message, typeof(string));
-            info.AddValue("_simpleMessage", _simpleMessage, typeof(string));
+            info.AddValue("_messageCode", MessageCode, typeof(string));
+            info.AddValue("_args", Args, typeof(object[]));
+            info.AddValue("_message", Message, typeof(string));
+            info.AddValue("_simpleMessage", SimpleMessage, typeof(string));
             base.GetObjectData(info, context);
         }
 
-        public string MessageCode
-        {
-            get { return _messageCode; }
-        }
+        public string MessageCode { get; }
 
-        public object[] Args
-        {
-            get { return _args; }
-        }
+        public object[] Args { get; }
 
-        public override string Message
-        {
-            get { return _message; }
-        }
+        public override string Message { get; }
 
-        public string SimpleMessage
-        {
-            get { return _simpleMessage; }
-        }
+        public string SimpleMessage { get; }
     }
 }

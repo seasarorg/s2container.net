@@ -84,103 +84,43 @@ namespace Seasar.Tests.Dao.Impl
     [Table("DECIMAL_VERSION_NO")]
     public class EmployeeGenericNullableDecimalVersionNo
     {
-        private int _empNo;
-        public int EmpNo
-        {
-            get { return _empNo; }
-            set { _empNo = value; }
-        }
+        public int EmpNo { get; set; }
 
-        private string _empName;
-        public string EmpName
-        {
-            get { return _empName; }
-            set { _empName = value; }
-        }
+        public string EmpName { get; set; }
 
-        private Nullable<Decimal> _versionNo;
-        public Nullable<Decimal> VersionNo
-        {
-            get { return _versionNo; }
-            set { _versionNo = value; }
-        }
+        public decimal? VersionNo { get; set; }
     }
 
     [VersionNoProperty("VersionNo")]
     [Table("INT_VERSION_NO")]
     public class EmployeeGenericNullableIntVersionNo
     {
-        private int _empNo;
-        public int EmpNo
-        {
-            get { return _empNo; }
-            set { _empNo = value; }
-        }
+        public int EmpNo { get; set; }
 
-        private string _empName;
-        public string EmpName
-        {
-            get { return _empName; }
-            set { _empName = value; }
-        }
+        public string EmpName { get; set; }
 
-        private Nullable<int> _versionNo;
-        public Nullable<int> VersionNo
-        {
-            get { return _versionNo; }
-            set { _versionNo = value; }
-        }
+        public int? VersionNo { get; set; }
     }
 #endif
     [VersionNoProperty("VersionNo")]
     [Table("DECIMAL_VERSION_NO")]
     public class EmployeeDecimalVersionNo
     {
-        private int _empNo;
-        public int EmpNo
-        {
-            get { return _empNo; }
-            set { _empNo = value; }
-        }
+        public int EmpNo { get; set; }
 
-        private string _empName;
-        public string EmpName
-        {
-            get { return _empName; }
-            set { _empName = value; }
-        }
+        public string EmpName { get; set; }
 
-        private Decimal _versionNo;
-        public Decimal VersionNo
-        {
-            get { return _versionNo; }
-            set { _versionNo = value; }
-        }
+        public Decimal VersionNo { get; set; }
     }
 
     [VersionNoProperty("VersionNo")]
     [Table("INT_VERSION_NO")]
     public class EmployeeIntVersionNo
     {
-        private int _empNo;
-        public int EmpNo
-        {
-            get { return _empNo; }
-            set { _empNo = value; }
-        }
+        public int EmpNo { get; set; }
 
-        private string _empName;
-        public string EmpName
-        {
-            get { return _empName; }
-            set { _empName = value; }
-        }
+        public string EmpName { get; set; }
 
-        private int _versionNo;
-        public int VersionNo
-        {
-            get { return _versionNo; }
-            set { _versionNo = value; }
-        }
+        public int VersionNo { get; set; }
     }
 }

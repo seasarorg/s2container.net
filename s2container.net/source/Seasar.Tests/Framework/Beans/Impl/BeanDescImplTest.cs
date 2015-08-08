@@ -37,43 +37,43 @@ namespace Seasar.Tests.Framework.Beans.Impl
         [Test]
         public void TestHasPropertyDesc_Default_True()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
+            var actual = CreateTestBeanDescImpl();
             Assert.IsTrue(actual.HasProperty("HogeProp"));
         }
 
         [Test]
         public void TestPropertyDesc_Default_False_NonPublic()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
+            var actual = CreateTestBeanDescImpl();
             Assert.IsFalse(actual.HasProperty("HideProp"));
         }
 
         [Test]
         public void TestPropertyDesc_Default_False_NotExists()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
+            var actual = CreateTestBeanDescImpl();
             Assert.IsFalse(actual.HasProperty("NotExists"));
         }
 
         [Test]
         public void TestPropertyDesc_BindFlag_True()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
+            var actual = CreateTestBeanDescImpl();
             Assert.IsTrue(actual.HasProperty("HideProp", BindingFlags.NonPublic | BindingFlags.Instance));
         }
 
         [Test]
         public void TestPropertyDesc_BindFlag_False()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
+            var actual = CreateTestBeanDescImpl();
             Assert.IsFalse(actual.HasProperty("NotExists", BindingFlags.NonPublic | BindingFlags.Instance));
         }
 
         [Test]
         public void TestGetProperty_Default_OK()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
-            IPropertyDesc result = actual.GetPropertyDesc("HogeProp");
+            var actual = CreateTestBeanDescImpl();
+            var result = actual.GetPropertyDesc("HogeProp");
             Assert.IsNotNull(result);
             Assert.AreEqual("HogeProp", result.Name);
         }
@@ -81,15 +81,15 @@ namespace Seasar.Tests.Framework.Beans.Impl
         [Test]
         public void TestGetProperty_Default_NG_NonPublic()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
+            var actual = CreateTestBeanDescImpl();
             try
             {
-                IPropertyDesc result = actual.GetPropertyDesc("HideProp");
+                var result = actual.GetPropertyDesc("HideProp");
             }
             catch (Exception ex)
             {
                 Assert.IsTrue(ex is PropertyNotFoundRuntimeException);
-                PropertyNotFoundRuntimeException targetException = (PropertyNotFoundRuntimeException) ex;
+                var targetException = (PropertyNotFoundRuntimeException) ex;
                 Assert.AreEqual(typeof(BeanDescTest), targetException.ComponentType);
                 Assert.AreEqual("HideProp", targetException.PropertyName);
             }
@@ -98,15 +98,15 @@ namespace Seasar.Tests.Framework.Beans.Impl
         [Test]
         public void TestGetProperty_Default_NG_NotExists()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
+            var actual = CreateTestBeanDescImpl();
             try
             {
-                IPropertyDesc result = actual.GetPropertyDesc("NotExists");
+                var result = actual.GetPropertyDesc("NotExists");
             }
             catch (Exception ex)
             {
                 Assert.IsTrue(ex is PropertyNotFoundRuntimeException);
-                PropertyNotFoundRuntimeException targetException = (PropertyNotFoundRuntimeException)ex;
+                var targetException = (PropertyNotFoundRuntimeException)ex;
                 Assert.AreEqual(typeof(BeanDescTest), targetException.ComponentType);
                 Assert.AreEqual("NotExists", targetException.PropertyName);
             }
@@ -115,8 +115,8 @@ namespace Seasar.Tests.Framework.Beans.Impl
         [Test]
         public void TestGetProperty_BindFlags_OK()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
-            IPropertyDesc result = actual.GetPropertyDesc("HideProp", BindingFlags.NonPublic | BindingFlags.Instance);
+            var actual = CreateTestBeanDescImpl();
+            var result = actual.GetPropertyDesc("HideProp", BindingFlags.NonPublic | BindingFlags.Instance);
             Assert.IsNotNull(result);
             Assert.AreEqual("HideProp", result.Name);
         }
@@ -124,15 +124,15 @@ namespace Seasar.Tests.Framework.Beans.Impl
         [Test]
         public void TestGetProperty_BindFlags_NG_NotExists()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
+            var actual = CreateTestBeanDescImpl();
             try
             {
-                IPropertyDesc result = actual.GetPropertyDesc("NotExists", BindingFlags.NonPublic | BindingFlags.Instance);
+                var result = actual.GetPropertyDesc("NotExists", BindingFlags.NonPublic | BindingFlags.Instance);
             }
             catch (Exception ex)
             {
                 Assert.IsTrue(ex is PropertyNotFoundRuntimeException);
-                PropertyNotFoundRuntimeException targetException = (PropertyNotFoundRuntimeException)ex;
+                var targetException = (PropertyNotFoundRuntimeException)ex;
                 Assert.AreEqual(typeof(BeanDescTest), targetException.ComponentType);
                 Assert.AreEqual("NotExists", targetException.PropertyName);
             }
@@ -141,18 +141,18 @@ namespace Seasar.Tests.Framework.Beans.Impl
         [Test]
         public void TestGetProperty_Index_Default_OK()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
-            IPropertyDesc result = actual.GetPropertyDesc(actual.GetPropertyDescs().Length - 1);
+            var actual = CreateTestBeanDescImpl();
+            var result = actual.GetPropertyDesc(actual.GetPropertyDescs().Length - 1);
             Assert.IsNotNull(result);
         }
 
         [Test]
         public void TestGetProperty_Index_Default_NG()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
+            var actual = CreateTestBeanDescImpl();
             try
             {
-                IPropertyDesc result = actual.GetPropertyDesc(actual.GetPropertyDescs().Length);
+                var result = actual.GetPropertyDesc(actual.GetPropertyDescs().Length);
                 Assert.Fail("例外が発生するはず");
             }
             catch (IndexOutOfRangeException)
@@ -164,8 +164,8 @@ namespace Seasar.Tests.Framework.Beans.Impl
         public void TestGetProperty_Index_BindFlags_OK()
         {
             const BindingFlags b = (BindingFlags.NonPublic | BindingFlags.Instance);
-            BeanDescImpl actual = CreateTestBeanDescImpl();
-            IPropertyDesc result = actual.GetPropertyDesc(actual.GetPropertyDescs(b).Length - 1, b);
+            var actual = CreateTestBeanDescImpl();
+            var result = actual.GetPropertyDesc(actual.GetPropertyDescs(b).Length - 1, b);
             Assert.IsNotNull(result);
         }
 
@@ -173,10 +173,10 @@ namespace Seasar.Tests.Framework.Beans.Impl
         public void TestGetProperty_Index_BindingFlags_NG()
         {
             const BindingFlags b = (BindingFlags.NonPublic | BindingFlags.Instance);
-            BeanDescImpl actual = CreateTestBeanDescImpl();
+            var actual = CreateTestBeanDescImpl();
             try
             {
-                IPropertyDesc result = actual.GetPropertyDesc(actual.GetPropertyDescs(b).Length, b);
+                var result = actual.GetPropertyDesc(actual.GetPropertyDescs(b).Length, b);
                 Assert.Fail("例外が発生するはず");
             }
             catch (IndexOutOfRangeException)
@@ -189,43 +189,43 @@ namespace Seasar.Tests.Framework.Beans.Impl
         [Test]
         public void TestHasField_Default_True()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
+            var actual = CreateTestBeanDescImpl();
             Assert.IsTrue(actual.HasField("_hogeField"));
         }
 
         [Test]
         public void TestHasField_Default_False_NonPublic()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
+            var actual = CreateTestBeanDescImpl();
             Assert.IsFalse(actual.HasField("_hideField"));
         }
 
         [Test]
         public void TestHasField_Default_False_NotExists()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
+            var actual = CreateTestBeanDescImpl();
             Assert.IsFalse(actual.HasField("NotExists"));
         }
 
         [Test]
         public void TestHasField_BindFlag_True()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
+            var actual = CreateTestBeanDescImpl();
             Assert.IsTrue(actual.HasField("_hideField", BindingFlags.NonPublic | BindingFlags.Instance));
         }
 
         [Test]
         public void TestHasField_BindFlag_False()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
+            var actual = CreateTestBeanDescImpl();
             Assert.IsFalse(actual.HasField("NotExists", BindingFlags.NonPublic | BindingFlags.Instance));
         }
 
         [Test]
         public void TestGetField_Default_OK()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
-            IFieldDesc result = actual.GetFieldDesc("_hogeField");
+            var actual = CreateTestBeanDescImpl();
+            var result = actual.GetFieldDesc("_hogeField");
             Assert.IsNotNull(result);
             Assert.AreEqual("_hogeField", result.Name);
         }
@@ -233,15 +233,15 @@ namespace Seasar.Tests.Framework.Beans.Impl
         [Test]
         public void TestGetField_Default_NG_NonPublic()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
+            var actual = CreateTestBeanDescImpl();
             try
             {
-                IFieldDesc result = actual.GetFieldDesc("_hideField");
+                var result = actual.GetFieldDesc("_hideField");
             }
             catch (Exception ex)
             {
                 Assert.IsTrue(ex is FieldNotFoundRuntimeException);
-                FieldNotFoundRuntimeException targetException = (FieldNotFoundRuntimeException)ex;
+                var targetException = (FieldNotFoundRuntimeException)ex;
                 Assert.AreEqual(typeof(BeanDescTest), targetException.ComponentType);
                 Assert.AreEqual("_hideField", targetException.FieldName);
             }
@@ -250,15 +250,15 @@ namespace Seasar.Tests.Framework.Beans.Impl
         [Test]
         public void TestGetField_Default_NG_NotExists()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
+            var actual = CreateTestBeanDescImpl();
             try
             {
-                IFieldDesc result = actual.GetFieldDesc("NotExists");
+                var result = actual.GetFieldDesc("NotExists");
             }
             catch (Exception ex)
             {
                 Assert.IsTrue(ex is FieldNotFoundRuntimeException);
-                FieldNotFoundRuntimeException targetException = (FieldNotFoundRuntimeException)ex;
+                var targetException = (FieldNotFoundRuntimeException)ex;
                 Assert.AreEqual(typeof(BeanDescTest), targetException.ComponentType);
                 Assert.AreEqual("NotExists", targetException.FieldName);
             }
@@ -267,8 +267,8 @@ namespace Seasar.Tests.Framework.Beans.Impl
         [Test]
         public void TestGetField_BindFlags_OK()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
-            IFieldDesc result = actual.GetFieldDesc("_hideField", BindingFlags.NonPublic | BindingFlags.Instance);
+            var actual = CreateTestBeanDescImpl();
+            var result = actual.GetFieldDesc("_hideField", BindingFlags.NonPublic | BindingFlags.Instance);
             Assert.IsNotNull(result);
             Assert.AreEqual("_hideField", result.Name);
         }
@@ -276,15 +276,15 @@ namespace Seasar.Tests.Framework.Beans.Impl
         [Test]
         public void TestGetField_BindFlags_NG_NotExists()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
+            var actual = CreateTestBeanDescImpl();
             try
             {
-                IFieldDesc result = actual.GetFieldDesc("NotExists", BindingFlags.NonPublic | BindingFlags.Instance);
+                var result = actual.GetFieldDesc("NotExists", BindingFlags.NonPublic | BindingFlags.Instance);
             }
             catch (Exception ex)
             {
                 Assert.IsTrue(ex is FieldNotFoundRuntimeException);
-                FieldNotFoundRuntimeException targetException = (FieldNotFoundRuntimeException)ex;
+                var targetException = (FieldNotFoundRuntimeException)ex;
                 Assert.AreEqual(typeof(BeanDescTest), targetException.ComponentType);
                 Assert.AreEqual("NotExists", targetException.FieldName);
             }
@@ -293,18 +293,18 @@ namespace Seasar.Tests.Framework.Beans.Impl
         [Test]
         public void TestGetField_Index_Default_OK()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
-            IFieldDesc result = actual.GetFieldDesc(actual.GetFieldDescs().Length - 1);
+            var actual = CreateTestBeanDescImpl();
+            var result = actual.GetFieldDesc(actual.GetFieldDescs().Length - 1);
             Assert.IsNotNull(result);
         }
 
         [Test]
         public void TestGetField_Index_Default_NG()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
+            var actual = CreateTestBeanDescImpl();
             try
             {
-                IFieldDesc result = actual.GetFieldDesc(actual.GetFieldDescs().Length);
+                var result = actual.GetFieldDesc(actual.GetFieldDescs().Length);
                 Assert.Fail("例外が発生するはず");
             }
             catch (IndexOutOfRangeException)
@@ -316,8 +316,8 @@ namespace Seasar.Tests.Framework.Beans.Impl
         public void TestGetField_Index_BindFlags_OK()
         {
             const BindingFlags b = (BindingFlags.NonPublic | BindingFlags.Instance);
-            BeanDescImpl actual = CreateTestBeanDescImpl();
-            IFieldDesc result = actual.GetFieldDesc(actual.GetFieldDescs(b).Length - 1, b);
+            var actual = CreateTestBeanDescImpl();
+            var result = actual.GetFieldDesc(actual.GetFieldDescs(b).Length - 1, b);
             Assert.IsNotNull(result);
         }
 
@@ -325,10 +325,10 @@ namespace Seasar.Tests.Framework.Beans.Impl
         public void TestGetField_Index_BindingFlags_NG()
         {
             const BindingFlags b = (BindingFlags.NonPublic | BindingFlags.Instance);
-            BeanDescImpl actual = CreateTestBeanDescImpl();
+            var actual = CreateTestBeanDescImpl();
             try
             {
-                IFieldDesc result = actual.GetFieldDesc(actual.GetFieldDescs(b).Length, b);
+                var result = actual.GetFieldDesc(actual.GetFieldDescs(b).Length, b);
                 Assert.Fail("例外が発生するはず");
             }
             catch (IndexOutOfRangeException)
@@ -341,22 +341,22 @@ namespace Seasar.Tests.Framework.Beans.Impl
         [Test]
         public void TestHasMethod_Default_True()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
+            var actual = CreateTestBeanDescImpl();
             Assert.IsTrue(actual.HasMethod("HogeMethod"));
         }
 
         [Test]
         public void TestHasMethod_Default_False_NonPublic()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
+            var actual = CreateTestBeanDescImpl();
             Assert.IsFalse(actual.HasMethod("HodeMethod"));
         }
 
         [Test]
         public void TestHasMethod_Overload_True()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
-            Type[] parameterTypes = new Type[] { typeof(int) };
+            var actual = CreateTestBeanDescImpl();
+            var parameterTypes = new Type[] { typeof(int) };
 
             Assert.IsTrue(actual.HasMethod("HogeMethod", parameterTypes));
         }
@@ -364,8 +364,8 @@ namespace Seasar.Tests.Framework.Beans.Impl
         [Test]
         public void TestHasMethod_Overload_False()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
-            Type[] notExistParamTypes = new Type[] { typeof(int), typeof(DateTime) };
+            var actual = CreateTestBeanDescImpl();
+            var notExistParamTypes = new Type[] { typeof(int), typeof(DateTime) };
 
             Assert.IsFalse(actual.HasMethod("HogeMethod", notExistParamTypes));
         }
@@ -373,30 +373,30 @@ namespace Seasar.Tests.Framework.Beans.Impl
         [Test]
         public void TestHasMethod_Default_False_NotExists()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
+            var actual = CreateTestBeanDescImpl();
             Assert.IsFalse(actual.HasMethod("NotExists"));
         }
 
         [Test]
         public void TestHasMethod_BindFlag_True()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
+            var actual = CreateTestBeanDescImpl();
             Assert.IsTrue(actual.HasMethod("HideMethod", BindingFlags.NonPublic | BindingFlags.Instance));
         }
 
         [Test]
         public void TestHasMethod_BindFlag_False()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
+            var actual = CreateTestBeanDescImpl();
             Assert.IsFalse(actual.HasMethod("NotExists", BindingFlags.NonPublic | BindingFlags.Instance));
         }
 
         [Test]
         public void TestHasMethod_Overload_BindFlag_True()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
+            var actual = CreateTestBeanDescImpl();
             //  引数なし
-            Type[] notExistParamTypes = new Type[] { };
+            var notExistParamTypes = new Type[] { };
 
             Assert.IsTrue(actual.HasMethod("HideMethod", notExistParamTypes, 
                 BindingFlags.NonPublic | BindingFlags.Instance));
@@ -405,8 +405,8 @@ namespace Seasar.Tests.Framework.Beans.Impl
         [Test]
         public void TestHasMethod_Overload_BindFlag_False()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
-            Type[] notExistParamTypes = new Type[] { typeof(int), typeof(DateTime) };
+            var actual = CreateTestBeanDescImpl();
+            var notExistParamTypes = new Type[] { typeof(int), typeof(DateTime) };
 
             Assert.IsFalse(actual.HasMethod("HideMethod", notExistParamTypes, 
                 BindingFlags.NonPublic | BindingFlags.Instance));
@@ -415,8 +415,8 @@ namespace Seasar.Tests.Framework.Beans.Impl
         [Test]
         public void TestGetMethodDesc_Default_OK()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
-            IMethodDesc result = actual.GetMethodDesc("HogeMethod");
+            var actual = CreateTestBeanDescImpl();
+            var result = actual.GetMethodDesc("HogeMethod");
             Assert.IsNotNull(result);
             Assert.AreEqual("HogeMethod", result.Name);
             Assert.AreEqual(0, result.GetParameterInfos().Length, 
@@ -426,15 +426,15 @@ namespace Seasar.Tests.Framework.Beans.Impl
         [Test]
         public void TestGetMethodDesc_Default_NG_NonPublic()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
+            var actual = CreateTestBeanDescImpl();
             try
             {
-                IMethodDesc result = actual.GetMethodDesc("HodeMethod");
+                var result = actual.GetMethodDesc("HodeMethod");
             }
             catch (Exception ex)
             {
                 Assert.IsTrue(ex is MethodNotFoundRuntimeException);
-                MethodNotFoundRuntimeException targetException = (MethodNotFoundRuntimeException)ex;
+                var targetException = (MethodNotFoundRuntimeException)ex;
                 Assert.AreEqual(typeof(BeanDescTest), targetException.ComponentType);
                 Assert.AreEqual("HodeMethod", targetException.MethodName);
             }
@@ -443,15 +443,15 @@ namespace Seasar.Tests.Framework.Beans.Impl
         [Test]
         public void TestGetMethodDesc_Default_NG_NotExists()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
+            var actual = CreateTestBeanDescImpl();
             try
             {
-                IMethodDesc result = actual.GetMethodDesc("NotExists");
+                var result = actual.GetMethodDesc("NotExists");
             }
             catch (Exception ex)
             {
                 Assert.IsTrue(ex is MethodNotFoundRuntimeException);
-                MethodNotFoundRuntimeException targetException = (MethodNotFoundRuntimeException)ex;
+                var targetException = (MethodNotFoundRuntimeException)ex;
                 Assert.AreEqual(typeof(BeanDescTest), targetException.ComponentType);
                 Assert.AreEqual("NotExists", targetException.MethodName);
             }
@@ -460,9 +460,9 @@ namespace Seasar.Tests.Framework.Beans.Impl
         [Test]
         public void TestGetMethodDesc_Overload_OK()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
-            Type[] paramTypes = new Type[] { typeof(int) };
-            IMethodDesc result = actual.GetMethodDesc("HogeMethod", paramTypes);
+            var actual = CreateTestBeanDescImpl();
+            var paramTypes = new Type[] { typeof(int) };
+            var result = actual.GetMethodDesc("HogeMethod", paramTypes);
             Assert.IsNotNull(result);
             Assert.AreEqual("HogeMethod", result.Name);
             Assert.AreEqual(paramTypes.Length, result.GetParameterInfos().Length);
@@ -471,20 +471,20 @@ namespace Seasar.Tests.Framework.Beans.Impl
         [Test]
         public void TestGetMethodDesc_Overload_NG_NotExists()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
-            Type[] notExistParamTypes = new Type[] { typeof(Array) };
+            var actual = CreateTestBeanDescImpl();
+            var notExistParamTypes = new Type[] { typeof(Array) };
             try
             {
-                IMethodDesc result = actual.GetMethodDesc("HogeMethod", notExistParamTypes);
+                var result = actual.GetMethodDesc("HogeMethod", notExistParamTypes);
             }
             catch (Exception ex)
             {
                 Assert.IsTrue(ex is MethodNotFoundRuntimeException);
-                MethodNotFoundRuntimeException targetException = (MethodNotFoundRuntimeException)ex;
+                var targetException = (MethodNotFoundRuntimeException)ex;
                 Assert.AreEqual(typeof(BeanDescTest), targetException.ComponentType);
                 Assert.AreEqual("HogeMethod", targetException.MethodName);
                 Assert.AreEqual(notExistParamTypes.Length, targetException.MethodArgTypes.Length);
-                for(int i = 0; i < notExistParamTypes.Length; i++)
+                for(var i = 0; i < notExistParamTypes.Length; i++)
                 {
                     Assert.AreEqual(notExistParamTypes[i].Name, targetException.MethodArgTypes[i].Name);
                 }
@@ -494,8 +494,8 @@ namespace Seasar.Tests.Framework.Beans.Impl
         [Test]
         public void TestGetMethodDesc_BindFlags_OK()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
-            IMethodDesc result = actual.GetMethodDesc("HideMethod", BindingFlags.NonPublic | BindingFlags.Instance);
+            var actual = CreateTestBeanDescImpl();
+            var result = actual.GetMethodDesc("HideMethod", BindingFlags.NonPublic | BindingFlags.Instance);
             Assert.IsNotNull(result);
             Assert.AreEqual("HideMethod", result.Name);
             Assert.AreEqual(0, result.GetParameterInfos().Length,
@@ -505,15 +505,15 @@ namespace Seasar.Tests.Framework.Beans.Impl
         [Test]
         public void TestGetMethodDesc_BindFlags_NG_NotExists()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
+            var actual = CreateTestBeanDescImpl();
             try
             {
-                IMethodDesc result = actual.GetMethodDesc("NotExists", BindingFlags.NonPublic | BindingFlags.Instance);
+                var result = actual.GetMethodDesc("NotExists", BindingFlags.NonPublic | BindingFlags.Instance);
             }
             catch (Exception ex)
             {
                 Assert.IsTrue(ex is MethodNotFoundRuntimeException);
-                MethodNotFoundRuntimeException targetException = (MethodNotFoundRuntimeException)ex;
+                var targetException = (MethodNotFoundRuntimeException)ex;
                 Assert.AreEqual(typeof(BeanDescTest), targetException.ComponentType);
                 Assert.AreEqual("NotExists", targetException.MethodName);
             }
@@ -522,9 +522,9 @@ namespace Seasar.Tests.Framework.Beans.Impl
         [Test]
         public void TestGetMethodDesc_Overload_BindFlags_OK()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
-            Type[] paramTypes = new Type[] { typeof(string) };
-            IMethodDesc result = actual.GetMethodDesc("HideMethod", paramTypes, 
+            var actual = CreateTestBeanDescImpl();
+            var paramTypes = new Type[] { typeof(string) };
+            var result = actual.GetMethodDesc("HideMethod", paramTypes, 
                 BindingFlags.NonPublic | BindingFlags.Instance);
             Assert.IsNotNull(result);
             Assert.AreEqual("HideMethod", result.Name);
@@ -534,21 +534,21 @@ namespace Seasar.Tests.Framework.Beans.Impl
         [Test]
         public void TestGetMethodDesc_Overload_BindFlags_NG_NotExists()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
-            Type[] notExistParamTypes = new Type[] { typeof(Array) };
+            var actual = CreateTestBeanDescImpl();
+            var notExistParamTypes = new Type[] { typeof(Array) };
             try
             {
-                IMethodDesc result = actual.GetMethodDesc("HideMethod", notExistParamTypes,
+                var result = actual.GetMethodDesc("HideMethod", notExistParamTypes,
                     BindingFlags.NonPublic | BindingFlags.Instance);
             }
             catch (Exception ex)
             {
                 Assert.IsTrue(ex is MethodNotFoundRuntimeException);
-                MethodNotFoundRuntimeException targetException = (MethodNotFoundRuntimeException)ex;
+                var targetException = (MethodNotFoundRuntimeException)ex;
                 Assert.AreEqual(typeof(BeanDescTest), targetException.ComponentType);
                 Assert.AreEqual("HideMethod", targetException.MethodName);
                 Assert.AreEqual(notExistParamTypes.Length, targetException.MethodArgTypes.Length);
-                for (int i = 0; i < notExistParamTypes.Length; i++)
+                for (var i = 0; i < notExistParamTypes.Length; i++)
                 {
                     Assert.AreEqual(notExistParamTypes[i].Name, targetException.MethodArgTypes[i].Name);
                 }
@@ -558,12 +558,12 @@ namespace Seasar.Tests.Framework.Beans.Impl
         [Test]
         public void TestGetMethodDescs_Default()
         {
-            MethodInfo[] expectedInfos = typeof (BeanDescTest).GetMethods();
-            BeanDescImpl actual = CreateTestBeanDescImpl();
+            var expectedInfos = typeof (BeanDescTest).GetMethods();
+            var actual = CreateTestBeanDescImpl();
 
-            IMethodDesc[] actualInfos = actual.GetMethodDescs();
+            var actualInfos = actual.GetMethodDescs();
             Assert.AreEqual(expectedInfos.Length, actualInfos.Length);
-            for(int i = 0; i < expectedInfos.Length; i++)
+            for(var i = 0; i < expectedInfos.Length; i++)
             {
                 Assert.AreEqual(expectedInfos[i].Name, actualInfos[i].Name);
             }
@@ -573,12 +573,12 @@ namespace Seasar.Tests.Framework.Beans.Impl
         public void TestGetMethodDescs_BindFlags()
         {
             const BindingFlags testFlags = BindingFlags.NonPublic | BindingFlags.Instance;
-            MethodInfo[] expectedInfos = typeof(BeanDescTest).GetMethods(testFlags);
-            BeanDescImpl actual = CreateTestBeanDescImpl();
+            var expectedInfos = typeof(BeanDescTest).GetMethods(testFlags);
+            var actual = CreateTestBeanDescImpl();
 
-            IMethodDesc[] actualInfos = actual.GetMethodDescs(testFlags);
+            var actualInfos = actual.GetMethodDescs(testFlags);
             Assert.AreEqual(expectedInfos.Length, actualInfos.Length);
-            for (int i = 0; i < expectedInfos.Length; i++)
+            for (var i = 0; i < expectedInfos.Length; i++)
             {
                 Assert.AreEqual(expectedInfos[i].Name, actualInfos[i].Name);
             }
@@ -588,10 +588,10 @@ namespace Seasar.Tests.Framework.Beans.Impl
         public void TestGetMethodDescs_MethodName_Default()
         {
             const string TEST_NAME = "HogeMethod";
-            MethodInfo[] expectedInfosBase = typeof(BeanDescTest).GetMethods();
-            List<MethodInfo> expectedInfos = new List<MethodInfo>();
+            var expectedInfosBase = typeof(BeanDescTest).GetMethods();
+            var expectedInfos = new List<MethodInfo>();
             //  テスト用リスト作成
-            foreach (MethodInfo info in expectedInfosBase)
+            foreach (var info in expectedInfosBase)
             {
                 if(info.Name.Equals(TEST_NAME))
                 {
@@ -599,11 +599,11 @@ namespace Seasar.Tests.Framework.Beans.Impl
                 }
             }
 
-            BeanDescImpl actual = CreateTestBeanDescImpl();
+            var actual = CreateTestBeanDescImpl();
 
-            IMethodDesc[] actualInfos = actual.GetMethodDescs(TEST_NAME);
+            var actualInfos = actual.GetMethodDescs(TEST_NAME);
             Assert.AreEqual(expectedInfos.Count, actualInfos.Length);
-            for (int i = 0; i < expectedInfos.Count; i++)
+            for (var i = 0; i < expectedInfos.Count; i++)
             {
                 Assert.AreEqual(expectedInfos[i].Name, actualInfos[i].Name);
             }
@@ -614,10 +614,10 @@ namespace Seasar.Tests.Framework.Beans.Impl
         {
             const string TEST_NAME = "HideMethod";
             const BindingFlags TEST_FLAGS = BindingFlags.NonPublic | BindingFlags.Instance;
-            MethodInfo[] expectedInfosBase = typeof(BeanDescTest).GetMethods(TEST_FLAGS);
-            List<MethodInfo> expectedInfos = new List<MethodInfo>();
+            var expectedInfosBase = typeof(BeanDescTest).GetMethods(TEST_FLAGS);
+            var expectedInfos = new List<MethodInfo>();
             //  テスト用リスト作成
-            foreach (MethodInfo info in expectedInfosBase)
+            foreach (var info in expectedInfosBase)
             {
                 if (info.Name.Equals(TEST_NAME))
                 {
@@ -625,11 +625,11 @@ namespace Seasar.Tests.Framework.Beans.Impl
                 }
             }
 
-            BeanDescImpl actual = CreateTestBeanDescImpl();
+            var actual = CreateTestBeanDescImpl();
 
-            IMethodDesc[] actualInfos = actual.GetMethodDescs(TEST_NAME, TEST_FLAGS);
+            var actualInfos = actual.GetMethodDescs(TEST_NAME, TEST_FLAGS);
             Assert.AreEqual(expectedInfos.Count, actualInfos.Length);
-            for (int i = 0; i < expectedInfos.Count; i++)
+            for (var i = 0; i < expectedInfos.Count; i++)
             {
                 Assert.AreEqual(expectedInfos[i].Name, actualInfos[i].Name);
             }
@@ -638,8 +638,8 @@ namespace Seasar.Tests.Framework.Beans.Impl
         [Test]
         public void TestGetMethodDescs_NotFound()
         {
-            BeanDescImpl actual = CreateTestBeanDescImpl();
-            IMethodDesc[] result = actual.GetMethodDescs("NotFound");
+            var actual = CreateTestBeanDescImpl();
+            var result = actual.GetMethodDescs("NotFound");
             Assert.IsNotNull(result);
             Assert.AreEqual(0, result.Length);
         }
@@ -649,53 +649,53 @@ namespace Seasar.Tests.Framework.Beans.Impl
         [Test]
         public void TestIsNullable_True()
         {
-            BeanDescImpl actual = new BeanDescImpl(typeof(int?));
+            var actual = new BeanDescImpl(typeof(int?));
             Assert.IsTrue(actual.IsNullable());
         }
 
         [Test]
         public void TestIsNullable_False()
         {
-            BeanDescImpl actual = new BeanDescImpl(typeof(int));
+            var actual = new BeanDescImpl(typeof(int));
             Assert.IsFalse(actual.IsNullable());
         }
 
         [Test]
         public void TestIsAssignableFrom_Type_True()
         {
-            BeanDescImpl actual = new BeanDescImpl(typeof(IBeanDesc));
+            var actual = new BeanDescImpl(typeof(IBeanDesc));
             Assert.IsTrue(actual.IsAssignableFrom(typeof(BeanDescImpl)));
         }
 
         [Test]
         public void TestIsAssignableFrom_Type_False()
         {
-            BeanDescImpl actual = new BeanDescImpl(typeof(IPropertyDesc));
+            var actual = new BeanDescImpl(typeof(IPropertyDesc));
             Assert.IsFalse(actual.IsAssignableFrom(typeof(BeanDescImpl)));
         }
 
         [Test]
         public void TestIsAssignableFrom_BeanDesc_True()
         {
-            BeanDescImpl actual = new BeanDescImpl(typeof(IBeanDesc));
+            var actual = new BeanDescImpl(typeof(IBeanDesc));
             Assert.IsTrue(actual.IsAssignableFrom(new BeanDescImpl(typeof(BeanDescImpl))));
         }
 
         [Test]
         public void TestIsAssignableFrom_BeanDesc_False()
         {
-            BeanDescImpl actual = new BeanDescImpl(typeof(IPropertyDesc));
+            var actual = new BeanDescImpl(typeof(IPropertyDesc));
             Assert.IsFalse(actual.IsAssignableFrom(new BeanDescImpl(typeof(BeanDescImpl))));
         }
 
         [Test]
         public void TestGetConstructor_OK_NoParam()
         {
-            Type[] testParamTypes = new Type[] { };
-            BeanDescImpl actual = CreateTestBeanDescImpl();
-            ConstructorInfo expectedInfo = typeof(BeanDescTest).GetConstructor(testParamTypes);
+            var testParamTypes = new Type[] { };
+            var actual = CreateTestBeanDescImpl();
+            var expectedInfo = typeof(BeanDescTest).GetConstructor(testParamTypes);
 
-            ConstructorInfo actualInfo = actual.GetConstructor(testParamTypes);
+            var actualInfo = actual.GetConstructor(testParamTypes);
             Assert.AreEqual(expectedInfo.DeclaringType, actualInfo.DeclaringType);
             Assert.AreEqual(expectedInfo.GetParameters().Length, actualInfo.GetParameters().Length);
         }
@@ -703,17 +703,17 @@ namespace Seasar.Tests.Framework.Beans.Impl
         [Test]
         public void TestGetConstructor_OK_ExistsParam()
         {
-            Type[] testParamTypes = new Type[] { typeof(DateTime) };
-            BeanDescImpl actual = CreateTestBeanDescImpl();
-            ConstructorInfo expectedInfo = typeof(BeanDescTest).GetConstructor(testParamTypes);
+            var testParamTypes = new Type[] { typeof(DateTime) };
+            var actual = CreateTestBeanDescImpl();
+            var expectedInfo = typeof(BeanDescTest).GetConstructor(testParamTypes);
 
-            ConstructorInfo actualInfo = actual.GetConstructor(testParamTypes);
+            var actualInfo = actual.GetConstructor(testParamTypes);
             Assert.AreEqual(expectedInfo.DeclaringType, actualInfo.DeclaringType);
 
-            ParameterInfo[] expectedParamInfos = expectedInfo.GetParameters();
-            ParameterInfo[] actualParamInfos = actualInfo.GetParameters();
+            var expectedParamInfos = expectedInfo.GetParameters();
+            var actualParamInfos = actualInfo.GetParameters();
             Assert.AreEqual(expectedParamInfos.Length, actualParamInfos.Length);
-            for (int i = 0; i < expectedParamInfos.Length; i++ )
+            for (var i = 0; i < expectedParamInfos.Length; i++ )
             {
                 Assert.AreEqual(expectedParamInfos[i].Name, actualParamInfos[i].Name);
             }
@@ -722,18 +722,18 @@ namespace Seasar.Tests.Framework.Beans.Impl
         [Test]
         public void TestGetConstructor_NG()
         {
-            Type[] testTypes = new Type[] { typeof(Exception) };
-            BeanDescImpl actual = CreateTestBeanDescImpl();
+            var testTypes = new Type[] { typeof(Exception) };
+            var actual = CreateTestBeanDescImpl();
 
             try
             {
-                ConstructorInfo result = actual.GetConstructor(testTypes);
+                var result = actual.GetConstructor(testTypes);
                 Assert.Fail("存在しないパラメータなので例外が発生するはず");
             }
             catch (Exception ex)
             {
                 Assert.IsTrue(ex is ConstructorNotFoundRuntimeException);
-                ConstructorNotFoundRuntimeException targetException = (ConstructorNotFoundRuntimeException) ex;
+                var targetException = (ConstructorNotFoundRuntimeException) ex;
                 Assert.AreEqual(typeof(BeanDescTest), targetException.ComponentType);
                 Assert.AreEqual(testTypes.Length, targetException.MethodArgs.Length);
             }
@@ -779,7 +779,7 @@ namespace Seasar.Tests.Framework.Beans.Impl
 
             public override string ToString()
             {
-                StringBuilder builder = new StringBuilder();
+                var builder = new StringBuilder();
                 builder.AppendLine(_hogeField);
                 builder.AppendLine(_dateField.ToString());
                 builder.AppendLine(_hideField.ToString());

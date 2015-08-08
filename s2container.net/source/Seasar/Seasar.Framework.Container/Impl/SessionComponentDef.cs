@@ -30,14 +30,8 @@ namespace Seasar.Framework.Container.Impl
             _container = container;
         }
 
-        public IS2Container Root
-        {
-            get { return _container.Root; }
-        }
+        public IS2Container Root => _container.Root;
 
-        public override object GetComponent()
-        {
-            return Root.Session;
-        }
+        public override object GetComponent() => Root.Session;
     }
 }

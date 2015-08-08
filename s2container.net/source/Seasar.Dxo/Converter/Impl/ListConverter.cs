@@ -22,6 +22,7 @@ using System;
 using System.Collections;
 using System.Diagnostics;
 using Seasar.Dxo.Exception;
+using Seasar.Framework.Util;
 
 namespace Seasar.Dxo.Converter.Impl
 {
@@ -41,7 +42,8 @@ namespace Seasar.Dxo.Converter.Impl
             {
                 if (expectType.IsClass && !expectType.IsAbstract)
                 {
-                    dest = Activator.CreateInstance(expectType);
+                    dest = ClassUtil.NewInstance(expectType);
+//                    dest = Activator.CreateInstance(expectType);
                 }
                 else
                 {
@@ -51,13 +53,13 @@ namespace Seasar.Dxo.Converter.Impl
 //                        expectType.Name + "ÇÕãÔè€ÉNÉâÉXÇ≈ÇÕÇ»Ç¢ÇÃÇ≈é¿ëÃâªÇ∑ÇÈÇ±Ç∆Ç™Ç≈Ç´Ç»Ç¢");
                 }
             }
-            IList target = dest as IList;
+            var target = dest as IList;
             if (target != null)
             {
                 target.Clear();
                 if (source is IEnumerable)
                 {
-                    foreach (object item in (source as IEnumerable))
+                    foreach (var item in (source as IEnumerable))
                     {
                         target.Add(item);
                     }

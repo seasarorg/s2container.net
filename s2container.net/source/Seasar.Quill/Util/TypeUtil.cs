@@ -1,4 +1,4 @@
-#region Copyright
+﻿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -19,6 +19,7 @@
 using System;
 using System.Runtime.Remoting;
 using Seasar.Framework.Aop.Proxy;
+using Seasar.Framework.Util;
 
 namespace Seasar.Quill.Util
 {
@@ -40,13 +41,13 @@ namespace Seasar.Quill.Util
             if (RemotingServices.IsTransparentProxy(obj))
             {
                 // 透過プロキシの場合はAopProxyからTypeを取得する
-                AopProxy aopProxy = RemotingServices.GetRealProxy(obj) as AopProxy;
-                return aopProxy.TargetType;
+                var aopProxy = RemotingServices.GetRealProxy(obj) as AopProxy;
+                return aopProxy?.TargetType;
             }
             else
             {
                 // 透過プロキシではない場合は通常の方法でTypeを取得する
-                return obj.GetType();
+                return obj.GetExType();
             }
         }
 
@@ -55,9 +56,6 @@ namespace Seasar.Quill.Util
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static bool HasNamespace(string name)
-        {
-            return name.Contains(".");
-        }
+        public static bool HasNamespace(string name) => name.Contains(".");
     }
 }

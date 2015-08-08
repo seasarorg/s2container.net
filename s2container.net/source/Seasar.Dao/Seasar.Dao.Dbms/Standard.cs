@@ -25,25 +25,19 @@ namespace Seasar.Dao.Dbms
     {
         private readonly Hashtable _autoSelectFromClauseCache = new Hashtable();
 
-        public virtual string Suffix
-        {
-            get { return string.Empty; }
-        }
+        public virtual string Suffix => string.Empty;
 
-        public virtual KindOfDbms Dbms
-        {
-            get { return KindOfDbms.None; }
-        }
+        public virtual KindOfDbms Dbms => KindOfDbms.None;
 
         public string GetAutoSelectSql(IBeanMetaData beanMetaData)
         {
-            StringBuilder buf = new StringBuilder(100);
+            var buf = new StringBuilder(100);
             buf.Append(beanMetaData.AutoSelectList);
             buf.Append(" ");
-            string beanName = beanMetaData.BeanType.Name;
+            var beanName = beanMetaData.BeanType.Name;
             lock (_autoSelectFromClauseCache)
             {
-                string fromClause = (string) _autoSelectFromClauseCache[beanName];
+                var fromClause = (string) _autoSelectFromClauseCache[beanName];
                 if (fromClause == null)
                 {
                     fromClause = CreateAutoSelectFromClause(beanMetaData);
@@ -56,21 +50,21 @@ namespace Seasar.Dao.Dbms
 
         protected virtual string CreateAutoSelectFromClause(IBeanMetaData beanMetaData)
         {
-            StringBuilder buf = new StringBuilder(100);
+            var buf = new StringBuilder(100);
             buf.Append("FROM ");
-            string myTableName = beanMetaData.TableName;
+            var myTableName = beanMetaData.TableName;
             buf.Append(myTableName);
-            for (int i = 0; i < beanMetaData.RelationPropertyTypeSize; ++i)
+            for (var i = 0; i < beanMetaData.RelationPropertyTypeSize; ++i)
             {
-                IRelationPropertyType rpt = beanMetaData.GetRelationPropertyType(i);
-                IBeanMetaData bmd = rpt.BeanMetaData;
+                var rpt = beanMetaData.GetRelationPropertyType(i);
+                var bmd = rpt.BeanMetaData;
                 buf.Append(" LEFT OUTER JOIN ");
                 buf.Append(bmd.TableName);
                 buf.Append(" ");
-                string yourAliasName = rpt.PropertyName;
+                var yourAliasName = rpt.PropertyName;
                 buf.Append(yourAliasName);
                 buf.Append(" ON ");
-                for (int j = 0; j < rpt.KeySize; ++j)
+                for (var j = 0; j < rpt.KeySize; ++j)
                 {
                     buf.Append(myTableName);
                     buf.Append(".");
@@ -86,14 +80,8 @@ namespace Seasar.Dao.Dbms
             return buf.ToString();
         }
 
-        public virtual string IdentitySelectString
-        {
-            get { return null; }
-        }
+        public virtual string IdentitySelectString => null;
 
-        public virtual string GetSequenceNextValString(string sequenceName)
-        {
-            return null;
-        }
+        public virtual string GetSequenceNextValString(string sequenceName) => null;
     }
 }

@@ -25,29 +25,19 @@ namespace Seasar.Extension.DataSets.Impl
 {
     public class SqlTableReader : ITableReader
     {
-        private readonly IDataSource _dataSource;
         private string _tableName;
         private string _sql;
 
         public SqlTableReader(IDataSource dataSource)
         {
-            _dataSource = dataSource;
+            DataSource = dataSource;
         }
 
-        public IDataSource DataSource
-        {
-            get { return _dataSource; }
-        }
+        public IDataSource DataSource { get; }
 
-        public string TableName
-        {
-            get { return _tableName; }
-        }
+        public string TableName => _tableName;
 
-        public string Sql
-        {
-            get { return _sql; }
-        }
+        public string Sql => _sql;
 
         public virtual void SetTable(string tableName)
         {
@@ -57,7 +47,7 @@ namespace Seasar.Extension.DataSets.Impl
         public virtual void SetTable(string tableName, string condition)
         {
             _tableName = tableName;
-            StringBuilder sqlBuf = new StringBuilder(100);
+            var sqlBuf = new StringBuilder(100);
             sqlBuf.Append("SELECT * FROM ");
             sqlBuf.Append(tableName);
             if (condition != null)
@@ -79,11 +69,11 @@ namespace Seasar.Extension.DataSets.Impl
         public virtual DataTable Read()
         {
             ISelectHandler selectHandler = new BasicSelectHandler(
-                _dataSource,
+                DataSource,
                 _sql,
                 new DataTableDataReaderHandler(_tableName)
                 );
-            DataTable table = (DataTable) selectHandler.Execute(null);
+            var table = (DataTable) selectHandler.Execute(null);
             table.AcceptChanges();
             return table;
         }

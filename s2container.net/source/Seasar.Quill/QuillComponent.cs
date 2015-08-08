@@ -19,11 +19,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
 using Seasar.Framework.Aop;
 using Seasar.Framework.Aop.Proxy;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Impl;
+using Seasar.Framework.Util;
 using Seasar.Quill.Exception;
 
 namespace Seasar.Quill
@@ -53,8 +53,7 @@ namespace Seasar.Quill
         /// <remarks>
         /// Aspectが適用される場合にはプロキシオブジェクトを格納する
         /// </remarks>
-        protected Dictionary<Type, object> componentObjects = 
-            new Dictionary<Type, object>(2);
+        protected Dictionary<Type, object> componentObjects = new Dictionary<Type, object>(2);
 
         #region プロパティ
 
@@ -62,19 +61,13 @@ namespace Seasar.Quill
         /// コンポーネントのTypeを取得する
         /// </summary>
         /// <value>コンポーネントのType</value>
-        public Type ComponentType
-        {
-            get { return componentType; }
-        }
+        public Type ComponentType => componentType;
 
         /// <summary>
         /// コンポーネントを受け取るフィールドのTypeを取得する
         /// </summary>
         /// <value>コンポーネントを受け取るフィールドのType</value>
-        public Type ReceiptType
-        {
-            get { return receiptType; }
-        }
+        public Type ReceiptType => receiptType;
 
         #endregion
 
@@ -153,7 +146,7 @@ namespace Seasar.Quill
 
             componentObjects[componentType] = null;
 
-            if (componentType != null && !componentType.Equals(receiptType))
+            if (componentType != null && componentType != receiptType)
             {
                 // 受け側の型が異なる場合は受け側の型で格納されているオブジェクトへの参照も破棄する
                 componentObjects[receiptType] = null;
@@ -178,13 +171,10 @@ namespace Seasar.Quill
             }
 
             // IDisposableを実装している場合はキャストする(実装していない場合はnull)
-            IDisposable disposable = componentObjects[componentType] as IDisposable;
+            var disposable = componentObjects[componentType] as IDisposable;
 
-            if (disposable != null)
-            {
-                // IDisposableを実装している場合はDisposeを呼び出す
-                disposable.Dispose();
-            }
+            // IDisposableを実装している場合はDisposeを呼び出す
+            disposable?.Dispose();
         }
 
         #endregion
@@ -200,58 +190,57 @@ namespace Seasar.Quill
         /// インスタンスを作成するクラスにはパラメータ(引数)無しでpublicである
         /// コンストラクタが必要とする
         /// </remarks>
-        /// <param name="componentType">コンポーネントのType</param>
-        protected virtual void CreateObject(Type componentType, Type receiptType)
+        /// <param name="compType">コンポーネントのType</param>
+        /// <param name="recptType"></param>
+        protected virtual void CreateObject(Type compType, Type recptType)
         {
             // コンストラクタを取得する
-            ConstructorInfo constructor = componentType.GetConstructor(new Type[] { });
+            var constructor = compType.GetConstructor(new Type[] { });
 
             if (constructor == null)
             {
                 // パラメータ無しでpublicであるコンストラクタがない場合は例外をスローする
-                throw new QuillApplicationException(
-                    "EQLL0017", new object[] { componentType.FullName });
+                throw new QuillApplicationException( "EQLL0017", new [] { compType.FullName });
             }
 
             // インスタンスを作成する
             object obj;
             try
             {
-                obj = Activator.CreateInstance(componentType);
+//                obj = Activator.CreateInstance(compType);
+                obj = ClassUtil.NewInstance(compType);
             }
             catch (System.Exception ex)
             {
-                throw new QuillApplicationException(
-                    "EQLL0036", new object[] {componentType.Name}, ex); 
+                throw new QuillApplicationException("EQLL0036", new [] {compType.Name}, ex); 
             }
 
             // 実装クラスの型で格納する
-            componentObjects[componentType] = obj;
+            componentObjects[compType] = obj;
 
-            if (!componentType.Equals(receiptType))
+            if (compType != recptType)
             {
                 // 受け側の型が異なる場合は受け側の型で格納する
-                componentObjects[receiptType] = obj;
+                componentObjects[recptType] = obj;
             }
         }
 
         /// <summary>
         /// プロキシオブジェクトを作成する
         /// </summary>
-        /// <param name="componentType">コンポーネントのType</param>
-        /// <param name="receiptType">コンポーネントを受け取るフィールドのType</param>
+        /// <param name="compType">コンポーネントのType</param>
+        /// <param name="recptType">コンポーネントを受け取るフィールドのType</param>
         /// <param name="aspects">適用するAspectの配列</param>
         /// <returns>作成されたプロキシオブジェクト</returns>
-        protected virtual void CreateProxyObject(
-            Type componentType, Type receiptType, IAspect[] aspects)
+        protected virtual void CreateProxyObject(Type compType, Type recptType, IAspect[] aspects)
         {
             // S2Container.NETのコンポーネント定義を作成する
             // これはS2Dao.NETでIComponentDefからDaoのTypeを取得しているのに
             // 対応する為。(今後、もっと適切な方法で対応する必要あり)
-            IComponentDef componentDef = new ComponentDefImpl(componentType);
+            IComponentDef componentDef = new ComponentDefImpl(compType);
 
             // DynamicAopProxyに渡す為のパラメータ
-            Hashtable parameters = new Hashtable();
+            var parameters = new Hashtable();
 
             // コンポーネント定義をパラメータとしてセットする
             parameters[ContainerConstants.COMPONENT_DEF_NAME] = componentDef;
@@ -260,23 +249,22 @@ namespace Seasar.Quill
             DynamicAopProxy aopProxy;
             try
             {
-                aopProxy = new DynamicAopProxy(componentType, aspects, parameters);
+                aopProxy = new DynamicAopProxy(compType, aspects, parameters);
 
                 // ProxyObjectを作成する
-                componentObjects[componentType] = aopProxy.Create();
+                componentObjects[compType] = aopProxy.Create();
             }
             catch (System.Exception ex)
             {
-                throw new QuillApplicationException(
-                    "EQLL0037", new object[] { componentType.Name }, ex);
+                throw new QuillApplicationException("EQLL0037", new [] { compType.Name }, ex);
             }
 
-            if (!componentType.Equals(receiptType))
+            if (compType != recptType)
             {
                 // コンポーネントの型とコンポーネントを受け取るフィールドの型が
                 // 異なる場合は受け取る際の型に対応したProxyObjectを作成する
-                componentObjects[receiptType] =
-                    aopProxy.Create(receiptType, componentObjects[componentType]);
+                componentObjects[recptType] =
+                    aopProxy.Create(recptType, componentObjects[compType]);
             }
         }
 

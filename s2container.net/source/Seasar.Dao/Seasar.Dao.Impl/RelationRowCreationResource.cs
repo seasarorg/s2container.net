@@ -16,7 +16,7 @@
  */
 #endregion
 
-using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using Seasar.Extension.ADO;
@@ -29,7 +29,6 @@ namespace Seasar.Dao.Impl
         //                                                                           Attribute
         //                                                                           =========
         /** Data reader. */
-        protected IDataReader dataReader;
 
         /** Relation row. Initialized at first or initialied after. */
         protected object row;
@@ -38,13 +37,13 @@ namespace Seasar.Dao.Impl
         protected IRelationPropertyType relationPropertyType;
 
         /** The set of column name. */
-        protected System.Collections.IList columnNames;
+        protected IList columnNames;
 
         /** The map of relation key values. */
-        protected System.Collections.Hashtable relKeyValues;
+        protected Hashtable relKeyValues;
 
         /** The map of relation property cache. */
-        protected IDictionary<String, IDictionary<String, IPropertyType>> relationPropertyCache;
+        protected IDictionary<string, IDictionary<string, IPropertyType>> relationPropertyCache;
 
         /** The suffix of base object. */
         protected string baseSuffix;
@@ -65,16 +64,15 @@ namespace Seasar.Dao.Impl
         protected int validValueCount;
 
         /** Does it create dead link? */
-        protected bool createDeadLink;
 
         /** The backup of relation property type. */
         protected Stack<IRelationPropertyType> relationPropertyTypeBackup;
 
         /** The backup of base suffix. */
-        protected Stack<String> baseSuffixBackup;
+        protected Stack<string> baseSuffixBackup;
 
         /** The backup of relation suffix. */
-        protected Stack<String> relationNoSuffixBackup;
+        protected Stack<string> relationNoSuffixBackup;
 
         // ===================================================================================
         //                                                                            Behavior
@@ -109,11 +107,9 @@ namespace Seasar.Dao.Impl
             RelationPropertyType = GetOrCreateRelationPropertyTypeBackup().Pop();
         }
 
-        public virtual Stack<IRelationPropertyType> GetOrCreateRelationPropertyTypeBackup() {
-            if (relationPropertyTypeBackup == null) {
-                relationPropertyTypeBackup = new Stack<IRelationPropertyType>();
-            }
-            return relationPropertyTypeBackup;
+        public virtual Stack<IRelationPropertyType> GetOrCreateRelationPropertyTypeBackup()
+        {
+            return relationPropertyTypeBackup ?? (relationPropertyTypeBackup = new Stack<IRelationPropertyType>());
         }
 
         // -----------------------------------------------------
@@ -147,16 +143,16 @@ namespace Seasar.Dao.Impl
         //                                 ---------------------
         public virtual void InitializePropertyCacheElement() {
             if (!relationPropertyCache.ContainsKey(relationNoSuffix)) {
-                relationPropertyCache.Add(relationNoSuffix, new Dictionary<String, IPropertyType>());
+                relationPropertyCache.Add(relationNoSuffix, new Dictionary<string, IPropertyType>());
             }
         }
 
         public virtual bool HasPropertyCacheElement() {
-            IDictionary<String, IPropertyType> propertyCacheElement = ExtractPropertyCacheElement();
+            IDictionary<string, IPropertyType> propertyCacheElement = ExtractPropertyCacheElement();
             return propertyCacheElement != null && propertyCacheElement.Count > 0;
         }
 
-        public virtual IDictionary<String, IPropertyType> ExtractPropertyCacheElement() {
+        public virtual IDictionary<string, IPropertyType> ExtractPropertyCacheElement() {
             return relationPropertyCache[relationNoSuffix];
         }
 
@@ -164,7 +160,7 @@ namespace Seasar.Dao.Impl
             if (!HasPropertyCacheElement()) {
                 InitializePropertyCacheElement();
             }
-            IDictionary<String, IPropertyType> propertyCacheElement = ExtractPropertyCacheElement();
+            IDictionary<string, IPropertyType> propertyCacheElement = ExtractPropertyCacheElement();
             string columnName = BuildRelationColumnName();
             if (propertyCacheElement.ContainsKey(columnName)) {
                 return;
@@ -181,15 +177,15 @@ namespace Seasar.Dao.Impl
             return currentPropertyType.ColumnName + relationNoSuffix;
         }
 
-        public virtual void AddRelationNoSuffix(string AdditionalRelationNoSuffix) {
-            relationNoSuffix = relationNoSuffix + AdditionalRelationNoSuffix;
+        public virtual void AddRelationNoSuffix(string additionalRelationNoSuffix) {
+            relationNoSuffix = relationNoSuffix + additionalRelationNoSuffix;
         }
 
-        public virtual void BackupSuffixAndPrepare(string baseSuffix,
+        public virtual void BackupSuffixAndPrepare(string baseSuffixString,
                 string additionalRelationNoSuffix) {
             BackupBaseSuffix();
             BackupRelationNoSuffix();
-            this.baseSuffix = baseSuffix;
+            baseSuffix = baseSuffixString;
             AddRelationNoSuffix(additionalRelationNoSuffix);
         }
 
@@ -206,11 +202,9 @@ namespace Seasar.Dao.Impl
             BaseSuffix = GetOrCreateBaseSuffixBackup().Pop();
         }
 
-        public virtual Stack<String> GetOrCreateBaseSuffixBackup() {
-            if (baseSuffixBackup == null) {
-                baseSuffixBackup = new Stack<String>();
-            }
-            return baseSuffixBackup;
+        public virtual Stack<string> GetOrCreateBaseSuffixBackup()
+        {
+            return baseSuffixBackup ?? (baseSuffixBackup = new Stack<string>());
         }
 
         protected virtual void BackupRelationNoSuffix() {
@@ -221,11 +215,9 @@ namespace Seasar.Dao.Impl
             RelationNoSuffix = GetOrCreateRelationNoSuffixBackup().Pop();
         }
 
-        public virtual Stack<String> GetOrCreateRelationNoSuffixBackup() {
-            if (relationNoSuffixBackup == null) {
-                relationNoSuffixBackup = new Stack<String>();
-            }
-            return relationNoSuffixBackup;
+        public virtual Stack<string> GetOrCreateRelationNoSuffixBackup()
+        {
+            return relationNoSuffixBackup ?? (relationNoSuffixBackup = new Stack<string>());
         }
 
         // -----------------------------------------------------
@@ -261,10 +253,7 @@ namespace Seasar.Dao.Impl
         // ===================================================================================
         //                                                                            Accessor
         //                                                                            ========
-        public virtual IDataReader DataReader {
-            get { return dataReader; }
-            set { dataReader = value; }
-        }
+        public virtual IDataReader DataReader { get; set; }
 
         public virtual object Row {
             get { return row; }
@@ -276,17 +265,17 @@ namespace Seasar.Dao.Impl
             set { relationPropertyType = value; }
         }
 
-        public virtual System.Collections.IList ColumnNames {
+        public virtual IList ColumnNames {
             get { return columnNames; }
             set { columnNames = value; }
         }
 
-        public virtual System.Collections.Hashtable RelKeyValues {
+        public virtual Hashtable RelKeyValues {
             get { return relKeyValues; }
             set { relKeyValues = value; }
         }
 
-        public virtual IDictionary<String, IDictionary<String, IPropertyType>> RelationPropertyCache {
+        public virtual IDictionary<string, IDictionary<string, IPropertyType>> RelationPropertyCache {
             get { return relationPropertyCache; }
             set { relationPropertyCache = value; }
         }
@@ -321,9 +310,6 @@ namespace Seasar.Dao.Impl
             set { validValueCount = value; }
         }
 
-        public virtual bool IsCreateDeadLink {
-            get { return createDeadLink; }
-            set { createDeadLink = value; }
-        }
+        public virtual bool IsCreateDeadLink { get; set; }
     }
 }

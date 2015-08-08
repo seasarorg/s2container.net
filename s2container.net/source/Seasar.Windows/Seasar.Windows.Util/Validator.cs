@@ -42,7 +42,7 @@ namespace Seasar.Windows.Utils
         public static int GetLengthBySJIS(string src)
         {
             // Shift_JIS = 932
-            Encoding enc = Encoding.GetEncoding(932);
+            var enc = Encoding.GetEncoding(932);
 
             return (enc.GetByteCount(src));
         }
@@ -57,7 +57,7 @@ namespace Seasar.Windows.Utils
         {
             if (encoding == null)
             {
-                throw new ArgumentNullException("encoding");
+                throw new ArgumentNullException(nameof(encoding));
             }
 
             return (encoding.GetByteCount(src));
@@ -72,7 +72,7 @@ namespace Seasar.Windows.Utils
         /// <returns></returns>
         public static bool IsInRangeBySJIS(string src, int lower, int upper)
         {
-            int length = GetLengthBySJIS(src);
+            var length = GetLengthBySJIS(src);
             if (length < lower || upper < length)
             {
                 return false;
@@ -95,18 +95,11 @@ namespace Seasar.Windows.Utils
         {
             if (encoding == null)
             {
-                throw new ArgumentNullException("encoding");
+                throw new ArgumentNullException(nameof(encoding));
             }
 
-            int length = GetLength(src, encoding);
-            if (length < lower || upper < length)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            var length = GetLength(src, encoding);
+            return length >= lower && upper >= length;
         }
 
         /// <summary>
@@ -116,17 +109,7 @@ namespace Seasar.Windows.Utils
         /// <param name="lower">最小の値</param>
         /// <param name="upper">最大の値</param>
         /// <returns></returns>
-        public static bool IsInRange(long value, long lower, long upper)
-        {
-            if (value < lower || upper < value)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
+        public static bool IsInRange(long value, long lower, long upper) => value >= lower && upper >= value;
 
         /// <summary>
         /// 値が範囲内に収まっているかをチェックする
@@ -135,17 +118,7 @@ namespace Seasar.Windows.Utils
         /// <param name="lower">最小の値</param>
         /// <param name="upper">最大の値</param>
         /// <returns></returns>
-        public static bool IsInRange(int value, int lower, int upper)
-        {
-            if (value < lower || upper < value)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
+        public static bool IsInRange(int value, int lower, int upper) => value >= lower && upper >= value;
 
         /// <summary>
         /// 値が範囲内に収まっているかをチェックする
@@ -154,17 +127,7 @@ namespace Seasar.Windows.Utils
         /// <param name="lower">最小の値</param>
         /// <param name="upper">最大の値</param>
         /// <returns></returns>
-        public static bool IsInRange(double value, double lower, double upper)
-        {
-            if (value < lower || upper < value)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
+        public static bool IsInRange(double value, double lower, double upper) => !(value < lower) && !(upper < value);
 
         /// <summary>
         /// 日付を比較する
@@ -174,16 +137,9 @@ namespace Seasar.Windows.Utils
         /// <returns>同じ日なら0、最初日付が比較日付より以前ならマイナス、逆なら正</returns>
         public static int CompareDays(DateTime value, DateTime compare)
         {
-            DateTime firstDate = new DateTime(value.Year, value.Month, value.Day, 0, 0, 0);
-            DateTime secondDate = new DateTime(compare.Year, compare.Month, compare.Day, 0, 0, 0);
-            if (firstDate.Ticks == secondDate.Ticks)
-            {
-                return 0;
-            }
-            else
-            {
-                return (secondDate.Subtract(firstDate).Days);
-            }
+            var firstDate = new DateTime(value.Year, value.Month, value.Day, 0, 0, 0);
+            var secondDate = new DateTime(compare.Year, compare.Month, compare.Day, 0, 0, 0);
+            return firstDate.Ticks == secondDate.Ticks ? 0 : (secondDate.Subtract(firstDate).Days);
         }
 
         /// <summary>
@@ -194,8 +150,8 @@ namespace Seasar.Windows.Utils
         /// <returns>同じ日なら0、最初日付が比較日付より以前ならマイナス、逆なら正</returns>
         public static int CompareMonth(DateTime value, DateTime compare)
         {
-            DateTime firstDate = new DateTime(value.Year, value.Month, value.Day, 0, 0, 0);
-            DateTime secondDate = new DateTime(compare.Year, compare.Month, compare.Day, 0, 0, 0);
+            var firstDate = new DateTime(value.Year, value.Month, value.Day, 0, 0, 0);
+            var secondDate = new DateTime(compare.Year, compare.Month, compare.Day, 0, 0, 0);
             if (firstDate.Year == secondDate.Year && firstDate.Month == secondDate.Month)
             {
                 return 0;
@@ -214,8 +170,8 @@ namespace Seasar.Windows.Utils
         /// <returns>同じ日なら0、最初日付が比較日付より以前ならマイナス、逆なら正</returns>
         public static int CompareYear(DateTime value, DateTime compare)
         {
-            DateTime firstDate = new DateTime(value.Year, value.Month, value.Day, 0, 0, 0);
-            DateTime secondDate = new DateTime(compare.Year, compare.Month, compare.Day, 0, 0, 0);
+            var firstDate = new DateTime(value.Year, value.Month, value.Day, 0, 0, 0);
+            var secondDate = new DateTime(compare.Year, compare.Month, compare.Day, 0, 0, 0);
 
             return (secondDate.Year - firstDate.Year);
         }
@@ -226,9 +182,6 @@ namespace Seasar.Windows.Utils
         /// <param name="value">チェック対象日付</param>
         /// <param name="compare">比較日付</param>
         /// <returns>同じミリ秒なら0、最初日付が比較日付より以前ならマイナス、逆なら正</returns>
-        public static long CompareStrict(DateTime value, DateTime compare)
-        {
-            return (value.Ticks - compare.Ticks);
-        }
+        public static long CompareStrict(DateTime value, DateTime compare) => (value.Ticks - compare.Ticks);
     }
 }

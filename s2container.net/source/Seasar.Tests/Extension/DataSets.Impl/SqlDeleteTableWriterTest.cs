@@ -37,10 +37,10 @@ namespace Seasar.Tests.Extension.DataSets.Impl
         [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
         public void Write()
         {
-            DataTable table = new DataTable("emp");
+            var table = new DataTable("emp");
             table.Columns.Add("empno", typeof(int));
             table.Columns.Add("ename", typeof(string));
-            DataRow row = table.NewRow();
+            var row = table.NewRow();
             row["empno"] = 9900;
             row["ename"] = "hoge";
             table.Rows.Add(row);
@@ -48,7 +48,7 @@ namespace Seasar.Tests.Extension.DataSets.Impl
             writer.Write(table);
             ITableWriter writer2 = new SqlDeleteTableWriter(DataSource);
             writer2.Write(table);
-            DataTable table2 = ReadDbByTable("emp", "empno = 9900");
+            var table2 = ReadDbByTable("emp", "empno = 9900");
             Assert.AreEqual(0, table2.Rows.Count, "1");
         }
     }

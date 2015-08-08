@@ -18,6 +18,7 @@
 
 using System;
 using Seasar.Framework.Exceptions;
+using Seasar.Framework.Util;
 
 namespace Seasar.Framework.Container.Deployer
 {
@@ -35,21 +36,21 @@ namespace Seasar.Framework.Container.Deployer
 
         public override void InjectDependency(object outerComponent)
         {
-            CheckComponentType(outerComponent);
+            _CheckComponentType(outerComponent);
             PropertyAssembler.Assemble(outerComponent);
             InitMethodAssembler.Assemble(outerComponent);
         }
 
-        private void CheckComponentType(object outerComponent)
+        private void _CheckComponentType(object outerComponent)
         {
-            Type componentType = ComponentDef.ComponentType;
+            var componentType = ComponentDef.ComponentType;
             if (componentType == null)
             {
                 return;
             }
-            if (!componentType.IsAssignableFrom(outerComponent.GetType()))
+            if (!componentType.IsAssignableFrom(outerComponent.GetExType()))
             {
-                throw new TypeUnmatchRuntimeException(componentType, outerComponent.GetType());
+                throw new TypeUnmatchRuntimeException(componentType, outerComponent.GetExType());
             }
         }
     }

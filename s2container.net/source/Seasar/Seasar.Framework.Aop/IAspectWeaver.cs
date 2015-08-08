@@ -16,8 +16,8 @@
  */
 #endregion
 
-using Seasar.Framework.Container;
 using System.Reflection;
+using Seasar.Framework.Container;
 
 namespace Seasar.Framework.Aop
 {

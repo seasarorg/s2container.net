@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -31,9 +31,9 @@ namespace Seasar.Tests.Framework.Container.AutoRegister
         [Test]
         public void TestProcessAssembly()
         {
-            Assembly asm = Assembly.GetExecutingAssembly();
-            AssemblyComponentAutoRegister register = new AssemblyComponentAutoRegister();
-            register.AddClassPattern("Seasar.Tests.Framework.Container.AutoRegister", 
+            var asm = Assembly.GetExecutingAssembly();
+            var register = new AssemblyComponentAutoRegister();
+            register.AddClassPattern("Seasar.Tests.Framework.container.AutoRegister", 
                 "AssemblyComponentAutoRegisterTestHoge");
             register.Container = new S2ContainerImpl();
             register.ProcessAssembly(asm);
@@ -44,8 +44,8 @@ namespace Seasar.Tests.Framework.Container.AutoRegister
         [Test]
         public void TestRegisterAll()
         {
-            AssemblyComponentAutoRegister register = new AssemblyComponentAutoRegister();
-            register.AddClassPattern("Seasar.Tests.Framework.Container.AutoRegister",
+            var register = new AssemblyComponentAutoRegister();
+            register.AddClassPattern("Seasar.Tests.Framework.container.AutoRegister",
                 "AssemblyComponentAutoRegisterTestHoge");
             register.Container = new S2ContainerImpl();
             try
@@ -56,9 +56,9 @@ namespace Seasar.Tests.Framework.Container.AutoRegister
             {
                 if (ex.LoaderExceptions != null)
                 {
-                    //  Às‡˜‚É‚æ‚Á‚Ä‚Í”­¶‚·‚é‚±‚Æ‚ª‚ ‚éB
-                    //  iŒ»ó‚Ì‚Æ‚±‚ë–â‘è‚É‚Í‚È‚Á‚Ä‚¢‚È‚¢BÄŒ»«AŒ´ˆö‚Í•s–¾j
-                    foreach (Exception exception in ex.LoaderExceptions)
+                    //  å®Ÿè¡Œé †åºã«ã‚ˆã£ã¦ã¯ç™ºç”Ÿã™ã‚‹ã“ã¨ãŒã‚ã‚‹ã€‚
+                    //  ï¼ˆç¾çŠ¶ã®ã¨ã“ã‚å•é¡Œã«ã¯ãªã£ã¦ã„ãªã„ã€‚å†ç¾æ€§ã€åŸå› ã¯ä¸æ˜ï¼‰
+                    foreach (var exception in ex.LoaderExceptions)
                     {
                         Debug.WriteLine(exception.Message);
                     }
@@ -69,7 +69,7 @@ namespace Seasar.Tests.Framework.Container.AutoRegister
             Assert.AreEqual(2, register.Container.ComponentDefSize, "1");
 
             register = new AssemblyComponentAutoRegister();
-            register.AddClassPattern("Seasar.Tests.Framework.Container.AutoRegister",
+            register.AddClassPattern("Seasar.Tests.Framework.container.AutoRegister",
                 "AssemblyComponentAutoRegisterTestHoge");
             register.Container = new S2ContainerImpl();
             register.AssemblyName = "Seasar.Tests";

@@ -21,6 +21,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Seasar.Framework.Util;
 
 namespace Seasar.Dxo.Converter.Impl
 {
@@ -44,15 +45,15 @@ namespace Seasar.Dxo.Converter.Impl
                 //配列型は、nullがセットされていることがあるのでインスタンスを生成してやる
                 dest = new T[0];
             }
-            T[] result = (dest as T[]);
+            var result = (dest as T[]);
             if (result != null)
                 Array.Clear(result, 0, result.Length);
             else
-                throw new ArgumentNullException("dest");
+                throw new ArgumentNullException(nameof(dest));
 
             if (source is ICollection<T>)
             {
-                ICollection<T> sourceCollection = source as ICollection<T>;
+                var sourceCollection = source as ICollection<T>;
                 //配列のReNew
                 if (sourceCollection.Count > result.Length)
                 {
@@ -66,25 +67,18 @@ namespace Seasar.Dxo.Converter.Impl
                 //コレクションが対象
             else if (source is ICollection)
             {
-                ICollection sourceCollection = source as ICollection;
+                var sourceCollection = source as ICollection;
                 //配列のReNew
                 if (sourceCollection.Count > result.Length)
                 {
                     result = new T[sourceCollection.Count];
                     dest = result; //配列を作り直したので転記が必要
                 }
-                if (source.GetType().IsArray)
+                if (source.GetExType().IsArray)
                 {
-                    if (source is T[])
-                    {
-                        //型一致の配列ならば直接コピーできる
-                        (source as T[]).CopyTo(result, 0);
-                        return true;
-                    }
-                    else
                     {
                         //要素の型に互換性があるか調べてからバルクコピー
-                        Type elementType = source.GetType().GetElementType();
+                        var elementType = source.GetExType().GetElementType();
                         if (typeof (T).IsAssignableFrom(elementType))
                         {
                             if (source is Array)
@@ -102,11 +96,11 @@ namespace Seasar.Dxo.Converter.Impl
                 else
                 {
                     //ヘテロジニアスなコレクションの場合を考えて1アイテム毎に型チェックが必要
-                    int i = 0;
-                    foreach (object item in sourceCollection)
+                    var i = 0;
+                    foreach (var item in sourceCollection)
                     {
                         //要素の型に互換性があるか調べてコピー
-                        if (item.GetType().IsAssignableFrom(typeof (T)))
+                        if (item.GetExType().IsAssignableFrom(typeof (T)))
                         {
                             result.SetValue(item, i);
                             i++;

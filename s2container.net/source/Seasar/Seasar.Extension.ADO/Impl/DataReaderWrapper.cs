@@ -37,35 +37,17 @@ namespace Seasar.Extension.ADO.Impl
             _original.Close();
         }
 
-        public virtual int Depth
-        {
-            get { return _original.Depth; }
-        }
+        public virtual int Depth => _original.Depth;
 
-        public virtual DataTable GetSchemaTable()
-        {
-            return _original.GetSchemaTable();
-        }
+        public virtual DataTable GetSchemaTable() => _original.GetSchemaTable();
 
-        public virtual bool IsClosed
-        {
-            get { return _original.IsClosed; }
-        }
+        public virtual bool IsClosed => _original.IsClosed;
 
-        public virtual bool NextResult()
-        {
-            return _original.NextResult();
-        }
+        public virtual bool NextResult() => _original.NextResult();
 
-        public virtual bool Read()
-        {
-            return _original.Read();
-        }
+        public virtual bool Read() => _original.Read();
 
-        public virtual int RecordsAffected
-        {
-            get { return _original.RecordsAffected; }
-        }
+        public virtual int RecordsAffected => _original.RecordsAffected;
 
         #endregion
 
@@ -80,130 +62,61 @@ namespace Seasar.Extension.ADO.Impl
 
         #region IDataRecord ƒƒ“ƒo
 
-        public virtual int FieldCount
-        {
-            get { return _original.FieldCount; }
-        }
+        public virtual int FieldCount => _original.FieldCount;
 
-        public virtual bool GetBoolean(int i)
-        {
-            return _original.GetBoolean(i);
-        }
+        public virtual bool GetBoolean(int i) => _original.GetBoolean(i);
 
-        public virtual byte GetByte(int i)
-        {
-            return _original.GetByte(i);
-        }
+        public virtual byte GetByte(int i) => _original.GetByte(i);
 
         public virtual long GetBytes(int i, long fieldOffset, byte[] buffer, int bufferoffset, int length)
         {
             return _original.GetBytes(i, fieldOffset, buffer, bufferoffset, length);
         }
 
-        public virtual char GetChar(int i)
-        {
-            return _original.GetChar(i);
-        }
+        public virtual char GetChar(int i) => _original.GetChar(i);
 
         public virtual long GetChars(int i, long fieldoffset, char[] buffer, int bufferoffset, int length)
         {
             return _original.GetChars(i, fieldoffset, buffer, bufferoffset, length);
         }
 
-        public virtual IDataReader GetData(int i)
-        {
-            return _original.GetData(i);
-        }
+        public virtual IDataReader GetData(int i) => _original.GetData(i);
 
-        public virtual string GetDataTypeName(int i)
-        {
-            return _original.GetDataTypeName(i);
-        }
+        public virtual string GetDataTypeName(int i) => _original.GetDataTypeName(i);
 
-        public virtual DateTime GetDateTime(int i)
-        {
-            return _original.GetDateTime(i);
-        }
+        public virtual DateTime GetDateTime(int i) => _original.GetDateTime(i);
 
-        public virtual decimal GetDecimal(int i)
-        {
-            return _original.GetDecimal(i);
-        }
+        public virtual decimal GetDecimal(int i) => _original.GetDecimal(i);
 
-        public virtual double GetDouble(int i)
-        {
-            return _original.GetDouble(i);
-        }
+        public virtual double GetDouble(int i) => _original.GetDouble(i);
 
-        public virtual Type GetFieldType(int i)
-        {
-            return _original.GetFieldType(i);
-        }
+        public virtual Type GetFieldType(int i) => _original.GetFieldType(i);
 
-        public virtual float GetFloat(int i)
-        {
-            return _original.GetFloat(i);
-        }
+        public virtual float GetFloat(int i) => _original.GetFloat(i);
 
-        public virtual Guid GetGuid(int i)
-        {
-            return _original.GetGuid(i);
-        }
+        public virtual Guid GetGuid(int i) => _original.GetGuid(i);
 
-        public virtual short GetInt16(int i)
-        {
-            return _original.GetInt16(i);
-        }
+        public virtual short GetInt16(int i) => _original.GetInt16(i);
 
-        public virtual int GetInt32(int i)
-        {
-            return _original.GetInt32(i);
-        }
+        public virtual int GetInt32(int i) => _original.GetInt32(i);
 
-        public virtual long GetInt64(int i)
-        {
-            return _original.GetInt64(i);
-        }
+        public virtual long GetInt64(int i) => _original.GetInt64(i);
 
-        public virtual string GetName(int i)
-        {
-            return _original.GetName(i);
-        }
+        public virtual string GetName(int i) => _original.GetName(i);
 
-        public virtual int GetOrdinal(string name)
-        {
-            return _original.GetOrdinal(name);
-        }
+        public virtual int GetOrdinal(string name) => _original.GetOrdinal(name);
 
-        public virtual string GetString(int i)
-        {
-            return _original.GetString(i);
-        }
+        public virtual string GetString(int i) => _original.GetString(i);
 
-        public virtual object GetValue(int i)
-        {
-            return _original.GetValue(i);
-        }
+        public virtual object GetValue(int i) => _original.GetValue(i);
 
-        public virtual int GetValues(object[] values)
-        {
-            return _original.GetValues(values);
-        }
+        public virtual int GetValues(object[] values) => _original.GetValues(values);
 
-        public virtual bool IsDBNull(int i)
-        {
-            return _original.IsDBNull(i);
-        }
+        public virtual bool IsDBNull(int i) => _original.IsDBNull(i);
 
-        public virtual object this[string name]
-        {
-            get { return _original[name]; }
-        }
+        public virtual object this[string name] => _original[name];
 
-        public virtual object this[int i]
-        {
-            get { return _original[i]; }
-        }
+        public virtual object this[int i] => _original[i];
 
         #endregion
     }

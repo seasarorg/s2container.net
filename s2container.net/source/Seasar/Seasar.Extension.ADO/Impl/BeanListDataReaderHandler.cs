@@ -33,7 +33,7 @@ namespace Seasar.Extension.ADO.Impl
 
         public override object Handle(IDataReader dataReader)
         {
-            IPropertyType[] propertyTypes = CreatePropertyTypes(dataReader.GetSchemaTable());
+            var propertyTypes = CreatePropertyTypes(dataReader.GetSchemaTable());
             IList list = new ArrayList();
             while (dataReader.Read())
             {

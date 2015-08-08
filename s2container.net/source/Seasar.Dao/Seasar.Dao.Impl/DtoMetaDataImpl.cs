@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -28,15 +28,11 @@ namespace Seasar.Dao.Impl
 {
     public class DtoMetaDataImpl : IDtoMetaData
     {
-        private Type _beanType;
+        private readonly Hashtable _propertyTypes = new Hashtable(StringComparer.OrdinalIgnoreCase);
 
-        private readonly Hashtable _propertyTypes = new Hashtable(
-            StringComparer.OrdinalIgnoreCase);
+        private readonly Hashtable _methodInfos = new Hashtable(StringComparer.OrdinalIgnoreCase);
 
-        private readonly Hashtable _methodInfos = new Hashtable(
-            StringComparer.OrdinalIgnoreCase);
-
-        protected IBeanAnnotationReader _beanAnnotationReader;
+        protected IBeanAnnotationReader beanAnnotationReader;
 
         protected DtoMetaDataImpl()
         {
@@ -55,68 +51,46 @@ namespace Seasar.Dao.Impl
             SetupMethodInfo();
         }
 
-        #region IDtoMetaData ƒƒ“ƒo
+        #region IDtoMetaData ï¿½ï¿½ï¿½ï¿½ï¿½o
 
-        public Type BeanType
-        {
-            get
-            {
-                return _beanType;
-            }
-            set
-            {
-                _beanType = value;
-            }
-        }
+        public Type BeanType { get; set; }
 
-        public int PropertyTypeSize
-        {
-            get
-            {
-                return _propertyTypes.Count;
-            }
-        }
+        public int PropertyTypeSize => _propertyTypes.Count;
 
-        public int MethodInfoSize
-        {
-            get
-            {
-                return _methodInfos.Count;
-            }
-        }
+        public int MethodInfoSize => _methodInfos.Count;
 
         public IBeanAnnotationReader BeanAnnotationReader
         {
-            set { _beanAnnotationReader = value; }
+            set { beanAnnotationReader = value; }
         }
 
         public IPropertyType GetPropertyType(int index)
         {
-            IEnumerator enu = _propertyTypes.Keys.GetEnumerator();
-            for (int i = -1; i < index; ++i) enu.MoveNext();
+            var enu = _propertyTypes.Keys.GetEnumerator();
+            for (var i = -1; i < index; ++i) enu.MoveNext();
             return (IPropertyType) _propertyTypes[enu.Current];
         }
 
         public MethodInfo GetMethodInfo(int index)
         {
-            IEnumerator enu = _methodInfos.Keys.GetEnumerator();
-            for ( int i = -1; i < index; ++i ) enu.MoveNext();
+            var enu = _methodInfos.Keys.GetEnumerator();
+            for ( var i = -1; i < index; ++i ) enu.MoveNext();
             return (MethodInfo)_methodInfos[enu.Current];
         }
 
         public IPropertyType GetPropertyType(string propertyName)
         {
-            IPropertyType propertyType = (IPropertyType) _propertyTypes[propertyName];
+            var propertyType = (IPropertyType) _propertyTypes[propertyName];
             if (propertyType == null)
-                throw new PropertyNotFoundRuntimeException(_beanType, propertyName);
+                throw new PropertyNotFoundRuntimeException(BeanType, propertyName);
             return propertyType;
         }
 
         public MethodInfo GetMethodInfo(string methodName)
         {
-            MethodInfo methodInfo = (MethodInfo)_methodInfos[methodName];
+            var methodInfo = (MethodInfo)_methodInfos[methodName];
             if ( methodInfo == null )
-                throw new MethodNotFoundRuntimeException(_beanType, methodName, null);
+                throw new MethodNotFoundRuntimeException(BeanType, methodName, null);
             return methodInfo;
         }
 
@@ -134,16 +108,16 @@ namespace Seasar.Dao.Impl
 
         protected virtual void SetupPropertyType()
         {
-            foreach (PropertyInfo pi in _beanType.GetProperties())
+            foreach (var pi in BeanType.GetProperties())
             {
-                IPropertyType pt = CreatePropertyType(pi);
+                var pt = CreatePropertyType(pi);
                 AddPropertyType(pt);
             }
         }
 
         protected virtual void SetupMethodInfo()
         {
-            foreach ( MethodInfo mi in _beanType.GetMethods() )
+            foreach ( var mi in BeanType.GetMethods() )
             {
                 AddMethodInfo(mi);
             }
@@ -151,12 +125,8 @@ namespace Seasar.Dao.Impl
 
         protected virtual IPropertyType CreatePropertyType(PropertyInfo pi)
         {
-            string columnName = _beanAnnotationReader.GetColumn(pi);
-            if (columnName == null)
-            {
-                columnName = pi.Name;
-            }
-            IValueType valueType = ValueTypes.GetValueType(pi.PropertyType);
+            var columnName = beanAnnotationReader.GetColumn(pi) ?? pi.Name;
+            var valueType = ValueTypes.GetValueType(pi.PropertyType);
             IPropertyType pt = new PropertyTypeImpl(pi, valueType, columnName);
             return pt;
         }
@@ -168,7 +138,7 @@ namespace Seasar.Dao.Impl
 
         protected virtual void AddMethodInfo(MethodInfo methodInfo)
         {
-            //  ˆø”‚ð‚à‚½‚È‚¢ƒƒ\ƒbƒhî•ñ‚Ì‚Ý•ÛŽ
+            //  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½\ï¿½bï¿½hï¿½ï¿½ï¿½Ì‚Ý•ÛŽï¿½
             if ( methodInfo.GetParameters().Length == 0 )
             {
                 _methodInfos.Add(methodInfo.Name, methodInfo);

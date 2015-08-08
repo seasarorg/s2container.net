@@ -1,4 +1,4 @@
-#region Copyright
+﻿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -20,9 +20,11 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Seasar.Framework.Log;
+using Seasar.Framework.Util;
 using Seasar.Quill.Attrs;
 using Seasar.Quill.Exception;
 using Seasar.Quill.Util;
+using TypeUtil = Seasar.Quill.Util.TypeUtil;
 
 namespace Seasar.Quill
 {
@@ -39,7 +41,7 @@ namespace Seasar.Quill
         private readonly Logger _log = Logger.GetLogger(typeof (QuillInjector));
 
         // QuillInjectorのインスタンス
-        private static QuillInjector quillInjector;
+        private static QuillInjector _quillInjector;
 
         // QuillInjector内で使用するQuillContainer
         protected QuillContainer container;
@@ -53,19 +55,13 @@ namespace Seasar.Quill
         /// 無限ループ防止のみが目的のため、
         /// スレッドセーフにはしていません。
         /// </remarks>
-        private readonly QuillInjectionContext _context;
+        private readonly _QuillInjectionContext _context;
 
         /// <summary>
         /// QuillInjector内で使用するQuillContainer
         /// (取得専用）
         /// </summary>
-        public QuillContainer Container
-        {
-            get
-            {
-                return container;
-            }
-        }
+        public QuillContainer Container => container;
 
         protected InjectionMap injectionMap;
 
@@ -102,7 +98,7 @@ namespace Seasar.Quill
             //  デフォルトではInjectionMapは使わない
             injectionMap = null;
 
-            _context = new QuillInjectionContext();
+            _context = new _QuillInjectionContext();
         }
 
         /// <summary>
@@ -122,16 +118,7 @@ namespace Seasar.Quill
         /// </para>
         /// </remarks>
         /// <returns>QuillInjectorのインスタンス</returns>
-        public static QuillInjector GetInstance()
-        {
-            if (quillInjector == null)
-            {
-                quillInjector = new QuillInjector();
-            }
-
-            // QuillInjectorのインスタンスを返す
-            return quillInjector;
-        }
+        public static QuillInjector GetInstance() => _quillInjector ?? (_quillInjector = new QuillInjector());
 
         /// <summary>
         /// 引数で渡される<code>target</code>のオブジェクトのフィールドに
@@ -164,7 +151,7 @@ namespace Seasar.Quill
                 throw new QuillApplicationException("EQLL0018");
             }
 
-            bool isFirstInjection = !_context.IsInInjection;
+            var isFirstInjection = !_context.IsInInjection;
             if (isFirstInjection)
             {
                 _context.BeginInjection();
@@ -172,7 +159,7 @@ namespace Seasar.Quill
 
             try
             {
-                Type targetType = target.GetType();
+                var targetType = target.GetExType();
                 if (_context.IsAlreadyInjected(targetType))
                 {
                     return;
@@ -181,11 +168,11 @@ namespace Seasar.Quill
                 _context.AddInjectedType(targetType);
 
                 // フィールドを取得する
-                FieldInfo[] fields = targetType.GetFields(
+                var fields = targetType.GetFields(
                     BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
                 // フィールドの件数分、注入を行う
-                foreach (FieldInfo field in fields)
+                foreach (var field in fields)
                 {
                     // フィールドにオブジェクトを注入する
                     InjectField(target, field);
@@ -214,7 +201,7 @@ namespace Seasar.Quill
             container.Destroy();
 
             container = null;
-            quillInjector = null;
+            _quillInjector = null;
         }
 
         /// <summary>
@@ -235,7 +222,7 @@ namespace Seasar.Quill
         protected virtual void InjectField(object target, FieldInfo field)
         {
             //// フィールドに設定されているバインディング属性を取得する
-            BindingAttribute bindingAttr = AttributeUtil.GetBindingAttr(field);
+            var bindingAttr = AttributeUtil.GetBindingAttr(field);
 
             if (bindingAttr != null)
             {
@@ -249,7 +236,7 @@ namespace Seasar.Quill
             //  その型でDIする
             //  本番->Implementation,Mock->InjectionMapという
             //  使い分けもできるようにこちらを優先
-            Type fieldType = field.FieldType;
+            var fieldType = field.FieldType;
             if(injectionMap != null && injectionMap.HasComponentType(fieldType))
             {
                 InjectField(target, field, injectionMap.GetComponentType(fieldType));
@@ -257,7 +244,7 @@ namespace Seasar.Quill
             }
 
             // フィールドの型(Type)に設定されている実装を指定する属性を取得する
-            ImplementationAttribute implAttr = 
+            var implAttr = 
                 AttributeUtil.GetImplementationAttr(field.FieldType);
 
             if (implAttr != null)
@@ -279,26 +266,26 @@ namespace Seasar.Quill
             object target, FieldInfo field, BindingAttribute bindingAttr)
         {
             // S2Containerからコンポーネントを取得する
-            object component = SingletonS2ContainerConnector.GetComponent(
+            var component = SingletonS2ContainerConnector.GetComponent(
                 bindingAttr.ComponentName, field.FieldType);
 
             // コンポーネントのTypeを取得する
-            Type componentType = TypeUtil.GetType(component);
+            var componentType = TypeUtil.GetType(component);
 
             if (!field.FieldType.IsAssignableFrom(componentType))
             {
                 // 代入不可能なコンポーネントが指定されている場合は例外をスローする
-                throw new QuillApplicationException("EQLL0014", new object[] {
-                    field.FieldType.FullName, componentType.FullName });
+                throw new QuillApplicationException("EQLL0014", 
+                    new [] {field.FieldType.FullName, componentType.FullName });
             }
 
             // フィールドに値をセットする為のBindingFlags
-            BindingFlags bindingFlags = BindingFlags.Public |
+            var bindingFlags = BindingFlags.Public |
                 BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetField;
 
             // フィールドに実装クラスのインスタンスを注入する
-            target.GetType().InvokeMember(field.Name, bindingFlags, null, target,
-                new object[] { component });
+            target.GetExType().InvokeMember(field.Name, bindingFlags, null, target,
+                new[] { component });
         }
 
         /// <summary>
@@ -340,18 +327,18 @@ namespace Seasar.Quill
         protected virtual void InjectField(object target, FieldInfo field, Type implType)
         {
             // 実装クラスのインスタンスを取得する
-            QuillComponent component = container.GetComponent(field.FieldType, implType);
+            var component = container.GetComponent(field.FieldType, implType);
 
             // 再帰的に実装クラスのインスタンスにDIを行う
             Inject(component.GetComponentObject(field.FieldType));
 
             // フィールドに値をセットする為のBindingFlags
-            BindingFlags bindingFlags = BindingFlags.Public |
+            var bindingFlags = BindingFlags.Public |
                 BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetField;
 
             // フィールドに実装クラスのインスタンスを注入する
-            target.GetType().InvokeMember(field.Name, bindingFlags, null, target,
-                new object[] { component.GetComponentObject(field.FieldType) });
+            target.GetExType().InvokeMember(field.Name, bindingFlags, null, target,
+                new[] { component.GetComponentObject(field.FieldType) });
         }
 
         #region IDisposable メンバ
@@ -373,7 +360,7 @@ namespace Seasar.Quill
         /// <summary>
         /// インジェクション管理クラス
         /// </summary>
-        private sealed class QuillInjectionContext
+        private sealed class _QuillInjectionContext
         {
             [ThreadStatic]
             private static IDictionary<Type, Type> _alreadyInjectedTypeMap;
@@ -381,20 +368,14 @@ namespace Seasar.Quill
             /// <summary>
             /// インジェクション中（再帰）中か判定
             /// </summary>
-            public bool IsInInjection
-            {
-                get { return _alreadyInjectedTypeMap != null; }
-            }
+            public bool IsInInjection => _alreadyInjectedTypeMap != null;
 
             /// <summary>
             /// 既にインジェクション済の型か判定
             /// </summary>
             /// <param name="targetType"></param>
             /// <returns></returns>
-            public bool IsAlreadyInjected(Type targetType)
-            {
-                return (IsInInjection && _alreadyInjectedTypeMap.ContainsKey(targetType));
-            }
+            public bool IsAlreadyInjected(Type targetType) => (IsInInjection && _alreadyInjectedTypeMap.ContainsKey(targetType));
 
             /// <summary>
             /// インジェクション済の型を登録する
@@ -422,10 +403,7 @@ namespace Seasar.Quill
             /// </summary>
             public void EndInjection()
             {
-                if(_alreadyInjectedTypeMap != null)
-                {
-                    _alreadyInjectedTypeMap.Clear();
-                }
+                _alreadyInjectedTypeMap?.Clear();
                 _alreadyInjectedTypeMap = null;
             }
         }

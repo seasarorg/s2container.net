@@ -28,15 +28,12 @@ namespace Seasar.Extension.ADO.Impl
     {
         private Type _beanType;
 
-        public AbstractBeanDataReaderHandler(Type beanType)
+        protected AbstractBeanDataReaderHandler(Type beanType)
         {
             SetBeanType(beanType);
         }
 
-        public Type BeanType
-        {
-            get { return _beanType; }
-        }
+        public Type BeanType => _beanType;
 
         public void SetBeanType(Type beanType)
         {
@@ -45,18 +42,18 @@ namespace Seasar.Extension.ADO.Impl
 
         protected IPropertyType[] CreatePropertyTypes(DataTable metaData)
         {
-            int count = metaData.Rows.Count;
+            var count = metaData.Rows.Count;
             IPropertyType[] propertyTypes = new PropertyTypeImpl[count];
-            for (int i = 0; i < count; ++i)
+            for (var i = 0; i < count; ++i)
             {
-                DataRow row = metaData.Rows[i];
-                string columnName = (string) row["ColumnName"];
-                string propertyName = columnName.Replace("_", string.Empty);
-                PropertyInfo pi = _beanType.GetProperty(
+                var row = metaData.Rows[i];
+                var columnName = (string) row["ColumnName"];
+                var propertyName = columnName.Replace("_", string.Empty);
+                var pi = _beanType.GetProperty(
                     propertyName,
                     BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance | BindingFlags.IgnoreCase
                     );
-                IValueType valueType = ValueTypes.GetValueType(pi.PropertyType);
+                var valueType = ValueTypes.GetValueType(pi.PropertyType);
                 propertyTypes[i] = new PropertyTypeImpl(pi, valueType, columnName);
             }
             return propertyTypes;
@@ -64,14 +61,15 @@ namespace Seasar.Extension.ADO.Impl
 
         protected object CreateRow(IDataReader dataReader, IPropertyType[] propertyTypes)
         {
-            object row = ClassUtil.NewInstance(_beanType);
-            for (int i = 0; i < propertyTypes.Length; ++i)
+            var row = ClassUtil.NewInstance(_beanType);
+            for (var i = 0; i < propertyTypes.Length; ++i)
             {
-                IPropertyType pt = propertyTypes[i];
-                IValueType valueType = pt.ValueType;
-                object value = valueType.GetValue(dataReader, pt.ColumnName);
-                PropertyInfo pi = pt.PropertyInfo;
-                pi.SetValue(row, value, null);
+                var pt = propertyTypes[i];
+                var valueType = pt.ValueType;
+                var value = valueType.GetValue(dataReader, pt.ColumnName);
+                var pi = pt.PropertyInfo;
+//                pi.SetValue(row, value, null);
+                PropertyUtil.SetValue(row, row.GetExType(), pi.Name, pi.PropertyType, value);
             }
             return row;
         }

@@ -18,7 +18,9 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Data;
+using Seasar.Framework.Util;
 
 namespace Seasar.Extension.ADO.Impl
 {
@@ -33,9 +35,10 @@ namespace Seasar.Extension.ADO.Impl
 
         public override object Handle(IDataReader dataReader)
         {
-            Type generic = typeof(System.Collections.Generic.List<>);
+            Type generic = typeof(List<>);
             Type constructed = generic.MakeGenericType(BeanType);
-            IList list = (IList) Activator.CreateInstance(constructed);
+//            IList list = (IList) Activator.CreateInstance(constructed);
+            IList list = (IList)ClassUtil.NewInstance(constructed);
 
             IPropertyType[] propertyTypes = CreatePropertyTypes(dataReader.GetSchemaTable());
             while (dataReader.Read())

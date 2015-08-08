@@ -37,14 +37,11 @@ namespace Seasar.Dao.Impl
             while (dataReader.Read())
             {
                 //  検索結果の先頭列の値を戻り値要素の値と見なす
-                object val = dataReader.GetValue(0);
+                var val = dataReader.GetValue(0);
                 resultList.Add(GetValue(val));
             }
         }
 
-        protected virtual object GetValue(object val)
-        {
-            return val;
-        }
+        protected virtual object GetValue(object val) => val;
     }
 }

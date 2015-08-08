@@ -30,8 +30,7 @@ namespace Seasar.Dao.Impl
 
         protected override AbstractAutoHandler CreateAutoHandler()
         {
-            return new DeleteAutoHandler(DataSource, CommandFactory,
-                BeanMetaData, PropertyTypes);
+            return new DeleteAutoHandler(DataSource, CommandFactory, BeanMetaData, PropertyTypes);
         }
 
         protected override void SetupSql()

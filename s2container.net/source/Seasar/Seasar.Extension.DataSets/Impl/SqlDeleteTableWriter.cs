@@ -38,7 +38,7 @@ namespace Seasar.Extension.DataSets.Impl
         {
             foreach (DataRow row in table.Rows)
             {
-                RowState state = RowStateFactory.GetRowState(DataRowState.Deleted);
+                var state = RowStateFactory.GetRowState(DataRowState.Deleted);
                 state.Update(DataSource, row, CommandFactory);
             }
         }

@@ -41,16 +41,16 @@ namespace Seasar.Tests.Dao.Impl
             IDataReaderHandler handler = new BeanListMetaDataDataReaderHandler(
                 CreateBeanMetaData(typeof(Employee)), new RowCreatorImpl(), new RelationRowCreatorImpl());
 
-            string sql = "select * from emp";
-            using (IDbConnection con = Connection)
+            var sql = "select * from emp";
+            using (var con = Connection)
             {
-                using (IDbCommand cmd = con.CreateCommand())
+                using (var cmd = con.CreateCommand())
                 {
                     cmd.CommandText = sql;
 
                     IList ret;
 
-                    using (IDataReader reader = cmd.ExecuteReader())
+                    using (var reader = cmd.ExecuteReader())
                     {
                         ret = (IList) handler.Handle(reader);
                     }
@@ -70,16 +70,16 @@ namespace Seasar.Tests.Dao.Impl
             IDataReaderHandler handler = new BeanListMetaDataDataReaderHandler(
                 CreateBeanMetaData(typeof(Employee)), new RowCreatorImpl(), new RelationRowCreatorImpl());
 
-            string sql = "select emp.*, dept.dname as dname_0 from emp, dept where emp.deptno = dept.deptno and emp.deptno = 20";
-            using (IDbConnection con = Connection)
+            var sql = "select emp.*, dept.dname as dname_0 from emp, dept where emp.deptno = dept.deptno and emp.deptno = 20";
+            using (var con = Connection)
             {
-                using (IDbCommand cmd = con.CreateCommand())
+                using (var cmd = con.CreateCommand())
                 {
                     cmd.CommandText = sql;
 
                     IList ret;
 
-                    using (IDataReader reader = cmd.ExecuteReader())
+                    using (var reader = cmd.ExecuteReader())
                     {
                         ret = (IList) handler.Handle(reader);
                     }
@@ -88,7 +88,7 @@ namespace Seasar.Tests.Dao.Impl
                     foreach (Employee emp in ret)
                     {
                         Trace.WriteLine(emp);
-                        Department dept = emp.Department;
+                        var dept = emp.Department;
                         Assert.IsNotNull(dept, "2");
                         Assert.AreEqual(emp.Deptno, dept.Deptno, "3");
                         Assert.IsNotNull(dept.Dname, "4");
@@ -103,25 +103,25 @@ namespace Seasar.Tests.Dao.Impl
             IDataReaderHandler handler = new BeanListMetaDataDataReaderHandler(
                 CreateBeanMetaData(typeof(Employee)), new RowCreatorImpl(), new RelationRowCreatorImpl());
 
-            string sql = "select emp.*, dept.deptno as deptno_0, dept.dname as dname_0 from emp, dept where dept.deptno = 20 and emp.deptno = dept.deptno";
-            using (IDbConnection con = Connection)
+            var sql = "select emp.*, dept.deptno as deptno_0, dept.dname as dname_0 from emp, dept where dept.deptno = 20 and emp.deptno = dept.deptno";
+            using (var con = Connection)
             {
-                using (IDbCommand cmd = con.CreateCommand())
+                using (var cmd = con.CreateCommand())
                 {
                     cmd.CommandText = sql;
 
                     IList ret;
 
-                    using (IDataReader reader = cmd.ExecuteReader())
+                    using (var reader = cmd.ExecuteReader())
                     {
                         ret = (IList) handler.Handle(reader);
                     }
 
-                    IEnumerator employees = ret.GetEnumerator();
+                    var employees = ret.GetEnumerator();
                     employees.MoveNext();
-                    Employee emp = (Employee) employees.Current;
+                    var emp = (Employee) employees.Current;
                     employees.MoveNext();
-                    Employee emp2 = (Employee) employees.Current;
+                    var emp2 = (Employee) employees.Current;
                     Assert.AreSame(emp.Department, emp2.Department, "1");
                 }
             }

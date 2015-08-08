@@ -27,15 +27,7 @@ namespace Seasar.Windows.Seasar.Windows.Utils
     public sealed class BindingUtilFactory
     {
         private static volatile BindingUtilFactory _factory;
-        private static object _lockRoot = new object();
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        private BindingUtilFactory()
-        {
-            ;
-        }
+        private static readonly object _lockRoot = new object();
 
         /// <summary>
         /// インスタンス
@@ -86,7 +78,7 @@ namespace Seasar.Windows.Seasar.Windows.Utils
                 }
                 else
                 {
-                    Type interfaceType = propertyType.GetInterface("IList");
+                    var interfaceType = propertyType.GetInterface("IList");
                     if (interfaceType != null)
                         return (new BindingGenericListUtil());
 
@@ -112,7 +104,7 @@ namespace Seasar.Windows.Seasar.Windows.Utils
                 }
                 else
                 {
-                    Type interfaceType = propertyType.GetInterface("IBindingList");
+                    var interfaceType = propertyType.GetInterface("IBindingList");
                     if (interfaceType != null)
                         return (new BindingBindingListUtil());
 

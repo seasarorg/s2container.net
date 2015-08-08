@@ -1,4 +1,4 @@
-#region Copyright
+﻿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -27,8 +27,7 @@ namespace Seasar.Quill.Attrs
     /// クラス・インターフェースに設定することができる。
     /// (複数設定することはできない)
     /// </remarks>
-    [AttributeUsage(AttributeTargets.Interface | AttributeTargets.Class,
-       AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Interface | AttributeTargets.Class, AllowMultiple = false)]
     public class ImplementationAttribute : Attribute
     {
         // 実装クラスのType
@@ -56,9 +55,6 @@ namespace Seasar.Quill.Attrs
         /// 実装クラスのTypeを返す
         /// </summary>
         /// <value>実装クラスのType</value>
-        public Type ImplementationType
-        {
-            get { return implementationType; }
-        }
+        public Type ImplementationType => implementationType;
     }
 }

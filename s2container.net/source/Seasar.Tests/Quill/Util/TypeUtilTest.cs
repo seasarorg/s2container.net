@@ -1,4 +1,4 @@
-#region Copyright
+﻿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -34,14 +34,14 @@ namespace Seasar.Tests.Quill.Util
         [Test]
         public void TestGetType_透過プロキシの場合()
         {
-            Hoge hoge = new Hoge();
+            var hoge = new Hoge();
             IAspect aspect = new AspectImpl(new TraceInterceptor());
 
-            AopProxy aopProxy = new AopProxy(typeof(Hoge),
+            var aopProxy = new AopProxy(typeof(Hoge),
                 new IAspect[] { aspect }, null, hoge);
-            object ret = aopProxy.Create();
+            var ret = aopProxy.Create();
 
-            Type type = TypeUtil.GetType(ret);
+            var type = TypeUtil.GetType(ret);
 
             Assert.AreEqual(typeof(Hoge), type);
         }
@@ -49,9 +49,9 @@ namespace Seasar.Tests.Quill.Util
         [Test]
         public void TestGetType_透過プロキシでない場合()
         {
-            Hoge hoge = new Hoge();
+            var hoge = new Hoge();
 
-            Type type = TypeUtil.GetType(hoge);
+            var type = TypeUtil.GetType(hoge);
 
             Assert.AreEqual(typeof(Hoge), type);
         }

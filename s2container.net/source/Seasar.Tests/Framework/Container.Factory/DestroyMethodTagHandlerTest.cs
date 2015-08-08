@@ -27,14 +27,14 @@ namespace Seasar.Tests.Framework.Container.Factory
     public class DestroyMethodTagHandlerTest
     {
         private const string PATH
-            = "Seasar/Tests/Framework/Container/Factory/DestroyMethodTagHandlerTest.dicon";
+            = "Seasar/Tests/Framework/container/Factory/DestroyMethodTagHandlerTest.dicon";
 
         [Test]
         public void TestArg()
         {
-            IS2Container container = S2ContainerFactory.Create(PATH);
+            var container = S2ContainerFactory.Create(PATH);
             container.Init();
-            Hashtable table = (Hashtable) container.GetComponent(typeof(Hashtable));
+            var table = (Hashtable) container.GetComponent(typeof(Hashtable));
             container.Destroy();
             Assert.AreEqual(111, table["aaa"]);
         }

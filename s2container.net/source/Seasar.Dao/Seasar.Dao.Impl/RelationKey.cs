@@ -20,20 +20,16 @@ namespace Seasar.Dao.Impl
 {
     public sealed class RelationKey
     {
-        private readonly object[] _values;
         private readonly int _hashCode;
 
         public RelationKey(object[] values)
         {
-            _values = values;
-            foreach (object value in values)
+            Values = values;
+            foreach (var value in values)
                 _hashCode += value.GetHashCode();
         }
 
-        public object[] Values
-        {
-            get { return _values; }
-        }
+        public object[] Values { get; }
 
         public override int GetHashCode()
         {
@@ -42,12 +38,11 @@ namespace Seasar.Dao.Impl
 
         public override bool Equals(object obj)
         {
-            if (!(obj is RelationKey)) return false;
-            object[] otherValues = ((RelationKey) obj)._values;
-            if (_values.Length != otherValues.Length) return false;
-            for (int i = 0; i < _values.Length; ++i)
+            var otherValues = (obj as RelationKey)?.Values;
+            if (Values.Length != otherValues?.Length) return false;
+            for (var i = 0; i < Values.Length; ++i)
             {
-                if (!_values[i].Equals(otherValues[i])) return false;
+                if (!Values[i].Equals(otherValues[i])) return false;
             }
             return true;
         }

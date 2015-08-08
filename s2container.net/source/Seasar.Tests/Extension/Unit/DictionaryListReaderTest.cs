@@ -35,9 +35,9 @@ namespace Seasar.Tests.Extension.Unit
             IList list = new ArrayList();
             list.Add(emp);
             DictionaryReader reader = new DictionaryListReader(list);
-            DataSet ds = reader.Read();
-            DataTable table = ds.Tables[0];
-            DataRow row = table.Rows[0];
+            var ds = reader.Read();
+            var table = ds.Tables[0];
+            var row = table.Rows[0];
             Assert.AreEqual(7788, row["empno"], "1");
             Assert.AreEqual("SCOTT", row["ename"], "2");
             Assert.AreEqual(DataRowState.Unchanged, row.RowState, "3");

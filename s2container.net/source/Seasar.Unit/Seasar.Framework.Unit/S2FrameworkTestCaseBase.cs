@@ -34,50 +34,23 @@ namespace Seasar.Framework.Unit
             set { _container = value; }
         }
 
-        public object GetComponent(string componentName)
-        {
-            return _container.GetComponent(componentName);
-        }
+        public object GetComponent(string componentName) => _container.GetComponent(componentName);
 
-        public object GetComponent(Type componentClass)
-        {
-            return _container.GetComponent(componentClass);
-        }
+        public object GetComponent(Type componentClass) => _container.GetComponent(componentClass);
 
-        public IComponentDef GetComponentDef(string componentName)
-        {
-            return _container.GetComponentDef(componentName);
-        }
+        public IComponentDef GetComponentDef(string componentName) => _container.GetComponentDef(componentName);
 
-        public IComponentDef GetComponentDef(Type componentClass)
-        {
-            return _container.GetComponentDef(componentClass);
-        }
+        public IComponentDef GetComponentDef(Type componentClass) => _container.GetComponentDef(componentClass);
 
-        public void Register(Type componentClass)
-        {
-            _container.Register(componentClass);
-        }
+        public void Register(Type componentClass) => _container.Register(componentClass);
 
-        public void Register(Type componentClass, string componentName)
-        {
-            _container.Register(componentClass, componentName);
-        }
+        public void Register(Type componentClass, string componentName) => _container.Register(componentClass, componentName);
 
-        public void Register(object component)
-        {
-            _container.Register(component);
-        }
+        public void Register(object component) => _container.Register(component);
 
-        public void Register(object component, string componentName)
-        {
-            _container.Register(component, componentName);
-        }
+        public void Register(object component, string componentName) => _container.Register(component, componentName);
 
-        public void Register(IComponentDef componentDef)
-        {
-            _container.Register(componentDef);
-        }
+        public void Register(IComponentDef componentDef) => _container.Register(componentDef);
 
         public void Include(string path)
         {
@@ -98,8 +71,8 @@ namespace Seasar.Framework.Unit
             {
                 return path;
             }
-            string prefix = GetType().FullName.Replace('.', '/');
-            int pos = (prefix.LastIndexOf("/") + 1);
+            var prefix = GetType().FullName.Replace('.', '/');
+            var pos = (prefix.LastIndexOf('/') + 1);
             prefix = prefix.Substring(0, pos);
             return prefix + path;
         }

@@ -40,7 +40,7 @@ namespace Seasar.Quill.Util
         public static void Output(Logger logger, string messageCode, 
             System.Exception exception, params object[] arguments)
         {
-            if (logger == null) throw new ArgumentNullException("logger");
+            if (logger == null) throw new ArgumentNullException(nameof(logger));
             logger.Log(messageCode, arguments, exception, DEFAULT_NAMESPACE);
         }
     }

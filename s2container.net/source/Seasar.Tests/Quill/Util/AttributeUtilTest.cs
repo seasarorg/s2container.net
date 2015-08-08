@@ -1,4 +1,4 @@
-#region Copyright
+﻿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -34,7 +34,7 @@ namespace Seasar.Tests.Quill.Util
         [Test]
         public void TestGetImplementationAttr_属性が指定されていない場合()
         {
-            ImplementationAttribute attr = 
+            var attr = 
                 AttributeUtil.GetImplementationAttr(typeof(Hoge1));
 
             Assert.IsNull(attr);
@@ -45,7 +45,7 @@ namespace Seasar.Tests.Quill.Util
         {
             try
             {
-                ImplementationAttribute attr =
+                var attr =
                     AttributeUtil.GetImplementationAttr(typeof(Hoge2));
                 Assert.Fail();
             }
@@ -61,7 +61,7 @@ namespace Seasar.Tests.Quill.Util
         {
             try
             {
-                ImplementationAttribute attr =
+                var attr =
                     AttributeUtil.GetImplementationAttr(typeof(IFuga1));
                 Assert.Fail();
             }
@@ -77,7 +77,7 @@ namespace Seasar.Tests.Quill.Util
         {
             try
             {
-                ImplementationAttribute attr =
+                var attr =
                     AttributeUtil.GetImplementationAttr(typeof(IFuga2));
                 Assert.Fail();
             }
@@ -93,7 +93,7 @@ namespace Seasar.Tests.Quill.Util
         {
             try
             {
-                ImplementationAttribute attr =
+                var attr =
                     AttributeUtil.GetImplementationAttr(typeof(IFuga3));
                 Assert.Fail();
             }
@@ -107,7 +107,7 @@ namespace Seasar.Tests.Quill.Util
         [Test]
         public void TestGetImplementationAttr_正常な場合()
         {
-            ImplementationAttribute attr =
+            var attr =
                 AttributeUtil.GetImplementationAttr(typeof(IFuga4));
 
             Assert.AreEqual(typeof(Fuga4), attr.ImplementationType);
@@ -161,7 +161,7 @@ namespace Seasar.Tests.Quill.Util
         [Test]
         public void TestGetAspectAttrsByMember_Typeで属性が設定されていない場合()
         {
-            AspectAttribute[] aspectAttrs = 
+            var aspectAttrs = 
                 AttributeUtil.GetAspectAttrsByMember(typeof(AspectHoge1));
 
             Assert.AreEqual(0, aspectAttrs.Length);
@@ -194,7 +194,7 @@ namespace Seasar.Tests.Quill.Util
         [Test]
         public void TestGetAspectAttrsByMember_Methodで属性が設定されていない場合()
         {
-            AspectAttribute[] aspectAttrs =AttributeUtil.GetAspectAttrsByMember(
+            var aspectAttrs =AttributeUtil.GetAspectAttrsByMember(
                 typeof(AspectHoge1).GetMethod("Hoge"));
 
             Assert.AreEqual(0, aspectAttrs.Length);
@@ -256,7 +256,7 @@ namespace Seasar.Tests.Quill.Util
         [Test]
         public void TestGetAspectAttrs()
         {
-            AspectAttribute[] aspectAttrs =
+            var aspectAttrs =
                 AttributeUtil.GetAspectAttrs(typeof(AspectAttrsHoge));
 
             Assert.AreEqual(1, aspectAttrs.Length);
@@ -269,7 +269,7 @@ namespace Seasar.Tests.Quill.Util
         {
             try
             {
-                AspectAttribute[] aspectAttrs =
+                var aspectAttrs =
                     AttributeUtil.GetAspectAttrs(typeof(AspectAttrsHoge2));
                 
                 Assert.Fail();
@@ -301,7 +301,7 @@ namespace Seasar.Tests.Quill.Util
         [Test]
         public void TestGetAspectAttrsByMethod_属性が設定されていない場合()
         {
-            AspectAttribute[] aspectAttrs = AttributeUtil.GetAspectAttrsByMethod(
+            var aspectAttrs = AttributeUtil.GetAspectAttrsByMethod(
                 typeof(AspectAttrMethodHoge1).GetMethod("Hoge"));
 
             Assert.AreEqual(0, aspectAttrs.Length);
@@ -432,7 +432,7 @@ namespace Seasar.Tests.Quill.Util
         {
             try
             {
-                BindingAttribute attr = AttributeUtil.GetBindingAttr(
+                var attr = AttributeUtil.GetBindingAttr(
                     typeof(BindingHoge1).GetField("hoge",
                     BindingFlags.Public | BindingFlags.Static));
 
@@ -447,7 +447,7 @@ namespace Seasar.Tests.Quill.Util
         [Test]
         public void TestGetBindingAttr_属性が設定されていない場合()
         {
-            BindingAttribute attr = AttributeUtil.GetBindingAttr(
+            var attr = AttributeUtil.GetBindingAttr(
                 typeof(BindingHoge2).GetField("hoge", 
                 BindingFlags.Public | BindingFlags.Instance));
 
@@ -457,7 +457,7 @@ namespace Seasar.Tests.Quill.Util
         [Test]
         public void TestGetBindingAttr_コンポーネント名が設定されていない場合()
         {
-            BindingAttribute attr = AttributeUtil.GetBindingAttr(
+            var attr = AttributeUtil.GetBindingAttr(
                 typeof(BindingHoge3).GetField("hoge",
                 BindingFlags.Public | BindingFlags.Instance));
 
@@ -467,7 +467,7 @@ namespace Seasar.Tests.Quill.Util
         [Test]
         public void TestGetBindingAttr_正常な場合()
         {
-            BindingAttribute attr = AttributeUtil.GetBindingAttr(
+            var attr = AttributeUtil.GetBindingAttr(
                 typeof(BindingHoge4).GetField("hoge",
                 BindingFlags.Public | BindingFlags.Instance));
 
@@ -507,7 +507,7 @@ namespace Seasar.Tests.Quill.Util
         [Test]
         public void TestGetMockAttr_Mock属性指定無し()
         {
-            MockAttribute attr = AttributeUtil.GetMockAttr(typeof(TestGetMockAttrNon));
+            var attr = AttributeUtil.GetMockAttr(typeof(TestGetMockAttrNon));
             Assert.IsNull(attr);
         }
 
@@ -516,7 +516,7 @@ namespace Seasar.Tests.Quill.Util
         {
             try
             {
-                MockAttribute attr =
+                var attr =
                     AttributeUtil.GetMockAttr(typeof(TestGetMockAttrNull));
                 Assert.Fail();
             }
@@ -532,7 +532,7 @@ namespace Seasar.Tests.Quill.Util
         {
             try
             {
-                MockAttribute attr =
+                var attr =
                     AttributeUtil.GetMockAttr(typeof(TestGetMockAttrInterface));
                 Assert.Fail();
             }
@@ -548,7 +548,7 @@ namespace Seasar.Tests.Quill.Util
         {
             try
             {
-                MockAttribute attr =
+                var attr =
                     AttributeUtil.GetMockAttr(typeof(TestGetMockAttrAbstract));
                 Assert.Fail();
             }
@@ -564,7 +564,7 @@ namespace Seasar.Tests.Quill.Util
         {
             try
             {
-                MockAttribute attr =
+                var attr =
                     AttributeUtil.GetMockAttr(typeof(TestGetMockAttrIsNotAssign));
                 Assert.Fail();
             }
@@ -578,7 +578,7 @@ namespace Seasar.Tests.Quill.Util
         [Test]
         public void TestGetMockAttr_正常な属性()
         {
-            MockAttribute attr =
+            var attr =
                 AttributeUtil.GetMockAttr(typeof(TestGetMockAttrIsAssign));
 
             Assert.AreEqual(typeof(TestGetMockAttrClass), attr.MockType);

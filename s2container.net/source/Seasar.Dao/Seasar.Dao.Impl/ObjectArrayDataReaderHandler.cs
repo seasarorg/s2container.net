@@ -34,11 +34,12 @@ namespace Seasar.Dao.Impl
 
         public override object Handle(IDataReader dataReader)
         {
-            ArrayList resultList = new ArrayList();
+            var resultList = new ArrayList();
             Handle(dataReader, resultList);
 
-            Array returnArray = Array.CreateInstance(_elementType, resultList.Count);
-            for (int i = 0; i < resultList.Count; i++)
+            var returnArray = ArrayUtil.NewInstance(_elementType, resultList.Count);
+//            var returnArray = Array.CreateInstance(_elementType, resultList.Count);
+            for (var i = 0; i < resultList.Count; i++)
             {
                 returnArray.SetValue(ConversionUtil.ConvertTargetType(resultList[i], _elementType), i);
             }

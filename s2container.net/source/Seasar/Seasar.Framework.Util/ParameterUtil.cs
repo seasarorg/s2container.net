@@ -29,8 +29,8 @@ namespace Seasar.Framework.Util
 
         public static Type[] GetParameterTypes(ParameterInfo[] parameters)
         {
-            Type[] type = new Type[parameters.Length];
-            for (int i = 0; i < parameters.Length; ++i)
+            var type = new Type[parameters.Length];
+            for (var i = 0; i < parameters.Length; ++i)
             {
                 type[i] = parameters[i].ParameterType;
             }

@@ -27,23 +27,17 @@ namespace Seasar.Dao.Impl
         public RelationRowCache(int size)
         {
             _rowMapList = new ArrayList();
-            for (int i = 0; i < size; ++i)
+            for (var i = 0; i < size; ++i)
                 _rowMapList.Add(new Hashtable());
         }
 
-        public object GetRelationRow(int relno, RelationKey key)
-        {
-            return GetRowMap(relno)[key];
-        }
+        public object GetRelationRow(int relno, RelationKey key) => GetRowMap(relno)[key];
 
         public void AddRelationRow(int relno, RelationKey key, object row)
         {
             GetRowMap(relno)[key] = row;
         }
 
-        protected Hashtable GetRowMap(int relno)
-        {
-            return (Hashtable) _rowMapList[relno];
-        }
+        protected Hashtable GetRowMap(int relno) => (Hashtable) _rowMapList[relno];
     }
 }

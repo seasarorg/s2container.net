@@ -16,8 +16,11 @@
  */
 #endregion
 
-
+using System.ComponentModel;
 using System.Drawing;
+using System.Windows.Forms;
+using Seasar.Quill.Properties;
+
 namespace Seasar.Quill
 {
     partial class QuillControl
@@ -25,7 +28,7 @@ namespace Seasar.Quill
         /// <summary> 
         /// 必要なデザイナ変数です。
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary> 
         /// 使用中のリソースをすべてクリーンアップします。
@@ -52,12 +55,12 @@ namespace Seasar.Quill
             // 
             // QuillControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::Seasar.Quill.Properties.Resources.QuillControl;
-            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.AutoScaleDimensions = new SizeF(6F, 12F);
+            this.AutoScaleMode = AutoScaleMode.Font;
+            this.BackgroundImage = Resources.QuillControl;
+            this.BackgroundImageLayout = ImageLayout.None;
             this.Name = "QuillControl";
-            this.Size = new System.Drawing.Size(21, 23);
+            this.Size = new Size(21, 23);
             this.ResumeLayout(false);
         }
 

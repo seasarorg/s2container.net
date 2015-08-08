@@ -25,12 +25,6 @@ namespace Seasar.Tests.Dxo
     /// </summary>
     public class DateValueDateTime
     {
-        private DateTime _dateValue;
-
-        public DateTime DateValue
-        {
-            get { return _dateValue; }
-            set { _dateValue = value; }
-        }
+        public DateTime DateValue { get; set; }
     }
 }

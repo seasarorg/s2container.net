@@ -20,33 +20,12 @@ namespace Seasar.Extension.ADO
 {
     public class DataProvider
     {
-        private string connectionType;
-        private string commandType;
-        private string parameterType;
-        private string dataAdapterType;
+        public string ConnectionType { set; get; }
 
-        public string ConnectionType
-        {
-            set { connectionType = value; }
-            get { return connectionType; }
-        }
+        public string CommandType { set; get; }
 
-        public string CommandType
-        {
-            set { commandType = value; }
-            get { return commandType; }
-        }
+        public string ParameterType { set; get; }
 
-        public string ParameterType
-        {
-            set { parameterType = value; }
-            get { return parameterType; }
-        }
-
-        public string DataAdapterType
-        {
-            set { dataAdapterType = value; }
-            get { return dataAdapterType; }
-        }
+        public string DataAdapterType { set; get; }
     }
 }

@@ -23,7 +23,6 @@ namespace Seasar.Extension.ADO.Impl
 {
     /// <summary>
     /// ADO.NETのデータプロバイダに対応したパラメータマーカー(@, :, ?)に切り替えないクラス。
-    /// <remarks>
     /// <see cref="http://s2dao.net.seasar.org/ja/">S2Dao.NET</see>では、パラメータマーカーを"?"で確保している。
     /// そのため、本クラスは、パラメータマーカーに"?"を使用する以下の.NET Framework Data Provider専用となる。
     /// ・.NET Framework Data Provider for OLE DB 
@@ -48,26 +47,17 @@ namespace Seasar.Extension.ADO.Impl
             _regex = new Regex(pattern, RegexOptions.Compiled);
         }
 
-        public MatchCollection Parse(string sql)
-        {
-            return _regex.Matches(sql);
-        }
+        public MatchCollection Parse(string sql) => _regex.Matches(sql);
 
-        public Match Match(string sql, int startIndex)
-        {
-            return _regex.Match(sql, startIndex);
-        }
+        public Match Match(string sql, int startIndex) => _regex.Match(sql, startIndex);
 
-        public virtual string ChangeSignSql(IDbCommand cmd, string original)
-        {
-            return original;
-        }
+        public virtual string ChangeSignSql(IDbCommand cmd, string original) => original;
 
         public string[] GetArgNames(IDbCommand cmd, object[] args)
         {
-            string[] argNames = new string[args.Length];
-            MatchCollection matchs = Parse(cmd.CommandText);
-            for (int i = 0; i < matchs.Count; i++)
+            var argNames = new string[args.Length];
+            var matchs = Parse(cmd.CommandText);
+            for (var i = 0; i < matchs.Count; i++)
             {
                 argNames[i] = matchs[i].Value;
             }

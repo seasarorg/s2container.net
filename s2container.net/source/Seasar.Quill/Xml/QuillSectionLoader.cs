@@ -35,7 +35,7 @@ namespace Seasar.Quill.Xml
         /// <returns>Quill設定</returns>
         public static QuillSection LoadFromOuterConfig(string path)
         {
-            XmlDocument quillDoc = new XmlDocument();
+            var quillDoc = new XmlDocument();
             //  設定ファイルが存在しない場合はnullとする
             if (path == null || File.Exists(path) == false)
             {
@@ -44,13 +44,8 @@ namespace Seasar.Quill.Xml
             quillDoc.Load(path);
 
             //  quillセクションが含まれない場合もnullとする
-            XmlElement quillElement = quillDoc[QuillConstants.SECTION_ROOT][QuillConstants.QUILL_CONFIG];
-            if (quillElement == null)
-            {
-                return null;
-            }
-
-            return CreateQuillSection(quillElement);
+            var quillElement = quillDoc[QuillConstants.SECTION_ROOT][QuillConstants.QUILL_CONFIG];
+            return quillElement == null ? null : CreateQuillSection(quillElement);
         }
 
         /// <summary>
@@ -60,13 +55,13 @@ namespace Seasar.Quill.Xml
         /// <returns>Quill設定</returns>
         public static QuillSection CreateQuillSection(XmlNode section)
         {
-            QuillSection quillSection = new QuillSection();
-            quillSection.Assemblys = GetAssemblyConfig(section);
-            quillSection.DataSources = GetDataSourceConfig(section);
-            quillSection.DaoSetting = ConfigSectionUtil.GetElementValue(
-                section, QuillConstants.CONFIG_DAO_SETTING_KEY);
-            quillSection.TransactionSetting = ConfigSectionUtil.GetElementValue(
-                section, QuillConstants.CONFIG_TX_SETTING_KEY);
+            var quillSection = new QuillSection
+            {
+                Assemblys = _GetAssemblyConfig(section),
+                DataSources = _GetDataSourceConfig(section),
+                DaoSetting = ConfigSectionUtil.GetElementValue(section, QuillConstants.CONFIG_DAO_SETTING_KEY),
+                TransactionSetting = ConfigSectionUtil.GetElementValue(section, QuillConstants.CONFIG_TX_SETTING_KEY)
+            };
             return quillSection;
         }
 
@@ -77,10 +72,10 @@ namespace Seasar.Quill.Xml
         /// </summary>
         /// <param name="quillElement"></param>
         /// <returns></returns>
-        private static IList GetDataSourceConfig(XmlNode quillElement)
+        private static IList _GetDataSourceConfig(XmlNode quillElement)
         {
             return ConfigSectionUtil.GetListConfig(quillElement, QuillConstants.CONFIG_DATASOURCES_KEY,
-                QuillConstants.CONFIG_DATASOURCE_KEY, Invoke_GetDataSourceConfig);
+                QuillConstants.CONFIG_DATASOURCE_KEY, _InvokeGetDataSourceConfig);
         }
 
 
@@ -89,10 +84,10 @@ namespace Seasar.Quill.Xml
         /// </summary>
         /// <param name="quillElement"></param>
         /// <returns></returns>
-        private static IList GetAssemblyConfig(XmlNode quillElement)
+        private static IList _GetAssemblyConfig(XmlNode quillElement)
         {
             return ConfigSectionUtil.GetListConfig(quillElement, QuillConstants.CONFIG_ASSEMBLYS_KEY,
-                QuillConstants.CONFIG_ASSEMBLY_KEY, Invoke_GetAssemblyConfig);
+                QuillConstants.CONFIG_ASSEMBLY_KEY, _InvokeGetAssemblyConfig);
         }
 
         /// <summary>
@@ -100,9 +95,9 @@ namespace Seasar.Quill.Xml
         /// </summary>
         /// <param name="list"></param>
         /// <param name="node"></param>
-        private static void Invoke_GetDataSourceConfig(IList list, XmlNode node)
+        private static void _InvokeGetDataSourceConfig(IList list, XmlNode node)
         {
-            DataSourceSection dsSection = new DataSourceSection();
+            var dsSection = new DataSourceSection();
 
             //  データソース名
             dsSection.DataSourceName = ConfigSectionUtil.GetAttributeValue(
@@ -128,7 +123,7 @@ namespace Seasar.Quill.Xml
         /// </summary>
         /// <param name="list"></param>
         /// <param name="node"></param>
-        private static void Invoke_GetAssemblyConfig(IList list, XmlNode node)
+        private static void _InvokeGetAssemblyConfig(IList list, XmlNode node)
         {
             list.Add(node.InnerText);
         }

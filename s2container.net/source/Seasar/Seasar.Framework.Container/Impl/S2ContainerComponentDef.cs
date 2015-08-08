@@ -33,10 +33,7 @@ namespace Seasar.Framework.Container.Impl
         /// <summary>
         /// S2Container
         /// </summary>
-        public new IS2Container Container
-        {
-            get { return (IS2Container) base.GetComponent(); }
-        }
+        public new IS2Container Container => (IS2Container) base.GetComponent();
 
         /// <summary>
         /// コンポーネント

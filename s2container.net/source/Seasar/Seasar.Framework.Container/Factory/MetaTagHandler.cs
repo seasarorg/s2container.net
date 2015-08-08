@@ -17,8 +17,8 @@
 #endregion
 
 using Seasar.Framework.Container.Impl;
-using Seasar.Framework.Xml;
 using Seasar.Framework.Util;
+using Seasar.Framework.Xml;
 
 namespace Seasar.Framework.Container.Factory
 {
@@ -26,18 +26,18 @@ namespace Seasar.Framework.Container.Factory
     {
         public override void Start(TagHandlerContext context, IAttributes attributes)
         {
-            string name = attributes["name"];
+            var name = attributes["name"];
             context.Push(new MetaDefImpl(name));
         }
 
         public override void End(TagHandlerContext context, string body)
         {
-            IMetaDef metaDef = (IMetaDef) context.Pop();
+            var metaDef = (IMetaDef) context.Pop();
             if (!StringUtil.IsEmpty(body))
             {
                 metaDef.Expression = body;
             }
-            IMetaDefAware metaDefAware = (IMetaDefAware) context.Peek();
+            var metaDefAware = (IMetaDefAware) context.Peek();
             metaDefAware.AddMetaDef(metaDef);
         }
     }

@@ -19,49 +19,24 @@
 using System.Data.SqlTypes;
 using System.Text;
 using Seasar.Dao.Attrs;
+using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Dao.Impl
 {
     [Table("EMP")]
     public class Employee
     {
-        private long _empno;
-        private string _ename;
-        private string _job;
-        private SqlInt16 _mgr;
         //        private SqlDateTime hiredate;
-        private SqlSingle _sal;
-        private SqlSingle _comm;
-        private int _deptno;
-        private byte[] _password;
-        private string _dummy;
-        private Department _department;
         //        private SqlDateTime timestamp;
 
-        public long Empno
-        {
-            set { _empno = value; }
-            get { return _empno; }
-        }
+        public long Empno { set; get; }
 
-        public string Ename
-        {
-            set { _ename = value; }
-            get { return _ename; }
-        }
+        public string Ename { set; get; }
 
         [Column("Job")]
-        public string JobName
-        {
-            set { _job = value; }
-            get { return _job; }
-        }
+        public string JobName { set; get; }
 
-        public SqlInt16 Mgr
-        {
-            set { _mgr = value; }
-            get { return _mgr; }
-        }
+        public SqlInt16 Mgr { set; get; }
 
         //        public SqlDateTime Hiredate
         //        {
@@ -69,42 +44,18 @@ namespace Seasar.Tests.Dao.Impl
         //            get { return hiredate; }
         //        }
 
-        public SqlSingle Sal
-        {
-            set { _sal = value; }
-            get { return _sal; }
-        }
+        public SqlSingle Sal { set; get; }
 
-        public SqlSingle Comm
-        {
-            set { _comm = value; }
-            get { return _comm; }
-        }
+        public SqlSingle Comm { set; get; }
 
-        public int Deptno
-        {
-            set { _deptno = value; }
-            get { return _deptno; }
-        }
+        public int Deptno { set; get; }
 
-        public byte[] Password
-        {
-            set { _password = value; }
-            get { return _password; }
-        }
+        public byte[] Password { set; get; }
 
-        public string Dummy
-        {
-            set { _dummy = value; }
-            get { return _dummy; }
-        }
+        public string Dummy { set; get; }
 
         [Relno(0)]
-        public Department Department
-        {
-            set { _department = value; }
-            get { return _department; }
-        }
+        public Department Department { set; get; }
 
         //        [Column("tstamp")]
         //        public SqlDateTime Timestamp
@@ -115,29 +66,29 @@ namespace Seasar.Tests.Dao.Impl
 
         public bool equals(object other)
         {
-            if (!(other.GetType() == typeof(Employee))) return false;
-            Employee castOther = (Employee) other;
+            if (!(other.GetExType() == typeof(Employee))) return false;
+            var castOther = (Employee) other;
             return Empno == castOther.Empno;
         }
 
-        public int hashCode()
+        public int HashCode()
         {
             return (int) Empno;
         }
 
         public override string ToString()
         {
-            StringBuilder buf = new StringBuilder(50);
-            buf.Append(_empno).Append(", ");
-            buf.Append(_ename).Append(", ");
-            buf.Append(_job).Append(", ");
-            buf.Append(_mgr).Append(", ");
+            var buf = new StringBuilder(50);
+            buf.Append(Empno).Append(", ");
+            buf.Append(Ename).Append(", ");
+            buf.Append(JobName).Append(", ");
+            buf.Append(Mgr).Append(", ");
             //            buf.Append(hiredate).Append(", ");
-            buf.Append(_sal).Append(", ");
-            buf.Append(_comm).Append(", ");
-            buf.Append(_deptno).Append(", ");
+            buf.Append(Sal).Append(", ");
+            buf.Append(Comm).Append(", ");
+            buf.Append(Deptno).Append(", ");
             //            buf.Append(timestamp).Append(", ");
-            buf.Append(_department);
+            buf.Append(Department);
             return buf.ToString();
         }
     }

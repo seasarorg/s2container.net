@@ -36,10 +36,10 @@ namespace Seasar.Extension.DataSets.States
         protected override string GetSql(DataTable table)
         {
             string sql;
-            WeakReference reference = (WeakReference) _sqlCache[table];
+            var reference = (WeakReference) _sqlCache[table];
             if (reference == null || !reference.IsAlive)
             {
-                sql = CreateSql(table);
+                sql = _CreateSql(table);
                 _sqlCache.Add(table, new WeakReference(sql));
             }
             else
@@ -49,9 +49,9 @@ namespace Seasar.Extension.DataSets.States
             return sql;
         }
 
-        private static string CreateSql(DataTable table)
+        private static string _CreateSql(DataTable table)
         {
-            StringBuilder buf = new StringBuilder(100);
+            var buf = new StringBuilder(100);
             buf.Append("UPDATE ");
             buf.Append(table.TableName);
             buf.Append(" SET ");
@@ -80,19 +80,19 @@ namespace Seasar.Extension.DataSets.States
 
         protected override object[] GetArgs(DataRow row)
         {
-            DataTable table = row.Table;
-            ArrayList bindVariables = new ArrayList();
-            for (int i = 0; i < table.Columns.Count; ++i)
+            var table = row.Table;
+            var bindVariables = new ArrayList();
+            for (var i = 0; i < table.Columns.Count; ++i)
             {
-                DataColumn column = table.Columns[i];
+                var column = table.Columns[i];
                 if (!column.ReadOnly && !DataTableUtil.IsPrimaryKey(table, column))
                 {
                     bindVariables.Add(row[i]);
                 }
             }
-            for (int i = 0; i < table.Columns.Count; ++i)
+            for (var i = 0; i < table.Columns.Count; ++i)
             {
-                DataColumn column = table.Columns[i];
+                var column = table.Columns[i];
                 if (DataTableUtil.IsPrimaryKey(table, column))
                 {
                     bindVariables.Add(row[i]);

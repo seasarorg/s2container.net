@@ -16,8 +16,8 @@
  */
 #endregion
 
-using System;
 using System.Collections;
+using Seasar.Framework.Util;
 
 namespace Seasar.Extension.Unit
 {
@@ -25,9 +25,9 @@ namespace Seasar.Extension.Unit
     {
         public BeanListReader(IList list)
         {
-            Type beanType = list[0].GetType();
+            var beanType = list[0].GetExType();
             SetupColumns(beanType);
-            foreach (object bean in list)
+            foreach (var bean in list)
             {
                 SetupRow(beanType, bean);
             }

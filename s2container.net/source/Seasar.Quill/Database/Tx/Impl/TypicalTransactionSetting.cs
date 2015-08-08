@@ -1,4 +1,4 @@
-#region Copyright
+﻿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -16,12 +16,12 @@
  */
 #endregion
 
-using System;
 using System.Data;
 using Seasar.Extension.ADO;
 using Seasar.Extension.Tx;
 using Seasar.Extension.Tx.Impl;
 using Seasar.Framework.Aop;
+using Seasar.Framework.Util;
 using Seasar.Quill.Database.DataSource.Impl;
 
 namespace Seasar.Quill.Database.Tx.Impl
@@ -34,10 +34,7 @@ namespace Seasar.Quill.Database.Tx.Impl
         /// <summary>
         /// トランザクション分離レベル
         /// </summary>
-        protected virtual IsolationLevel IsolationLevel
-        {
-            get { return System.Data.IsolationLevel.ReadCommitted; }
-        }
+        protected virtual IsolationLevel IsolationLevel => IsolationLevel.ReadCommitted;
 
         /// <summary>
         /// トランザクション設定のセットアップ
@@ -46,23 +43,24 @@ namespace Seasar.Quill.Database.Tx.Impl
         protected override void SetupTransaction(IDataSource dataSource)
         {
             //  TransactionContext
-            _transactionContext = CreateTransactionContext();
-            TransactionContext txContext = (TransactionContext)_transactionContext;
+            transactionContext = CreateTransactionContext();
+            var txContext = (TransactionContext)transactionContext;
             txContext.DataSouce = dataSource;
-            txContext.IsolationLevel = this.IsolationLevel;
+            txContext.IsolationLevel = IsolationLevel;
 
             //  TransactionContextを使用するデータソースにも設定
-            Type dataSourceType = dataSource.GetType();
+            var dataSourceType = dataSource.GetExType();
             if (typeof(SelectableDataSourceProxyWithDictionary).IsAssignableFrom(dataSourceType))
             {
-                SelectableDataSourceProxyWithDictionary dataSourceProxyWithDictionary
+                var dataSourceProxyWithDictionary
                     = (SelectableDataSourceProxyWithDictionary)dataSource;
                 if (!string.IsNullOrEmpty(DataSourceName))
                 {
-                    IDataSource usingDataSource = dataSourceProxyWithDictionary.GetDataSource(DataSourceName);
-                    if (usingDataSource is TxDataSource)
+                    var usingDataSource = dataSourceProxyWithDictionary.GetDataSource(DataSourceName);
+                    var txDataSource = usingDataSource as TxDataSource;
+                    if (txDataSource != null)
                     {
-                        ((TxDataSource)usingDataSource).Context = txContext;
+                        txDataSource.Context = txContext;
                     }
                 }
                 else
@@ -76,16 +74,18 @@ namespace Seasar.Quill.Database.Tx.Impl
                 ((TxDataSource)dataSource).Context = txContext;
             }
 
-            ITransactionHandler handler = CreateTransactionHandler();
-            if(handler is AbstractLocalTxHandler)
+            var handler = CreateTransactionHandler();
+            var localTxHandler = handler as AbstractLocalTxHandler;
+            if(localTxHandler != null)
             {
-                ((AbstractLocalTxHandler)handler).Context = txContext;
+                localTxHandler.Context = txContext;
             }
 
-            _transactionInterceptor = CreateTransactionInterceptor(handler);
-            if(_transactionInterceptor is TransactionInterceptor)
+            transactionInterceptor = CreateTransactionInterceptor(handler);
+            var interceptor = transactionInterceptor as TransactionInterceptor;
+            if(interceptor != null)
             {
-                ((TransactionInterceptor)_transactionInterceptor).TransactionStateHandler
+                interceptor.TransactionStateHandler
                 = txContext;
             }
         }
@@ -94,28 +94,19 @@ namespace Seasar.Quill.Database.Tx.Impl
         /// TransactionContextインスタンスの生成
         /// </summary>
         /// <returns></returns>
-        protected virtual ITransactionContext CreateTransactionContext()
-        {
-            return new TransactionContext();
-        }
+        protected virtual ITransactionContext CreateTransactionContext() => new TransactionContext();
 
         /// <summary>
         /// Transactionハンドラ生成
         /// </summary>
         /// <returns></returns>
-        protected virtual ITransactionHandler CreateTransactionHandler()
-        {
-            return new LocalRequiredTxHandler();
-        }
+        protected virtual ITransactionHandler CreateTransactionHandler() => new LocalRequiredTxHandler();
 
         /// <summary>
         /// TransactionInterceptorインスタンスの生成
         /// </summary>
         /// <param name="handler"></param>
         /// <returns></returns>
-        protected virtual IMethodInterceptor CreateTransactionInterceptor(ITransactionHandler handler)
-        {
-            return new TransactionInterceptor(handler);
-        }
+        protected virtual IMethodInterceptor CreateTransactionInterceptor(ITransactionHandler handler) => new TransactionInterceptor(handler);
     }
 }

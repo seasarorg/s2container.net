@@ -25,12 +25,12 @@ namespace Seasar.Tests.Framework.Container.Impl
     [TestFixture]
     public class NestIncludeTest
     {
-        private const string PATH = "Seasar/Tests/Framework/Container/Impl/test3.dicon";
+        private const string PATH = "Seasar/Tests/Framework/container/Impl/test3.dicon";
 
         [Test]
         public void TestInclude()
         {
-            IS2Container container = S2ContainerFactory.Create(PATH);
+            var container = S2ContainerFactory.Create(PATH);
             container.Init();
             container.Destroy();
         }

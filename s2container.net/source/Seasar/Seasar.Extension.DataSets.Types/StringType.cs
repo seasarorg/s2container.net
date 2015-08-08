@@ -32,11 +32,8 @@ namespace Seasar.Extension.DataSets.Types
             {
                 return DBNull.Value;
             }
-            string s = StringConversionUtil.ToString(value, formatPattern);
-            if (s != null)
-            {
-                s = s.Trim();
-            }
+            var s = StringConversionUtil.ToString(value, formatPattern);
+            s = s?.Trim();
             if (s == string.Empty)
             {
                 s = null;
@@ -44,20 +41,11 @@ namespace Seasar.Extension.DataSets.Types
             return s;
         }
 
-        public override string ToDbTypeString()
-        {
-            return "VARCHAR";
-        }
+        public override string ToDbTypeString() => "VARCHAR";
 
-        public override DbType GetDbType()
-        {
-            return DbType.String;
-        }
+        public override DbType GetDbType() => DbType.String;
 
-        public override Type GetColumnType()
-        {
-            return typeof(string);
-        }
+        public override Type GetColumnType() => typeof(string);
 
         #endregion
     }

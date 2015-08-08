@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -27,7 +27,7 @@ using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Extension.DataSets.Impl
 {
-    [Ignore("Microsoft.Jet.OLEDB4.0‚Í32bitOS‚Å‚µ‚©“®ì‚µ‚È‚¢‚½‚ß“®‚©‚¹‚¸B•Û—¯B")]
+    [Ignore("Microsoft.Jet.OLEDB4.0ã¯32bitOSã§ã—ã‹å‹•ä½œã—ãªã„ãŸã‚å‹•ã‹ã›ãšã€‚ä¿ç•™ã€‚")]
     [TestFixture]
     public class XlsWriterTest : S2TestCase
     {
@@ -39,7 +39,7 @@ namespace Seasar.Tests.Extension.DataSets.Impl
         [SetUp]
         public void SetUp()
         {
-            using (Stream stream = ResourceUtil.GetResourceAsStream(PATH, Assembly.GetExecutingAssembly()))
+            using (var stream = ResourceUtil.GetResourceAsStream(PATH, Assembly.GetExecutingAssembly()))
             {
                 _dataSet = new XlsReader(stream).Read();
             }
@@ -56,7 +56,7 @@ namespace Seasar.Tests.Extension.DataSets.Impl
             }
         }
 
-        [Ignore("Microsoft.Jet.OLEDB4.0‚Í32bitOS‚Å‚µ‚©“®ì‚µ‚È‚¢‚½‚ß“®‚©‚¹‚¸B•Û—¯B")]
+        [Ignore("Microsoft.Jet.OLEDB4.0ã¯32bitOSã§ã—ã‹å‹•ä½œã—ãªã„ãŸã‚å‹•ã‹ã›ãšã€‚ä¿ç•™ã€‚")]
         [Test]
         public void TestWrite()
         {

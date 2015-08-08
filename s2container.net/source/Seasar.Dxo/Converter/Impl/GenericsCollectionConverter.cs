@@ -23,11 +23,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Seasar.Dxo.Exception;
+using Seasar.Framework.Util;
 
 namespace Seasar.Dxo.Converter.Impl
 {
     /// <summary>
-    /// オブジェクトをICollection<typeparam name="T">へ変換するコンバータ実装クラス
+    /// オブジェクトをICollection<typeparam name="T"/>へ変換するコンバータ実装クラス
     /// </summary>
     public class GenericsCollectionConverter<T> : AbstractPropertyConverter
     {
@@ -49,12 +50,13 @@ namespace Seasar.Dxo.Converter.Impl
             if (dest == null)
             {
                 if (expectType.IsClass && !expectType.IsAbstract)
-                    dest = Activator.CreateInstance(expectType);
+                    dest = ClassUtil.NewInstance(expectType);
+//                    dest = Activator.CreateInstance(expectType);
                 else
                     throw new DxoException(String.Format(DxoMessages.EDXO0001, "expectType"));
 //                throw new DxoException("expectTypeは具象クラスではないので実体化することができない");
             }
-            ICollection<T> result = dest as ICollection<T>;
+            var result = dest as ICollection<T>;
             if (result != null)
             {
                 result.Clear();
@@ -69,22 +71,13 @@ namespace Seasar.Dxo.Converter.Impl
                         }
                         return true;
                     }
-                    else if (source is IList<T>)
-                    {
-                        //ジェネリックも直接コピーできる
-                        foreach (T o in source as IList<T>)
-                        {
-                            result.Add(o);
-                        }
-                        return true;
-                    }
-                    else if (source.GetType().IsArray)
+                    else if (source.GetExType().IsArray)
                     {
                         //要素の型に互換性があるか
-                        Type elementType = source.GetType().GetElementType();
+                        var elementType = source.GetExType().GetElementType();
                         if (typeof(T).IsAssignableFrom(elementType))
                         {
-                            foreach (T item in (T[])source)
+                            foreach (T item in source as T[])
                             {
                                 result.Add(item);
                             }
@@ -93,10 +86,10 @@ namespace Seasar.Dxo.Converter.Impl
                     }
                     else
                     {
-                        foreach (object item in source as IEnumerable)
+                        foreach (var item in source as IEnumerable)
                         {
                             //ヘテロジニアスなコレクションの可能性があるので、アイテム毎に型チェックが必要
-                            if (typeof(T).IsAssignableFrom(item.GetType()))
+                            if (typeof(T).IsAssignableFrom(item.GetExType()))
                             {
                                 result.Add((T)item);
                             }

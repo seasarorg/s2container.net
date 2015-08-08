@@ -17,8 +17,8 @@
 #endregion
 
 using System;
-using Seasar.Framework.Beans.Factory;
 using System.Reflection;
+using Seasar.Framework.Beans.Factory;
 
 namespace Seasar.Framework.Beans.Impl
 {
@@ -34,26 +34,17 @@ namespace Seasar.Framework.Beans.Impl
         /// <summary>
         /// 元となるプロパティ情報
         /// </summary>
-        public virtual PropertyInfo Property
-        {
-            get { return _propertyInfo; }
-        }
+        public virtual PropertyInfo Property => _propertyInfo;
 
         /// <summary>
         /// プロパティ名
         /// </summary>
-        public virtual string Name
-        {
-            get { return _propertyInfo.Name; }
-        }
+        public virtual string Name => _propertyInfo.Name;
 
         /// <summary>
         /// プロパティの型
         /// </summary>
-        public virtual Type PropertyType
-        {
-            get { return _propertyInfo.PropertyType; }
-        }
+        public virtual Type PropertyType => _propertyInfo.PropertyType;
 
         /// <summary>
         /// getterメソッド
@@ -65,11 +56,10 @@ namespace Seasar.Framework.Beans.Impl
             {
                 if (_readMethod == null)
                 {
-                    MethodInfo mi = _propertyInfo.GetGetMethod();
+                    var mi = _propertyInfo.GetGetMethod();
                     if (mi == null)
                     {
-                        throw new MethodNotFoundRuntimeException(_propertyInfo.DeclaringType,
-                            "get", null);
+                        throw new MethodNotFoundRuntimeException(_propertyInfo.DeclaringType, "get", null);
                     }
                     _readMethod = MethodDescFactory.NewMethodDesc(mi);
                 }
@@ -87,11 +77,10 @@ namespace Seasar.Framework.Beans.Impl
             {
                 if (_writeMethod == null)
                 {
-                    MethodInfo mi = _propertyInfo.GetSetMethod();
+                    var mi = _propertyInfo.GetSetMethod();
                     if (mi == null)
                     {
-                        throw new MethodNotFoundRuntimeException(_propertyInfo.DeclaringType,
-                            "set", null);
+                        throw new MethodNotFoundRuntimeException(_propertyInfo.DeclaringType, "set", null);
                     }
                     _writeMethod = MethodDescFactory.NewMethodDesc(mi);
                 }
@@ -112,19 +101,13 @@ namespace Seasar.Framework.Beans.Impl
         /// getterメソッドを持っているかどうか返します。
         /// </summary>
         /// <returns>getterメソッドを持っているかどうか</returns>
-        public virtual bool HasReadMethod()
-        {
-            return _propertyInfo.CanRead;
-        }
+        public virtual bool HasReadMethod() => _propertyInfo.CanRead;
 
         /// <summary>
         /// setterメソッドを持っているかどうか返します。
         /// </summary>
         /// <returns>setterメソッドを持っているかどうか</returns>
-        public virtual bool HasWriteMethod()
-        {
-            return _propertyInfo.CanWrite;
-        }
+        public virtual bool HasWriteMethod() => _propertyInfo.CanWrite;
 
         /// <summary>
         /// プロパティの値を返します。
@@ -140,8 +123,7 @@ namespace Seasar.Framework.Beans.Impl
             }
             catch (Exception ex)
             {
-                throw new IllegalPropertyRuntimeException(
-                    _propertyInfo.DeclaringType, Name, ex);
+                throw new IllegalPropertyRuntimeException(_propertyInfo.DeclaringType, Name, ex);
             }
         }
 
@@ -159,8 +141,7 @@ namespace Seasar.Framework.Beans.Impl
             }
             catch (Exception ex)
             {
-                throw new IllegalPropertyRuntimeException(
-                    _propertyInfo.DeclaringType, Name, ex);
+                throw new IllegalPropertyRuntimeException(_propertyInfo.DeclaringType, Name, ex);
             }
         }
     }

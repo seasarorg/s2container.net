@@ -52,8 +52,8 @@ namespace Seasar.Tests.Framework.Aop.Interceptors
         [Test]
         public void TestInvoke()
         {
-            GoodMorning gm = CreateProxy(_target, typeof(GoodMorning)) as GoodMorning;
-            string result = gm.Greeting();
+            var gm = CreateProxy(_target, typeof(GoodMorning)) as GoodMorning;
+            var result = gm.Greeting();
             Trace.WriteLine(result);
             Assert.AreEqual(TestMessage4InterceptorChain.ECHO, result);
         }

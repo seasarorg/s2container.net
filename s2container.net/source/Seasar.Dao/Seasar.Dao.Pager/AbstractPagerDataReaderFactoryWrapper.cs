@@ -33,32 +33,22 @@ namespace Seasar.Dao.Pager
     {
         private static readonly Logger _logger = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private static readonly Regex _baseSqlRegex = new Regex("^.*?(SELECT)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        protected static readonly Regex _orderBySqlRegex = new Regex(
+        protected static readonly Regex orderBySqlRegex = new Regex(
             "order\\s+by\\s+([\\w\\p{L}.`\\[\\]]+(\\s+(asc|desc))?|([\\w\\p{L}.`\\[\\]]+(\\s+(asc|desc))?\\s*,\\s*)+[\\w\\p{L}.`\\[\\]])+(\\s+(asc|desc))?\\s*$",
             RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        public AbstractPagerDataReaderFactoryWrapper(
+        protected AbstractPagerDataReaderFactoryWrapper(
             IDataReaderFactory dataReaderFactory,
             ICommandFactory commandFactory
             )
         {
-            _dataReaderFactory = dataReaderFactory;
-            _commandFactory = commandFactory;
+            DataReaderFactory = dataReaderFactory;
+            CommandFactory = commandFactory;
         }
 
-        private IDataReaderFactory _dataReaderFactory;
+        protected IDataReaderFactory DataReaderFactory { get; }
 
-        protected IDataReaderFactory DataReaderFactory
-        {
-            get { return _dataReaderFactory; }
-        }
-
-        private ICommandFactory _commandFactory;
-
-        protected ICommandFactory CommandFactory
-        {
-            get { return _commandFactory; }
-        }
+        protected ICommandFactory CommandFactory { get; }
 
         private bool _chopOrderBy = true;
 
@@ -69,7 +59,7 @@ namespace Seasar.Dao.Pager
 
         protected virtual int GetCount(IDataSource dataSource, IDbCommand cmd, string baseSql)
         {
-            string countSql = MakeCountSql(baseSql);
+            var countSql = MakeCountSql(baseSql);
             if (_logger.IsDebugEnabled)
             {
                 _logger.Debug("S2Pager execute SQL : " + countSql);
@@ -79,17 +69,17 @@ namespace Seasar.Dao.Pager
             IDataReader reader = null;
             try
             {
-                countCmd = _commandFactory.CreateCommand(cmd.Connection, countSql);
+                countCmd = CommandFactory.CreateCommand(cmd.Connection, countSql);
                 foreach (IDbDataParameter src in cmd.Parameters)
                 {
-                    IDbDataParameter desc = countCmd.CreateParameter();
+                    var desc = countCmd.CreateParameter();
                     desc.ParameterName = src.ParameterName;
                     desc.DbType = src.DbType;
                     desc.Value = src.Value;
                     desc.Direction = src.Direction;
                     countCmd.Parameters.Add(desc);
                 }
-                reader = _dataReaderFactory.CreateDataReader(dataSource, countCmd);
+                reader = DataReaderFactory.CreateDataReader(dataSource, countCmd);
                 if (reader.Read())
                 {
                     return (int) ValueTypes.INT32.GetValue(reader, 0);
@@ -108,8 +98,8 @@ namespace Seasar.Dao.Pager
 
         protected string GetBaseSql(IDbCommand cmd)
         {
-            string sql = cmd.CommandText;
-            MatchCollection matchs = _baseSqlRegex.Matches(sql);
+            var sql = cmd.CommandText;
+            var matchs = _baseSqlRegex.Matches(sql);
             if (matchs.Count != 0)
             {
                 return _baseSqlRegex.Replace(sql, matchs[0].Value, 1);
@@ -122,12 +112,12 @@ namespace Seasar.Dao.Pager
 
         protected string RemoveOrderBySql(string baseSql)
         {
-            return _orderBySqlRegex.Replace(baseSql, string.Empty);
+            return orderBySqlRegex.Replace(baseSql, string.Empty);
         }
 
         protected string GetOrderBySql(string baseSql)
         {
-            MatchCollection matchs = _orderBySqlRegex.Matches(baseSql);
+            var matchs = orderBySqlRegex.Matches(baseSql);
             if (matchs.Count != 0)
             {
                 return matchs[0].Value;
@@ -140,7 +130,7 @@ namespace Seasar.Dao.Pager
 
         protected string MakeCountSql(string baseSql)
         {
-            StringBuilder buf = new StringBuilder("SELECT COUNT(*) FROM (");
+            var buf = new StringBuilder("SELECT COUNT(*) FROM (");
             if (_chopOrderBy)
             {
                 buf.Append(RemoveOrderBySql(baseSql));

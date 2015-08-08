@@ -19,9 +19,7 @@
 using System;
 using System.Data;
 using System.Data.SqlTypes;
-using System.Reflection;
 using System.Text;
-using System.Text.RegularExpressions;
 using Seasar.Framework.Util;
 
 #if NHIBERNATE_NULLABLES
@@ -36,12 +34,6 @@ namespace Seasar.Extension.ADO.Impl
 
         private readonly IDbParameterParser _parser;
 
-        private string sqlLogDateFormat = "yyyy-MM-dd";
-
-        private string sqlLogDateTimeFormat = "yyyy-MM-dd HH.mm.ss";
-
-        private int commandTimeout = -1;
-
         public BasicCommandFactory()
             : this(BasicDbParameterParser.INSTANCE)
         {
@@ -52,33 +44,21 @@ namespace Seasar.Extension.ADO.Impl
             _parser = dbParameterParser;
         }
 
-        public string SqlLogDateFormat
-        {
-            get { return sqlLogDateFormat; }
-            set { sqlLogDateFormat = value; }
-        }
+        public string SqlLogDateFormat { get; set; } = "yyyy-MM-dd";
 
-        public string SqlLogDateTimeFormat
-        {
-            get { return sqlLogDateTimeFormat; }
-            set { sqlLogDateTimeFormat = value; }
-        }
+        public string SqlLogDateTimeFormat { get; set; } = "yyyy-MM-dd HH.mm.ss";
 
-        public int CommandTimeout
-        {
-            get { return commandTimeout; }
-            set { commandTimeout = value; }
-        }
+        public int CommandTimeout { get; set; } = -1;
 
         #region ICommandFactory ƒƒ“ƒo
 
         public virtual IDbCommand CreateCommand(IDbConnection con, string sql)
         {
-            IDbCommand cmd = con.CreateCommand();
+            var cmd = con.CreateCommand();
             cmd.CommandText = ChangeSignSql(cmd, sql);
-            if (commandTimeout > -1)
+            if (CommandTimeout > -1)
             {
-                cmd.CommandTimeout = commandTimeout;
+                cmd.CommandTimeout = CommandTimeout;
             }
             return cmd;
         }
@@ -90,7 +70,7 @@ namespace Seasar.Extension.ADO.Impl
                 return sql;
             }
             _parser.Parse(sql);
-            return ReplaceSql(sql, args);
+            return _ReplaceSql(sql, args);
         }
 
         public string[] GetArgNames(IDbCommand cmd, object[] args)
@@ -124,17 +104,17 @@ namespace Seasar.Extension.ADO.Impl
             return _parser.ChangeSignSql(cmd, original);
         }
 
-        private string ReplaceSql(string sql, object[] args)
+        private string _ReplaceSql(string sql, object[] args)
         {
-            StringBuilder text = new StringBuilder(sql);
+            var text = new StringBuilder(sql);
             for (int startIndex = 0, argsIndex = 0; argsIndex < args.Length; ++argsIndex)
             {
-                Match match = _parser.Match(text.ToString(), startIndex);
+                var match = _parser.Match(text.ToString(), startIndex);
                 if (!match.Success)
                 {
                     break;
                 }
-                string newValue = GetBindVariableText(args[argsIndex]);
+                var newValue = GetBindVariableText(args[argsIndex]);
                 text.Replace(match.Value, newValue, match.Index, match.Length);
                 startIndex = match.Index + newValue.Length;
             }
@@ -145,15 +125,16 @@ namespace Seasar.Extension.ADO.Impl
         {
             if (bindVariable is INullable)
             {
-                INullable nullable = bindVariable as INullable;
+                var nullable = bindVariable as INullable;
                 if (nullable.IsNull)
                 {
                     return GetBindVariableText(null);
                 }
                 else
                 {
-                    PropertyInfo pi = bindVariable.GetType().GetProperty("Value");
-                    return GetBindVariableText(pi.GetValue(bindVariable, null));
+                    var pi = bindVariable.GetExType().GetProperty("Value");
+//                    return GetBindVariableText(pi.GetValue(bindVariable, null));
+                    return GetBindVariableText(PropertyUtil.GetValue(bindVariable, bindVariable.GetExType(), pi.Name));
                 }
             }
 #if NHIBERNATE_NULLABLES
@@ -166,7 +147,7 @@ namespace Seasar.Extension.ADO.Impl
                 }
                 else
                 {
-                    PropertyInfo pi = bindVariable.GetType().GetProperty("Value");
+                    PropertyInfo pi = bindVariable.GetExType().GetProperty("Value");
                     return GetBindVariableText(pi.GetValue(bindVariable, null));
                 }
             }
@@ -179,7 +160,7 @@ namespace Seasar.Extension.ADO.Impl
             {
                 return "null";
             }
-            else if (bindVariable.GetType().IsPrimitive)
+            else if (bindVariable.GetExType().IsPrimitive)
             {
                 return bindVariable.ToString();
             }
@@ -202,9 +183,9 @@ namespace Seasar.Extension.ADO.Impl
             {
                 return bindVariable.ToString();
             }
-            else if (bindVariable.GetType().IsEnum)
+            else if (bindVariable.GetExType().IsEnum)
             {
-                object o = Convert.ChangeType(bindVariable, Enum.GetUnderlyingType(bindVariable.GetType()));
+                var o = Convert.ChangeType(bindVariable, Enum.GetUnderlyingType(bindVariable.GetExType()));
                 return o.ToString();
             }
             else

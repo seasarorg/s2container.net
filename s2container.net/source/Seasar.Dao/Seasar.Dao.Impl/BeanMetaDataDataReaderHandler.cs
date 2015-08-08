@@ -16,10 +16,8 @@
  */
 #endregion
 
-using System.Collections.Generic;
 using System.Data;
-using System.Reflection;
-using Seasar.Extension.ADO;
+using Seasar.Framework.Util;
 
 namespace Seasar.Dao.Impl
 {
@@ -35,21 +33,21 @@ namespace Seasar.Dao.Impl
         {
             if (dataReader.Read())
             {
-                System.Collections.IList columnNames = CreateColumnNames(dataReader.GetSchemaTable());
-                IColumnMetaData[] columns = CreateColumnMetaData(columnNames);
-                IDictionary<string, IDictionary<string, IPropertyType>> relationPropertyCache = CreateRelationPropertyCache(columnNames);
-                object row = CreateRow(dataReader, columns);
-                for (int i = 0; i < BeanMetaData.RelationPropertyTypeSize; ++i)
+                var columnNames = CreateColumnNames(dataReader.GetSchemaTable());
+                var columns = CreateColumnMetaData(columnNames);
+                var relationPropertyCache = CreateRelationPropertyCache(columnNames);
+                var row = CreateRow(dataReader, columns);
+                for (var i = 0; i < BeanMetaData.RelationPropertyTypeSize; ++i)
                 {
-                    IRelationPropertyType rpt = BeanMetaData
-                        .GetRelationPropertyType(i);
+                    var rpt = BeanMetaData.GetRelationPropertyType(i);
                     if (rpt == null) continue;
-                    object relationRow = CreateRelationRow(dataReader, rpt,
-                        columnNames, null, relationPropertyCache);
+                    var relationRow = CreateRelationRow(dataReader, rpt,
+                                        columnNames, null, relationPropertyCache);
                     if (relationRow != null)
                     {
-                        PropertyInfo pi = rpt.PropertyInfo;
-                        pi.SetValue(row, relationRow, null);
+                        var pi = rpt.PropertyInfo;
+//                        pi.SetValue(row, relationRow, null);
+                        PropertyUtil.SetValue(row, row.GetExType(), pi.Name, pi.PropertyType, relationRow);
                     }
                 }
                 return row;

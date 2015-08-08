@@ -33,10 +33,7 @@ namespace Seasar.Extension.ADO.Impl
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public int Count
-        {
-            get { return _list.Count; }
-        }
+        public int Count => _list.Count;
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -72,30 +69,15 @@ namespace Seasar.Extension.ADO.Impl
 
         }
 
-        int ICollection.Count
-        {
-            get { return _list.Count; }
-        }
+        int ICollection.Count => _list.Count;
 
-        bool IList.IsFixedSize
-        {
-            get { return false; }
-        }
+        bool IList.IsFixedSize => false;
 
-        bool IList.IsReadOnly
-        {
-            get { return false; }
-        }
+        bool IList.IsReadOnly => false;
 
-        bool ICollection.IsSynchronized
-        {
-            get { return _list.IsSynchronized; }
-        }
+        bool ICollection.IsSynchronized => _list.IsSynchronized;
 
-        object ICollection.SyncRoot
-        {
-            get { return _list.SyncRoot; }
-        }
+        object ICollection.SyncRoot => _list.SyncRoot;
 
         object IList.this[int index]
         {
@@ -155,9 +137,9 @@ namespace Seasar.Extension.ADO.Impl
 
         bool IDataParameterCollection.Contains(string value)
         {
-            for (int i = 0; i < _list.Count; i++)
+            for (var i = 0; i < _list.Count; i++)
             {
-                IDataParameter parameter = (IDataParameter) _list[i];
+                var parameter = (IDataParameter) _list[i];
                 if (parameter.ParameterName == value)
                 {
                     return true;
@@ -242,7 +224,7 @@ namespace Seasar.Extension.ADO.Impl
 
         public int IndexOf(string parameterName)
         {
-            for (int i = 0; i < Count; i += 1)
+            for (var i = 0; i < Count; i += 1)
             {
                 if (this[i].ParameterName.Equals(parameterName))
                 {

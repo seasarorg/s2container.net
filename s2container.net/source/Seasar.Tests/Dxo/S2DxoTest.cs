@@ -45,7 +45,7 @@ namespace Seasar.Tests.Dxo
         [SetUp]
         public void SetUp()
         {
-            FileInfo info = new FileInfo(
+            var info = new FileInfo(
                 string.Format("{0}.dll.config", SystemInfo.AssemblyShortName(
                                                     Assembly.GetExecutingAssembly())));
 
@@ -56,17 +56,17 @@ namespace Seasar.Tests.Dxo
         [Test, S2]
         public void TestSimple()
         {
-            IEmployeeDxo dxo = (IEmployeeDxo)GetComponent(typeof(IEmployeeDxo));
+            var dxo = (IEmployeeDxo)GetComponent(typeof(IEmployeeDxo));
 
-            Employee employee = new Employee();
+            var employee = new Employee();
             employee.EName = "Mike";
-            Department dept = new Department();
+            var dept = new Department();
             dept.Id = 2;
             dept.DName = "Sales";
             employee.Department = dept;
 
             // プロパティに値がコピーされる場合
-            EmployeePage page = new EmployeePage();
+            var page = new EmployeePage();
             page.Name = "Myers";
             dxo.ConvertToEmpPage(employee, page);
             Assert.AreEqual("Mike", page.EName, "EName2");
@@ -112,9 +112,9 @@ namespace Seasar.Tests.Dxo
         [Test, S2]
         public void TestBeanToBean()
         {
-            IBeanToBeanDxo dxo = (IBeanToBeanDxo)GetComponent(typeof(IBeanToBeanDxo));
+            var dxo = (IBeanToBeanDxo)GetComponent(typeof(IBeanToBeanDxo));
 
-            BeanA source = new BeanA();
+            var source = new BeanA();
             source.FlagToBool = true;
             source.ShortToBool = 1;
             source.IntToBool = 0;
@@ -127,7 +127,7 @@ namespace Seasar.Tests.Dxo
             source.StringToLong = "1234567";
             char[] testchar = { 't', 'e', 's', 't' };
             source.CharToString = testchar;
-            DateTime date = new DateTime(2007, 7, 2, 1, 2, 3);
+            var date = new DateTime(2007, 7, 2, 1, 2, 3);
             source.DateToString = date;
             char[] testchar2 = { 't', 'e', 's', 't', '2' };
             source.CharToChar = testchar2;
@@ -135,7 +135,7 @@ namespace Seasar.Tests.Dxo
             source.StringToDateTime = "20070630";
             source.LongToDateTime = DateTime.Now.Ticks;
 
-            TargetBean target = dxo.ConvertBeanToTarget(source);
+            var target = dxo.ConvertBeanToTarget(source);
             Assert.IsTrue(target.FlagToBool, "FlagToBool");
             Assert.IsTrue(target.ShortToBool, "ShortToBool");
             Assert.IsFalse(target.IntToBool, "IntToBool");
@@ -148,19 +148,19 @@ namespace Seasar.Tests.Dxo
             Assert.AreEqual(1234567, target.StringToLong, "StringToLong");
             Assert.AreEqual("test", target.CharToString, "CharToString");
             Assert.AreEqual("20070702", target.DateToString, "DateToString");
-            char[] test2 = target.CharToChar;
+            var test2 = target.CharToChar;
             Assert.AreEqual('t', test2[0], "CharToChar1");
             Assert.AreEqual('e', test2[1], "CharToChar2");
             Assert.AreEqual('s', test2[2], "CharToChar3");
             Assert.AreEqual('t', test2[3], "CharToChar4");
             Assert.AreEqual('2', test2[4], "CharToChar5");
-            char[] test3 = target.StringToChar;
+            var test3 = target.StringToChar;
             Assert.AreEqual('t', test3[0], "CharToChar6");
             Assert.AreEqual('e', test3[1], "CharToChar7");
             Assert.AreEqual('s', test3[2], "CharToChar8");
             Assert.AreEqual('t', test3[3], "CharToChar9");
             Assert.AreEqual('3', test3[4], "CharToChar10");
-            DateTime destTime = target.StringToDateTime;
+            var destTime = target.StringToDateTime;
             Assert.AreEqual(2007, destTime.Year, "Year");
             Assert.AreEqual(6, destTime.Month, "Month");
             Assert.AreEqual(30, destTime.Day, "Day");
@@ -171,12 +171,12 @@ namespace Seasar.Tests.Dxo
         [Test, S2]
         public void TestArray()
         {
-            ICollectionDxo dxo = (ICollectionDxo)GetComponent(typeof(ICollectionDxo));
+            var dxo = (ICollectionDxo)GetComponent(typeof(ICollectionDxo));
 
             // 配列To配列
-            Department dept = new Department();
+            var dept = new Department();
             dept.DName = "Sales";
-            Employee[] emp = new Employee[2];
+            var emp = new Employee[2];
             emp[0] = new Employee();
             emp[0].EName = "Mike";
             emp[0].Department = dept;
@@ -184,11 +184,11 @@ namespace Seasar.Tests.Dxo
             emp[1].EName = "Scott";
             emp[1].Department = dept;
 
-            EmployeePage[] target = new EmployeePage[2];
+            var target = new EmployeePage[2];
 
             dxo.ConvertFromArrayToArray(emp, target);
-            int i = 0;
-            foreach (EmployeePage employee in target)
+            var i = 0;
+            foreach (var employee in target)
             {
                 if (i == 0) Assert.AreEqual("Mike", employee.EName, "EName");
                 if (i == 1) Assert.AreEqual("Scott", employee.EName, "EName");
@@ -199,7 +199,7 @@ namespace Seasar.Tests.Dxo
             emp[1].EName = "Scott Tiger";
             target = dxo.ConvertToArray(emp);
             i = 0;
-            foreach (EmployeePage employee in target)
+            foreach (var employee in target)
             {
                 if (i == 0) Assert.AreEqual("Mike Smith", employee.EName, "EName");
                 if (i == 1) Assert.AreEqual("Scott Tiger", employee.EName, "EName");
@@ -210,12 +210,12 @@ namespace Seasar.Tests.Dxo
         [Test, S2]
         public void TestList()
         {
-            ICollectionDxo dxo = (ICollectionDxo)GetComponent(typeof(ICollectionDxo));
+            var dxo = (ICollectionDxo)GetComponent(typeof(ICollectionDxo));
 
             IList<Employee> srcList = new List<Employee>();
-            Department dept = new Department();
+            var dept = new Department();
             dept.DName = "Sales";
-            Employee emp = new Employee();
+            var emp = new Employee();
             emp.EName = "Mike";
             emp.Department = dept;
             srcList.Add(emp);
@@ -226,9 +226,9 @@ namespace Seasar.Tests.Dxo
 
             IList<EmployeePage> destList = new List<EmployeePage>();
 
-            int i = 0;
+            var i = 0;
             dxo.ConvertListToList(srcList, destList);
-            foreach (EmployeePage page in destList)
+            foreach (var page in destList)
             {
                 if (i == 0) Assert.AreEqual("Mike", page.EName, "EName1-" + i);
                 if (i == 1) Assert.AreEqual("Scott", page.EName, "ENam1-" + i);
@@ -241,7 +241,7 @@ namespace Seasar.Tests.Dxo
             emp.Department = dept;
             srcList.Add(emp);
             destList = dxo.ConvertToList(srcList);
-            foreach (EmployeePage page in destList)
+            foreach (var page in destList)
             {
                 if (i == 0) Assert.AreEqual("Mike Smith", page.EName, "EName2-" + i);
                 if (i == 1) Assert.AreEqual("Scott", page.EName, "ENam2-" + i);
@@ -252,15 +252,15 @@ namespace Seasar.Tests.Dxo
         [Test, S2]
         public void TestList2()
         {
-            ICollectionDxo dxo = (ICollectionDxo)GetComponent(typeof(ICollectionDxo));
+            var dxo = (ICollectionDxo)GetComponent(typeof(ICollectionDxo));
 
-            Department dept = new Department();
+            var dept = new Department();
             dept.DName = "Sales";
-            Employee emp = new Employee();
+            var emp = new Employee();
             emp.EName = "Mike Smith";
             emp.Department = dept;
             IList<EmployeePage> list = new List<EmployeePage>();
-            EmployeePage targetPage = new EmployeePage();
+            var targetPage = new EmployeePage();
             targetPage.EName = "Scott";
             targetPage.DName = "Sales";
             targetPage.Id = 1;
@@ -269,17 +269,17 @@ namespace Seasar.Tests.Dxo
             Assert.AreEqual(2, list.Count, "Count");
             Assert.AreEqual("Mike Smith", list[1].EName, "EName");
 
-            List<EmployeePage> list2 = dxo.ConvertToIList(emp);
+            var list2 = dxo.ConvertToIList(emp);
             Assert.AreEqual(1, list2.Count, "Count2");
         }
 
         [Test, S2]
         public void TestDictionary()
         {
-            ICollectionDxo dxo = (ICollectionDxo)GetComponent(typeof(ICollectionDxo));
+            var dxo = (ICollectionDxo)GetComponent(typeof(ICollectionDxo));
 
             IDictionary dict = new Hashtable();
-            Employee emp = new Employee();
+            var emp = new Employee();
             emp.EName = "Mike Smith";
             emp.Department = new Department();
             emp.Department.Id = 1;
@@ -287,13 +287,13 @@ namespace Seasar.Tests.Dxo
 
             dxo.ConvertToDictinary(emp, dict);
             Assert.AreEqual("Mike Smith", dict["EName"], "EName");
-            Department dept = (Department)dict["Department"];
+            var dept = (Department)dict["Department"];
             Assert.AreEqual(1, dept.Id, "Id");
             Assert.AreEqual("Sales", dept.DName, "DName");
 
-            Hashtable hash = dxo.ConvertToHashtable(emp);
+            var hash = dxo.ConvertToHashtable(emp);
             Assert.AreEqual("Mike Smith", hash["EName"], "EName");
-            Department dept2 = (Department)hash["Department"];
+            var dept2 = (Department)hash["Department"];
             Assert.AreEqual(1, dept2.Id, "Id");
             Assert.AreEqual("Sales", dept2.DName, "DName");
         }
@@ -301,13 +301,13 @@ namespace Seasar.Tests.Dxo
         [Test, S2]
         public void TestDateTime()
         {
-            IDateTimeToStringBean dxo = (IDateTimeToStringBean)GetComponent(typeof(IDateTimeToStringBean));
+            var dxo = (IDateTimeToStringBean)GetComponent(typeof(IDateTimeToStringBean));
 
-            DateTimeBean bean = new DateTimeBean();
+            var bean = new DateTimeBean();
             bean.DateTimeToString = new DateTime(2009, 4, 10, 0, 0, 0);
             Console.Out.WriteLine("bean.DateToString = {0}", bean.DateTimeToString);
 
-            StringBean target = dxo.ConvertBeanToTargetWithoutDatePattern(bean);
+            var target = dxo.ConvertBeanToTargetWithoutDatePattern(bean);
             Assert.AreEqual("2009/04/10 0:00:00", target.DateTimeToString, "test1");
             Console.Out.WriteLine("targetDateTimeToString = {0}", target.DateTimeToString);
 
@@ -327,8 +327,8 @@ namespace Seasar.Tests.Dxo
         [Test, S2]
         public void TestNested()
         {
-            INestedDxo dxo = (INestedDxo)GetComponent(typeof(INestedDxo));
-            NestedEmployee emp1 = new NestedEmployee();
+            var dxo = (INestedDxo)GetComponent(typeof(INestedDxo));
+            var emp1 = new NestedEmployee();
             emp1.Name = "001";
             emp1.Emp = new Employee();
             emp1.Emp.EName = "name1";
@@ -336,14 +336,14 @@ namespace Seasar.Tests.Dxo
             emp1.Emp.Department.DName = "dname1";
             emp1.Emp.Department.Id = 10;
 
-            EmployeePage emp2 = new EmployeePage();
+            var emp2 = new EmployeePage();
             dxo.ConvertFrom(emp1, emp2);
             Assert.AreEqual("001", emp2.Name);
             Assert.AreEqual("name1", emp2.EName);
             Assert.IsNull(emp2.DName);
             Assert.IsFalse(emp2.Id.HasValue);
 
-            EmployeePage emp3 = dxo.ConvertTo(emp1);
+            var emp3 = dxo.ConvertTo(emp1);
             Assert.AreEqual("001", emp3.Name);
             Assert.AreEqual("name1", emp3.EName);
             Assert.IsNull(emp3.DName);
@@ -355,7 +355,7 @@ namespace Seasar.Tests.Dxo
             emp3.EName = "ename3";
             emp3.Id = 1;
             emp3.Name = "name3";
-            NestedEmployee emp4 = new NestedEmployee();
+            var emp4 = new NestedEmployee();
             dxo.ConvertFromPage(emp3, emp4);
             Assert.AreEqual("name3", emp4.Name);
             Assert.IsNull(emp4.Emp);            
@@ -388,18 +388,18 @@ namespace Seasar.Tests.Dxo
                                    new Thread(new ExecuteInvoker(TestNested).Execute)
                                };
             // 複数スレッドでのDxo処理開始
-            foreach(Thread t in threads)
+            foreach(var t in threads)
             {
                 t.Start();
             }
 
-            bool isAlive = true;
+            var isAlive = true;
             while (isAlive)
             {
                 // 全てのスレッドが終了するまで待ち続ける
                 Thread.Sleep(10);
                 isAlive = false;
-                foreach (Thread t in threads)
+                foreach (var t in threads)
                 {
                     if (t.IsAlive)
                     {

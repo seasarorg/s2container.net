@@ -27,42 +27,24 @@ namespace Seasar.Windows.Attr
     public class ControlModifierAttribute : Attribute
     {
         /// <summary>
-        /// コントロール接頭辞
-        /// </summary>
-        private string _prefix = string.Empty;
-
-        /// <summary>
-        /// コントロール接尾辞
-        /// </summary>
-        private string _suffix = string.Empty;
-
-        /// <summary>
         /// コンストラクタ
         /// </summary>
         /// <param name="prefix">コントロール接頭辞</param>
         /// <param name="suffix">コントロール接尾辞</param>
         public ControlModifierAttribute(string prefix, string suffix)
         {
-            this._prefix = prefix;
-            this._suffix = suffix;
+            Prefix = prefix;
+            Suffix = suffix;
         }
 
         /// <summary>
         /// コントロール接頭辞
         /// </summary>
-        public string Prefix
-        {
-            get { return _prefix; }
-            set { _prefix = value; }
-        }
+        public string Prefix { get; set; }
 
         /// <summary>
         /// コントロール接尾辞
         /// </summary>
-        public string Suffix
-        {
-            get { return _suffix; }
-            set { _suffix = value; }
-        }
+        public string Suffix { get; set; }
     }
 }

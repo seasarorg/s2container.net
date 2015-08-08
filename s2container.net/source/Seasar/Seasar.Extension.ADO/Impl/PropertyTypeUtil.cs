@@ -30,14 +30,14 @@ namespace Seasar.Extension.ADO.Impl
 
         public static IPropertyType[] CreatePropertyTypes(DataTable metaData)
         {
-            int count = metaData.Rows.Count;
+            var count = metaData.Rows.Count;
             IPropertyType[] propertyTypes = new PropertyTypeImpl[count];
-            for (int i = 0; i < count; ++i)
+            for (var i = 0; i < count; ++i)
             {
-                DataRow row = metaData.Rows[i];
-                string propertyName = (string) row["ColumnName"];
-                Type type = (Type) row["DataType"];
-                IValueType valueType = ValueTypes.GetValueType(type);
+                var row = metaData.Rows[i];
+                var propertyName = (string) row["ColumnName"];
+                var type = (Type) row["DataType"];
+                var valueType = ValueTypes.GetValueType(type);
                 propertyTypes[i] = new PropertyTypeImpl(propertyName, valueType, type);
             }
             return propertyTypes;

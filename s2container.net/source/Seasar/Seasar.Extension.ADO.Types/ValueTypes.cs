@@ -20,6 +20,7 @@ using System;
 using System.Collections;
 using System.Data;
 using System.Data.SqlTypes;
+using Seasar.Framework.Util;
 
 #if NHIBERNATE_NULLABLES
 using Nullables;
@@ -59,7 +60,7 @@ namespace Seasar.Extension.ADO.Types
         public readonly static IValueType NHIBERNATE_NULLABLE_BOOLEAN = new NHibernateNullableBooleanType();
         public readonly static IValueType NHIBERNATE_NULLABLE_GUID = new NHibernateNullableGuidType();
         private readonly static NullableByte[] NHIBERNATE_NULLABLE_BYTE_ARRAY = new NullableByte[0];
-        public readonly static Type NHIBERNATE_NULLABLE_BYTE_ARRAY_TYPE = NHIBERNATE_NULLABLE_BYTE_ARRAY.GetType();
+        public readonly static Type NHIBERNATE_NULLABLE_BYTE_ARRAY_TYPE = NHIBERNATE_NULLABLE_BYTE_ARRAY.GetExType();
 #endif
 
         public readonly static IValueType SQL_STRING = new SqlStringType();
@@ -93,10 +94,10 @@ namespace Seasar.Extension.ADO.Types
 
         private readonly static Nullable<Byte>[] NULLABLE_BYTE_ARRAY = new Nullable<Byte>[0];
 
-        public readonly static Type NULLABLE_BYTE_ARRAY_TYPE = NULLABLE_BYTE_ARRAY.GetType();
+        public readonly static Type NULLABLE_BYTE_ARRAY_TYPE = NULLABLE_BYTE_ARRAY.GetExType();
 #endif
 
-        public readonly static Type BYTE_ARRAY_TYPE = BYTE_ARRAY.GetType();
+        public readonly static Type BYTE_ARRAY_TYPE = BYTE_ARRAY.GetExType();
 
         private static readonly Hashtable _types = new Hashtable();
 
@@ -182,7 +183,7 @@ namespace Seasar.Extension.ADO.Types
                 return OBJECT;
             }
 
-            return GetValueType(obj.GetType());
+            return GetValueType(obj.GetExType());
         }
 
         public static IValueType GetValueType(Type type)

@@ -30,7 +30,7 @@ namespace Seasar.Dao.Impl
 
         public override object Execute(object[] args)
         {
-            ICommandContext ctx = Apply(args);
+            var ctx = Apply(args);
             IUpdateHandler handler = new BasicUpdateHandler(
                 DataSource, ctx.Sql, CommandFactory);
             return handler.Execute(ctx.BindVariables, ctx.BindVariableTypes);

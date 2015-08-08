@@ -40,7 +40,7 @@ namespace Seasar.Extension.ADO.Types
             }
             else if (value is long)
             {
-                return new Nullable<Int64>((long) value);
+                return new long?((long) value);
             }
             else
             {

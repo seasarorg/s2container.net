@@ -16,7 +16,6 @@
  */
 #endregion
 
-using System.Collections;
 using System.IO;
 using System.Reflection;
 using log4net;
@@ -25,6 +24,7 @@ using log4net.Util;
 using MbUnit.Framework;
 using Seasar.Extension.ADO.Impl;
 using Seasar.Extension.Unit;
+using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Extension.ADO.Impl
 {
@@ -36,7 +36,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
 
         static DatabaseMetaDataImplTest()
         {
-            FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
+            var info = new FileInfo(SystemInfo.AssemblyFileName(
                 Assembly.GetExecutingAssembly()) + ".config");
             XmlConfigurator.Configure(LogManager.GetRepository(), info);
         }
@@ -49,8 +49,8 @@ namespace Seasar.Tests.Extension.ADO.Impl
         [Test, S2]
         public void TestGetPrimaryKeySetForDatabase()
         {
-            DatabaseMetaDataImpl dmd = new DatabaseMetaDataImpl(DataSource);
-            IList primaryKeySet = dmd.GetPrimaryKeySet("EMP");
+            var dmd = new DatabaseMetaDataImpl(DataSource);
+            var primaryKeySet = dmd.GetPrimaryKeySet("EMP");
 
             Assert.AreEqual(1, primaryKeySet.Count);
             Assert.AreEqual("EMPNO", primaryKeySet[0] as string);
@@ -64,8 +64,8 @@ namespace Seasar.Tests.Extension.ADO.Impl
         [Test, S2]
         public void TestGetColumnSetForDatabase()
         {
-            DatabaseMetaDataImpl dmd = new DatabaseMetaDataImpl(DataSource);
-            IList columSet = dmd.GetColumnSet("EMP");
+            var dmd = new DatabaseMetaDataImpl(DataSource);
+            var columSet = dmd.GetColumnSet("EMP");
 
             Assert.AreEqual(9, columSet.Count);
             Assert.IsTrue(columSet.Contains("EMPNO"));
@@ -87,10 +87,10 @@ namespace Seasar.Tests.Extension.ADO.Impl
         [Test, S2]
         public void TestGetAutoIncrementColumnSetForDatabase()
         {
-            if (DataSource.GetCommand().GetType().Name.Equals("SqlCommand"))
+            if (DataSource.GetCommand().GetExType().Name.Equals("SqlCommand"))
             {
-                DatabaseMetaDataImpl dmd = new DatabaseMetaDataImpl(DataSource);
-                IList autoIncrementColumSet = dmd.GetAutoIncrementColumnSet("IDTABLE");
+                var dmd = new DatabaseMetaDataImpl(DataSource);
+                var autoIncrementColumSet = dmd.GetAutoIncrementColumnSet("IDTABLE");
 
                 Assert.AreEqual(1, autoIncrementColumSet.Count);
                 Assert.IsTrue(autoIncrementColumSet.Contains("ID"));
@@ -105,9 +105,8 @@ namespace Seasar.Tests.Extension.ADO.Impl
         [Test, S2]
         public void TestGetPrimaryKeySetForDataSet()
         {
-            DatabaseMetaDataImpl dmd = new DatabaseMetaDataImpl(null);
-            dmd.MetaDataSetClassName = DATASET_PATH;
-            IList primaryKeySet = dmd.GetPrimaryKeySet("EMP");
+            var dmd = new DatabaseMetaDataImpl(null) {MetaDataSetClassName = DATASET_PATH};
+            var primaryKeySet = dmd.GetPrimaryKeySet("EMP");
 
             Assert.AreEqual(1, primaryKeySet.Count);
             Assert.AreEqual("EMPNO", primaryKeySet[0] as string);
@@ -121,9 +120,8 @@ namespace Seasar.Tests.Extension.ADO.Impl
         [Test, S2]
         public void TestGetColumnSetForDataSet()
         {
-            DatabaseMetaDataImpl dmd = new DatabaseMetaDataImpl(null);
-            dmd.MetaDataSetClassName = DATASET_PATH;
-            IList columSet = dmd.GetColumnSet("EMP");
+            var dmd = new DatabaseMetaDataImpl(null) {MetaDataSetClassName = DATASET_PATH};
+            var columSet = dmd.GetColumnSet("EMP");
 
             Assert.AreEqual(9, columSet.Count);
             Assert.IsTrue(columSet.Contains("EMPNO"));
@@ -145,9 +143,8 @@ namespace Seasar.Tests.Extension.ADO.Impl
         [Test, S2]
         public void TestGetAutoIncrementColumnSetForDataSet()
         {
-            DatabaseMetaDataImpl dmd = new DatabaseMetaDataImpl(null);
-            dmd.MetaDataSetClassName = DATASET_PATH;
-            IList autoIncrementColumSet = dmd.GetAutoIncrementColumnSet("IDTABLE");
+            var dmd = new DatabaseMetaDataImpl(null) {MetaDataSetClassName = DATASET_PATH};
+            var autoIncrementColumSet = dmd.GetAutoIncrementColumnSet("IDTABLE");
 
             Assert.AreEqual(1, autoIncrementColumSet.Count);
             Assert.IsTrue(autoIncrementColumSet.Contains("ID"));

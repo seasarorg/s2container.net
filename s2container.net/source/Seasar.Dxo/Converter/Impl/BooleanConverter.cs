@@ -38,7 +38,7 @@ namespace Seasar.Dxo.Converter.Impl
         protected override bool DoConvert(object source, ref object dest, Type expectType)
         {
             double val;
-            string target = source.ToString();
+            var target = source.ToString();
             if (Double.TryParse(target, out val))
             {
                 if (val * 10000 >= 10000)
@@ -48,7 +48,7 @@ namespace Seasar.Dxo.Converter.Impl
             }
             else
             {
-                string convertedSource = source.ToString().ToLower();
+                var convertedSource = source.ToString().ToLower();
                 if (convertedSource == "yes" || convertedSource == "true"
                     || convertedSource == "y" || convertedSource == "on")
                     dest = true;

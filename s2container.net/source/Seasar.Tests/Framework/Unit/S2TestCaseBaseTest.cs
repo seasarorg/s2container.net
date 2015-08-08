@@ -32,6 +32,7 @@ using Seasar.Framework.Aop.Proxy;
 using Seasar.Framework.Container;
 using Seasar.Framework.Log;
 using System.Data;
+using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Framework.Unit
 {
@@ -41,15 +42,15 @@ namespace Seasar.Tests.Framework.Unit
         private static readonly Logger _logger = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private const string PATH = "S2FrameworkTestCaseTest_ado.dicon";
         private bool _testAaaSetUpInvoked = false;
-        private string _ccc = null;
-        private Hashtable _bbb = null;
-        private DateTime _ddd = new DateTime();
-        private IList _list1 = null;
-        private Hoge _hoge = null;
+        private readonly string _ccc = null;
+        private readonly Hashtable _bbb = null;
+        private readonly DateTime _ddd = new DateTime();
+        private readonly IList _list1 = null;
+        private readonly Hoge _hoge = null;
 
         static S2TestCaseBaseTest()
         {
-            FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
+            var info = new FileInfo(SystemInfo.AssemblyFileName(
                 Assembly.GetExecutingAssembly()) + ".config");
             XmlConfigurator.Configure(LogManager.GetRepository(), info);
         }
@@ -57,7 +58,7 @@ namespace Seasar.Tests.Framework.Unit
         [Test, S2]
         public void TestContainer()
         {
-            Assert.IsNotNull(this.Container, "コンテナが取得できるはず");
+            Assert.IsNotNull(Container, "コンテナが取得できるはず");
         }
 
         [SetUp]
@@ -110,7 +111,7 @@ namespace Seasar.Tests.Framework.Unit
         {
             Include(PATH);
             Register(typeof(Hashtable));
-            Hashtable s = this.Container.GetComponent(typeof(Hashtable)) as Hashtable;
+            var s = Container.GetComponent(typeof(Hashtable)) as Hashtable;
             s.Add("1", "hoge");
         }
 
@@ -172,14 +173,14 @@ namespace Seasar.Tests.Framework.Unit
         [Test, S2]
         public void TestPointcut()
         {
-            AopProxy aopProxy = RemotingServices.GetRealProxy(_hoge) as AopProxy;
+            var aopProxy = RemotingServices.GetRealProxy(_hoge) as AopProxy;
 
-            FieldInfo fieldInfo = aopProxy.GetType()
+            FieldInfo fieldInfo = aopProxy.GetExType()
                 .GetField("_aspects", BindingFlags.NonPublic | BindingFlags.Instance);
 
-            IAspect[] aspects = fieldInfo.GetValue(aopProxy) as IAspect[];
+            var aspects = fieldInfo.GetValue(aopProxy) as IAspect[];
 
-            PointcutImpl pointcut = aspects[0].Pointcut as PointcutImpl;
+            var pointcut = aspects[0].Pointcut as PointcutImpl;
 
             Assert.AreEqual(pointcut.IsApplied("GetAaa"), false, "1");
             Assert.AreEqual(pointcut.IsApplied("GetGreeting"), false, "2");
@@ -214,7 +215,7 @@ namespace Seasar.Tests.Framework.Unit
         {
             _logger.Debug("++RollbackTest Start");
             //  ## Arrange ##
-            DataTable table = new DataTable("EMP");
+            var table = new DataTable("EMP");
             table.Columns.Add("EMPNO");
             table.Columns.Add("ENAME");
             table.Columns.Add("JOB");
@@ -224,7 +225,7 @@ namespace Seasar.Tests.Framework.Unit
             table.Columns.Add("COMM");
             table.Columns.Add("DEPTNO");
             table.Columns.Add("TSTAMP");
-            DataRow testRow = table.NewRow();
+            var testRow = table.NewRow();
             testRow["EMPNO"] = 5001;
             testRow["ENAME"] = "ROCK";
             testRow["JOB"] = "TH";
@@ -236,18 +237,18 @@ namespace Seasar.Tests.Framework.Unit
             testRow["TSTAMP"] = DateTime.Now;
             table.Rows.Add(testRow);
 
-            DataSet ds = new DataSet();
+            var ds = new DataSet();
             ds.Tables.Add(table);
 
             //  ## Act ##
             WriteDb(ds);
 
-            DataTable resultTable = ReadDbByTable("EMP");
+            var resultTable = ReadDbByTable("EMP");
 
             //  ## Assert ##
             Assert.IsNotNull(resultTable);
             Assert.GreaterThan(resultTable.Rows.Count, 0);
-            bool isExist = false;
+            var isExist = false;
             foreach (DataRow row in resultTable.Rows)
             {
                 if (((Decimal)row["EMPNO"]) == 5001)

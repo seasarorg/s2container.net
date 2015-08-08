@@ -24,14 +24,6 @@ namespace Seasar.Extension.ADO.Impl
 {
     public class PropertyTypeImpl : IPropertyType
     {
-        private readonly PropertyInfo _propertyInfo;
-        private readonly string _propertyName;
-        private string _columnName;
-        private readonly IValueType _valueType;
-        private bool _primaryKey = false;
-        private bool _persistent = true;
-        private readonly Type _propertyType;
-
         public PropertyTypeImpl(PropertyInfo propertyInfo)
             : this(propertyInfo, ValueTypes.OBJECT, propertyInfo.Name)
         {
@@ -44,60 +36,36 @@ namespace Seasar.Extension.ADO.Impl
 
         public PropertyTypeImpl(PropertyInfo propertyInfo, IValueType valueType, string columnName)
         {
-            _propertyInfo = propertyInfo;
-            _propertyName = propertyInfo.Name;
-            _valueType = valueType;
-            _columnName = columnName;
-            _propertyType = propertyInfo.PropertyType;
+            PropertyInfo = propertyInfo;
+            PropertyName = propertyInfo.Name;
+            ValueType = valueType;
+            ColumnName = columnName;
+            PropertyType = propertyInfo.PropertyType;
         }
 
         public PropertyTypeImpl(string propertyName, IValueType valueType, Type propertyType)
         {
-            _propertyName = propertyName;
-            _valueType = valueType;
-            _columnName = propertyName;
-            _propertyType = propertyType;
+            PropertyName = propertyName;
+            ValueType = valueType;
+            ColumnName = propertyName;
+            PropertyType = propertyType;
         }
 
         #region IPropertyType ÉÅÉìÉo
 
-        public PropertyInfo PropertyInfo
-        {
-            get { return _propertyInfo; }
-        }
+        public PropertyInfo PropertyInfo { get; }
 
-        public IValueType ValueType
-        {
-            get { return _valueType; }
-        }
+        public IValueType ValueType { get; }
 
-        public string PropertyName
-        {
-            get { return _propertyName; }
-        }
+        public string PropertyName { get; }
 
-        public string ColumnName
-        {
-            get { return _columnName; }
-            set { _columnName = value; }
-        }
+        public string ColumnName { get; set; }
 
-        public bool IsPrimaryKey
-        {
-            get { return _primaryKey; }
-            set { _primaryKey = value; }
-        }
+        public bool IsPrimaryKey { get; set; } = false;
 
-        public bool IsPersistent
-        {
-            get { return _persistent; }
-            set { _persistent = value; }
-        }
+        public bool IsPersistent { get; set; } = true;
 
-        public Type PropertyType
-        {
-            get { return _propertyType; }
-        }
+        public Type PropertyType { get; }
 
         #endregion
     }

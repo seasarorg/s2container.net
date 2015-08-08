@@ -76,7 +76,7 @@ namespace Seasar.Quill.Exception
         /// </summary>
         /// <param name="messageCode">メッセージコード</param>
         /// <param name="args">メッセージ中に埋め込む文字列の配列</param>
-        public QuillApplicationException(string messageCode, object[] args)
+        public QuillApplicationException(string messageCode, string[] args)
             : this(messageCode, args, null)
         {
         }
@@ -89,7 +89,7 @@ namespace Seasar.Quill.Exception
         /// <param name="args">メッセージ中に埋め込む値の配列</param>
         /// <param name="cause">元となった例外</param>
         public QuillApplicationException(
-            string messageCode, object[] args, System.Exception cause)
+            string messageCode, string[] args, System.Exception cause)
             : base(null, cause)
         {
             // メッセージコードをセットする
@@ -109,36 +109,24 @@ namespace Seasar.Quill.Exception
         /// メッセージコードを取得する
         /// </summary>
         /// <value>メッセージコード</value>
-        public string MessageCode
-        {
-            get { return messageCode; }
-        }
+        public string MessageCode => messageCode;
 
         /// <summary>
         /// メッセージに埋め込む値の配列を取得する
         /// </summary>
         /// <value>メッセージに埋め込む値の配列</value>
-        public object[] Args
-        {
-            get { return args; }
-        }
+        public object[] Args => args;
 
         /// <summary>
         /// メッセージ(メッセージコードを含む)を取得・設定する
         /// </summary>
         /// <value>メッセージ(メッセージコードを含む)</value>
-        public override string Message
-        {
-            get { return message; }
-        }
+        public override string Message => message;
 
         /// <summary>
         /// 簡単なメッセージ(メッセージコードを含まない)を取得する
         /// </summary>
         /// <value>簡単なメッセージ(メッセージコードを含まない)</value>
-        public string SimpleMessage
-        {
-            get { return simpleMessage; }
-        }
+        public string SimpleMessage => simpleMessage;
     }
 }

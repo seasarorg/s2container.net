@@ -20,7 +20,7 @@ using System.Data;
 
 namespace Seasar.Extension.ADO.Impl
 {
-    public class BooleanToIntCommand : DbCommandWrapper
+    public class BooleanToIntCommand : IDbCommandWrapper
     {
         private readonly BooleanToIntParameterCollection _parameters = new BooleanToIntParameterCollection();
 
@@ -31,32 +31,29 @@ namespace Seasar.Extension.ADO.Impl
 
         public override IDataReader ExecuteReader(CommandBehavior behavior)
         {
-            SetParameters();
+            _SetParameters();
             return base.ExecuteReader(behavior);
         }
 
         public override IDataReader ExecuteReader()
         {
-            SetParameters();
+            _SetParameters();
             return base.ExecuteReader();
         }
 
         public override object ExecuteScalar()
         {
-            SetParameters();
+            _SetParameters();
             return base.ExecuteScalar();
         }
 
         public override int ExecuteNonQuery()
         {
-            SetParameters();
+            _SetParameters();
             return base.ExecuteNonQuery();
         }
 
-        public override IDataParameterCollection Parameters
-        {
-            get { return _parameters; }
-        }
+        public override IDataParameterCollection Parameters => _parameters;
 
         public override IDbDataParameter CreateParameter()
         {
@@ -69,7 +66,7 @@ namespace Seasar.Extension.ADO.Impl
             _parameters.Clear();
         }
 
-        private void SetParameters()
+        private void _SetParameters()
         {
             base.Parameters.Clear();
             foreach (BooleanToIntParameter p in _parameters)

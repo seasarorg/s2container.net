@@ -29,22 +29,14 @@ namespace Seasar.Unit.Core
     /// </summary>
     public class S2TestExcel
     {
-        private readonly IDataSource _dataSource;
-        protected IDataSource DataSource
-        {
-            get { return _dataSource; }
-        }
+        protected IDataSource DataSource { get; }
 
-        private readonly ICommandFactory _commandFactory;
-        public virtual ICommandFactory CommandFactory
-        {
-            get { return _commandFactory; }
-        }
+        public virtual ICommandFactory CommandFactory { get; }
 
         public S2TestExcel(IDataSource dataSource, ICommandFactory commandFactory)
         {
-            _dataSource = dataSource;
-            _commandFactory = commandFactory;
+            DataSource = dataSource;
+            CommandFactory = commandFactory;
         }
 
         /// <summary>
@@ -54,7 +46,9 @@ namespace Seasar.Unit.Core
         /// パスはAssemblyで指定されているディレクトリをルートとする。
         /// 設定ファイルの絶対パスか、ファイル名のみを指定します。
         /// ファイル名のみの場合、テストケースと同じパッケージにあるものとします。
-        /// <seealso cref="Seasar.Unit.DataSets.Impl.XlsReader.Read"/>
+        /// <seealso>
+        ///     <cref>Seasar.Unit.DataSets.Impl.XlsReader.Read</cref>
+        /// </seealso>
         /// </summary>
         /// <param name="path">Excelファイルのパス</param>
         /// <returns>Excelファイルの内容から作成したDataSet</returns>
@@ -71,7 +65,9 @@ namespace Seasar.Unit.Core
         /// パスはAssemblyで指定されているディレクトリをルートとする。
         /// 設定ファイルの絶対パスか、ファイル名のみを指定します。
         /// ファイル名のみの場合、テストケースと同じパッケージにあるものとします。
-        /// <seealso cref="Seasar.Unit.DataSets.Impl.XlsWriter.Write"/>
+        /// <seealso>
+        ///     <cref>Seasar.Unit.DataSets.Impl.XlsWriter.Write</cref>
+        /// </seealso>
         /// </summary>
         /// <param name="path">Excelファイルのパス</param>
         /// <param name="dataSet">Excelファイルに書き込む内容のDataSet</param>
@@ -83,18 +79,22 @@ namespace Seasar.Unit.Core
 
         /// <summary>
         /// DataSetをDBに書き込みます。
-        /// <seealso cref="Seasar.Unit.DataSets.Impl.SqlWriter.Write"/>
+        /// <seealso>
+        ///     <cref>Seasar.Unit.DataSets.Impl.SqlWriter.Write</cref>
+        /// </seealso>
         /// </summary>
         /// <param name="dataSet">データベースに書き込む内容のDataSet</param>
         public virtual void WriteDb(DataSet dataSet)
         {
-            IDataWriter writer = SqlWriterFactory.GetSqlWriter(DataSource, CommandFactory);
+            var writer = SqlWriterFactory.GetSqlWriter(DataSource, CommandFactory);
             writer.Write(dataSet);
         }
 
         /// <summary>
         /// DBからレコードを読み込み、DataTableを作成します。
-        /// <seealso cref="Seasar.Unit.DataSets.Impl.SqlTableReader.Read"/>
+        /// <seealso>
+        ///     <cref>Seasar.Unit.DataSets.Impl.SqlTableReader.Read</cref>
+        /// </seealso>
         /// </summary>
         /// <param name="table">読み込むテーブル名</param>
         /// <returns>読み込んだ内容から作成したDataTable</returns>
@@ -106,14 +106,16 @@ namespace Seasar.Unit.Core
         /// <summary>
         /// DBからレコードを読み込み、DataTableを作成します。
         /// 読み込むレコードはconditionの条件を満たすレコードです。 conditionには" WHERE "より後ろをセットしてください。
-        /// <seealso cref="Seasar.Unit.DataSets.Impl.SqlTableReader.Read"/>
+        /// <seealso>
+        ///     <cref>Seasar.Unit.DataSets.Impl.SqlTableReader.Read</cref>
+        /// </seealso>
         /// </summary>
         /// <param name="table">読み込むテーブル名</param>
         /// <param name="condition">条件句(WHEREの後ろ)</param>
         /// <returns>読み込んだ内容から作成したDataTable</returns>
         public virtual DataTable ReadDbByTable(string table, string condition)
         {
-            SqlTableReader reader = new SqlTableReader(DataSource);
+            var reader = new SqlTableReader(DataSource);
             reader.SetTable(table, condition);
             return reader.Read();
         }
@@ -121,14 +123,16 @@ namespace Seasar.Unit.Core
         /// <summary>
         /// DBからSQL文の実行結果を取得し、DataTableを作成します。
         /// 作成したDataTableのテーブル名はtableNameになります。
-        /// <seealso cref="Seasar.Unit.DataSets.Impl.SqlTableReader.Read"/>
+        /// <seealso>
+        ///     <cref>Seasar.Unit.DataSets.Impl.SqlTableReader.Read</cref>
+        /// </seealso>
         /// </summary>
         /// <param name="sql">実行するSQL文</param>
         /// <param name="tableName">作成するDataTableのテーブル名</param>
         /// <returns>読み出した内容のDataTable</returns>
         public virtual DataTable ReadDbBySql(string sql, string tableName)
         {
-            SqlTableReader reader = new SqlTableReader(DataSource);
+            var reader = new SqlTableReader(DataSource);
             reader.SetSql(sql, tableName);
             return reader.Read();
 
@@ -141,8 +145,12 @@ namespace Seasar.Unit.Core
         /// パスはAssemblyで指定されているディレクトリをルートとする。
         /// 設定ファイルの絶対パスか、ファイル名のみを指定します。
         /// ファイル名のみの場合、テストケースと同じパッケージにあるものとします。
-        /// <seealso cref="Seasar.Unit.DataSets.Impl.XlsReader.Read"/>
-        /// <seealso cref="Seasar.Unit.DataSets.Impl.SqlWriter.Write"/>
+        /// <seealso>
+        ///     <cref>Seasar.Unit.DataSets.Impl.XlsReader.Read</cref>
+        /// </seealso>
+        ///     <seealso>
+        ///         <cref>Seasar.Unit.DataSets.Impl.SqlWriter.Write</cref>
+        ///     </seealso>
         /// </summary>
         /// <param name="path">Excelファイルのパス</param>
         public virtual void ReadXlsWriteDb(string path)
@@ -158,13 +166,17 @@ namespace Seasar.Unit.Core
         /// パスはAssemblyで指定されているディレクトリをルートとする。
         /// 設定ファイルの絶対パスか、ファイル名のみを指定します。
         /// ファイル名のみの場合、テストケースと同じパッケージにあるものとします。
-        /// <seealso cref="Seasar.Unit.DataSets.Impl.XlsReader.Read"/>
-        /// <seealso cref="Seasar.Unit.DataSets.Impl.SqlWriter.Write"/>
+        /// <seealso>
+        ///     <cref>Seasar.Unit.DataSets.Impl.XlsReader.Read</cref>
+        /// </seealso>
+        ///     <seealso>
+        ///         <cref>Seasar.Unit.DataSets.Impl.SqlWriter.Write</cref>
+        ///     </seealso>
         /// </summary>
         /// <param name="path">Excelファイルのパス</param>
         public virtual void ReadXlsReplaceDb(string path)
         {
-            DataSet dataSet = ReadXls(path);
+            var dataSet = ReadXls(path);
             DeleteDb(dataSet);
             WriteDb(dataSet);
         }
@@ -177,14 +189,18 @@ namespace Seasar.Unit.Core
         /// パスはAssemblyで指定されているディレクトリをルートとする。
         /// 設定ファイルの絶対パスか、ファイル名のみを指定します。
         /// ファイル名のみの場合、テストケースと同じパッケージにあるものとします。
-        /// <seealso cref="Seasar.Unit.DataSets.Impl.XlsReader.Read"/>
-        /// <seealso cref="Seasar.Unit.DataSets.Impl.SqlWriter.Write"/>
+        /// <seealso>
+        ///     <cref>Seasar.Unit.DataSets.Impl.XlsReader.Read</cref>
+        /// </seealso>
+        ///     <seealso>
+        ///         <cref>Seasar.Unit.DataSets.Impl.SqlWriter.Write</cref>
+        ///     </seealso>
         /// </summary>
         /// <param name="path">Excelファイルのパス</param>
         public virtual void ReadXlsAllReplaceDb(string path)
         {
-            DataSet dataSet = ReadXls(path);
-            for (int i = dataSet.Tables.Count - 1; i >= 0; --i)
+            var dataSet = ReadXls(path);
+            for (var i = dataSet.Tables.Count - 1; i >= 0; --i)
             {
                 DeleteTable(dataSet.Tables[i].TableName);
             }
@@ -193,35 +209,35 @@ namespace Seasar.Unit.Core
 
         /// <summary>
         /// DataSetに対応するDBのレコードを読み込み、DataSetを作成します 。
-        /// <seealso cref="Seasar.Unit.DataSets.Impl.SqlReloadReader.Read"/>
+        /// <seealso>
+        ///     <cref>Seasar.Unit.DataSets.Impl.SqlReloadReader.Read</cref>
+        /// </seealso>
         /// </summary>
         /// <param name="dataSet">対象DBに対応するDataSet</param>
         /// <returns>最新状態のDataSet</returns>
-        public virtual DataSet Reload(DataSet dataSet)
-        {
-            return new SqlReloadReader(DataSource, dataSet).Read();
-        }
+        public virtual DataSet Reload(DataSet dataSet) => new SqlReloadReader(DataSource, dataSet).Read();
 
         /// <summary>
         /// DataTableに対応するDBのレコードを読み込み、DataTableを作成 します。
-        /// <seealso cref="Seasar.Unit.DataSets.Impl.SqlReloadReader.Read"/>
+        /// <seealso>
+        ///     <cref>Seasar.Unit.DataSets.Impl.SqlReloadReader.Read</cref>
+        /// </seealso>
         /// </summary>
         /// <param name="table">対象DBに対応するDataTable</param>
         /// <returns>最新状態のDataTable</returns>
-        public virtual DataTable Reload(DataTable table)
-        {
-            return new SqlReloadTableReader(DataSource, table).Read();
-        }
+        public virtual DataTable Reload(DataTable table) => new SqlReloadTableReader(DataSource, table).Read();
 
         /// <summary>
         /// DataSetに対応するDBのレコードを削除します。
-        /// <seealso cref="Seasar.Unit.DataSets.Impl.SqlDeleteTableWriter.Write"/>
+        /// <seealso>
+        ///     <cref>Seasar.Unit.DataSets.Impl.SqlDeleteTableWriter.Write</cref>
+        /// </seealso>
         /// </summary>
         /// <param name="dataSet">対象DBに対応するDataSet</param>
         public virtual void DeleteDb(DataSet dataSet)
         {
-            SqlDeleteTableWriter writer = new SqlDeleteTableWriter(DataSource);
-            for (int i = dataSet.Tables.Count - 1; i >= 0; --i)
+            var writer = new SqlDeleteTableWriter(DataSource);
+            for (var i = dataSet.Tables.Count - 1; i >= 0; --i)
             {
                 writer.Write(dataSet.Tables[i]);
             }

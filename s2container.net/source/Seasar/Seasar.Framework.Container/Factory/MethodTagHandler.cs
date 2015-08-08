@@ -26,7 +26,7 @@ namespace Seasar.Framework.Container.Factory
         protected void ProcessExpression(
             IMethodDef methodDef, string expression, string tagName)
         {
-            string expr = expression;
+            var expr = expression;
             if (expr != null)
             {
                 expr = expr.Trim();

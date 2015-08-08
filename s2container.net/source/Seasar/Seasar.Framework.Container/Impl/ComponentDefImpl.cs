@@ -18,18 +18,15 @@
 
 using System;
 using System.Collections;
-using Seasar.Framework.Container.Util;
-using Seasar.Framework.Container.Deployer;
 using Seasar.Framework.Beans;
+using Seasar.Framework.Container.Deployer;
+using Seasar.Framework.Container.Util;
 
 namespace Seasar.Framework.Container.Impl
 {
     public class ComponentDefImpl : IComponentDef
     {
-        private readonly Type _componentType;
-        private readonly string _componentName;
         private IS2Container _container;
-        private string _expression;
         private readonly ArgDefSupport _argDefSupport = new ArgDefSupport();
         private readonly PropertyDefSupport _propertyDefSupport = new PropertyDefSupport();
         private readonly InitMethodDefSupport _initMethodDefSupport = new InitMethodDefSupport();
@@ -64,8 +61,8 @@ namespace Seasar.Framework.Container.Impl
         /// <param name="componentName">コンポーネントの名前</param>
         public ComponentDefImpl(Type componentType, string componentName)
         {
-            _componentType = componentType;
-            _componentName = componentName;
+            ComponentType = componentType;
+            ComponentName = componentName;
         }
 
         #region ComponentDef メンバ
@@ -101,15 +98,9 @@ namespace Seasar.Framework.Container.Impl
             }
         }
 
-        public Type ComponentType
-        {
-            get { return _componentType; }
-        }
+        public Type ComponentType { get; }
 
-        public string ComponentName
-        {
-            get { return _componentName; }
-        }
+        public string ComponentName { get; }
 
         public string AutoBindingMode
         {
@@ -143,11 +134,7 @@ namespace Seasar.Framework.Container.Impl
             }
         }
 
-        public string Expression
-        {
-            get { return _expression; }
-            set { _expression = value; }
-        }
+        public string Expression { get; set; }
 
         public void Init()
         {
@@ -156,11 +143,7 @@ namespace Seasar.Framework.Container.Impl
 
         public object GetProxy(Type proxyType)
         {
-            if (proxyType == null)
-            {
-                return null;
-            }
-            return _proxies[proxyType];
+            return proxyType == null ? null : _proxies[proxyType];
         }
 
         public void AddProxy(Type proxyType, object proxy)
@@ -182,15 +165,9 @@ namespace Seasar.Framework.Container.Impl
             _argDefSupport.AddArgDef(argDef);
         }
 
-        public int ArgDefSize
-        {
-            get { return _argDefSupport.ArgDefSize; }
-        }
+        public int ArgDefSize => _argDefSupport.ArgDefSize;
 
-        public IArgDef GetArgDef(int index)
-        {
-            return _argDefSupport.GetArgDef(index);
-        }
+        public IArgDef GetArgDef(int index) => _argDefSupport.GetArgDef(index);
 
         #endregion
 
@@ -201,15 +178,9 @@ namespace Seasar.Framework.Container.Impl
             _propertyDefSupport.AddPropertyDef(propertyDef);
         }
 
-        public int PropertyDefSize
-        {
-            get { return _propertyDefSupport.PropertyDefSize; }
-        }
+        public int PropertyDefSize => _propertyDefSupport.PropertyDefSize;
 
-        public IPropertyDef GetPropertyDef(int index)
-        {
-            return _propertyDefSupport.GetPropertyDef(index);
-        }
+        public IPropertyDef GetPropertyDef(int index) => _propertyDefSupport.GetPropertyDef(index);
 
         public IPropertyDef GetPropertyDef(string propertyName)
         {
@@ -219,14 +190,11 @@ namespace Seasar.Framework.Container.Impl
             }
             else
             {
-                throw new PropertyNotFoundRuntimeException(_componentType, propertyName);
+                throw new PropertyNotFoundRuntimeException(ComponentType, propertyName);
             }
         }
 
-        public bool HasPropertyDef(string propertyName)
-        {
-            return _propertyDefSupport.HasPropertyDef(propertyName);
-        }
+        public bool HasPropertyDef(string propertyName) =>_propertyDefSupport.HasPropertyDef(propertyName);
 
         #endregion
 
@@ -237,15 +205,9 @@ namespace Seasar.Framework.Container.Impl
             _initMethodDefSupport.AddInitMethodDef(methodDef);
         }
 
-        public int InitMethodDefSize
-        {
-            get { return _initMethodDefSupport.InitMethodDefSize; }
-        }
+        public int InitMethodDefSize => _initMethodDefSupport.InitMethodDefSize;
 
-        public IInitMethodDef GetInitMethodDef(int index)
-        {
-            return _initMethodDefSupport.GetInitMethodDef(index);
-        }
+        public IInitMethodDef GetInitMethodDef(int index) => _initMethodDefSupport.GetInitMethodDef(index);
 
         #endregion
 
@@ -256,15 +218,9 @@ namespace Seasar.Framework.Container.Impl
             _destroyMethodDefSupport.AddDestroyMethodDef(methodDef);
         }
 
-        public int DestroyMethodDefSize
-        {
-            get { return _destroyMethodDefSupport.DestroyMethodDefSize; }
-        }
+        public int DestroyMethodDefSize => _destroyMethodDefSupport.DestroyMethodDefSize;
 
-        public IDestroyMethodDef GetDestroyMethodDef(int index)
-        {
-            return _destroyMethodDefSupport.GetDestroyMethodDef(index);
-        }
+        public IDestroyMethodDef GetDestroyMethodDef(int index) => _destroyMethodDefSupport.GetDestroyMethodDef(index);
 
         #endregion
 
@@ -275,15 +231,9 @@ namespace Seasar.Framework.Container.Impl
             _aspectDefSupport.AddAspectDef(aspectDef);
         }
 
-        public int AspectDefSize
-        {
-            get { return _aspectDefSupport.AspectDefSize; }
-        }
+        public int AspectDefSize => _aspectDefSupport.AspectDefSize;
 
-        public IAspectDef GetAspectDef(int index)
-        {
-            return _aspectDefSupport.GetAspectDef(index);
-        }
+        public IAspectDef GetAspectDef(int index) => _aspectDefSupport.GetAspectDef(index);
 
         #endregion
 
@@ -294,25 +244,13 @@ namespace Seasar.Framework.Container.Impl
             _metaDefSupport.AddMetaDef(metaDef);
         }
 
-        public int MetaDefSize
-        {
-            get { return _metaDefSupport.MetaDefSize; }
-        }
+        public int MetaDefSize => _metaDefSupport.MetaDefSize;
 
-        public IMetaDef GetMetaDef(int index)
-        {
-            return _metaDefSupport.GetMetaDef(index);
-        }
+        public IMetaDef GetMetaDef(int index) => _metaDefSupport.GetMetaDef(index);
 
-        public IMetaDef GetMetaDef(string name)
-        {
-            return _metaDefSupport.GetMetaDef(name);
-        }
+        public IMetaDef GetMetaDef(string name) => _metaDefSupport.GetMetaDef(name);
 
-        public IMetaDef[] GetMetaDefs(string name)
-        {
-            return _metaDefSupport.GetMetaDefs(name);
-        }
+        public IMetaDef[] GetMetaDefs(string name) => _metaDefSupport.GetMetaDefs(name);
 
         #endregion
 
@@ -325,11 +263,7 @@ namespace Seasar.Framework.Container.Impl
             {
                 lock (this)
                 {
-                    if (_componentDeployer == null)
-                    {
-                        _componentDeployer = ComponentDeployerFactory.Create(this);
-                    }
-                    return _componentDeployer;
+                    return _componentDeployer ?? (_componentDeployer = ComponentDeployerFactory.Create(this));
                 }
             }
         }

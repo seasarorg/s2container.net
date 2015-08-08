@@ -16,6 +16,7 @@
  */
 #endregion
 
+using System;
 using System.Reflection;
 using Seasar.Extension.ADO.Impl;
 
@@ -24,10 +25,10 @@ namespace Seasar.Dao.Impl
     public class RelationPropertyTypeImpl
         : PropertyTypeImpl, IRelationPropertyType
     {
-        protected int _relationNo;
-        protected string[] _myKeys;
-        protected string[] _yourKeys;
-        protected IBeanMetaData _beanMetaData;
+        protected int relationNo;
+        protected string[] myKeys;
+        protected string[] yourKeys;
+        protected IBeanMetaData beanMetaData;
 
         public RelationPropertyTypeImpl(PropertyInfo propertyInfo)
             : base(propertyInfo)
@@ -38,60 +39,54 @@ namespace Seasar.Dao.Impl
             string[] myKeys, string[] yourKeys, IBeanMetaData beanMetaData)
             : base(propertyInfo)
         {
-            _relationNo = relationNo;
-            _myKeys = myKeys;
-            _yourKeys = yourKeys;
-            _beanMetaData = beanMetaData;
+            this.relationNo = relationNo;
+            this.myKeys = myKeys;
+            this.yourKeys = yourKeys;
+            this.beanMetaData = beanMetaData;
         }
 
         #region IRelationPropertyType ƒƒ“ƒo
 
-        public virtual int RelationNo
-        {
-            get { return _relationNo; }
-        }
+        public virtual int RelationNo => relationNo;
 
         public virtual int KeySize
         {
             get
             {
-                if (_myKeys.Length > 0)
-                    return _myKeys.Length;
+                if (myKeys.Length > 0)
+                    return myKeys.Length;
                 else
-                    return _beanMetaData.PrimaryKeySize;
+                    return beanMetaData.PrimaryKeySize;
             }
         }
 
         public virtual string GetMyKey(int index)
         {
-            if (_myKeys.Length > 0)
-                return _myKeys[index];
+            if (myKeys.Length > 0)
+                return myKeys[index];
             else
-                return _beanMetaData.GetPrimaryKey(index);
+                return beanMetaData.GetPrimaryKey(index);
         }
 
         public virtual string GetYourKey(int index)
         {
-            if (_yourKeys.Length > 0)
-                return _yourKeys[index];
+            if (yourKeys.Length > 0)
+                return yourKeys[index];
             else
-                return _beanMetaData.GetPrimaryKey(index);
+                return beanMetaData.GetPrimaryKey(index);
         }
 
         public virtual bool IsYourKey(string columnName)
         {
-            for (int i = 0; i < KeySize; ++i)
+            for (var i = 0; i < KeySize; ++i)
             {
-                if (string.Compare(columnName, GetYourKey(i), true) == 0)
+                if (String.Compare(columnName, GetYourKey(i), StringComparison.OrdinalIgnoreCase) == 0)
                     return true;
             }
             return false;
         }
 
-        public virtual IBeanMetaData BeanMetaData
-        {
-            get { return _beanMetaData; }
-        }
+        public virtual IBeanMetaData BeanMetaData => beanMetaData;
 
         #endregion
     }

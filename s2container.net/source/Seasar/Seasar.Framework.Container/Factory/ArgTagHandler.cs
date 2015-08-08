@@ -16,9 +16,9 @@
  */
 #endregion
 
-using Seasar.Framework.Xml;
-using Seasar.Framework.Util;
 using Seasar.Framework.Container.Impl;
+using Seasar.Framework.Util;
+using Seasar.Framework.Xml;
 
 namespace Seasar.Framework.Container.Factory
 {
@@ -31,12 +31,12 @@ namespace Seasar.Framework.Container.Factory
 
         public override void End(TagHandlerContext context, string body)
         {
-            IArgDef argDef = (IArgDef) context.Pop();
+            var argDef = (IArgDef) context.Pop();
             if (!StringUtil.IsEmpty(body))
             {
                 argDef.Expression = body;
             }
-            IArgDefAware argDefAware = (IArgDefAware) context.Peek();
+            var argDefAware = (IArgDefAware) context.Peek();
             argDefAware.AddArgDef(argDef);
         }
     }

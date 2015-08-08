@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -19,9 +19,9 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-// ƒAƒZƒ“ƒuƒŠ‚ÉŠÖ‚·‚éˆê”Êî•ñ‚ÍˆÈ‰º‚Ì‘®«ƒZƒbƒg‚ğ‚Æ‚¨‚µ‚Ä§Œä‚³‚ê‚Ü‚·B 
-// ƒAƒZƒ“ƒuƒŠ‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚éî•ñ‚ğ•ÏX‚·‚é‚É‚ÍA
-// ‚±‚ê‚ç‚Ì‘®«’l‚ğ•ÏX‚µ‚Ä‚­‚¾‚³‚¢B
+// ï¿½Aï¿½Zï¿½ï¿½ï¿½uï¿½ï¿½ï¿½ÉŠÖ‚ï¿½ï¿½ï¿½ï¿½Êï¿½ï¿½ÍˆÈ‰ï¿½ï¿½Ì‘ï¿½ï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½ï¿½Æ‚ï¿½ï¿½ï¿½ï¿½Äï¿½ï¿½ä‚³ï¿½ï¿½Ü‚ï¿½ï¿½B 
+// ï¿½Aï¿½Zï¿½ï¿½ï¿½uï¿½ï¿½ï¿½ÉŠÖ˜Aï¿½tï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÏXï¿½ï¿½ï¿½ï¿½É‚ÍA
+// ï¿½ï¿½ï¿½ï¿½ï¿½Ì‘ï¿½ï¿½ï¿½ï¿½lï¿½ï¿½ÏXï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
 [assembly: AssemblyTitle("Seasar.Quill")]
 [assembly: AssemblyDescription("Simple DI + AOP")]
 [assembly: AssemblyConfiguration("")]
@@ -31,13 +31,13 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-// ComVisible ‚ğ false ‚Éİ’è‚·‚é‚ÆA‚±‚ÌƒAƒZƒ“ƒuƒŠ“à‚ÌŒ^‚Í COM ƒRƒ“ƒ|[ƒlƒ“ƒg‚É‚Í 
-// QÆ•s‰Â”\‚É‚È‚è‚Ü‚·BCOM ‚©‚ç‚±‚ÌƒAƒZƒ“ƒuƒŠ“à‚ÌŒ^‚ÉƒAƒNƒZƒX‚·‚éê‡‚ÍA 
-// ‚»‚ÌŒ^‚Ì ComVisible ‘®«‚ğ true ‚Éİ’è‚µ‚Ä‚­‚¾‚³‚¢B
+// ComVisible ï¿½ï¿½ false ï¿½Éİ’è‚·ï¿½ï¿½ÆAï¿½ï¿½ï¿½ÌƒAï¿½Zï¿½ï¿½ï¿½uï¿½ï¿½ï¿½ï¿½ÌŒ^ï¿½ï¿½ COM ï¿½Rï¿½ï¿½ï¿½|ï¿½[ï¿½lï¿½ï¿½ï¿½gï¿½É‚ï¿½ 
+// ï¿½Qï¿½Æ•sï¿½Â”\ï¿½É‚È‚ï¿½Ü‚ï¿½ï¿½BCOM ï¿½ï¿½ï¿½ç‚±ï¿½ÌƒAï¿½Zï¿½ï¿½ï¿½uï¿½ï¿½ï¿½ï¿½ÌŒ^ï¿½ÉƒAï¿½Nï¿½Zï¿½Xï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÍA 
+// ï¿½ï¿½ï¿½ÌŒ^ï¿½ï¿½ ComVisible ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ true ï¿½Éİ’è‚µï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
 [assembly: ComVisible(false)]
 
-// Ÿ‚Ì GUID ‚ÍA‚±‚ÌƒvƒƒWƒFƒNƒg‚ª COM ‚ÉŒöŠJ‚³‚ê‚éê‡‚ÌAtypelib ‚Ì ID ‚Å‚·
+// ï¿½ï¿½ï¿½ï¿½ GUID ï¿½ÍAï¿½ï¿½ï¿½Ìƒvï¿½ï¿½ï¿½Wï¿½Fï¿½Nï¿½gï¿½ï¿½ COM ï¿½ÉŒï¿½ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½ê‡ï¿½ÌAtypelib ï¿½ï¿½ ID ï¿½Å‚ï¿½
 [assembly: Guid("947b9d01-9c60-41c1-93fa-a4451ab163f5")]
 
-[assembly: AssemblyVersion("1.4.0.0")]
-[assembly: AssemblyFileVersionAttribute("1.4.0.0")]
+[assembly: AssemblyVersion("1.4.1.0")]
+[assembly: AssemblyFileVersion("1.4.1.0")]

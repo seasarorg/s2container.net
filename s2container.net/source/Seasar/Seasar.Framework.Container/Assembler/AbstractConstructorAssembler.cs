@@ -16,26 +16,24 @@
  */
 #endregion
 
-using System;
-using System.Reflection;
-using Seasar.Framework.Util;
 using Seasar.Framework.Container.Util;
+using Seasar.Framework.Util;
 
 namespace Seasar.Framework.Container.Assembler
 {
     public abstract class AbstractConstructorAssembler : AbstractAssembler,
         IConstructorAssembler
     {
-        public AbstractConstructorAssembler(IComponentDef componentDef)
+        protected AbstractConstructorAssembler(IComponentDef componentDef)
             : base(componentDef)
         {
         }
 
         protected object AssembleDefault()
         {
-            Type type = ComponentDef.ComponentType;
-            ConstructorInfo constructor = ClassUtil.GetConstructorInfo(type, null);
-            object obj = AopProxyUtil.WeaveAspect(ComponentDef, constructor, new object[] { });
+            var type = ComponentDef.ComponentType;
+            var constructor = ClassUtil.GetConstructorInfo(type, null);
+            var obj = AopProxyUtil.WeaveAspect(ComponentDef, constructor, new object[] { });
             return obj;
         }
 

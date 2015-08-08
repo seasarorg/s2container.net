@@ -17,8 +17,8 @@
 #endregion
 
 using System;
-using System.Text;
 using System.Reflection;
+using System.Text;
 using Seasar.Framework.Log;
 using Seasar.Framework.Util;
 
@@ -43,16 +43,16 @@ namespace Seasar.Framework.Aop.Interceptors
         /// <returns>Interceptされるメソッドの戻り値</returns>
         public override object Invoke(IMethodInvocation invocation)
         {
-            MethodBase mb = invocation.Method;
-            StringBuilder buf = new StringBuilder(100);
-            buf.Append(mb.DeclaringType.FullName);
+            var mb = invocation.Method;
+            var buf = new StringBuilder(100);
+            if (mb.DeclaringType != null) buf.Append(mb.DeclaringType.FullName);
             buf.Append("#");
             buf.Append(mb.Name);
             buf.Append("(");
-            object[] args = invocation.Arguments;
+            var args = invocation.Arguments;
             if (args != null && args.Length > 0)
             {
-                for (int i = 0; i < args.Length; i++)
+                for (var i = 0; i < args.Length; i++)
                 {
                     buf.Append(args[i]);
                     buf.Append(", ");
@@ -60,7 +60,7 @@ namespace Seasar.Framework.Aop.Interceptors
                 buf.Length = buf.Length - 2;
             }
             buf.Append(")");
-            _logger.Debug("BEGIN " + buf.ToString());
+            _logger.Debug("BEGIN " + buf);
             object ret = null;
             Exception cause = null;
             try
@@ -75,7 +75,7 @@ namespace Seasar.Framework.Aop.Interceptors
                 buf.Append(ex);
                 cause = ex;
             }
-            _logger.Debug("END " + buf.ToString());
+            _logger.Debug("END " + buf);
             if (cause == null)
             {
                 return ret;

@@ -37,7 +37,7 @@ namespace Seasar.Tests.Quill.Resouces
             const string EXPECTED_MESSAGE = "S2Containerにコンポーネント\"test\"が存在しません";
 
             //  ここでは「既定の名前空間」が設定されている場合のテストのみ行います。
-            string message = MessageFormatter.GetSimpleMessage(
+            var message = MessageFormatter.GetSimpleMessage(
                 "EQLL0010", new object[] { "test" }, typeof(QuillContainer).Assembly, "Seasar.Quill");
             Assert.AreEqual(EXPECTED_MESSAGE, message, "メッセージリソースを取得出来る事");
             message = MessageFormatter.GetSimpleMessage(
@@ -48,7 +48,7 @@ namespace Seasar.Tests.Quill.Resouces
         [Test]
         public void TestImageResource()
         {
-            QuillControl control = new QuillControl();
+            var control = new QuillControl();
             Assert.AreEqual("QuillControl", control.Name, 
                 "例外が発生することなく画像リソースを使ったコントロールを生成できているか");
         }
@@ -59,7 +59,7 @@ namespace Seasar.Tests.Quill.Resouces
         [Test]
         public void TestShowDialogWithQuillControl()
         {
-            using (FormForQuillControlTest f = new FormForQuillControlTest())
+            using (var f = new FormForQuillControlTest())
             {
                 f.Show();
                 f.Close();

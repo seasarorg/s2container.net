@@ -26,24 +26,18 @@ namespace Seasar.Dxo.Annotation
     [AttributeUsage(AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
     public sealed class DatePatternAttribute : Attribute
     {
-        private string _format;
-
         /// <summary>
         /// コンストラクタ
         /// </summary>
         /// <param name="format">日付書式</param>
         public DatePatternAttribute(string format)
         {
-            _format = format;
+            Format = format;
         }
 
         /// <summary>
         /// 日付書式
         /// </summary>
-        public string Format
-        {
-            get { return _format; }
-            set { _format = value; }
-        }
+        public string Format { get; set; }
     }
 }

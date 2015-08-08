@@ -19,6 +19,7 @@
 using System;
 using System.Data;
 using Seasar.Extension.ADO;
+using Seasar.Framework.Util;
 
 namespace Seasar.Dao.Impl
 {
@@ -34,7 +35,8 @@ namespace Seasar.Dao.Impl
 
         public virtual object Handle(IDataReader dataReader)
         {
-            DataSet dataSet = (DataSet)Activator.CreateInstance(_returnType);
+//            DataSet dataSet = (DataSet)Activator.CreateInstance(_returnType);
+            var dataSet = (DataSet) ClassUtil.NewInstance(_returnType);
             Handle(dataReader, dataSet);
             return dataSet;
         }
@@ -43,10 +45,10 @@ namespace Seasar.Dao.Impl
         {
             if ( dataSet.Tables.Count == 0 )
             {
-                DataTable table = new DataTable();
+                var table = new DataTable();
                 dataSet.Tables.Add(table);
             }
-            DataTable[] tables = new DataTable[dataSet.Tables.Count];
+            var tables = new DataTable[dataSet.Tables.Count];
             dataSet.Tables.CopyTo(tables, 0);
             dataSet.Load(dataReader, LoadOption.OverwriteChanges, tables);
         }

@@ -38,7 +38,7 @@ namespace Seasar.Framework.Util
         /// <returns>バインド変数タイプ</returns>
         public static BindVariableType GetBindVariableType(IDbCommand cmd)
         {
-            string name = cmd.GetType().Name;
+            string name = cmd.GetExType().Name;
             if ("SqlCommand".Equals(name) ||
                 "DB2Command".Equals(name))
             {

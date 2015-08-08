@@ -33,8 +33,8 @@ namespace Seasar.Tests.Framework.Container.Assembler
         public void TestAssemble()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(Hashtable));
-            DestroyMethodDefImpl md = new DestroyMethodDefImpl("Add");
+            var cd = new ComponentDefImpl(typeof(Hashtable));
+            var md = new DestroyMethodDefImpl("Add");
             IArgDef argDef = new ArgDefImpl("aaa");
             md.AddArgDef(argDef);
             IArgDef argDef2 = new ArgDefImpl("111");
@@ -42,7 +42,7 @@ namespace Seasar.Tests.Framework.Container.Assembler
             cd.AddDestroyMethodDef(md);
             container.Register(cd);
             IMethodAssembler assembler = new DefaultDestroyMethodAssembler(cd);
-            Hashtable table = new Hashtable();
+            var table = new Hashtable();
             assembler.Assemble(table);
             Assert.AreEqual("111", table["aaa"]);
         }
@@ -51,13 +51,13 @@ namespace Seasar.Tests.Framework.Container.Assembler
         public void TestAssembleForExpression()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(Hashtable));
+            var cd = new ComponentDefImpl(typeof(Hashtable));
             IDestroyMethodDef md = new DestroyMethodDefImpl();
             md.Expression = "self.Add('aaa','111')";
             cd.AddDestroyMethodDef(md);
             container.Register(cd);
             IMethodAssembler assembler = new DefaultDestroyMethodAssembler(cd);
-            Hashtable table = new Hashtable();
+            var table = new Hashtable();
             assembler.Assemble(table);
             Assert.AreEqual("111", table["aaa"]);
         }
@@ -66,12 +66,12 @@ namespace Seasar.Tests.Framework.Container.Assembler
         public void TestAssembleIllegalArgument()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(Hashtable));
+            var cd = new ComponentDefImpl(typeof(Hashtable));
             IDestroyMethodDef md = new DestroyMethodDefImpl("Add");
             cd.AddDestroyMethodDef(md);
             container.Register(cd);
             IMethodAssembler assembler = new DefaultDestroyMethodAssembler(cd);
-            Hashtable table = new Hashtable();
+            var table = new Hashtable();
             try
             {
                 assembler.Assemble(table);
@@ -90,17 +90,11 @@ namespace Seasar.Tests.Framework.Container.Assembler
 
         public class A : IFoo
         {
-            private IHoge _hoge;
-
-            public IHoge Hoge
-            {
-                get { return _hoge; }
-                set { _hoge = value; }
-            }
+            public IHoge Hoge { get; set; }
 
             public string HogeName
             {
-                get { return _hoge.Name; }
+                get { return Hoge.Name; }
             }
         }
 

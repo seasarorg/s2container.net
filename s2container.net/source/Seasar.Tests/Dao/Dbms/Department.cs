@@ -57,7 +57,7 @@ namespace Seasar.Tests.Dao.Dbms
 
         public override string ToString()
         {
-            StringBuilder buf = new StringBuilder();
+            var buf = new StringBuilder();
             buf.Append(_deptno).Append(", ");
             buf.Append(_dname).Append(", ");
             buf.Append(_loc).Append(", ");

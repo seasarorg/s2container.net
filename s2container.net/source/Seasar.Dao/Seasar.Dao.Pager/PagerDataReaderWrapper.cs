@@ -32,12 +32,12 @@ namespace Seasar.Dao.Pager
         {
             _original = original;
             _condition = condition;
-            MoveOffset();
+            _MoveOffset();
         }
 
         public override bool Read()
         {
-            bool next = base.Read();
+            var next = base.Read();
             if (_condition.Limit == PagerConditionConstants.NONE_LIMIT || _counter < (_condition.Offset + _condition.Limit) && next)
             {
                 _counter++;
@@ -58,10 +58,10 @@ namespace Seasar.Dao.Pager
             }
         }
 
-        private void MoveOffset()
+        private void _MoveOffset()
         {
-            int row = 0;
-            int offset = _condition.Offset;
+            var row = 0;
+            var offset = _condition.Offset;
             while (row < offset && _original.Read())
             {
                 row++;

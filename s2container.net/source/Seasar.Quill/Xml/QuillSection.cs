@@ -1,4 +1,4 @@
-#region Copyright
+﻿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -26,46 +26,25 @@ namespace Seasar.Quill.Xml
     /// </summary>
     public class QuillSection
     {
-        private string _daoSetting = null;
-        private string _transactionSetting = null;
-        private IList _dataSources = new ArrayList();
-        private IList _assemblys = new ArrayList();
-
         /// <summary>
         /// S2Dao関係設定クラス
         /// </summary>
-        public string DaoSetting
-        {
-            set { _daoSetting = value; }
-            get { return _daoSetting; }
-        }
+        public string DaoSetting { set; get; } = null;
 
         /// <summary>
         /// トランザクション関係設定クラス
         /// </summary>
-        public string TransactionSetting
-        {
-            set { _transactionSetting = value; }
-            get { return _transactionSetting; }
-        }
+        public string TransactionSetting { set; get; } = null;
 
         /// <summary>
         /// データソースリスト
         /// </summary>
-        public IList DataSources
-        {
-            set { _dataSources = value; }
-            get { return _dataSources; }
-        }
+        public IList DataSources { set; get; } = new ArrayList();
 
         /// <summary>
         /// アセンブリリスト
         /// </summary>
-        public IList Assemblys
-        {
-            set { _assemblys = value; }
-            get { return _assemblys; }
-        }
+        public IList Assemblys { set; get; } = new ArrayList();
 
         /// <summary>
         /// セクション情報を文字列で返す
@@ -73,7 +52,7 @@ namespace Seasar.Quill.Xml
         /// <returns></returns>
         public override string ToString()
         {
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
 
             //  Dao設定クラス
             builder.Append("DaoSetting=[");
@@ -83,7 +62,7 @@ namespace Seasar.Quill.Xml
             }
             else
             {
-                builder.AppendFormat("{0}]\n", DaoSetting);
+                builder.Append($"{DaoSetting}]\n");
             }
             //  Transaction設定クラス
             builder.Append("TransactionSetting=[");
@@ -93,7 +72,7 @@ namespace Seasar.Quill.Xml
             }
             else
             {
-                builder.AppendFormat("{0}]\n", TransactionSetting);
+                builder.Append($"{TransactionSetting}]\n");
             }
 
             //  データソース
@@ -104,7 +83,7 @@ namespace Seasar.Quill.Xml
             }
             else
             {
-                foreach (object ds in DataSources)
+                foreach (var ds in DataSources)
                 {
                     builder.AppendFormat("{0},", ds);
                 }
@@ -120,9 +99,9 @@ namespace Seasar.Quill.Xml
             }
             else
             {
-                foreach (object assembly in Assemblys)
+                foreach (var assembly in Assemblys)
                 {
-                    builder.AppendFormat("{0},", assembly);
+                    builder.Append($"{assembly},");
                 }
                 builder.Replace(",", string.Empty, builder.Length - 1, 1);
                 builder.AppendLine("]");

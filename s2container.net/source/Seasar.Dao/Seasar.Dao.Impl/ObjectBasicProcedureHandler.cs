@@ -20,6 +20,7 @@
 
 using System;
 using System.Data;
+using System.Reflection;
 using Seasar.Extension.ADO;
 using Seasar.Framework.Exceptions;
 using Seasar.Framework.Log;
@@ -32,7 +33,7 @@ namespace Seasar.Dao.Impl
     /// </summary>
     public class ObjectBasicProcedureHandler : AbstractProcedureHandler
     {
-        private static readonly Logger _logger = Logger.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly Logger _logger = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         /// <summary>
         /// コンストラクタ
@@ -55,7 +56,7 @@ namespace Seasar.Dao.Impl
         public object Execute(object[] args, Type returnType)
         {
             if (DataSource == null) throw new EmptyRuntimeException("dataSource");
-            IDbConnection conn = DataSourceUtil.GetConnection(DataSource);
+            var conn = DataSourceUtil.GetConnection(DataSource);
 
             try
             {
@@ -69,19 +70,19 @@ namespace Seasar.Dao.Impl
                 {
                     object ret = null;
                     cmd = GetCommand(conn, ProcedureName);
-                    int cnt = 0;
+                    var cnt = 0;
 
                     // パラメータをセットし、返値を取得する
                     if (returnType != typeof(void))
                     {
                         // ODP.NETでは、最初にRETURNパラメータをセットしないとRETURN値を取得できない？
-                        string returnParamName = BindReturnValues(cmd, "RetValue", GetDbValueType(returnType));
+                        var returnParamName = BindReturnValues(cmd, "RetValue", GetDbValueType(returnType));
 
                         BindParamters(cmd, args, ArgumentTypes, ArgumentNames, ArgumentDirection);
 
                         CommandFactory.ExecuteNonQuery(DataSource, cmd);
 
-                        IDbDataParameter param = (IDbDataParameter) cmd.Parameters[returnParamName];
+                        var param = (IDbDataParameter) cmd.Parameters[returnParamName];
                         ret = param.Value;
                         cnt = 1;
                     }
@@ -92,12 +93,12 @@ namespace Seasar.Dao.Impl
                     }
 
                     // OutまたはInOutパラメータ値を取得する
-                    for (int i = 0; i < args.Length; i++)
+                    for (var i = 0; i < args.Length; i++)
                     {
                         if (ArgumentDirection[i] == ParameterDirection.InputOutput ||
                              ArgumentDirection[i] == ParameterDirection.Output)
                         {
-                            IDbDataParameter param = (IDbDataParameter)cmd.Parameters[i + cnt];
+                            var param = (IDbDataParameter)cmd.Parameters[i + cnt];
                             args[i] = ConversionUtil.ConvertTargetType(param.Value, ArgumentTypes[i]);
                         }
                     }

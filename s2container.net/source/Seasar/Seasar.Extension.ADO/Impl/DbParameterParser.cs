@@ -39,24 +39,12 @@ namespace Seasar.Extension.ADO.Impl
             _instance = new BasicDbParameterParser(pattern);
         }
 
-        public MatchCollection Parse(string sql)
-        {
-            return _instance.Parse(sql);
-        }
+        public MatchCollection Parse(string sql) => _instance.Parse(sql);
 
-        public Match Match(string sql, int startIndex)
-        {
-            return _instance.Match(sql, startIndex);
-        }
+        public Match Match(string sql, int startIndex) => _instance.Match(sql, startIndex);
 
-        public virtual string ChangeSignSql(IDbCommand cmd, string original)
-        {
-            return _instance.ChangeSignSql(cmd, original);
-        }
+        public virtual string ChangeSignSql(IDbCommand cmd, string original) => _instance.ChangeSignSql(cmd, original);
 
-        public virtual string[] GetArgNames(IDbCommand cmd, object[] args)
-        {
-            return _instance.GetArgNames(cmd, args);
-        }
+        public virtual string[] GetArgNames(IDbCommand cmd, object[] args) => _instance.GetArgNames(cmd, args);
     }
 }

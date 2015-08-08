@@ -23,16 +23,11 @@ namespace Seasar.Dao.Attrs
     [AttributeUsage(AttributeTargets.Property)]
     public class RelkeysAttribute : Attribute
     {
-        private readonly string _relkeys;
-
         public RelkeysAttribute(string relkeys)
         {
-            _relkeys = relkeys;
+            Relkeys = relkeys;
         }
 
-        public string Relkeys
-        {
-            get { return _relkeys; }
-        }
+        public string Relkeys { get; }
     }
 }

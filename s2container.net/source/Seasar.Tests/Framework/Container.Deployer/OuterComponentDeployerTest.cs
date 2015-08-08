@@ -32,13 +32,13 @@ namespace Seasar.Tests.Framework.Container.Deployer
         [Test]
         public void TestInjectDependency()
         {
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(Hashtable));
+            var cd = new ComponentDefImpl(typeof(Hashtable));
             IInitMethodDef md = new InitMethodDefImpl("Add");
             md.AddArgDef(new ArgDefImpl("aaa"));
             md.AddArgDef(new ArgDefImpl("hoge"));
             cd.AddInitMethodDef(md);
             IComponentDeployer deployer = new OuterComponentDeployer(cd);
-            Hashtable myTable = new Hashtable();
+            var myTable = new Hashtable();
             deployer.InjectDependency(myTable);
             Assert.AreEqual("hoge", myTable["aaa"]);
         }
@@ -47,7 +47,7 @@ namespace Seasar.Tests.Framework.Container.Deployer
         public void TestDeploy()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(Hashtable));
+            var cd = new ComponentDefImpl(typeof(Hashtable));
             container.Register(cd);
             IComponentDeployer deployer = new OuterComponentDeployer(cd);
             try

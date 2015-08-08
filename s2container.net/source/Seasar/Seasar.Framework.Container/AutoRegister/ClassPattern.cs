@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -22,25 +22,24 @@ using Seasar.Framework.Util;
 namespace Seasar.Framework.Container.AutoRegister
 {
     /// <summary>
-    /// ©“®“o˜^‚Ì‘ÎÛA”ñ‘ÎÛ‚Æ‚È‚éƒNƒ‰ƒX–¼‚Ìƒpƒ^[ƒ“‚ğ•Û‚µ‚Ü‚·B
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½oï¿½^ï¿½Ì‘ÎÛAï¿½ï¿½ÎÛ‚Æ‚È‚ï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Ìƒpï¿½^ï¿½[ï¿½ï¿½ï¿½ï¿½Ûï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
     /// </summary>
     public class ClassPattern
     {
-        private string namespaceName;
-        private Regex[] shortClassNamePatterns;
+        private Regex[] _shortClassNamePatterns;
 
         /// <summary>
-        /// ƒfƒtƒHƒ‹ƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å‚·B
+        /// ï¿½fï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ÌƒRï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^ï¿½Å‚ï¿½ï¿½B
         /// </summary>
         public ClassPattern()
         {
         }
 
         /// <summary>
-        /// –¼‘O‹óŠÔ–¼‚ÆƒNƒ‰ƒX–¼‚Ìƒpƒ^[ƒ“‚ğó‚¯æ‚éƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å‚·B
+        /// ï¿½ï¿½ï¿½Oï¿½ï¿½Ô–ï¿½ï¿½ÆƒNï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Ìƒpï¿½^ï¿½[ï¿½ï¿½ï¿½ï¿½ó‚¯ï¿½ï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^ï¿½Å‚ï¿½ï¿½B
         /// </summary>
-        /// <param name="namespaceName">–¼‘O‹óŠÔ–¼</param>
-        /// <param name="shortClassNames">ƒNƒ‰ƒX–¼‚Ìƒpƒ^[ƒ“</param>
+        /// <param name="namespaceName">ï¿½ï¿½ï¿½Oï¿½ï¿½Ô–ï¿½</param>
+        /// <param name="shortClassNames">ï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Ìƒpï¿½^ï¿½[ï¿½ï¿½</param>
         public ClassPattern(string namespaceName, string shortClassNames)
         {
             NamespaceName = namespaceName;
@@ -48,50 +47,46 @@ namespace Seasar.Framework.Container.AutoRegister
         }
 
         /// <summary>
-        /// –¼‘O‹óŠÔ–¼‚ğæ“¾Eİ’è‚µ‚Ü‚·B
+        /// ï¿½ï¿½ï¿½Oï¿½ï¿½Ô–ï¿½ï¿½ï¿½æ“¾ï¿½Eï¿½İ’è‚µï¿½Ü‚ï¿½ï¿½B
         /// </summary>
-        public string NamespaceName
-        {
-            set { namespaceName = value; }
-            get { return namespaceName; }
-        }
+        public string NamespaceName { set; get; }
 
         /// <summary>
-        /// i–¼‘O‹óŠÔ‚ğŠÜ‚Ü‚È‚¢jƒNƒ‰ƒX–¼‚Ìƒpƒ^[ƒ“‚ğİ’è‚µ‚Ü‚·B
+        /// ï¿½iï¿½ï¿½ï¿½Oï¿½ï¿½Ô‚ï¿½Ü‚Ü‚È‚ï¿½ï¿½jï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Ìƒpï¿½^ï¿½[ï¿½ï¿½ï¿½ï¿½İ’è‚µï¿½Ü‚ï¿½ï¿½B
         /// </summary>
         /// <remarks>
-        /// •¡”‚Ìƒpƒ^[ƒ“‚ğİ’è‚·‚éê‡A','‚Å‹æØ‚è‚Ü‚·B
+        /// ï¿½ï¿½ï¿½ï¿½ï¿½Ìƒpï¿½^ï¿½[ï¿½ï¿½ï¿½ï¿½İ’è‚·ï¿½ï¿½ê‡ï¿½A','ï¿½Å‹ï¿½Ø‚ï¿½Ü‚ï¿½ï¿½B
         /// </remarks>
         public string ShortClassNames
         {
             set
             {
-                string[] classNames = value.Split(',');
-                shortClassNamePatterns = new Regex[classNames.Length];
+                var classNames = value.Split(',');
+                _shortClassNamePatterns = new Regex[classNames.Length];
 
-                for (int i = 0; i < classNames.Length; ++i)
+                for (var i = 0; i < classNames.Length; ++i)
                 {
-                    string className = classNames[i].Trim();
-                    shortClassNamePatterns[i] = new Regex(className, RegexOptions.Compiled);
+                    var className = classNames[i].Trim();
+                    _shortClassNamePatterns[i] = new Regex(className, RegexOptions.Compiled);
                 }
             }
         }
 
         /// <summary>
-        /// i–¼‘O‹óŠÔ‚ğŠÜ‚Ü‚È‚¢jƒNƒ‰ƒX–¼‚ªƒpƒ^[ƒ“‚Éˆê’v‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ•Ô‚µ‚Ü‚·B
+        /// ï¿½iï¿½ï¿½ï¿½Oï¿½ï¿½Ô‚ï¿½Ü‚Ü‚È‚ï¿½ï¿½jï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½ï¿½pï¿½^ï¿½[ï¿½ï¿½ï¿½Éˆï¿½vï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½ï¿½Ü‚ï¿½ï¿½B
         /// </summary>
-        /// <param name="shortClassName">ƒNƒ‰ƒX–¼</param>
-        /// <returns>ˆê’v‚µ‚Ä‚¢‚éê‡‚Ítrue, ˆê’v‚µ‚Ä‚¢‚È‚¢ê‡‚Ífalse</returns>
+        /// <param name="shortClassName">ï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½</param>
+        /// <returns>ï¿½ï¿½vï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ê‡ï¿½ï¿½true, ï¿½ï¿½vï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½ï¿½false</returns>
         public bool IsAppliedShortClassName(string shortClassName)
         {
-            if (shortClassNamePatterns == null)
+            if (_shortClassNamePatterns == null)
             {
                 return true;
             }
 
-            for (int i = 0; i < shortClassNamePatterns.Length; ++i)
+            for (var i = 0; i < _shortClassNamePatterns.Length; ++i)
             {
-                if (shortClassNamePatterns[i].IsMatch(shortClassName))
+                if (_shortClassNamePatterns[i].IsMatch(shortClassName))
                 {
                     return true;
                 }
@@ -101,21 +96,21 @@ namespace Seasar.Framework.Container.AutoRegister
         }
 
         /// <summary>
-        /// –¼‘O‹óŠÔ–¼‚ªƒpƒ^[ƒ“‚Éˆê’v‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ•Ô‚µ‚Ü‚·B
+        /// ï¿½ï¿½ï¿½Oï¿½ï¿½Ô–ï¿½ï¿½ï¿½ï¿½pï¿½^ï¿½[ï¿½ï¿½ï¿½Éˆï¿½vï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½ï¿½Ü‚ï¿½ï¿½B
         /// </summary>
-        /// <param name="namespaceName">–¼‘O‹óŠÔ–¼</param>
-        /// <returns>ˆê’v‚µ‚Ä‚¢‚éê‡‚Ítrue, ˆê’v‚µ‚Ä‚¢‚È‚¢ê‡‚Ífalse</returns>
+        /// <param name="namespaceName">ï¿½ï¿½ï¿½Oï¿½ï¿½Ô–ï¿½</param>
+        /// <returns>ï¿½ï¿½vï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ê‡ï¿½ï¿½true, ï¿½ï¿½vï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½ê‡ï¿½ï¿½false</returns>
         public bool IsAppliedNamespaceName(string namespaceName)
         {
             if (!StringUtil.IsEmpty(namespaceName)
-                && !StringUtil.IsEmpty(this.namespaceName))
+                && !StringUtil.IsEmpty(this.NamespaceName))
             {
                 return AppendDelimiter(namespaceName).StartsWith(
-                    AppendDelimiter(this.namespaceName));
+                    AppendDelimiter(this.NamespaceName));
             }
 
             if (StringUtil.IsEmpty(namespaceName)
-                && StringUtil.IsEmpty(this.namespaceName))
+                && StringUtil.IsEmpty(this.NamespaceName))
             {
                 return true;
             }
@@ -124,10 +119,10 @@ namespace Seasar.Framework.Container.AutoRegister
         }
 
         /// <summary>
-        /// ƒfƒŠƒ~ƒ^‚ğ’Ç‰Á‚µ‚Ü‚·B
+        /// ï¿½fï¿½ï¿½ï¿½~ï¿½^ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
         /// </summary>
-        /// <param name="name">–¼‘O‹óŠÔ–¼</param>
-        /// <returns>–¼‘O‹óŠÔ–¼‚ÉŒã‚ë‚ÉƒfƒŠƒ~ƒ^('.')‚ğ’Ç‰Á‚µ‚½‚à‚Ì</returns>
+        /// <param name="name">ï¿½ï¿½ï¿½Oï¿½ï¿½Ô–ï¿½</param>
+        /// <returns>ï¿½ï¿½ï¿½Oï¿½ï¿½Ô–ï¿½ï¿½ÉŒï¿½ï¿½Éƒfï¿½ï¿½ï¿½~ï¿½^('.')ï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½</returns>
         protected static string AppendDelimiter(string name)
         {
             return name.EndsWith(".") ? name : name + ".";

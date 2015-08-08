@@ -23,20 +23,15 @@ namespace Seasar.Dao.Attrs
     [AttributeUsage(AttributeTargets.Method)]
     public class SqlFileAttribute : Attribute
     {
-        private readonly string _fileName;
-
         public SqlFileAttribute()
         {
         }
 
         public SqlFileAttribute(string fileName)
         {
-            _fileName = fileName;
+            FileName = fileName;
         }
 
-        public string FileName
-        {
-            get { return _fileName; }
-        }
+        public string FileName { get; }
     }
 }

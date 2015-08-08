@@ -27,8 +27,6 @@ namespace Seasar.Framework.Exceptions
     [Serializable]
     public class SQLRuntimeException : SRuntimeException
     {
-        private readonly string _sql;
-
         /// <summary>
         /// SQLRuntimeExceptionクラスの新しいインスタンスを初期化し、原因となった例外を設定する
         /// </summary>
@@ -46,7 +44,7 @@ namespace Seasar.Framework.Exceptions
         public SQLRuntimeException(Exception cause, string sql)
             : this(cause)
         {
-            _sql = sql;
+            Sql = sql;
         }
 
         /// <summary>
@@ -57,21 +55,18 @@ namespace Seasar.Framework.Exceptions
         public SQLRuntimeException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            _sql = info.GetString("_sql");
+            Sql = info.GetString("_sql");
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("_sql", _sql, typeof(string));
+            info.AddValue("_sql", Sql, typeof(string));
             base.GetObjectData(info, context);
         }
 
         /// <summary>
         /// 例外の原因となったSQLを設定もしくは取得する
         /// </summary>
-        public string Sql
-        {
-            get { return _sql; }
-        }
+        public string Sql { get; }
     }
 }

@@ -32,11 +32,11 @@ namespace Seasar.Tests.Quill.Xml
         public void TestLoadFromOuterConfig_FileNotFound()
         {
             {
-                QuillSection section = QuillSectionLoader.LoadFromOuterConfig(null);
+                var section = QuillSectionLoader.LoadFromOuterConfig(null);
                 Assert.IsNull(section, "1");
             }
             {
-                QuillSection section = QuillSectionLoader.LoadFromOuterConfig("NotFound");
+                var section = QuillSectionLoader.LoadFromOuterConfig("NotFound");
                 Assert.IsNull(section, "2");
             }
         }
@@ -47,17 +47,17 @@ namespace Seasar.Tests.Quill.Xml
         [Test]
         public void TestLoadFromOuterConfig_Normal()
         {
-            string location = Assembly.GetExecutingAssembly().CodeBase;
-            string configPath = location.Replace("Seasar.Tests.DLL", "Quill/Xml/Test.Quill.dll.config").Replace("file:///", string.Empty);
-            QuillSection actual = QuillSectionLoader.LoadFromOuterConfig(configPath);
+            var location = Assembly.GetExecutingAssembly().CodeBase;
+            var configPath = location.Replace("Seasar.Tests.DLL", "Quill/Xml/Test.Quill.dll.config").Replace("file:///", string.Empty);
+            var actual = QuillSectionLoader.LoadFromOuterConfig(configPath);
 
             Assert.IsNotNull(actual, "1_" + configPath);
             Assert.AreEqual("HogeDaoSetting", actual.DaoSetting, "daoSetting");
             Assert.AreEqual("HogeTxSetting", actual.TransactionSetting, "TransactionSetting");
             
             //  アセンブリ設定
-            string[] expectedAssemblys = new string[] { "Hoge", "Huga", "Hogo" };
-            for(int i = 0; i < expectedAssemblys.Length; i++)
+            var expectedAssemblys = new string[] { "Hoge", "Huga", "Hogo" };
+            for(var i = 0; i < expectedAssemblys.Length; i++)
             {
                 Assert.AreEqual(expectedAssemblys[i], actual.Assemblys[i], 
                     string.Format("Assembly_[{0}]", actual.Assemblys[i]));
@@ -65,13 +65,13 @@ namespace Seasar.Tests.Quill.Xml
 
             //  データソース設定
             Assert.AreEqual(3, actual.DataSources.Count, "DataSourceSections_Count");
-            for(int i = 0; i < 0; i++)
+            for(var i = 0; i < 0; i++)
             {
-                object item = actual.DataSources[i];
+                var item = actual.DataSources[i];
                 Assert.IsNotNull(item, "DataSourceSection is nothing");
                 Assert.IsTrue(item is DataSourceSection, "Type is [DataSourceSection]");
 
-                DataSourceSection dsSection = (DataSourceSection) item;
+                var dsSection = (DataSourceSection) item;
 
                 Assert.AreEqual("cs" + i, dsSection.ConnectionString, "cs");
                 Assert.AreEqual("ds" + i, dsSection.DataSourceClassName, "ds");

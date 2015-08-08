@@ -1,4 +1,4 @@
-#region Copyright
+Ôªø#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -20,6 +20,7 @@ using System.Data.SqlTypes;
 using System.Text;
 using Seasar.Dao.Attrs;
 using System;
+using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Dao.Impl
 {
@@ -27,111 +28,55 @@ namespace Seasar.Tests.Dao.Impl
     [TimestampProperty("Timestamp")]
     public class EmployeeDefaultTimestamp
     {
-        private long _empno;
-        private string _ename;
-        private string _job;
-        private SqlInt16 _mgr;
-        private SqlSingle _sal;
-        private SqlSingle _comm;
-        private int _deptno;
-        private byte[] _password;
-        private string _dummy;
-        private Department _department;
-        private DateTime _timestamp;
+        public long Empno { set; get; }
 
-        public long Empno
-        {
-            set { _empno = value; }
-            get { return _empno; }
-        }
-
-        public string Ename
-        {
-            set { _ename = value; }
-            get { return _ename; }
-        }
+        public string Ename { set; get; }
 
         [Column("Job")]
-        public string JobName
-        {
-            set { _job = value; }
-            get { return _job; }
-        }
+        public string JobName { set; get; }
 
-        public SqlInt16 Mgr
-        {
-            set { _mgr = value; }
-            get { return _mgr; }
-        }
+        public SqlInt16 Mgr { set; get; }
 
-        public SqlSingle Sal
-        {
-            set { _sal = value; }
-            get { return _sal; }
-        }
+        public SqlSingle Sal { set; get; }
 
-        public SqlSingle Comm
-        {
-            set { _comm = value; }
-            get { return _comm; }
-        }
+        public SqlSingle Comm { set; get; }
 
-        public int Deptno
-        {
-            set { _deptno = value; }
-            get { return _deptno; }
-        }
+        public int Deptno { set; get; }
 
-        public byte[] Password
-        {
-            set { _password = value; }
-            get { return _password; }
-        }
+        public byte[] Password { set; get; }
 
-        public string Dummy
-        {
-            set { _dummy = value; }
-            get { return _dummy; }
-        }
+        public string Dummy { set; get; }
 
         [Relno(0)]
-        public Department Department
-        {
-            set { _department = value; }
-            get { return _department; }
-        }
+        public Department Department { set; get; }
 
         [Column("tstamp")]
-        public DateTime Timestamp
-        {
-            set { _timestamp = value; }
-            get { return _timestamp; }
-        }
+        public DateTime Timestamp { set; get; }
 
         public bool equals(object other)
         {
-            if ( !( other.GetType() == typeof(EmployeeDefaultTimestamp) ) ) return false;
-            EmployeeDefaultTimestamp castOther = (EmployeeDefaultTimestamp)other;
+            if ( !( other.GetExType() == typeof(EmployeeDefaultTimestamp) ) ) return false;
+            var castOther = (EmployeeDefaultTimestamp)other;
             return Empno == castOther.Empno;
         }
 
-        public int hashCode()
+        public int HashCode()
         {
             return (int)Empno;
         }
 
         public override string ToString()
         {
-            StringBuilder buf = new StringBuilder(50);
-            buf.Append(_empno).Append(", ");
-            buf.Append(_ename).Append(", ");
-            buf.Append(_job).Append(", ");
-            buf.Append(_mgr).Append(", ");
-            buf.Append(_sal).Append(", ");
-            buf.Append(_comm).Append(", ");
-            buf.Append(_deptno).Append(", ");
-            buf.Append(_timestamp).Append(", ");
-            buf.Append(_department);
+            var buf = new StringBuilder(50);
+            buf.Append(Empno).Append(", ");
+            buf.Append(Ename).Append(", ");
+            buf.Append(JobName).Append(", ");
+            buf.Append(Mgr).Append(", ");
+            buf.Append(Sal).Append(", ");
+            buf.Append(Comm).Append(", ");
+            buf.Append(Deptno).Append(", ");
+            buf.Append(Timestamp).Append(", ");
+            buf.Append(Department);
             return buf.ToString();
         }
     }
@@ -140,110 +85,54 @@ namespace Seasar.Tests.Dao.Impl
     [VersionNoProperty("Version")]
     public class EmployeeDefaultVersionNo
     {
-        private long _empno;
-        private string _ename;
-        private string _job;
-        private SqlInt16 _mgr;
-        private SqlSingle _sal;
-        private SqlSingle _comm;
-        private int _deptno;
-        private byte[] _password;
-        private string _dummy;
-        private Department _department;
-        private int _version;
+        public long Empno { set; get; }
 
-        public long Empno
-        {
-            set { _empno = value; }
-            get { return _empno; }
-        }
-
-        public string Ename
-        {
-            set { _ename = value; }
-            get { return _ename; }
-        }
+        public string Ename { set; get; }
 
         [Column("Job")]
-        public string JobName
-        {
-            set { _job = value; }
-            get { return _job; }
-        }
+        public string JobName { set; get; }
 
-        public SqlInt16 Mgr
-        {
-            set { _mgr = value; }
-            get { return _mgr; }
-        }
+        public SqlInt16 Mgr { set; get; }
 
-        public SqlSingle Sal
-        {
-            set { _sal = value; }
-            get { return _sal; }
-        }
+        public SqlSingle Sal { set; get; }
 
-        public SqlSingle Comm
-        {
-            set { _comm = value; }
-            get { return _comm; }
-        }
+        public SqlSingle Comm { set; get; }
 
-        public int Deptno
-        {
-            set { _deptno = value; }
-            get { return _deptno; }
-        }
+        public int Deptno { set; get; }
 
-        public byte[] Password
-        {
-            set { _password = value; }
-            get { return _password; }
-        }
+        public byte[] Password { set; get; }
 
-        public string Dummy
-        {
-            set { _dummy = value; }
-            get { return _dummy; }
-        }
+        public string Dummy { set; get; }
 
         [Relno(0)]
-        public Department Department
-        {
-            set { _department = value; }
-            get { return _department; }
-        }
+        public Department Department { set; get; }
 
-        public int Version
-        {
-            set { _version = value; }
-            get { return _version; }
-        }
+        public int Version { set; get; }
 
         public bool equals(object other)
         {
-            if (!(other.GetType() == typeof(EmployeeDefaultVersionNo))) return false;
-            EmployeeDefaultVersionNo castOther = (EmployeeDefaultVersionNo)other;
+            if (!(other.GetExType() == typeof(EmployeeDefaultVersionNo))) return false;
+            var castOther = (EmployeeDefaultVersionNo)other;
             return Empno == castOther.Empno;
         }
 
-        public int hashCode()
+        public int HashCode()
         {
             return (int)Empno;
         }
 
         public override string ToString()
         {
-            StringBuilder buf = new StringBuilder(50);
-            buf.Append(_empno).Append(", ");
-            buf.Append(_ename).Append(", ");
-            buf.Append(_job).Append(", ");
-            buf.Append(_mgr).Append(", ");
-            buf.Append(_sal).Append(", ");
-            buf.Append(_comm).Append(", ");
-            buf.Append(_deptno).Append(", ");
-            buf.Append(_version).Append(", ");
-            buf.Append(_department);
+            var buf = new StringBuilder(50);
+            buf.Append(Empno).Append(", ");
+            buf.Append(Ename).Append(", ");
+            buf.Append(JobName).Append(", ");
+            buf.Append(Mgr).Append(", ");
+            buf.Append(Sal).Append(", ");
+            buf.Append(Comm).Append(", ");
+            buf.Append(Deptno).Append(", ");
+            buf.Append(Version).Append(", ");
+            buf.Append(Department);
             return buf.ToString();
         }
     }
@@ -252,111 +141,55 @@ namespace Seasar.Tests.Dao.Impl
     [VersionNoProperty("Version")]
     public class EmployeeDefaultVersionNoIgnoreCase
     {
-        private long _empno;
-        private string _ename;
-        private string _job;
-        private SqlInt16 _mgr;
-        private SqlSingle _sal;
-        private SqlSingle _comm;
-        private int _deptno;
-        private byte[] _password;
-        private string _dummy;
-        private Department _department;
-        private int _version = 10;
+        public long Empno { set; get; }
 
-        public long Empno
-        {
-            set { _empno = value; }
-            get { return _empno; }
-        }
-
-        public string Ename
-        {
-            set { _ename = value; }
-            get { return _ename; }
-        }
+        public string Ename { set; get; }
 
         [Column("Job")]
-        public string JobName
-        {
-            set { _job = value; }
-            get { return _job; }
-        }
+        public string JobName { set; get; }
 
-        public SqlInt16 Mgr
-        {
-            set { _mgr = value; }
-            get { return _mgr; }
-        }
+        public SqlInt16 Mgr { set; get; }
 
-        public SqlSingle Sal
-        {
-            set { _sal = value; }
-            get { return _sal; }
-        }
+        public SqlSingle Sal { set; get; }
 
-        public SqlSingle Comm
-        {
-            set { _comm = value; }
-            get { return _comm; }
-        }
+        public SqlSingle Comm { set; get; }
 
-        public int Deptno
-        {
-            set { _deptno = value; }
-            get { return _deptno; }
-        }
+        public int Deptno { set; get; }
 
-        public byte[] Password
-        {
-            set { _password = value; }
-            get { return _password; }
-        }
+        public byte[] Password { set; get; }
 
-        public string Dummy
-        {
-            set { _dummy = value; }
-            get { return _dummy; }
-        }
+        public string Dummy { set; get; }
 
         [Relno(0)]
-        public Department Department
-        {
-            set { _department = value; }
-            get { return _department; }
-        }
+        public Department Department { set; get; }
 
-        // ëÂï∂éöè¨ï∂éöÇñ≥éãÇµÇƒñºëOî‰ärÇÇµÇƒÇ¢ÇÈÇ©ämîF
-        public int vERSION
-        {
-            set { _version = value; }
-            get { return _version; }
-        }
+        // Â§ßÊñáÂ≠óÂ∞èÊñáÂ≠ó„ÇíÁÑ°Ë¶ñ„Åó„Å¶ÂêçÂâçÊØîËºÉ„Çí„Åó„Å¶„ÅÑ„Çã„ÅãÁ¢∫Ë™ç
+        public int vERSION { set; get; } = 10;
 
         public bool equals(object other)
         {
-            if ( !( other.GetType() == typeof(EmployeeDefaultVersionNo) ) ) return false;
-            EmployeeDefaultVersionNo castOther = (EmployeeDefaultVersionNo)other;
+            if ( !( other.GetExType() == typeof(EmployeeDefaultVersionNo) ) ) return false;
+            var castOther = (EmployeeDefaultVersionNo)other;
             return Empno == castOther.Empno;
         }
 
-        public int hashCode()
+        public int HashCode()
         {
             return (int)Empno;
         }
 
         public override string ToString()
         {
-            StringBuilder buf = new StringBuilder(50);
-            buf.Append(_empno).Append(", ");
-            buf.Append(_ename).Append(", ");
-            buf.Append(_job).Append(", ");
-            buf.Append(_mgr).Append(", ");
-            buf.Append(_sal).Append(", ");
-            buf.Append(_comm).Append(", ");
-            buf.Append(_deptno).Append(", ");
-            buf.Append(_version).Append(", ");
-            buf.Append(_department);
+            var buf = new StringBuilder(50);
+            buf.Append(Empno).Append(", ");
+            buf.Append(Ename).Append(", ");
+            buf.Append(JobName).Append(", ");
+            buf.Append(Mgr).Append(", ");
+            buf.Append(Sal).Append(", ");
+            buf.Append(Comm).Append(", ");
+            buf.Append(Deptno).Append(", ");
+            buf.Append(vERSION).Append(", ");
+            buf.Append(Department);
             return buf.ToString();
         }
     }

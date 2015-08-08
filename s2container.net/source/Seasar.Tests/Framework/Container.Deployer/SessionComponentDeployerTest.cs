@@ -42,9 +42,9 @@ namespace Seasar.Tests.Framework.Container.Deployer
         {
             public string Process()
             {
-                StringBuilder sb = new StringBuilder();
+                var sb = new StringBuilder();
                 TextWriter writer = new StringWriter(sb);
-                SimpleWorkerRequest workerRequest = new SimpleWorkerRequest(
+                var workerRequest = new SimpleWorkerRequest(
                     "SessionComponentDeployerWebPage.aspx", string.Empty, writer);
                 HttpRuntime.ProcessRequest(workerRequest);
                 return sb.ToString();

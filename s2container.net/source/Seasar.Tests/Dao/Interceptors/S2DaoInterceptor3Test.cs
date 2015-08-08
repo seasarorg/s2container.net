@@ -34,7 +34,7 @@ namespace Seasar.Tests.Dao.Interceptors
         [Test, S2(Tx.Rollback)]
         public void TestUpdate()
         {
-            Department department = new Department();
+            var department = new Department();
             department.Deptno = 10;
             Assert.AreEqual(1, _dao.Update(department));
         }
@@ -42,7 +42,7 @@ namespace Seasar.Tests.Dao.Interceptors
         [Test, S2(Tx.Rollback)]
         public void TestDelete()
         {
-            Department department = new Department();
+            var department = new Department();
             department.Deptno = 10;
             Assert.AreEqual(1, _dao.Delete(department));
         }

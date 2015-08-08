@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -26,7 +26,7 @@ namespace Seasar.Framework.Container.Util
         private IS2Container _container;
 
         /// <summary>
-        /// IAspectDef‚ğ’Ç‰Á‚µ‚Ü‚·B
+        /// IAspectDefï¿½ï¿½Ç‰ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½B
         /// </summary>
         /// <param name="aspectDef"></param>
         public void AddAspectDef(IAspectDef aspectDef)
@@ -39,22 +39,16 @@ namespace Seasar.Framework.Container.Util
         }
 
         /// <summary>
-        /// IAspectDef‚Ì”
+        /// IAspectDefï¿½Ìï¿½
         /// </summary>
-        public int AspectDefSize
-        {
-            get { return _aspectDefs.Count; }
-        }
+        public int AspectDefSize => _aspectDefs.Count;
 
         /// <summary>
-        /// ”Ô†‚ğw’è‚µ‚ÄIAspectDef‚ğ•Ô‚µ‚Ü‚·B
+        /// ï¿½Ôï¿½ï¿½ï¿½wï¿½è‚µï¿½ï¿½IAspectDefï¿½ï¿½Ô‚ï¿½ï¿½Ü‚ï¿½ï¿½B
         /// </summary>
-        /// <param name="index">”Ô†</param>
+        /// <param name="index">ï¿½Ôï¿½</param>
         /// <returns>IAspectDef</returns>
-        public IAspectDef GetAspectDef(int index)
-        {
-            return (IAspectDef) _aspectDefs[index];
-        }
+        public IAspectDef GetAspectDef(int index) => (IAspectDef) _aspectDefs[index];
 
         /// <summary>
         /// S2Container
@@ -64,7 +58,7 @@ namespace Seasar.Framework.Container.Util
             set
             {
                 _container = value;
-                IEnumerator enu = _aspectDefs.GetEnumerator();
+                var enu = _aspectDefs.GetEnumerator();
                 while (enu.MoveNext())
                 {
                     ((IAspectDef) enu.Current).Container = value;

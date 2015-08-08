@@ -31,16 +31,16 @@ namespace Seasar.Extension.ADO.Impl
         public override DbType DbType
         {
             get { return base.DbType; }
-            set { base.DbType = ConvertDbType(value); }
+            set { base.DbType = _ConvertDbType(value); }
         }
 
         public override object Value
         {
             get { return base.Value; }
-            set { base.Value = ConvertValue(value); }
+            set { base.Value = _ConvertValue(value); }
         }
 
-        private DbType ConvertDbType(DbType dbType)
+        private static DbType _ConvertDbType(DbType dbType)
         {
             if (dbType == DbType.Boolean)
             {
@@ -52,15 +52,15 @@ namespace Seasar.Extension.ADO.Impl
             }
         }
 
-        private object ConvertValue(object value)
+        private static object _ConvertValue(object value)
         {
             if (value == null || value == DBNull.Value)
             {
                 return value;
             }
-            if (value.GetType() == typeof(bool))
+            if (value is bool)
             {
-                bool b = (bool) value;
+                var b = (bool) value;
                 return Convert.ToInt32(b);
             }
             return value;

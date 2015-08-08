@@ -17,9 +17,9 @@
 #endregion
 
 using System;
+using System.Collections;
 using System.Data;
 using System.Text;
-using System.Collections;
 
 namespace Seasar.Framework.Util
 {
@@ -67,12 +67,12 @@ namespace Seasar.Framework.Util
                 return "null";
             }
 
-            StringBuilder buf = new StringBuilder();
+            var buf = new StringBuilder();
 
             buf.Append("{");
-            foreach (object key in target.Keys)
+            foreach (var key in target.Keys)
             {
-                buf.AppendFormat("{0}={1}, ", ToString(key), ToString(target[key]));
+                buf.Append($"{ToString(key)}={ToString(target[key])}, ");
             }
             if (target.Keys.Count > 0)
             {
@@ -90,9 +90,9 @@ namespace Seasar.Framework.Util
                 return "null";
             }
 
-            StringBuilder buf = new StringBuilder();
+            var buf = new StringBuilder();
             buf.Append("{");
-            foreach (object o in target)
+            foreach (var o in target)
             {
                 buf.Append(ToString(o));
                 buf.Append(", ");
@@ -113,7 +113,7 @@ namespace Seasar.Framework.Util
                 return "null";
             }
 
-            StringBuilder buf = new StringBuilder();
+            var buf = new StringBuilder();
 
             foreach (DataTable table in target.Tables)
             {
@@ -131,25 +131,24 @@ namespace Seasar.Framework.Util
                 return "null";
             }
 
-            StringBuilder buf = new StringBuilder();
+            var buf = new StringBuilder();
 
             buf.AppendFormat(target.TableName);
             buf.Append(Environment.NewLine);
 
-            DataRowCollection tableRows = target.Rows;
-            DataColumnCollection tableColumns = target.Columns;
-            for (int ctrRow = 0; ctrRow < tableRows.Count; ctrRow++)
+            var tableRows = target.Rows;
+            var tableColumns = target.Columns;
+            for (var ctrRow = 0; ctrRow < tableRows.Count; ctrRow++)
             {
-                DataRow row = tableRows[ctrRow];
-                buf.AppendFormat("Row #{0}-", ctrRow + 1);
+                var row = tableRows[ctrRow];
+                buf.Append($"Row #{(ctrRow + 1)}-");
                 buf.Append(Environment.NewLine);
-                object[] rowItems = row.ItemArray;
+                var rowItems = row.ItemArray;
 
-                for (int ctrColumn = 0; ctrColumn < tableColumns.Count; ctrColumn++)
+                for (var ctrColumn = 0; ctrColumn < tableColumns.Count; ctrColumn++)
                 {
-                    DataColumn column = tableColumns[ctrColumn];
-                    buf.AppendFormat("\t{0}: {1}", column.ColumnName,
-                                        rowItems[ctrColumn]);
+                    var column = tableColumns[ctrColumn];
+                    buf.Append($"\t{column.ColumnName}: {rowItems[ctrColumn]}");
                     buf.Append(Environment.NewLine);
                 }
             }

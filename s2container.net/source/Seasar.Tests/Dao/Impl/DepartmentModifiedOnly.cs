@@ -19,6 +19,7 @@
 using System.Text;
 using Seasar.Dao.Attrs;
 using System.Collections;
+using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Dao.Impl
 {
@@ -29,14 +30,12 @@ namespace Seasar.Tests.Dao.Impl
         private string _dname;
         private string _loc;
         private int _versionNo;
-        private string _dummy;
-        private IDictionary _modifiedPropertyNames = new Hashtable();
 
         public int Deptno
         {
             set { 
                 _deptno = value;
-                _modifiedPropertyNames["Deptno"] = _deptno;
+                ModifiedPropertyNames["Deptno"] = _deptno;
             }
             get { return _deptno; }
         }
@@ -45,7 +44,7 @@ namespace Seasar.Tests.Dao.Impl
         {
             set { 
                 _dname = value;
-                _modifiedPropertyNames["Dname"] = _dname;
+                ModifiedPropertyNames["Dname"] = _dname;
             }
             get { return _dname; }
         }
@@ -54,7 +53,7 @@ namespace Seasar.Tests.Dao.Impl
         {
             set { 
                 _loc = value;
-                _modifiedPropertyNames["Loc"] = _loc;
+                ModifiedPropertyNames["Loc"] = _loc;
             }
             get { return _loc; }
         }
@@ -63,26 +62,26 @@ namespace Seasar.Tests.Dao.Impl
         {
             set { 
                 _versionNo = value;
-                _modifiedPropertyNames["VersionNo"] = _versionNo;
+                ModifiedPropertyNames["VersionNo"] = _versionNo;
             }
             get { return _versionNo; }
         }
 
         public bool equals(object other)
         {
-            if ( !( other.GetType() == typeof(Department) ) ) return false;
-            Department castOther = (Department)other;
+            if ( !( other.GetExType() == typeof(Department) ) ) return false;
+            var castOther = (Department)other;
             return Deptno == castOther.Deptno;
         }
 
-        public int hashCode()
+        public int HashCode()
         {
             return Deptno;
         }
 
         public override string ToString()
         {
-            StringBuilder buf = new StringBuilder();
+            var buf = new StringBuilder();
             buf.Append(_deptno).Append(", ");
             buf.Append(_dname).Append(", ");
             buf.Append(_loc).Append(", ");
@@ -90,20 +89,13 @@ namespace Seasar.Tests.Dao.Impl
             return buf.ToString();
         }
 
-        public string Dummy
-        {
-            set { _dummy = value; }
-            get { return _dummy; }
-        }
+        public string Dummy { set; get; }
 
-        public IDictionary ModifiedPropertyNames
-        {
-            get { return _modifiedPropertyNames; }
-        }
+        public IDictionary ModifiedPropertyNames { get; } = new Hashtable();
 
         public void ClearModifiedPropertyNames()
         {
-            _modifiedPropertyNames.Clear();
+            ModifiedPropertyNames.Clear();
         }
     }
 }

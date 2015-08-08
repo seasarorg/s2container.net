@@ -20,19 +20,10 @@ namespace Seasar.Dao.Dbms
 {
     public class MSSQLServer : Standard
     {
-        public override string Suffix
-        {
-            get { return "_mssql"; }
-        }
+        public override string Suffix => "_mssql";
 
-        public override string IdentitySelectString
-        {
-            get { return "select @@identity"; }
-        }
+        public override string IdentitySelectString => "select @@identity";
 
-        public override KindOfDbms Dbms
-        {
-            get { return KindOfDbms.MSSQLServer; }
-        }
+        public override KindOfDbms Dbms => KindOfDbms.MSSQLServer;
     }
 }

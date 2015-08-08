@@ -18,7 +18,6 @@
 #if NET_4_0
 using System;
 using System.IO;
-using System.Reflection;
 using Seasar.Framework.Util;
 
 namespace Seasar.Unit.Core
@@ -31,15 +30,15 @@ namespace Seasar.Unit.Core
         /// <summary>
         /// 特定の名前のメソッドを指定した属性が付加されている場合と同じように呼び出す
         /// </summary>
-        /// <typeparam name="ATTR"></typeparam>
+        /// <typeparam name="TAttr"></typeparam>
         /// <param name="fixture"></param>
         /// <param name="targetMethodName"></param>
-        public static void CallAsHavingAttribute<ATTR>(object fixture, string targetMethodName) where ATTR : Attribute
+        public static void CallAsHavingAttribute<TAttr>(object fixture, string targetMethodName) where TAttr : Attribute
         {
-            var method = fixture.GetType().GetMethod(targetMethodName);
+            var method = fixture.GetExType().GetMethod(targetMethodName);
             if (method != null)
             {
-                var attribute = Attribute.GetCustomAttribute(method, typeof(ATTR)) as ATTR;
+                var attribute = Attribute.GetCustomAttribute(method, typeof(TAttr)) as TAttr;
                 if (attribute == null)
                 {
                     MethodUtil.Invoke(method, fixture, null);
@@ -56,10 +55,10 @@ namespace Seasar.Unit.Core
         public static void CallForSpecificMethod(object fixture,
             string testMethodName, string specificKeyword)
         {
-            string targetName = GetTargetName(testMethodName);
+            var targetName = _GetTargetName(testMethodName);
             if (targetName.Length > 0)
             {
-                MethodInfo method = fixture.GetType().GetMethod(specificKeyword + targetName);
+                var method = fixture.GetExType().GetMethod(specificKeyword + targetName);
                 if (method != null)
                 {
                     MethodUtil.Invoke(method, fixture, null);
@@ -67,15 +66,15 @@ namespace Seasar.Unit.Core
             }
         }
 
-        public static bool IsMatchExpectedException(Type ExpectedExceptionType, Exception e)
+        public static bool IsMatchExpectedException(Type expectedExceptionType, Exception e)
         {
-            if (ExpectedExceptionType == e.GetType())
+            if (expectedExceptionType == e.GetExType())
             {
                 return true;
             }
             else if (e.InnerException != null)
             {
-                return IsMatchExpectedException(ExpectedExceptionType, e.InnerException);
+                return IsMatchExpectedException(expectedExceptionType, e.InnerException);
             }
             else
             {
@@ -89,7 +88,7 @@ namespace Seasar.Unit.Core
         /// </summary>
         /// <param name="methodName"></param>
         /// <returns></returns>
-        private static string GetTargetName(string methodName)
+        private static string _GetTargetName(string methodName)
         {
             if (methodName.ToLower().StartsWith("test"))
             {
@@ -120,16 +119,13 @@ namespace Seasar.Unit.Core
             {
                 return path;
             }
-            string prefix = type.FullName.Replace('.', '/');
-            int pos = (prefix.LastIndexOf("/") + 1);
+            var prefix = type.FullName.Replace('.', '/');
+            var pos = (prefix.LastIndexOf('/') + 1);
             prefix = prefix.Substring(0, pos);
             return prefix + path;
         }
 
-        public static string NormalizeName(string name)
-        {
-            return name.TrimEnd('_').TrimStart('_');
-        }
+        public static string NormalizeName(string name) => name.TrimEnd('_').TrimStart('_');
     }
 }
 #endif

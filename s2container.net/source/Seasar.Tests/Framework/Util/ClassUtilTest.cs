@@ -35,7 +35,7 @@ namespace Seasar.Tests.Framework.Util
         {
             try
             {
-                ConstructorInfo constructor = ClassUtil.GetConstructorInfo(
+                var constructor = ClassUtil.GetConstructorInfo(
                     typeof(A), Type.EmptyTypes);
                 Assert.Fail();
             }
@@ -43,8 +43,8 @@ namespace Seasar.Tests.Framework.Util
             {
                 Trace.WriteLine(ex.Message);
             }
-            Type[] types = new Type[] { typeof(string) };
-            ConstructorInfo constructor2 = ClassUtil.GetConstructorInfo(
+            var types = new Type[] { typeof(string) };
+            var constructor2 = ClassUtil.GetConstructorInfo(
                 typeof(A), types);
             Assert.IsNotNull(constructor2);
         }
@@ -52,7 +52,7 @@ namespace Seasar.Tests.Framework.Util
         [Test]
         public void TestForName()
         {
-            Assembly asm = Assembly.GetExecutingAssembly();
+            var asm = Assembly.GetExecutingAssembly();
             Assert.AreEqual(typeof(A), ClassUtil.ForName(
                 "Seasar.Tests.Framework.Util.ClassUtilTest+A",
                 new Assembly[] { asm }));
@@ -67,9 +67,9 @@ namespace Seasar.Tests.Framework.Util
         [Test]
         public void TestNewInstance2()
         {
-            string exeConfigPath = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None).FilePath;
-            string[] filePathParts = exeConfigPath.Split('\\');
-            string dllConfigPath = exeConfigPath.Replace(filePathParts[filePathParts.Length - 1], string.Empty) + "\\" +
+            var exeConfigPath = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None).FilePath;
+            var filePathParts = exeConfigPath.Split('\\');
+            var dllConfigPath = exeConfigPath.Replace(filePathParts[filePathParts.Length - 1], string.Empty) + "\\" +
                              "Seasar.Tests.dll";
             Assert.IsNotNull(ClassUtil.NewInstance(
                 "Seasar.Tests.Framework.Util.ClassUtilTest+B",

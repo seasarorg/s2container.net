@@ -35,12 +35,12 @@ namespace Seasar.Tests.Framework.Container.Assembler
         public void TestAssemble()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+            var cd = new ComponentDefImpl(typeof(A));
             IPropertyDef pd = new PropertyDefImpl("Hoge", new B());
             cd.AddPropertyDef(pd);
             container.Register(cd);
             IPropertyAssembler assembler = new ManualPropertyAssembler(cd);
-            A a = new A();
+            var a = new A();
             assembler.Assemble(a);
             Assert.AreEqual("B", a.HogeName);
         }
@@ -49,13 +49,13 @@ namespace Seasar.Tests.Framework.Container.Assembler
         public void TestAssembleIllegalProperty()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+            var cd = new ComponentDefImpl(typeof(A));
             IPropertyDef pd = new PropertyDefImpl("Hoge");
             pd.Expression = "B";
             cd.AddPropertyDef(pd);
             container.Register(cd);
             IPropertyAssembler assembler = new ManualPropertyAssembler(cd);
-            A a = new A();
+            var a = new A();
             try
             {
                 assembler.Assemble(a);
@@ -71,12 +71,12 @@ namespace Seasar.Tests.Framework.Container.Assembler
         public void TestAssembleIllegalProperty2()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+            var cd = new ComponentDefImpl(typeof(A));
             IPropertyDef pd = new PropertyDefImpl("abc", "111");
             cd.AddPropertyDef(pd);
             container.Register(cd);
             IPropertyAssembler assembler = new ManualPropertyAssembler(cd);
-            A a = new A();
+            var a = new A();
             try
             {
                 assembler.Assemble(a);
@@ -92,12 +92,12 @@ namespace Seasar.Tests.Framework.Container.Assembler
         public void TestAssembleIllegalProperty3()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(B));
+            var cd = new ComponentDefImpl(typeof(B));
             IPropertyDef pd = new PropertyDefImpl("Aaa", "abc");
             cd.AddPropertyDef(pd);
             container.Register(cd);
             IPropertyAssembler assembler = new ManualPropertyAssembler(cd);
-            B b = new B();
+            var b = new B();
             try
             {
                 assembler.Assemble(b);
@@ -113,13 +113,13 @@ namespace Seasar.Tests.Framework.Container.Assembler
         public void TestWithConstructor()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(B));
+            var cd = new ComponentDefImpl(typeof(B));
             IPropertyDef pd = new PropertyDefImpl("Aaa", 123);
             cd.AddPropertyDef(pd);
             IArgDef ad = new ArgDefImpl("BBB");
             cd.AddArgDef(ad);
             container.Register(cd);
-            B b = (B) container.GetComponent(typeof(B));
+            var b = (B) container.GetComponent(typeof(B));
             Assert.AreEqual("BBB", b.Bbb);
             Assert.AreEqual(123, b.Aaa);
         }
@@ -128,8 +128,8 @@ namespace Seasar.Tests.Framework.Container.Assembler
         public void TestAssembleWithAspect()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
-            ComponentDefImpl cdB = new ComponentDefImpl(typeof(B), "B");
+            var cd = new ComponentDefImpl(typeof(A));
+            var cdB = new ComponentDefImpl(typeof(B), "B");
             IPropertyDef pd = new PropertyDefImpl("Hoge");
             pd.Expression = "B";
             cd.AddPropertyDef(pd);
@@ -138,7 +138,7 @@ namespace Seasar.Tests.Framework.Container.Assembler
             container.Register(cd);
             container.Register(cdB);
             IPropertyAssembler assembler = new ManualPropertyAssembler(cd);
-            A a = new A();
+            var a = new A();
             assembler.Assemble(a);
             Assert.AreEqual("B", a.HogeName, "1");
             Assert.IsTrue(RemotingServices.IsTransparentProxy(a.Hoge), "2");
@@ -151,17 +151,11 @@ namespace Seasar.Tests.Framework.Container.Assembler
 
         public class A : IFoo
         {
-            private IHoge _hoge;
-
-            public IHoge Hoge
-            {
-                get { return _hoge; }
-                set { _hoge = value; }
-            }
+            public IHoge Hoge { get; set; }
 
             public string HogeName
             {
-                get { return _hoge.Name; }
+                get { return Hoge.Name; }
             }
         }
 
@@ -172,16 +166,13 @@ namespace Seasar.Tests.Framework.Container.Assembler
 
         public class B : IHoge
         {
-            private int _aaa;
-            private readonly string _bbb;
-
             public B()
             {
             }
 
             public B(string bbb)
             {
-                _bbb = bbb;
+                Bbb = bbb;
             }
 
             public string Name
@@ -189,16 +180,9 @@ namespace Seasar.Tests.Framework.Container.Assembler
                 get { return "B"; }
             }
 
-            public int Aaa
-            {
-                set { _aaa = value; }
-                get { return _aaa; }
-            }
+            public int Aaa { set; get; }
 
-            public string Bbb
-            {
-                get { return _bbb; }
-            }
+            public string Bbb { get; }
         }
     }
 }

@@ -29,25 +29,17 @@ namespace Seasar.Dao.Attrs
     public class ProcedureAttribute : Attribute
     {
         /// <summary>
-        /// プロシージャ名
-        /// </summary>
-        private readonly string _procedureName;
-
-        /// <summary>
         /// コンストラクタ
         /// </summary>
         /// <param name="procedureName">プロシージャ名</param>
         public ProcedureAttribute(string procedureName)
         {
-            _procedureName = procedureName;
+            ProcedureName = procedureName;
         }
 
         /// <summary>
         /// プロシージャ名
         /// </summary>
-        public string ProcedureName
-        {
-            get { return _procedureName; }
-        }
+        public string ProcedureName { get; }
     }
 }

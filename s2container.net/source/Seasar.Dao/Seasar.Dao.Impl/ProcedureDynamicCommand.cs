@@ -30,16 +30,6 @@ namespace Seasar.Dao.Impl
     public class ProcedureDynamicCommand : AbstractDynamicCommand
     {
         /// <summary>
-        /// 戻り値タイプ
-        /// </summary>
-        private Type _returnType;
-
-        /// <summary>
-        /// パラメータの入出力方向
-        /// </summary>
-        private ParameterDirection[] argDirections = new ParameterDirection[0];
-
-        /// <summary>
         /// コンストラクタ
         /// </summary>
         /// <param name="dataSource">データソース</param>
@@ -54,20 +44,12 @@ namespace Seasar.Dao.Impl
         /// <summary>
         /// 戻り値タイプ
         /// </summary>
-        public Type ReturnType
-        {
-            get { return _returnType; }
-            set { _returnType = value; }
-        }
+        public Type ReturnType { get; set; }
 
         /// <summary>
         /// パラメータの入出力方向
         /// </summary>
-        public ParameterDirection[] ArgDirections
-        {
-            get { return argDirections; }
-            set { argDirections = value; }
-        }
+        public ParameterDirection[] ArgDirections { get; set; } = new ParameterDirection[0];
 
         /// <summary>
         /// 実行する
@@ -76,25 +58,29 @@ namespace Seasar.Dao.Impl
         /// <returns></returns>
         public override object Execute(object[] args)
         {
-            ICommandContext ctx = Apply(args);
+            var ctx = Apply(args);
 
             if (DataSource == null) throw new EmptyRuntimeException("dataSource");
 
-            if (_returnType != typeof(Hashtable))
+            if (ReturnType != typeof(Hashtable))
             {
-                ObjectBasicProcedureHandler handler = new ObjectBasicProcedureHandler(DataSource, CommandFactory, ctx.Sql);
-                handler.ArgumentNames = ArgNames;
-                handler.ArgumentTypes = ArgTypes;
-                handler.ArgumentDirection = ArgDirections;
+                var handler = new ObjectBasicProcedureHandler(DataSource, CommandFactory, ctx.Sql)
+                {
+                    ArgumentNames = ArgNames,
+                    ArgumentTypes = ArgTypes,
+                    ArgumentDirection = ArgDirections
+                };
 
-                return (handler.Execute(args, _returnType));
+                return (handler.Execute(args, ReturnType));
             }
             else
             {
-                HashtableBasicProcedureHandler handler = new HashtableBasicProcedureHandler(DataSource, CommandFactory, ctx.Sql);
-                handler.ArgumentNames = ArgNames;
-                handler.ArgumentTypes = ArgTypes;
-                handler.ArgumentDirection = ArgDirections;
+                var handler = new HashtableBasicProcedureHandler(DataSource, CommandFactory, ctx.Sql)
+                {
+                    ArgumentNames = ArgNames,
+                    ArgumentTypes = ArgTypes,
+                    ArgumentDirection = ArgDirections
+                };
 
                 return (handler.Execute(args));
             }

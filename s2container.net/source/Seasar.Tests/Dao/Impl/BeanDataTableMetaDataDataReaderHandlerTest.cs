@@ -45,16 +45,16 @@ namespace Seasar.Tests.Dao.Impl
         {
             IDataReaderHandler handler = new BeanDataTableMetaDataDataReaderHandler(typeof(DataTable));
             
-            string sql = "select emp.empno as empno, dept.deptno as deptno_0, dept.dname as dname_0 " +
+            var sql = "select emp.empno as empno, dept.deptno as deptno_0, dept.dname as dname_0 " +
                 "from emp, dept where empno = 7788 and emp.deptno = dept.deptno";
             DataTable ret;
-            using ( IDbConnection con = Connection )
+            using ( var con = Connection )
             {
-                using ( IDbCommand cmd = con.CreateCommand() )
+                using ( var cmd = con.CreateCommand() )
                 {
                     cmd.CommandText = sql;
 
-                    using ( IDataReader reader = cmd.ExecuteReader() )
+                    using ( var reader = cmd.ExecuteReader() )
                     {
                         ret = (DataTable)handler.Handle(reader);
                     }
@@ -80,18 +80,18 @@ namespace Seasar.Tests.Dao.Impl
         {
             IDataReaderHandler handler = new BeanDataTableMetaDataDataReaderHandler(typeof(EmployeeDataSet.EmpAndDeptDataTable));
 
-            string sql = "select DEPT.DEPTNO, DEPT.DNAME, DEPT.LOC, EMP.EMPNO, " +
+            var sql = "select DEPT.DEPTNO, DEPT.DNAME, DEPT.LOC, EMP.EMPNO, " +
                 "EMP.ENAME, EMP.JOB, EMP.MGR, EMP.HIREDATE, EMP.SAL, EMP.COMM " +
                 "FROM DEPT INNER JOIN EMP ON DEPT.DEPTNO = EMP.DEPTNO " +
                 "WHERE DEPT.DEPTNO=20 AND EMP.EMPNO=7566";
             EmployeeDataSet.EmpAndDeptDataTable ret;
-            using ( IDbConnection con = Connection )
+            using ( var con = Connection )
             {
-                using ( IDbCommand cmd = con.CreateCommand() )
+                using ( var cmd = con.CreateCommand() )
                 {
                     cmd.CommandText = sql;
 
-                    using ( IDataReader reader = cmd.ExecuteReader() )
+                    using ( var reader = cmd.ExecuteReader() )
                     {
                         ret = (EmployeeDataSet.EmpAndDeptDataTable)handler.Handle(reader);
                     }
@@ -105,7 +105,7 @@ namespace Seasar.Tests.Dao.Impl
             Assert.AreEqual("ENAME", ret.ENAMEColumn.ColumnName);
             foreach ( DataRow row in ret.Rows )
             {
-                EmployeeDataSet.EmpAndDeptRow customRow = row as EmployeeDataSet.EmpAndDeptRow;
+                var customRow = row as EmployeeDataSet.EmpAndDeptRow;
                 Assert.IsNotNull(customRow);
                 Assert.AreEqual(20, customRow.DEPTNO);
                 Assert.AreEqual(7566, customRow.EMPNO);

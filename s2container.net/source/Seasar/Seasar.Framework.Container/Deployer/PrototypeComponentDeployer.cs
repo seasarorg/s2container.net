@@ -29,12 +29,12 @@ namespace Seasar.Framework.Container.Deployer
 
         public override object Deploy(Type receiveType)
         {
-            object component = ConstructorAssembler.Assemble();
+            var component = ConstructorAssembler.Assemble();
             PropertyAssembler.Assemble(component);
             InitMethodAssembler.Assemble(component);
 
-            object proxy = GetProxy(receiveType);
-            return proxy == null ? component : proxy;
+            var proxy = GetProxy(receiveType);
+            return proxy ?? component;
         }
 
         public override void InjectDependency(object outerComponent)

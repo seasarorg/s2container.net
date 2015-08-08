@@ -16,7 +16,6 @@
  */
 #endregion
 
-using System.IO;
 using System.Reflection;
 
 namespace Seasar.Framework.Util
@@ -29,7 +28,7 @@ namespace Seasar.Framework.Util
 
         public static string ReadText(string path, Assembly asm)
         {
-            StreamReader sr = ResourceUtil.GetResourceAsStreamReader(path, asm);
+            var sr = ResourceUtil.GetResourceAsStreamReader(path, asm);
             string ret;
             try
             {

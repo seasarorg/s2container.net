@@ -19,12 +19,12 @@
 #endregion
 
 using System;
-using System.Data;
 using System.Data.Odbc;
 using System.Data.OleDb;
 using System.Reflection;
 using System.Resources;
 using Seasar.Extension.ADO;
+using Seasar.Framework.Util;
 
 namespace Seasar.Dao.Dbms
 {
@@ -45,7 +45,7 @@ namespace Seasar.Dao.Dbms
         public static IDbms GetDbms(IDataSource dataSource)
         {
             // IDbConnectionをDataSourceから取得する
-            IDbConnection cn = dataSource.GetConnection();
+            var cn = dataSource.GetConnection();
 
             //IDbmsの実装クラスを取得するためのKey
             string dbmsKey;
@@ -53,18 +53,18 @@ namespace Seasar.Dao.Dbms
             if (cn is OleDbConnection)
             {
                 // OleDbConnectionの場合はKeyをType名とProvider名から作成する
-                OleDbConnection oleDbCn = cn as OleDbConnection;
-                dbmsKey = cn.GetType().Name + "_" + oleDbCn.Provider;
+                var oleDbCn = cn as OleDbConnection;
+                dbmsKey = cn.GetExType().Name + "_" + oleDbCn.Provider;
             }
             else if (cn is OdbcConnection)
             {
                 // OdbcConnectionの場合はKeyをType名とDriver名から作成する
-                OdbcConnection odbcCn = cn as OdbcConnection;
-                dbmsKey = cn.GetType().Name + "_" + odbcCn.Driver;
+                var odbcCn = cn as OdbcConnection;
+                dbmsKey = cn.GetExType().Name + "_" + odbcCn.Driver;
             }
             else
             {
-                dbmsKey = cn.GetType().Name;
+                dbmsKey = cn.GetExType().Name;
             }
 
             // KeyからIDbms実装クラスのインスタンスを取得する
@@ -81,14 +81,15 @@ namespace Seasar.Dao.Dbms
         public static IDbms GetDbms(string dbmsKey)
         {
             // Dbms.resxからIDbmsの実装クラス名を取得する
-            string typeName = _resourceManager.GetString(dbmsKey);
+            var typeName = _resourceManager.GetString(dbmsKey);
 
             // IDbms実装クラスのTypeを取得する
             // Dbms.resxに対応するIDbms実装クラスが無い場合は、標準のStandardを使用する
-            Type type = typeName == null ? typeof(Standard) : Type.GetType(typeName);
+            var type = typeName == null ? typeof(Standard) : Type.GetType(typeName);
 
             // IDbms実装クラスのインスタンスを作成して返す
-            return (IDbms)Activator.CreateInstance(type, false);
+//            return (IDbms)Activator.CreateInstance(type, false);
+            return (IDbms) ClassUtil.NewInstance(type);
         }
     }
 }

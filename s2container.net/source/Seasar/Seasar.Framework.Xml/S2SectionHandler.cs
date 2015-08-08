@@ -44,7 +44,7 @@ namespace Seasar.Framework.Xml
 
         public object Create(object parent, object configContext, XmlNode section)
         {
-            return CreateS2Section(section);
+            return _CreateS2Section(section);
         }
 
         #endregion
@@ -54,13 +54,13 @@ namespace Seasar.Framework.Xml
         /// </summary>
         /// <param name="section">XML形式の設定情報</param>
         /// <returns>Quill設定</returns>
-        private static S2Section CreateS2Section(XmlNode section)
+        private static S2Section _CreateS2Section(XmlNode section)
         {
-            S2Section S2Section = new S2Section();
-            S2Section.ConfigPath = ConfigSectionUtil.GetElementValue(
+            var s2Section = new S2Section();
+            s2Section.ConfigPath = ConfigSectionUtil.GetElementValue(
                 section, ContainerConstants.CONFIG_PATH_KEY);
-            S2Section.Assemblys = GetAssemblyConfig(section);
-            return S2Section;
+            s2Section.Assemblys = _GetAssemblyConfig(section);
+            return s2Section;
         }
 
         #region CreateS2Section関連メソッド
@@ -70,12 +70,12 @@ namespace Seasar.Framework.Xml
         /// </summary>
         /// <param name="section"></param>
         /// <returns></returns>
-        private static IList GetAssemblyConfig(XmlNode section)
+        private static IList _GetAssemblyConfig(XmlNode section)
         {
             return ConfigSectionUtil.GetListConfig(section, 
                 ContainerConstants.CONFIG_ASSEMBLYS_KEY,
                 ContainerConstants.CONFIG_ASSEMBLY_KEY, 
-                Invoke_GetAssemblyConfig);
+                _InvokeGetAssemblyConfig);
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Seasar.Framework.Xml
         /// </summary>
         /// <param name="list"></param>
         /// <param name="node"></param>
-        private static void Invoke_GetAssemblyConfig(IList list, XmlNode node)
+        private static void _InvokeGetAssemblyConfig(IList list, XmlNode node)
         {
             list.Add(node.InnerText);
         }

@@ -1,4 +1,4 @@
-#region Copyright
+﻿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -46,9 +46,6 @@ namespace Seasar.Quill.Attrs
         /// MockクラスのTypeを返す
         /// </summary>
         /// <value>MockクラスのType</value>
-        public Type MockType
-        {
-            get { return mockType; }
-        }
+        public Type MockType => mockType;
     }
 }

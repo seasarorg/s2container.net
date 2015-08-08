@@ -1,4 +1,4 @@
-#region Copyright
+﻿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -44,8 +44,8 @@ namespace Seasar.Tests.Quill.Unit
         public void TestGetInstance()
         {
             container = new QuillContainer();
-            MockInjector injector1 = MockInjector.GetInstance();
-            MockInjector injector2 = MockInjector.GetInstance();
+            var injector1 = MockInjector.GetInstance();
+            var injector2 = MockInjector.GetInstance();
 
             Assert.AreSame(injector1, injector2);
         }
@@ -53,9 +53,9 @@ namespace Seasar.Tests.Quill.Unit
         [Test]
         public void TestGetInstance_Destroy済みの場合()
         {
-            MockInjector injector1 = MockInjector.GetInstance();
+            var injector1 = MockInjector.GetInstance();
             MockInjector.GetInstance().Destroy();
-            MockInjector injector2 = MockInjector.GetInstance();
+            var injector2 = MockInjector.GetInstance();
 
             Assert.IsNotNull(injector2);
             Assert.AreNotSame(injector1, injector2);
@@ -100,8 +100,8 @@ namespace Seasar.Tests.Quill.Unit
         public void TestInjectField_Mock属性が設定されている場合()
         {
             container = new QuillContainer();
-            FieldInfo field = typeof(Target1).GetField("Hoge1");
-            Target1 target = new Target1();
+            var field = typeof(Target1).GetField("Hoge1");
+            var target = new Target1();
 
             this.InjectField(target, field);
 
@@ -112,8 +112,8 @@ namespace Seasar.Tests.Quill.Unit
         public void TestInjectField_Mock属性が指定されていない場合()
         {
             container = new QuillContainer();
-            FieldInfo field = typeof(Target2).GetField("Hoge2");
-            Target2 target = new Target2();
+            var field = typeof(Target2).GetField("Hoge2");
+            var target = new Target2();
 
             this.InjectField(target, field);
 

@@ -24,9 +24,9 @@ namespace Seasar.Extension.Tx.Impl
     {
         public override object Handle(IMethodInvocation invocation, bool alreadyInTransaction)
         {
-            using (ITransactionContext current = Context.Create())
+            using (var current = Context.Create())
             {
-                ITransactionContext parent = Context.Current;
+                var parent = Context.Current;
                 current.Parent = parent;
                 Context.Current = null;
                 current.Begin();
@@ -34,7 +34,7 @@ namespace Seasar.Extension.Tx.Impl
 
                 try
                 {
-                    object obj = invocation.Proceed();
+                    var obj = invocation.Proceed();
                     current.Commit();
                     return obj;
                 }

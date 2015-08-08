@@ -21,8 +21,6 @@ namespace Seasar.Tests.Dao.Pager
     public class MockDataReader : MockDataReaderBase
     {
         private int _total;
-        private int _counter;
-        private int _callNextCount;
 
         public MockDataReader()
         {
@@ -35,10 +33,10 @@ namespace Seasar.Tests.Dao.Pager
 
         public override bool Read()
         {
-            _callNextCount++;
-            if (_counter <= _total)
+            CallNextCount++;
+            if (Counter <= _total)
             {
-                _counter++;
+                Counter++;
                 return true;
             }
             else
@@ -47,16 +45,8 @@ namespace Seasar.Tests.Dao.Pager
             }
         }
 
-        public int Counter
-        {
-            get { return _counter; }
-            set { _counter = value; }
-        }
+        public int Counter { get; set; }
 
-        public int CallNextCount
-        {
-            get { return _callNextCount; }
-            set { _callNextCount = value; }
-        }
+        public int CallNextCount { get; set; }
     }
 }

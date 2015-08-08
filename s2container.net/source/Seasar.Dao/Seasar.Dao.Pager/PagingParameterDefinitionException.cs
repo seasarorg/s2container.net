@@ -25,8 +25,6 @@ namespace Seasar.Dao.Pager
     [Serializable]
     public class PagingParameterDefinitionException : SRuntimeException
     {
-        private readonly string _parameterName;
-
         public PagingParameterDefinitionException(string parameterName)
             : this(parameterName, null)
         {
@@ -35,24 +33,21 @@ namespace Seasar.Dao.Pager
         public PagingParameterDefinitionException(string parameterName, Exception inner)
             : base("EDAO0011", new object[] { parameterName }, inner)
         {
-            _parameterName = parameterName;
+            ParameterName = parameterName;
         }
 
         protected PagingParameterDefinitionException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            _parameterName = info.GetValue("_parameterName", typeof(string)) as string;
+            ParameterName = info.GetValue("_parameterName", typeof(string)) as string;
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("_parameterName", _parameterName, typeof(string));
+            info.AddValue("_parameterName", ParameterName, typeof(string));
             base.GetObjectData(info, context);
         }
 
-        public string ParameterName
-        {
-            get { return _parameterName; }
-        }
+        public string ParameterName { get; }
     }
 }

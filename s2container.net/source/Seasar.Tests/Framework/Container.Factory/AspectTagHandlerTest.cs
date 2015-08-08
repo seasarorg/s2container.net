@@ -32,12 +32,12 @@ namespace Seasar.Tests.Framework.Container.Factory
     public class AspectTagHandlerTest
     {
         private const string PATH
-            = "Seasar/Tests/Framework/Container/Factory/AspectTagHandlerTest.dicon";
+            = "Seasar/Tests/Framework/container/Factory/AspectTagHandlerTest.dicon";
 
         [SetUp]
         public void SetUp()
         {
-            FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
+            var info = new FileInfo(SystemInfo.AssemblyFileName(
                 Assembly.GetExecutingAssembly()) + ".config");
             XmlConfigurator.Configure(LogManager.GetRepository(), info);
         }
@@ -45,15 +45,15 @@ namespace Seasar.Tests.Framework.Container.Factory
         [Test]
         public void TestAspect()
         {
-            IS2Container container = S2ContainerFactory.Create(PATH);
+            var container = S2ContainerFactory.Create(PATH);
 
-            IList list = (IList) container.GetComponent(typeof(IList));
-            int count = list.Count;
+            var list = (IList) container.GetComponent(typeof(IList));
+            var count = list.Count;
 
-            IFoo foo = (IFoo) container.GetComponent(typeof(IFoo));
-            int time = foo.Time;
+            var foo = (IFoo) container.GetComponent(typeof(IFoo));
+            var time = foo.Time;
             foo.ToString();
-            int hashCode = foo.GetHashCode();
+            var hashCode = foo.GetHashCode();
         }
 
         public interface IFoo
@@ -65,18 +65,13 @@ namespace Seasar.Tests.Framework.Container.Factory
 
         public class FooImpl : IFoo
         {
-            private readonly int _time = 3;
-
             #region IFoo ÉÅÉìÉo
 
-            public int Time
-            {
-                get { return _time; }
-            }
+            public int Time { get; } = 3;
 
             public override string ToString()
             {
-                return _time.ToString();
+                return Time.ToString();
             }
 
             #endregion

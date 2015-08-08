@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -30,7 +30,7 @@ namespace Seasar.Tests.Framework.Container.Assembler
     {
         public AutoPropertyAssemblerTest()
         {
-            System.IO.FileInfo info = new System.IO.FileInfo(
+            var info = new System.IO.FileInfo(
                log4net.Util.SystemInfo.AssemblyShortName(
                System.Reflection.Assembly.GetExecutingAssembly())
                + ".dll.config");
@@ -43,11 +43,11 @@ namespace Seasar.Tests.Framework.Container.Assembler
         public void TestAssemble()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+            var cd = new ComponentDefImpl(typeof(A));
             container.Register(cd);
             container.Register(typeof(B));
             IPropertyAssembler assembler = new AutoPropertyAssembler(cd);
-            A a = new A();
+            var a = new A();
             assembler.Assemble(a);
             Assert.AreEqual("B", a.HogeName);
         }
@@ -56,12 +56,12 @@ namespace Seasar.Tests.Framework.Container.Assembler
         public void TestAssemble2()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+            var cd = new ComponentDefImpl(typeof(A));
             cd.AddPropertyDef(new PropertyDefImpl("Message", "aaa"));
             container.Register(cd);
             container.Register(typeof(B));
             IPropertyAssembler assembler = new AutoPropertyAssembler(cd);
-            A a = new A();
+            var a = new A();
             assembler.Assemble(a);
             Assert.AreEqual("B", a.HogeName);
             Assert.AreEqual("aaa", a.Message);
@@ -71,10 +71,10 @@ namespace Seasar.Tests.Framework.Container.Assembler
         public void TestAssembleNotInterface()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(DateTime));
+            var cd = new ComponentDefImpl(typeof(DateTime));
             container.Register(cd);
             IPropertyAssembler assembler = new AutoPropertyAssembler(cd);
-            DateTime d = new DateTime();
+            var d = new DateTime();
             assembler.Assemble(d);
         }
 
@@ -82,10 +82,10 @@ namespace Seasar.Tests.Framework.Container.Assembler
         public void TestSkipIllegalProperty()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+            var cd = new ComponentDefImpl(typeof(A));
             container.Register(cd);
             IPropertyAssembler assembler = new AutoPropertyAssembler(cd);
-            A a = new A();
+            var a = new A();
             assembler.Assemble(a);
         }
 
@@ -93,24 +93,24 @@ namespace Seasar.Tests.Framework.Container.Assembler
         public void TestSkipWarning()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(A2));
+            var cd = new ComponentDefImpl(typeof(A2));
             container.Register(cd);
             IPropertyAssembler assembler = new AutoPropertyAssembler(cd);
-            A2 a2 = new A2();
+            var a2 = new A2();
             assembler.Assemble(a2);
             Assert.AreEqual("B", a2.HogeName);
         }
 
         [Test]
-        public void TestAssemble_Form‚ÌAcceptButton‚ªŽ©“®ƒoƒCƒ“ƒfƒBƒ“ƒO‚³‚ê‚È‚¢‚±‚Æ‚ðŠm”F()
+        public void TestAssembleFormã®AcceptButtonãŒè‡ªå‹•ãƒã‚¤ãƒ³ãƒ‡ã‚£ãƒ³ã‚°ã•ã‚Œãªã„ã“ã¨ã‚’ç¢ºèª()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(TestForm));
+            var cd = new ComponentDefImpl(typeof(_TestForm));
             container.Register(cd);
             container.Register(new ComponentDefImpl(typeof(Button)));
 
             IPropertyAssembler assembler = new AutoPropertyAssembler(cd);
-            TestForm testForm = new TestForm();
+            var testForm = new _TestForm();
             assembler.Assemble(testForm);
             Assert.IsNull(testForm.AcceptButton);
             Assert.IsNull(testForm.CancelButton);
@@ -123,41 +123,18 @@ namespace Seasar.Tests.Framework.Container.Assembler
 
         public class A : IFoo
         {
-            private IHoge _hoge;
-            private string _message;
+            public IHoge Hoge { get; set; }
 
-            public IHoge Hoge
-            {
-                get { return _hoge; }
-                set { _hoge = value; }
-            }
+            public string Message { get; set; }
 
-            public string Message
-            {
-                get { return _message; }
-                set { _message = value; }
-            }
-
-            public string HogeName
-            {
-                get { return _hoge.Name; }
-            }
+            public string HogeName => Hoge.Name;
         }
 
         public class A2 : IFoo
         {
-            private IHoge _hoge = new B();
+            public IHoge Hoge { get; set; } = new B();
 
-            public IHoge Hoge
-            {
-                get { return _hoge; }
-                set { _hoge = value; }
-            }
-
-            public string HogeName
-            {
-                get { return _hoge.Name; }
-            }
+            public string HogeName => Hoge.Name;
         }
 
         public interface IHoge
@@ -167,21 +144,15 @@ namespace Seasar.Tests.Framework.Container.Assembler
 
         public class B : IHoge
         {
-            public string Name
-            {
-                get { return "B"; }
-            }
+            public string Name => "B";
         }
 
         public class C : IHoge
         {
-            public string Name
-            {
-                get { return "C"; }
-            }
+            public string Name => "C";
         }
 
-        class TestForm : Form
+        class _TestForm : Form
         {
         }
     }

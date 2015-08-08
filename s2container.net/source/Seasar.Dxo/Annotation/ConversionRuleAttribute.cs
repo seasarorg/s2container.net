@@ -27,11 +27,6 @@ namespace Seasar.Dxo.Annotation
     [AttributeUsage(AttributeTargets.Method, Inherited = true, AllowMultiple = true)]
     public sealed class ConversionRuleAttribute : Attribute
     {
-        private string _propertyName;
-        private string _targetPropertyName;
-        private Type _propertyConverter;
-        private bool _ignore;
-
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -41,13 +36,10 @@ namespace Seasar.Dxo.Annotation
         /// <param name="ignore">型変換を行わないことを指示するフラグ</param>
         public ConversionRuleAttribute(string propertyName, string targetPropertyName, Type propertyConverter, bool ignore)
         {
-            this._propertyName = propertyName;
-            if (!string.IsNullOrEmpty(targetPropertyName))
-                this._targetPropertyName = targetPropertyName;
-            else
-                this._targetPropertyName = propertyName;
-            this._propertyConverter = propertyConverter;
-            this._ignore = ignore;
+            PropertyName = propertyName;
+            TargetPropertyName = !string.IsNullOrEmpty(targetPropertyName) ? targetPropertyName : propertyName;
+            PropertyConverter = propertyConverter;
+            Ignore = ignore;
         }
 
         /// <summary>
@@ -58,13 +50,10 @@ namespace Seasar.Dxo.Annotation
         /// <param name="propertyConverter">対象のプロパティを変換するためのコンバータの型</param>
         public ConversionRuleAttribute(string propertyName, string targetPropertyName, Type propertyConverter)
         {
-            this._propertyName = propertyName;
-            if (!String.IsNullOrEmpty(targetPropertyName))
-                this._targetPropertyName = targetPropertyName;
-            else
-                this._targetPropertyName = propertyName;
-            this._propertyConverter = propertyConverter;
-            this._ignore = false;
+            PropertyName = propertyName;
+            TargetPropertyName = !String.IsNullOrEmpty(targetPropertyName) ? targetPropertyName : propertyName;
+            PropertyConverter = propertyConverter;
+            Ignore = false;
         }
 
         /// <summary>
@@ -74,13 +63,10 @@ namespace Seasar.Dxo.Annotation
         /// <param name="targetPropertyName">変換先となるプロパティ名(省略時、変換先はPropertyNameと同一)</param>
         public ConversionRuleAttribute(string propertyName, string targetPropertyName)
         {
-            this._propertyName = propertyName;
-            if (!String.IsNullOrEmpty(targetPropertyName))
-                this._targetPropertyName = targetPropertyName;
-            else
-                this._targetPropertyName = propertyName;
-            _propertyConverter = null;
-            _ignore = false;
+            PropertyName = propertyName;
+            TargetPropertyName = !String.IsNullOrEmpty(targetPropertyName) ? targetPropertyName : propertyName;
+            PropertyConverter = null;
+            Ignore = false;
         }
 
         /// <summary>
@@ -88,49 +74,33 @@ namespace Seasar.Dxo.Annotation
         /// </summary>
         public ConversionRuleAttribute()
         {
-            this._propertyName = String.Empty;
-            this._targetPropertyName = String.Empty;
-            this._propertyConverter = null;
-            this._ignore = false;
+            PropertyName = String.Empty;
+            TargetPropertyName = String.Empty;
+            PropertyConverter = null;
+            Ignore = false;
         }
 
         /// <summary>
         /// 変換をカスタマイズするプロパティ名
         /// </summary>
-        public string PropertyName
-        {
-            get { return _propertyName; }
-            set { _propertyName = value; }
-        }
+        public string PropertyName { get; set; }
 
         /// <summary>
         /// 変換先となるプロパティ名
         /// (省略した場合、変換先はPropertyNameと同一とみなされます)
         /// </summary>
-        public string TargetPropertyName
-        {
-            get { return _targetPropertyName; }
-            set { _targetPropertyName = value; }
-        }
+        public string TargetPropertyName { get; set; }
 
         /// <summary>
         /// 対象のプロパティを変換するためのコンバータの型
         /// (この型のデフォルトコンストラクタで、コンバータのインスタンスを生成することが
         /// できなくてはなりません)
         /// </summary>
-        public Type PropertyConverter
-        {
-            get { return _propertyConverter; }
-            set { _propertyConverter = value; }
-        }
+        public Type PropertyConverter { get; set; }
 
         /// <summary>
         /// プロパティ名と共に指定することで、型変換を行わないことを指示するフラグ
         /// </summary>
-        public bool Ignore
-        {
-            get { return _ignore; }
-            set { _ignore = value; }
-        }
+        public bool Ignore { get; set; }
     }
 }

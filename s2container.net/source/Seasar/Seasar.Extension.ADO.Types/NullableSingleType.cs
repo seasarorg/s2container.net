@@ -40,7 +40,7 @@ namespace Seasar.Extension.ADO.Types
             }
             else if (value is float)
             {
-                return new Nullable<Single>((float) value);
+                return new float?((float) value);
             }
             else
             {

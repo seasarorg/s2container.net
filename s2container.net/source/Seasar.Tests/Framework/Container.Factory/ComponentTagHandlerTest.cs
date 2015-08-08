@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -28,23 +28,23 @@ namespace Seasar.Tests.Framework.Container.Factory
     [TestFixture]
     public class ComponentTagHandlerTest
     {
-        private const string PATH = "Seasar/Tests/Framework/Container/Factory/ComponentTagHandlerTest.dicon";
+        private const string PATH = "Seasar/Tests/Framework/container/Factory/ComponentTagHandlerTest.dicon";
 
         [Test]
         public void TestComponent()
         {
-            IS2Container container = S2ContainerFactory.Create(PATH);
+            var container = S2ContainerFactory.Create(PATH);
             container.Init();
             Assert.IsNotNull(container.GetComponent(typeof(ArrayList)));
             Assert.IsNotNull(container.GetComponent("aaa"));
-            // #.NET4.0 ˆê“xintŒ^‚É•ÏŠ·‚µ‚Ä‚©‚ç”äŠr
+            // #.NET4.0 ä¸€åº¦intå‹ã«å¤‰æ›ã—ã¦ã‹ã‚‰æ¯”è¼ƒ
             Assert.AreEqual(1, Decimal.ToInt32((Decimal)container.GetComponent("bbb")));
             Assert.AreEqual(true, container.GetComponent("ccc") !=
                 container.GetComponent("ccc"));
-            IComponentDef cd = container.GetComponentDef("ddd");
+            var cd = container.GetComponentDef("ddd");
             Assert.AreEqual(ContainerConstants.AUTO_BINDING_NONE,
                 cd.AutoBindingMode);
-            Hashtable table = new Hashtable();
+            var table = new Hashtable();
             container.InjectDependency(table, "eee");
             Assert.AreEqual("111", table["aaa"]);
             Assert.IsNotNull(container.GetComponent("fff"));
@@ -54,7 +54,7 @@ namespace Seasar.Tests.Framework.Container.Factory
         [Test]
         public void TestGeneric()
         {
-            IS2Container container = S2ContainerFactory.Create(PATH);
+            var container = S2ContainerFactory.Create(PATH);
             container.Init();
             Assert.IsNotNull(container.GetComponent(typeof(IList<String>)));
             Assert.IsNotNull(container.GetComponent(typeof(Dictionary<String, Int32>)));

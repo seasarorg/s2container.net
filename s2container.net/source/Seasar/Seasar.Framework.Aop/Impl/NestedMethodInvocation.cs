@@ -36,25 +36,13 @@ namespace Seasar.Framework.Aop.Impl
 
         #region IS2MethodInvocationƒƒ“ƒo
 
-        public object[] Arguments
-        {
-            get { return _parent.Arguments; }
-        }
+        public object[] Arguments => _parent.Arguments;
 
-        public MethodBase Method
-        {
-            get { return _parent.Method; }
-        }
+        public MethodBase Method => _parent.Method;
 
-        public object Target
-        {
-            get { return _parent.Target; }
-        }
+        public object Target => _parent.Target;
 
-        public Type TargetType
-        {
-            get { return _parent.TargetType; }
-        }
+        public Type TargetType => _parent.TargetType;
 
         public object Proceed()
         {
@@ -65,10 +53,7 @@ namespace Seasar.Framework.Aop.Impl
             return _parent.Proceed();
         }
 
-        public object GetParameter(string name)
-        {
-            return _parent.GetParameter(name);
-        }
+        public object GetParameter(string name) => _parent.GetParameter(name);
 
         #endregion
     }

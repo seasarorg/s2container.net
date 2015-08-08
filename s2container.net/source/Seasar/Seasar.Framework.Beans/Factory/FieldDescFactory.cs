@@ -69,7 +69,7 @@ namespace Seasar.Framework.Beans.Factory
         {
             CreateFieldDescsIfNeed(bindingFlags);
 
-            ArrayMap<string, IFieldDesc> cache = _fieldDescCache[bindingFlags];
+            var cache = _fieldDescCache[bindingFlags];
             if (cache.ContainsKey(fieldName)) { return true; }
 
             return false;
@@ -144,11 +144,11 @@ namespace Seasar.Framework.Beans.Factory
         /// <returns></returns>
         protected virtual ArrayMap<string, IFieldDesc> CreatePropertyDescs(Type beanType, BindingFlags bindingFlags)
         {
-            FieldInfo[] fieldInfos = beanType.GetFields(bindingFlags);
-            ArrayMap<string, IFieldDesc> fieldDescs = new ArrayMap<string, IFieldDesc>(fieldInfos.Length);
-            foreach (FieldInfo info in fieldInfos)
+            var fieldInfos = beanType.GetFields(bindingFlags);
+            var fieldDescs = new ArrayMap<string, IFieldDesc>(fieldInfos.Length);
+            foreach (var info in fieldInfos)
             {
-                IFieldDesc desc = CreateFieldDesc(info);
+                var desc = CreateFieldDesc(info);
                 fieldDescs.Add(info.Name, desc);
             }
             return fieldDescs;
@@ -169,9 +169,6 @@ namespace Seasar.Framework.Beans.Factory
         /// </summary>
         /// <param name="fieldInfo"></param>
         /// <returns></returns>
-        public static IFieldDesc NewFieldDesc(FieldInfo fieldInfo)
-        {
-            return new FieldDescImpl(fieldInfo);
-        }
+        public static IFieldDesc NewFieldDesc(FieldInfo fieldInfo) => new FieldDescImpl(fieldInfo);
     }
 }

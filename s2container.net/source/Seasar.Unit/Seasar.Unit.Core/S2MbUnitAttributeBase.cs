@@ -33,27 +33,27 @@ namespace Seasar.Unit.Core
     public abstract class S2MbUnitAttributeBase : TestDecoratorAttribute
     {
         private static readonly Logger _logger = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        protected readonly S2TestCaseRunnerBase _runner;
-        protected IDictionary<int, Exception> _errors;
+        protected S2TestCaseRunnerBase runner;
+        protected IDictionary<int, Exception> errors;
 
-        public S2MbUnitAttributeBase()
+        protected S2MbUnitAttributeBase()
         {
-            _runner = CreateRunner(Seasar.Extension.Unit.Tx.NotSupported);
+            runner = CreateRunner(Extension.Unit.Tx.NotSupported);
         }
 
-        public S2MbUnitAttributeBase(Seasar.Extension.Unit.Tx txTreatment)
+        protected S2MbUnitAttributeBase(Extension.Unit.Tx txTreatment)
         {
-            _runner = CreateRunner(txTreatment);
+            runner = CreateRunner(txTreatment);
         }
 
         protected override void SetUp(PatternTestInstanceState testInstanceState)
         {
             try
             {
-                _runner.SetUp<PatternTestInstanceState>(testInstanceState.FixtureInstance,
+                runner.SetUp(testInstanceState.FixtureInstance,
                     ExecuteSetup, testInstanceState);
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 HandleException(e, testInstanceState.TestMethod);
                 throw;
@@ -64,9 +64,9 @@ namespace Seasar.Unit.Core
         {
             try
             {
-                _runner.Execute<PatternTestInstanceState>(base.Execute, testInstanceState);
+                runner.Execute(base.Execute, testInstanceState);
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 HandleException(e, testInstanceState.TestMethod);
                 throw;
@@ -77,17 +77,17 @@ namespace Seasar.Unit.Core
         {
             try
             {
-                _runner.TearDown<PatternTestInstanceState>(testInstanceState.FixtureInstance,
+                runner.TearDown(testInstanceState.FixtureInstance,
                         ExecuteTearDown, testInstanceState);
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 HandleException(e, testInstanceState.TestMethod);
                 throw;
             }
         }
 
-        protected abstract S2TestCaseRunnerBase CreateRunner(Seasar.Extension.Unit.Tx txTreatment);
+        protected abstract S2TestCaseRunnerBase CreateRunner(Extension.Unit.Tx txTreatment);
 
         protected virtual void ExecuteSetup(PatternTestInstanceState testInstanceState)
         {
@@ -124,14 +124,14 @@ namespace Seasar.Unit.Core
 
         protected virtual void HandleException(Exception e, MethodBase method)
         {
-            if (_errors == null)
+            if (errors == null)
             {
-                _errors = new Dictionary<int, Exception>();
+                errors = new Dictionary<int, Exception>();
             }
 
-            if (!_errors.ContainsKey(e.GetHashCode()))
+            if (!errors.ContainsKey(e.GetHashCode()))
             {
-                if (IsExpectedException(e, method))
+                if (_IsExpectedException(e, method))
                 {
                     return;
                 }
@@ -145,7 +145,7 @@ namespace Seasar.Unit.Core
                     Console.Error.WriteLine(e);
                 }
 
-                _errors.Add(e.GetHashCode(), e);
+                errors.Add(e.GetHashCode(), e);
             }
         }
 
@@ -154,10 +154,8 @@ namespace Seasar.Unit.Core
         /// </summary>
         /// <param name="e"></param>
         /// <param name="method"></param>
-        /// <param name="attributeType"></param>
-        /// <param name="exceptionType"></param>
         /// <returns></returns>
-        private bool IsExpectedException(Exception e, MethodBase method)
+        private static bool _IsExpectedException(Exception e, MethodBase method)
         {
             if (method == null)
             {

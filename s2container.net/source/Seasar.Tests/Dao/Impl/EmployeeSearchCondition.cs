@@ -22,33 +22,13 @@ namespace Seasar.Tests.Dao.Impl
 {
     public class EmployeeSearchCondition
     {
-        private Department _department;
-        private string _job;
-        private string _dname;
-        private string _orderByString;
-        public Department Department
-        {
-            set { _department = value; }
-            get { return _department; }
-        }
+        public Department Department { set; get; }
 
         [Column("dname_0")]
-        public string Dname
-        {
-            set { _dname = value; }
-            get { return _dname; }
-        }
+        public string Dname { set; get; }
 
-        public string Job
-        {
-            set { _job = value; }
-            get { return _job; }
-        }
+        public string Job { set; get; }
 
-        public string OrderByString
-        {
-            set { _orderByString = value; }
-            get { return _orderByString; }
-        }
+        public string OrderByString { set; get; }
     }
 }

@@ -16,7 +16,6 @@
  */
 #endregion
 
-using System;
 using System.Text;
 using Seasar.Extension.ADO;
 using Seasar.Framework.Exceptions;
@@ -39,14 +38,14 @@ namespace Seasar.Dao.Impl
 
         protected override string SetupSql(IBeanMetaData bmd, IPropertyType[] propertyTypes)
         {
-            StringBuilder buf = new StringBuilder(100);
+            var buf = new StringBuilder(100);
             buf.Append("INSERT INTO ");
             buf.Append(bmd.TableName);
             buf.Append(" (");
-            for (int i = 0; i < propertyTypes.Length; ++i)
+            for (var i = 0; i < propertyTypes.Length; ++i)
             {
-                IPropertyType pt = propertyTypes[i];
-                string columnName = pt.ColumnName;
+                var pt = propertyTypes[i];
+                var columnName = pt.ColumnName;
                 if (i > 0)
                 {
                     buf.Append(", ");
@@ -54,7 +53,7 @@ namespace Seasar.Dao.Impl
                 buf.Append(columnName);
             }
             buf.Append(") VALUES (");
-            for (int i = 0; i < propertyTypes.Length; ++i)
+            for (var i = 0; i < propertyTypes.Length; ++i)
             {
                 if (i > 0)
                 {
@@ -68,7 +67,7 @@ namespace Seasar.Dao.Impl
 
         protected override bool IsTargetProperty(IPropertyType pt, string timestampPropertyName, string versionNoPropertyName, object bean)
         {
-            IIdentifierGenerator identifierGenerator = BeanMetaData.IdentifierGenerator;
+            var identifierGenerator = BeanMetaData.IdentifierGenerator;
             if (pt.IsPrimaryKey)
             {
                 return identifierGenerator.IsSelfGenerate;

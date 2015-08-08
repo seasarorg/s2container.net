@@ -1,4 +1,4 @@
-#region Copyright
+﻿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -17,7 +17,6 @@
 #endregion
 
 using System.Reflection;
-using Seasar.Quill.Attrs;
 using Seasar.Quill.Util;
 
 namespace Seasar.Quill.Unit
@@ -28,7 +27,7 @@ namespace Seasar.Quill.Unit
     public class MockInjector : QuillInjector
     {
         // MockInjectorのインスタンス
-        private static MockInjector mockInjector;
+        private static MockInjector _mockInjector;
 
         /// <summary>
         /// MockInjectorを初期化するコンストラクタ
@@ -36,7 +35,9 @@ namespace Seasar.Quill.Unit
         /// <remarks>
         /// <see cref="GetInstance"/>からインスタンスを生成する
         /// </remarks>
-        /// <seealso cref="Seasar.Quill.Unit.MockInjector.GetInstance"/>
+        /// <seealso>
+        ///     <cref>Seasar.Quill.Unit.MockInjector.GetInstance</cref>
+        /// </seealso>
         protected MockInjector()
         {
         }
@@ -58,16 +59,7 @@ namespace Seasar.Quill.Unit
         /// </para>
         /// </remarks>
         /// <returns>QuillInjectorのインスタンス</returns>
-        public new static MockInjector GetInstance()
-        {
-            if (mockInjector == null)
-            {
-                mockInjector = new MockInjector();
-            }
-
-            // MockInjectorのインスタンスを返す
-            return mockInjector;
-        }
+        public new static MockInjector GetInstance() => _mockInjector ?? (_mockInjector = new MockInjector());
 
         /// <summary>
         /// QuillInjectorが持つ参照を破棄する
@@ -83,7 +75,7 @@ namespace Seasar.Quill.Unit
             container.Destroy();
 
             container = null;
-            mockInjector = null;
+            _mockInjector = null;
         }
 
         /// <summary>
@@ -96,7 +88,7 @@ namespace Seasar.Quill.Unit
         protected override void InjectField(object target, FieldInfo field)
         {
             // フィールドの型に設定されているMock属性を取得する
-            MockAttribute mockAttr = AttributeUtil.GetMockAttr(field.FieldType);
+            var mockAttr = AttributeUtil.GetMockAttr(field.FieldType);
 
             if (mockAttr != null)
             {

@@ -22,10 +22,8 @@ namespace Seasar.Framework.Container.Impl
 {
     public class MethodDefImpl : IMethodDef
     {
-        private readonly string _methodName;
         private readonly ArgDefSupport _argDefSupport = new ArgDefSupport();
         private IS2Container _container;
-        private string _expression;
 
         public MethodDefImpl()
         {
@@ -33,22 +31,19 @@ namespace Seasar.Framework.Container.Impl
 
         public MethodDefImpl(string methodName)
         {
-            _methodName = methodName;
+            MethodName = methodName;
         }
 
         #region MethodDef ÉÅÉìÉo
 
-        public string MethodName
-        {
-            get { return _methodName; }
-        }
+        public string MethodName { get; }
 
         public object[] Args
         {
             get
             {
-                object[] args = new object[ArgDefSize];
-                for (int i = 0; i < ArgDefSize; ++i)
+                var args = new object[ArgDefSize];
+                for (var i = 0; i < ArgDefSize; ++i)
                 {
                     args[i] = GetArgDef(i).Value;
                 }
@@ -66,11 +61,7 @@ namespace Seasar.Framework.Container.Impl
             }
         }
 
-        public string Expression
-        {
-            get { return _expression; }
-            set { _expression = value; }
-        }
+        public string Expression { get; set; }
 
         #endregion
 
@@ -81,15 +72,9 @@ namespace Seasar.Framework.Container.Impl
             _argDefSupport.AddArgDef(argDef);
         }
 
-        public int ArgDefSize
-        {
-            get { return _argDefSupport.ArgDefSize; }
-        }
+        public int ArgDefSize => _argDefSupport.ArgDefSize;
 
-        public IArgDef GetArgDef(int index)
-        {
-            return _argDefSupport.GetArgDef(index);
-        }
+        public IArgDef GetArgDef(int index) => _argDefSupport.GetArgDef(index);
 
         #endregion
     }

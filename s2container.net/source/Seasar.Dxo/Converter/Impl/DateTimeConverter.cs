@@ -40,9 +40,8 @@ namespace Seasar.Dxo.Converter.Impl
         {
             if (source is string)
             {
-                DateTime target;
-                CultureInfo format = new CultureInfo("ja-JP", false);
-                target = DateTime.ParseExact(source as string, this.Format, format);
+                var format = new CultureInfo("ja-JP", false);
+                var target = DateTime.ParseExact((string) source, Format, format);
                 dest = target;
 
                 return true;
@@ -60,8 +59,8 @@ namespace Seasar.Dxo.Converter.Impl
             {
                 try
                 {
-                    string convertedSource = source.ToString();
-                    long val = Int64.Parse(convertedSource);
+                    var convertedSource = source.ToString();
+                    var val = Int64.Parse(convertedSource);
                     dest = new DateTime(val);
                     return true;
                 }

@@ -35,11 +35,11 @@ namespace Seasar.Tests.Framework.Container.Assembler
         public void TestAssemble()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+            var cd = new ComponentDefImpl(typeof(A));
             container.Register(cd);
             container.Register(typeof(B));
             IConstructorAssembler assembler = new AutoConstructorAssembler(cd);
-            A a = (A) assembler.Assemble();
+            var a = (A) assembler.Assemble();
             Assert.AreEqual("B", a.HogeName);
         }
 
@@ -47,12 +47,12 @@ namespace Seasar.Tests.Framework.Container.Assembler
         public void TestAssembleAspect()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+            var cd = new ComponentDefImpl(typeof(A));
             cd.AddAspeceDef(new AspectDefImpl(new TraceInterceptor()));
             container.Register(cd);
             container.Register(typeof(B));
             IConstructorAssembler assembler = new AutoConstructorAssembler(cd);
-            A a = (A) assembler.Assemble();
+            var a = (A) assembler.Assemble();
             Assert.AreEqual("B", a.HogeName);
         }
 
@@ -60,10 +60,10 @@ namespace Seasar.Tests.Framework.Container.Assembler
         public void TestAssembleArgNotFound()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+            var cd = new ComponentDefImpl(typeof(A));
             container.Register(cd);
             IConstructorAssembler assembler = new AutoConstructorAssembler(cd);
-            A a = (A) assembler.Assemble();
+            var a = (A) assembler.Assemble();
             Assert.AreEqual(null, a.Hoge);
         }
 
@@ -71,10 +71,10 @@ namespace Seasar.Tests.Framework.Container.Assembler
         public void TestAssembleDefaultConstructor()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(D));
+            var cd = new ComponentDefImpl(typeof(D));
             container.Register(cd);
             IConstructorAssembler assembler = new AutoConstructorAssembler(cd);
-            D d = (D) assembler.Assemble();
+            var d = (D) assembler.Assemble();
             Assert.AreEqual(string.Empty, d.Name);
         }
 
@@ -82,11 +82,11 @@ namespace Seasar.Tests.Framework.Container.Assembler
         public void TestAssembleDefaultConstructor2()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(Hoge));
+            var cd = new ComponentDefImpl(typeof(Hoge));
             cd.AddAspeceDef(new AspectDefImpl(new HogeInterceptor()));
             container.Register(cd);
             IConstructorAssembler assembler = new AutoConstructorAssembler(cd);
-            Hoge hoge = (Hoge) assembler.Assemble();
+            var hoge = (Hoge) assembler.Assemble();
             Assert.AreEqual("hoge", hoge.Name);
         }
 
@@ -94,7 +94,7 @@ namespace Seasar.Tests.Framework.Container.Assembler
         public void TestAssembleAutoNotInterfaceConstructor()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(C));
+            var cd = new ComponentDefImpl(typeof(C));
             container.Register(cd);
             IConstructorAssembler assembler = new AutoConstructorAssembler(cd);
             try
@@ -112,12 +112,12 @@ namespace Seasar.Tests.Framework.Container.Assembler
         public void TestAccessComponentDef()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(Hoge));
-            ComponentDefInterceptor interceptor = new ComponentDefInterceptor();
+            var cd = new ComponentDefImpl(typeof(Hoge));
+            var interceptor = new ComponentDefInterceptor();
             cd.AddAspeceDef(new AspectDefImpl(interceptor));
             container.Register(cd);
             IConstructorAssembler assembler = new AutoConstructorAssembler(cd);
-            Hoge hoge = (Hoge) assembler.Assemble();
+            var hoge = (Hoge) assembler.Assemble();
             Assert.AreEqual("hoge", hoge.Name);
             Assert.AreSame(cd, interceptor.ComponentDef);
         }
@@ -129,21 +129,16 @@ namespace Seasar.Tests.Framework.Container.Assembler
 
         public class A : MarshalByRefObject, Foo
         {
-            private readonly Hoge _hoge;
-
             public A(Hoge hoge)
             {
-                _hoge = hoge;
+                Hoge = hoge;
             }
 
-            public Hoge Hoge
-            {
-                get { return _hoge; }
-            }
+            public Hoge Hoge { get; }
 
             public string HogeName
             {
-                get { return _hoge.Name; }
+                get { return Hoge.Name; }
             }
         }
 
@@ -162,32 +157,22 @@ namespace Seasar.Tests.Framework.Container.Assembler
 
         public class C
         {
-            private readonly string _name;
-
             public C(string name)
             {
-                _name = name;
+                Name = name;
             }
 
-            public string Name
-            {
-                get { return _name; }
-            }
+            public string Name { get; }
         }
 
         public class D : MarshalByRefObject
         {
-            private readonly string _name;
-
             public D()
             {
-                _name = string.Empty;
+                Name = string.Empty;
             }
 
-            public string Name
-            {
-                get { return _name; }
-            }
+            public string Name { get; }
         }
 
         public class HogeInterceptor : IMethodInterceptor
@@ -200,17 +185,12 @@ namespace Seasar.Tests.Framework.Container.Assembler
 
         public class ComponentDefInterceptor : IMethodInterceptor
         {
-            private IComponentDef _componentDef;
-
-            public IComponentDef ComponentDef
-            {
-                get { return _componentDef; }
-            }
+            public IComponentDef ComponentDef { get; private set; }
 
             public object Invoke(IMethodInvocation invocation)
             {
-                IS2MethodInvocation impl = (IS2MethodInvocation) invocation;
-                _componentDef = (IComponentDef) impl.GetParameter(ContainerConstants.COMPONENT_DEF_NAME);
+                var impl = (IS2MethodInvocation) invocation;
+                ComponentDef = (IComponentDef) impl.GetParameter(ContainerConstants.COMPONENT_DEF_NAME);
                 return "hoge";
             }
         }

@@ -30,7 +30,7 @@ namespace Seasar.Tests.Dao.Pager
 
         public IDataReader CreateDataReader(IDataSource dataSource, IDbCommand cmd)
         {
-            MockDataReader reader = new MockDataReader();
+            var reader = new MockDataReader();
             _createdDataReaders.Add(reader);
             return reader;
         }

@@ -37,7 +37,7 @@ namespace Seasar.Framework.Container.Factory
 
         static S2ContainerFactory()
         {
-            ResourceManager resourceManager =
+            var resourceManager =
                 new ResourceManager(BUILDER_CONFIG_PATH,
                 Assembly.GetExecutingAssembly());
 
@@ -55,23 +55,23 @@ namespace Seasar.Framework.Container.Factory
         [Obsolete("[S2Container] is obsolete function. Please use [QuillContainer]")]
         public static IS2Container Create(string path)
         {
-            string ext = GetExtension(path);
-            S2Section config = S2SectionHandler.GetS2Section();
+            var ext = _GetExtension(path);
+            var config = S2SectionHandler.GetS2Section();
             if (config != null)
             {
-                IList assemblys = config.Assemblys;
+                var assemblys = config.Assemblys;
                 foreach (string assembly in assemblys)
                 {
                     if (!StringUtil.IsEmpty(assembly)) AppDomain.CurrentDomain.Load(assembly);
                 }
             }
-            IS2Container container = GetBuilder(ext).Build(path);
+            var container = _GetBuilder(ext).Build(path);
             return container;
         }
 
         public static IS2Container Include(IS2Container parent, string path)
         {
-            IS2Container root = parent.Root;
+            var root = parent.Root;
             IS2Container child;
             lock (root)
             {
@@ -82,8 +82,8 @@ namespace Seasar.Framework.Container.Factory
                 }
                 else
                 {
-                    string ext = GetExtension(path);
-                    IS2ContainerBuilder builder = GetBuilder(ext);
+                    var ext = _GetExtension(path);
+                    var builder = _GetBuilder(ext);
                     child = builder.Include(parent, path);
                     root.RegisterDescendant(child);
                 }
@@ -91,9 +91,9 @@ namespace Seasar.Framework.Container.Factory
             return child;
         }
 
-        private static string GetExtension(string path)
+        private static string _GetExtension(string path)
         {
-            string ext = ResourceUtil.GetExtension(path);
+            var ext = ResourceUtil.GetExtension(path);
             if (ext == null)
             {
                 throw new ExtensionNotFoundRuntimeException(path);
@@ -101,7 +101,7 @@ namespace Seasar.Framework.Container.Factory
             return ext;
         }
 
-        private static IS2ContainerBuilder GetBuilder(string ext)
+        private static IS2ContainerBuilder _GetBuilder(string ext)
         {
             IS2ContainerBuilder builder;
             lock (_builders)
@@ -122,8 +122,8 @@ namespace Seasar.Framework.Container.Factory
 
                 if (className != null)
                 {
-                    Assembly[] asms = AppDomain.CurrentDomain.GetAssemblies();
-                    Type type = ClassUtil.ForName(className, asms);
+                    var asms = AppDomain.CurrentDomain.GetAssemblies();
+                    var type = ClassUtil.ForName(className, asms);
                     builder = (IS2ContainerBuilder) ClassUtil.NewInstance(type);
                     _builders[ext] = builder;
                 }

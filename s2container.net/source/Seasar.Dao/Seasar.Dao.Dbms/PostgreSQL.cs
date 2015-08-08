@@ -20,19 +20,13 @@ namespace Seasar.Dao.Dbms
 {
     public class PostgreSQL : Standard
     {
-        public override string Suffix
-        {
-            get { return "_postgre"; }
-        }
+        public override string Suffix => "_postgre";
 
         public override string GetSequenceNextValString(string sequenceName)
         {
             return "select nextval('" + sequenceName + "')";
         }
 
-        public override KindOfDbms Dbms
-        {
-            get { return KindOfDbms.PostgreSQL; }
-        }
+        public override KindOfDbms Dbms => KindOfDbms.PostgreSQL;
     }
 }

@@ -18,13 +18,12 @@
 
 using System;
 using System.Data;
-using System.Reflection;
 using Seasar.Framework.Util;
-using Seasar.Extension.DataSets;
+using IDataReader = Seasar.Extension.DataSets.IDataReader;
 
 namespace Seasar.Extension.Unit
 {
-    public class BeanReader : DataSets.IDataReader
+    public class BeanReader : IDataReader
     {
         private readonly DataSet _dataSet;
         private readonly DataTable _table;
@@ -41,7 +40,7 @@ namespace Seasar.Extension.Unit
 
             if (bean != null)
             {
-                Type beanType = bean.GetType();
+                var beanType = bean.GetExType();
                 SetupColumns(beanType);
                 SetupRow(beanType, bean);
             }
@@ -49,19 +48,19 @@ namespace Seasar.Extension.Unit
 
         protected virtual void SetupColumns(Type beanType)
         {
-            foreach (PropertyInfo pi in beanType.GetProperties())
+            foreach (var pi in beanType.GetProperties())
             {
-                Type propertyType = PropertyUtil.GetPrimitiveType(pi.PropertyType);
+                var propertyType = PropertyUtil.GetPrimitiveType(pi.PropertyType);
                 _table.Columns.Add(pi.Name, propertyType);
             }
         }
 
         protected virtual void SetupRow(Type beanType, object bean)
         {
-            DataRow row = _table.NewRow();
-            foreach (PropertyInfo pi in beanType.GetProperties())
+            var row = _table.NewRow();
+            foreach (var pi in beanType.GetProperties())
             {
-                object value = pi.GetValue(bean, null);
+                var value = pi.GetValue(bean, null);
                 row[pi.Name] = PropertyUtil.GetPrimitiveValue(value);
             }
             _table.Rows.Add(row);
@@ -70,10 +69,7 @@ namespace Seasar.Extension.Unit
 
         #region IDataReader ƒƒ“ƒo
 
-        public DataSet Read()
-        {
-            return _dataSet;
-        }
+        public DataSet Read() => _dataSet;
 
         #endregion
     }

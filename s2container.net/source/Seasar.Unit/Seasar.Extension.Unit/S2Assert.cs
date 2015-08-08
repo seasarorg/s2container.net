@@ -19,7 +19,6 @@
 using System.Collections;
 using System.Data;
 using MbUnit.Framework;
-using Seasar.Extension.DataSets;
 using Seasar.Extension.DataSets.Types;
 using Seasar.Framework.Util;
 #if NET_4_0
@@ -64,14 +63,14 @@ namespace Seasar.Extension.Unit
         /// <param name="message">assert失敗時のメッセージ</param>
         public static void AreEqual(DataSet expected, DataSet actual, string message)
         {
-            message = message == null ? string.Empty : message;
+            message = message ?? string.Empty;
 
             Assert.AreEqual(
                 expected.Tables.Count,
                 actual.Tables.Count,
                 message + ":TableSize"
                 );
-            for (int i = 0; i < expected.Tables.Count; ++i)
+            for (var i = 0; i < expected.Tables.Count; ++i)
             {
                 AreEqual(expected.Tables[i], actual.Tables[i], message);
             }
@@ -101,22 +100,22 @@ namespace Seasar.Extension.Unit
         /// <param name="message">assert失敗時のメッセージ</param>
         public static void AreEqual(DataTable expected, DataTable actual, string message)
         {
-            message = message == null ? string.Empty : message;
+            message = message ?? string.Empty;
             message = message + ":TableName=" + expected.TableName;
             Assert.AreEqual(expected.Rows.Count, actual.Rows.Count, message + ":RowSize");
-            for (int i = 0; i < expected.Rows.Count; ++i)
+            for (var i = 0; i < expected.Rows.Count; ++i)
             {
-                DataRow expectedRow = expected.Rows[i];
-                DataRow actualRow = actual.Rows[i];
+                var expectedRow = expected.Rows[i];
+                var actualRow = actual.Rows[i];
                 IList errorMessages = new ArrayList();
-                for (int j = 0; j < expected.Columns.Count; ++j)
+                for (var j = 0; j < expected.Columns.Count; ++j)
                 {
                     try
                     {
-                        string columnName = expected.Columns[j].ColumnName;
-                        object expectedValue = expectedRow[columnName];
-                        IColumnType ct = ColumnTypes.GetColumnType(expectedValue);
-                        object actualValue = actualRow[DataTableUtil.GetColumn(actual, columnName)];
+                        var columnName = expected.Columns[j].ColumnName;
+                        var expectedValue = expectedRow[columnName];
+                        var ct = ColumnTypes.GetColumnType(expectedValue);
+                        var actualValue = actualRow[DataTableUtil.GetColumn(actual, columnName)];
                         if (!ct.Equals1(expectedValue, actualValue))
                         {
                             Assert.AreEqual(
@@ -173,33 +172,35 @@ namespace Seasar.Extension.Unit
                 return;
             }
 
-            if (actual is object[])
+            var objects = actual as object[];
+            if (objects != null)
             {
-                AreEqual(expected, new ArrayList((object[]) actual), message);
+                AreEqual(expected, new ArrayList(objects), message);
             }
             else if (actual is IList)
             {
-                IList actualList = (IList) actual;
+                var actualList = (IList) actual;
                 Assert.IsTrue(actualList.Count != 0);
-                object actualItem = actualList[0];
+                var actualItem = actualList[0];
                 if (actualItem is IDictionary)
                 {
-                    AreDictionaryListEqual(expected, actualList, message);
+                    _AreDictionaryListEqual(expected, actualList, message);
                 }
                 else
                 {
-                    AreBeanListEqual(expected, actualList, message);
+                    _AreBeanListEqual(expected, actualList, message);
                 }
             }
             else
             {
-                if (actual is IDictionary)
+                var dictionary = actual as IDictionary;
+                if (dictionary != null)
                 {
-                    AreDictionaryEqual(expected, (IDictionary) actual, message);
+                    _AreDictionaryEqual(expected, dictionary, message);
                 }
                 else
                 {
-                    AreBeanEqual(expected, actual, message);
+                    _AreBeanEqual(expected, actual, message);
                 }
             }
         }
@@ -213,9 +214,9 @@ namespace Seasar.Extension.Unit
         /// <param name="expected">予測値</param>
         /// <param name="dictionary">実際値</param>
         /// <param name="message">assert失敗時のメッセージ</param>
-        private static void AreDictionaryEqual(DataSet expected, IDictionary dictionary, string message)
+        private static void _AreDictionaryEqual(DataSet expected, IDictionary dictionary, string message)
         {
-            DictionaryReader reader = new DictionaryReader(dictionary);
+            var reader = new DictionaryReader(dictionary);
             AreEqual(expected, reader.Read(), message);
         }
 
@@ -228,9 +229,9 @@ namespace Seasar.Extension.Unit
         /// <param name="expected">予測値</param>
         /// <param name="list">実際値</param>
         /// <param name="message">assert失敗時のメッセージ</param>
-        private static void AreDictionaryListEqual(DataSet expected, IList list, string message)
+        private static void _AreDictionaryListEqual(DataSet expected, IList list, string message)
         {
-            DictionaryListReader reader = new DictionaryListReader(list);
+            var reader = new DictionaryListReader(list);
             AreEqual(expected, reader.Read(), message);
         }
 
@@ -243,9 +244,9 @@ namespace Seasar.Extension.Unit
         /// <param name="expected">予測値</param>
         /// <param name="bean">実際値</param>
         /// <param name="message">assert失敗時のメッセージ</param>
-        private static void AreBeanEqual(DataSet expected, object bean, string message)
+        private static void _AreBeanEqual(DataSet expected, object bean, string message)
         {
-            BeanReader reader = new BeanReader(bean);
+            var reader = new BeanReader(bean);
             AreEqual(expected, reader.Read(), message);
         }
 
@@ -258,9 +259,9 @@ namespace Seasar.Extension.Unit
         /// <param name="expected">予測値</param>
         /// <param name="list">実際値</param>
         /// <param name="message">assert失敗時のメッセージ</param>
-        private static void AreBeanListEqual(DataSet expected, IList list, string message)
+        private static void _AreBeanListEqual(DataSet expected, IList list, string message)
         {
-            BeanListReader reader = new BeanListReader(list);
+            var reader = new BeanListReader(list);
             AreEqual(expected, reader.Read(), message);
         }
 

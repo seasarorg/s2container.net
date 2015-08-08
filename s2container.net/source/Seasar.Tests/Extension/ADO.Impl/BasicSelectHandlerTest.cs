@@ -37,7 +37,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
 
         static BasicSelectHandlerTest()
         {
-            FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
+            var info = new FileInfo(SystemInfo.AssemblyFileName(
                 Assembly.GetExecutingAssembly()) + ".config");
             XmlConfigurator.Configure(LogManager.GetRepository(), info);
         }
@@ -50,13 +50,13 @@ namespace Seasar.Tests.Extension.ADO.Impl
         [Test, S2]
         public void Execute()
         {
-            string sql = "SELECT * FROM emp WHERE empno = @empno";
-            BasicSelectHandler handler = new BasicSelectHandler(
+            var sql = "SELECT * FROM emp WHERE empno = @empno";
+            var handler = new BasicSelectHandler(
                 DataSource,
                 sql,
                 new DictionaryDataReaderHandler()
                 );
-            IDictionary ret = (IDictionary) handler.Execute(new object[] { 7788 });
+            var ret = (IDictionary) handler.Execute(new object[] { 7788 });
             Trace.WriteLine(ToStringUtil.ToString(ret));
             Assert.IsNotNull(ret, "1");
             Assert.AreEqual(9, ret.Count, "2");
@@ -70,13 +70,13 @@ namespace Seasar.Tests.Extension.ADO.Impl
         [Test, S2]
         public void ExecuteDuplicationParam()
         {
-            string sql = "SELECT * FROM emp WHERE empno = @empno OR empno = @empno2 OR empno = @empno OR ename = @ename";
-            BasicSelectHandler handler = new BasicSelectHandler(
+            var sql = "SELECT * FROM emp WHERE empno = @empno OR empno = @empno2 OR empno = @empno OR ename = @ename";
+            var handler = new BasicSelectHandler(
                 DataSource,
                 sql,
                 new DictionaryDataReaderHandler()
                 );
-            IDictionary ret = (IDictionary) handler.Execute(new object[] { 7788, 7789, 7788, "SCOTT" });
+            var ret = (IDictionary) handler.Execute(new object[] { 7788, 7789, 7788, "SCOTT" });
             Trace.WriteLine(ToStringUtil.ToString(ret));
             Assert.IsNotNull(ret, "1");
             Assert.AreEqual(9, ret.Count, "2");
@@ -90,13 +90,13 @@ namespace Seasar.Tests.Extension.ADO.Impl
         [Test, S2]
         public void ExecuteNullArgs()
         {
-            string sql = "SELECT * FROM emp WHERE empno = 7788";
-            BasicSelectHandler handler = new BasicSelectHandler(
+            var sql = "SELECT * FROM emp WHERE empno = 7788";
+            var handler = new BasicSelectHandler(
                 DataSource,
                 sql,
                 new DictionaryDataReaderHandler()
                 );
-            IDictionary ret = (IDictionary) handler.Execute(null);
+            var ret = (IDictionary) handler.Execute(null);
             Trace.WriteLine(ToStringUtil.ToString(ret));
             Assert.IsNotNull(ret, "1");
             Assert.AreEqual(9, ret.Count, "2");
@@ -110,13 +110,13 @@ namespace Seasar.Tests.Extension.ADO.Impl
         [Test, S2]
         public void ExecuteParam()
         {
-            string sql = "SELECT * FROM emp WHERE empno = @empno OR empno = :empno OR empno = ?";
-            BasicSelectHandler handler = new BasicSelectHandler(
+            var sql = "SELECT * FROM emp WHERE empno = @empno OR empno = :empno OR empno = ?";
+            var handler = new BasicSelectHandler(
                 DataSource,
                 sql,
                 new DictionaryDataReaderHandler()
                 );
-            IDictionary ret = (IDictionary) handler.Execute(new object[] { 7788, 7788, 7788 });
+            var ret = (IDictionary) handler.Execute(new object[] { 7788, 7788, 7788 });
             Trace.WriteLine(ToStringUtil.ToString(ret));
             Assert.IsNotNull(ret, "1");
             Assert.AreEqual(9, ret.Count, "2");
@@ -130,15 +130,15 @@ namespace Seasar.Tests.Extension.ADO.Impl
         [Test, S2]
         public void ExecuteDoubleAtParam()
         {
-            if (DataSource.GetCommand().GetType().Name.Equals("SqlCommand"))
+            if (DataSource.GetCommand().GetExType().Name.Equals("SqlCommand"))
             {
-                string sql = "SELECT *, @@version FROM emp WHERE empno = @empno";
-                BasicSelectHandler handler = new BasicSelectHandler(
+                var sql = "SELECT *, @@version FROM emp WHERE empno = @empno";
+                var handler = new BasicSelectHandler(
                     DataSource,
                     sql,
                     new DictionaryDataReaderHandler()
                     );
-                IDictionary ret = (IDictionary) handler.Execute(new object[] { 7788 });
+                var ret = (IDictionary) handler.Execute(new object[] { 7788 });
                 Assert.IsNotNull(ret, "1");
             }
         }

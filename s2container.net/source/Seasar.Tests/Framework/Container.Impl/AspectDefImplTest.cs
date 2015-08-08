@@ -20,6 +20,7 @@ using MbUnit.Framework;
 using Seasar.Framework.Aop.Interceptors;
 using Seasar.Framework.Container;
 using Seasar.Framework.Container.Impl;
+using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Framework.Container.Impl
 {
@@ -33,9 +34,9 @@ namespace Seasar.Tests.Framework.Container.Impl
             IAspectDef ad = new AspectDefImpl();
             ad.Expression = "traceAdvice";
             ad.Container = container;
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(TraceInterceptor), "traceAdvice");
+            var cd = new ComponentDefImpl(typeof(TraceInterceptor), "traceAdvice");
             container.Register(cd);
-            Assert.AreEqual(typeof(TraceInterceptor), ad.Aspect.MethodInterceptor.GetType());
+            Assert.AreEqual(typeof(TraceInterceptor), ad.Aspect.MethodInterceptor.GetExType());
         }
 
         public class A
@@ -47,10 +48,7 @@ namespace Seasar.Tests.Framework.Container.Impl
                 _hoge = hoge;
             }
 
-            public string HogeName
-            {
-                get { return _hoge.Name; }
-            }
+            public string HogeName => _hoge.Name;
         }
 
         public class A2
@@ -62,10 +60,7 @@ namespace Seasar.Tests.Framework.Container.Impl
                 set { _hoge = value; }
             }
 
-            public string HogeName
-            {
-                get { return _hoge.Name; }
-            }
+            public string HogeName => _hoge.Name;
         }
 
         public interface IHoge
@@ -75,10 +70,7 @@ namespace Seasar.Tests.Framework.Container.Impl
 
         public class B : IHoge
         {
-            public string Name
-            {
-                get { return "B"; }
-            }
+            public string Name => "B";
         }
 
         public class C : IHoge
@@ -90,15 +82,9 @@ namespace Seasar.Tests.Framework.Container.Impl
                 set { _a2 = value; }
             }
 
-            public string Name
-            {
-                get { return "C"; }
-            }
+            public string Name => "C";
 
-            public string HogeName
-            {
-                get { return _a2.HogeName; }
-            }
+            public string HogeName => _a2.HogeName;
         }
     }
 }

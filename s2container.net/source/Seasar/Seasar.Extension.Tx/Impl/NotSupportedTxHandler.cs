@@ -27,9 +27,9 @@ namespace Seasar.Extension.Tx.Impl
 
         object ITransactionHandler.Handle(IMethodInvocation invocation, bool alreadyInTransaction)
         {
-            using (TransactionScope scope = new TransactionScope(TransactionScopeOption.Suppress))
+            using (var scope = new TransactionScope(TransactionScopeOption.Suppress))
             {
-                object obj = invocation.Proceed();
+                var obj = invocation.Proceed();
                 scope.Complete();
                 return obj;
             }

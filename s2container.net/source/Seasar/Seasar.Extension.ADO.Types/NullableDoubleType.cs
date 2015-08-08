@@ -40,7 +40,7 @@ namespace Seasar.Extension.ADO.Types
             }
             else if (value is double)
             {
-                return new Nullable<Double>((double) value);
+                return new double?((double) value);
             }
             else
             {

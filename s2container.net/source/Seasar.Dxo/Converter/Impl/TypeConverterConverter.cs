@@ -20,6 +20,7 @@
 
 using System;
 using System.ComponentModel;
+using Seasar.Framework.Util;
 
 namespace Seasar.Dxo.Converter.Impl
 {
@@ -38,15 +39,12 @@ namespace Seasar.Dxo.Converter.Impl
         /// <returns>bool •ÏŠ·‚ª¬Œ÷‚µ‚½ê‡‚É‚Ítrue</returns>
         protected override bool DoConvert(object source, ref object dest, Type expectType)
         {
-            TypeConverter converter = TypeDescriptor.GetConverter(expectType);
+            var converter = TypeDescriptor.GetConverter(expectType);
 
-            if (converter != null)
+            if (converter.CanConvertFrom(source.GetExType()))
             {
-                if (converter.CanConvertFrom(source.GetType()))
-                {
-                    dest = converter.ConvertFrom(source);
-                    return true;
-                }
+                dest = converter.ConvertFrom(source);
+                return true;
             }
             /*
             //•¶š—ñŒ^‚Ìê‡‚ÍToString()‚ğg—p‚·‚é

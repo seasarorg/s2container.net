@@ -16,7 +16,7 @@
  */
 #endregion
 
-using System;
+using Seasar.Framework.Util;
 
 namespace Seasar.Framework.Container.Assembler
 {
@@ -29,9 +29,9 @@ namespace Seasar.Framework.Container.Assembler
 
         public override void Assemble(object component)
         {
-            Type type = component.GetType();
-            int size = ComponentDef.DestroyMethodDefSize;
-            for (int i = 0; i < size; ++i)
+            var type = component.GetExType();
+            var size = ComponentDef.DestroyMethodDefSize;
+            for (var i = 0; i < size; ++i)
             {
                 IMethodDef methodDef = ComponentDef.GetDestroyMethodDef(i);
                 Invoke(type, component, methodDef);

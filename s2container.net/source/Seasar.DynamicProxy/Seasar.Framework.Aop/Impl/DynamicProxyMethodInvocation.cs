@@ -37,12 +37,9 @@ namespace Seasar.Framework.Aop.Impl
     {
         #region fields
 
-        private readonly object _target;
-        private readonly Type _targetType;
         private readonly IInvocation _invocation;
         private readonly IMethodInterceptor[] _interceptors;
         private int _interceptorsIndex = 1;
-        private readonly object[] _arguments;
         private readonly Hashtable _parameters;
 
         #endregion
@@ -65,14 +62,14 @@ namespace Seasar.Framework.Aop.Impl
                                             , IMethodInterceptor[] interceptors
                                             , Hashtable parameters)
         {
-            if (target == null) throw new NullReferenceException("target");
-            if (targetType == null) throw new NullReferenceException("targetType");
-            if (invocation == null) throw new NullReferenceException("invocation");
-            if (interceptors == null) throw new NullReferenceException("interceptors");
-            _target = target;
-            _targetType = targetType;
+            if (target == null) throw new ArgumentNullException(nameof(target));
+            if (targetType == null) throw new ArgumentNullException(nameof(targetType));
+            if (invocation == null) throw new ArgumentNullException(nameof(invocation));
+            if (interceptors == null) throw new ArgumentNullException(nameof(interceptors));
+            Target = target;
+            TargetType = targetType;
             _invocation = invocation;
-            _arguments = arguments;
+            Arguments = arguments;
             _interceptors = interceptors;
             _parameters = parameters;
         }
@@ -81,20 +78,11 @@ namespace Seasar.Framework.Aop.Impl
 
         #region IMethodInvocation member
 
-        public MethodBase Method
-        {
-            get { return _invocation.Method; }
-        }
+        public MethodBase Method => _invocation.Method;
 
-        public object Target
-        {
-            get { return _target; }
-        }
+        public object Target { get; }
 
-        public object[] Arguments
-        {
-            get { return _arguments; }
-        }
+        public object[] Arguments { get; }
 
         public object Proceed()
         {
@@ -119,15 +107,9 @@ namespace Seasar.Framework.Aop.Impl
 
         #region IS2MethodInvocation ƒƒ“ƒo
 
-        public Type TargetType
-        {
-            get { return _targetType; }
-        }
+        public Type TargetType { get; }
 
-        public object GetParameter(string name)
-        {
-            return _parameters[name];
-        }
+        public object GetParameter(string name) => _parameters[name];
 
         #endregion
     }

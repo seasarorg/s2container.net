@@ -26,49 +26,40 @@ namespace Seasar.Framework.Container
     [Serializable]
     public sealed class TooManyRegistrationRuntimeException : SRuntimeException
     {
-        private readonly object _key;
-        private readonly Type[] _componentTypes;
-
         /// <summary>
         /// コンストラクタ
         /// </summary>
         /// <param name="key"></param>
         /// <param name="componentTypes"></param>
         public TooManyRegistrationRuntimeException(object key, Type[] componentTypes)
-            : base("ESSR0045", new object[] { key, GetTypeNames(componentTypes) })
+            : base("ESSR0045", new[] { key, GetTypeNames(componentTypes) })
         {
-            _key = key;
-            _componentTypes = componentTypes;
+            Key = key;
+            ComponentTypes = componentTypes;
         }
 
         public TooManyRegistrationRuntimeException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            _key = info.GetValue("_key", typeof(object));
-            _componentTypes = info.GetValue("_componentTypes", typeof(Type[])) as Type[];
+            Key = info.GetValue("_key", typeof(object));
+            ComponentTypes = info.GetValue("_componentTypes", typeof(Type[])) as Type[];
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("_key", _key, typeof(object));
-            info.AddValue("_componentTypes", _componentTypes, typeof(Type[]));
+            info.AddValue("_key", Key, typeof(object));
+            info.AddValue("_componentTypes", ComponentTypes, typeof(Type[]));
             base.GetObjectData(info, context);
         }
 
-        public object Key
-        {
-            get { return _key; }
-        }
+        public object Key { get; }
 
-        public Type[] ComponentTypes
-        {
-            get { return _componentTypes; }
-        }
+        public Type[] ComponentTypes { get; }
 
         public static string GetTypeNames(Type[] componentTypes)
         {
-            StringBuilder buf = new StringBuilder(255);
-            foreach (Type componentType in componentTypes)
+            var buf = new StringBuilder(255);
+            foreach (var componentType in componentTypes)
             {
                 buf.Append(componentType.FullName);
                 buf.Append(", ");

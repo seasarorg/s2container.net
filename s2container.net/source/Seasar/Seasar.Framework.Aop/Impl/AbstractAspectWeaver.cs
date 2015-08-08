@@ -16,8 +16,8 @@
  */
 #endregion
 
-using Seasar.Framework.Container;
 using System.Reflection;
+using Seasar.Framework.Container;
 
 namespace Seasar.Framework.Aop.Impl
 {
@@ -43,9 +43,9 @@ namespace Seasar.Framework.Aop.Impl
         /// <returns>Aspect‚Ì”z—ñ</returns>
         protected IAspect[] GetAspects(IComponentDef componentDef)
         {
-            int size = componentDef.AspectDefSize;
-            IAspect[] aspects = new IAspect[size];
-            for (int i = 0; i < size; ++i)
+            var size = componentDef.AspectDefSize;
+            var aspects = new IAspect[size];
+            for (var i = 0; i < size; ++i)
             {
                 aspects[i] = componentDef.GetAspectDef(i).Aspect;
             }

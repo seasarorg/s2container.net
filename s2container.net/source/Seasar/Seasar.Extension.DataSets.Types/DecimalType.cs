@@ -35,20 +35,11 @@ namespace Seasar.Extension.DataSets.Types
             return DecimalConversionUtil.ToDecimal(value);
         }
 
-        public override string ToDbTypeString()
-        {
-            return "NUMBER";
-        }
+        public override string ToDbTypeString() => "NUMBER";
 
-        public override DbType GetDbType()
-        {
-            return DbType.Decimal;
-        }
+        public override DbType GetDbType() => DbType.Decimal;
 
-        public override Type GetColumnType()
-        {
-            return typeof(Decimal);
-        }
+        public override Type GetColumnType() => typeof(decimal);
 
         #endregion
     }

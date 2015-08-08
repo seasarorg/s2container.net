@@ -28,7 +28,7 @@ namespace Seasar.Tests.Dao.Parser
         [Test]
         public void TestNext()
         {
-            string sql = "SELECT * FROM emp";
+            var sql = "SELECT * FROM emp";
             ISqlTokenizer tokenizer = new SqlTokenizerImpl(sql);
             Assert.AreEqual(TokenType.SQL, tokenizer.Next(), "1");
             Assert.AreEqual(sql, tokenizer.Token, "2");
@@ -39,7 +39,7 @@ namespace Seasar.Tests.Dao.Parser
         [Test, ExpectedException(typeof(TokenNotClosedRuntimeException))]
         public void TestCommentEndNotFound()
         {
-            string sql = "SELECT * FROM emp/*hoge";
+            var sql = "SELECT * FROM emp/*hoge";
             ISqlTokenizer tokenizer = new SqlTokenizerImpl(sql);
             Assert.AreEqual(TokenType.SQL, tokenizer.Next(), "1");
             Assert.AreEqual("SELECT * FROM emp", tokenizer.Token, "2");
@@ -50,7 +50,7 @@ namespace Seasar.Tests.Dao.Parser
         [Test]
         public void TestBindVariable()
         {
-            string sql = "SELECT * FROM emp WHERE job = /*job*/'CLER K' AND deptno = /*deptno*/20";
+            var sql = "SELECT * FROM emp WHERE job = /*job*/'CLER K' AND deptno = /*deptno*/20";
             ISqlTokenizer tokenizer = new SqlTokenizerImpl(sql);
             Assert.AreEqual(TokenType.SQL, tokenizer.Next(), "1");
             Assert.AreEqual("SELECT * FROM emp WHERE job = ", tokenizer.Token, "2");
@@ -68,7 +68,7 @@ namespace Seasar.Tests.Dao.Parser
         [Test]
         public void TestParseBindVariable2()
         {
-            string sql = "SELECT * FROM emp WHERE job = /*job*/'CLERK'/**/";
+            var sql = "SELECT * FROM emp WHERE job = /*job*/'CLERK'/**/";
             ISqlTokenizer tokenizer = new SqlTokenizerImpl(sql);
             Assert.AreEqual(TokenType.SQL, tokenizer.Next(), "1");
             Assert.AreEqual("SELECT * FROM emp WHERE job = ", tokenizer.Token, "2");
@@ -83,7 +83,7 @@ namespace Seasar.Tests.Dao.Parser
         [Test]
         public void TestParseBindVariable3()
         {
-            string sql = "/*job*/'CLERK',";
+            var sql = "/*job*/'CLERK',";
             ISqlTokenizer tokenizer = new SqlTokenizerImpl(sql);
             Assert.AreEqual(TokenType.COMMENT, tokenizer.Next(), "1");
             Assert.AreEqual("job", tokenizer.Token, "2");
@@ -96,7 +96,7 @@ namespace Seasar.Tests.Dao.Parser
         [Test]
         public void TestParseElse()
         {
-            string sql = "SELECT * FROM emp WHERE /*IF job != null*/job = /*job*/'CLERK'-- ELSE job is null/*END*/";
+            var sql = "SELECT * FROM emp WHERE /*IF job != null*/job = /*job*/'CLERK'-- ELSE job is null/*END*/";
             ISqlTokenizer tokenizer = new SqlTokenizerImpl(sql);
             Assert.AreEqual(TokenType.SQL, tokenizer.Next(), "1");
             Assert.AreEqual("SELECT * FROM emp WHERE ", tokenizer.Token, "2");
@@ -119,7 +119,7 @@ namespace Seasar.Tests.Dao.Parser
         [Test]
         public void TestParseElse2()
         {
-            string sql = "/*IF false*/aaa -- ELSE bbb = /*bbb*/123/*END*/";
+            var sql = "/*IF false*/aaa -- ELSE bbb = /*bbb*/123/*END*/";
             ISqlTokenizer tokenizer = new SqlTokenizerImpl(sql);
             Assert.AreEqual(TokenType.COMMENT, tokenizer.Next(), "1");
             Assert.AreEqual("IF false", tokenizer.Token, "2");
@@ -140,7 +140,7 @@ namespace Seasar.Tests.Dao.Parser
         [Test]
         public void TestAnd()
         {
-            string sql = " AND bbb";
+            var sql = " AND bbb";
             ISqlTokenizer tokenizer = new SqlTokenizerImpl(sql);
             Assert.AreEqual(" ", tokenizer.SkipWhitespace(), "1");
             Assert.AreEqual("AND", tokenizer.SkipToken(), "2");
@@ -151,7 +151,7 @@ namespace Seasar.Tests.Dao.Parser
         [Test]
         public void TestBindVariable2()
         {
-            string sql = "? abc ? def ?";
+            var sql = "? abc ? def ?";
             ISqlTokenizer tokenizer = new SqlTokenizerImpl(sql);
             Assert.AreEqual(TokenType.BIND_VARIABLE, tokenizer.Next(), "1");
             Assert.AreEqual("$1", tokenizer.Token, "2");
@@ -169,7 +169,7 @@ namespace Seasar.Tests.Dao.Parser
         [Test]
         public void TestBindVariable3()
         {
-            string sql = "abc ? def";
+            var sql = "abc ? def";
             ISqlTokenizer tokenizer = new SqlTokenizerImpl(sql);
             Assert.AreEqual(TokenType.SQL, tokenizer.Next(), "1");
             Assert.AreEqual("abc ", tokenizer.Token, "2");
@@ -182,7 +182,7 @@ namespace Seasar.Tests.Dao.Parser
         [Test]
         public void TestBindVariable4()
         {
-            string sql = "/*IF false*/aaa--ELSE bbb = /*bbb*/123/*END*/";
+            var sql = "/*IF false*/aaa--ELSE bbb = /*bbb*/123/*END*/";
             ISqlTokenizer tokenizer = new SqlTokenizerImpl(sql);
             Assert.AreEqual(TokenType.COMMENT, tokenizer.Next(), "1");
             Assert.AreEqual("IF false", tokenizer.Token, "2");
@@ -198,7 +198,7 @@ namespace Seasar.Tests.Dao.Parser
         [Test]
         public void TestSkipTokenForParent()
         {
-            string sql = "INSERT INTO TABLE_NAME (ID) VALUES (/*id*/20)";
+            var sql = "INSERT INTO TABLE_NAME (ID) VALUES (/*id*/20)";
             ISqlTokenizer tokenizer = new SqlTokenizerImpl(sql);
             Assert.AreEqual(TokenType.SQL, tokenizer.Next(), "1");
             Assert.AreEqual(TokenType.COMMENT, tokenizer.Next(), "2");

@@ -38,7 +38,7 @@ namespace Seasar.Tests.Framework.Container.Assembler
         [SetUp]
         public void SetUp()
         {
-            FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
+            var info = new FileInfo(SystemInfo.AssemblyFileName(
                 Assembly.GetExecutingAssembly()) + ".config");
             XmlConfigurator.Configure(LogManager.GetRepository(), info);
         }
@@ -47,7 +47,7 @@ namespace Seasar.Tests.Framework.Container.Assembler
         public void TestAssemble()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(ArrayList));
+            var cd = new ComponentDefImpl(typeof(ArrayList));
             container.Register(cd);
             IConstructorAssembler assembler = new DefaultConstructorAssembler(cd);
             Assert.IsNotNull(assembler.Assemble());
@@ -57,11 +57,11 @@ namespace Seasar.Tests.Framework.Container.Assembler
         public void TestAssembleAspect()
         {
             IS2Container container = new S2ContainerImpl();
-            ComponentDefImpl cd = new ComponentDefImpl(typeof(A));
+            var cd = new ComponentDefImpl(typeof(A));
             cd.AddAspeceDef(new AspectDefImpl(new TraceInterceptor()));
             container.Register(cd);
             IConstructorAssembler assembler = new DefaultConstructorAssembler(cd);
-            A a = (A) assembler.Assemble();
+            var a = (A) assembler.Assemble();
             Trace.WriteLine(a.Name);
         }
 

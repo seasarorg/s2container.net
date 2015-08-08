@@ -37,7 +37,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
 
         static BooleanToIntCommandFactoryTest()
         {
-            FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
+            var info = new FileInfo(SystemInfo.AssemblyFileName(
                 Assembly.GetExecutingAssembly()) + ".config");
             XmlConfigurator.Configure(LogManager.GetRepository(), info);
         }
@@ -50,7 +50,7 @@ namespace Seasar.Tests.Extension.ADO.Impl
         [Test, S2(Seasar.Extension.Unit.Tx.Rollback)]
         public void ExecuteNonQuery()
         {
-            BasicTypeBean bean = new BasicTypeBean();
+            var bean = new BasicTypeBean();
             bean.Id = 9999;
             bean.BoolType = true;
             // ODP.NET 10.2.0.100 でSByteをセットすると、「System.ArgumentException: 値が有効な範囲にありません。」が発生するのでコメントアウト。
@@ -65,10 +65,10 @@ namespace Seasar.Tests.Extension.ADO.Impl
             bean.StringType = "abcde";
             bean.DateTimeType = new DateTime(1999, 12, 31, 1, 2, 3);
 
-            string sql = "INSERT INTO basictype (id, booltype, bytetype, int16type, int32type, int64type, singletype, doubletype, decimaltype, stringtype, datetimetype) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            BasicUpdateHandler handler = new BasicUpdateHandler(DataSource, sql, BooleanToIntCommandFactory.INSTANCE);
-            object[] args = new object[] { bean.Id, bean.BoolType, bean.ByteType, bean.Int16Type, bean.Int32Type, bean.Int64Type, bean.DecimalType, bean.SingleType, bean.DoubleType, bean.StringType, bean.DateTimeType };
-            int ret = handler.Execute(args);
+            var sql = "INSERT INTO basictype (id, booltype, bytetype, int16type, int32type, int64type, singletype, doubletype, decimaltype, stringtype, datetimetype) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            var handler = new BasicUpdateHandler(DataSource, sql, BooleanToIntCommandFactory.INSTANCE);
+            var args = new object[] { bean.Id, bean.BoolType, bean.ByteType, bean.Int16Type, bean.Int32Type, bean.Int64Type, bean.DecimalType, bean.SingleType, bean.DoubleType, bean.StringType, bean.DateTimeType };
+            var ret = handler.Execute(args);
             Assert.AreEqual(1, ret, "1");
         }
 
@@ -80,17 +80,17 @@ namespace Seasar.Tests.Extension.ADO.Impl
         [Test, S2]
         public void ExecuteReader()
         {
-            BasicSelectHandler handler = new BasicSelectHandler(
+            var handler = new BasicSelectHandler(
                 DataSource,
                 "SELECT * FROM basictype WHERE id = ?",
                 new BeanDataReaderHandler(typeof(BasicTypeBean))
                 );
-            BasicTypeBean ret = (BasicTypeBean) handler.Execute(new object[] { 1 });
+            var ret = (BasicTypeBean) handler.Execute(new object[] { 1 });
             Trace.WriteLine(ToStringUtil.ToString(ret));
             Assert.IsFalse(ret.BoolType, "1");
             Assert.AreEqual(int.MaxValue, ret.Int32Type, "2");
 
-            BasicTypeBean retTrue = (BasicTypeBean) handler.Execute(new object[] { 3 });
+            var retTrue = (BasicTypeBean) handler.Execute(new object[] { 3 });
             Trace.WriteLine(ToStringUtil.ToString(ret));
             Assert.IsTrue(retTrue.BoolType, "3");
             Assert.AreEqual(5, retTrue.Int32Type, "4");

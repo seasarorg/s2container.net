@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Data;
 using Seasar.Extension.ADO;
 using Seasar.Framework.Util;
@@ -34,10 +35,11 @@ namespace Seasar.Dao.Impl
         /// <param name="beanType">オブジェクトの型</param>
         /// <returns>1行分のEntity型のオブジェクト</returns>
         public virtual object CreateRow(IDataReader reader, IColumnMetaData[] columns, Type beanType) {
-            object row = NewBean(beanType);
+            var row = NewBean(beanType);
             foreach (IColumnMetaData column in columns) {
-                object value = column.ValueType.GetValue(reader, column.ColumnName);
-                column.PropertyInfo.SetValue(row, value, null);
+                var value = column.ValueType.GetValue(reader, column.ColumnName);
+//                column.PropertyInfo.SetValue(row, value, null);
+                PropertyUtil.SetValue(row, row.GetExType(), column.PropertyInfo.Name, column.PropertyInfo.PropertyType, value);
             }
             return row;
         }
@@ -54,13 +56,12 @@ namespace Seasar.Dao.Impl
         /// <returns>Columnのメタデータの配列</returns>
         public virtual IColumnMetaData[] CreateColumnMetaData(IList columnNames, IBeanMetaData beanMetaData)
         {
-            System.Collections.Generic.IDictionary<string, string> names = null;
-            System.Collections.Generic.List<IColumnMetaData> columnMetaDataList =
-                new System.Collections.Generic.List<IColumnMetaData>();
+            IDictionary<string, string> names = null;
+            var columnMetaDataList = new List<IColumnMetaData>();
 
-            for (int i = 0; i < beanMetaData.PropertyTypeSize; ++i)
+            for (var i = 0; i < beanMetaData.PropertyTypeSize; ++i)
             {
-                IPropertyType pt = beanMetaData.GetPropertyType(i);
+                var pt = beanMetaData.GetPropertyType(i);
 
                 // [DAONET-56] (2007/08/29)
                 // Performance向上のためにSetterの無いPropertyは対象にしないようする。
@@ -68,9 +69,7 @@ namespace Seasar.Dao.Impl
                     continue;
                 }
 
-                string columnName;
-
-                columnName = FindColumnName(columnNames, pt.ColumnName);
+                var columnName = FindColumnName(columnNames, pt.ColumnName);
 
                 if (columnName != null)
                 {
@@ -90,7 +89,7 @@ namespace Seasar.Dao.Impl
                 {
                     if (names == null)
                     {
-                        names = new System.Collections.Generic.Dictionary<string, string>();
+                        names = new Dictionary<string, string>();
                         foreach (string name in columnNames)
                         {
                             names[name.Replace("_", string.Empty).ToUpper()] = name;
@@ -117,7 +116,7 @@ namespace Seasar.Dao.Impl
         {
             foreach (string realColumnName in columnNames)
             {
-                if (string.Compare(realColumnName, columnName, true) == 0)
+                if (String.Compare(realColumnName, columnName, StringComparison.OrdinalIgnoreCase) == 0)
                 {
                     return realColumnName;
                 }
@@ -125,12 +124,9 @@ namespace Seasar.Dao.Impl
             return null;
         }
 
-        protected virtual bool IsTargetProperty(IPropertyType pt) {
-            return pt.PropertyInfo.CanWrite;
-        }
+        protected virtual bool IsTargetProperty(IPropertyType pt) => pt.PropertyInfo.CanWrite;
 
-        protected virtual ColumnMetaDataImpl NewColumnMetaDataImpl(IPropertyType propertyType, string columnName) {
-            return new ColumnMetaDataImpl(propertyType, columnName);
-        }
+        protected virtual ColumnMetaDataImpl NewColumnMetaDataImpl(IPropertyType propertyType, string columnName) 
+            => new ColumnMetaDataImpl(propertyType, columnName);
     }
 }

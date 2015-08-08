@@ -30,10 +30,10 @@ namespace Seasar.Tests.Framework.Aop.Impl
         [Test]
         public void TestGetMethodNames()
         {
-            PointcutImpl pointcut = new PointcutImpl(typeof(Hello2Impl));
-            string[] methodNames = pointcut.MethodNames;
+            var pointcut = new PointcutImpl(typeof(Hello2Impl));
+            var methodNames = pointcut.MethodNames;
             Assert.AreEqual(2, methodNames.Length);
-            foreach (string methodName in methodNames)
+            foreach (var methodName in methodNames)
             {
                 Trace.WriteLine(methodName);
             }
@@ -42,10 +42,10 @@ namespace Seasar.Tests.Framework.Aop.Impl
         [Test]
         public void TestGetMethodNames2()
         {
-            PointcutImpl pointcut = new PointcutImpl(typeof(Hello2));
-            string[] methodNames = pointcut.MethodNames;
+            var pointcut = new PointcutImpl(typeof(Hello2));
+            var methodNames = pointcut.MethodNames;
             Assert.AreEqual(2, methodNames.Length);
-            foreach (string methodName in methodNames)
+            foreach (var methodName in methodNames)
             {
                 Trace.WriteLine(methodName);
             }
@@ -54,10 +54,10 @@ namespace Seasar.Tests.Framework.Aop.Impl
         [Test]
         public void TestGetMethodNames3()
         {
-            PointcutImpl pointcut = new PointcutImpl(typeof(Hello2Impl2));
-            string[] methodNames = pointcut.MethodNames;
+            var pointcut = new PointcutImpl(typeof(Hello2Impl2));
+            var methodNames = pointcut.MethodNames;
             Assert.AreEqual(2, methodNames.Length);
-            foreach (string methodName in methodNames)
+            foreach (var methodName in methodNames)
             {
                 Trace.WriteLine(methodName);
             }
@@ -66,7 +66,7 @@ namespace Seasar.Tests.Framework.Aop.Impl
         [Test]
         public void TestRegex()
         {
-            PointcutImpl pointcut = new PointcutImpl(new string[] { "Greeting.*" });
+            var pointcut = new PointcutImpl(new string[] { "Greeting.*" });
             Assert.AreEqual(true, pointcut.IsApplied("Greeting"), "1");
             Assert.AreEqual(true, pointcut.IsApplied("Greeting2"), "2");
             Assert.AreEqual(false, pointcut.IsApplied("TestGreetingAAA"), "3");
@@ -77,7 +77,7 @@ namespace Seasar.Tests.Framework.Aop.Impl
         [Test]
         public void testRegex2()
         {
-            PointcutImpl pointcut = new PointcutImpl(new String[] { "Find" });
+            var pointcut = new PointcutImpl(new String[] { "Find" });
             Assert.AreEqual(false, pointcut.IsApplied("GetFindEx"), "1");
             Assert.AreEqual(false, pointcut.IsApplied("FindAll"), "2");
             Assert.AreEqual(true, pointcut.IsApplied("Find"), "3");

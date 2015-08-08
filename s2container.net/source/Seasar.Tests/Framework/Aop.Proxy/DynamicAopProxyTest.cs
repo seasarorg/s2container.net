@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -44,8 +44,8 @@ namespace Seasar.Tests.Framework.Aop.Proxy
 
         public DynamicAopProxyTest()
         {
-            // log4net‚Ì‰Šú‰»
-            FileInfo info = new FileInfo(SystemInfo.AssemblyShortName(
+            // log4netã®åˆæœŸåŒ–
+            var info = new FileInfo(SystemInfo.AssemblyShortName(
                 Assembly.GetExecutingAssembly()) + ".dll.config");
             XmlConfigurator.Configure(LogManager.GetRepository(), info);
         }
@@ -70,7 +70,7 @@ namespace Seasar.Tests.Framework.Aop.Proxy
         }
 
         [Test, S2]
-        [Ignore("À‘•ƒNƒ‰ƒX‚ğƒRƒ“ƒ|[ƒlƒ“ƒg‚É“o˜^‚µ‚½ê‡A“¯‚¶Œ^‚ÌƒNƒ‰ƒX‚¾‚Æ³í‚É“K—p‚³‚ê‚é‚ªAI/F‚¾‚ÆƒCƒ“ƒ^[ƒZƒvƒ^[‚ª“K—p‚³‚ê‚Ä‚¢‚È‚¢ƒIƒuƒWƒFƒNƒg‚ªİ’è‚³‚ê‚éBŒ´ˆö‚ª‚í‚©‚é‚Ü‚ÅIgnore")]
+        [Ignore("å®Ÿè£…ã‚¯ãƒ©ã‚¹ã‚’ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã«ç™»éŒ²ã—ãŸå ´åˆã€åŒã˜å‹ã®ã‚¯ãƒ©ã‚¹ã ã¨æ­£å¸¸ã«é©ç”¨ã•ã‚Œã‚‹ãŒã€I/Fã ã¨ã‚¤ãƒ³ã‚¿ãƒ¼ã‚»ãƒ—ã‚¿ãƒ¼ãŒé©ç”¨ã•ã‚Œã¦ã„ãªã„ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒè¨­å®šã•ã‚Œã‚‹ã€‚åŸå› ãŒã‚ã‹ã‚‹ã¾ã§Ignore")]
         public void TestProperty()
         {
             Assert.AreEqual("TestProperty", _hello.Prop, "1");
@@ -83,7 +83,7 @@ namespace Seasar.Tests.Framework.Aop.Proxy
         }
 
         [Test, S2]
-        [Ignore("I/F‚ÅéŒ¾‚µ‚½•Ï”‚ÆÀ‘•ƒNƒ‰ƒX‚ÅéŒ¾‚µ‚½•Ï”‚É‚Í•Ê‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ªİ’è‚³‚ê‚Ä‚¢‚éBQuill‚Ì•û‚Å‚Í–â‘è‚È‚­“®ì‚·‚é‚½‚ßAŒ´ˆö‚ª‚í‚©‚é‚Ü‚ÅIgnore")]
+        [Ignore("I/Fã§å®£è¨€ã—ãŸå¤‰æ•°ã¨å®Ÿè£…ã‚¯ãƒ©ã‚¹ã§å®£è¨€ã—ãŸå¤‰æ•°ã«ã¯åˆ¥ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹ã€‚Quillã®æ–¹ã§ã¯å•é¡Œãªãå‹•ä½œã™ã‚‹ãŸã‚ã€åŸå› ãŒã‚ã‹ã‚‹ã¾ã§Ignore")]
         public void TestSingleton()
         {
             _hello.Prop = "TestSingleton";
@@ -131,12 +131,12 @@ namespace Seasar.Tests.Framework.Aop.Proxy
         [Test, S2]
         public void TestPerformance1()
         {
-            DateTime start = DateTime.Now;
-            for (int i = 0; i < 100; ++i)
+            var start = DateTime.Now;
+            for (var i = 0; i < 100; ++i)
             {
                 Container.GetComponent(typeof(IHello4));
             }
-            TimeSpan span = DateTime.Now - start;
+            var span = DateTime.Now - start;
             Debug.WriteLine(span.TotalMilliseconds + "ms");
 
         }
@@ -149,13 +149,13 @@ namespace Seasar.Tests.Framework.Aop.Proxy
         [Test, S2]
         public void TestPerformance2()
         {
-            IHello4 hello = (IHello4) Container.GetComponent(typeof(IHello4));
-            DateTime start = DateTime.Now;
-            for (int i = 0; i < 10000; ++i)
+            var hello = (IHello4) Container.GetComponent(typeof(IHello4));
+            var start = DateTime.Now;
+            for (var i = 0; i < 10000; ++i)
             {
                 hello.Greeting();
             }
-            TimeSpan span = DateTime.Now - start;
+            var span = DateTime.Now - start;
             Debug.WriteLine(span.TotalMilliseconds + "ms");
         }
 
@@ -182,18 +182,13 @@ namespace Seasar.Tests.Framework.Aop.Proxy
         public class HelloImpl : IHello
         {
             private readonly string _str = "abc";
-            private string _prop = "default";
 
             public virtual string Greeting()
             {
                 return _str;
             }
 
-            public string Prop
-            {
-                set { _prop = value; }
-                get { return _prop; }
-            }
+            public string Prop { set; get; } = "default";
         }
 
         public class HelloInterceptor : IMethodInterceptor
@@ -226,17 +221,11 @@ namespace Seasar.Tests.Framework.Aop.Proxy
 
         public class AutoHello
         {
-            private IHello _hello;
-
-            public IHello Hello
-            {
-                set { _hello = value; }
-                get { return _hello; }
-            }
+            public IHello Hello { set; get; }
 
             public string Greeting()
             {
-                return _hello.Greeting();
+                return Hello.Greeting();
             }
         }
 
@@ -294,7 +283,7 @@ namespace Seasar.Tests.Framework.Aop.Proxy
         {
             public object Invoke(IMethodInvocation invocation)
             {
-                int ret = (int) invocation.Proceed();
+                var ret = (int) invocation.Proceed();
                 return ++ret;
             }
         }

@@ -37,12 +37,8 @@ namespace Seasar.Quill.Util
         /// <returns></returns>
         public static bool IsDesignMode()
         {
-            Process currentProcess = Process.GetCurrentProcess();
-            if(currentProcess.ProcessName == "devenv")
-            {
-                return true;
-            }
-            return false;
+            var currentProcess = Process.GetCurrentProcess();
+            return currentProcess.ProcessName == "devenv";
         }
 
     }

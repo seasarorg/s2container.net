@@ -18,9 +18,9 @@
 
 using System;
 using MbUnit.Framework;
-using System.Reflection;
-using Seasar.Framework.Beans.Impl;
 using Seasar.Framework.Beans;
+using Seasar.Framework.Beans.Impl;
+using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Framework.Beans.Impl
 {
@@ -28,158 +28,158 @@ namespace Seasar.Tests.Framework.Beans.Impl
     public class PropertyDescImplTest
     {
         [Test]
-        public void TestReadMethod_OK()
+        public void TestReadMethodOk()
         {
-            PropertyInfo propertyInfo = typeof(PropertyDescTest).GetProperty("Both");
-            PropertyDescImpl propertyDescImpl = new PropertyDescImpl(propertyInfo);
+            var propertyInfo = typeof(_PropertyDescTest).GetProperty("Both");
+            var propertyDescImpl = new PropertyDescImpl(propertyInfo);
 
-            IMethodDesc actual = propertyDescImpl.ReadMethod;
+            var actual = propertyDescImpl.ReadMethod;
             Assert.IsNotNull(actual);
             Assert.AreEqual("get_Both", actual.Name);
         }
 
         [Test]
-        public void TestReadMethod_NoGetter()
+        public void TestReadMethodNoGetter()
         {
-            PropertyInfo propertyInfo = typeof(PropertyDescTest).GetProperty("SetOnly");
-            PropertyDescImpl propertyDescImpl = new PropertyDescImpl(propertyInfo);
+            var propertyInfo = typeof(_PropertyDescTest).GetProperty("SetOnly");
+            var propertyDescImpl = new PropertyDescImpl(propertyInfo);
 
             try
             {
-                IMethodDesc actual = propertyDescImpl.ReadMethod;
+                var actual = propertyDescImpl.ReadMethod;
                 Assert.Fail("例外が発生するはず", actual.Name);
             }
             catch (Exception ex)
             {
-                Assert.IsTrue(ex is MethodNotFoundRuntimeException, ex.GetType().Name);
-                MethodNotFoundRuntimeException targetException = (MethodNotFoundRuntimeException) ex;
-                Assert.AreEqual(typeof(PropertyDescTest), targetException.ComponentType);
+                Assert.IsTrue(ex is MethodNotFoundRuntimeException, ex.GetExType().Name);
+                var targetException = (MethodNotFoundRuntimeException) ex;
+                Assert.AreEqual(typeof(_PropertyDescTest), targetException.ComponentType);
                 Assert.AreEqual("get", targetException.MethodName);
             }
         }
 
         [Test]
-        public void TestWriteMethod_OK()
+        public void TestWriteMethodOk()
         {
-            PropertyInfo propertyInfo = typeof(PropertyDescTest).GetProperty("Both");
-            PropertyDescImpl propertyDescImpl = new PropertyDescImpl(propertyInfo);
+            var propertyInfo = typeof(_PropertyDescTest).GetProperty("Both");
+            var propertyDescImpl = new PropertyDescImpl(propertyInfo);
 
-            IMethodDesc actual = propertyDescImpl.WriteMethod;
+            var actual = propertyDescImpl.WriteMethod;
             Assert.IsNotNull(actual);
             Assert.AreEqual("set_Both", actual.Name);
         }
 
         [Test]
-        public void TestWriteMethod_NoSetter()
+        public void TestWriteMethodNoSetter()
         {
-            PropertyInfo propertyInfo = typeof(PropertyDescTest).GetProperty("GetOnly");
-            PropertyDescImpl propertyDescImpl = new PropertyDescImpl(propertyInfo);
+            var propertyInfo = typeof(_PropertyDescTest).GetProperty("GetOnly");
+            var propertyDescImpl = new PropertyDescImpl(propertyInfo);
 
             try
             {
-                IMethodDesc actual = propertyDescImpl.WriteMethod;
+                var actual = propertyDescImpl.WriteMethod;
                 Assert.Fail("例外が発生するはず", actual.Name);
             }
             catch (Exception ex)
             {
-                Assert.IsTrue(ex is MethodNotFoundRuntimeException, ex.GetType().Name);
-                MethodNotFoundRuntimeException targetException = (MethodNotFoundRuntimeException)ex;
-                Assert.AreEqual(typeof(PropertyDescTest), targetException.ComponentType);
+                Assert.IsTrue(ex is MethodNotFoundRuntimeException, ex.GetExType().Name);
+                var targetException = (MethodNotFoundRuntimeException)ex;
+                Assert.AreEqual(typeof(_PropertyDescTest), targetException.ComponentType);
                 Assert.AreEqual("set", targetException.MethodName);
             }
         }
 
         [Test]
-        public void TestHasReadMethod_True()
+        public void TestHasReadMethodTrue()
         {
-            PropertyInfo both = typeof(PropertyDescTest).GetProperty("Both");
-            PropertyDescImpl bothDesc = new PropertyDescImpl(both);
+            var both = typeof(_PropertyDescTest).GetProperty("Both");
+            var bothDesc = new PropertyDescImpl(both);
             Assert.IsTrue(bothDesc.HasReadMethod());
 
-            PropertyInfo getOnly = typeof(PropertyDescTest).GetProperty("GetOnly");
-            PropertyDescImpl getOnlyDesc = new PropertyDescImpl(getOnly);
+            var getOnly = typeof(_PropertyDescTest).GetProperty("GetOnly");
+            var getOnlyDesc = new PropertyDescImpl(getOnly);
             Assert.IsTrue(getOnlyDesc.HasReadMethod());
         }
 
         [Test]
-        public void TestHasReadMethod_False()
+        public void TestHasReadMethodFalse()
         {
-            PropertyInfo propertyInfo = typeof(PropertyDescTest).GetProperty("SetOnly");
-            PropertyDescImpl propertyInfoDesc = new PropertyDescImpl(propertyInfo);
+            var propertyInfo = typeof(_PropertyDescTest).GetProperty("SetOnly");
+            var propertyInfoDesc = new PropertyDescImpl(propertyInfo);
             Assert.IsFalse(propertyInfoDesc.HasReadMethod());
         }
 
         [Test]
-        public void TestHasWriteMethod_True()
+        public void TestHasWriteMethodTrue()
         {
-            PropertyInfo both = typeof(PropertyDescTest).GetProperty("Both");
-            PropertyDescImpl bothDesc = new PropertyDescImpl(both);
+            var both = typeof(_PropertyDescTest).GetProperty("Both");
+            var bothDesc = new PropertyDescImpl(both);
             Assert.IsTrue(bothDesc.HasWriteMethod());
 
-            PropertyInfo setOnly = typeof(PropertyDescTest).GetProperty("SetOnly");
-            PropertyDescImpl setOnlyDesc = new PropertyDescImpl(setOnly);
+            var setOnly = typeof(_PropertyDescTest).GetProperty("SetOnly");
+            var setOnlyDesc = new PropertyDescImpl(setOnly);
             Assert.IsTrue(setOnlyDesc.HasWriteMethod());
         }
 
         [Test]
-        public void TestHasWriteMethod_False()
+        public void TestHasWriteMethodFalse()
         {
-            PropertyInfo propertyInfo = typeof(PropertyDescTest).GetProperty("GetOnly");
-            PropertyDescImpl propertyInfoDesc = new PropertyDescImpl(propertyInfo);
+            var propertyInfo = typeof(_PropertyDescTest).GetProperty("GetOnly");
+            var propertyInfoDesc = new PropertyDescImpl(propertyInfo);
             Assert.IsFalse(propertyInfoDesc.HasWriteMethod());
         }
 
         [Test]
-        public void TestGetValue_OK()
+        public void TestGetValueOk()
         {
-            PropertyInfo propertyInfo = typeof(PropertyDescTest).GetProperty("Both");
-            PropertyDescImpl propertyDescImpl = new PropertyDescImpl(propertyInfo);
-            PropertyDescTest target = new PropertyDescTest();
+            var propertyInfo = typeof(_PropertyDescTest).GetProperty("Both");
+            var propertyDescImpl = new PropertyDescImpl(propertyInfo);
+            var target = new _PropertyDescTest();
 
-            object ret = propertyDescImpl.GetValue(target);
-            Assert.AreEqual(typeof (string), ret.GetType());
+            var ret = propertyDescImpl.GetValue(target);
+            Assert.AreEqual(typeof (string), ret.GetExType());
             Assert.AreEqual("Hoge", ret);
         }
 
         [Test]
-        public void TestGetValue_NG()
+        public void TestGetValueNg()
         {
-            PropertyInfo propertyInfo = typeof(PropertyDescTest).GetProperty("SetOnly");
-            PropertyDescImpl propertyDescImpl = new PropertyDescImpl(propertyInfo);
-            PropertyDescTest target = new PropertyDescTest();
+            var propertyInfo = typeof(_PropertyDescTest).GetProperty("SetOnly");
+            var propertyDescImpl = new PropertyDescImpl(propertyInfo);
+            var target = new _PropertyDescTest();
 
             try
             {
-                object ret = propertyDescImpl.GetValue(target);
+                var ret = propertyDescImpl.GetValue(target);
                 Assert.Fail("例外が発生しているはず", ret.ToString());
             }
             catch (Exception ex)
             {
                 Assert.IsTrue(ex is IllegalPropertyRuntimeException);
-                IllegalPropertyRuntimeException targetException = (IllegalPropertyRuntimeException) ex;
-                Assert.AreEqual(typeof(PropertyDescTest), targetException.ComponentType);
+                var targetException = (IllegalPropertyRuntimeException) ex;
+                Assert.AreEqual(typeof(_PropertyDescTest), targetException.ComponentType);
                 Assert.AreEqual("SetOnly", targetException.PropertyName);
-                Assert.AreEqual(typeof(MethodNotFoundRuntimeException), targetException.InnerException.GetType());
+                Assert.AreEqual(typeof(MethodNotFoundRuntimeException), targetException.InnerException.GetExType());
             }
         }
 
         [Test]
-        public void TestSetValue_OK()
+        public void TestSetValueOk()
         {
-            PropertyInfo propertyInfo = typeof(PropertyDescTest).GetProperty("Both");
-            PropertyDescImpl propertyDescImpl = new PropertyDescImpl(propertyInfo);
-            PropertyDescTest target = new PropertyDescTest();
+            var propertyInfo = typeof(_PropertyDescTest).GetProperty("Both");
+            var propertyDescImpl = new PropertyDescImpl(propertyInfo);
+            var target = new _PropertyDescTest();
 
             propertyDescImpl.SetValue(target, "Updated");
             Assert.AreEqual("Updated", target.Both);
         }
 
         [Test]
-        public void TestSetValue_NG()
+        public void TestSetValueNg()
         {
-            PropertyInfo propertyInfo = typeof(PropertyDescTest).GetProperty("GetOnly");
-            PropertyDescImpl propertyDescImpl = new PropertyDescImpl(propertyInfo);
-            PropertyDescTest target = new PropertyDescTest();
+            var propertyInfo = typeof(_PropertyDescTest).GetProperty("GetOnly");
+            var propertyDescImpl = new PropertyDescImpl(propertyInfo);
+            var target = new _PropertyDescTest();
 
             try
             {
@@ -189,22 +189,21 @@ namespace Seasar.Tests.Framework.Beans.Impl
             catch (Exception ex)
             {
                 Assert.IsTrue(ex is IllegalPropertyRuntimeException);
-                IllegalPropertyRuntimeException targetException = (IllegalPropertyRuntimeException)ex;
-                Assert.AreEqual(typeof(PropertyDescTest), targetException.ComponentType);
+                var targetException = (IllegalPropertyRuntimeException)ex;
+                Assert.AreEqual(typeof(_PropertyDescTest), targetException.ComponentType);
                 Assert.AreEqual("GetOnly", targetException.PropertyName);
-                Assert.AreEqual(typeof(MethodNotFoundRuntimeException), targetException.InnerException.GetType());
+                Assert.AreEqual(typeof(MethodNotFoundRuntimeException), targetException.InnerException.GetExType());
             }
         }
 
         #region テスト用クラス
 
-        private class PropertyDescTest
+        private class _PropertyDescTest
         {
             private string _setOnly;
-            private string _both = "Hoge";
-            public string GetOnly { get { return "hoge"; } }
+            public string GetOnly => "hoge";
             public string SetOnly { set { _setOnly = value; }}
-            public string Both { get { return _both; } set { _both = value; } }
+            public string Both { get; } = "Hoge";
         }
 
         #endregion

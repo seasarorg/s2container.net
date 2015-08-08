@@ -25,29 +25,24 @@ namespace Seasar.Framework.Container.Factory
     [Serializable]
     public class ClassNotFoundRuntimeException : SRuntimeException
     {
-        private readonly string _className;
-
         public ClassNotFoundRuntimeException(string className)
             : base("ESSR0044", new object[] { " \"" + className + "\"" })
         {
-            _className = className;
+            ClassName = className;
         }
 
         public ClassNotFoundRuntimeException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            _className = info.GetString("_className");
+            ClassName = info.GetString("_className");
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("_className", _className, typeof(string));
+            info.AddValue("_className", ClassName, typeof(string));
             base.GetObjectData(info, context);
         }
 
-        public string ClassName
-        {
-            get { return _className; }
-        }
+        public string ClassName { get; }
     }
 }

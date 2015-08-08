@@ -40,7 +40,7 @@ namespace Seasar.Tests.Extension.Tx.Impl
 
         public LocalNotSupportedInterceptorTest()
         {
-            FileInfo info = new FileInfo(SystemInfo.AssemblyFileName(
+            var info = new FileInfo(SystemInfo.AssemblyFileName(
                 Assembly.GetExecutingAssembly()) + ".config");
             XmlConfigurator.Configure(LogManager.GetRepository(), info);
         }
@@ -71,14 +71,14 @@ namespace Seasar.Tests.Extension.Tx.Impl
         [Test]
         public void TestProceedInTx()
         {
-            using (ITransactionContext ctx = _context.Create())
+            using (var ctx = _context.Create())
             {
                 ctx.Begin();
                 _context.Current = ctx;
 
                 Assert.IsFalse(_tester.IsInTransaction());
 
-                IDbConnection con = _tester.GetConnection();
+                var con = _tester.GetConnection();
                 Assert.IsFalse(object.ReferenceEquals(ctx.Connection, con));
                 Assert.IsFalse(CanStartTx(con));
                 ctx.Rollback();
@@ -102,7 +102,7 @@ namespace Seasar.Tests.Extension.Tx.Impl
         [Test]
         public void TestProceedExceptionInTx()
         {
-            using (ITransactionContext ctx = _context.Create())
+            using (var ctx = _context.Create())
             {
                 ctx.Begin();
                 _context.Current = ctx;
@@ -117,7 +117,7 @@ namespace Seasar.Tests.Extension.Tx.Impl
                     Assert.IsTrue(e is NotSupportedException);
                     Assert.IsTrue(_context.Current.IsInTransaction);
                 }
-                IDbConnection con = _tester.GetConnection();
+                var con = _tester.GetConnection();
                 Assert.IsFalse(object.ReferenceEquals(ctx.Connection, con));
                 Assert.IsFalse(CanStartTx(con));
                 ctx.Rollback();

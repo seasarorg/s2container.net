@@ -29,14 +29,14 @@ namespace Seasar.Tests.Extension.ADO.Impl
         [Test, S2]
         public void ConstructorDataProviderDataSource()
         {
-            DataSourceImpl ds = new DataSourceImpl(new DataProvider(), "dummy");
+            var ds = new DataSourceImpl(new DataProvider(), "dummy");
             Assert.IsInstanceOfType(typeof(DataProviderDataSource), ds.Instance);
         }
 
         [Test, S2]
         public void ConstructorDbProviderFactoryDataSource()
         {
-            DataSourceImpl ds = new DataSourceImpl("provider");
+            var ds = new DataSourceImpl("provider");
             Assert.IsInstanceOfType(typeof(DbProviderFactoryDataSource), ds.Instance);
         }
     }

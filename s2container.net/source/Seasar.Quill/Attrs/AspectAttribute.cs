@@ -1,4 +1,4 @@
-#region Copyright
+﻿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -100,10 +100,7 @@ namespace Seasar.Quill.Attrs
         /// InterceptorのTypeを取得する
         /// </summary>
         /// <value>InterceptorのType</value>
-        public Type InterceptorType
-        {
-            get { return interceptorType; }
-        }
+        public Type InterceptorType => interceptorType;
 
         ///// <summary>
         ///// S2Containerにおけるコンポーネント名を取得する
@@ -119,9 +116,6 @@ namespace Seasar.Quill.Attrs
         /// (数が小さいほうが先に適用される)
         /// </summary>
         /// <value>Aspectを適用する順番(数が小さいほうが先に適用される)</value>
-        public int Ordinal
-        {
-            get { return ordinal; }
-        }
+        public int Ordinal => ordinal;
     }
 }

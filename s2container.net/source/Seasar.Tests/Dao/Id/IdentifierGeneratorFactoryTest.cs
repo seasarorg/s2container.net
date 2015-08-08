@@ -22,6 +22,7 @@ using Seasar.Extension.Unit;
 using Seasar.Dao.Id;
 using Seasar.Dao.Attrs;
 using MbUnit.Framework;
+using Seasar.Framework.Util;
 
 namespace Seasar.Tests.Dao.Id
 {
@@ -32,16 +33,16 @@ namespace Seasar.Tests.Dao.Id
         public void TestCreateIdentifierGenerator()
         {
             IDbms dbms = new MSSQLServer();
-            Hoge hoge = new Hoge();
+            var hoge = new Hoge();
             hoge.Id = 1;
 
-            IIdentifierGenerator generator = IdentifierGeneratorFactory.CreateIdentifierGenerator(
+            var generator = IdentifierGeneratorFactory.CreateIdentifierGenerator(
                 "id", dbms, null);
-            Assert.AreEqual(typeof(AssignedIdentifierGenerator), generator.GetType(), "1");
+            Assert.AreEqual(typeof(AssignedIdentifierGenerator), generator.GetExType(), "1");
 
             generator = IdentifierGeneratorFactory.CreateIdentifierGenerator(
                 "id", dbms, new IDAttribute(IDType.IDENTITY));
-            Assert.AreEqual(typeof(IdentityIdentifierGenerator), generator.GetType(), "2");
+            Assert.AreEqual(typeof(IdentityIdentifierGenerator), generator.GetExType(), "2");
 
             generator = IdentifierGeneratorFactory.CreateIdentifierGenerator(
                 "id", dbms, new IDAttribute(IDType.SEQUENCE, "myseq"));

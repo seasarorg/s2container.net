@@ -18,6 +18,7 @@
 
 using System;
 using System.Data;
+using System.Reflection;
 using Seasar.Framework.Exceptions;
 using Seasar.Framework.Log;
 
@@ -25,7 +26,7 @@ namespace Seasar.Framework.Util
 {
     public sealed class ConnectionUtil
     {
-        private static readonly Logger _logger = Logger.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly Logger _logger = Logger.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         private ConnectionUtil()
         {
@@ -49,7 +50,7 @@ namespace Seasar.Framework.Util
         {
             try
             {
-                IDbCommand cmd = connection.CreateCommand();
+                var cmd = connection.CreateCommand();
                 cmd.CommandText = sql;
                 return cmd;
             }

@@ -18,7 +18,8 @@
 
 using System;
 using System.Data.SqlTypes;
-using System.Reflection;
+using System.Runtime.CompilerServices;
+using Microsoft.CSharp.RuntimeBinder;
 
 #if NHIBERNATE_NULLABLES
 using Nullables;
@@ -26,17 +27,13 @@ using Nullables;
 
 namespace Seasar.Framework.Util
 {
-    public sealed class PropertyUtil
+    public  static class PropertyUtil
     {
-        private PropertyUtil()
-        {
-        }
-
         public static Type GetPrimitiveType(Type type)
         {
             if (type.GetInterface(typeof(INullable).Name) != null)
             {
-                PropertyInfo npi = type.GetProperty("Value");
+                var npi = type.GetProperty("Value");
                 return npi.PropertyType;
             }
 #if NHIBERNATE_NULLABLES
@@ -66,11 +63,12 @@ namespace Seasar.Framework.Util
 
             if (value is INullable)
             {
-                INullable nullable = (INullable) value;
+                var nullable = (INullable) value;
                 if (!nullable.IsNull)
                 {
-                    PropertyInfo npi = value.GetType().GetProperty("Value");
-                    return npi.GetValue(value, null);
+                    var npi = value.GetExType().GetProperty("Value");
+//                    return npi.GetValue(value, null);
+                    return GetValue(value, value.GetExType(), npi.Name);
                 }
                 else
                 {
@@ -93,6 +91,62 @@ namespace Seasar.Framework.Util
 #endif
 
             return value;
+        }
+
+        /// <summary>
+        /// オブジェクトのプロパティに値をセットする
+        /// </summary>
+        /// <param name="target">対象オブジェクト</param>
+        /// <param name="targetType">対象オブジェクト型</param>
+        /// <param name="propertyName">プロパティ名</param>
+        /// <param name="value">セットする値</param>
+        /// <param name="propType">プロパティ型</param>
+        public static void SetValue(object target, Type targetType, string propertyName, Type propType, object value)
+        {
+            if (target == null)
+                throw new ArgumentNullException(nameof(target));
+            if (String.IsNullOrEmpty(propertyName))
+                throw new ArgumentNullException(nameof(propertyName));
+
+            const CSharpBinderFlags binderFlags = CSharpBinderFlags.None;
+            const CSharpArgumentInfoFlags argumentFlags = CSharpArgumentInfoFlags.None;
+
+            var binder = Binder.SetMember(binderFlags, propertyName, targetType,
+                new[]
+                {
+                    CSharpArgumentInfo.Create(argumentFlags, null),
+                    CSharpArgumentInfo.Create(argumentFlags, null),
+                });
+
+            var callsite = CallSite<Func<CallSite, object, object, object>>.Create(binder);
+            callsite.Target(callsite, target, value);
+        }
+
+        /// <summary>
+        /// オブジェクトから値を取得する
+        /// </summary>
+        /// <param name="target">対象オブジェクト</param>
+        /// <param name="targetType">対象オブジェクト型</param>
+        /// <param name="propertyName">プロパティ名</param>
+        /// <returns>取得した値</returns>
+        public static object GetValue(object target, Type targetType, string propertyName)
+        {
+            if (target == null)
+                throw new ArgumentNullException(nameof(target));
+            if (String.IsNullOrEmpty(propertyName))
+                throw new ArgumentNullException(nameof(propertyName));
+
+            const CSharpBinderFlags binderFlags = CSharpBinderFlags.None;
+            const CSharpArgumentInfoFlags argumentFlags = CSharpArgumentInfoFlags.None;
+
+            var binder = Binder.GetMember(binderFlags, propertyName, targetType,
+                new[]
+                {
+                    CSharpArgumentInfo.Create(argumentFlags, null)
+                });
+
+            var callsite = CallSite<Func<CallSite, object, object>>.Create(binder);
+            return callsite.Target(callsite, target);
         }
     }
 }

@@ -1,4 +1,4 @@
-#region Copyright
+﻿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -33,7 +33,7 @@ namespace Seasar.Quill
         public QuillControl()
         {
             // デフォルトで非表示の状態とする
-            this.Visible = false;
+            Visible = false;
 
             // コンポーネントの初期化処理を行う
             InitializeComponent();
@@ -63,7 +63,7 @@ namespace Seasar.Quill
             }
 
             // QuilInjectorのインスタンスを取得する
-            QuillInjector injector = QuillInjector.GetInstance();
+            var injector = QuillInjector.GetInstance();
 
             // 親コンテナに対してDIを行う
             injector.Inject(Parent);

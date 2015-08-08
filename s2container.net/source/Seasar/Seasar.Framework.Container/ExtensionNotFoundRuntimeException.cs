@@ -1,4 +1,4 @@
-#region Copyright
+ï»¿#region Copyright
 /*
  * Copyright 2005-2015 the Seasar Foundation and the Others.
  *
@@ -23,34 +23,29 @@ using Seasar.Framework.Exceptions;
 namespace Seasar.Framework.Container
 {
     /// <summary>
-    /// Šg’£q‚ªŒ©‚Â‚©‚ç‚È‚©‚Á‚½‚Æ‚«‚ÌÀs—áŠO
+    /// ï¿½gï¿½ï¿½ï¿½qï¿½ï¿½ï¿½ï¿½ï¿½Â‚ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Ìï¿½ï¿½sï¿½ï¿½ï¿½ï¿½O
     /// </summary>
     [Serializable]
     public class ExtensionNotFoundRuntimeException : SRuntimeException
     {
-        private readonly string path;
-
         public ExtensionNotFoundRuntimeException(string path)
             : base("ESSR0074", new object[] { path })
         {
-            this.path = path;
+            Path = path;
         }
 
         public ExtensionNotFoundRuntimeException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            path = info.GetString("path");
+            Path = info.GetString("path");
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("path", path, typeof(string));
+            info.AddValue("path", Path, typeof(string));
             base.GetObjectData(info, context);
         }
 
-        public string Path
-        {
-            get { return path; }
-        }
+        public string Path { get; }
     }
 }

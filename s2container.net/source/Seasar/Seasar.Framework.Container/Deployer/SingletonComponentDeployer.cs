@@ -22,8 +22,8 @@ namespace Seasar.Framework.Container.Deployer
 {
     public class SingletonComponentDeployer : AbstractComponentDeployer
     {
-        private object component;
-        private bool instantiating = false;
+        private object _component;
+        private bool _instantiating = false;
 
         public SingletonComponentDeployer(IComponentDef componentDef)
             : base(componentDef)
@@ -34,12 +34,12 @@ namespace Seasar.Framework.Container.Deployer
         {
             lock (this)
             {
-                if (component == null)
+                if (_component == null)
                 {
-                    Assemble();
+                    _Assemble();
                 }
-                object proxy = GetProxy(receiveType);
-                return proxy == null ? component : proxy;
+                var proxy = GetProxy(receiveType);
+                return proxy ?? _component;
             }
         }
 
@@ -48,17 +48,17 @@ namespace Seasar.Framework.Container.Deployer
             throw new NotSupportedException("InjectDependency");
         }
 
-        private void Assemble()
+        private void _Assemble()
         {
-            if (instantiating)
+            if (_instantiating)
             {
                 throw new CyclicReferenceRuntimeException(ComponentDef.ComponentType);
             }
-            instantiating = true;
-            component = ConstructorAssembler.Assemble();
-            instantiating = false;
-            PropertyAssembler.Assemble(component);
-            InitMethodAssembler.Assemble(component);
+            _instantiating = true;
+            _component = ConstructorAssembler.Assemble();
+            _instantiating = false;
+            PropertyAssembler.Assemble(_component);
+            InitMethodAssembler.Assemble(_component);
         }
 
         public override void Init()
@@ -68,12 +68,12 @@ namespace Seasar.Framework.Container.Deployer
 
         public override void Destroy()
         {
-            if (component == null)
+            if (_component == null)
             {
                 return;
             }
-            DestroyMethodAssembler.Assemble(component);
-            component = null;
+            DestroyMethodAssembler.Assemble(_component);
+            _component = null;
         }
     }
 }

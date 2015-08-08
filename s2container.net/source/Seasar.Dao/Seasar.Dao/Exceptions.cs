@@ -26,30 +26,25 @@ namespace Seasar.Dao
     [Serializable]
     public class DaoNotFoundRuntimeException : SRuntimeException
     {
-        private readonly Type _targetType;
-
         public DaoNotFoundRuntimeException(Type targetType)
             : base("EDAO0008", new object[] { targetType.Name })
         {
-            _targetType = targetType;
+            TargetType = targetType;
         }
 
         public DaoNotFoundRuntimeException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            _targetType = info.GetValue("_targetType", typeof(Type)) as Type;
+            TargetType = info.GetValue("_targetType", typeof(Type)) as Type;
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("_targetType", _targetType, typeof(Type));
+            info.AddValue("_targetType", TargetType, typeof(Type));
             base.GetObjectData(info, context);
         }
 
-        public Type TargetType
-        {
-            get { return _targetType; }
-        }
+        public Type TargetType { get; }
     }
 
     [Serializable]
@@ -73,97 +68,78 @@ namespace Seasar.Dao
     [Serializable]
     public class IllegalBoolExpressionRuntimeException : SRuntimeException
     {
-        private readonly string _expression;
-
         public IllegalBoolExpressionRuntimeException(string expression)
             : base("EDAO0003", new object[] { expression })
         {
-            _expression = expression;
+            Expression = expression;
         }
 
         public IllegalBoolExpressionRuntimeException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            _expression = info.GetString("_expression");
+            Expression = info.GetString("_expression");
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("_expression", _expression, typeof(string));
+            info.AddValue("_expression", Expression, typeof(string));
             base.GetObjectData(info, context);
         }
 
-        public string Expression
-        {
-            get { return _expression; }
-        }
+        public string Expression { get; }
     }
 
     [Serializable]
     public class IllegalSignatureRuntimeException : SRuntimeException
     {
-        private readonly string _signature;
-
         public IllegalSignatureRuntimeException(string messageCode, string signature)
             : base(messageCode, new object[] { signature })
         {
-            _signature = signature;
+            Signature = signature;
         }
 
         public IllegalSignatureRuntimeException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            _signature = info.GetString("_signature");
+            Signature = info.GetString("_signature");
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("_signature", _signature, typeof(string));
+            info.AddValue("_signature", Signature, typeof(string));
             base.GetObjectData(info, context);
         }
 
-        public string Signature
-        {
-            get { return _signature; }
-        }
+        public string Signature { get; }
     }
 
     [Serializable]
     public class UpdateFailureRuntimeException : SRuntimeException
     {
-        private readonly object _bean;
-        private readonly int _rows;
-
         public UpdateFailureRuntimeException(object bean, int rows)
             : base("EDAO0005", new object[] { bean.ToString(), rows.ToString() })
         {
-            _bean = bean;
-            _rows = rows;
+            Bean = bean;
+            Rows = rows;
         }
 
         public UpdateFailureRuntimeException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            _bean = info.GetValue("_bean", typeof(object));
-            _rows = info.GetInt32("_rows");
+            Bean = info.GetValue("_bean", typeof(object));
+            Rows = info.GetInt32("_rows");
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("_bean", _bean, typeof(object));
-            info.AddValue("_rows", _rows, typeof(int));
+            info.AddValue("_bean", Bean, typeof(object));
+            info.AddValue("_rows", Rows, typeof(int));
             base.GetObjectData(info, context);
         }
 
-        public object Bean
-        {
-            get { return _bean; }
-        }
+        public object Bean { get; }
 
-        public int Rows
-        {
-            get { return _rows; }
-        }
+        public int Rows { get; }
     }
 
     [Serializable]
@@ -183,124 +159,96 @@ namespace Seasar.Dao
     [Serializable]
     public class PrimaryKeyNotFoundRuntimeException : SRuntimeException
     {
-        private readonly Type _targetType;
-
         public PrimaryKeyNotFoundRuntimeException(Type targetType)
             : base("EDAO0009", new object[] { targetType.Name })
         {
-            _targetType = targetType;
+            TargetType = targetType;
         }
 
         public PrimaryKeyNotFoundRuntimeException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            _targetType = info.GetValue("_targetType", typeof(Type)) as Type;
+            TargetType = info.GetValue("_targetType", typeof(Type)) as Type;
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("_targetType", _targetType, typeof(Type));
+            info.AddValue("_targetType", TargetType, typeof(Type));
             base.GetObjectData(info, context);
         }
 
-        public Type TargetType
-        {
-            get { return _targetType; }
-        }
+        public Type TargetType { get; }
     }
 
     [Serializable]
     public class TokenNotClosedRuntimeException : SRuntimeException
     {
-        private readonly string _token;
-        private readonly string _sql;
-
         public TokenNotClosedRuntimeException(string token, string sql)
             : base("EDAO0002", new object[] { token, sql })
         {
-            _token = token;
-            _sql = sql;
+            Token = token;
+            Sql = sql;
         }
 
         public TokenNotClosedRuntimeException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            _token = info.GetString("_token");
-            _sql = info.GetString("_sql");
+            Token = info.GetString("_token");
+            Sql = info.GetString("_sql");
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("_token", _token, typeof(string));
-            info.AddValue("_sql", _sql, typeof(string));
+            info.AddValue("_token", Token, typeof(string));
+            info.AddValue("_sql", Sql, typeof(string));
             base.GetObjectData(info, context);
         }
 
-        public string Token
-        {
-            get { return _token; }
-        }
+        public string Token { get; }
 
-        public string Sql
-        {
-            get { return _sql; }
-        }
+        public string Sql { get; }
     }
 
     [Serializable]
     public class WrongPropertyTypeOfTimestampException : SRuntimeException
     {
-        private readonly string _propertyName;
-        private readonly string _propertyType;
-
         public WrongPropertyTypeOfTimestampException(string propertyName, string propertyType)
             : base("EDAO0010", new object[] { propertyName, propertyType })
         {
-            _propertyName = propertyName;
-            _propertyType = propertyType;
+            PropertyName = propertyName;
+            PropertyType = propertyType;
         }
 
         public WrongPropertyTypeOfTimestampException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            _propertyName = info.GetString("_propertyName");
-            _propertyType = info.GetString("_propertyType");
+            PropertyName = info.GetString("_propertyName");
+            PropertyType = info.GetString("_propertyType");
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("_propertyName", _propertyName, typeof(string));
-            info.AddValue("_propertyType", _propertyType, typeof(string));
+            info.AddValue("_propertyName", PropertyName, typeof(string));
+            info.AddValue("_propertyType", PropertyType, typeof(string));
             base.GetObjectData(info, context);
         }
 
-        public string PropertyName
-        {
-            get { return _propertyName; }
-        }
+        public string PropertyName { get; }
 
-        public string PropertyType
-        {
-            get { return _propertyType; }
-        }
+        public string PropertyType { get; }
     }
 
     [Serializable]
     public class NotFoundModifiedPropertiesRuntimeException : SRuntimeException
     {
-        private readonly string _beanClassName;
-
         public NotFoundModifiedPropertiesRuntimeException(
                 string beanClassName, string propertyName)
             : base("EDAXXXXX", new object[] { beanClassName, propertyName })
         {
-            _beanClassName = beanClassName;
+            BeanClassName = beanClassName;
         }
 
-        public string BeanClassName
-        {
-            get { return _beanClassName; }
-        }
+        public string BeanClassName { get; }
     }
 
     [Serializable]

@@ -28,7 +28,7 @@ namespace Seasar.Extension.ADO.Impl
 
         public IDbCommand CreateCommand(IDbConnection con, string sql)
         {
-            IDbCommand cmd = BasicCommandFactory.INSTANCE.CreateCommand(con, sql);
+            var cmd = BasicCommandFactory.INSTANCE.CreateCommand(con, sql);
             return new BooleanToIntCommand(cmd);
         }
 
