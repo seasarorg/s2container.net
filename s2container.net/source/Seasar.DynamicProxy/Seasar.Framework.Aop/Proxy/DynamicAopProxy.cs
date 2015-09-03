@@ -41,7 +41,7 @@ namespace Seasar.Framework.Aop.Proxy
     {
         #region fields
 
-        private readonly ProxyGenerator _generator;
+        private static readonly ProxyGenerator _generator = new ProxyGenerator();
         private readonly IAspect[] _aspects;
         private readonly Hashtable _interceptors = new Hashtable();
         private readonly Type _type;
@@ -94,7 +94,6 @@ namespace Seasar.Framework.Aop.Proxy
             _type = type;
             _aspects = aspects;
             _parameters = parameters;
-            _generator = new ProxyGenerator();
 
             if (_type.IsInterface)
             {
