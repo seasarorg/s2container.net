@@ -51,7 +51,7 @@ namespace Seasar.Framework.Aop.Proxy
 #endif
     {
         #region fields
-        private readonly static ProxyGenerator _generator = new ProxyGenerator();
+        private static readonly ProxyGenerator _generator = new ProxyGenerator();
 
 #if NET_4_0
         private readonly Type _componentType;
