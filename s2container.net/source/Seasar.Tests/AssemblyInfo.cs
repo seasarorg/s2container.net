@@ -61,5 +61,5 @@ using System.Reflection;
 [assembly: AssemblyKeyName("")]
 [assembly: log4net.Config.XmlConfigurator(Watch=true)]
 
-[assembly: AssemblyVersion("1.3.19.0")]
-[assembly: AssemblyFileVersionAttribute("1.3.19.0")]
+[assembly: AssemblyVersion("1.3.20.0")]
+[assembly: AssemblyFileVersionAttribute("1.3.20.0")]
