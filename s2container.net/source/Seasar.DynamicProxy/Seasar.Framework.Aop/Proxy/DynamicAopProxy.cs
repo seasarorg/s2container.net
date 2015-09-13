@@ -51,7 +51,7 @@ namespace Seasar.Framework.Aop.Proxy
 #endif
     {
         #region fields
-        private readonly ProxyGenerator _generator;
+        private readonly static ProxyGenerator _generator = new ProxyGenerator();
 
 #if NET_4_0
         private readonly Type _componentType;
@@ -110,7 +110,6 @@ namespace Seasar.Framework.Aop.Proxy
         public DynamicAopProxy(Type componentType, IAspect[] aspects, Hashtable parameters, object target)
         {
             _componentType = componentType;
-            _generator = new ProxyGenerator();
 
             var interceptorMap = CreateMethodInterceptors(componentType, aspects);
             _interceptors = new IInterceptor[] { new InterceptorAdapter(
