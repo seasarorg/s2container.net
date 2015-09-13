@@ -314,7 +314,7 @@ GO
 -- Create date: <2013/03/23>
 -- Description:	<outパラメータ取得テスト（複数行取得）>
 -- =============================================
-ALTER PROCEDURE [dbo].[SelectForOutputParamMulti]
+CREATE PROCEDURE [dbo].[SelectForOutputParamMulti]
 	-- Add the parameters for the stored procedure here
 	@Mgr numeric(4,0) OUTPUT,
 	@Job varchar(9),
