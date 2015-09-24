@@ -2,6 +2,8 @@
 2015/09/24
 ** Bug
 	* [Issue#7] QuillInjector#Destroy()で破棄されないオブジェクトがある不具合修正。
+** Improvement
+	* [Issue#3] QuillのODP.NET管理対象ドライバへの対応
 
 S2Container.NET 1.4.1
 2015/09/24
