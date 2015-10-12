@@ -96,6 +96,16 @@ namespace Seasar.Tests.Quill
                 component2.GetComponentObject(typeof(IHoge3)));
         }
 
+        [Test]
+        public void TestGetComponentt_InterfaceとImplementsそれぞれで同じコンポーネントを作成する場合()
+        {
+            QuillContainer container = new QuillContainer();
+            object expected = container.GetComponent(typeof(Hoge3));
+            object actual = container.GetComponent(typeof(IHoge3), typeof(Hoge3));
+
+            Assert.AreEqual(expected, actual);
+        }
+
         #endregion
 
         #region GetComponentのテストで使用する内部クラス・インターフェース
