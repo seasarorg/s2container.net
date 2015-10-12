@@ -26,6 +26,7 @@ using Seasar.Quill.Attrs;
 using Seasar.Quill.Database.DataSource.Impl;
 using Seasar.Quill.Exception;
 using Seasar.Quill.Unit;
+using Seasar.Framework.Aop.Impl;
 
 namespace Seasar.Tests.Quill
 {
@@ -94,6 +95,16 @@ namespace Seasar.Tests.Quill
             QuillComponent component2 = container.GetComponent(typeof(IHoge3), typeof(Hoge3));
             Assert.AreEqual(component1.GetComponentObject(typeof(IHoge3)),
                 component2.GetComponentObject(typeof(IHoge3)));
+        }
+
+        [Test]
+        public void TestGetComponentt_InterfaceとImplementsそれぞれで同じコンポーネントを作成する場合()
+        {
+            QuillContainer container = new QuillContainer();
+            object expected = container.GetComponent(typeof(Hoge3));
+            object actual = container.GetComponent(typeof(IHoge3), typeof(Hoge3));
+
+            Assert.AreEqual(expected, actual);
         }
 
         #endregion

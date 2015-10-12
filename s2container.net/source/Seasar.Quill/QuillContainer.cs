@@ -116,6 +116,13 @@ namespace Seasar.Quill
                     return components[type];
                 }
 
+                if (components.ContainsKey(implType))
+                {
+                    // 既に作成済みであれば作成済みのインスタンスを返す
+                    components[type] = components[implType];
+                    return components[implType];
+                }
+
                 // Aspectを作成する（Aspect属性が指定されていなければサイズ0となる)
                 IAspect[] aspects = aspectBuilder.CreateAspects(implType);
 
@@ -131,6 +138,10 @@ namespace Seasar.Quill
 
                 // 作成済みのQuillコンポーネントを保存する
                 components[type] = component;
+                if (type.GetType().FullName != implType.GetType().FullName)
+                {
+                    components[implType] = component;
+                }
 
                 // Quillコンポーネントを返す
                 return component;

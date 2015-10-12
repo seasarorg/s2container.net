@@ -274,9 +274,8 @@ namespace Seasar.Quill
             if (!componentType.Equals(receiptType))
             {
                 // コンポーネントの型とコンポーネントを受け取るフィールドの型が
-                // 異なる場合は受け取る際の型に対応したProxyObjectを作成する
-                componentObjects[receiptType] =
-                    aopProxy.Create(receiptType, componentObjects[componentType]);
+                // 異なる場合は受け取る際の型に対応したProxyObjectを設定する
+                componentObjects[receiptType] = componentObjects[componentType];
             }
         }
 

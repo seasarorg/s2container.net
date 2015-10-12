@@ -172,19 +172,9 @@ namespace Seasar.Framework.Aop.Proxy
         {
             if (receiptType.IsInterface && target.GetType() == typeof(object))
             {
-                if (target.GetType() == typeof(object))
-                {
-                    return _generator.CreateInterfaceProxyWithoutTarget(receiptType, _interceptors);
-                }
-                else
-                {
-                    return _generator.CreateInterfaceProxyWithTarget(receiptType, target, _interceptors);
-                }
+                return _generator.CreateInterfaceProxyWithoutTarget(receiptType, _interceptors);
             }
-            else
-            {
-                return _generator.CreateClassProxy(_componentType, _interceptors);
-            }
+            return _generator.CreateClassProxy(_componentType, _interceptors);
         }
 
         public object Create(Type[] types, object[] args)
