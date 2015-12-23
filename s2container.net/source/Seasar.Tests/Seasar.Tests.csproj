@@ -98,9 +98,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=2.6.1.12217, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\dev\dbflute.net\dbflute.net-runtime\lib\nunit.framework.dll</HintPath>
+    <Reference Include="nunit.framework, Version=3.0.5813.39031, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.0.1\lib\net45\nunit.framework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>
@@ -110,25 +110,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Quill\Preset\FieldSelect\ImplementationFieldSelectorTest.cs" />
-    <Compile Include="Quill\Preset\ForEach\FieldForEachParallelTest.cs" />
-    <Compile Include="Quill\Preset\ForEach\FieldForEachSerialTest.cs" />
-    <Compile Include="Quill\Preset\Handler\SystemExceptionHandlerImplTest.cs" />
-    <Compile Include="Quill\Preset\Handler\QuillApplicationExceptionHandlerImplTest.cs" />
-    <Compile Include="Quill\Preset\ImplType\ImplementationAttributeImplTypeFactoryTest.cs" />
-    <Compile Include="Quill\Preset\ImplType\ImplTypeFactoriesTest.cs" />
-    <Compile Include="Quill\Preset\ImplType\MappingImplTypeFactoryTest.cs" />
-    <Compile Include="Quill\Preset\Injection\FieldInjectorImplTest.cs" />
-    <Compile Include="Quill\Preset\Scope\PreparedSingletonInstanceFactoryTest.cs" />
-    <Compile Include="Quill\Preset\Scope\PrototypeInstanceFactoryTest.cs" />
-    <Compile Include="Quill\Preset\Scope\SingletonInstanceFactoryTest.cs" />
-    <Compile Include="Quill\QuillContainerTest.cs" />
-    <Compile Include="Quill\QuillInjectionContextTest.cs" />
-    <Compile Include="Quill\QuillInjectorTest.cs" />
-    <Compile Include="Quill\QuillTestBase.cs" />
-    <Compile Include="Quill\Util\CollectionUtilsTest.cs" />
-    <Compile Include="Quill\Util\LogicUtilsTest.cs" />
-    <Compile Include="Quill\Util\SingletonInstancesTest.cs" />
+    <Compile Include="TestTest.cs" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -137,7 +120,6 @@
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Quill\Attr\ImplementationAttributeTest.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -162,12 +144,14 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Seasar.Quill\Seasar.Quill.csproj">
+    <ProjectReference Include="..\Seasar.Quill\Quill.csproj">
       <Project>{4c1d6f42-4178-4c68-8277-b2978bf784ff}</Project>
-      <Name>Seasar.Quill</Name>
+      <Name>Quill</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Quill\" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
