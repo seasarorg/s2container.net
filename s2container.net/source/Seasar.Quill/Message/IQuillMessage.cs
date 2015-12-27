@@ -60,5 +60,12 @@ namespace Quill.Message {
         /// <param name="nodePath"></param>
         /// <returns></returns>
         string GetNotFoundNodePath(string nodePath);
+
+        /// <summary>
+        /// 適切なコンストラクタが見つからなかった場合のメッセージ
+        /// </summary>
+        /// <param name="type">適切なコンストラクタが見つからなかった型</param>
+        /// <returns></returns>
+        string GetIllegalConstructor(Type type);
     }
 }

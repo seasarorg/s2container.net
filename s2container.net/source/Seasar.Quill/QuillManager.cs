@@ -12,9 +12,10 @@ namespace Quill {
     /// <summary>
     /// ログ出力デリゲート
     /// </summary>
-    /// <param name="category"></param>
-    /// <param name="log"></param>
-    public delegate void OutputLogDelegate(string category, string log);
+    /// <param name="source">ログ出力場所</param>
+    /// <param name="category">メッセージカテゴリ</param>
+    /// <param name="log">ログ出力内容</param>
+    public delegate void OutputLogDelegate(string source, EnumMsgCategory category, string log);
 
     /// <summary>
     /// Quill挙動管理クラス
@@ -74,8 +75,9 @@ namespace Quill {
             OutputLog = OutputLogToConsole;
         }
 
-        private static void OutputLogToConsole(string category, string log) {
-            Console.WriteLine(string.Format("{0}:[{1}] {2}", DateTime.Now, category, log));
+        private static void OutputLogToConsole(string source, EnumMsgCategory category, string log) {            
+            Console.WriteLine(string.Format("{0} {1}:[{2}] {3}", 
+                DateTime.Now, source, category.GetCategoryName(), log));
         }
     }
 

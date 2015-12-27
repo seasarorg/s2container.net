@@ -68,6 +68,7 @@
     <Compile Include="Inject\IQuillInjector.cs" />
     <Compile Include="Aop\IMethodInvocation.cs" />
     <Compile Include="Aop\IMethodInterceptor.cs" />
+    <Compile Include="Message\EnumMsgCategory.cs" />
     <Compile Include="Message\Impl\QuillMessageJP.cs" />
     <Compile Include="Message\IQuillMessage.cs" />
     <Compile Include="Container\ITypeMap.cs" />

@@ -112,6 +112,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\Impl\QuillAppConfigTests.cs" />
+    <Compile Include="Container\Impl\CompornentCreatorsTests.cs" />
     <Compile Include="Container\Impl\TypeMapImplTests.cs" />
     <Compile Include="TestUtils.cs" />
     <None Include="App.config" />

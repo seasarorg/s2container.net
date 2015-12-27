@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Quill.Exception;
+using Quill.Message;
 using QM = Quill.QuillManager;
 
 namespace Quill.Inject.Impl {
@@ -27,12 +28,14 @@ namespace Quill.Inject.Impl {
             var targetType = target.GetType();
 
             if(!QM.InjectionFilter.IsTargetType(targetType)) {
-                QM.OutputLog(typeof(QuillInjector).Name, QM.Message.GetNotInjectionTargetType(targetType));
+                QM.OutputLog(typeof(QuillInjector).Name, EnumMsgCategory.INFO,
+                    QM.Message.GetNotInjectionTargetType(targetType));
                 return;
             }
 
             if(_injectedTypes.Contains(targetType)) {
-                QM.OutputLog(typeof(QuillInjector).Name, QM.Message.GetAlreadyInjected(targetType));
+                QM.OutputLog(typeof(QuillInjector).Name, EnumMsgCategory.INFO, 
+                    QM.Message.GetAlreadyInjected(targetType));
                 return;
             }
 
