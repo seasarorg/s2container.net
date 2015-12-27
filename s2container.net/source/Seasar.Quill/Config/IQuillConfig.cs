@@ -17,5 +17,9 @@ namespace Quill.Config {
         XElement GetElement(string nodePath);
 
         XElement GetElement(string nodePath, Func<XElement, bool> isTarget);
+
+        List<XElement> GetElements(string nodePath);
+
+        List<XElement> GetElements(string nodePath, Func<XElement, bool> isTarget);
     }
 }

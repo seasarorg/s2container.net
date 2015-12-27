@@ -2,7 +2,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seasar.Tests", "Seasar.Tests\Seasar.Tests.csproj", "{6D6327B1-4252-470A-A76B-8E923F34AB7C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quill.Tests", "Seasar.Tests\Quill.Tests.csproj", "{6D6327B1-4252-470A-A76B-8E923F34AB7C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quill", "Seasar.Quill\Quill.csproj", "{4C1D6F42-4178-4C68-8277-B2978BF784FF}"
 EndProject

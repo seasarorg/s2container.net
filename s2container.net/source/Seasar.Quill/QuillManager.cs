@@ -6,6 +6,7 @@ using Quill.Container.Impl;
 using Quill.Inject;
 using Quill.Inject.Impl;
 using Quill.Message;
+using Quill.Message.Impl;
 
 namespace Quill {
     /// <summary>
@@ -63,12 +64,13 @@ namespace Quill {
         /// 既定の設定で初期化
         /// </summary>
         public static void InitializeDefault() {
-            Config = new QuillAppConfig();
+            Config = null;
             Container = new QuillContainer();
             TypeMap = new TypeMapImpl();
             ComponentCreator = new CompornentCreatorBase();
             Injector = new QuillInjector();
             InjectionFilter = new InjectionFilterBase();
+            Message = new QuillMessageJP();
             OutputLog = OutputLogToConsole;
         }
 

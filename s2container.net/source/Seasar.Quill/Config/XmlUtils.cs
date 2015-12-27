@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using Quill.Exception;
+using QM = Quill.QuillManager;
 
 namespace Quill.Config {
     /// <summary>
@@ -34,20 +36,11 @@ namespace Quill.Config {
         /// <exception cref="ArgumentException">パスに該当するノードがない</exception>
         public static string GetChildValue(this XElement el, string nodePath, Func<XElement, bool> isTarget) {
             string[] pathParts = nodePath.Split(DELIMITER_NODE_PATH);
-            XElement currentElement = el;
-            foreach(string pathPart in pathParts) {
-                var elements = currentElement.Elements().Where(childElement => (childElement.Name.LocalName == pathPart));
-                if(elements.Count() == 0) {
-                    throw new ArgumentException(nodePath, "nodePath");
-                }
-
-                currentElement = elements.First();
+            IEnumerable<XElement> childElements = GetChildElements(el, pathParts, 0, isTarget);
+            if(childElements.Count() > 0) {
+                return childElements.First().Value;
             }
-
-            if(isTarget(currentElement)) {
-                return currentElement.Value;
-            }
-            return string.Empty;
+            return null;
         }
 
         /// <summary>
@@ -71,18 +64,9 @@ namespace Quill.Config {
         /// <exception cref="ArgumentException">パスに該当するノードがない</exception>
         public static XElement GetChildElement(this XElement el, string nodePath, Func<XElement, bool> isTarget) {
             string[] pathParts = nodePath.Split(DELIMITER_NODE_PATH);
-            XElement currentElement = el;
-            foreach(string pathPart in pathParts) {
-                var elements = currentElement.Elements().Where(childElement => (childElement.Name.LocalName == pathPart));
-                if(elements.Count() == 0) {
-                    throw new ArgumentException(nodePath, "nodePath");
-                }
-
-                currentElement = elements.First();
-            }
-
-            if(isTarget(currentElement)) {
-                return currentElement;
+            IEnumerable<XElement> childElements = GetChildElements(el, pathParts, 0, isTarget);
+            if(childElements.Count() > 0) {
+                return childElements.First();
             }
             return null;
         }
@@ -101,31 +85,76 @@ namespace Quill.Config {
         /// <summary>
         /// 子ノードの文字列リスト取得
         /// </summary>
-        /// <param name="el">親ノード</param>
+        /// <param name="targetElement">親ノード</param>
         /// <param name="nodePath">取得したい子ノードのパス（"XXX.XXX.XXX..."）</param>
         /// <param name="isTarget">取得条件</param>
         /// <returns>取得文字列リスト（取得条件に該当しない場合は空リスト）</returns>
-        /// <exception cref="ArgumentException">パスに該当するノードがない</exception>
-        public static List<string> GetChildValues(this XElement el, string nodePath, Func<XElement, bool> isTarget) {
+        /// <exception cref="QuillException">パスに該当するノードがない</exception>
+        public static List<string> GetChildValues(this XElement targetElement, string nodePath, Func<XElement, bool> isTarget) {
             string[] pathParts = nodePath.Split(DELIMITER_NODE_PATH);
-            XElement currentElement = el;
-            // 最後の一つ手前まで
-            for(int i = 0; i < pathParts.Length; i++) {
-                string pathPart = pathParts[i];
-                var elements = currentElement.Elements().Where(childElement => childElement.Name.LocalName == pathPart);
-                if(elements.Count() == 0) {
-                    throw new ArgumentException(nodePath, "nodePath");
-                }
+            if(pathParts.Length > 0) {
+                var childElements = GetChildElements(targetElement, pathParts, 0, isTarget);
+                return childElements.Select(el => el.Value).ToList();
+            }
 
-                if(i < pathPart.Length - 1) {
-                    currentElement = elements.First();
-                } else {
-                    var targetElements = currentElement.Elements().Where(childElement => isTarget(childElement)); 
-                    return targetElements.Select(targetElement => targetElement.Value).ToList();
+            throw new QuillException(QM.Message.GetNotFoundNodePath(nodePath));
+        }
+
+        /// <summary>
+        /// 子ノードの文字列リスト取得
+        /// </summary>
+        /// <param name="el">親ノード</param>
+        /// <param name="nodePath">取得したい子ノードのパス（"XXX.XXX.XXX..."）</param>
+        /// <returns>取得文字列リスト</returns>
+        /// <exception cref="ArgumentException">パスに該当するノードがない</exception>
+        public static List<XElement> GetChildElements(this XElement el, string nodePath) {
+            return GetChildElements(el, nodePath, targetElement => true);
+        }
+
+        /// <summary>
+        /// 子ノードの文字列リスト取得
+        /// </summary>
+        /// <param name="targetElement">親ノード</param>
+        /// <param name="nodePath">取得したい子ノードのパス（"XXX.XXX.XXX..."）</param>
+        /// <param name="isTarget">取得条件</param>
+        /// <returns>取得文字列リスト（取得条件に該当しない場合は空リスト）</returns>
+        /// <exception cref="QuillException">パスに該当するノードがない</exception>
+        public static List<XElement> GetChildElements(this XElement targetElement, string nodePath, Func<XElement, bool> isTarget) {
+            string[] pathParts = nodePath.Split(DELIMITER_NODE_PATH);
+            if(pathParts.Length > 0) {
+                var childElements = GetChildElements(targetElement, pathParts, 0, isTarget);
+                return childElements.ToList();
+            }
+
+            throw new QuillException(QM.Message.GetNotFoundNodePath(nodePath));
+        }
+
+        /// <summary>
+        /// 子ノードの文字列リスト取得（再帰）
+        /// </summary>
+        /// <param name="currentElement"></param>
+        /// <param name="nodePath"></param>
+        /// <param name="currentPathIndex"></param>
+        /// <param name="isTarget"></param>
+        /// <returns></returns>
+        private static IEnumerable<XElement> GetChildElements(XElement currentElement, string[] nodePath, int currentPathIndex, Func<XElement, bool> isTarget) {
+            string currentNodeName = nodePath[currentPathIndex];
+            var childElements = currentElement.Elements().Where(el => el.Name.LocalName == currentNodeName);
+            
+            bool isLast = (currentPathIndex + 1 >= nodePath.Length);
+            if(isLast) {
+                return childElements.Where(el => isTarget(el)).ToList();
+            }
+
+            var retValues = new List<XElement>();
+            foreach(var childElement in childElements) {
+                // 再帰的に子孫ノードを探索
+                var posterityElements = GetChildElements(childElement, nodePath, currentPathIndex + 1, isTarget);
+                if(posterityElements.Count() > 0) {
+                    retValues.AddRange(posterityElements);
                 }
             }
-            // 名前指定なし
-            return el.Elements().Select(childElement => childElement.Value).ToList();
+            return retValues;
         }
 
         /// <summary>

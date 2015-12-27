@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Quill</RootNamespace>
-    <AssemblyName>Seasar.Quill</AssemblyName>
+    <AssemblyName>Quill</AssemblyName>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Seasar.snk</AssemblyOriginatorKeyFile>
     <FileUpgradeFlags>
@@ -29,7 +29,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>bin\Debug\Seasar.Quill.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\Quill.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -40,7 +40,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
     <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>bin\net4.0\Release\Seasar.Quill.XML</DocumentationFile>
+    <DocumentationFile>bin\net4.0\Release\Quill.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
@@ -53,7 +53,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aop\Impl\TransacionInterceptor.cs" />
-    <Compile Include="Attr\NotInjectionTargetAttribute.cs" />
     <Compile Include="Config\Impl\QuillAppConfig.cs" />
     <Compile Include="Config\Impl\QuillConfigImpl.cs" />
     <Compile Include="Config\IQuillConfig.cs" />
@@ -69,6 +68,7 @@
     <Compile Include="Inject\IQuillInjector.cs" />
     <Compile Include="Aop\IMethodInvocation.cs" />
     <Compile Include="Aop\IMethodInterceptor.cs" />
+    <Compile Include="Message\Impl\QuillMessageJP.cs" />
     <Compile Include="Message\IQuillMessage.cs" />
     <Compile Include="Container\ITypeMap.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -99,9 +99,7 @@
   <ItemGroup>
     <Content Include="やりたいことメモ.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Message\Impl\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
