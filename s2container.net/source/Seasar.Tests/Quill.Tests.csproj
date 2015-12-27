@@ -105,6 +105,7 @@
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
+    <Reference Include="System.Data" />
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
@@ -112,6 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\Impl\QuillAppConfigTests.cs" />
+    <Compile Include="Container\Impl\AbstractConnectionCreatorTests.cs" />
     <Compile Include="Container\Impl\CompornentCreatorsTests.cs" />
     <Compile Include="Container\Impl\TypeMapImplTests.cs" />
     <Compile Include="TestUtils.cs" />

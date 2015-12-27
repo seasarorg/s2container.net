@@ -9,8 +9,8 @@ namespace Quill.Container {
         /// <summary>
         /// インスタンス生成
         /// </summary>
-        /// <param name="componentType"></param>
-        /// <returns></returns>
+        /// <param name="componentType">コンポーネント型</param>
+        /// <returns>生成したインスタンス</returns>
         object Create(Type componentType);
     }
 }
