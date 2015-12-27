@@ -5,7 +5,7 @@ namespace Quill.Container.Impl {
     /// <summary>
     /// 既定のコンポーネント生成クラス
     /// </summary>
-    public class CompornentCreatorBase : IComponentCreator {
+    public class CompornentCreators : IComponentCreator {
         private readonly IDictionary<Type, Func<Type, object>> _creatorMap
             = new Dictionary<Type, Func<Type, object>>();
 
