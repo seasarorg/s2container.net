@@ -5,7 +5,7 @@ namespace Quill.Container {
     /// <summary>
     /// コンポーネントのインスタンス生成インターフェース
     /// </summary>
-    public interface IComponentCreator {
+    public interface IComponentCreator : IDisposable {
         /// <summary>
         /// インスタンス生成
         /// </summary>

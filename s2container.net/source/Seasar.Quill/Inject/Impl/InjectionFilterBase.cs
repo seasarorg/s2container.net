@@ -65,5 +65,13 @@ namespace Quill.Inject.Impl {
 
             return IsTargetTypeDefault;
         }
+
+        /// <summary>
+        /// リソースの解放
+        /// </summary>
+        public virtual void Dispose() {
+            NotInjectionTargetTypes.Clear();
+            InjectionTargetTypes.Clear();
+        }
     }
 }

@@ -25,6 +25,13 @@ namespace Quill.Container.Impl {
         }
 
         /// <summary>
+        /// リソースの解放
+        /// </summary>
+        public virtual void Dispose() {
+            _typeMap.Clear();
+        }
+
+        /// <summary>
         /// コンポーネント型の取得（引数の型をそのまま返す）
         /// </summary>
         /// <param name="receiptType">戻り値として返す型</param>

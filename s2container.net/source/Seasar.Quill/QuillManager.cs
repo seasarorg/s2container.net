@@ -75,6 +75,21 @@ namespace Quill {
             OutputLog = OutputLogToConsole;
         }
 
+        /// <summary>
+        /// リソースの解放
+        /// </summary>
+        public static void Dispose() {
+            var targets = new IDisposable[] {
+                Config, Container, TypeMap, Injector, InjectionFilter, ComponentCreator, Message
+            };
+
+            foreach(var target in targets) {
+                if(target != null) {
+                    target.Dispose();
+                }
+            }
+        }
+
         private static void OutputLogToConsole(string source, EnumMsgCategory category, string log) {            
             Console.WriteLine(string.Format("{0} {1}:[{2}] {3}", 
                 DateTime.Now, source, category.GetCategoryName(), log));

@@ -4,7 +4,7 @@ namespace Quill.Message {
     /// <summary>
     /// Quillメッセージインターフェース
     /// </summary>
-    public interface IQuillMessage {
+    public interface IQuillMessage : IDisposable {
         /// <summary>
         /// アサイン不可メッセージの取得
         /// </summary>

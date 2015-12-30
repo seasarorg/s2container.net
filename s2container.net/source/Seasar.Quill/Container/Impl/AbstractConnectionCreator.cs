@@ -24,6 +24,13 @@ namespace Quill.Container.Impl {
         }
 
         /// <summary>
+        /// リソースの解放
+        /// </summary>
+        public virtual void Dispose() {
+            // 保持リソースがないため、実装なし
+        }
+
+        /// <summary>
         /// コネクションインスタンスの生成
         /// </summary>
         /// <param name="connectionType"></param>

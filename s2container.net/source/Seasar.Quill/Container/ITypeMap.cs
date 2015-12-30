@@ -4,7 +4,7 @@ namespace Quill.Container {
     /// <summary>
     /// コンポーネントの受け取り側の型とコンテナ上で管理している型の紐づけインターフェース
     /// </summary>
-    public interface ITypeMap {
+    public interface ITypeMap : IDisposable {
         /// <summary>
         /// 紐づける型の追加
         /// </summary>

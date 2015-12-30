@@ -53,6 +53,13 @@ namespace Quill.Container.Impl {
         }
 
         /// <summary>
+        /// リソースの解放
+        /// </summary>
+        public virtual void Dispose() {
+            _creatorMap.Clear();
+        }
+
+        /// <summary>
         /// コンポーネント型に引数なしコンストラクタが存在するか判定
         /// </summary>
         /// <param name="componentType">コンポーネント型</param>

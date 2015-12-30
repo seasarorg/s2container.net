@@ -1,8 +1,10 @@
-﻿namespace Quill.Inject {
+﻿using System;
+
+namespace Quill.Inject {
     /// <summary>
     /// Injection実行インターフェース
     /// </summary>
-    public interface IQuillInjector {
+    public interface IQuillInjector : IDisposable {
         /// <summary>
         /// Inject実行
         /// </summary>

@@ -5,7 +5,7 @@ namespace Quill.Inject {
     /// <summary>
     /// Injectionフィルターインターフェース
     /// </summary>
-    public interface IInjectionFilter {
+    public interface IInjectionFilter : IDisposable {
         /// <summary>
         /// Injection対象とするフィールドの抽出条件
         /// </summary>

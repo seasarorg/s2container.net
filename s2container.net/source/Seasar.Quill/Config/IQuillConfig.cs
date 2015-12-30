@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 
 namespace Quill.Config {
-    public interface IQuillConfig {
+    public interface IQuillConfig : IDisposable {
         XElement BaseElement { get; }
 
         string GetValue(string nodePath);

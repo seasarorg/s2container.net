@@ -20,7 +20,7 @@ namespace Quill.Inject.Impl {
         /// Injection実行
         /// </summary>
         /// <param name="target"></param>
-        public void Inject(object target) {
+        public virtual void Inject(object target) {
             if(target == null) {
                 throw new QuillException("Injection target is null.");
             }
@@ -49,6 +49,13 @@ namespace Quill.Inject.Impl {
             });
  
             _injectedTypes.Add(targetType);
+        }
+
+        /// <summary>
+        /// リソースの解放
+        /// </summary>
+        public virtual void Dispose() {
+            _injectedTypes.Clear();
         }
 
         /// <summary>

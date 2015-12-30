@@ -17,7 +17,7 @@ namespace Quill.Config.Impl {
         protected const string BASE_SECTION_NAME = "quill";
 
         /// <summary>
-        /// 基底設定セクション名
+        /// 基底設定セクション
         /// </summary>
         public virtual XElement BaseElement { get; protected set; }
 
@@ -124,6 +124,13 @@ namespace Quill.Config.Impl {
         /// <returns>ノード情報</returns>
         public virtual List<XElement> GetElements(string nodePath, Func<XElement, bool> isTarget) {
             return BaseElement.GetChildElements(nodePath, isTarget);
+        }
+
+        /// <summary>
+        /// リソースの解放
+        /// </summary>
+        public virtual void Dispose() {
+            BaseElement = null;
         }
 
         /// <summary>
