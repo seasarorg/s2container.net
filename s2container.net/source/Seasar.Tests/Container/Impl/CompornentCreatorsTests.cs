@@ -1,11 +1,12 @@
 ﻿using System;
 using NUnit.Framework;
 using Quill.Exception;
+using Quill.Tests;
 using TU = Quill.Tests.TestUtils;
 
 namespace Quill.Container.Impl.Tests {
     [TestFixture()]
-    public class CompornentCreatorsTests {
+    public class CompornentCreatorsTests : QuillTestBase {
         [Test()]
         public void Create_ComponentTypeNull_Test() {
             // Arrange

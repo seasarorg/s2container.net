@@ -88,6 +88,8 @@ namespace Quill {
                     target.Dispose();
                 }
             }
+
+            OutputLog = null;
         }
 
         private static void OutputLogToConsole(string source, EnumMsgCategory category, string log) {            

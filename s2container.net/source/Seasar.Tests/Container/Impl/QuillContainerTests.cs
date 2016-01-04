@@ -3,19 +3,11 @@ using System.Collections.Generic;
 using System.Reflection;
 using NUnit.Framework;
 using Quill.Inject;
+using Quill.Tests;
 
 namespace Quill.Container.Impl.Tests {
     [TestFixture()]
-    public class QuillContainerTests {
-        [SetUp]
-        public void SetUp() {
-            QuillManager.InitializeDefault();
-        }
-
-        [TearDown]
-        public void TearDown() {
-            QuillManager.Dispose();
-        }
+    public class QuillContainerTests : QuillTestBase {
 
         #region ConstructorTest
         [Test]

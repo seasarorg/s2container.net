@@ -62,3 +62,6 @@ using System.Reflection;
 
 [assembly: AssemblyVersion("2.0.0.0")]
 [assembly: AssemblyFileVersionAttribute("2.0.0.0")]
+
+// log4netê›íË
+[assembly: log4net.Config.XmlConfigurator(Watch = true)]

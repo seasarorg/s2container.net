@@ -67,5 +67,11 @@ namespace Quill.Message {
         /// <param name="type">適切なコンストラクタが見つからなかった型</param>
         /// <returns></returns>
         string GetIllegalConstructor(Type type);
+
+        /// <summary>
+        /// DB接続修飾オブジェクトが設定されていない場合のメッセージ
+        /// </summary>
+        /// <returns></returns>
+        string GetNotFoundDBConnectionDecorator();
     }
 }
