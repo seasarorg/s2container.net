@@ -27,12 +27,6 @@ namespace Quill.Inject.Impl {
 
             var targetType = target.GetType();
 
-            if(!QM.InjectionFilter.IsTargetType(targetType)) {
-                QM.OutputLog(typeof(QuillInjector).Name, EnumMsgCategory.INFO,
-                    QM.Message.GetNotInjectionTargetType(targetType));
-                return;
-            }
-
             if(_injectedTypes.Contains(targetType)) {
                 QM.OutputLog(typeof(QuillInjector).Name, EnumMsgCategory.INFO, 
                     QM.Message.GetAlreadyInjected(targetType));
@@ -40,15 +34,22 @@ namespace Quill.Inject.Impl {
             }
 
             var fieldInfos = GetFields(target);
+            // 処理対象フィールドの取得後、先にインジェクション済型に追加しておく
+            // （無限ループを避けるため）
+            _injectedTypes.Add(targetType);
+             
             ForEachFields(fieldInfos, fieldInfo => {
                 var fieldType = fieldInfo.FieldType;
-                if(!_injectedTypes.Contains(fieldType)) {
-                    var component = QM.Container.GetComponent(fieldType, withInjection: true);
-                    fieldInfo.SetValue(target, component);
+
+                // フィールドの型とインジェクション対象の型が同じ場合は
+                // 自分自身のインスタンスを設定
+                object component = target;
+                if(fieldType != targetType) {
+                    component = QM.Container.GetComponent(fieldType, withInjection: true);
                 }
+                
+                fieldInfo.SetValue(target, component);
             });
- 
-            _injectedTypes.Add(targetType);
         }
 
         /// <summary>

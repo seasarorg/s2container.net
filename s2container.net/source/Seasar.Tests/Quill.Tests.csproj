@@ -121,6 +121,7 @@
     <Compile Include="Container\Impl\QuillContainerTests.cs" />
     <Compile Include="Container\Impl\TypeMapImplTests.cs" />
     <Compile Include="Inject\Impl\InjectionFilterBaseTests.cs" />
+    <Compile Include="Inject\Impl\QuillInjectorTests.cs" />
     <Compile Include="QuillTestBase.cs" />
     <Compile Include="Scope\Impl\AbstractDbConnectDecoratorTests.cs" />
     <Compile Include="TestUtils.cs" />

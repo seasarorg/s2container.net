@@ -31,33 +31,34 @@ namespace Quill.Inject.Impl {
         public InjectionFilterBase() {
             NotInjectionTargetTypes = new HashSet<Type>();
             InjectionTargetTypes = new HashSet<Type>();
-            IsTargetTypeDefault = true;
+            IsTargetTypeDefault = false;
         }
 
         /// <summary>
-        /// 
+        /// Injection対象となるフィールド紐づけフラグの取得
         /// </summary>
-        /// <returns></returns>
+        /// <returns>フィールド紐づけフラグ</returns>
         public virtual BindingFlags GetTargetFieldBindinFlags() {
             return BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
         }
 
         /// <summary>
-        /// 
+        /// Injection対象のフィールドか判定
         /// </summary>
-        /// <param name="componentType"></param>
-        /// <param name="fieldInfo"></param>
-        /// <returns></returns>
+        /// <param name="componentType">コンポーネント型</param>
+        /// <param name="fieldInfo">判定対象のフィールド情報</param>
+        /// <returns>true;Injection対象, false:Injection対象外</returns>
         public virtual bool IsTargetField(Type componentType, FieldInfo fieldInfo) {
             return IsTargetType(fieldInfo.FieldType);
         }
 
         /// <summary>
-        /// 
+        /// Injection対象の型か判定
         /// </summary>
-        /// <param name="componentType"></param>
-        /// <returns></returns>
+        /// <param name="componentType">コンポーネント型</param>
+        /// <returns>true;Injection対象, false:Injection対象外</returns>
         public virtual bool IsTargetType(Type componentType) {
+            // 必ずInjection対象とする型か？
             if(InjectionTargetTypes.Contains(componentType)) {
                 QM.OutputLog(SOURCE_IS_TARGET_TYPE, Message.EnumMsgCategory.DEBUG,
                     string.Format("[{0}] is injection target.", 
@@ -65,6 +66,7 @@ namespace Quill.Inject.Impl {
                 return true;
             }
 
+            // 必ずInjection非対象とする型か？
             if(NotInjectionTargetTypes.Contains(componentType)) {
                 QM.OutputLog(SOURCE_IS_TARGET_TYPE, Message.EnumMsgCategory.DEBUG,
                     string.Format("[{0}] is not injection target.",
@@ -72,6 +74,7 @@ namespace Quill.Inject.Impl {
                 return false;
             }
 
+            // 上記どちらでもない場合はデフォルトの設定を適用
             QM.OutputLog(SOURCE_IS_TARGET_TYPE, Message.EnumMsgCategory.DEBUG,
                     string.Format("[{0}]:isInjectionTarget:{1}", 
                     componentType == null ? "null" : componentType.Name, 
