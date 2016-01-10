@@ -108,7 +108,7 @@ namespace Quill.Inject.Impl.Tests {
             Assert.AreEqual(0, injectedTypes.Count(), "クリアされている想定");
         }
 
-        #region
+        #region TestClasses
 
         private class InjectionTargetMain {
             public static InjectionTargetSub StaticActual = null;
