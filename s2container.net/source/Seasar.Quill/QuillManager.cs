@@ -68,7 +68,7 @@ namespace Quill {
             Config = null;
             Container = new QuillContainer();
             TypeMap = new TypeMapImpl();
-            ComponentCreator = new CompornentCreators();
+            ComponentCreator = new ComponentCreators();
             Injector = new QuillInjector();
             InjectionFilter = new InjectionFilterBase();
             Message = new QuillMessageJP();

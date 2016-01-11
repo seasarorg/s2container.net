@@ -124,6 +124,7 @@
     <Compile Include="Inject\Impl\QuillInjectorTests.cs" />
     <Compile Include="QuillTestBase.cs" />
     <Compile Include="Scope\Impl\AbstractDbConnectDecoratorTests.cs" />
+    <Compile Include="Scope\Impl\ConnectionDecoratorTests.cs" />
     <Compile Include="TestUtils.cs" />
     <None Include="App.config" />
     <None Include="packages.config" />

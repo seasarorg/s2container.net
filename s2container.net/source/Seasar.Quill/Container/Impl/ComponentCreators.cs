@@ -10,7 +10,7 @@ namespace Quill.Container.Impl {
     /// <summary>
     /// 既定のコンポーネント生成クラス
     /// </summary>
-    public class CompornentCreators : IComponentCreator {
+    public class ComponentCreators : IComponentCreator {
         /// <summary>
         /// コンポーネント型と生成処理の紐づけDictionary
         /// </summary>

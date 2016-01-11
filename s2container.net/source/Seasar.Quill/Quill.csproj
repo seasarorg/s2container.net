@@ -62,7 +62,7 @@
     <Compile Include="Container\Exception\QuillException.cs" />
     <Compile Include="Container\IComponentCreator.cs" />
     <Compile Include="Inject\IInjectionFilter.cs" />
-    <Compile Include="Container\Impl\CompornentCreators.cs" />
+    <Compile Include="Container\Impl\ComponentCreators.cs" />
     <Compile Include="Inject\Impl\InjectionFilterBase.cs" />
     <Compile Include="Inject\Impl\QuillInjector.cs" />
     <Compile Include="Container\Impl\TypeMapImpl.cs" />

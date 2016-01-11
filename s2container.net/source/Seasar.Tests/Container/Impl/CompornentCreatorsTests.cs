@@ -10,7 +10,7 @@ namespace Quill.Container.Impl.Tests {
         [Test()]
         public void Create_ComponentTypeNull_Test() {
             // Arrange
-            CompornentCreators target = new CompornentCreators();
+            ComponentCreators target = new ComponentCreators();
 
             // Act
             TU.ExecuteExcectedException<ArgumentNullException>(
@@ -20,7 +20,7 @@ namespace Quill.Container.Impl.Tests {
         [Test()]
         public void Create_Default_Test() {
             // Arrange
-            CompornentCreators target = new CompornentCreators();
+            ComponentCreators target = new ComponentCreators();
 
             // Act
             var actual = target.Create(typeof(NormalComponent)) as NormalComponent;
@@ -32,7 +32,7 @@ namespace Quill.Container.Impl.Tests {
         [Test()]
         public void Create_ArgumentComponent_Test() {
             // Arrange
-            CompornentCreators target = new CompornentCreators();
+            ComponentCreators target = new ComponentCreators();
 
             // Act
             TU.ExecuteExcectedException<QuillException>(
@@ -42,8 +42,8 @@ namespace Quill.Container.Impl.Tests {
         [Test()]
         public void AddCreatorTest() {
             // Arrange
-            CompornentCreators target = new CompornentCreators();
-            target.AddCreator(typeof(IComponentCreator), t => new CompornentCreators());
+            ComponentCreators target = new ComponentCreators();
+            target.AddCreator(typeof(IComponentCreator), t => new ComponentCreators());
 
             // Act
             var actual = target.Create(typeof(IComponentCreator)) as IComponentCreator;
@@ -55,7 +55,7 @@ namespace Quill.Container.Impl.Tests {
         [Test()]
         public void AddCreator_NoCreatorIF_Test() {
             // Arrange
-            CompornentCreators target = new CompornentCreators();
+            ComponentCreators target = new ComponentCreators();
 
             // Act
             TU.ExecuteExcectedException<QuillException>(

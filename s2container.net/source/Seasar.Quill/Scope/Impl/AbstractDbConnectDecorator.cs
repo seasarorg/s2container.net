@@ -7,7 +7,7 @@ namespace Quill.Scope.Impl {
     /// <summary>
     /// DB接続を伴う修飾抽象クラス
     /// </summary>
-    public abstract class AbstractDbConnectDecorator : IQuillDecorator<IDbConnection> {
+    public abstract class AbstractDbConnectDecorator : IQuillDecorator<IDbConnection>, IDisposable {
         /// <summary>
         /// ADO.NETトランザクション
         /// </summary>
@@ -95,6 +95,15 @@ namespace Quill.Scope.Impl {
         }
 
         /// <summary>
+        /// リソースの破棄
+        /// </summary>
+        public void Dispose() {
+            if(_connectionDecorator != null) {
+                _connectionDecorator.Dispose();
+            }
+        }
+
+        /// <summary>
         /// スコープ開始か判定
         /// </summary>
         /// <param name="currentInvoker"></param>
@@ -153,5 +162,6 @@ namespace Quill.Scope.Impl {
         /// <param name="connection">DB接続</param>
         /// <param name="invoker">委譲元処理</param>
         protected abstract void HandleFinally(IDbConnection connection, object invoker);
+
     }
 }

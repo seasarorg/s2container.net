@@ -73,5 +73,11 @@ namespace Quill.Message {
         /// </summary>
         /// <returns></returns>
         string GetNotFoundDBConnectionDecorator();
+
+        /// <summary>
+        /// DB接続が未設定だった場合のメッセージ
+        /// </summary>
+        /// <returns></returns>
+        string GetNoDbConnectionInstance();
     }
 }
