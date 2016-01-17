@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Quill.Exception;
 using Quill.Message;
+using Quill.Util;
 using QM = Quill.QuillManager;
 
 namespace Quill.Inject.Impl {
@@ -74,9 +75,10 @@ namespace Quill.Inject.Impl {
         /// </summary>
         /// <param name="target"></param>
         /// <returns></returns>
-        protected virtual IEnumerable<FieldInfo>  GetFields(object target) {
+        protected virtual IEnumerable<FieldInfo> GetFields(object target) {
             var componentType = target.GetType();
-            var fieldInfos = target.GetType().GetFields(QM.InjectionFilter.GetTargetFieldBindinFlags());
+            //var fieldInfos = target.GetType().GetFields(QM.InjectionFilter.GetTargetFieldBindinFlags());
+            var fieldInfos = target.GetType().GetAllFields(QM.InjectionFilter.GetTargetFieldBindinFlags());
             return fieldInfos.Where(fieldInfo => QM.InjectionFilter.IsTargetField(componentType, fieldInfo));
         }
     }

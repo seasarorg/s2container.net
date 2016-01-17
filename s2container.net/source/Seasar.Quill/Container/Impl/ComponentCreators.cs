@@ -65,7 +65,7 @@ namespace Quill.Container.Impl {
         /// <param name="componentType">コンポーネント型</param>
         /// <returns>true:引数なしコンストラクタあり, false:なし</returns>
         protected virtual bool HasNoArgumentConstructor(Type componentType) {
-            var constructors = componentType.GetConstructors(BindingFlags.Public | BindingFlags.Instance);
+            var constructors = componentType.GetConstructors();
             var noArgConstructors = constructors.Where(ci => ci.GetParameters().Length == 0);
             return noArgConstructors.Count() > 0;
         }

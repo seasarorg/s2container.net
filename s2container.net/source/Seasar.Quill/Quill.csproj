@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aop\Impl\TransacionInterceptor.cs" />
+    <Compile Include="Attr\DataSourceAttribute.cs" />
     <Compile Include="Config\Impl\QuillAppConfig.cs" />
     <Compile Include="Config\Impl\QuillConfigImpl.cs" />
     <Compile Include="Config\IQuillConfig.cs" />
@@ -61,6 +62,9 @@
     <Compile Include="Container\Impl\AbstractConnectionCreator.cs" />
     <Compile Include="Container\Exception\QuillException.cs" />
     <Compile Include="Container\IComponentCreator.cs" />
+    <Compile Include="DataSource\IDataSource.cs" />
+    <Compile Include="DataSource\Impl\DataSourceImpl.cs" />
+    <Compile Include="DataSource\Impl\MultiDataSource.cs" />
     <Compile Include="Inject\IInjectionFilter.cs" />
     <Compile Include="Container\Impl\ComponentCreators.cs" />
     <Compile Include="Inject\Impl\InjectionFilterBase.cs" />
@@ -82,11 +86,12 @@
     <Compile Include="Container\Impl\QuillContainer.cs" />
     <Compile Include="QuillManager.cs" />
     <Compile Include="Scope\Impl\ConnectionDecorator.cs" />
-    <Compile Include="Scope\Impl\AbstractDbConnectDecorator.cs" />
     <Compile Include="Scope\Impl\TransactionDecorator.cs" />
     <Compile Include="Scope\IQuillDecorator.cs" />
     <Compile Include="Scope\QScope.cs" />
     <Compile Include="Scope\Tx.cs" />
+    <Compile Include="Util\ConnectionUtils.cs" />
+    <Compile Include="Util\TypeUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Seasar.snk" />

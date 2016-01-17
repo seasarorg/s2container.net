@@ -68,6 +68,8 @@ namespace Quill.Message {
         /// <returns></returns>
         string GetIllegalConstructor(Type type);
 
+        #region DB
+
         /// <summary>
         /// DB接続修飾オブジェクトが設定されていない場合のメッセージ
         /// </summary>
@@ -79,5 +81,49 @@ namespace Quill.Message {
         /// </summary>
         /// <returns></returns>
         string GetNoDbConnectionInstance();
+
+        /// <summary>
+        /// コネクション開始メッセージ
+        /// </summary>
+        /// <returns></returns>
+        string GetConnectionOpened();
+
+        /// <summary>
+        /// コネクション終了メッセージ
+        /// </summary>
+        /// <returns></returns>
+        string GetConnectionClosed();
+
+        /// <summary>
+        /// コネクションリソース解放メッセージ
+        /// </summary>
+        /// <returns></returns>
+        string GetConnectionDisposed();
+
+        /// <summary>
+        /// トランザクション開始メッセージ
+        /// </summary>
+        /// <returns></returns>
+        string GetBeginTx();
+
+        /// <summary>
+        /// コミット完了メッセージ
+        /// </summary>
+        /// <returns></returns>
+        string GetCommitted();
+
+        /// <summary>
+        /// ロールバック完了メッセージ
+        /// </summary>
+        /// <returns></returns>
+        string GetRollbacked();
+
+        /// <summary>
+        /// データソース未登録メッセージ
+        /// </summary>
+        /// <param name="dataSourceName">データソース名</param>
+        /// <returns></returns>
+        string GetNotRegisteredDataSource(string dataSourceName);
+        #endregion
     }
 }
