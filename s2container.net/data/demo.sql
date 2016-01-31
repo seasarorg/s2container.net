@@ -309,24 +309,3 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
--- =============================================
--- Author:		<koyak>
--- Create date: <2013/03/23>
--- Description:	<outパラメータ取得テスト（複数行取得）>
--- =============================================
-ALTER PROCEDURE [dbo].[SelectForOutputParamMulti]
-	-- Add the parameters for the stored procedure here
-	@Mgr numeric(4,0) OUTPUT,
-	@Job varchar(9),
-	@TestValue numeric(4,0)
-AS
-BEGIN
-	-- SET NOCOUNT ON added to prevent extra result sets from
-	-- interfering with SELECT statements.
-	SET NOCOUNT ON;
-	SET @Mgr=@TestValue;
-    -- Insert statements for procedure here
-	SELECT MGR
-	FROM dbo.EMP
-	WHERE JOB=@Job;
-END

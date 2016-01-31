@@ -20,8 +20,8 @@ namespace Quill.Scope {
         /// </summary>
         /// <typeparam name="RETURN_TYPE"></typeparam>
         /// <param name="func"></param>
-        public static void Execute<RETURN_TYPE>(Func<IDbConnection, RETURN_TYPE> func) {
-            QScope<TransactionDecorator, IDbConnection>.Execute(func);
+        public static RETURN_TYPE Execute<RETURN_TYPE>(Func<IDbConnection, RETURN_TYPE> func) {
+            return QScope<TransactionDecorator, IDbConnection>.Execute(func);
         }
     }
 }

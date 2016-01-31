@@ -62,6 +62,11 @@ namespace Quill {
         public static OutputLogDelegate OutputLog { get; set; }
 
         /// <summary>
+        /// SQLパラメータ置換処理
+        /// </summary>
+        public static Func<string, string> ReplaceToParamMark { get; set; }
+
+        /// <summary>
         /// 既定の設定で初期化
         /// </summary>
         public static void InitializeDefault() {
@@ -73,6 +78,9 @@ namespace Quill {
             InjectionFilter = new InjectionFilterBase();
             Message = new QuillMessageJP();
             OutputLog = OutputLogToConsole;
+
+            // SQL Server用パラメータマーク
+            ReplaceToParamMark = (paramName) => "@" + paramName;
         }
 
         /// <summary>

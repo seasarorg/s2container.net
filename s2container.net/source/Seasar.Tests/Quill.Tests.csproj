@@ -115,6 +115,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ado\SqlPropTests.cs" />
     <Compile Include="Config\Impl\QuillAppConfigTests.cs" />
     <Compile Include="Container\Impl\AbstractConnectionCreatorTests.cs" />
     <Compile Include="Container\Impl\CompornentCreatorsTests.cs" />
