@@ -116,6 +116,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ado\SqlPropTests.cs" />
+    <Compile Include="Ado\SqlUtilsTests.cs" />
     <Compile Include="Config\Impl\QuillAppConfigTests.cs" />
     <Compile Include="Container\Impl\AbstractConnectionCreatorTests.cs" />
     <Compile Include="Container\Impl\CompornentCreatorsTests.cs" />

@@ -17,7 +17,7 @@ namespace Quill.Ado {
     /// SQL簡易解析結果
     /// </summary>
     public class SqlProp {
-        private const string REG_EXTRACT_PARAMS = "/\\*(.+?)\\*/[^\\s]*";
+        private const string REG_EXTRACT_PARAMS = "/\\*(.+?)\\*/[^\\s,]*";
 
         /// <summary>
         /// 実行時SQL

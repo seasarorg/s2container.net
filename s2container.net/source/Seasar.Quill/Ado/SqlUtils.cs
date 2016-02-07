@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using Quill.Attr;
 using QM = Quill.QuillManager;
 
@@ -27,8 +25,8 @@ namespace Quill.Ado {
         /// <param name="reader">DB読み込みオブジェクト</param>
         /// <param name="entity">変換先のエンティティ</param>
         public static void TransToEntity<ENTITY_TYPE>(this IDataReader reader, ENTITY_TYPE entity) where ENTITY_TYPE : new() {
-            var fieldInfos = entity.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
-            if(fieldInfos.Count() == 0) {
+            var propInfos = entity.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            if(propInfos.Count() == 0) {
                 return;
             }
 
@@ -39,10 +37,10 @@ namespace Quill.Ado {
             }
 
             // フィールド名と一致する項目に値設定
-            foreach(var fieldInfo in fieldInfos) {
-                var fieldName = GetPropertyName(fieldInfo);
+            foreach(var propInfo in propInfos) {
+                var fieldName = GetPropertyName(propInfo);
                 if(resultMap.ContainsKey(fieldName)) {
-                    fieldInfo.SetValue(entity, resultMap[fieldName]);
+                    propInfo.SetValue(entity, resultMap[fieldName]);
                 }
             }
         }
@@ -109,14 +107,33 @@ namespace Quill.Ado {
 
             using(var command = CreateCommand(connection, sql, QM.ReplaceToParamMark, setParameter)) {
                 using(var reader = command.ExecuteReader()) {
-                    while(reader.Read()) {
-                        ENTITY_TYPE entity = createEntity();
-                        setEntity(reader, entity);
-                        results.Add(entity);
+                    try {
+                        while(reader.Read()) {
+                            ENTITY_TYPE entity = createEntity();
+                            setEntity(reader, entity);
+                            results.Add(entity);
+                        }
+                    } finally {
+                        if(!reader.IsClosed) {
+                            reader.Close();
+                        }
                     }
                 }
             }
             return results;
+        }
+
+        /// <summary>
+        /// DB更新
+        /// </summary>
+        /// <param name="connection">DB接続</param>
+        /// <param name="sql">SQL</param>
+        /// <param name="setParameter">SQLパラメータ設定</param>
+        /// <returns>更新件数</returns>
+        public static int Update(this IDbConnection connection, string sql,
+            Action<int, string, IDataParameter> setParameter = null) {
+
+            return Update(connection, () => sql, setParameter);
         }
 
         /// <summary>
@@ -170,13 +187,13 @@ namespace Quill.Ado {
         /// <summary>
         /// プロパティ名の取得
         /// </summary>
-        /// <param name="fieldInfo">フィールド情報</param>
+        /// <param name="propInfo">プロパティ情報</param>
         /// <returns>検索結果とマッピングするプロパティ名</returns>
-        private static string GetPropertyName(FieldInfo fieldInfo) {
-            if(fieldInfo.IsDefined(typeof(ColumnAttribute))) {
-                return fieldInfo.GetCustomAttribute<ColumnAttribute>().ColumnName;
+        private static string GetPropertyName(PropertyInfo propInfo) {
+            if(propInfo.IsDefined(typeof(ColumnAttribute))) {
+                return propInfo.GetCustomAttribute<ColumnAttribute>().ColumnName;
             }
-            return fieldInfo.Name;
+            return propInfo.Name;
         }
     }
 }

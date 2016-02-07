@@ -4,7 +4,7 @@ namespace Quill.Attr {
     /// <summary>
     /// SQL,DB列マッピング属性
     /// </summary>
-    [AttributeUsage(AttributeTargets.Field)]
+    [AttributeUsage(AttributeTargets.Property)]
     public class ColumnAttribute : Attribute {
         /// <summary>
         /// マッピングする列名
