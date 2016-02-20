@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using Quill.Exception;
+using Quill.Message;
 using QM = Quill.QuillManager;
 
 namespace Quill.Config.Impl {
@@ -39,14 +40,17 @@ namespace Quill.Config.Impl {
             }
 
             if(!File.Exists(path)) {
-                throw new FileNotFoundException(QM.Message.GetFileNotFound(), path);
+                throw new FileNotFoundException(
+                    string.Format("{0} path={1}", QMsg.FileNotFound.Get(), path));
             }
 
             try {
                 XDocument doc = XDocument.Load(path);
                 return new QuillConfigImpl(GetBaseElement(doc, path));
             } catch(System.Exception ex) {
-                throw new QuillException(QM.Message.GetErrorLoadingConfig(path), ex);
+                throw new QuillException(
+                    string.Format("{0}, path={1}", QMsg.ErrorLoadingConfig.Get(), path), 
+                    ex);
             }
         }
 
@@ -142,7 +146,8 @@ namespace Quill.Config.Impl {
         private static XElement GetBaseElement(XDocument doc, string path) {
             IEnumerable<XElement> quillElements = doc.Elements(BASE_SECTION_NAME);
             if(quillElements == null || quillElements.Count() == 0) {
-                throw new QuillException(QM.Message.GetNotFoundRequireSection(
+                throw new QuillException(string.Format("{0} section={1}, path={2}",
+                    QMsg.NotFoundRequireSection.Get(),
                     BASE_SECTION_NAME, path));
             }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using Quill.Message;
 using QM = Quill.QuillManager;
 
 namespace Quill.DataSource.Impl {
@@ -47,7 +48,8 @@ namespace Quill.DataSource.Impl {
             if(_sources.ContainsKey(dataSourceName)) {
                 return _sources[dataSourceName].GetConnection(dataSourceName);
             }
-            throw new ArgumentException(QM.Message.GetNotRegisteredDataSource(dataSourceName), dataSourceName);
+            throw new ArgumentException(string.Format("{0} DataSource={1]",
+               QMsg.NotRegisteredDataSource.Get(), dataSourceName));
         }
 
         /// <summary>

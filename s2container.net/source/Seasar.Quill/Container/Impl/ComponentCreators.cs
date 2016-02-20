@@ -40,7 +40,8 @@ namespace Quill.Container.Impl {
             if(HasNoArgumentConstructor(componentType)) {
                 return Activator.CreateInstance(componentType);
             }
-            throw new QuillException(QM.Message.GetIllegalConstructor(componentType));
+            throw new QuillException(string.Format("{0}, componentType=[{1}]",
+                QMsg.IllegalConstructor.Get(), componentType));
         }
 
         /// <summary>

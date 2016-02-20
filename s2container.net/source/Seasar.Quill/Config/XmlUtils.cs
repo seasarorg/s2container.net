@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using Quill.Exception;
+using Quill.Message;
 using QM = Quill.QuillManager;
 
 namespace Quill.Config {
@@ -97,7 +98,8 @@ namespace Quill.Config {
                 return childElements.Select(el => el.Value).ToList();
             }
 
-            throw new QuillException(QM.Message.GetNotFoundNodePath(nodePath));
+            throw new QuillException(
+                string.Format("{0} nodePath={1}", QMsg.NotFoundNodePath.Get(), nodePath));
         }
 
         /// <summary>
@@ -126,7 +128,8 @@ namespace Quill.Config {
                 return childElements.ToList();
             }
 
-            throw new QuillException(QM.Message.GetNotFoundNodePath(nodePath));
+            throw new QuillException(string.Format("{0} nodePath={1}",
+                QMsg.NotFoundNodePath.Get(), nodePath));
         }
 
         /// <summary>

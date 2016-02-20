@@ -9,7 +9,7 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{E8C5DDC8-EED7-4652-AB8D-0C1F530E034D}</ProjectGuid>
+    <ProjectGuid>{190C9AAB-CD7C-469C-AA13-6C011E249700}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -43,6 +43,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\..\lib\log4net\bin\net\4.5\release\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.0.1011, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.0\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -95,21 +98,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
-    <Content Include="MainForm.aspx" />
     <Content Include="packages.config" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Postal.xsc">
-      <DependentUpon>Postal.xsd</DependentUpon>
-    </Content>
-    <None Include="Postal.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>Postal.Designer.cs</LastGenOutput>
-    </None>
-    <Content Include="Postal.xss">
-      <DependentUpon>Postal.xsd</DependentUpon>
     </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -119,13 +110,15 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="MainForm.aspx" />
     <Content Include="scripts\ai.0.15.0-build58334.js" />
     <Content Include="scripts\ai.0.15.0-build58334.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\Entity.cs" />
-    <Compile Include="Classes\SampleDataSource.cs" />
+    <Content Include="App_Code\Entity\Employ.cs" />
+    <Content Include="App_Code\BuisinessObject\EmployeeDao.cs" />
+    <Content Include="App_Code\SampleInitializer.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -136,13 +129,9 @@
     <Compile Include="MainForm.aspx.designer.cs">
       <DependentUpon>MainForm.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Postal.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Postal.xsd</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Seasar.Quill\Quill.csproj">
       <Project>{4c1d6f42-4178-4c68-8277-b2978bf784ff}</Project>
@@ -162,7 +151,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>51069</DevelopmentServerPort>
+          <DevelopmentServerPort>51197</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:50936/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

@@ -8,20 +8,18 @@
     <title></title>
 </head>
 <body>
-    <form id="frmMain" runat="server">
-        郵便番号検索：<asp:TextBox ID="txtPostalCode" runat="server" MaxLength="7" Width="60px"></asp:TextBox>
-        <asp:Button ID="btnSearch" runat="server" Text="Search" Width="100px" OnClick="btnSearch_Click" />
+    <form id="form1" runat="server">
+    <div>
+    
+        Quill Sample</div>
         <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" DataSourceID="ObjectDataSource1">
             <Columns>
-                <asp:BoundField DataField="Code" HeaderText="Code" SortExpression="Code" />
-                <asp:BoundField DataField="Address" HeaderText="Address" SortExpression="Address" />
+                <asp:BoundField DataField="Id" HeaderText="Id" SortExpression="Id" />
+                <asp:BoundField DataField="Name" HeaderText="Name" SortExpression="Name" />
+                <asp:BoundField DataField="Job" HeaderText="Job" SortExpression="Job" />
             </Columns>
         </asp:GridView>
-        <asp:ObjectDataSource ID="ObjectDataSource1" runat="server" SelectMethod="Select" TypeName="Quill.Sample.SampleDataSource"></asp:ObjectDataSource>
-        <table style="width:300px"><tr>
-        <td><asp:Button ID="btnUpdateSuccess" runat="server" Text="Update(Success)" Width="140px" OnClick="btnUpdateSuccess_Click" /></td>
-        <td>&nbsp;<asp:Button ID="btnUpdateFailure" runat="server" Text="Update(Failure)" Width="140px" OnClick="btnUpdateFailure_Click" /></td>
-        </tr></table>
+        <asp:ObjectDataSource ID="ObjectDataSource1" runat="server" SelectMethod="Select" TypeName="Quill.Sample.App_Code.BuisinessObject.EmployeeDao"></asp:ObjectDataSource>
     </form>
 </body>
 </html>

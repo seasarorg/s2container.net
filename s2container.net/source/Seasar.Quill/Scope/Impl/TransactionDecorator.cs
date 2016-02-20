@@ -26,7 +26,7 @@ namespace Quill.Scope.Impl {
         /// <param name="action">委譲処理</param>
         public void Decorate(Action<IDbConnection> action) {
             if(_connectionDecorator == null) {
-                throw new QuillException(QM.Message.GetNotFoundDBConnectionDecorator());
+                throw new QuillException(QMsg.NotFoundDBConnectionDecorator.Get());
             }
 
             _connectionDecorator.Decorate(connection => ExecuteTransaction(connection, action));
@@ -38,7 +38,7 @@ namespace Quill.Scope.Impl {
         /// <param name="func">委譲処理</param>
         public RETURN_TYPE Decorate<RETURN_TYPE>(Func<IDbConnection, RETURN_TYPE> func) {
             if(_connectionDecorator == null) {
-                throw new QuillException(QM.Message.GetNotFoundDBConnectionDecorator());
+                throw new QuillException(QMsg.NotFoundDBConnectionDecorator.Get());
             }
 
             return _connectionDecorator.Decorate(
@@ -57,7 +57,7 @@ namespace Quill.Scope.Impl {
                 isBeginTransaction = true;
 
                 QM.OutputLog("TransactionDecorator#Begin", EnumMsgCategory.DEBUG,
-                    QM.Message.GetBeginTx());
+                    QMsg.BeginTx.Get());
             }
             return isBeginTransaction;
         }
@@ -73,7 +73,7 @@ namespace Quill.Scope.Impl {
                 _transaction = default(IDbTransaction);
 
                 QM.OutputLog("TransactionDecorator#Commit", EnumMsgCategory.DEBUG,
-                    QM.Message.GetCommitted());
+                    QMsg.Committed.Get());
             }
         }
 
@@ -88,7 +88,7 @@ namespace Quill.Scope.Impl {
                 _transaction = default(IDbTransaction);
 
                 QM.OutputLog("TransactionDecorator#Rollback", EnumMsgCategory.DEBUG,
-                   QM.Message.GetRollbacked());
+                   QMsg.Rollbacked.Get());
             }
         }
 

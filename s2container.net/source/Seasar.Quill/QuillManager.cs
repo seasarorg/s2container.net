@@ -1,12 +1,10 @@
 ﻿using System;
 using Quill.Config;
-using Quill.Config.Impl;
 using Quill.Container;
 using Quill.Container.Impl;
 using Quill.Inject;
 using Quill.Inject.Impl;
 using Quill.Message;
-using Quill.Message.Impl;
 
 namespace Quill {
     /// <summary>
@@ -27,37 +25,42 @@ namespace Quill {
         public static IQuillConfig Config { get; set; }
 
         /// <summary>
-        /// 
+        /// Quillコンテナ
         /// </summary>
         public static QuillContainer Container { get; set; }
 
         /// <summary>
-        /// 
+        /// 受け取り型、実装型紐づけMap
         /// </summary>
         public static ITypeMap TypeMap { get; set; }
 
         /// <summary>
-        /// 
+        /// インジェクション実行オブジェクト
         /// </summary>
         public static IQuillInjector Injector { get; set; }
 
         /// <summary>
-        /// Injectionフィルター
+        /// インジェクションフィルター
         /// </summary>
         public static IInjectionFilter InjectionFilter { get; set; }
 
         /// <summary>
-        /// 
+        /// コンポーネント生成オブジェクト
         /// </summary>
         public static IComponentCreator ComponentCreator { get; set; }
+
+        ///// <summary>
+        ///// 出力メッセージ
+        ///// </summary>
+        //public static IQuillMessage Message { get; set; }
 
         /// <summary>
         /// 出力メッセージ
         /// </summary>
-        public static IQuillMessage Message { get; set; }
+        public static QuillMessage Message { get; set; }
 
         /// <summary>
-        /// 
+        /// ログ出力
         /// </summary>
         public static OutputLogDelegate OutputLog { get; set; }
 
@@ -76,7 +79,7 @@ namespace Quill {
             ComponentCreator = new ComponentCreators();
             Injector = new QuillInjector();
             InjectionFilter = new InjectionFilterBase();
-            Message = new QuillMessageJP();
+            Message = QuillMessage.CreateForJPN();
             OutputLog = OutputLogToConsole;
 
             // SQL Server用パラメータマーク
@@ -88,7 +91,7 @@ namespace Quill {
         /// </summary>
         public static void Dispose() {
             var targets = new IDisposable[] {
-                Config, Container, TypeMap, Injector, InjectionFilter, ComponentCreator, Message
+                Config, Container, TypeMap, Injector, InjectionFilter, ComponentCreator
             };
 
             foreach(var target in targets) {
@@ -100,6 +103,12 @@ namespace Quill {
             OutputLog = null;
         }
 
+        /// <summary>
+        /// ログ出力（コンソール）
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="category"></param>
+        /// <param name="log"></param>
         private static void OutputLogToConsole(string source, EnumMsgCategory category, string log) {            
             Console.WriteLine(string.Format("{0} {1}:[{2}] {3}", 
                 DateTime.Now, source, category.GetCategoryName(), log));

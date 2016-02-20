@@ -29,8 +29,9 @@ namespace Quill.Inject.Impl {
             var targetType = target.GetType();
 
             if(_injectedTypes.Contains(targetType)) {
-                QM.OutputLog(typeof(QuillInjector).Name, EnumMsgCategory.INFO, 
-                    QM.Message.GetAlreadyInjected(targetType));
+                QM.OutputLog(typeof(QuillInjector).Name, EnumMsgCategory.INFO,
+                    string.Format("{0} targetType=[{1}]",
+                        QMsg.AlreadyInjected.Get(), targetType)); 
                 return;
             }
 

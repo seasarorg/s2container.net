@@ -104,7 +104,8 @@ namespace Quill.Container.Impl {
             }
 
             if(!receiptType.IsAssignableFrom(componentType)) {
-                throw new QuillException(QM.Message.GetNotAssignable(receiptType, componentType));
+                throw new QuillException(string.Format("{0} receiptType=[{1}], componentType=[{2}]",
+                    QMsg.NotAssignable.Get(), receiptType, componentType));
             }
             return componentType;
         }

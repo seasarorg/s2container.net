@@ -77,9 +77,9 @@
     <Compile Include="Aop\IMethodInvocation.cs" />
     <Compile Include="Aop\IMethodInterceptor.cs" />
     <Compile Include="Message\EnumMsgCategory.cs" />
-    <Compile Include="Message\Impl\QuillMessageJP.cs" />
-    <Compile Include="Message\IQuillMessage.cs" />
+    <Compile Include="Message\QuillMessage.cs" />
     <Compile Include="Container\ITypeMap.cs" />
+    <Compile Include="Message\QuillMessageUtils.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -94,6 +94,7 @@
     <Compile Include="Scope\QScope.cs" />
     <Compile Include="Scope\Tx.cs" />
     <Compile Include="Util\ConnectionUtils.cs" />
+    <Compile Include="Util\StringUtils.cs" />
     <Compile Include="Util\TypeUtils.cs" />
   </ItemGroup>
   <ItemGroup>
