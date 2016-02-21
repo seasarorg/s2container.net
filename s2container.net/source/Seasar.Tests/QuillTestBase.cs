@@ -19,7 +19,7 @@ namespace Quill.Tests {
         [SetUp]
         public virtual void SetUp() {
             QuillManager.InitializeDefault();
-            QuillManager.OutputLog = this.OutputLog;
+            QuillManager.OutputLog = OutputLog;
         }
 
         [TearDown]
@@ -27,7 +27,7 @@ namespace Quill.Tests {
             QuillManager.Dispose();
         }
 
-        private void OutputLog(string source, EnumMsgCategory category, string log) {
+        private void OutputLog(Type source, EnumMsgCategory category, string log) {
             var logger = LogManager.GetLogger(source);
             if(category == EnumMsgCategory.ERROR && logger.IsErrorEnabled) {
                 logger.ErrorFormat("[{0}] {1}", source, log);

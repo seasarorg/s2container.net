@@ -51,7 +51,6 @@ namespace Quill.Scope {
         /// <param name="func"></param>
         /// <returns></returns>
         public static RETURN_TYPE Execute<RETURN_TYPE>(Func<PARAMETER_TYPE, RETURN_TYPE> func) {
-
             var decorator = QM.Container.GetComponent<DECORATOR_TYPE>(withInjection: true);
             return decorator.Decorate(func);
         }

@@ -29,7 +29,7 @@ namespace Quill.Inject.Impl {
             var targetType = target.GetType();
 
             if(_injectedTypes.Contains(targetType)) {
-                QM.OutputLog(typeof(QuillInjector).Name, EnumMsgCategory.INFO,
+                QM.OutputLog(GetType(), EnumMsgCategory.INFO,
                     string.Format("{0} targetType=[{1}]",
                         QMsg.AlreadyInjected.Get(), targetType)); 
                 return;
@@ -45,7 +45,7 @@ namespace Quill.Inject.Impl {
 
                 // フィールドの型とインジェクション対象の型が同じ場合は
                 // 自分自身のインスタンスを設定
-                object component = target;
+                var component = target;
                 if(fieldType != targetType) {
                     component = QM.Container.GetComponent(fieldType, withInjection: true);
                 }
@@ -65,10 +65,20 @@ namespace Quill.Inject.Impl {
         /// Injection対象クラスの各フィールド設定を実行
         /// </summary>
         /// <param name="fieldInfos"></param>
-        /// <param name="SetFieldInvoker"></param>
-        protected virtual void ForEachFields(IEnumerable<FieldInfo> fieldInfos, Action<FieldInfo> SetFieldInvoker) {
-            // QuillContainerがConcurrentDictionaryを使っていることを前提に並列実行
-            fieldInfos.AsParallel().ForAll(SetFieldInvoker);
+        /// <param name="setFieldInvoker"></param>
+        protected virtual void ForEachFields(IEnumerable<FieldInfo> fieldInfos, Action<FieldInfo> setFieldInvoker) {
+            if(fieldInfos.Count() == 0) {
+                return;
+            }
+
+            if(QM.Container.CanParallelInjection()) {
+                // QuillContainerがConcurrentDictionaryを使っていることを前提に並列実行
+                fieldInfos.AsParallel().ForAll(setFieldInvoker);
+            } else {
+                foreach(var field in fieldInfos) {
+                    setFieldInvoker(field);
+                }
+            }
         }
 
         /// <summary>
@@ -78,7 +88,6 @@ namespace Quill.Inject.Impl {
         /// <returns></returns>
         protected virtual IEnumerable<FieldInfo> GetFields(object target) {
             var componentType = target.GetType();
-            //var fieldInfos = target.GetType().GetFields(QM.InjectionFilter.GetTargetFieldBindinFlags());
             var fieldInfos = target.GetType().GetAllFields(QM.InjectionFilter.GetTargetFieldBindinFlags());
             return fieldInfos.Where(fieldInfo => QM.InjectionFilter.IsTargetField(componentType, fieldInfo));
         }

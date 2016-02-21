@@ -76,7 +76,7 @@ namespace Quill.Scope.Impl {
                     dataSourceName = dataSourceAttr.DataSourceName;
                 }
 
-                QM.OutputLog("ConnectionDecorator#GetDataSourceName", EnumMsgCategory.INFO,
+                QM.OutputLog(GetType(), EnumMsgCategory.INFO,
                     string.Format("DataSourceName:{0}", dataSourceName));
             }
             return dataSourceName;

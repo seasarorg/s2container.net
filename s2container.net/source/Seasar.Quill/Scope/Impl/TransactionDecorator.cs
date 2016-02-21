@@ -8,7 +8,7 @@ namespace Quill.Scope.Impl {
     /// <summary>
     /// トランザクション修飾クラス
     /// </summary>
-    public class TransactionDecorator : IQuillDecorator<IDbConnection> {
+    public class TransactionDecorator : IQuillDecorator<IDbTransaction> {
         /// <summary>
         /// トランザクション
         /// </summary>
@@ -24,7 +24,7 @@ namespace Quill.Scope.Impl {
         /// トランザクション実行
         /// </summary>
         /// <param name="action">委譲処理</param>
-        public void Decorate(Action<IDbConnection> action) {
+        public void Decorate(Action<IDbTransaction> action) {
             if(_connectionDecorator == null) {
                 throw new QuillException(QMsg.NotFoundDBConnectionDecorator.Get());
             }
@@ -36,7 +36,7 @@ namespace Quill.Scope.Impl {
         /// トランザクション実行
         /// </summary>
         /// <param name="func">委譲処理</param>
-        public RETURN_TYPE Decorate<RETURN_TYPE>(Func<IDbConnection, RETURN_TYPE> func) {
+        public RETURN_TYPE Decorate<RETURN_TYPE>(Func<IDbTransaction, RETURN_TYPE> func) {
             if(_connectionDecorator == null) {
                 throw new QuillException(QMsg.NotFoundDBConnectionDecorator.Get());
             }
@@ -50,45 +50,39 @@ namespace Quill.Scope.Impl {
         /// </summary>
         /// <param name="connection">コネクション</param>
         /// <returns>トランザクション開始フラグ</returns>
-        protected virtual bool Begin(IDbConnection connection) {
-            bool isBeginTransaction = false;
-            if(_transaction == default(IDbTransaction)) {
+        protected virtual IDbTransaction Begin(IDbConnection connection) {
+            if(!IsInTransaction(_transaction)) {
                 _transaction = connection.BeginTransaction();
-                isBeginTransaction = true;
-
-                QM.OutputLog("TransactionDecorator#Begin", EnumMsgCategory.DEBUG,
-                    QMsg.BeginTx.Get());
+                QM.OutputLog(GetType(), EnumMsgCategory.DEBUG, QMsg.BeginTx.Get());
             }
-            return isBeginTransaction;
+            return _transaction;
         }
 
         /// <summary>
         /// コミット
         /// </summary>
-        /// <param name="isBeginTransaction">トランザクション開始フラグ</param>
-        protected virtual void Commit(bool isBeginTransaction) {
-            if(isBeginTransaction) {
-                _transaction.Commit();
-                _transaction.Dispose();
-                _transaction = default(IDbTransaction);
+        /// <param name="tx"></param>
+        protected virtual void Commit(IDbTransaction tx) {
+            if(IsInTransaction(tx)) {
+                tx.Commit();
+                tx.Dispose();
+                InitTransaction();
 
-                QM.OutputLog("TransactionDecorator#Commit", EnumMsgCategory.DEBUG,
-                    QMsg.Committed.Get());
+                QM.OutputLog(GetType(), EnumMsgCategory.DEBUG, QMsg.Committed.Get());
             }
         }
 
         /// <summary>
         /// ロールバック
         /// </summary>
-        /// <param name="isBeginTransaction">トランザクション開始フラグ</param>
-        protected virtual void Rollback(bool isBeginTransaction) {
-            if(isBeginTransaction) {
-                _transaction.Rollback();
-                _transaction.Dispose();
-                _transaction = default(IDbTransaction);
+        /// <param name="tx"></param>
+        protected virtual void Rollback(IDbTransaction tx) {
+            if(IsInTransaction(tx)) {
+                tx.Rollback();
+                tx.Dispose();
+                InitTransaction();
 
-                QM.OutputLog("TransactionDecorator#Rollback", EnumMsgCategory.DEBUG,
-                   QMsg.Rollbacked.Get());
+                QM.OutputLog(GetType(), EnumMsgCategory.DEBUG, QMsg.Rollbacked.Get());
             }
         }
 
@@ -97,14 +91,14 @@ namespace Quill.Scope.Impl {
         /// </summary>
         /// <param name="connection">コネクション</param>
         /// <param name="action">委譲処理</param>
-        protected virtual void ExecuteTransaction(IDbConnection connection, Action<IDbConnection> action) {
-            bool isBeginTransaction = false;
+        protected virtual void ExecuteTransaction(IDbConnection connection, Action<IDbTransaction> action) {
+            var tx = default(IDbTransaction);
             try {
-                isBeginTransaction = Begin(connection);
-                action(connection);
-                Commit(isBeginTransaction);
+                tx = Begin(connection);
+                action(tx);
+                Commit(tx);
             } catch(System.Exception) {
-                Rollback(isBeginTransaction);
+                Rollback(tx);
                 throw;
             }
         }
@@ -117,18 +111,33 @@ namespace Quill.Scope.Impl {
         /// <param name="func">委譲処理</param>
         /// <returns>委譲処理戻り値</returns>
         protected virtual RETURN_TYPE ExecuteTransaction<RETURN_TYPE>(
-            IDbConnection connection, Func<IDbConnection, RETURN_TYPE> func) {
+            IDbConnection connection, Func<IDbTransaction, RETURN_TYPE> func) {
 
-            bool isBeginTransaction = false;
+            var tx = default(IDbTransaction);
             try {
-                isBeginTransaction = Begin(connection);
-                RETURN_TYPE retValue = func(connection);
-                Commit(isBeginTransaction);
+                tx = Begin(connection);
+                RETURN_TYPE retValue = func(tx);
+                Commit(tx);
                 return retValue;
             } catch(System.Exception) {
-                Rollback(isBeginTransaction);
+                Rollback(tx);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// Trasaction中か判定
+        /// </summary>
+        /// <returns>true:Transaction中, false:Transaction外</returns>
+        protected virtual bool IsInTransaction(IDbTransaction tx) {
+            return (tx != default(IDbTransaction));
+        }
+
+        /// <summary>
+        /// Transaction初期化
+        /// </summary>
+        protected virtual void InitTransaction() {
+            _transaction = default(IDbTransaction);
         }
     }
 }

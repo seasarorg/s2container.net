@@ -27,7 +27,7 @@ namespace Quill.Container.Impl {
                 throw new ArgumentNullException("componentType");
             }
 
-            QM.OutputLog("CompornentCreators#Create", EnumMsgCategory.INFO,
+            QM.OutputLog(GetType(), EnumMsgCategory.INFO,
                     string.Format("ComponentType:[{0}], Creator:[{1}]", 
                     componentType.FullName,
                     _creatorMap.ContainsKey(componentType) ? "Defined" : "Default"));

@@ -48,7 +48,7 @@ namespace Quill.DataSource.Impl {
             if(_sources.ContainsKey(dataSourceName)) {
                 return _sources[dataSourceName].GetConnection(dataSourceName);
             }
-            throw new ArgumentException(string.Format("{0} DataSource={1]",
+            throw new ArgumentException(string.Format("{0} DataSource={1}",
                QMsg.NotRegisteredDataSource.Get(), dataSourceName));
         }
 

@@ -31,7 +31,7 @@ namespace Quill.Inject.Impl {
         public InjectionFilterBase() {
             NotInjectionTargetTypes = new HashSet<Type>();
             InjectionTargetTypes = new HashSet<Type>();
-            IsTargetTypeDefault = false;
+            IsTargetTypeDefault = true;
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace Quill.Inject.Impl {
         public virtual bool IsTargetType(Type componentType) {
             // 必ずInjection対象とする型か？
             if(InjectionTargetTypes.Contains(componentType)) {
-                QM.OutputLog(SOURCE_IS_TARGET_TYPE, Message.EnumMsgCategory.DEBUG,
+                QM.OutputLog(GetType(), Message.EnumMsgCategory.DEBUG,
                     string.Format("[{0}] is injection target.", 
                     componentType == null ? "null" : componentType.Name));
                 return true;
@@ -68,14 +68,14 @@ namespace Quill.Inject.Impl {
 
             // 必ずInjection非対象とする型か？
             if(NotInjectionTargetTypes.Contains(componentType)) {
-                QM.OutputLog(SOURCE_IS_TARGET_TYPE, Message.EnumMsgCategory.DEBUG,
+                QM.OutputLog(GetType(), Message.EnumMsgCategory.DEBUG,
                     string.Format("[{0}] is not injection target.",
                     componentType == null ? "null" : componentType.Name));
                 return false;
             }
 
             // 上記どちらでもない場合はデフォルトの設定を適用
-            QM.OutputLog(SOURCE_IS_TARGET_TYPE, Message.EnumMsgCategory.DEBUG,
+            QM.OutputLog(GetType(), Message.EnumMsgCategory.DEBUG,
                     string.Format("[{0}]:isInjectionTarget:{1}", 
                     componentType == null ? "null" : componentType.Name, 
                     IsTargetTypeDefault));

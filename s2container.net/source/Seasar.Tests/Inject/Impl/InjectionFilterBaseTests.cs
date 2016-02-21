@@ -15,7 +15,7 @@ namespace Quill.Inject.Impl.Tests {
             // Assert
             Assert.IsNotNull(target.NotInjectionTargetTypes);
             Assert.IsNotNull(target.InjectionTargetTypes);
-            Assert.IsFalse(target.IsTargetTypeDefault);
+            Assert.IsTrue(target.IsTargetTypeDefault);
         }
 
         [Test()]

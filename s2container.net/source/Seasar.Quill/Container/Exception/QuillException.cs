@@ -7,16 +7,11 @@ namespace Quill.Exception {
     /// </summary>
     public class QuillException : System.Exception {
         /// <summary>
-        /// メッセージ出力元
-        /// </summary>
-        private const string MSG_SOURCE = "QuillException#ctor";
-
-        /// <summary>
         /// 例外メッセージを指定してインスタンス生成（ログ出力付き）
         /// </summary>
         /// <param name="message"></param>
         public QuillException(string message) : base(message) {
-            QM.OutputLog(MSG_SOURCE, EnumMsgCategory.ERROR, message);
+            QM.OutputLog(GetType(), EnumMsgCategory.ERROR, message);
         }
 
         /// <summary>
@@ -26,7 +21,7 @@ namespace Quill.Exception {
         /// <param name="innerException"></param>
         public QuillException(string message, System.Exception innerException)
             : base(message, innerException) {
-            QM.OutputLog(MSG_SOURCE, EnumMsgCategory.ERROR, message);
+            QM.OutputLog(GetType(), EnumMsgCategory.ERROR, message);
         }
     }
 }

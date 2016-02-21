@@ -14,8 +14,7 @@ namespace Quill.Util {
         public static void OpenConnection(this IDbConnection connection) {
             if(connection != null && connection.State != ConnectionState.Open) {
                 connection.Open();
-                QM.OutputLog("ConnectionUtils#OpenConnection",
-                    EnumMsgCategory.DEBUG, QMsg.ConnectionOpened.Get());
+                QM.OutputLog(typeof(ConnectionUtils), EnumMsgCategory.DEBUG, QMsg.ConnectionOpened.Get());
             }
         }
 
@@ -26,8 +25,7 @@ namespace Quill.Util {
         public static void CloseConnection(this IDbConnection connection) {
             if(connection != null && connection.State == ConnectionState.Open) {
                 connection.Close();
-                QM.OutputLog("ConnectionUtils#CloseConnection",
-                    EnumMsgCategory.DEBUG, QMsg.ConnectionClosed.Get());
+                QM.OutputLog(typeof(ConnectionUtils), EnumMsgCategory.DEBUG, QMsg.ConnectionClosed.Get());
             }
         }
     }

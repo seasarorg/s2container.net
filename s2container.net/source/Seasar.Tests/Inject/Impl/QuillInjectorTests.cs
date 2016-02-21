@@ -68,11 +68,12 @@ namespace Quill.Inject.Impl.Tests {
 
         [Test()]
         public void Inject_NotTarget_Test() {
-            QM.OutputLog("Inject_AlreadyInjected_Test", EnumMsgCategory.INFO, "Test start.");
+            QM.OutputLog(GetType(), EnumMsgCategory.INFO, "Test start.");
 
             // Arrange
             QuillInjector target = new QuillInjector();
             var filter = (InjectionFilterBase)QM.InjectionFilter;
+            filter.IsTargetTypeDefault = false;
             var actual = new InjectionTargetMain();
 
             // Act

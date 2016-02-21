@@ -9,6 +9,20 @@ using QM = Quill.QuillManager;
 
 namespace Quill.Ado {
     /// <summary>
+    /// DbCommand生成デリゲート
+    /// </summary>
+    /// <param name="connection"></param>
+    /// <param name="sql"></param>
+    /// <param name="sqlGenInvoker"></param>
+    /// <param name="createParamInvoker"></param>
+    /// <returns></returns>
+    public delegate IDbCommand DelegateCreateCommand(
+        IDbConnection connection,
+        string sql,
+        Func<string, string> sqlGenInvoker,
+        Action<int, string, IDataParameter> createParamInvoker);
+
+    /// <summary>
     /// SQLユーティリティクラス
     /// </summary>
     public static class SqlUtils {
@@ -94,18 +108,25 @@ namespace Quill.Ado {
         /// <param name="createEntity">エンティティのインスタンス生成</param>
         /// <param name="setEntity">エンティティの設定</param>
         /// <param name="setParameter">パラメータの設定</param>
+        /// <param name="transaction">トランザクション</param>
         /// <returns>検索結果リスト</returns>
         public static List<ENTITY_TYPE> Select<ENTITY_TYPE>(
             this IDbConnection connection,
             Func<string> sqlGen,
             Func<ENTITY_TYPE> createEntity,
             Action<IDataReader, ENTITY_TYPE> setEntity,
-            Action<int, string, IDataParameter> setParameter = null) where ENTITY_TYPE : new() {
+            Action<int, string, IDataParameter> setParameter = null,
+            IDbTransaction transaction = null) 
+            where ENTITY_TYPE : new() {
 
             string sql = sqlGen();
             List<ENTITY_TYPE> results = new List<ENTITY_TYPE>();
 
             using(var command = CreateCommand(connection, sql, QM.ReplaceToParamMark, setParameter)) {
+                if(transaction != null) {
+                    command.Transaction = transaction;
+                }
+
                 using(var reader = command.ExecuteReader()) {
                     try {
                         while(reader.Read()) {
@@ -121,6 +142,68 @@ namespace Quill.Ado {
                 }
             }
             return results;
+        }
+
+        /// <summary>
+        /// 検索実行
+        /// </summary>
+        /// <typeparam name="ENTITY_TYPE">検索結果格納エンティティ</typeparam>
+        /// <param name="transaction">トランザクション</param>
+        /// <param name="sql">SQL</param>
+        /// <param name="parameters">SQLパラメータ</param>
+        /// <returns>検索結果リスト</returns>
+        public static List<ENTITY_TYPE> Select<ENTITY_TYPE>(
+            this IDbTransaction transaction, string sql, IDictionary<string, string> parameters = null)
+            where ENTITY_TYPE : new() {
+
+            return Select<ENTITY_TYPE>(transaction, sql, SqlUtils.TransToEntity, parameters);
+        }
+
+        /// <summary>
+        /// 検索実行
+        /// </summary>
+        /// <typeparam name="ENTITY_TYPE">検索結果格納エンティティ</typeparam>
+        /// <param name="transaction">トランザクション</param>
+        /// <param name="sql">SQL</param>
+        /// <param name="setEntity">エンティティの設定</param>
+        /// <param name="parameters">SQLパラメータ</param>
+        /// <returns>検索結果リスト</returns>
+        public static List<ENTITY_TYPE> Select<ENTITY_TYPE>(
+            this IDbTransaction transaction, string sql,
+            Action<IDataReader, ENTITY_TYPE> setEntity,
+            IDictionary<string, string> parameters = null)
+            where ENTITY_TYPE : new() {
+
+            return Select(transaction, () => sql, () => new ENTITY_TYPE(), setEntity,
+                (index, paramName, dbParam) => {
+                    string v = string.Empty;
+                    if(parameters != null && parameters.ContainsKey(paramName)) {
+                        v = parameters[paramName];
+                    }
+                    dbParam.Value = v;
+                });
+        }
+
+        /// <summary>
+        /// 検索実行
+        /// </summary>
+        /// <typeparam name="ENTITY_TYPE">検索結果格納エンティティ</typeparam>
+        /// <param name="transaction">トランザクション</param>
+        /// <param name="sqlGen">SQL生成</param>
+        /// <param name="createEntity">エンティティのインスタンス生成</param>
+        /// <param name="setEntity">エンティティの設定</param>
+        /// <param name="setParameter">パラメータの設定</param>
+        /// <returns>検索結果リスト</returns>
+        public static List<ENTITY_TYPE> Select<ENTITY_TYPE>(
+            this IDbTransaction transaction,
+            Func<string> sqlGen,
+            Func<ENTITY_TYPE> createEntity,
+            Action<IDataReader, ENTITY_TYPE> setEntity,
+            Action<int, string, IDataParameter> setParameter = null)
+            where ENTITY_TYPE : new() {
+
+            return Select(transaction.Connection, sqlGen, createEntity, 
+                setEntity, setParameter, transaction);
         }
 
         /// <summary>
@@ -142,16 +225,47 @@ namespace Quill.Ado {
         /// <param name="connection">DB接続</param>
         /// <param name="sqlGen">SQL生成処理</param>
         /// <param name="setParameter">SQLパラメータ設定</param>
+        /// <param name="transaction">トランザクション</param>
         /// <returns>更新件数</returns>
         public static int Update(this IDbConnection connection, Func<string> sqlGen,
-            Action<int, string, IDataParameter> setParameter = null) {
+            Action<int, string, IDataParameter> setParameter = null,
+            IDbTransaction transaction = null) {
 
             string sql = sqlGen();
             int updateCount = 0;
             using(var command = CreateCommand(connection, sql, QM.ReplaceToParamMark, setParameter)) {
+                if(transaction != null) {
+                    command.Transaction = transaction;
+                }
                 updateCount = command.ExecuteNonQuery();
             }
             return updateCount;
+        }
+
+        /// <summary>
+        /// DB更新
+        /// </summary>
+        /// <param name="transaction">トランザクション</param>
+        /// <param name="sql">SQL</param>
+        /// <param name="setParameter">SQLパラメータ設定</param>
+        /// <returns>更新件数</returns>
+        public static int Update(this IDbTransaction transaction, string sql,
+            Action<int, string, IDataParameter> setParameter = null) {
+
+            return Update(transaction, () => sql, setParameter);
+        }
+
+        /// <summary>
+        /// DB更新
+        /// </summary>
+        /// <param name="transaction">トランザクション</param>
+        /// <param name="sqlGen">SQL生成処理</param>
+        /// <param name="setParameter">SQLパラメータ設定</param>
+        /// <returns>更新件数</returns>
+        public static int Update(this IDbTransaction transaction, Func<string> sqlGen,
+            Action<int, string, IDataParameter> setParameter = null) {
+
+            return Update(transaction.Connection, sqlGen, setParameter, transaction);
         }
 
         /// <summary>

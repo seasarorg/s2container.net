@@ -53,7 +53,7 @@ namespace Quill.Container.Impl {
         /// <returns>コンポーネントのインスタンス</returns>
         public virtual object GetComponent(Type componentType, bool isCache = true, bool withInjection = false) {
             if(isCache) {
-                QM.OutputLog("QuillContainer#GetComponent", EnumMsgCategory.DEBUG, 
+                QM.OutputLog(GetType(), EnumMsgCategory.DEBUG, 
                     string.Format("CacheType:{0}", _components.GetType().Name));
 
                 if(_components is ConcurrentDictionary<Type, object>) {
@@ -67,6 +67,14 @@ namespace Quill.Container.Impl {
                 return _components[componentType];
             }
             return CreateComponent(componentType, withInjection);
+        }
+
+        /// <summary>
+        /// 並列でインジェクション可能か判定
+        /// </summary>
+        /// <returns>true:可, false:不可</returns>
+        public virtual bool CanParallelInjection() {
+            return _components is ConcurrentDictionary<Type, object>;
         }
 
         /// <summary>

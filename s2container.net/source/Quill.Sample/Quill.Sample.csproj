@@ -131,7 +131,9 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="logs\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Seasar.Quill\Quill.csproj">
       <Project>{4c1d6f42-4178-4c68-8277-b2978bf784ff}</Project>

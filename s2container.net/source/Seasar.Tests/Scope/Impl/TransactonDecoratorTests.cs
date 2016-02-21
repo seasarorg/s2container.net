@@ -30,9 +30,9 @@ namespace Quill.Tests.Scope.Impl {
             cdField.SetValue(target, cd);
             
             // Act/Assert
-            target.Decorate(connection => {
-                Assert.IsNotNull(connection);
-                Assert.AreEqual(ConnectionState.Open, connection.State);
+            target.Decorate(tx => {
+                Assert.IsNotNull(tx);
+                Assert.AreEqual(ConnectionState.Open, tx.Connection.State);
             });
 
             // Assert
@@ -53,9 +53,9 @@ namespace Quill.Tests.Scope.Impl {
             cdField.SetValue(target, cd);
 
             // Act/Assert
-            var actual = target.Decorate(connection => {
-                Assert.IsNotNull(connection);
-                Assert.AreEqual(ConnectionState.Open, connection.State);
+            var actual = target.Decorate(tx => {
+                Assert.IsNotNull(tx);
+                Assert.AreEqual(ConnectionState.Open, tx.Connection.State);
                 return EXPECTED;
             });
 
