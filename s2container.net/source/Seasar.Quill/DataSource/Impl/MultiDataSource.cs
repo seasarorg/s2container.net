@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using Quill.Message;
-using QM = Quill.QuillManager;
 
 namespace Quill.DataSource.Impl {
     /// <summary>

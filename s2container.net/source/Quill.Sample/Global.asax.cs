@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Reflection;
 using System.Web;
-using System.Web.Security;
-using System.Web.SessionState;
 using log4net;
-using log4net.Core;
+using Quill.Config.Impl;
 using Quill.Container;
 using Quill.Container.Impl;
 using Quill.DataSource;
@@ -57,11 +52,18 @@ namespace Quill.Sample {
             QM.Dispose();
         }
 
+        #region 初期処理
+
         private IComponentCreator CreateComponentCreator() {
+            // 設定ファイルから接続文字列を読み取り
+            var config = QuillAppConfig.Load();
+            var connectionString = config.GetValue("db.connection_string");
+
+            // コネクション生成処理を設定
+            // （デフォルトの動きは引数なしでnew）
             var creator = new ComponentCreators();
             creator.AddCreator(typeof(IDataSource), t => {
-                return new DataSourceImpl(() => new SqlConnection(
-                    "Server=localhost\\SQLEXPRESS;database=s2dotnetdemo;Integrated Security=SSPI"));
+                return new DataSourceImpl(() => new SqlConnection(connectionString));
             });
 
             return creator;
@@ -94,5 +96,7 @@ namespace Quill.Sample {
                     break;
             }
         }
+
+        #endregion
     }
 }

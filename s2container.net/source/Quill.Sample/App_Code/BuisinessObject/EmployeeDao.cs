@@ -18,19 +18,9 @@ namespace Quill.Sample.App_Code.BuisinessObject {
         /// </summary>
         /// <returns></returns>
         public static List<Employ> Select() {
-            try {
-                return Tx.Execute((tx) => {
-                    return tx.Select<Employ>(SQL_SELECT);
-                });
-            } catch(System.Exception ex) {
-                Employ emp = new Employ();
-                emp.Id = 100;
-                emp.Name = ex.Message;
-                emp.Job = ex.StackTrace;
-                List<Employ> results = new List<Employ>();
-                results.Add(emp);
-                return results;
-            }
+            return Tx.Execute((tx) => {
+                return tx.Select<Employ>(SQL_SELECT);
+            });
         }
 
         public static void Update(string id, string name, string job) {

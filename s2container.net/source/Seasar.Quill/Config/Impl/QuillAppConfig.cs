@@ -5,7 +5,6 @@ using System.Linq;
 using System.Xml.Linq;
 using Quill.Exception;
 using Quill.Message;
-using QM = Quill.QuillManager;
 
 namespace Quill.Config.Impl {
     /// <summary>
