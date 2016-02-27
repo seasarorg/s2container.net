@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Quill.Ado;
 using Quill.Sample.App_Code.Entity;
 using Quill.Scope;
-using Quill.Ado;
 
 namespace Quill.Sample.App_Code.BuisinessObject {
-    public class EmployeeDao {
+    /// <summary>
+    /// Employeeデータアクセスクラス
+    /// </summary>
+    public static class EmployeeDao {
         private const string SQL_SELECT = "SELECT EMPNO,ENAME,JOB as Job FROM dbo.EMP ORDER BY EMPNO";
         private const string SQL_UPDATE = "UPDATE dbo.EMP SET ENAME = /* Name */'aiueo' , JOB = /* Job */'tester' WHERE EMPNO = /* Id */7935";
         private const string SQL_INSERT = "INSERT INTO dbo.EMP (EMPNO,ENAME,JOB) VALUES((SELECT MAX(EMPNO) FROM dbo.EMP) + 1, /* Name */'aaa' , /* Job */'bbb' )";
+        private const string SQL_DELETE = "DELETE FROM dbo.EMP WHERE EMPNO = /* Id */100";
 
         /// <summary>
         /// 検索実行
@@ -27,7 +27,7 @@ namespace Quill.Sample.App_Code.BuisinessObject {
             var parameters = new Dictionary<string, object>();
             parameters["Id"] = id;
             parameters["Name"] = name;
-            parameters["job"] = job;
+            parameters["Job"] = job;
 
             Tx.Execute(connection => {
                 connection.Update(SQL_UPDATE, (no, pname, dbParam) => {
@@ -43,6 +43,17 @@ namespace Quill.Sample.App_Code.BuisinessObject {
 
             Tx.Execute(connection => {
                 connection.Update(SQL_INSERT, (no, pname, dbParam) => {
+                    dbParam.Value = parameters[pname];
+                });
+            });
+        }
+
+        public static void Delete(string id) {
+            var parameters = new Dictionary<string, object>();
+            parameters["Id"] = id;
+
+            Tx.Execute(connection => {
+                connection.Update(SQL_DELETE, (no, pname, dbParam) => {
                     dbParam.Value = parameters[pname];
                 });
             });

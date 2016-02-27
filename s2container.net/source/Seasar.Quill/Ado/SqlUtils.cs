@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using Quill.Attr;
+using Quill.Message;
 using QM = Quill.QuillManager;
 
 namespace Quill.Ado {
@@ -295,6 +297,11 @@ namespace Quill.Ado {
                     command.Parameters.Add(parameter);
                 }
             }
+
+            // 実行SQLをログ出力
+            QM.OutputLog(typeof(SqlUtils), EnumMsgCategory.DEBUG,
+                GetSqlLogString(sqlProp, command.Parameters));
+
             return command;
         }
 
@@ -308,6 +315,30 @@ namespace Quill.Ado {
                 return propInfo.GetCustomAttribute<ColumnAttribute>().ColumnName;
             }
             return propInfo.Name;
+        }
+
+        /// <summary>
+        /// SQLログの取得
+        /// </summary>
+        /// <param name="sqlProp"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        private static string GetSqlLogString(SqlProp sqlProp, IDataParameterCollection parameters) {
+            StringBuilder builder = new StringBuilder();
+            builder.AppendLine();
+            builder.AppendFormat("SQL=[{0}], ParameterCount=[{1}]", sqlProp.ActualSql, parameters.Count);
+     
+            if(parameters != null && parameters.Count > 0) {
+                builder.AppendLine();
+                builder.Append("    Parameters:{");
+                builder.AppendLine();
+                foreach(IDbDataParameter parameter in parameters) {
+                    builder.AppendFormat("        [{0} = {1}] ", parameter.ParameterName, parameter.Value);
+                    builder.AppendLine();
+                }
+                builder.Append("    }");
+            }
+            return builder.ToString();
         }
     }
 }
