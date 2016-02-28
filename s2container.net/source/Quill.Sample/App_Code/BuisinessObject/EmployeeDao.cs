@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using Quill.Ado;
 using Quill.Sample.App_Code.Entity;
 using Quill.Scope;
@@ -11,7 +13,9 @@ namespace Quill.Sample.App_Code.BuisinessObject {
         private const string SQL_SELECT = "SELECT EMPNO,ENAME,JOB as Job FROM dbo.EMP ORDER BY EMPNO";
         private const string SQL_UPDATE = "UPDATE dbo.EMP SET ENAME = /* Name */'aiueo' , JOB = /* Job */'tester' WHERE EMPNO = /* Id */7935";
         private const string SQL_INSERT = "INSERT INTO dbo.EMP (EMPNO,ENAME,JOB) VALUES((SELECT MAX(EMPNO) FROM dbo.EMP) + 1, /* Name */'aaa' , /* Job */'bbb' )";
-        private const string SQL_DELETE = "DELETE FROM dbo.EMP WHERE EMPNO = /* Id */100";
+        //private const string SQL_DELETE = "DELETE FROM dbo.EMP WHERE EMPNO = /* Id */100";
+        private static readonly string SQL_DELETE =
+            "DELETE" + Environment.NewLine + "FROM dbo.EMP" + Environment.NewLine + "WHERE EMPNO = /* Id */100";
 
         /// <summary>
         /// 検索実行
@@ -33,7 +37,7 @@ namespace Quill.Sample.App_Code.BuisinessObject {
             parameters["Name"] = name;
             parameters["Job"] = job;
 
-            Tx.Execute(connection => connection.Update(SQL_UPDATE, parameters));
+            Tx.Execute(tx => tx.Update(SQL_UPDATE, parameters));
         }
 
         /// <summary>
@@ -46,7 +50,7 @@ namespace Quill.Sample.App_Code.BuisinessObject {
             parameters["Name"] = name;
             parameters["Job"] = job;
 
-            Tx.Execute(connection => connection.Update(SQL_INSERT, parameters));
+            Tx.Execute(tx => tx.Update(SQL_INSERT, parameters));
         }
 
         /// <summary>
@@ -57,7 +61,7 @@ namespace Quill.Sample.App_Code.BuisinessObject {
             var parameters = new Dictionary<string, object>();
             parameters["Id"] = id;
 
-            Tx.Execute(connection => connection.Update(SQL_DELETE, parameters));
+            Tx.Execute(tx => tx.Update(SQL_DELETE, parameters));
         }
     }
 }

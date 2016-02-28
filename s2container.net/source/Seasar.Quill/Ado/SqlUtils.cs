@@ -357,12 +357,12 @@ namespace Quill.Ado {
         private static string GetSqlLogString(SqlProp sqlProp, IDataParameterCollection parameters) {
             StringBuilder builder = new StringBuilder();
             builder.AppendLine();
-            builder.AppendFormat("SQL=[{0}], ParameterCount=[{1}]", sqlProp.ActualSql, parameters.Count);
+            builder.AppendLine("SQL=[");
+            builder.AppendLine(sqlProp.ActualSql);
+            builder.AppendLine("]");
      
             if(parameters != null && parameters.Count > 0) {
-                builder.AppendLine();
-                builder.Append("    Parameters:{");
-                builder.AppendLine();
+                builder.AppendLine(" -> Parameters:{");
                 foreach(IDbDataParameter parameter in parameters) {
                     builder.AppendFormat("        [{0} = {1}] ", parameter.ParameterName, parameter.Value);
                     builder.AppendLine();
