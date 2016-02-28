@@ -23,6 +23,12 @@ namespace Quill.Sample.App_Code.BuisinessObject {
             });
         }
 
+        /// <summary>
+        /// 更新実行
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <param name="job"></param>
         public static void Update(string id, string name, string job) {
             var parameters = new Dictionary<string, object>();
             parameters["Id"] = id;
@@ -36,10 +42,15 @@ namespace Quill.Sample.App_Code.BuisinessObject {
             });
         }
 
+        /// <summary>
+        /// 挿入実行
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="job"></param>
         public static void Insert(string name, string job) {
             var parameters = new Dictionary<string, object>();
             parameters["Name"] = name;
-            parameters["job"] = job;
+            parameters["Job"] = job;
 
             Tx.Execute(connection => {
                 connection.Update(SQL_INSERT, (no, pname, dbParam) => {
@@ -48,6 +59,10 @@ namespace Quill.Sample.App_Code.BuisinessObject {
             });
         }
 
+        /// <summary>
+        /// 削除実行
+        /// </summary>
+        /// <param name="id"></param>
         public static void Delete(string id) {
             var parameters = new Dictionary<string, object>();
             parameters["Id"] = id;
