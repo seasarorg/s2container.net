@@ -18,9 +18,7 @@ namespace Quill.Sample.App_Code.BuisinessObject {
         /// </summary>
         /// <returns></returns>
         public static List<Employ> Select() {
-            return Tx.Execute((tx) => {
-                return tx.Select<Employ>(SQL_SELECT);
-            });
+            return Tx.Execute(tx => tx.Select<Employ>(SQL_SELECT));
         }
 
         /// <summary>
@@ -35,11 +33,7 @@ namespace Quill.Sample.App_Code.BuisinessObject {
             parameters["Name"] = name;
             parameters["Job"] = job;
 
-            Tx.Execute(connection => {
-                connection.Update(SQL_UPDATE, (no, pname, dbParam) => {
-                    dbParam.Value = parameters[pname];
-                });
-            });
+            Tx.Execute(connection => connection.Update(SQL_UPDATE, parameters));
         }
 
         /// <summary>
@@ -52,11 +46,7 @@ namespace Quill.Sample.App_Code.BuisinessObject {
             parameters["Name"] = name;
             parameters["Job"] = job;
 
-            Tx.Execute(connection => {
-                connection.Update(SQL_INSERT, (no, pname, dbParam) => {
-                    dbParam.Value = parameters[pname];
-                });
-            });
+            Tx.Execute(connection => connection.Update(SQL_INSERT, parameters));
         }
 
         /// <summary>
@@ -67,11 +57,7 @@ namespace Quill.Sample.App_Code.BuisinessObject {
             var parameters = new Dictionary<string, object>();
             parameters["Id"] = id;
 
-            Tx.Execute(connection => {
-                connection.Update(SQL_DELETE, (no, pname, dbParam) => {
-                    dbParam.Value = parameters[pname];
-                });
-            });
+            Tx.Execute(connection => connection.Update(SQL_DELETE, parameters));
         }
     }
 }

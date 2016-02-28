@@ -247,6 +247,23 @@ namespace Quill.Ado {
         /// <summary>
         /// DB更新
         /// </summary>
+        /// <param name="connection">DB接続</param>
+        /// <param name="sqlGen">SQL生成処理</param>
+        /// <param name="parameters">更新パラメータ</param>
+        /// <param name="transaction">トランザクション</param>
+        /// <returns>更新件数</returns>
+        public static int Update(this IDbConnection connection, Func<string> sqlGen,
+            IDictionary<string, object> parameters,
+            IDbTransaction transaction = null) {
+
+            return Update(connection, sqlGen,
+                (no, pName, dbParam) => dbParam.Value = parameters[pName],
+                transaction);
+        }
+
+        /// <summary>
+        /// DB更新
+        /// </summary>
         /// <param name="transaction">トランザクション</param>
         /// <param name="sql">SQL</param>
         /// <param name="setParameter">SQLパラメータ設定</param>
@@ -255,6 +272,20 @@ namespace Quill.Ado {
             Action<int, string, IDataParameter> setParameter = null) {
 
             return Update(transaction, () => sql, setParameter);
+        }
+
+        /// <summary>
+        /// DB更新
+        /// </summary>
+        /// <param name="transaction">トランザクション</param>
+        /// <param name="sql">SQL</param>
+        /// <param name="parameters">更新パラメータ</param>
+        /// <returns>更新件数</returns>
+        public static int Update(this IDbTransaction transaction, string sql,
+            IDictionary<string, object> parameters) {
+
+            return Update(transaction, () => sql, 
+                (no, pName, dbParam) => dbParam.Value = parameters[pName]);
         }
 
         /// <summary>
