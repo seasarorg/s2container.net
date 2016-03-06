@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Quill.Exception;
 using Quill.Message;
 using QM = Quill.QuillManager;
 
@@ -46,7 +47,7 @@ namespace Quill.Util {
             if(_cachedTypes.ContainsKey(typeFullName)) {
                 return _cachedTypes[typeFullName];
             }
-            throw new ArgumentException(string.Format("{0}, TypeFullName={1}, AssemblyName={2}",
+            throw new QuillException(string.Format("{0}, TypeFullName={1}, AssemblyName={2}",
                 QM.Message.GetMessage(QMsg.TypeNotFound), typeFullName, assemblyName));
         }
 

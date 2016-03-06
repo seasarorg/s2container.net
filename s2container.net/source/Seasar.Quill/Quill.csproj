@@ -62,7 +62,7 @@
     <Compile Include="Config\QuillConfigrationSectionHandler.cs" />
     <Compile Include="Config\XmlUtils.cs" />
     <Compile Include="Container\Impl\AbstractConnectionCreator.cs" />
-    <Compile Include="Container\Exception\QuillException.cs" />
+    <Compile Include="Exception\QuillException.cs" />
     <Compile Include="Container\IComponentCreator.cs" />
     <Compile Include="DataSource\IDataSource.cs" />
     <Compile Include="DataSource\Impl\DataSourceImpl.cs" />
