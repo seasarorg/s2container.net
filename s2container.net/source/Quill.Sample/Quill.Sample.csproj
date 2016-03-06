@@ -43,6 +43,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\..\lib\net4.0\Castle.Core.dll</HintPath>
+    </Reference>
     <Reference Include="log4net">
       <HintPath>..\..\lib\log4net\bin\net\4.5\release\log4net.dll</HintPath>
     </Reference>
@@ -120,9 +123,8 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Code\Entity\Employ.cs" />
     <Content Include="App_Code\BuisinessObject\EmployeeDao.cs" />
-    <Content Include="App_Code\SampleInitializer.cs" />
+    <Content Include="App_Code\BuisinessObject\EmpBO.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -139,6 +141,10 @@
     <Folder Include="logs\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Quill.SamplLib\Quill.SamplLib.csproj">
+      <Project>{16b5d0de-6c2b-42b6-be7a-3f985e58bbd3}</Project>
+      <Name>Quill.SamplLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Seasar.Quill\Quill.csproj">
       <Project>{4c1d6f42-4178-4c68-8277-b2978bf784ff}</Project>
       <Name>Quill</Name>

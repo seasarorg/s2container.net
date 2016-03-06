@@ -77,7 +77,8 @@ namespace Quill.Scope.Impl {
                 }
 
                 QM.OutputLog(GetType(), EnumMsgCategory.INFO,
-                    string.Format("DataSourceName:{0}", dataSourceName));
+                    string.Format("Target:{0}.{1}, DataSourceName:{2}", 
+                        methodInfo.DeclaringType.Name, methodInfo.Name, dataSourceName));
             }
             return dataSourceName;
         }

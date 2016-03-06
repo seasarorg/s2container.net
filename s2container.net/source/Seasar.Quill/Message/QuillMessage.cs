@@ -41,7 +41,9 @@ namespace Quill.Message {
         /// <summary></summary>
         Rollbacked,
         /// <summary></summary>
-        NotRegisteredDataSource
+        NotRegisteredDataSource,
+        /// <summary></summary>
+        TypeNotFound,
     };
 
     /// <summary>
@@ -96,6 +98,7 @@ namespace Quill.Message {
             msgMap[QMsg.Committed] = "コミットしました。";
             msgMap[QMsg.Rollbacked] = "ロールバックしました。";
             msgMap[QMsg.NotRegisteredDataSource] = "データソースが登録されていません。";
+            msgMap[QMsg.TypeNotFound] = "型情報が見つかりません。";
 
             return new QuillMessage(msgMap);
         }

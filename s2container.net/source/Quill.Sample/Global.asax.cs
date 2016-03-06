@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Reflection;
 using System.Web;
+using Castle.DynamicProxy;
 using log4net;
 using Quill.Config.Impl;
 using Quill.Container;
@@ -11,8 +13,14 @@ using Quill.DataSource.Impl;
 using Quill.Inject;
 using Quill.Inject.Impl;
 using Quill.Message;
+using Quill.SampleLib.AopSample;
+using Quill.SampleLib.Dao;
+using Quill.SampleLib.Dao.Impl;
 using Quill.Scope.Impl;
 using QM = Quill.QuillManager;
+using System.Linq;
+using System.IO;
+using Quill.Util;
 
 namespace Quill.Sample {
     public class Global : HttpApplication {
@@ -29,23 +37,23 @@ namespace Quill.Sample {
         }
 
         protected void Session_Start(object sender, EventArgs e) {
-
+            // 実装なし
         }
 
         protected void Application_BeginRequest(object sender, EventArgs e) {
-
+            // 実装なし
         }
 
         protected void Application_AuthenticateRequest(object sender, EventArgs e) {
-
+            // 実装なし
         }
 
         protected void Application_Error(object sender, EventArgs e) {
-
+            // 実装なし
         }
 
         protected void Session_End(object sender, EventArgs e) {
-
+            // 実装なし
         }
 
         protected void Application_End(object sender, EventArgs e) {
@@ -54,9 +62,14 @@ namespace Quill.Sample {
 
         #region 初期処理
 
+        /// <summary>
+        /// コンポーネント作成処理の生成
+        /// </summary>
+        /// <returns></returns>
         private IComponentCreator CreateComponentCreator() {
             // 設定ファイルから接続文字列を読み取り
             var config = QuillAppConfig.Load();
+            var generator = new ProxyGenerator();
             var connectionString = config.GetValue("db.connection_string");
 
             // コネクション生成処理を設定
@@ -66,9 +79,19 @@ namespace Quill.Sample {
                 return new DataSourceImpl(() => new SqlConnection(connectionString));
             });
 
+            var daoType = TypeUtils.GetType(config.GetValue("components.empdao"));
+            creator.AddCreator(typeof(IEmpDao), t => {
+                return generator.CreateClassProxy(
+                    daoType, QM.Container.GetComponent<LogInterceptor>());
+            });
+
             return creator;
         }
 
+        /// <summary>
+        /// インジェクション実行時フィルターの生成
+        /// </summary>
+        /// <returns></returns>
         private IInjectionFilter CreateInjectionFilter() {
             var injectionFilter = new InjectionFilterBase();
             injectionFilter.IsTargetTypeDefault = false;
@@ -79,6 +102,12 @@ namespace Quill.Sample {
             return injectionFilter;
         }
 
+        /// <summary>
+        /// ログ出力
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="category"></param>
+        /// <param name="log"></param>
         private static void OutputLog(Type source, EnumMsgCategory category, string log) {
             ILog logger = LogManager.GetLogger(source);
             switch(category) {

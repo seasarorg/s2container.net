@@ -52,7 +52,7 @@
                 </asp:TemplateField>
             </Columns>
         </asp:GridView>
-        <asp:ObjectDataSource ID="ObjectDataSource1" runat="server" SelectMethod="Select" TypeName="Quill.Sample.App_Code.BuisinessObject.EmployeeDao" DeleteMethod="Delete" InsertMethod="Insert" UpdateMethod="Update">
+        <asp:ObjectDataSource ID="ObjectDataSource1" runat="server" SelectMethod="Select" TypeName="Quill.Sample.App_Code.BuisinessObject.EmpBO" DeleteMethod="Delete" InsertMethod="Insert" UpdateMethod="Update">
             <DeleteParameters>
                 <asp:Parameter Name="id" Type="String" />
             </DeleteParameters>
