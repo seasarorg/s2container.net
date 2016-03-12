@@ -51,12 +51,16 @@ namespace Quill.Message {
     /// </summary>
     public class QuillMessage {
         #region メッセージ保持、基本処理
+
+        /// <summary>
+        /// メッセージコード―メッセージ紐づけMap
+        /// </summary>
         private readonly IDictionary<QMsg, string> _messageMap;
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="messageMap"></param>
+        /// <param name="messageMap">メッセージコード―メッセージ紐づけMap</param>
         public QuillMessage(IDictionary<QMsg, string> messageMap) {
             _messageMap = messageMap;
         }
@@ -64,8 +68,8 @@ namespace Quill.Message {
         /// <summary>
         /// メッセージの取得
         /// </summary>
-        /// <param name="messageCode"></param>
-        /// <returns></returns>
+        /// <param name="messageCode">メッセージコード</param>
+        /// <returns>メッセージ</returns>
         public virtual string GetMessage(QMsg messageCode) {
             if(_messageMap.ContainsKey(messageCode)) {
                 return _messageMap[messageCode];
