@@ -145,7 +145,7 @@
       <Project>{16b5d0de-6c2b-42b6-be7a-3f985e58bbd3}</Project>
       <Name>Quill.SamplLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Seasar.Quill\Quill.csproj">
+    <ProjectReference Include="..\Quill\Quill.csproj">
       <Project>{4c1d6f42-4178-4c68-8277-b2978bf784ff}</Project>
       <Name>Quill</Name>
     </ProjectReference>
