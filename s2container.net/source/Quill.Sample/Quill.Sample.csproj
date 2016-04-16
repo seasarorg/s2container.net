@@ -123,7 +123,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Code\BuisinessObject\EmployeeDao.cs" />
     <Content Include="App_Code\BuisinessObject\EmpBO.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

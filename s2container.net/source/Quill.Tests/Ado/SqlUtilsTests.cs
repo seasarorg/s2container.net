@@ -424,7 +424,7 @@ namespace Quill.Ado.Tests {
         private class DataParameterImpl : IDbDataParameter {
             public DbType DbType {
                 get {
-                    throw new NotImplementedException();
+                    return DbType.Int32;
                 }
 
                 set {
@@ -434,7 +434,7 @@ namespace Quill.Ado.Tests {
 
             public ParameterDirection Direction {
                 get {
-                    throw new NotImplementedException();
+                    return ParameterDirection.Input;
                 }
 
                 set {
@@ -444,7 +444,7 @@ namespace Quill.Ado.Tests {
 
             public bool IsNullable {
                 get {
-                    throw new NotImplementedException();
+                    return false;
                 }
             }
 
@@ -472,7 +472,7 @@ namespace Quill.Ado.Tests {
 
             public int Size {
                 get {
-                    throw new NotImplementedException();
+                    return default(int);
                 }
 
                 set {
@@ -482,7 +482,7 @@ namespace Quill.Ado.Tests {
 
             public string SourceColumn {
                 get {
-                    throw new NotImplementedException();
+                    return "TestColumn";
                 }
 
                 set {
@@ -517,7 +517,7 @@ namespace Quill.Ado.Tests {
 
             public object this[string parameterName] {
                 get {
-                    throw new NotImplementedException();
+                    return default(object);
                 }
 
                 set {
@@ -561,7 +561,7 @@ namespace Quill.Ado.Tests {
             }
 
             public void Clear() {
-                throw new NotImplementedException();
+                _parameters.Clear();
             }
 
             public bool Contains(object value) {
@@ -577,7 +577,7 @@ namespace Quill.Ado.Tests {
             }
 
             public IEnumerator GetEnumerator() {
-                throw new NotImplementedException();
+                return _parameters.GetEnumerator();
             }
 
             public int IndexOf(object value) {

@@ -49,6 +49,7 @@
     <Compile Include="AopSample\LogInterceptor.cs" />
     <Compile Include="Dao\IEmpDao.cs" />
     <Compile Include="Dao\Impl\EmpDaoImpl.cs" />
+    <Compile Include="Decorator\LogDecorator.cs" />
     <Compile Include="Entity\Employ.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

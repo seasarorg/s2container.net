@@ -25,9 +25,14 @@ namespace Quill.DataSource.Impl {
         /// リソース解放
         /// </summary>
         public void Dispose() {
-            IDbConnection connection = _connection.Value;
-            connection.CloseConnection();
-            connection.Dispose();
+            if(_connection.IsValueCreated) {
+                IDbConnection connection = _connection.Value;
+                if(connection.State == ConnectionState.Open) {
+                    connection.CloseConnection();
+                }
+                connection.Dispose();
+            }
+            _connection.Dispose();
         }
 
         /// <summary>

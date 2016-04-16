@@ -67,7 +67,7 @@ namespace Quill.Inject.Impl.Tests {
             target.IsTargetTypeDefault = true;
 
             // Act
-            var actual = target.IsTargetType(typeof(int));
+            var actual = target.IsTargetType(typeof(TestFieldClass));
 
             // Assert
             Assert.IsTrue(actual);
@@ -139,11 +139,15 @@ namespace Quill.Inject.Impl.Tests {
             /// <summary>
             /// テスト用フィールド
             /// </summary>
-            private long _testField = 0;
+            private TestFieldClass _testField = new TestFieldClass();
 
             public override string ToString() {
                 return _testField.ToString();
             }
+        }
+
+        private class TestFieldClass {
+
         }
 
         #endregion

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Quill.Ado;
 using Quill.SampleLib.Entity;
+using Quill.SamplLib.Decorator;
 using Quill.Scope;
 
 namespace Quill.SampleLib.Dao.Impl {
@@ -21,6 +22,7 @@ namespace Quill.SampleLib.Dao.Impl {
         /// </summary>
         /// <returns></returns>
         public virtual List<Employ> Select() {
+            // トランザクション処理単品で実行（戻り値あり）
             return Tx.Execute(tx => tx.Select<Employ>(SQL_SELECT));
         }
 
@@ -31,6 +33,7 @@ namespace Quill.SampleLib.Dao.Impl {
         /// <param name="name"></param>
         /// <param name="job"></param>
         public virtual void Update(string id, string name, string job) {
+            // トランザクション処理単品で実行（戻り値なし）
             var parameters = new Dictionary<string, object>();
             parameters["Id"] = id;
             parameters["Name"] = name;
@@ -49,7 +52,10 @@ namespace Quill.SampleLib.Dao.Impl {
             parameters["Name"] = name;
             parameters["Job"] = job;
 
-            Tx.Execute(tx => tx.Update(SQL_INSERT, parameters));
+            // 他のDecoratorを適用しつつトランザクション処理実行１
+            QScope<LogDecorator>.Execute(() => {
+                Tx.Execute(tx => tx.Update(SQL_INSERT, parameters));
+            });
         }
 
         /// <summary>
@@ -60,7 +66,8 @@ namespace Quill.SampleLib.Dao.Impl {
             var parameters = new Dictionary<string, object>();
             parameters["Id"] = id;
 
-            Tx.Execute(tx => tx.Update(SQL_DELETE, parameters));
+            // 他のDecoratorを適用しつつトランザクション処理実行２
+            Tx.ExecuteWith<LogDecorator>(tx => tx.Update(SQL_DELETE, parameters));
         }
     }
 }

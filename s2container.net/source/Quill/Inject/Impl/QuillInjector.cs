@@ -39,19 +39,23 @@ namespace Quill.Inject.Impl {
             // 処理対象フィールドの取得後、先にインジェクション済型に追加しておく
             // （無限ループを避けるため）
             _injectedTypes.Add(targetType);
-             
-            ForEachFields(fieldInfos, fieldInfo => {
-                var fieldType = fieldInfo.FieldType;
 
-                // フィールドの型とインジェクション対象の型が同じ場合は
-                // 自分自身のインスタンスを設定
-                var component = target;
-                if(fieldType != targetType) {
-                    component = QM.Container.GetComponent(fieldType, withInjection: true);
-                }
-                
-                fieldInfo.SetValue(target, component);
+            ForEachFields(fieldInfos, fieldInfo => {
+                InjectToField(target, fieldInfo, targetType);
             });
+        }
+
+        private static void InjectToField(object target, FieldInfo fieldInfo, Type targetType) {
+            var fieldType = fieldInfo.FieldType;
+
+            // フィールドの型とインジェクション対象の型が同じ場合は
+            // 自分自身のインスタンスを設定
+            var component = target;
+            if(fieldType != targetType) {
+                component = QM.Container.GetComponent(fieldType, withInjection: true);
+            }
+
+            fieldInfo.SetValue(target, component);
         }
 
         /// <summary>

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
-using System.Reflection;
 using System.Web;
 using Castle.DynamicProxy;
 using log4net;
@@ -15,12 +14,9 @@ using Quill.Inject.Impl;
 using Quill.Message;
 using Quill.SampleLib.AopSample;
 using Quill.SampleLib.Dao;
-using Quill.SampleLib.Dao.Impl;
 using Quill.Scope.Impl;
-using QM = Quill.QuillManager;
-using System.Linq;
-using System.IO;
 using Quill.Util;
+using QM = Quill.QuillManager;
 
 namespace Quill.Sample {
     public class Global : HttpApplication {
@@ -28,7 +24,6 @@ namespace Quill.Sample {
             QM.InitializeDefault();
             QM.ReplaceToParamMark = (pname => "@" + pname);
             QM.OutputLog = OutputLog;
-
             //特殊なインスタンス生成をcallbackでセット
             QM.ComponentCreator = CreateComponentCreator();
 
@@ -79,10 +74,13 @@ namespace Quill.Sample {
                 return new DataSourceImpl(() => new SqlConnection(connectionString));
             });
 
-            var daoType = TypeUtils.GetType(config.GetValue("components.empdao"));
-            creator.AddCreator(typeof(IEmpDao), t => {
-                return generator.CreateClassProxy(
-                    daoType, QM.Container.GetComponent<LogInterceptor>());
+            var componentTypeElements = config.GetElements("components");
+            componentTypeElements.ForEach(element => {
+                var typeName = element.Value;
+                var ifTypeName = element.Attribute("interface").Value;
+
+                creator.AddCreator(TypeUtils.GetType(ifTypeName), 
+                    t => Activator.CreateInstance(TypeUtils.GetType(typeName)));
             });
 
             return creator;

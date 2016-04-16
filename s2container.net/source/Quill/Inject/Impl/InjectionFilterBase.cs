@@ -67,7 +67,9 @@ namespace Quill.Inject.Impl {
             }
 
             // 必ずInjection非対象とする型か？
-            if(NotInjectionTargetTypes.Contains(componentType)) {
+            if(componentType.FullName.StartsWith("System") ||
+                NotInjectionTargetTypes.Contains(componentType)) {
+
                 QM.OutputLog(GetType(), Message.EnumMsgCategory.DEBUG,
                     string.Format("[{0}] is not injection target.",
                     componentType == null ? "null" : componentType.Name));
