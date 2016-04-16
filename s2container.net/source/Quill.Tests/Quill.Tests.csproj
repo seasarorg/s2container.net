@@ -123,6 +123,7 @@
     <Compile Include="Container\Impl\QuillContainerTests.cs" />
     <Compile Include="Container\Impl\TypeMapImplTests.cs" />
     <Compile Include="DataSource\Impl\DataSourceImplTests.cs" />
+    <Compile Include="DataSource\Impl\MultiDataSourceTests.cs" />
     <Compile Include="Inject\Impl\InjectionFilterBaseTests.cs" />
     <Compile Include="Inject\Impl\QuillInjectorTests.cs" />
     <Compile Include="QuillTestBase.cs" />
