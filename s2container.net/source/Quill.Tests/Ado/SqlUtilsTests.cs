@@ -69,7 +69,7 @@ namespace Quill.Ado.Tests {
             // Arrange
             var connection = new ConnectionImpl();
             var sql = "SELECT Id, Name, UpdateDate FROM Hoge WHERE Id = /* id */10";
-            var parameters = new Dictionary<string, string>();
+            var parameters = new Dictionary<string, object>();
             parameters["Id"] = "2";
 
             // Act

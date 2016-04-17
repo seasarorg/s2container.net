@@ -20,7 +20,8 @@ namespace Quill.Tests {
                 //QuillManager.OutputLog("ExpectedException", ex.Message);
                 // OK
             } catch(System.Exception ex) {
-                Assert.Fail(string.Format("Expected Exception:[{0}] but [{1}]", typeof(EX).FullName, ex.GetType().FullName));
+                Assert.Fail(string.Format("Expected Exception:[{0}] but [{1}], StackTrace={2}", 
+                    typeof(EX).FullName, ex.GetType().FullName, ex.StackTrace));
             }
         }
     }

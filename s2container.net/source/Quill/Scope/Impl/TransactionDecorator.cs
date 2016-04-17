@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using Quill.Exception;
 using Quill.Message;
@@ -24,25 +25,31 @@ namespace Quill.Scope.Impl {
         /// トランザクション実行
         /// </summary>
         /// <param name="action">委譲処理</param>
-        public void Decorate(Action<IDbTransaction> action) {
+        /// <param name="args">修飾処理内で引き継ぐ情報</param>
+        public void Decorate(Action<IDbTransaction> action,
+            IDictionary<string, object> args = null) {
+
             if(_connectionDecorator == null) {
                 throw new QuillException(QMsg.NotFoundDBConnectionDecorator.Get());
             }
 
-            _connectionDecorator.Decorate(connection => ExecuteTransaction(connection, action));
+            _connectionDecorator.Decorate(connection => ExecuteTransaction(connection, action), args);
         }
 
         /// <summary>
         /// トランザクション実行
         /// </summary>
         /// <param name="func">委譲処理</param>
-        public RETURN_TYPE Decorate<RETURN_TYPE>(Func<IDbTransaction, RETURN_TYPE> func) {
+        /// <param name="args">修飾処理内で引き継ぐ情報</param>
+        public RETURN_TYPE Decorate<RETURN_TYPE>(Func<IDbTransaction, RETURN_TYPE> func,
+            IDictionary<string, object> args = null) {
+
             if(_connectionDecorator == null) {
                 throw new QuillException(QMsg.NotFoundDBConnectionDecorator.Get());
             }
 
             return _connectionDecorator.Decorate(
-                connection => ExecuteTransaction(connection, func));
+                connection => ExecuteTransaction(connection, func), args);
         }
 
         /// <summary>

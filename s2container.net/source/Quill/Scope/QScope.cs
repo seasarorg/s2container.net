@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using QM = Quill.QuillManager;
 
 namespace Quill.Scope {
@@ -11,9 +12,12 @@ namespace Quill.Scope {
         /// 特定の修飾処理を付与して実行
         /// </summary>
         /// <param name="action">QScopeで挟み込む処理</param>
-        public static void Execute(Action action) {
+        /// <param name="args">修飾処理内で引き継ぐ情報</param>
+        public static void Execute(Action action,
+            IDictionary<string, object> args = null) {
+
             var decorator = QM.Container.GetComponent<DECORATOR_TYPE>(withInjection: true);
-            decorator.Decorate(action);
+            decorator.Decorate(action, args);
         }
 
         /// <summary>
@@ -21,11 +25,13 @@ namespace Quill.Scope {
         /// </summary>
         /// <typeparam name="RETURN_TYPE">QScopeで挟み込む処理の戻り値型</typeparam>
         /// <param name="func">QScopeで挟み込む処理</param>
+        /// <param name="args">修飾処理内で引き継ぐ情報</param>
         /// <returns>QScopeで挟み込む処理の戻り値</returns>
-        public static RETURN_TYPE Execute<RETURN_TYPE>(Func<RETURN_TYPE> func) {
+        public static RETURN_TYPE Execute<RETURN_TYPE>(Func<RETURN_TYPE> func,
+            IDictionary<string, object> args = null) {
             
             var decorator = QM.Container.GetComponent<DECORATOR_TYPE>(withInjection: true);
-            return decorator.Decorate(func);
+            return decorator.Decorate(func, args);
         }
     }
 
@@ -39,9 +45,12 @@ namespace Quill.Scope {
         /// 特定の修飾処理を付与して実行
         /// </summary>
         /// <param name="action">QScopeで挟み込む処理</param>
-        public static void Execute(Action<PARAMETER_TYPE> action) {
+        /// <param name="args">修飾処理内で引き継ぐ情報</param>
+        public static void Execute(Action<PARAMETER_TYPE> action,
+            IDictionary<string, object> args = null) {
+
             var decorator = QM.Container.GetComponent<DECORATOR_TYPE>(withInjection: true);
-            decorator.Decorate(action);
+            decorator.Decorate(action, args);
         }
 
         /// <summary>
@@ -49,10 +58,13 @@ namespace Quill.Scope {
         /// </summary>
         /// <typeparam name="RETURN_TYPE">QScopeで挟み込む処理の戻り値型</typeparam>
         /// <param name="func">QScopeで挟み込む処理</param>
+        /// <param name="args">修飾処理内で引き継ぐ情報</param>
         /// <returns>QScopeで挟み込む処理の戻り値</returns>
-        public static RETURN_TYPE Execute<RETURN_TYPE>(Func<PARAMETER_TYPE, RETURN_TYPE> func) {
+        public static RETURN_TYPE Execute<RETURN_TYPE>(Func<PARAMETER_TYPE, RETURN_TYPE> func,
+            IDictionary<string, object> args = null) {
+
             var decorator = QM.Container.GetComponent<DECORATOR_TYPE>(withInjection: true);
-            return decorator.Decorate(func);
+            return decorator.Decorate(func, args);
         }
     }
 }

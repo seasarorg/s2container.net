@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Reflection;
 using NUnit.Framework;
+using Quill.Ado;
 using Quill.DataSource;
 using Quill.Exception;
 using Quill.Scope.Impl;

@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Reflection;
 using Quill.Attr;
+using Quill.Consts;
 using Quill.DataSource;
+using Quill.DataSource.Impl;
 using Quill.Message;
 using Quill.Util;
 using QM = Quill.QuillManager;
@@ -12,29 +15,32 @@ namespace Quill.Scope.Impl {
     /// コネクション接続修飾クラス
     /// </summary>
     public class ConnectionDecorator : IQuillDecorator<IDbConnection> {
+        private IDataSource _dataSource;
+
         /// <summary>
         /// データソース
         /// </summary>
-        public IDataSource DataSource { get; set; }
+        public virtual IDataSource DataSource {
+            get { return _dataSource; }
+            set { _dataSource = value; }
+        }
 
         /// <summary>
         /// 複数データソース対応フラグ
         /// </summary>
-        public bool IsMultiDataSource { get; set; }
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        public ConnectionDecorator() {
-            IsMultiDataSource = false;
+        public virtual bool IsMultiDataSource {
+            get { return (DataSource != null && DataSource is MultiDataSource); }
         }
 
         /// <summary>
         /// 前後をDB接続の開始、終了で挟んで実行
         /// </summary>
         /// <param name="action">本処理</param>
-        public virtual void Decorate(Action<IDbConnection> action) {
-            string dataSourceName = GetDataSourceName(action);
+        /// <param name="args">修飾処理内で引き継ぐ情報</param>
+        public virtual void Decorate(Action<IDbConnection> action,
+            IDictionary<string, object> args = null) {
+
+            string dataSourceName = GetDataSourceName(action, args);
             Tuple<IDbConnection, bool> connection = GetOpenedConnection(dataSourceName);
 
             try {
@@ -49,9 +55,12 @@ namespace Quill.Scope.Impl {
         /// </summary>
         /// <typeparam name="RETURN_TYPE">本処理の戻り値型</typeparam>
         /// <param name="func">本処理</param>
+        /// <param name="args">修飾処理内で引き継ぐ情報</param>
         /// <returns>本処理の戻り値</returns>
-        public virtual RETURN_TYPE Decorate<RETURN_TYPE>(Func<IDbConnection, RETURN_TYPE> func) {
-            string dataSourceName = GetDataSourceName(func);
+        public virtual RETURN_TYPE Decorate<RETURN_TYPE>(Func<IDbConnection, RETURN_TYPE> func,
+            IDictionary<string, object> args = null) {
+
+            string dataSourceName = GetDataSourceName(func, args);
             Tuple<IDbConnection, bool> connection = GetOpenedConnection(dataSourceName);
 
             try {
@@ -65,20 +74,19 @@ namespace Quill.Scope.Impl {
         /// メソッド情報の取得
         /// </summary>
         /// <param name="invoker">委譲処理</param>
+        /// <param name="args">修飾処理内で引き継ぐ情報</param>
         /// <returns>メソッド情報</returns>
-        protected virtual string GetDataSourceName(Delegate invoker) {
+        protected virtual string GetDataSourceName(Delegate invoker,
+            IDictionary<string, object> args) {
             var dataSourceName = string.Empty;
             if(IsMultiDataSource) {
                 // 複数データソース対応時のみメソッド情報を取り出す
-                var methodInfo = invoker.GetMethodInfo();
-                var dataSourceAttr = methodInfo.GetCustomAttribute<DataSourceAttribute>();                
-                if(dataSourceAttr != null) {
-                    dataSourceName = dataSourceAttr.DataSourceName;
-                }
+                dataSourceName = (args != null && args.ContainsKey(QuillKey.DATA_SOURCE_NAME)) ?
+                    (string)args[QuillKey.DATA_SOURCE_NAME] : string.Empty;
 
                 QM.OutputLog(GetType(), EnumMsgCategory.INFO,
-                    string.Format("Target:{0}.{1}, DataSourceName:{2}", 
-                        methodInfo.DeclaringType.Name, methodInfo.Name, dataSourceName));
+                    string.Format("Target:{0}.GetDataSourceName, DataSourceName:{1}", 
+                        GetType().Name, dataSourceName));
             }
             return dataSourceName;
         }

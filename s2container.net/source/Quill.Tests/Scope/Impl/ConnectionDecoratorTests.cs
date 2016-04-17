@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using NUnit.Framework;
 using Quill.Attr;
+using Quill.Consts;
 using Quill.DataSource;
 using Quill.DataSource.Impl;
 using Quill.Tests;
@@ -50,10 +52,12 @@ namespace Quill.Scope.Impl.Tests {
             dataSources.RegisterDataSource(EXPECTED_DS_NAME, new TestDataSource2());
             dataSources.RegisterDataSource(NOT_EXPECTED_DS_NAME, new TestDataSource());
             target.DataSource = dataSources;
-            target.IsMultiDataSource = true;
+
+            var scopeArgs = new Dictionary<string, object>();
+            scopeArgs[QuillKey.DATA_SOURCE_NAME] = EXPECTED_DS_NAME;
 
             // Act/Assert
-            target.Decorate(TestAction);
+            target.Decorate(TestAction, scopeArgs);
         }
 
         [Test()]
@@ -64,11 +68,13 @@ namespace Quill.Scope.Impl.Tests {
             MultiDataSource dataSources = new MultiDataSource();
             dataSources.RegisterDataSource(NOT_EXPECTED_DS_NAME, new TestDataSource());
             target.DataSource = dataSources;
-            target.IsMultiDataSource = true;
+
+            var scopeArgs = new Dictionary<string, object>();
+            scopeArgs[QuillKey.DATA_SOURCE_NAME] = "HogeSource";
 
             // Act/Assert
             TestUtils.ExecuteExcectedException<ArgumentException>(
-                () => target.Decorate(TestAction));
+                () => target.Decorate(TestAction, scopeArgs));
         }
 
         [Test()]
@@ -80,7 +86,6 @@ namespace Quill.Scope.Impl.Tests {
             dataSources.DefaultDataSource = new TestDataSource();
             dataSources.RegisterDataSource(NOT_EXPECTED_DS_NAME, new TestDataSource2());
             target.DataSource = dataSources;
-            target.IsMultiDataSource = true;
 
             // Act/Assert
             target.Decorate(TestActionNoAttr);
@@ -105,7 +110,6 @@ namespace Quill.Scope.Impl.Tests {
 
         #region Helper
 
-        [DataSource("Hoge")]
         private void TestAction(IDbConnection connection) {
             var actual = connection as DbConnectionForConnectionDecorator;
             Assert.IsNotNull(actual);

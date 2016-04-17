@@ -70,7 +70,7 @@ namespace Quill.Ado {
         /// <param name="parameters">SQLパラメータ</param>
         /// <returns>検索結果リスト</returns>
         public static List<ENTITY_TYPE> Select<ENTITY_TYPE>(
-            this IDbConnection connection, string sql, IDictionary<string, string> parameters = null)
+            this IDbConnection connection, string sql, IDictionary<string, object> parameters = null)
             where ENTITY_TYPE : new() {
 
             return Select<ENTITY_TYPE>(connection, sql,SqlUtils.TransToEntity, parameters);
@@ -88,12 +88,12 @@ namespace Quill.Ado {
         public static List<ENTITY_TYPE> Select<ENTITY_TYPE>(
             this IDbConnection connection, string sql, 
             Action<IDataReader, ENTITY_TYPE> setEntity, 
-            IDictionary<string, string> parameters = null)
+            IDictionary<string, object> parameters = null)
             where ENTITY_TYPE : new() {
 
             return Select(connection, () => sql, () => new ENTITY_TYPE(), setEntity,
                 (index, paramName, dbParam) => {
-                    string v = string.Empty;
+                    object v = default(object);
                     if(parameters != null && parameters.ContainsKey(paramName)) {
                         v = parameters[paramName];
                     }
@@ -155,10 +155,10 @@ namespace Quill.Ado {
         /// <param name="parameters">SQLパラメータ</param>
         /// <returns>検索結果リスト</returns>
         public static List<ENTITY_TYPE> Select<ENTITY_TYPE>(
-            this IDbTransaction transaction, string sql, IDictionary<string, string> parameters = null)
+            this IDbTransaction transaction, string sql, IDictionary<string, object> parameters = null)
             where ENTITY_TYPE : new() {
 
-            return Select<ENTITY_TYPE>(transaction, sql, SqlUtils.TransToEntity, parameters);
+            return Select<ENTITY_TYPE>(transaction, sql, TransToEntity, parameters);
         }
 
         /// <summary>
@@ -173,12 +173,12 @@ namespace Quill.Ado {
         public static List<ENTITY_TYPE> Select<ENTITY_TYPE>(
             this IDbTransaction transaction, string sql,
             Action<IDataReader, ENTITY_TYPE> setEntity,
-            IDictionary<string, string> parameters = null)
+            IDictionary<string, object> parameters = null)
             where ENTITY_TYPE : new() {
 
             return Select(transaction, () => sql, () => new ENTITY_TYPE(), setEntity,
                 (index, paramName, dbParam) => {
-                    string v = string.Empty;
+                    object v = default(object);
                     if(parameters != null && parameters.ContainsKey(paramName)) {
                         v = parameters[paramName];
                     }

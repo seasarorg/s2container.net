@@ -55,12 +55,12 @@
     <Compile Include="Ado\SqlUtils.cs" />
     <Compile Include="Ado\SqlProp.cs" />
     <Compile Include="Attr\ColumnAttribute.cs" />
-    <Compile Include="Attr\DataSourceAttribute.cs" />
     <Compile Include="Config\Impl\QuillAppConfig.cs" />
     <Compile Include="Config\Impl\QuillConfigImpl.cs" />
     <Compile Include="Config\IQuillConfig.cs" />
     <Compile Include="Config\QuillConfigrationSectionHandler.cs" />
     <Compile Include="Config\XmlUtils.cs" />
+    <Compile Include="Consts\QuillKey.cs" />
     <Compile Include="Container\Impl\AbstractConnectionCreator.cs" />
     <Compile Include="Exception\QuillException.cs" />
     <Compile Include="Container\IComponentCreator.cs" />
