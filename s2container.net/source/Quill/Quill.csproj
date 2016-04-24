@@ -11,7 +11,7 @@
     <RootNamespace>Quill</RootNamespace>
     <AssemblyName>Quill</AssemblyName>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>Seasar.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>quill.pfx</AssemblyOriginatorKeyFile>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
@@ -95,7 +95,7 @@
     <Compile Include="Util\TypeUtils.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Seasar.snk" />
+    <None Include="quill.pfx" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

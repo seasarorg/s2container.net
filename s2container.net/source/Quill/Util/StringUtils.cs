@@ -1,5 +1,5 @@
 ﻿#region License
-/**
+/*
  * Copyright 2015 Quill Users
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
