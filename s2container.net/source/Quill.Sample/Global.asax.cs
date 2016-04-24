@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Web;
 using Castle.DynamicProxy;
 using log4net;
@@ -12,8 +13,6 @@ using Quill.DataSource.Impl;
 using Quill.Inject;
 using Quill.Inject.Impl;
 using Quill.Message;
-using Quill.SampleLib.AopSample;
-using Quill.SampleLib.Dao;
 using Quill.Scope.Impl;
 using Quill.Util;
 using QM = Quill.QuillManager;
@@ -74,7 +73,7 @@ namespace Quill.Sample {
                 return new DataSourceImpl(() => new SqlConnection(connectionString));
             });
 
-            var componentTypeElements = config.GetElements("components");
+            var componentTypeElements = config.GetElement("components").Elements().ToList();
             componentTypeElements.ForEach(element => {
                 var typeName = element.Value;
                 var ifTypeName = element.Attribute("interface").Value;
